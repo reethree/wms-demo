@@ -10,6 +10,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('welcome');
+        $data['page_title'] = "Welcome to Dashboard";
+        $data['page_description'] = "This is Admin Page Primanata WMS!";
+        
+        return view('welcome')->with($data);
     }
 }

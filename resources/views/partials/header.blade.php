@@ -167,6 +167,14 @@
                   </li>
               </ul>
             </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Users <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="manu">
+                    <li><a href="{{route('user-index')}}">User Lists</a></li>
+                    <li><a href="{{route('role-index')}}">Roles</a></li>
+                    <li><a href="{{route('permission-index')}}">Permissions</a></li>
+                </ul>
+            </li>
           </ul>
 <!--          <form class="navbar-form navbar-left" role="search">
             <div class="form-group">

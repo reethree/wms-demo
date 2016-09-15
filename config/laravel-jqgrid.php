@@ -21,7 +21,7 @@ return array(
 	|
 	*/
 
-	'default_grid_options' => array('datatype' => 'json', 'mtype'  =>  'POST', 'treeGridModel' => 'adjacency'),
+	'default_grid_options' => array('datatype' => 'json', 'mtype'  =>  'GET', 'treeGridModel' => 'adjacency'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -77,7 +77,7 @@ return array(
 	|
 	*/
 
-	'default_navigator_options' => array('add' => false, 'edit' => false, 'del' => false, 'search' => false, 'view' => true, 'refresh' => false),
+	'default_navigator_options' => array('add' => false, 'edit' => false, 'del' => false, 'search' => false, 'view' => false, 'refresh' => false),
 
 	/*
 	|--------------------------------------------------------------------------
