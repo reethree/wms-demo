@@ -5,7 +5,7 @@
     <div class="box-header">
         <h3 class="box-title">User Lists</h3>
     </div>
-    <div class="box-body table-responsive no-padding">
+    <div class="box-body table-responsive">
             {{
                 GridRender::setGridId("userGrid")
                   ->enableFilterToolbar()
@@ -21,11 +21,12 @@
         //          ->setGridEvent('gridComplete', 'gridCompleteEvent') //gridCompleteEvent must be previously declared as a javascript function.
 //                  ->setNavigatorEvent('view', 'beforeShowForm', 'function(){}')
 //                  ->setFilterToolbarEvent('beforeSearch', 'function(){}')
-                  ->addColumn(array('index'=>'id', 'width'=>55))
+                  ->addColumn(array('index'=>'id', 'width'=>80))
                   ->addColumn(array('label'=>'Name','index'=>'name','width'=>200))
-                  ->addColumn(array('label'=>'Username','index'=>'username', 'width'=>150))
-                  ->addColumn(array('label'=>'Email','index'=>'email', 'width'=>150))
-        //          ->addColumn(array('label'=>'Note','index'=>'note','index'=>'note', 'width'=>55,'searchoptions'=>array('attr'=>array('title'=>'Note title'))))
+                  ->addColumn(array('label'=>'Username','index'=>'username', 'width'=>200))
+                  ->addColumn(array('label'=>'Email','index'=>'email', 'width'=>200))
+                  ->addColumn(array('label'=>'Created','index'=>'created_at', 'width'=>200))
+                  ->addColumn(array('label'=>'Updated','index'=>'updated_at', 'width'=>200))
                   ->renderGrid()
             }}
     </div>

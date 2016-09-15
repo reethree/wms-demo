@@ -124,7 +124,7 @@ return array(
 	|
 	*/
 
-	'default_export_buttons_options' => array('xlsButtonVisible' => true, 'xlsButtonText' => 'xls', 'xlsIcon' => 'ui-icon-arrowthickstop-1-s', 'csvButtonVisible' => true, 'csvButtonText' => 'csv', 'csvIcon' => 'ui-icon-arrowthickstop-1-s'),
+	'default_export_buttons_options' => array('xlsButtonVisible' => true, 'xlsButtonText' => 'xls', 'xlsIcon' => 'ui-icon-arrowthickstop-1-s', 'csvButtonVisible' => false, 'csvButtonText' => 'csv', 'csvIcon' => 'ui-icon-arrowthickstop-1-s'),
 
 	/*
 	|--------------------------------------------------------------------------
