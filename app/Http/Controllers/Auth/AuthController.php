@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Validator;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\DefaultController;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller
+class AuthController extends DefaultController
 {
     /*
     |--------------------------------------------------------------------------
@@ -101,12 +102,12 @@ class AuthController extends Controller
         return view('login');
     }
     
-    protected function postLogin(Request $request)
+    public function postLogin(Request $request)
     {
         $remember = true;
 
         if($request) { 
-            if (\Auth::attempt(['username' => $request->username, 'password' => $request->password], $remember)) {
+            if (Auth::attempt(['username' => $request->username, 'password' => $request->password], $remember)) {
                 return redirect()->intended($this->redirectPath());
             }
         }
@@ -116,9 +117,9 @@ class AuthController extends Controller
         ]);
     }
     
-    protected function logout()
+    public function logout()
     {
-        \Auth::logout();
+        Auth::logout();
         return redirect('/');
     }
 }

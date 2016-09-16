@@ -32,13 +32,13 @@ class UserController extends Controller
         ];        
         
 //        $users = \App\Models\User::paginate(10);
-        $users = DBUser::get();
-        
-        foreach ($users as $user):
-            $user->roles;
-        endforeach;
-        
-        $data['users'] = $users;
+//        $users = DBUser::get();
+//        
+//        foreach ($users as $user):
+//            $user->roles;
+//        endforeach;
+//        
+//        $data['users'] = $users;
         return view('user.index')->with($data);
     }
     

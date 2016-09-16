@@ -8,6 +8,11 @@ use App\Http\Requests;
 
 class DashboardController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();   
+    }
+    
     public function index()
     {
         $data['page_title'] = "Welcome to Dashboard";

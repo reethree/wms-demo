@@ -1,33 +1,33 @@
 <?php
 
-Route::group(['prefix' => 'permissions'], function(){
+Route::group(['prefix' => 'permissions', 'namespace' => 'User'], function(){
     Route::get('/', [
         'as' => 'permission-index',
-        'uses' => 'User\PermissionController@index'
+        'uses' => 'PermissionController@index'
     ]);
     Route::get('/view/{id}', [
         'as' => 'permission-view',
-        'uses' => 'User\PermissionController@show'
+        'uses' => 'PermissionController@show'
     ]);
     Route::get('/create', [
         'as' => 'permission-create',
-        'uses' => 'User\PermissionController@create'
+        'uses' => 'PermissionController@create'
     ]);
     Route::get('/edit/{id}', [
         'as' => 'permission-edit',
-        'uses' => 'User\PermissionController@edit'
+        'uses' => 'PermissionController@edit'
     ]);
     Route::get('/delete/{id}', [
         'as' => 'permission-delete',
-        'uses' => 'User\PermissionController@destroy'
+        'uses' => 'PermissionController@destroy'
     ]);
     
     Route::post('/store', [
         'as' => 'permission-store',
-        'uses' => 'User\PermissionController@store'
+        'uses' => 'PermissionController@store'
     ]);
     Route::post('/update/{id}', [
         'as' => 'permission-update',
-        'uses' => 'User\PermissionController@update'
+        'uses' => 'PermissionController@update'
     ]);
 });

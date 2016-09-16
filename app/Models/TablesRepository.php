@@ -4,7 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Mgallegos\LaravelJqgrid\Repositories\EloquentRepositoryAbstract;
  
-class TabelsRepository extends EloquentRepositoryAbstract {
+class TablesRepository extends EloquentRepositoryAbstract {
  
     public function __construct(Model $Model)
     {

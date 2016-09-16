@@ -2,8 +2,11 @@
 
 @section('content')
 <div class="box">
-    <div class="box-header">
+    <div class="box-header with-border">
         <h3 class="box-title">User Lists</h3>
+        <div class="box-tools">
+            <a href="{{ route('user-create') }}" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Add New</a>
+        </div>
     </div>
     <div class="box-body table-responsive">
             {{

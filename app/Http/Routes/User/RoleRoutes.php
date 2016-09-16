@@ -1,38 +1,38 @@
 <?php
 
-Route::group(['prefix' => 'roles'], function(){
+Route::group(['prefix' => 'roles', 'namespace' => 'User'], function(){
     Route::get('/', [
         'as' => 'role-index',
-        'uses' => 'User\RolesController@index'
+        'uses' => 'RolesController@index'
     ]);
     Route::get('/view/{id}', [
         'as' => 'role-view',
-        'uses' => 'User\RolesController@show'
+        'uses' => 'RolesController@show'
     ]);
     Route::get('/create', [
         'as' => 'role-create',
-        'uses' => 'User\RolesController@create'
+        'uses' => 'RolesController@create'
     ]);
     Route::get('/edit/{id}', [
         'as' => 'role-edit',
-        'uses' => 'User\RolesController@edit'
+        'uses' => 'RolesController@edit'
     ]);
     Route::get('/delete/{id}', [
         'as' => 'role-delete',
-        'uses' => 'User\RolesController@destroy'
+        'uses' => 'RolesController@destroy'
     ]);
     
     Route::post('/store', [
         'as' => 'role-store',
-        'uses' => 'User\RolesController@store'
+        'uses' => 'RolesController@store'
     ]);
     Route::post('/update/{id}', [
         'as' => 'role-update',
-        'uses' => 'User\RolesController@update'
+        'uses' => 'RolesController@update'
     ]);
     Route::post('/update/permission/{id}', [
         'as' => 'role-permission-update',
-        'uses' => 'User\RolesController@updatePermission'
+        'uses' => 'RolesController@updatePermission'
     ]);  
 });
 

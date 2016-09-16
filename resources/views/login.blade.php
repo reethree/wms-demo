@@ -35,8 +35,11 @@
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Please Sign in to go to the Admin page</p>
+    
     @include('partials.form-alert')
-    <form action="{{ route('signin') }}" method="post">
+    
+    <form action="{{ route('login') }}" method="POST">
+        {{ csrf_field() }}
         <div class="form-group has-feedback">
             <input type="text" name="username" class="form-control" placeholder="Username" required>
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -46,11 +49,8 @@
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
         <div class="row">
-          <div class="col-xs-8">
-              <input name="_token" type="hidden" value="{{ csrf_token() }}">
-          </div>
           <!-- /.col -->
-          <div class="col-xs-4">
+          <div class="col-xs-4 pull-right">
                 <button type="submit" class="btn btn-default btn-block btn-flat">Sign In</button>
           </div>
           <!-- /.col -->
@@ -59,7 +59,7 @@
 
   </div>
   <!-- /.login-box-body -->
-  <p style="text-align: center;padding-top: 10px;">2016 © PT Primanata Jasa Persada</p>
+  <p style="text-align: center;padding-top: 10px;">2016 &copy; PT Primanata Jasa Persada</p>
 </div>
 <!-- /.login-box -->
 

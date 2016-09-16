@@ -11,38 +11,23 @@
 |
 */
 
-Route::group(['middleware' => 'web'], function(){
+Route::group(['middleware' => ['web']], function(){
     
-    Route::group(['middleware' => 'auth'], function(){
-        
-        Route::get('/', [
-            'as' => 'index',
-            'uses' => 'DashboardController@index'
-        ]);
-
-        // Logout Routes
-        Route::get('/logout', [
-            'as' => 'logout',
-            'uses' => 'Auth\AuthController@logout'
-        ]);
-        
-        // Data Routes
-        require_once 'Routes/RoutesData.php';
-        
-    });
-    
-    Route::group(['middleware' => 'guest'], function(){
+    Route::group(['middleware' => ['guest'], 'namespace' => 'Auth'], function(){
         
         // Login Routes
         Route::get('/login', [
             'as' => 'login',
-            'uses' => 'Auth\AuthController@getLogin'
+            'uses' => 'AuthController@getLogin'
         ]);
-        Route::post('/signin', [
-            'as' => 'signin',
-            'uses' => 'Auth\AuthController@postLogin'
+        Route::post('/login', [
+            'as' => 'login',
+            'uses' => 'AuthController@postLogin'
         ]);
+        
     });
-
-
+    
+    // Data Routes
+    require_once 'Routes/RoutesData.php';
+    
 });

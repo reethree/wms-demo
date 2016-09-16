@@ -6,24 +6,27 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ $page_title or "Dashboard" }} | Administrator</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        
+        <!-- JQuery-UI & JQgrid -->
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset("/plugins/jQuery-ui/jquery-ui.min.css") }}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset("/plugins/jQgrid/css/ui.jqgrid.css") }}" />
         <!-- Bootstrap 3.3.2 -->
         <link href="{{ asset("/bower_components/AdminLTE/bootstrap/css/bootstrap.min.css") }}" rel="stylesheet" type="text/css" />
         <!-- Font Awesome Icons -->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <!-- Ionicons -->
         <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+        
+        @yield('custom_css')
+        
         <!-- Theme style -->
         <link href="{{ asset("/bower_components/AdminLTE/dist/css/AdminLTE.min.css")}}" rel="stylesheet" type="text/css" />
         <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
               page. However, you can choose any other skin. Make sure you
               apply the skin class to the body tag so the changes take effect.
         -->
-        
         <link href="{{ asset("/bower_components/AdminLTE/dist/css/skins/skin-black-light.min.css")}}" rel="stylesheet" type="text/css" />
-        
-        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset("/plugins/jQuery-ui/jquery-ui.min.css") }}" />
-        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset("/plugins/jQgrid/css/ui.jqgrid.css") }}" />
-        
+
         <!-- jQuery 2.2.3 -->
         <script src="{{ asset ("/bower_components/AdminLTE/plugins/jQuery/jQuery-2.2.3.min.js") }}"></script>
         
@@ -87,7 +90,9 @@
         <script src="{{ asset ("/bower_components/AdminLTE/bootstrap/js/bootstrap.min.js") }}" type="text/javascript"></script>
         <!-- AdminLTE App -->
         <script src="{{ asset ("/bower_components/AdminLTE/dist/js/app.min.js") }}" type="text/javascript"></script>
-
+        
+        @yield('custom_js')
+        
         <!-- Optionally, you can add Slimscroll and FastClick plugins.
               Both of these plugins are recommended to enhance the
               user experience -->
