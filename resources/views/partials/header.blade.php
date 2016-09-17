@@ -34,10 +34,10 @@
                 <li><a href="{{ route('packing-index') }}">Packing</a></li>
                 <li><a href="{{ route('pelabuhan-index') }}">Pelabuhan</a></li>
                 <li><a href="{{ route('perusahaan-index') }}">Perusahaan</a></li>
-                <li><a href="#">TPP</a></li>
-                <li><a href="#">Shipping Line</a></li>
-                <li><a href="#">E-Seal</a></li>
-                <li><a href="#">Vessel</a></li>
+                <li><a href="{{ route('tpp-index') }}">TPP</a></li>
+                <li><a href="{{ route('shippingline-index') }}">Shipping Line</a></li>
+                <li><a href="{{ route('eseal-index') }}">E-Seal</a></li>
+                <li><a href="{{ route('vessel-index') }}">Vessel</a></li>
               </ul>
             </li>
             <li class="dropdown">
