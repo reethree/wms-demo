@@ -28,12 +28,12 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Data <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="{{ route('consolidator-index') }}">Consolidator</a></li>
-                <li><a href="#">Depo MTY</a></li>
-                <li><a href="#">Lokasi Sandar</a></li>
-                <li><a href="#">Negara</a></li>
-                <li><a href="#">Packing</a></li>
-                <li><a href="#">Pelabuhan</a></li>
-                <li><a href="#">Perusahaan</a></li>
+                <li><a href="{{ route('depomty-index') }}">Depo MTY</a></li>
+                <li><a href="{{ route('lokasisandar-index') }}">Lokasi Sandar</a></li>
+                <li><a href="{{ route('negara-index') }}">Negara</a></li>
+                <li><a href="{{ route('packing-index') }}">Packing</a></li>
+                <li><a href="{{ route('pelabuhan-index') }}">Pelabuhan</a></li>
+                <li><a href="{{ route('perusahaan-index') }}">Perusahaan</a></li>
                 <li><a href="#">TPP</a></li>
                 <li><a href="#">Shipping Line</a></li>
                 <li><a href="#">E-Seal</a></li>

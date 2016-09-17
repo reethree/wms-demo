@@ -7,13 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class ConsolidatorController extends Controller
+class PelabuhanController extends Controller
 {
-    public function __construct()
-    {
-        parent::__construct();   
-    }
-    
     /**
      * Display a listing of the resource.
      *
@@ -21,20 +16,20 @@ class ConsolidatorController extends Controller
      */
     public function index()
     {
-        if ( !$this->access->can('show.consolidator.index') ) {
+        if ( !$this->access->can('show.pelabuhan.index') ) {
             return view('errors.no-access');
         }
         
-        $data['page_title'] = "Consolidator";
+        $data['page_title'] = "Pelabuhan";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
             [
                 'action' => '',
-                'title' => 'Consolidator'
+                'title' => 'Pelabuhan'
             ]
         ];        
         
-        return view('data.consolidator.index')->with($data);
+        return view('data.pelabuhan.index')->with($data);
     }
 
     /**

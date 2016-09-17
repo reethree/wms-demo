@@ -72,6 +72,8 @@
                     <!-- Main content -->
                     <section class="content">
                         <!-- Your Page Content Here -->
+                        @include('partials.alert') 
+                        
                         @yield('content')
                     </section>
                   <!-- /.content -->

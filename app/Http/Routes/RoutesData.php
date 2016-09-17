@@ -1,28 +1,22 @@
 <?php
-
-Route::group(['middleware' => ['auth']], function(){
     
-    Route::get('/', [
-        'as' => 'index',
-        'uses' => 'DashboardController@index'
-    ]);
+// Consolidator Routes
+require_once 'Data/ConsolidatorRoutes.php';
 
-    // Logout Routes
-    Route::get('/logout', [
-        'as' => 'logout',
-        'uses' => 'Auth\AuthController@logout'
-    ]);
-    
-    // Consolidator Routes
-    require_once 'Data/ConsolidatorRoutes.php';
-    
-    // User Routes
-    require_once 'User/UserRoutes.php';
+// Depo MTY Routes
+require_once 'Data/DepomtyRoutes.php';
 
-    // Role Routes
-    require_once 'User/RoleRoutes.php';
+// Lokasi Sandar Routes
+require_once 'Data/LokasisandarRoutes.php';
 
-    // Permission Routes
-    require_once 'User/PermissionRoutes.php';
-    
-});
+// Negara Routes
+require_once 'Data/NegaraRoutes.php';
+
+// Packing Routes
+require_once 'Data/PackingRoutes.php';
+
+// Pelabuhan Routes
+require_once 'Data/PelabuhanRoutes.php';
+
+// Perusahaan Routes
+require_once 'Data/PerusahaanRoutes.php';

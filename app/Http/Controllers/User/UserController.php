@@ -72,13 +72,12 @@ class UserController extends Controller
             return view('errors.no-access');
         }
         
-        
         $validator = \Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|unique:users|email',
+            'email' => 'unique:users|email',
+            'username' => 'required|unique:users',
             'password' => 'required|confirmed|min:6',
             'password_confirmation' => 'required|min:6',
-            'phone' => 'required|numeric',
             'role_id' => 'required'
         ]);
 
@@ -89,26 +88,26 @@ class UserController extends Controller
         $data = $request->except(['_token','password_confirmation','role_id','avatar']);        
         $data['password'] = bcrypt($request->password);
         
-        if($request->hasFile('avatar')){
-            
-            $dir = 'uploads' . DIRECTORY_SEPARATOR . 'avatar' . DIRECTORY_SEPARATOR;
-            $image = $request->file('avatar');
-            
-            $filename = $image->getClientOriginalName();
-            $ext = $image->guessClientExtension();
-            $base_name = basename(time() . '_' . rand(0, 10000000) . '.' . $ext);
-
-            $image->move($dir, $base_name);
-            
-            $img = Image::make($dir.$base_name);
-            $img->crop(200, 200, 0, 0);
-            
-            $img->save($dir.'thumb_'.$base_name);
-            \File::delete($dir.$base_name);
-            
-            $data['avatar'] = $base_name;
-            
-        }
+//        if($request->hasFile('avatar')){
+//            
+//            $dir = 'uploads' . DIRECTORY_SEPARATOR . 'avatar' . DIRECTORY_SEPARATOR;
+//            $image = $request->file('avatar');
+//            
+//            $filename = $image->getClientOriginalName();
+//            $ext = $image->guessClientExtension();
+//            $base_name = basename(time() . '_' . rand(0, 10000000) . '.' . $ext);
+//
+//            $image->move($dir, $base_name);
+//            
+//            $img = Image::make($dir.$base_name);
+//            $img->crop(200, 200, 0, 0);
+//            
+//            $img->save($dir.'thumb_'.$base_name);
+//            \File::delete($dir.$base_name);
+//            
+//            $data['avatar'] = $base_name;
+//            
+//        }
         
         $insert_id = DBUser::insertGetId($data);
         
@@ -188,10 +187,10 @@ class UserController extends Controller
         }
         $validator = \Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email',
+            'username' => 'required',
+            'email' => 'email',
             'password' => 'confirmed|min:6',
             'password_confirmation' => 'min:6',
-            'phone' => 'required|numeric',
             'role_id' => 'required'
         ]);
 
@@ -209,20 +208,20 @@ class UserController extends Controller
             $data['password'] = bcrypt($request->password);
         }
         
-        if($request->hasFile('avatar')){
-            
-            $dir = 'uploads' . DIRECTORY_SEPARATOR . 'avatar' . DIRECTORY_SEPARATOR;
-            $image = $request->file('avatar');
-            
-            $filename = $image->getClientOriginalName();
-            $ext = $image->guessClientExtension();
-            $base_name = basename(time() . '_' . rand(0, 10000000) . '.' . $ext);
-
-            $image->move($dir, $base_name);
-            
-            $data['avatar'] = $base_name;
-            
-        }
+//        if($request->hasFile('avatar')){
+//            
+//            $dir = 'uploads' . DIRECTORY_SEPARATOR . 'avatar' . DIRECTORY_SEPARATOR;
+//            $image = $request->file('avatar');
+//            
+//            $filename = $image->getClientOriginalName();
+//            $ext = $image->guessClientExtension();
+//            $base_name = basename(time() . '_' . rand(0, 10000000) . '.' . $ext);
+//
+//            $image->move($dir, $base_name);
+//            
+//            $data['avatar'] = $base_name;
+//            
+//        }
         
         $update = DBUser::where('id', $id)
             ->update($data);

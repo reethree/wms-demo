@@ -14,12 +14,12 @@
             <div class="row">
                 <div class="col-md-6">
                     <input name="_token" type="hidden" value="{{ csrf_token() }}">
-                    <div class="form-group">
+<!--                    <div class="form-group">
                       <label for="name" class="col-sm-3 control-label">Avatar</label>
                       <div class="col-sm-8">
                           <input type='file' name='avatar'>
                       </div>
-                    </div>
+                    </div>-->
                     
                     <div class="form-group">
                       <label for="name" class="col-sm-3 control-label">Name</label>
@@ -28,9 +28,15 @@
                       </div>
                     </div>
                     <div class="form-group">
+                      <label for="username" class="col-sm-3 control-label">Username</label>
+                      <div class="col-sm-8">
+                          <input type="text" name="username" class="form-control" id="username" placeholder="Username" required>
+                      </div>
+                    </div>
+                    <div class="form-group">
                       <label for="email" class="col-sm-3 control-label">Email</label>
                       <div class="col-sm-8">
-                          <input type="email" name="email" class="form-control" id="email" placeholder="Email" required>
+                          <input type="email" name="email" class="form-control" id="email" placeholder="Email">
                       </div>
                     </div>
                     <div class="form-group">

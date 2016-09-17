@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => ['web']], function(){
+//Route::group(['middleware' => ['web']], function(){
     
     Route::group(['middleware' => ['guest'], 'namespace' => 'Auth'], function(){
         
@@ -27,7 +27,27 @@ Route::group(['middleware' => ['web']], function(){
         
     });
     
-    // Data Routes
-    require_once 'Routes/RoutesData.php';
+    Route::group(['middleware' => ['auth']], function(){
+        
+        // Dashboard Routes
+        Route::get('/', [
+            'as' => 'index',
+            'uses' => 'DashboardController@index'
+        ]);
+        // Logout Routes
+        Route::get('/logout', [
+            'as' => 'logout',
+            'uses' => 'Auth\AuthController@logout'
+        ]);
+        
+        // User Routes
+        require_once 'Routes/RoutesUser.php';
+        
+        // Data Routes
+        require_once 'Routes/RoutesData.php';
+        
+    });
     
-});
+    
+    
+//});
