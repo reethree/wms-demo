@@ -14,7 +14,7 @@
             var dataid = rowdata.TLOKASISANDAR_PK;
 
             edt = '<a href="{{ route("lokasisandar-edit",'') }}/'+dataid+'"><i class="fa fa-pencil"></i></a> ';
-            del = '<a href="{{ route("lokasisandar-delete",'') }}/'+dataid+'"><i class="fa fa-close"></i></a>';
+            del = '<a href="{{ route("lokasisandar-delete",'') }}/'+dataid+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
             jQuery("#lokasisandarGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
         } 
     }

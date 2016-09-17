@@ -14,7 +14,7 @@
             var dataid = rowdata.tvessel_pk;
 
             edt = '<a href="{{ route("vessel-edit",'') }}/'+dataid+'"><i class="fa fa-pencil"></i></a> ';
-            del = '<a href="{{ route("vessel-delete",'') }}/'+dataid+'"><i class="fa fa-close"></i></a>';
+            del = '<a href="{{ route("vessel-delete",'') }}/'+dataid+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
             jQuery("#vesselGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
         } 
     }

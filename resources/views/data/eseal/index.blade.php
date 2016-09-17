@@ -14,7 +14,7 @@
             var dataid = rowdata.eseal_id;
 
             edt = '<a href="{{ route("eseal-edit",'') }}/'+dataid+'"><i class="fa fa-pencil"></i></a> ';
-            del = '<a href="{{ route("eseal-delete",'') }}/'+dataid+'"><i class="fa fa-close"></i></a>';
+            del = '<a href="{{ route("eseal-delete",'') }}/'+dataid+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
             jQuery("#esealGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
         } 
     }

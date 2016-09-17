@@ -2,6 +2,6 @@
 
 @section('content')
 
-    Welcome
+    Welcome, {{ Auth::getUser()->name }}
     
 @endsection

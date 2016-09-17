@@ -30,15 +30,7 @@ class UserController extends Controller
                 'title' => 'Users'
             ]
         ];        
-        
-//        $users = \App\Models\User::paginate(10);
-//        $users = DBUser::get();
-//        
-//        foreach ($users as $user):
-//            $user->roles;
-//        endforeach;
-//        
-//        $data['users'] = $users;
+
         return view('user.index')->with($data);
     }
     
@@ -245,13 +237,13 @@ class UserController extends Controller
             return view('errors.no-access');
         }
         
-        $user = \App\Models\User::find($id);
+        $user = DBUser::find($id);
         
         if(!$user){
             return back()->with('error','Data user not found.');
         }
         
-        \App\Models\User::destroy($id);
+        DBUser::destroy($id);
         
         return back()->with('success','User has been deleted.');
         

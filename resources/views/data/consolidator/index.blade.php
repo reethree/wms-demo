@@ -14,7 +14,7 @@
             var dataid = rowdata.TCONSOLIDATOR_PK;
             
             edt = '<a href="{{ route("consolidator-edit",'') }}/'+dataid+'"><i class="fa fa-pencil"></i></a> ';
-            del = '<a href="{{ route("consolidator-delete",'') }}/'+dataid+'"><i class="fa fa-close"></i></a>';
+            del = '<a href="{{ route("consolidator-delete",'') }}/'+dataid+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
             jQuery("#consolidatorGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
         } 
     }

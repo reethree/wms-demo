@@ -27,7 +27,7 @@ class RolesController extends Controller
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
             [
-                'action' => route('Useruser-index'),
+                'action' => route('user-index'),
                 'title' => 'Users'
             ],
             [
@@ -35,10 +35,6 @@ class RolesController extends Controller
                 'title' => 'Roles'
             ]
         ];
-        
-        $roles = DBRoles::orderBy('id', 'asc')->paginate(10);
-        
-        $data['roles'] = $roles;
 
         return view('roles.index')->with($data);
     }
@@ -82,11 +78,11 @@ class RolesController extends Controller
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
             [
-                'action' => route('Useruser-index'),
+                'action' => route('user-index'),
                 'title' => 'Users'
             ],
             [
-                'action' => route('Userrole-index'),
+                'action' => route('role-index'),
                 'title' => 'Roles'
             ],
             [

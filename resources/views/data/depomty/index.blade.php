@@ -13,7 +13,7 @@
             var rowdata = $('#depomtyGrid').getRowData(cl);
             var dataid = rowdata.TDEPOMTY_PK;
             
-            edt = '<a href="{{ route("depomty-edit",'') }}/'+dataid+'"><i class="fa fa-pencil"></i></a> ';
+            edt = '<a href="{{ route("depomty-edit",'') }}/'+dataid+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-pencil"></i></a> ';
             del = '<a href="{{ route("depomty-delete",'') }}/'+dataid+'"><i class="fa fa-close"></i></a>';
             jQuery("#depomtyGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
         } 

@@ -14,7 +14,7 @@
             var dataid = rowdata.TPACKING_PK;
 
             edt = '<a href="{{ route("packing-edit",'') }}/'+dataid+'"><i class="fa fa-pencil"></i></a> ';
-            del = '<a href="{{ route("packing-delete",'') }}/'+dataid+'"><i class="fa fa-close"></i></a>';
+            del = '<a href="{{ route("packing-delete",'') }}/'+dataid+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
             jQuery("#packingGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
         } 
     }
