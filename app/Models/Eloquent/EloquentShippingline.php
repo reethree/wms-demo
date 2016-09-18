@@ -1,19 +1,19 @@
 <?php
-namespace App\Models;
+namespace App\Models\Eloquent;
 
-class EloquentPermissions {
+class EloquentShippingline {
  
   /**
-   * Permissions Eloquent Model
+   * Shippingline Eloquent Model
    *
-   * @var  Permissions
+   * @var  Shippingline
    *
    */
-    protected $Permissions;
+    protected $Shippingline;
  
     public function __construct()
     {
-        $this->Permissions = new Permission();
+        $this->Shippingline = new \App\Models\Shippingline();
     }
  
      /**
@@ -26,23 +26,24 @@ class EloquentPermissions {
      */
     public function create(array $data)
     {
-              
+        $data['uid'] = \Auth::getUser()->name;
       try
       {
-        $this->Permissions->create($data);
+//        $this->Shippingline->create($data);
+        $this->Shippingline->insertGetId($data);
       }
       catch (Exception $e)
       {
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
       }
  
-      return json_encode(array('success' => true, 'message' => 'Permissions successfully saved!'));
+      return json_encode(array('success' => true, 'message' => 'Shippingline successfully saved!'));
     }
  
     /**
      * Updates an existing roles
      *
-     * @param  int $id Permissions id
+     * @param  int $id Shippingline id
      * @param  array $data
      * 	An array as follows: array('name'=>$name, 'description'=>$description, 'author'=>$author, 'publisher'=>$publisher, 'language'=>$language, 'length'=>$length, 'asin'=>$asin);
      *
@@ -50,23 +51,24 @@ class EloquentPermissions {
      */
     public function update($id, array $data)
     {
-      $Permissions = $this->Permissions->find($id);
-      
+      $Shippingline = $this->Shippingline->find($id);
+      $data['uid'] = \Auth::getUser()->name;
+
       foreach ($data as $key => $value)
       {
-        $Permissions->$key = $value;
+        $Shippingline->$key = $value;
       }
- 
+
       try
       {
-        $Permissions->save();
+        $Shippingline->save();
       }
       catch (Exception $e)
       {
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
       }
  
-      return json_encode(array('success' => true, 'message' => 'Permissions successfully updated!'));
+      return json_encode(array('success' => true, 'message' => 'Shippingline successfully updated!'));
     }
  
     /**
@@ -80,13 +82,13 @@ class EloquentPermissions {
     {
       try
       {
-        $this->Permissions->destroy($id);
+        $this->Shippingline->destroy($id);
       }
       catch (Exception $e)
       {
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
       }
  
-      return json_encode(array('success' => true, 'message' => 'Permissions successfully deleted!'));
+      return json_encode(array('success' => true, 'message' => 'Shippingline successfully deleted!'));
     }
 }

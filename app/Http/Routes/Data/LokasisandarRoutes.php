@@ -10,6 +10,23 @@ Route::group(['prefix' => 'lokasisandar', 'namespace' => 'Data'], function(){
     {
         GridEncoder::encodeRequestedData(new \App\Models\TablesRepository(new App\Models\Lokasisandar()) ,Illuminate\Support\Facades\Request::all());
     });
+    Route::post('/crud', function()
+    {
+        $EloquentLokasisandar = new \App\Models\Eloquent\EloquentLokasisandar();
+
+        switch (Illuminate\Support\Facades\Request::get('oper'))
+        {
+          case 'add':
+            return $EloquentLokasisandar->create(Illuminate\Support\Facades\Request::except('id', 'oper'));
+            break;
+          case 'edit':
+            return $EloquentLokasisandar->update(Illuminate\Support\Facades\Request::get('id'), Illuminate\Support\Facades\Request::except('id', 'oper'));
+            break;
+          case 'del':
+            return  $EloquentLokasisandar->delete(Illuminate\Support\Facades\Request::get('id'));
+            break;
+        }
+    });
     Route::get('/view/{id}', [
         'as' => 'lokasisandar-view',
         'uses' => 'LokasisandarController@show'

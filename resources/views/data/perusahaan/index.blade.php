@@ -23,15 +23,16 @@
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">Perusahaan</h3>
-        <div class="box-tools">
+<!--        <div class="box-tools">
             <a href="{{ route('perusahaan-create') }}" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Add New</a>
-        </div>
+        </div>-->
     </div>
     <div class="box-body table-responsive">
             {{
                 GridRender::setGridId("perusahaanGrid")
                 ->enableFilterToolbar()
                 ->setGridOption('url', URL::to('/perusahaan/grid-data'))
+                ->setGridOption('editurl',URL::to('/perusahaan/crud'))
                 ->setGridOption('rowNum', 20)
                 ->setGridOption('shrinkToFit', true)
                 ->setGridOption('sortname','TPERUSAHAAN_PK')
@@ -42,20 +43,24 @@
                 ->setGridOption('useColSpanStyle', true)
                 ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
                 ->setNavigatorOptions('view',array('closeOnEscape'=>false))
+                ->setNavigatorOptions('navigator', array('add' => true, 'edit' => true, 'del' => true, 'view' => true, 'refresh' => false))
+                ->setNavigatorOptions('add', array('closeAfterAdd' => true))
+                ->setNavigatorEvent('add', 'afterSubmit', 'afterSubmitEvent')
+                ->setNavigatorOptions('edit', array('closeAfterEdit' => true))
+                ->setNavigatorEvent('edit', 'afterSubmit', 'afterSubmitEvent')
+                ->setNavigatorEvent('del', 'afterSubmit', 'afterSubmitEvent')
                 ->setFilterToolbarOptions(array('autosearch'=>true))
                 ->setGridEvent('gridComplete', 'gridCompleteEvent')
-//                  ->setNavigatorEvent('view', 'beforeShowForm', 'function(){}')
-//                  ->setFilterToolbarEvent('beforeSearch', 'function(){}')
-                ->addColumn(array('index'=>'TPERUSAHAAN_PK','hidden'=>true))
-                ->addColumn(array('label'=>'Nama Perusahaan','index'=>'NAMAPERUSAHAAN','width'=>200))
-                ->addColumn(array('label'=>'NPWP','index'=>'NPWP', 'width'=>150))
-                ->addColumn(array('label'=>'Telp','index'=>'NOTELP', 'width'=>120, 'align'=>'right'))
-                ->addColumn(array('label'=>'E-mail','index'=>'EMAIL', 'width'=>120,))
-                ->addColumn(array('label'=>'CP','index'=>'CONTACTPERSON', 'width'=>120))
-                ->addColumn(array('label'=>'Alamat','index'=>'ALAMAT','hidden'=>true,'viewable'=>true,'editrules'=>array('edithidden'=>true) ))
+                ->addColumn(array('key'=>true,'index'=>'TPERUSAHAAN_PK','hidden'=>true))
+                ->addColumn(array('label'=>'Nama Perusahaan','index'=>'NAMAPERUSAHAAN','width'=>200,'editable'=>true,'editrules'=>array('required'=>true)))
+                ->addColumn(array('label'=>'NPWP','index'=>'NPWP', 'width'=>150,'editable'=>true,'editrules'=>array('required'=>true)))
+                ->addColumn(array('label'=>'Telp','index'=>'NOTELP', 'width'=>120, 'align'=>'right','editable'=>true))
+                ->addColumn(array('label'=>'E-mail','index'=>'EMAIL', 'width'=>120,'editable'=>true))
+                ->addColumn(array('label'=>'CP','index'=>'CONTACTPERSON', 'width'=>120,'editable'=>true))
+                ->addColumn(array('label'=>'Alamat','index'=>'ALAMAT','hidden'=>true,'viewable'=>true,'editable'=>true,'edittype' => 'textarea','editrules'=>array('edithidden'=>true) ))
                 ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>120))
                 ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
-                ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+//                ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                 ->renderGrid()
             }}
     </div>

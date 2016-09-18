@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Models\Negara as DBNegara;
+
 class PelabuhanController extends Controller
 {
     /**
@@ -29,6 +31,14 @@ class PelabuhanController extends Controller
             ]
         ];        
         
+        $negara = DBNegara::select('TNEGARA_PK','NAMANEGARA')->get();
+        $results = [];
+        foreach ($negara as $n):
+            $results[$n->TNEGARA_PK] = $n->NAMANEGARA;
+        endforeach;
+        
+        $data['negara'] = $results;
+
         return view('data.pelabuhan.index')->with($data);
     }
 

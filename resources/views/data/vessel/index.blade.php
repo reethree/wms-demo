@@ -23,15 +23,16 @@
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">Vessel</h3>
-        <div class="box-tools">
+<!--        <div class="box-tools">
             <a href="{{ route('vessel-create') }}" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Add New</a>
-        </div>
+        </div>-->
     </div>
     <div class="box-body table-responsive">
             {{
                 GridRender::setGridId("vesselGrid")
                 ->enableFilterToolbar()
                 ->setGridOption('url', URL::to('/vessel/grid-data'))
+                ->setGridOption('editurl',URL::to('/vessel/crud'))
                 ->setGridOption('rowNum', 20)
                 ->setGridOption('shrinkToFit', true)
                 ->setGridOption('sortname','tvessel_pk')
@@ -42,18 +43,22 @@
                 ->setGridOption('useColSpanStyle', true)
                 ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
                 ->setNavigatorOptions('view',array('closeOnEscape'=>false))
+                ->setNavigatorOptions('navigator', array('add' => true, 'edit' => true, 'del' => true, 'view' => true, 'refresh' => false))
+                ->setNavigatorOptions('add', array('closeAfterAdd' => true))
+                ->setNavigatorEvent('add', 'afterSubmit', 'afterSubmitEvent')
+                ->setNavigatorOptions('edit', array('closeAfterEdit' => true))
+                ->setNavigatorEvent('edit', 'afterSubmit', 'afterSubmitEvent')
+                ->setNavigatorEvent('del', 'afterSubmit', 'afterSubmitEvent')
                 ->setFilterToolbarOptions(array('autosearch'=>true))
                 ->setGridEvent('gridComplete', 'gridCompleteEvent')
-//                  ->setNavigatorEvent('view', 'beforeShowForm', 'function(){}')
-//                  ->setFilterToolbarEvent('beforeSearch', 'function(){}')
-                ->addColumn(array('index'=>'tvessel_pk','hidden'=>true))
-                ->addColumn(array('label'=>'Vessel Name','index'=>'vesselname','width'=>200))
-                ->addColumn(array('label'=>'Vessel Code','index'=>'vesselcode', 'width'=>120))
-                ->addColumn(array('label'=>'Call Sign','index'=>'callsign', 'width'=>120))
-                ->addColumn(array('label'=>'Negara','index'=>'nationality', 'width'=>120))
+                ->addColumn(array('key'=>true,'index'=>'tvessel_pk','hidden'=>true))
+                ->addColumn(array('label'=>'Vessel Name','index'=>'vesselname','width'=>200,'editable' => true, 'editrules' => array('required' => true)))
+                ->addColumn(array('label'=>'Vessel Code','index'=>'vesselcode', 'width'=>120,'editable' => true, 'editrules' => array('required' => true)))
+                ->addColumn(array('label'=>'Call Sign','index'=>'callsign', 'width'=>120,'editable' => true))
+                ->addColumn(array('label'=>'Negara','index'=>'nationality', 'width'=>120,'editable'=>true,'editrules'=>array('required'=>true),'edittype'=>'select','editoptions'=>array('value'=>$negara)))
                 ->addColumn(array('label'=>'UID','index'=>'uid', 'width'=>120))
                 ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
-                ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+//                ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                 ->renderGrid()
             }}
     </div>

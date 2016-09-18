@@ -33,6 +33,25 @@
         <script src="{{ asset("/plugins/jQgrid/js/i18n/grid.locale-en.js") }}" type="text/javascript"></script>
         <script src="{{ asset("/plugins/jQgrid/js/jquery.jqGrid.min.js") }}" type="text/javascript"></script>
         
+        <script>
+            $(function () {
+                $.ajaxSetup({
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+                });
+            });
+            
+            function afterSubmitEvent(response, postdata)
+            {
+                //Parses the JSON response that comes from the server.
+                result = JSON.parse(response.responseText);
+                console.log(result);
+                //result.success is a boolean value, if true the process continues,
+                //if false an error message appear and all other processing is stopped,
+                //result.message is ignored if result.success is true.
+                return [result.success, result.message];
+            }
+        </script>
+        
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>

@@ -12,7 +12,7 @@ class Shippingline extends Model
      * @var string
      */
     protected $table = 'tshippingline';
-    protected $primaryKey = 'tshippingline_PK';
+    protected $primaryKey = 'tshippingline_pk';
     public $timestamps = false;
 
 }
