@@ -28,7 +28,7 @@
         <link href="{{ asset("/bower_components/AdminLTE/dist/css/skins/skin-black-light.min.css")}}" rel="stylesheet" type="text/css" />
 
         <!-- jQuery 2.2.3 -->
-        <script src="{{ asset ("/bower_components/AdminLTE/plugins/jQuery/jQuery-2.2.3.min.js") }}"></script>
+        <script src="{{ asset ("/bower_components/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js") }}"></script>
         
         <script src="{{ asset("/plugins/jQgrid/js/i18n/grid.locale-en.js") }}" type="text/javascript"></script>
         <script src="{{ asset("/plugins/jQgrid/js/jquery.jqGrid.min.js") }}" type="text/javascript"></script>
