@@ -60,7 +60,7 @@ class UserController extends Controller
     
     public function store(Request $request)
     {       
-        if ( !$this->access->can('show.user.create') ) {
+        if ( !$this->access->can('show.user.store') ) {
             return view('errors.no-access');
         }
         

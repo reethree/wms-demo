@@ -46,6 +46,9 @@
         // Data Routes
         require_once 'Routes/RoutesData.php';
         
+        // Import Routes
+        require_once 'Routes/RoutesImport.php';
+        
     });
     
     
