@@ -75,7 +75,7 @@ class LclController extends Controller
         ]; 
         
         $spk_last_id = DBJoborder::select('TJOBORDER_PK as id')->orderBy('TJOBORDER_PK', 'DESC')->first();       
-        $regID = str_pad(intval($spk_last_id->id+1), 4, '0', STR_PAD_LEFT);
+        $regID = str_pad(intval((isset($spk_last_id->id) ? $spk_last_id->id : 0)+1), 4, '0', STR_PAD_LEFT);
         
         $data['spk_number'] = 'PNJP'.$regID.'/'.date('y');
         $data['consolidators'] = DBConsolidator::select('TCONSOLIDATOR_PK as id','NAMACONSOLIDATOR as name')->get();
