@@ -10,11 +10,9 @@
             del = ''; 
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
-            var rowdata = $('#perusahaanGrid').getRowData(cl);
-            var dataid = rowdata.id;
             
-            edt = '<a href="{{ route("user-edit",'') }}/'+dataid+'"><i class="fa fa-pencil"></i></a> ';
-            del = '<a href="{{ route("user-delete",'') }}/'+dataid+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
+            edt = '<a href="{{ route("user-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
+            del = '<a href="{{ route("user-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
             jQuery("#userGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
         } 
     }
@@ -45,7 +43,7 @@
                 ->setGridEvent('gridComplete', 'gridCompleteEvent')
 //                  ->setNavigatorEvent('view', 'beforeShowForm', 'function(){}')
 //                  ->setFilterToolbarEvent('beforeSearch', 'function(){}')
-                ->addColumn(array('index'=>'id', 'hidden'=>true))
+                ->addColumn(array('key'=>true,'index'=>'id', 'hidden'=>true))
                 ->addColumn(array('label'=>'Name','index'=>'name','width'=>150))
                 ->addColumn(array('label'=>'Username','index'=>'username', 'width'=>150))
                 ->addColumn(array('label'=>'Email','index'=>'email', 'width'=>180))

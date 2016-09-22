@@ -206,6 +206,13 @@ class LclController extends Controller
             ]
         ];
         
+        $data['consolidators'] = DBConsolidator::select('TCONSOLIDATOR_PK as id','NAMACONSOLIDATOR as name')->get();
+        $data['countries'] = DBNegara::select('TNEGARA_PK as id','NAMANEGARA as name')->get();
+//        $data['pelabuhans'] = [];
+        $data['pelabuhans'] = DBPelabuhan::select('TPELABUHAN_PK as id','NAMAPELABUHAN as name','KODEPELABUHAN as code')->get();
+//        $data['vessels'] = DBVessel::select('tvessel_pk as id','vesselname as name')->get();
+        $data['shippinglines'] = DBShippingline::select('TSHIPPINGLINE_PK as id','SHIPPINGLINE as name')->get();
+        $data['lokasisandars'] = DBLokasisandar::select('TLOKASISANDAR_PK as id','NAMALOKASISANDAR as name')->get();
         $data['joborder'] = DBJoborder::find($id);
         
         return view('import.lcl.edit-register')->with($data);
@@ -221,7 +228,44 @@ class LclController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if ( !$this->access->can('update.lcl.register.edit') ) {
+            return view('errors.no-access');
+        }
+    }
+    
+    public function registerUpdate(Request $request, $id)
+    {
+        $data = $request->except(['_token']); 
+        $data['TGLENTRY'] = date('Y-m-d');
+        $data['TGL_MASTER_BL'] = date('Y-m-d', strtotime($data['TGL_MASTER_BL']));
+        $data['ETA'] = date('Y-m-d', strtotime($data['ETA']));
+        $data['ETD'] = date('Y-m-d', strtotime($data['ETD']));
+        $data['TTGL_BC11'] = date('Y-m-d', strtotime($data['TTGL_BC11']));
+        $data['TTGL_PLP'] = date('Y-m-d', strtotime($data['TTGL_PLP']));
+        $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
+        $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
+        $namanegara = DBNegara::select('NAMANEGARA')->where('TNEGARA_PK',$data['TNEGARA_FK'])->first();
+        $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
+        $namapelabuhan = DBPelabuhan::select('NAMAPELABUHAN')->where('TPELABUHAN_PK',$data['TPELABUHAN_FK'])->first();
+        $data['NAMAPELABUHAN'] = $namapelabuhan->NAMAPELABUHAN;
+        $namalokasisandar = DBLokasisandar::select('NAMALOKASISANDAR')->where('TLOKASISANDAR_PK',$data['TLOKASISANDAR_FK'])->first();
+        $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
+        $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();
+        $data['SHIPPINGLINE'] = $namashippingline->SHIPPINGLINE;
+        $data['UID'] = \Auth::getUser()->name;
+        
+        $update = DBJoborder::where('TJOBORDER_PK', $id)
+            ->update($data);
+        
+        if($update){
+            
+            //UPDATE CONTAINER
+            
+            
+            return back()->with('success', 'LCL Register has been updated.');
+        }
+        
+        return back()->withInput();
     }
 
     /**

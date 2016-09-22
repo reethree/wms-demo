@@ -280,7 +280,9 @@
 <script type="text/javascript">
     $('select').select2();
     $('.datepicker').datepicker({
-        autoclose: true
+        autoclose: true,
+        todayHighlight: true,
+        format: 'yyyy-mm-dd' 
     });
 </script>
 

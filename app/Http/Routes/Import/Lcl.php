@@ -18,5 +18,8 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-register-edit',
         'uses' => 'LclController@registerEdit'
     ]);
-    
+    Route::post('/register/edit/{id}', [
+        'as' => 'lcl-register-update',
+        'uses' => 'LclController@registerUpdate'
+    ]);
 });

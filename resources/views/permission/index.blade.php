@@ -10,10 +10,8 @@
             edt = '';
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
-            var rowdata = $('#userPermissionGrid').getRowData(cl);
-            var dataid = rowdata.id;
             
-            edt = '<a href="{{ route("role-edit",'') }}/'+dataid+'" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i> Edit Permission</a> ';
+            edt = '<a href="{{ route("role-edit",'') }}/'+cl+'" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i> Edit Permission</a> ';
             jQuery("#userPermissionGrid").jqGrid('setRowData',ids[i],{action:edt}); 
         } 
     }
@@ -45,7 +43,7 @@
                 ->setNavigatorOptions('view',array('closeOnEscape'=>false))
                 ->setGridEvent('gridComplete', 'gridCompleteEvent')
                 ->setFilterToolbarOptions(array('autosearch'=>true))
-                ->addColumn(array('index'=>'id', 'hidden'=>true))
+                ->addColumn(array('key'=>true,'index'=>'id', 'hidden'=>true))
                 ->addColumn(array('label'=>'Name','index'=>'name','width'=>150,'editable' => true, 'editrules' => array('required' => true)))
                 ->addColumn(array('label'=>'Slug','index'=>'slug','width'=>150,'editable' => true, 'editrules' => array('required' => true)))
                 ->addColumn(array('label'=>'Description','index'=>'description', 'width'=>250, 'editable' => true, 'edittype' => 'textarea'))
