@@ -4,7 +4,7 @@ Route::group(['prefix' => 'container', 'namespace' => 'Import'], function(){
     
     Route::get('/grid-data', function()
     {
-        GridEncoder::encodeRequestedData(new \App\Models\TablesRepository(new App\Models\Container()) ,Illuminate\Support\Facades\Request::all());
+        GridEncoder::encodeRequestedData(new \App\Models\TablesRepository(new App\Models\Container(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
     Route::post('/crud/{id}', function($joborder_id)
     {

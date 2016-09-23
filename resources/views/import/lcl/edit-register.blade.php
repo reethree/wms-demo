@@ -263,6 +263,13 @@
     </form>
 </div>
 
+<script>
+    function onSelectRowEvent(rowid, status, e)
+    {
+        $('#cetak-permohonan').prop("disabled",false);
+    }
+</script>
+
 <div class="box box-default">
     <div class="box-header with-border">
       <h3 class="box-title">Form Container</h3>
@@ -278,7 +285,7 @@
                     {{
                         GridRender::setGridId("containerGrid")
                         ->enableFilterToolbar()
-                        ->setGridOption('url', URL::to('/container/grid-data'))
+                        ->setGridOption('url', URL::to('/container/grid-data?jobid='.$joborder->TJOBORDER_PK))
                         ->setGridOption('editurl',URL::to('/container/crud/'.$joborder->TJOBORDER_PK))
                         ->setGridOption('rowNum', 10)
                         ->setGridOption('shrinkToFit', true)
@@ -296,7 +303,7 @@
                         ->setNavigatorEvent('edit', 'afterSubmit', 'afterSubmitEvent')
                         ->setNavigatorEvent('del', 'afterSubmit', 'afterSubmitEvent')
                         ->setFilterToolbarOptions(array('autosearch'=>true))
-//                        ->setGridEvent('gridComplete', 'gridCompleteEvent')
+                        ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                         ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
                         ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>250,'editable' => true, 'editrules' => array('required' => true)))
                         ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>80,'align'=>'center','editable' => true, 'editrules' => array('required' => true,'number'=>true),'edittype'=>'select','editoptions'=>array('value'=>"20:20;40:40")))
@@ -309,11 +316,80 @@
                         ->renderGrid()
                     }}
                 </div>
+                <div class="col-md-12">
+<!--                    <a class="btn btn-app">
+                        <i class="fa fa-print"></i> Cetak Permohonan
+                    </a>-->
+                    <div id="btn-group-1" class="col-sm-3 col-sm-offset-3" style="margin-top: 10px;margin-bottom: 10px;">
+                        <button id="cetak-permohonan" type="button" disabled class="btn btn-block btn-default">Cetak Permohonan</button>
+                    </div>
+                    <div id="btn-group-2" class="col-sm-3" style="margin: 10px 0;">
+                        <button type="button" class="btn btn-block btn-default">Cetak Cek List</button>
+                    </div>
+<!--                    <a class="btn btn-app">
+                        <i class="fa fa-print"></i> Cetak Cek List
+                    </a>-->
+                </div>
             </div>
                 
         </div>
     </div>
 </div>
+
+<div id="cetak-permohonan-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Cetak Permohonan</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" action="{{ route('lcl-register-update', $joborder->TJOBORDER_PK) }}" method="POST">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">No. Surat</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="no_surat" class="form-control" required> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Prihal</label>
+                                <div class="col-sm-8">
+                                    <textarea name="prihal_surat" class="form-control" required>Permohonan PLP-LCL Ke Gudang Primanata Jaya Persada</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">SOR</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="sor" class="form-control" required> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Penandatangan</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="penandatangan" class="form-control" required> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Jabatan Pemohon</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="jabatan" class="form-control" required> 
+                                </div>
+                            </div>
+                            <input id="container_id" type="hidden" />
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
+              <button type="button" class="btn btn-primary">Cetak</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 @endsection
 
@@ -334,6 +410,26 @@
         autoclose: true,
         todayHighlight: true,
         format: 'yyyy-mm-dd' 
+    });
+    $('#cetak-permohonan').click(function()
+    {
+        //Gets the selected row id.
+        var rowid = $('#containerGrid').jqGrid('getGridParam', 'selrow'),
+            rowdata = $('#containerGrid').getRowData(rowid);
+//        console.log(rowid);    
+//        console.log(rowdata);
+        
+        if(rowid){
+            $('#cetak-permohonan-modal').modal('show');
+            $("#container_id").val(rowid);
+        }else{
+            alert('Please Select Container.');
+        }
+//        $('#btn-toolbar').disabledButtonGroup();
+//        $('#btn-group-3').enableButtonGroup();
+//        $('#form-edit-title').removeClass('hidden');
+//        $('.tooltip').tooltip('hide');
+//        $('#grid-section').collapse('hide');
     });
 </script>
 

@@ -14,6 +14,7 @@ use App\Models\Pelabuhan as DBPelabuhan;
 use App\Models\Vessel as DBVessel;
 use App\Models\Shippingline as DBShippingline;
 use App\Models\Lokasisandar as DBLokasisandar;
+use App\Models\Container as DBContainer;
 
 class LclController extends Controller
 {
@@ -213,7 +214,10 @@ class LclController extends Controller
 //        $data['vessels'] = DBVessel::select('tvessel_pk as id','vesselname as name')->get();
         $data['shippinglines'] = DBShippingline::select('TSHIPPINGLINE_PK as id','SHIPPINGLINE as name')->get();
         $data['lokasisandars'] = DBLokasisandar::select('TLOKASISANDAR_PK as id','NAMALOKASISANDAR as name')->get();
-        $data['joborder'] = DBJoborder::find($id);
+        
+        $jobid = DBContainer::select('TJOBORDER_FK as id')->where('TCONTAINER_PK',$id)->first();
+        
+        $data['joborder'] = DBJoborder::find($jobid->id);
         
         return view('import.lcl.edit-register')->with($data);
     }
@@ -256,16 +260,47 @@ class LclController extends Controller
         
         $update = DBJoborder::where('TJOBORDER_PK', $id)
             ->update($data);
-        
+
         if($update){
             
             //UPDATE CONTAINER
+            $joborder = \App\Models\Joborder::findOrFail($id);
+            $data = array();
+            $data['TJOBORDER_FK'] = $joborder->TJOBORDER_PK;
+            $data['NoJob'] = $joborder->NOJOBORDER;
+            $data['NO_BC11'] = $joborder->NO_BC11;
+            $data['TGL_BC11'] = $joborder->TGL_BC11;
+            $data['NO_PLP'] = $joborder->NO_PLP;
+            $data['TGL_PLP'] = $joborder->TGL_PLP;
+            $data['TCONSOLIDATOR_FK'] = $joborder->TCONSOLIDATOR_FK;
+            $data['NAMACONSOLIDATOR'] = $joborder->NAMACONSOLIDATOR;
+            $data['TLOKASISANDAR_FK'] = $joborder->TLOKASISANDAR_FK;
+            $data['ETA'] = $joborder->ETA;
+            $data['ETD'] = $joborder->ETD;
+            $data['VESSEL'] = $joborder->VESSEL;
+            $data['VOY'] = $joborder->VOY;
+            $data['TPELABUHAN_FK'] = $joborder->TPELABUHAN_FK;
+            $data['NAMAPELABUHAN'] = $joborder->NAMAPELABUHAN;
+            $data['PEL_MUAT'] = $joborder->PEL_MUAT;
+            $data['PEL_BONGKAR'] = $joborder->PEL_BONGKAR;
+            $data['PEL_TRANSIT'] = $joborder->PEL_TRANSIT;
+            $data['NOMBL'] = $joborder->NOMBL;
+            $data['TGL_MASTER_BL'] = $joborder->TGL_MASTER_BL;
+            $data['KD_TPS_ASAL'] = $joborder->KD_TPS_ASAL;
+            $data['KD_TPS_TUJUAN'] = $joborder->GUDANG_TUJUAN;
+            $data['CALL_SIGN'] = $joborder->CALLSIGN;
             
+            $updateContainer = DBContainer::where('TJOBORDER_FK', $id)
+                    ->update($data);
             
-            return back()->with('success', 'LCL Register has been updated.');
+            if($updateContainer){
+                return back()->with('success', 'LCL Register has been updated.');
+            }
+            
+            return back()->with('success', 'LCL Register has been updated, but container not updated.');
         }
         
-        return back()->withInput();
+        return back()->with('error', 'LCL Register cannot update, please try again.')->withInput();
     }
 
     /**

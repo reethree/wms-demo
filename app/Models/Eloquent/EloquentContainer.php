@@ -34,6 +34,7 @@ class EloquentContainer {
         
         $data['TEUS'] = $data['SIZE'] / 20;
         $data['TJOBORDER_FK'] = $joborder->TJOBORDER_PK;
+        $data['NoJob'] = $joborder->NOJOBORDER;
         $data['NO_BC11'] = $joborder->NO_BC11;
         $data['TGL_BC11'] = $joborder->TGL_BC11;
         $data['NO_PLP'] = $joborder->NO_PLP;
