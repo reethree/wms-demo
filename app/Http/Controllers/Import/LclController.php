@@ -313,4 +313,17 @@ class LclController extends Controller
     {
         //
     }
+    
+    public function registerPrintPermohonan(Request $request)
+    {
+        $data = $request->except(['_token']);
+        $container = DBContainer::find($data['container_id']);
+        $lokasisandar = DBLokasisandar::find($container->TLOKASISANDAR_FK);
+        
+        $result['info'] = $data;
+        $result['container'] = $container;
+        $result['lokasisandar'] = $lokasisandar;
+        
+        return view('print.permohonan', $result);
+    }
 }

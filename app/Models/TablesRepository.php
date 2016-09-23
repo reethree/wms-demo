@@ -16,7 +16,7 @@ class TablesRepository extends EloquentRepositoryAbstract {
             
             $Columns = array('users.*','roles.name as roles.name');
         }elseif($Model->getMorphClass() == 'App\Models\Container'){
-            if(isset($request->jobid)){
+            if(isset($request['jobid'])){
                 $Model = \DB::table('tcontainer')
                         ->where('TJOBORDER_FK', $request['jobid']);
                 $Columns = array('*');

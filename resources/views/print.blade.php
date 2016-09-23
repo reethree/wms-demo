@@ -2,7 +2,7 @@
     <head>
         <title></title>
         <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-        <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet">
+        <link href="{{asset('bower_components/AdminLTE/bootstrap/css/bootstrap.css')}}" rel="stylesheet">
     </head>
     <body>
 

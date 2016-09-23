@@ -30,4 +30,9 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-register-delete',
         'uses' => 'LclControllerController@destroy'
     ]);
+    
+    Route::post('/register/print-permohonan', [
+        'as' => 'lcl-register-print-permohonan',
+        'uses' => 'LclController@registerPrintPermohonan'
+    ]);
 });
