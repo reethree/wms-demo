@@ -32,7 +32,7 @@
         </div>
     </div>
     <div class="box-body table-responsive">
-        <div class="row" style="margin-bottom: 30px;">
+        <div class="row" style="margin-bottom: 30px;margin-right: 0;">
             <div class="col-md-6">
                 <div class="col-xs-12">Search By Date</div>
                 <div class="col-xs-4">

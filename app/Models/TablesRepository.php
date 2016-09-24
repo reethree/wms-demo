@@ -28,6 +28,10 @@ class TablesRepository extends EloquentRepositoryAbstract {
             }else{
                 $Columns = array('*');
             }
+        }elseif($Model->getMorphClass() == 'App\Models\Manifest'){
+            $Model = \DB::table('tmanifest')
+                        ->where('TCONTAINER_FK', $request['containerid']);
+                $Columns = array('*');
         }else{
             $Columns = array('*');
         }

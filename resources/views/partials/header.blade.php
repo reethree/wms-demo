@@ -47,7 +47,7 @@
                     <a class="submenu" tabindex="-1" href="#">Import LCL <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       <li><a tabindex="-1" href="{{ route('lcl-register-index') }}">Register</a></li>
-                      <li><a tabindex="-1" href="#">Manifest</a></li>
+                      <li><a tabindex="-1" href="{{ route('lcl-manifest-index') }}">Manifest</a></li>
                       <li class="dropdown-submenu">
                         <a class="submenu" href="#">Realisasi Planning <span class="caret"></span></a>
                         <ul class="dropdown-menu">

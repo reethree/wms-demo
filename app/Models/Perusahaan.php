@@ -15,4 +15,10 @@ class Perusahaan extends Model
     protected $primaryKey = 'TPERUSAHAAN_PK';
     public $timestamps = false;
 
+    public static function getNameById($id)
+    {
+        $data = Perusahaan::select('NAMAPERUSAHAAN')->where('TPERUSAHAAN_PK', $id)->first();   
+        return $data->NAMAPERUSAHAAN;
+    }
+    
 }

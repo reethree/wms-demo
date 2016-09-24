@@ -32,6 +32,7 @@
         
         <script src="{{ asset("/plugins/jQgrid/js/i18n/grid.locale-en.js") }}" type="text/javascript"></script>
         <script src="{{ asset("/plugins/jQgrid/js/jquery.jqGrid.min.js") }}" type="text/javascript"></script>
+        <script src="{{ asset("/plugins/jQgrid/js/helper.js") }}" type="text/javascript"></script>
         
         <script>
             $(function () {
