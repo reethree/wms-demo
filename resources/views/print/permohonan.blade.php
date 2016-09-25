@@ -47,7 +47,7 @@
                     <tr>
                         <td>Party</td>
                         <td> : </td>
-                        <td>{{ $container['PARTY'] }}</td>
+                        <td>{{ "1x".$container['SIZE'] }}</td>
                     </tr>
                     <tr>
                         <td>NO. Container</td>
@@ -55,7 +55,7 @@
                         <td>{{ $container['NOCONTAINER'] }}</td>
                     </tr>
                     <tr>
-                        <td>Pices/Brutto</td>
+                        <td>Pkgs/Brutto</td>
                         <td> : </td>
                         <td></td>
                     </tr>
