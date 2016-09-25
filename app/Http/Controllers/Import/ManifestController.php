@@ -59,7 +59,7 @@ class ManifestController extends Controller
         unset($data['id'], $data['_token']);
 
         $num = 0; 
-        $manifestID = DBManifest::select('NOTALLY')->orderBy('TMANIFEST_PK', 'DESC')->first();
+        $manifestID = DBManifest::select('NOTALLY')->where('TCONTAINER_FK',$data['TCONTAINER_FK'])->orderBy('TMANIFEST_PK', 'DESC')->first();
         if(count($manifestID) > 0){
             $tally = explode('.', $manifestID->NOTALLY);
             $num = intval($tally[1]);    
@@ -180,7 +180,29 @@ class ManifestController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->json()->all(); 
+        unset($data['id'], $data['_token']);
+        
+        $packing = DBPacking::find($data['TPACKING_PK']);
+        $data['KODE_KEMAS'] = $packing->KODEPACKING;
+        $data['NAMAPACKING'] = $packing->NAMAPACKING;  
+        $data['SHIPPER'] = DBPerusahaan::getNameById($data['TSHIPPER_FK']);
+        $data['CONSIGNEE'] = DBPerusahaan::getNameById($data['TCONSIGNEE_FK']);
+        if(is_numeric($data['TNOTIFYPARTY_FK'])) {
+            $data['NOTIFYPARTY'] = DBPerusahaan::getNameById($data['TNOTIFYPARTY_FK']);
+        }else{
+            $data['NOTIFYPARTY'] = $data['TNOTIFYPARTY_FK'];
+            unset($data['TNOTIFYPARTY_FK']);
+        }
+        
+        $update = DBManifest::where('TMANIFEST_PK', $id)
+            ->update($data);
+        
+        if($update){
+            return json_encode(array('success' => true, 'message' => 'Manifest successfully saved!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
     }
 
     /**

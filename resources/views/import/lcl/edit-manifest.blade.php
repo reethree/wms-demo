@@ -139,31 +139,9 @@
     
     $(document).ready(function()
     {
-      //Attach Bootstrap tooltips to all toolbar buttons
-      $('.tutorial-tooltip').tooltip();
-
-      //Adding form validation usign the jQuery MG Validation Plugin.
-//      $('#book-form').jqMgVal('addFormFieldsValidations', {'helpMessageClass':'col-sm-10'});
-
-//      //Binds onClick event to the "New" button.
-//      $('#btn-new').click(function()
-//      {
-//        //Disables all buttons within the toolbar.
-//        //The "disabledButtonGroup" is a custom helper function, its definition
-//        //can be foound in the public/assets/tutorial/js/helpers.js script.
         $('#btn-toolbar').disabledButtonGroup();
-//        //Enables the third button group (save and close).
-//        //The "enabledButtonGroup" is a custom helper function, its definition
-//        //can be foound in the public/assets/tutorial/js/helpers.js script.
         $('#btn-group-3').enableButtonGroup();
         $('#btn-group-1').enableButtonGroup();
-//        //Shows the form title.
-//        $('#form-new-title').removeClass('hidden');
-//        //Manually hide the tooltips (fix for firefox).
-//        $('.tooltip').tooltip('hide');
-//        //This is a bootstrap javascript effect to hide the grid.
-//        $('#grid-section').collapse('hide');
-//      });
 
       //Binds onClick event to the "Refresh" button.
       $('#btn-refresh').click(function()
@@ -209,25 +187,30 @@
       {
         //Gets the selected row id.
         rowid = $('#lclManifestGrid').jqGrid('getGridParam', 'selrow');
-        //Gets an object with the selected row data.
         rowdata = $('#lclManifestGrid').getRowData(rowid);
-        //Fills out the form with the selected row data (the id of the
-        //object must match the id of the form elements).
-        //This is a custom helper function, its definition
-        //can be foound in the public/assets/tutorial/js/helpers.js script.
         $('#id').val(rowid);
         populateFormFields(rowdata, '');
-        console.log(rowdata);
-        //Disables all buttons within the toolbar.
+           
+        $("#TSHIPPER_FK").val(rowdata.TSHIPPER_FK).trigger("change")
+        $("#TCONSIGNEE_FK").val(rowdata.TCONSIGNEE_FK).trigger("change")
+        if(rowdata.TNOTIFYPARTY_FK){
+            $("#TNOTIFYPARTY_FK").val(rowdata.TNOTIFYPARTY_FK).trigger("change")
+        }
+        $("#TPACKING_PK").val(rowdata.TPACKING_PK).trigger("change")
+        $("#DG_SURCHARGE").val(rowdata.DG_SURCHARGE).trigger("change")
+        $("#WEIGHT_SURCHARGE").val(rowdata.WEIGHT_SURCHARGE).trigger("change")
+        $("#VALIDASI").val(rowdata.VALIDASI).trigger("change")
+        
+        $("#TGL_HBL").datepicker('setDate', rowdata.TGL_HBL)
+        $("#TGL_BC11").datepicker('setDate', rowdata.TGL_BC11)
+        $("#TGL_PLP").datepicker('setDate', rowdata.TGL_PLP)
+        
+        $("#NO_BC11").val(rowdata.NO_BC11)
+        $("#NO_PLP").val(rowdata.NO_PLP)
+        
+//        console.log(rowdata);
         $('#btn-toolbar').disabledButtonGroup();
-        //Enables the third button group (save and close).
         $('#btn-group-3').enableButtonGroup();
-        //Shows the form title.
-//        $('#form-edit-title').removeClass('hidden');
-        //Manually hide the tooltips (fix for firefox).
-//        $('.tooltip').tooltip('hide');
-        //This is a bootstrap javascript effect to hide the grid.
-//        $('#grid-section').collapse('hide');
       });
 
       //Bind onClick event to the "Delete" button.
@@ -235,10 +218,8 @@
       {
         //Gets the selected row id
         rowid = $('#lclManifestGrid').jqGrid('getGridParam', 'selrow');
-        //Gets an object with the selected row data
         rowdata = $('#lclManifestGrid').getRowData(rowid);
-
-        //Sends an Ajax request to the server.
+        
         $.ajax({
           type: 'GET',
           dataType : 'json',
@@ -256,22 +237,14 @@
           },
           success:function(json)
           {
-            if(json.success)
-            {
-              //Shows a message after an element.
-              //This is a custom helper function, its definition
-              //can be foound in the public/assets/tutorial/js/helpers.js script.
-              $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
-            }
-            else
-            {
-              $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+            if(json.success) {
+                $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+            } else {
+                $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
             }
 
             //Triggers the "Refresh" button funcionality.
             $('#btn-refresh').click();
-            $('#app-loader').addClass('hidden');
-            $('#main-panel-fieldset').removeAttr('disabled');
           }
         });
 
@@ -282,22 +255,15 @@
       {
         var url = $('#manifest-form').attr('action');
 
-        if($('#id').val())
-        {
-            url += '/edit';
-        }
-        else
-        {
+        if($('#id').val()) {
+            url += '/edit/'+$('#id').val();
+        } else {
             url += '/create';
         }
         
         //Send an Ajax request to the server.
-        $.ajax(
-        {
+        $.ajax({
           type: 'POST',
-          //Creates an object from form fields.
-          //The "formToObject" is a custom helper function, its definition
-          //can be foound in the public/assets/tutorial/js/helpers.js script.
           data: JSON.stringify($('#manifest-form').formToObject('')),
           dataType : 'json',
           url: url,
@@ -314,20 +280,14 @@
           },
           success:function(json)
           {
-            if(json.success)
-            {
+            if(json.success) {
               $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
-            }
-            else
-            {
+            } else {
               $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
             }
 
             //Triggers the "Close" button funcionality.
             $('#btn-refresh').click();
-//            $('#btn-close').click();
-//            $('#app-loader').addClass('hidden');
-//            $('#main-panel-fieldset').removeAttr('disabled');
           }
         });
     });
@@ -375,6 +335,23 @@
                         ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>80))
                         ->addColumn(array('label'=>'Kode Kemas','index'=>'KODE_KEMAS', 'width'=>100,'align'=>'center'))
                         ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('label'=>'No.HBL','index'=>'NOHBL', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('label'=>'Tgl.HBL','index'=>'TGL_HBL', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('index'=>'TSHIPPER_FK', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('index'=>'TCONSIGNEE_FK', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('index'=>'TNOTIFYPARTY_FK', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('index'=>'TPACKING_PK', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('label'=>'Marking','index'=>'MARKING', 'width'=>150,'hidden'=>true)) 
+                        ->addColumn(array('label'=>'Desc of Goods','index'=>'DESCOFGOODS', 'width'=>150,'hidden'=>true))              
+                        ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>150,'hidden'=>true))               
+                        ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('label'=>'No.BC11','index'=>'NO_BC11', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('label'=>'Tgl.BC11','index'=>'TGL_BC11', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('label'=>'No.PLP','index'=>'NO_PLP', 'width'=>150,'hidden'=>true))                
+                        ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>150,'hidden'=>true))                
+                        ->addColumn(array('label'=>'Surcharge (DG)','index'=>'DG_SURCHARGE', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('label'=>'Surcharge (Weight)','index'=>'WEIGHT_SURCHARGE', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('label'=>'Validasi','index'=>'VALIDASI', 'width'=>150,'hidden'=>true))                        
                         ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
                         ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
                         ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
@@ -475,7 +452,7 @@
                             </div>
                             <label class="col-sm-2 control-label">Packing</label>
                             <div class="col-sm-4">
-                                <select class="form-control select2" name="TPACKING_PK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <select class="form-control select2" id="TPACKING_PK" name="TPACKING_PK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                     <option value="">Choose Packing</option>
                                     @foreach($packings as $packing)
                                         <option value="{{ $packing->id }}">{{ $packing->name.' ('.$packing->code.')' }}</option>
