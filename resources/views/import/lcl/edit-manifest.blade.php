@@ -196,7 +196,7 @@
         if(rowdata.TNOTIFYPARTY_FK){
             $("#TNOTIFYPARTY_FK").val(rowdata.TNOTIFYPARTY_FK).trigger("change")
         }
-        $("#TPACKING_PK").val(rowdata.TPACKING_PK).trigger("change")
+        $("#TPACKING_FK").val(rowdata.TPACKING_FK).trigger("change")
         $("#DG_SURCHARGE").val(rowdata.DG_SURCHARGE).trigger("change")
         $("#WEIGHT_SURCHARGE").val(rowdata.WEIGHT_SURCHARGE).trigger("change")
         $("#VALIDASI").val(rowdata.VALIDASI).trigger("change")
@@ -340,7 +340,7 @@
                         ->addColumn(array('index'=>'TSHIPPER_FK', 'width'=>150,'hidden'=>true))
                         ->addColumn(array('index'=>'TCONSIGNEE_FK', 'width'=>150,'hidden'=>true))
                         ->addColumn(array('index'=>'TNOTIFYPARTY_FK', 'width'=>150,'hidden'=>true))
-                        ->addColumn(array('index'=>'TPACKING_PK', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('index'=>'TPACKING_FK', 'width'=>150,'hidden'=>true))
                         ->addColumn(array('label'=>'Marking','index'=>'MARKING', 'width'=>150,'hidden'=>true)) 
                         ->addColumn(array('label'=>'Desc of Goods','index'=>'DESCOFGOODS', 'width'=>150,'hidden'=>true))              
                         ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>150,'hidden'=>true))               
@@ -452,7 +452,7 @@
                             </div>
                             <label class="col-sm-2 control-label">Packing</label>
                             <div class="col-sm-4">
-                                <select class="form-control select2" id="TPACKING_PK" name="TPACKING_PK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <select class="form-control select2" id="TPACKING_FK" name="TPACKING_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                     <option value="">Choose Packing</option>
                                     @foreach($packings as $packing)
                                         <option value="{{ $packing->id }}">{{ $packing->name.' ('.$packing->code.')' }}</option>

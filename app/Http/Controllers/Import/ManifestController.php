@@ -67,7 +67,7 @@ class ManifestController extends Controller
         $regID = str_pad(intval((isset($num) ? $num : 0)+1), 3, '0', STR_PAD_LEFT);
         
         $container = DBContainer::find($data['TCONTAINER_FK']);  
-        $packing = DBPacking::find($data['TPACKING_PK']);
+        $packing = DBPacking::find($data['TPACKING_FK']);
         
         $data['NOTALLY'] = $container->NoJob.'.'.$regID; 
         $data['TJOBORDER_FK'] = $container->TJOBORDER_FK;
@@ -183,7 +183,7 @@ class ManifestController extends Controller
         $data = $request->json()->all(); 
         unset($data['id'], $data['_token']);
         
-        $packing = DBPacking::find($data['TPACKING_PK']);
+        $packing = DBPacking::find($data['TPACKING_FK']);
         $data['KODE_KEMAS'] = $packing->KODEPACKING;
         $data['NAMAPACKING'] = $packing->NAMAPACKING;  
         $data['SHIPPER'] = DBPerusahaan::getNameById($data['TSHIPPER_FK']);
