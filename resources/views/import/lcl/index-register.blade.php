@@ -113,7 +113,6 @@
     });
     
     $('#searchByDateBtn').on("click", function(){
-        console.log('ok');
         var startdate = $("#startdate").val();
         var enddate = $("#enddate").val();
         jQuery("#lclRegisterGrid").jqGrid('setGridParam',{url:"{{URL::to('/lcl/register/grid-data')}}?startdate="+startdate+"&enddate="+enddate}).trigger("reloadGrid");

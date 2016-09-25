@@ -82,7 +82,13 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Vessel</label>
                         <div class="col-sm-8">
-                            <input type="text" name="VESSEL" class="form-control" required value="{{ $joborder->VESSEL }}">
+                            <!--<input type="text" name="VESSEL" class="form-control" required value="{{ $joborder->VESSEL }}">-->
+                            <select class="form-control select2" id="vessel" name="VESSEL" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <option value="">Choose Vessel</option>
+                                @foreach($vessels as $vessel)
+                                    <option value="{{ $vessel->name }}" data-code="{{ $vessel->code }}" data-callsign="{{ $vessel->callsign }}" @if($vessel->name == $joborder->VESSEL){{ "selected" }}@endif>{{ $vessel->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>                    
                     <div class="form-group">
@@ -92,7 +98,7 @@
                         </div>
                         <label class="col-sm-2 control-label">Callsign</label>
                         <div class="col-sm-3">
-                            <input type="text" name="CALLSIGN" class="form-control" required value="{{ $joborder->CALLSIGN }}">
+                            <input type="text" name="CALLSIGN" class="form-control" required readonly value="{{ $joborder->CALLSIGN }}">
                         </div>
                     </div>             
                     <div class="form-group">
@@ -411,13 +417,14 @@
         todayHighlight: true,
         format: 'yyyy-mm-dd' 
     });
+    $('#vessel').on("change", function (e) { 
+        $('input[name="CALLSIGN"]').val($(this).find(":selected").data("callsign"));
+    });
     $('#cetak-permohonan').click(function()
     {
         //Gets the selected row id.
         var rowid = $('#containerGrid').jqGrid('getGridParam', 'selrow'),
             rowdata = $('#containerGrid').getRowData(rowid);
-//        console.log(rowid);    
-//        console.log(rowdata);
         
         if(rowid){
             $('#cetak-permohonan-modal').modal('show');
@@ -425,11 +432,6 @@
         }else{
             alert('Please Select Container.');
         }
-//        $('#btn-toolbar').disabledButtonGroup();
-//        $('#btn-group-3').enableButtonGroup();
-//        $('#form-edit-title').removeClass('hidden');
-//        $('.tooltip').tooltip('hide');
-//        $('#grid-section').collapse('hide');
     });
 </script>
 

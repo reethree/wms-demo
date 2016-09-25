@@ -343,6 +343,7 @@
                         ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>150,'hidden'=>true))
                         ->addColumn(array('label'=>'No.BC11','index'=>'NO_BC11', 'width'=>150,'hidden'=>true))
                         ->addColumn(array('label'=>'Tgl.BC11','index'=>'TGL_BC11', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>150,'hidden'=>true))
                         ->addColumn(array('label'=>'No.PLP','index'=>'NO_PLP', 'width'=>150,'hidden'=>true))                
                         ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>150,'hidden'=>true))                
                         ->addColumn(array('label'=>'Surcharge (DG)','index'=>'DG_SURCHARGE', 'width'=>150,'hidden'=>true))
@@ -479,6 +480,12 @@
                                     <input type="text" id="TGL_BC11" name="TGL_BC11" class="form-control pull-right datepicker" required>
                                 </div>
                             </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">No.POS BC11</label>
+                          <div class="col-sm-8">
+                              <input type="text" id="NO_POS_BC11" name="NO_POS_BC11" class="form-control" required>
+                          </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">No.PLP</label>

@@ -82,8 +82,15 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Vessel</label>
                         <div class="col-sm-8">
-                            <input type="text" name="VESSEL" class="form-control" required value="{{ old('VESSEL') }}">
+                            <!--<input type="text" name="VESSEL" class="form-control" required value="{{ old('VESSEL') }}">-->
+                            <select class="form-control select2" id="vessel" name="VESSEL" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <option value="">Choose Vessel</option>
+                                @foreach($vessels as $vessel)
+                                    <option value="{{ $vessel->name }}" data-code="{{ $vessel->code }}" data-callsign="{{ $vessel->callsign }}">{{ $vessel->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
+                        
                     </div>                    
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Voy</label>
@@ -92,7 +99,7 @@
                         </div>
                         <label class="col-sm-2 control-label">Callsign</label>
                         <div class="col-sm-3">
-                            <input type="text" name="CALLSIGN" class="form-control" required value="{{ old('CALLSIGN') }}">
+                            <input type="text" name="CALLSIGN" class="form-control" required readonly value="{{ old('CALLSIGN') }}">
                         </div>
                     </div>             
                     <div class="form-group">
@@ -283,6 +290,9 @@
         autoclose: true,
         todayHighlight: true,
         format: 'yyyy-mm-dd' 
+    });
+    $('#vessel').on("change", function (e) { 
+        $('input[name="CALLSIGN"]').val($(this).find(":selected").data("callsign"));
     });
 </script>
 
