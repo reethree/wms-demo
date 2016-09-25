@@ -147,14 +147,19 @@
       $('#btn-refresh').click(function()
       {
             //When toolbar is enabled, this method should be use to clean the toolbar and refresh the grid.
-            $('#lclManifestGrid')[0].clearToolbar();
+//            $('#lclManifestGrid')[0].clearToolbar();
+            $('#lclManifestGrid').jqGrid().trigger("reloadGrid");
             //Disables all buttons within the toolbar
             $('#btn-toolbar').disabledButtonGroup();
             //Enables the first button group (new, refresh and export)
             $('#btn-group-1').enableButtonGroup();
             $('#btn-group-3').enableButtonGroup();
             $('#manifest-form')[0].reset();
-            $("select").select2("val", "");
+            $('select2').val(null).trigger("change");
+            $('TNOTIFYPARTY_FK').val('Same_of_Consignee').trigger("change");
+            $('#DG_SURCHARGE').val('N').trigger("change");
+            $('#WEIGHT_SURCHARGE').val('N').trigger("change");
+            $('#VALIDASI').val('N').trigger("change");
             $('#id').val("");
       });
 
@@ -171,16 +176,6 @@
 //        //Triggers the grid CSV export functionality.
 //        $('#BookGridCsvButton').click();
 //      });
-        
-        $('#btn-reset').click(function(){
-            $('#manifest-form')[0].reset();
-            $("select").select2("val", "");
-            $('#id').val("");
-            $('#btn-toolbar').disabledButtonGroup();
-            //Enables the first button group (new, refresh and export)
-            $('#btn-group-1').enableButtonGroup();
-            $('#btn-group-3').enableButtonGroup();
-        })
         
       //Bind onClick event to the "Edit" button.
       $('#btn-edit').click(function()
@@ -210,6 +205,7 @@
         
 //        console.log(rowdata);
         $('#btn-toolbar').disabledButtonGroup();
+        $('#btn-group-1').enableButtonGroup();
         $('#btn-group-3').enableButtonGroup();
       });
 
@@ -358,9 +354,9 @@
                         ->renderGrid()
                     }}
                     
-                    <div id="btn-toolbar" class="section-header btn-toolbar" role="toolbar" style="margin-top: 10px;">
+                    <div id="btn-toolbar" class="section-header btn-toolbar" role="toolbar" style="margin: 10px 0;">
                         <div id="btn-group-1" class="btn-group">
-                            <button class="btn btn-default" id="btn-refresh"><i class="fa fa-refresh"></i> Refresh</button>
+                            <button class="btn btn-default" id="btn-refresh"><i class="fa fa-refresh"></i> New/Refresh</button>
                         </div>
                         <div id="btn-group-2" class="btn-group">
                             <button class="btn btn-default" id="btn-edit"><i class="fa fa-edit"></i> Edit</button>
@@ -368,7 +364,6 @@
                         </div>
                         <div id="btn-group-3" class="btn-group toolbar-block">
                             <button class="btn btn-default" id="btn-save"><i class="fa fa-save"></i> Save</button>
-                            <button class="btn btn-default" id="btn-reset"><i class="fa fa-close"></i> Cancel/Reset</button>
                         </div>
                     </div>
                 </div>
@@ -423,7 +418,7 @@
                             <label class="col-sm-3 control-label">Notify Party</label>
                             <div class="col-sm-8">
                                 <select class="form-control select2" id="TNOTIFYPARTY_FK" name="TNOTIFYPARTY_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                                    <option value="Same of Consignee">Same of Consignee</option>
+                                    <option value="Same_of_Consignee">Same of Consignee</option>
                                     @foreach($perusahaans as $perusahaan)
                                         <option value="{{ $perusahaan->id }}">{{ $perusahaan->name }}</option>
                                     @endforeach
