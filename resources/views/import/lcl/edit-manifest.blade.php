@@ -155,8 +155,8 @@
             $('#btn-group-1').enableButtonGroup();
             $('#btn-group-3').enableButtonGroup();
             $('#manifest-form')[0].reset();
-            $('select2').val(null).trigger("change");
-            $('TNOTIFYPARTY_FK').val('Same_of_Consignee').trigger("change");
+            $('.select2').val(null).trigger("change");
+            $('#TNOTIFYPARTY_FK').val('Same of Consignee').trigger("change");
             $('#DG_SURCHARGE').val('N').trigger("change");
             $('#WEIGHT_SURCHARGE').val('N').trigger("change");
             $('#VALIDASI').val('N').trigger("change");
@@ -419,7 +419,7 @@
                             <label class="col-sm-3 control-label">Notify Party</label>
                             <div class="col-sm-8">
                                 <select class="form-control select2" id="TNOTIFYPARTY_FK" name="TNOTIFYPARTY_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                                    <option value="Same_of_Consignee">Same of Consignee</option>
+                                    <option value="Same of Consignee">Same of Consignee</option>
                                     @foreach($perusahaans as $perusahaan)
                                         <option value="{{ $perusahaan->id }}">{{ $perusahaan->name }}</option>
                                     @endforeach
