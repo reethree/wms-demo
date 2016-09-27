@@ -29,6 +29,8 @@
 
         <!-- jQuery 2.2.3 -->
         <script src="{{ asset ("/bower_components/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js") }}"></script>
+        <!-- jQuery Masking -->
+        <script src="{{ asset ("/bower_components/jquery.maskedinput/dist/jquery.maskedinput.min.js") }}"></script>
         
         <script src="{{ asset("/plugins/jQgrid/js/i18n/grid.locale-en.js") }}" type="text/javascript"></script>
         <script src="{{ asset("/plugins/jQgrid/js/jquery.jqGrid.min.js") }}" type="text/javascript"></script>

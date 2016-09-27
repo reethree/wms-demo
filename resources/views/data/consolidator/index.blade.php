@@ -18,6 +18,10 @@
         } 
     }
     
+    function npwpDataInit(el){
+        $(el).mask("99.999.999.9-999.999");
+    }
+    
 </script>
 
 <div class="box">
@@ -53,7 +57,7 @@
 //                ->setGridEvent('onSelectRow', 'selectRowEvent')
                 ->addColumn(array('key'=>true,'index'=>'TCONSOLIDATOR_PK','hidden'=>true))
                 ->addColumn(array('label'=>'Nama','index'=>'NAMACONSOLIDATOR','width'=>320,'editable' => true, 'editrules' => array('required' => true)))
-                ->addColumn(array('label'=>'NPWP','index'=>'NPWP', 'width'=>150,'editable' => true, 'editrules' => array('required' => true,'number'=>true)))
+                ->addColumn(array('label'=>'NPWP','index'=>'NPWP', 'width'=>150,'editable' => true, 'editrules' => array('required' => true), 'editoptions' => array('dataInit' => 'npwpDataInit')))
                 ->addColumn(array('label'=>'Alamat','index'=>'ALAMAT','hidden'=>true,'viewable'=>true,'editrules'=>array('edithidden'=>true),'editable' => true, 'edittype' => 'textarea' ))
                 ->addColumn(array('label'=>'Telp','index'=>'NOTELP', 'width'=>120, 'align'=>'right','editable' => true, 'editrules' => array('number'=>true)))
                 ->addColumn(array('label'=>'Contact Person','index'=>'CONTACTPERSON', 'width'=>180,'editable' => true))
@@ -62,8 +66,7 @@
                 ->renderGrid()
             }}
     </div>
-    
-    
+  
 </div>
     
 @endsection

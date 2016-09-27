@@ -18,6 +18,9 @@
             jQuery("#perusahaanGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
         } 
     }
+    function npwpDataInit(el){
+        $(el).mask("99.999.999.9-999.999");
+    }
 </script>
 
 <div class="box">
@@ -53,7 +56,7 @@
                 ->setGridEvent('gridComplete', 'gridCompleteEvent')
                 ->addColumn(array('key'=>true,'index'=>'TPERUSAHAAN_PK','hidden'=>true))
                 ->addColumn(array('label'=>'Nama Perusahaan','index'=>'NAMAPERUSAHAAN','width'=>200,'editable'=>true,'editrules'=>array('required'=>true)))
-                ->addColumn(array('label'=>'NPWP','index'=>'NPWP', 'width'=>150,'editable'=>true,'editrules'=>array('required'=>true)))
+                ->addColumn(array('label'=>'NPWP','index'=>'NPWP', 'width'=>150,'editable'=>true,'editrules'=>array('required'=>true), 'editoptions' => array('dataInit' => 'npwpDataInit')))
                 ->addColumn(array('label'=>'Telp','index'=>'NOTELP', 'width'=>120, 'align'=>'right','editable'=>true))
                 ->addColumn(array('label'=>'E-mail','index'=>'EMAIL', 'width'=>120,'editable'=>true))
                 ->addColumn(array('label'=>'CP','index'=>'CONTACTPERSON', 'width'=>120,'editable'=>true))
