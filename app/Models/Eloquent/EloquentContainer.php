@@ -35,8 +35,8 @@ class EloquentContainer {
         $data['TEUS'] = $data['SIZE'] / 20;
         $data['TJOBORDER_FK'] = $joborder->TJOBORDER_PK;
         $data['NoJob'] = $joborder->NOJOBORDER;
-        $data['NO_BC11'] = $joborder->NO_BC11;
-        $data['TGL_BC11'] = $joborder->TGL_BC11;
+        $data['NO_BC11'] = $joborder->TNO_BC11;
+        $data['TGL_BC11'] = $joborder->TTGL_BC11;
         $data['NO_PLP'] = $joborder->NO_PLP;
         $data['TGL_PLP'] = $joborder->TGL_PLP;
         $data['TCONSOLIDATOR_FK'] = $joborder->TCONSOLIDATOR_FK;
@@ -56,15 +56,22 @@ class EloquentContainer {
         $data['KD_TPS_ASAL'] = $joborder->KD_TPS_ASAL;
         $data['KD_TPS_TUJUAN'] = $joborder->GUDANG_TUJUAN;
         $data['CALL_SIGN'] = $joborder->CALLSIGN;
-        
+
         try
         {
   //        $this->Container->create($data);
           $this->Container->insertGetId($data);
+          
+          // UPDATE Weight & Meas Joborder
+          $sum_weight = $this->Container->select('WEIGHT')->where('TJOBORDER_FK', $joborder_id)->sum('WEIGHT');
+          $sum_meas = $this->Container->select('MEAS')->where('TJOBORDER_FK', $joborder_id)->sum('MEAS');         
+          \App\Models\Joborder::where('TJOBORDER_PK', $joborder_id)
+                  ->update(['MEASUREMENT' => $sum_meas, 'GROSSWEIGHT' => $sum_weight]);
+          
         }
         catch (Exception $e)
         {
-          return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+            return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
         }
 
         return json_encode(array('success' => true, 'message' => 'Container successfully saved!'));
@@ -94,6 +101,12 @@ class EloquentContainer {
       try
       {
         $Container->save();
+        
+        // UPDATE Weight & Meas Joborder
+        $sum_weight = $this->Container->select('WEIGHT')->where('TJOBORDER_FK', $joborder_id)->sum('WEIGHT');
+        $sum_meas = $this->Container->select('MEAS')->where('TJOBORDER_FK', $joborder_id)->sum('MEAS');         
+        \App\Models\Joborder::where('TJOBORDER_PK', $joborder_id)
+                ->update(['MEASUREMENT' => $sum_meas, 'GROSSWEIGHT' => $sum_weight]);
       }
       catch (Exception $e)
       {

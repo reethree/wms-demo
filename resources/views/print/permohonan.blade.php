@@ -57,7 +57,7 @@
                     <tr>
                         <td>Pkgs/Brutto</td>
                         <td> : </td>
-                        <td></td>
+                        <td>{{ $container['WEIGHT'].' Pkgs' }} / {{ $container['MEAS'].' Brutto' }}</td>
                     </tr>
                     <tr>
                         <td>NO./TGL BC11</td>

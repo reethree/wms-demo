@@ -46,6 +46,60 @@ class LclController extends Controller
         return view('import.lcl.index-register')->with($data);
     }
     
+    public function gateinIndex()
+    {
+        if ( !$this->access->can('show.lcl.getin.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "LCL Realisasi Masuk / Gate In";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Realisasi Masuk / Gate In'
+            ]
+        ];        
+        
+        return view('import.lcl.index-gatein')->with($data);
+    }
+    
+    public function strippingIndex()
+    {
+        if ( !$this->access->can('show.lcl.stripping.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "LCL Realisasi Stripping";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Realisasi Stripping'
+            ]
+        ];        
+        
+        return view('import.lcl.index-stripping')->with($data);
+    }
+
+    public function buangmtyIndex()
+    {
+        if ( !$this->access->can('show.lcl.buangmty.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "LCL Realisasi Buang MTY";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Realisasi Buang MTY'
+            ]
+        ];        
+        
+        return view('import.lcl.index-buangmty')->with($data);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -268,8 +322,8 @@ class LclController extends Controller
             $data = array();
             $data['TJOBORDER_FK'] = $joborder->TJOBORDER_PK;
             $data['NoJob'] = $joborder->NOJOBORDER;
-            $data['NO_BC11'] = $joborder->NO_BC11;
-            $data['TGL_BC11'] = $joborder->TGL_BC11;
+            $data['NO_BC11'] = $joborder->TNO_BC11;
+            $data['TGL_BC11'] = $joborder->TTGL_BC11;
             $data['NO_PLP'] = $joborder->NO_PLP;
             $data['TGL_PLP'] = $joborder->TGL_PLP;
             $data['TCONSOLIDATOR_FK'] = $joborder->TCONSOLIDATOR_FK;
@@ -294,7 +348,17 @@ class LclController extends Controller
                     ->update($data);
             
             if($updateContainer){
-                return back()->with('success', 'LCL Register has been updated.');
+                
+                //UPDATE MANIFEST
+                
+//                $updateManifest = '';
+//                
+//                if($updateManifest){
+//                    
+//                    return back()->with('success', 'LCL Register has been updated.');                   
+//                }
+                
+                return back()->with('success', 'LCL Register & Container has been updated, but manifest not updated.');
             }
             
             return back()->with('success', 'LCL Register has been updated, but container not updated.');

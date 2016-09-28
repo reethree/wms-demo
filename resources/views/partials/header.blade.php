@@ -51,12 +51,12 @@
                       <li class="dropdown-submenu">
                         <a class="submenu" href="#">Realisasi Planning <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="">Realisasi Masuk</a></li>
-                            <li><a href="">Realisasi Stripping</a></li>
-                            <li><a href="">Penomoran Tally Racking</a></li>
+                            <li><a href="{{ route('lcl-realisasi-gatein-index') }}">Realisasi Masuk</a></li>
+                            <li><a href="{{ route('lcl-realisasi-stripping-index') }}">Realisasi Stripping</a></li>
+                            <!--<li><a href="">Penomoran Tally Racking</a></li>-->
                             <li><a href="">Realisasi Manifest Racking</a></li>
-                            <li><a href="">Realisasi Buang MTY</a></li>
-                            <li><a href="">Update</a></li>
+                            <li><a href="{{ route('lcl-realisasi-buangmty-index') }}">Realisasi Buang MTY</a></li>
+                            <!--<li><a href="">Update</a></li>-->
                         </ul>
                       </li>
                       <li class="dropdown-submenu">
