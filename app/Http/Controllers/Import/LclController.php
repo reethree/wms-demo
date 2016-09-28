@@ -15,6 +15,7 @@ use App\Models\Vessel as DBVessel;
 use App\Models\Shippingline as DBShippingline;
 use App\Models\Lokasisandar as DBLokasisandar;
 use App\Models\Container as DBContainer;
+use App\Models\Eseal as DBEseal;
 
 class LclController extends Controller
 {
@@ -60,6 +61,8 @@ class LclController extends Controller
                 'title' => 'LCL Realisasi Masuk / Gate In'
             ]
         ];        
+        
+        $data['eseals'] = DBEseal::select('eseal_id as id','esealcode as code')->get();
         
         return view('import.lcl.index-gatein')->with($data);
     }

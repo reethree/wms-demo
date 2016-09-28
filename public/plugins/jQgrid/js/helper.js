@@ -546,6 +546,16 @@ $.fn.enableButtonGroup = function()
 	});
 };
 
+$.fn.enableFormGroup = function()
+{
+	this.find('input').each(function()
+	{
+            $(this).removeAttr('disabled');
+	});
+        
+        $(".select2").prop("disabled", false);
+};
+
 /**
  * Disabled a group of buttons within a container.
  *
@@ -557,6 +567,16 @@ $.fn.disabledButtonGroup = function()
 	{
 		$(this).attr('disabled','disabled');
 	});
+};
+
+$.fn.disabledFormGroup = function()
+{
+	this.find('input').each(function()
+	{
+            $(this).attr('disabled','disabled');
+	});
+        
+        $(".select2").prop("disabled", true);
 };
 
 /**
