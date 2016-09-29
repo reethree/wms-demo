@@ -186,22 +186,22 @@
         $('#id').val(rowid);
         populateFormFields(rowdata, '');
            
-        $("#TSHIPPER_FK").val(rowdata.TSHIPPER_FK).trigger("change")
-        $("#TCONSIGNEE_FK").val(rowdata.TCONSIGNEE_FK).trigger("change")
+        $("#TSHIPPER_FK").val(rowdata.TSHIPPER_FK).trigger("change");
+        $("#TCONSIGNEE_FK").val(rowdata.TCONSIGNEE_FK).trigger("change");
         if(rowdata.TNOTIFYPARTY_FK){
-            $("#TNOTIFYPARTY_FK").val(rowdata.TNOTIFYPARTY_FK).trigger("change")
+            $("#TNOTIFYPARTY_FK").val(rowdata.TNOTIFYPARTY_FK).trigger("change");
         }
-        $("#TPACKING_FK").val(rowdata.TPACKING_FK).trigger("change")
-        $("#DG_SURCHARGE").val(rowdata.DG_SURCHARGE).trigger("change")
-        $("#WEIGHT_SURCHARGE").val(rowdata.WEIGHT_SURCHARGE).trigger("change")
-        $("#VALIDASI").val(rowdata.VALIDASI).trigger("change")
+        $("#TPACKING_FK").val(rowdata.TPACKING_FK).trigger("change");
+        $("#DG_SURCHARGE").val(rowdata.DG_SURCHARGE).trigger("change");
+        $("#WEIGHT_SURCHARGE").val(rowdata.WEIGHT_SURCHARGE).trigger("change");
+        $("#VALIDASI").val(rowdata.VALIDASI).trigger("change");
         
-        $("#TGL_HBL").datepicker('setDate', rowdata.TGL_HBL)
-        $("#TGL_BC11").datepicker('setDate', rowdata.TGL_BC11)
-        $("#TGL_PLP").datepicker('setDate', rowdata.TGL_PLP)
+        $("#TGL_HBL").datepicker('setDate', rowdata.TGL_HBL);
+        $("#TGL_BC11").datepicker('setDate', rowdata.TGL_BC11);
+        $("#TGL_PLP").datepicker('setDate', rowdata.TGL_PLP);
         
-        $("#NO_BC11").val(rowdata.NO_BC11)
-        $("#NO_PLP").val(rowdata.NO_PLP)
+        $("#NO_BC11").val(rowdata.NO_BC11);
+        $("#NO_PLP").val(rowdata.NO_PLP);
         
 //        console.log(rowdata);
         $('#btn-toolbar').disabledButtonGroup();
