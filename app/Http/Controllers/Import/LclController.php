@@ -16,6 +16,7 @@ use App\Models\Shippingline as DBShippingline;
 use App\Models\Lokasisandar as DBLokasisandar;
 use App\Models\Container as DBContainer;
 use App\Models\Eseal as DBEseal;
+use App\Models\Manifest as DBManifest;
 
 class LclController extends Controller
 {
@@ -373,9 +374,29 @@ class LclController extends Controller
     public function gateinUpdate(Request $request, $id)
     {
         $data = $request->json()->all(); 
-        unset($data['_token']);
+        unset($data['TCONTAINER_PK'], $data['_token']);
         
-        return $data;
+        $update = DBContainer::where('TCONTAINER_PK', $id)
+            ->update($data);
+        
+        if($update){
+            
+            $dataManifest['tglmasuk'] = $data['TGLMASUK'];
+            $dataManifest['Jammasuk'] = $data['JAMMASUK'];  
+            $dataManifest['NOPOL_MASUK'] = $data['NOPOL']; 
+            
+            $updateManifest = DBManifest::where('TCONTAINER_FK', $id)
+                    ->update($dataManifest);
+            
+            if($updateManifest){
+                return json_encode(array('success' => true, 'message' => 'Gate IN successfully updated!'));
+            }
+            
+            return json_encode(array('success' => true, 'message' => 'Container successfully updated, but Manifest not updated!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+
     }
     
     /**

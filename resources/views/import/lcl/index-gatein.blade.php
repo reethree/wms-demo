@@ -42,6 +42,9 @@
             $('#TCONTAINER_PK').val(rowid);
             $('#NO_BC11').val(rowdata.NO_BC11);
             $('#TGL_BC11').val(rowdata.TGL_BC11);
+            $("#P_TGLKELUAR").datepicker('setDate', rowdata.P_TGLKELUAR);
+            $('#NO_SP2').val(rowdata.NO_SP2);
+            $("#TGL_SP2").datepicker('setDate', rowdata.TGL_SP2);
             $('#ESEALCODE').val(rowdata.ESEALCODE).trigger('change');
             
             if(rowdata.NO_BC11 && rowdata.NO_PLP) {
