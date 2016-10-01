@@ -542,7 +542,7 @@ $.fn.enableButtonGroup = function()
 {
 	this.find('button').each(function()
 	{
-		$(this).removeAttr('disabled');
+            $(this).removeAttr('disabled');
 	});
 };
 
@@ -550,10 +550,13 @@ $.fn.enableFormGroup = function()
 {
 	this.find('input').each(function()
 	{
-            $(this).removeAttr('disabled');
+            if($(this).attr('name') != 'working_hours'){
+                $(this).removeAttr('disabled');
+            }   
 	});
         
         $(".select2").prop("disabled", false);
+        $("textarea").removeAttr('disabled');
 };
 
 /**
@@ -565,7 +568,7 @@ $.fn.disabledButtonGroup = function()
 {
 	this.find('button').each(function()
 	{
-		$(this).attr('disabled','disabled');
+            $(this).attr('disabled','disabled');
 	});
 };
 
@@ -577,6 +580,7 @@ $.fn.disabledFormGroup = function()
 	});
         
         $(".select2").prop("disabled", true);
+        $("textarea").attr('disabled','disabled');
 };
 
 /**

@@ -171,6 +171,9 @@
                 }}
                 
                 <div id="btn-toolbar" class="section-header btn-toolbar" role="toolbar" style="margin: 10px 0;">
+                    <div id="btn-group-3" class="btn-group">
+                        <button class="btn btn-default" id="btn-refresh"><i class="fa fa-refresh"></i> Refresh</button>
+                    </div>
                     <div id="btn-group-1" class="btn-group">
                         <button class="btn btn-default" id="btn-edit"><i class="fa fa-edit"></i> Edit</button>
                         <button class="btn btn-default" id="btn-print"><i class="fa fa-print"></i> Cetak WO Lift Off</button>
@@ -178,10 +181,7 @@
                     <div id="btn-group-2" class="btn-group toolbar-block">
                         <button class="btn btn-default" id="btn-save"><i class="fa fa-save"></i> Save</button>
                         <button class="btn btn-default" id="btn-cancel"><i class="fa fa-close"></i> Cancel</button>
-                    </div>
-                    <div id="btn-group-3" class="btn-group">
-                        <button class="btn btn-default" id="btn-refresh"><i class="fa fa-refresh"></i> Refresh</button>
-                    </div>
+                    </div>                   
                 </div>
             </div>
             
