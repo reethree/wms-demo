@@ -29,7 +29,7 @@
     
     $(document).ready(function()
     {
-        $('#gatein-form').disabledFormGroup();
+        $('#stripping-form').disabledFormGroup();
         $('#btn-toolbar').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
@@ -37,23 +37,38 @@
             //Gets the selected row id.
             rowid = $('#lclStrippingGrid').jqGrid('getGridParam', 'selrow');
             rowdata = $('#lclStrippingGrid').getRowData(rowid);
-
+            console.log(rowdata);
             populateFormFields(rowdata, '');
             $('#TCONTAINER_PK').val(rowid);
-            $('#NO_BC11').val(rowdata.NO_BC11);
-            $('#TGL_BC11').val(rowdata.TGL_BC11);
-            $("#P_TGLKELUAR").datepicker('setDate', rowdata.P_TGLKELUAR);
-            $('#NO_SP2').val(rowdata.NO_SP2);
-            $("#TGL_SP2").datepicker('setDate', rowdata.TGL_SP2);
-            $('#ESEALCODE').val(rowdata.ESEALCODE).trigger('change');
+            if(rowdata.STARTSTRIPPING) {
+                var date_start = new Date(rowdata.STARTSTRIPPING);
+                var date = date_start.toString("yyyy-MM-dd");
+                var jam = date_start.toString("HH:mm");
+                $('#STARTSTRIPPING').datepicker('setDate', date);
+                $('#JAMSTARTSTRIPPING').val(jam);
+            }
+            if(rowdata.ENDSTRIPPING) {
+                var date_start = new Date(rowdata.ENDSTRIPPING);
+                var date = date_start.toString("yyyy-MM-dd");
+                var jam = date_start.toString("HH:mm");
+                $('#ENDSTRIPPING').datepicker('setDate', date);
+                $('#JAMENDSTRIPPING').val(jam);
+            }
+            $('#coordinator_stripping').val(rowdata.coordinator_stripping);
+            $('#mulai_tunda').val(rowdata.mulai_tunda);
+            $('#selesai_tunda').val(rowdata.selesai_tunda);
+            $('#operator_forklif').val(rowdata.operator_forklif);
+            $('#working_hours').val(rowdata.working_hours);
             
             if(rowdata.TGLMASUK && rowdata.JAMMASUK) {
                 $('#btn-group-2').enableButtonGroup();
-                $('#gatein-form').enableFormGroup();
-                $('#UIDMASUK').val('{{ Auth::getUser()->name }}');
+                $('#stripping-form').enableFormGroup();
+                $('#UIDSTRIPPING').val('{{ Auth::getUser()->name }}');
+                $('#TGLMASUK').attr('disabled','disabled');
+                $('#JAMMASUK').attr('disabled','disabled');
             }else{
                 $('#btn-group-2').disabledButtonGroup();
-                $('#gatein-form').disabledFormGroup();
+                $('#stripping-form').disabledFormGroup();
             }
 
         });
@@ -64,11 +79,11 @@
         
         $('#btn-save').click(function() {
             
-            var url = $('#gatein-form').attr('action')+'/edit/'+$('#TCONTAINER_PK').val();
+            var url = $('#stripping-form').attr('action')+'/edit/'+$('#TCONTAINER_PK').val();
 
             $.ajax({
                 type: 'POST',
-                data: JSON.stringify($('#gatein-form').formToObject('')),
+                data: JSON.stringify($('#stripping-form').formToObject('')),
                 dataType : 'json',
                 url: url,
                 error: function (jqXHR, textStatus, errorThrown)
@@ -100,12 +115,11 @@
         
         $('#btn-refresh').click(function() {
             $('#lclStrippingGrid').jqGrid().trigger("reloadGrid");
-            $('#gatein-form').disabledFormGroup();
+            $('#stripping-form').disabledFormGroup();
             $('#btn-toolbar').disabledButtonGroup();
             $('#btn-group-3').enableButtonGroup();
             
-            $('#gatein-form')[0].reset();
-            $('.select2').val(null).trigger("change");
+            $('#stripping-form')[0].reset();
             $('#TCONTAINER_FK').val("");
         });
         
@@ -154,11 +168,17 @@
                     ->addColumn(array('label'=>'No. Seal','index'=>'NO_SEAL', 'width'=>120,'align'=>'right'))
                     ->addColumn(array('label'=>'Tgl. Masuk','index'=>'TGLMASUK','width'=>120))
                     ->addColumn(array('label'=>'Jam Masuk','index'=>'JAMMASUK','width'=>120))
-                    ->addColumn(array('label'=>'Petugas','index'=>'UIDMASUK','hidden'=>true))
-                    ->addColumn(array('label'=>'No. POL','index'=>'NOPOL','hidden'=>true))
-                    ->addColumn(array('label'=>'No. SP2','index'=>'NO_SP2','width'=>120,'hidden'=>true))
-                    ->addColumn(array('label'=>'Tgl. SP2','index'=>'TGL_SP2','hidden'=>true))
+                    ->addColumn(array('label'=>'Coordinator','index'=>'coordinator_stripping','hidden'=>true))           
+                    ->addColumn(array('label'=>'Petugas','index'=>'UIDSTRIPPING','hidden'=>true))
+                    ->addColumn(array('label'=>'Jumlah B/L','index'=>'jumlah_bl','hidden'=>true))
+                    ->addColumn(array('label'=>'Mulai Stripping','index'=>'STARTSTRIPPING','hidden'=>true))
+                    ->addColumn(array('label'=>'Selesai Stripping','index'=>'ENDSTRIPPING','hidden'=>true))
                     ->addColumn(array('label'=>'MEAS','index'=>'MEAS','hidden'=>true))
+                    ->addColumn(array('label'=>'Mulai Tunda','index'=>'mulai_tunda','hidden'=>true))
+                    ->addColumn(array('label'=>'Selesai Tunda','index'=>'selesai_tunda','hidden'=>true))
+                    ->addColumn(array('label'=>'Keterangan','index'=>'keterangan','hidden'=>true))
+                    ->addColumn(array('label'=>'Working Hours','index'=>'working_hours','hidden'=>true))
+                    ->addColumn(array('label'=>'Operator Forklif','index'=>'operator_forklif','hidden'=>true))
         //            ->addColumn(array('label'=>'Layout','index'=>'layout','width'=>80,'align'=>'center','hidden'=>true))
         //            ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
                     ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150))
@@ -183,7 +203,7 @@
             </div>
             
         </div>
-        <form class="form-horizontal" id="gatein-form" action="{{ route('lcl-realisasi-gatein-index') }}" method="POST">
+        <form class="form-horizontal" id="stripping-form" action="{{ route('lcl-realisasi-stripping-index') }}" method="POST">
             <div class="row">
                 <div class="col-md-6">
                     
@@ -250,7 +270,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Petugas</label>
                         <div class="col-sm-8">
-                            <input type="text" id="UIDMASUK" name="UIDMASUK" class="form-control" required>
+                            <input type="text" id="UIDSTRIPPING" name="UIDSTRIPPING" class="form-control" required readonly>
                         </div>
                     </div>
                     <div class="form-group">
@@ -338,7 +358,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Keterangan</label>
                         <div class="col-sm-8">
-                           <textarea id="JAMMASUK" name="keterangan" class="form-control" rows="3"></textarea>
+                           <textarea id="keterangan" name="keterangan" class="form-control" rows="3"></textarea>
                         </div>
                     </div>
                     <div class="bootstrap-timepicker">
@@ -381,6 +401,7 @@
 <script src="{{ asset("/bower_components/AdminLTE/plugins/datepicker/bootstrap-datepicker.js") }}"></script>
 <script src="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.js") }}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
+<script src="{{ asset("/plugins/jQgrid/js/date.js") }}" type="text/javascript"></script>
 <script type="text/javascript">
     $('.select2').select2();
     $('.datepicker').datepicker({
@@ -392,6 +413,7 @@
         showMeridian: false,
         showInputs: false,
         showSeconds: false,
+        defaultTime: false,
         minuteStep: 1,
         secondStep: 1
     });

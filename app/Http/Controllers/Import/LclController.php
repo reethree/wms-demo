@@ -399,6 +399,44 @@ class LclController extends Controller
 
     }
     
+    public function strippingUpdate(Request $request, $id)
+    {
+        $data = $request->json()->all(); 
+        $dataupdate = array();
+//        unset($data['TCONTAINER_PK'], $data['working_hours'], $data['_token']);
+        
+        $dataupdate['STARTSTRIPPING'] = $data['STARTSTRIPPING'].' '.$data['JAMSTARTSTRIPPING'];
+        $dataupdate['ENDSTRIPPING'] = $data['ENDSTRIPPING'].' '.$data['JAMENDSTRIPPING'];
+        $dataupdate['UIDSTRIPPING'] = $data['UIDSTRIPPING'];
+        $dataupdate['coordinator_stripping'] = $data['coordinator_stripping'];
+        $dataupdate['keterangan'] = $data['keterangan'];
+        $dataupdate['mulai_tunda'] = $data['mulai_tunda'];
+        $dataupdate['selesai_tunda'] = $data['selesai_tunda'];
+        $dataupdate['operator_forklif'] = $data['operator_forklif'];
+        
+        // Calculate Working Hours
+        $date_start_stripping = strtotime($dataupdate['STARTSTRIPPING']);
+        $date_end_stripping = strtotime($dataupdate['ENDSTRIPPING']);
+        $stripping = abs($date_start_stripping - $date_end_stripping);
+        
+        $date_start_tunda = strtotime($dataupdate['mulai_tunda']);
+        $date_end_tunda = strtotime($dataupdate['selesai_tunda']);
+        $tunda = abs($date_start_tunda - $date_end_tunda);
+        
+        $working_hours = date('H:i', abs($stripping - $tunda));
+        $dataupdate['working_hours'] = $working_hours;
+        
+        $update = DBContainer::where('TCONTAINER_PK', $id)
+            ->update($dataupdate);
+        
+        if($update){
+            return json_encode(array('success' => true, 'message' => 'Stripping successfully updated!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+        
+    }
+    
     /**
      * Remove the specified resource from storage.
      *

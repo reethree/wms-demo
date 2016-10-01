@@ -24,7 +24,7 @@
     
     function onSelectRowEvent()
     {
-        $('#btn-group-1').enableButtonGroup();
+        $('#btn-group-1, #btn-group-4').enableButtonGroup();
     }
     
     $(document).ready(function()
@@ -176,12 +176,14 @@
                     </div>
                     <div id="btn-group-1" class="btn-group">
                         <button class="btn btn-default" id="btn-edit"><i class="fa fa-edit"></i> Edit</button>
-                        <button class="btn btn-default" id="btn-print"><i class="fa fa-print"></i> Cetak WO Lift Off</button>
                     </div>
                     <div id="btn-group-2" class="btn-group toolbar-block">
                         <button class="btn btn-default" id="btn-save"><i class="fa fa-save"></i> Save</button>
                         <button class="btn btn-default" id="btn-cancel"><i class="fa fa-close"></i> Cancel</button>
-                    </div>                   
+                    </div>  
+                    <div id="btn-group-4" class="btn-group">
+                        <button class="btn btn-default" id="btn-print"><i class="fa fa-print"></i> Cetak WO Lift Off</button>
+                    </div>
                 </div>
             </div>
             
