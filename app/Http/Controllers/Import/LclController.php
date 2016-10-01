@@ -437,6 +437,21 @@ class LclController extends Controller
         
     }
     
+    public function buangmtyUpdate(Request $request, $id)
+    {
+        $data = $request->json()->all(); 
+        unset($data['TCONTAINER_PK'], $data['_token']);
+        
+        $update = DBContainer::where('TCONTAINER_PK', $id)
+            ->update($data);
+        
+        if($update){
+            return json_encode(array('success' => true, 'message' => 'Stripping successfully updated!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+    
     /**
      * Remove the specified resource from storage.
      *

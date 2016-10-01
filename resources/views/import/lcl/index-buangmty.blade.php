@@ -25,11 +25,12 @@
     function onSelectRowEvent()
     {
         $('#btn-group-1').enableButtonGroup();
+        $('#btn-group-4').enableButtonGroup();
     }
     
     $(document).ready(function()
     {
-        $('#gatein-form').disabledFormGroup();
+        $('#buangmty-form').disabledFormGroup();
         $('#btn-toolbar').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
@@ -37,38 +38,37 @@
             //Gets the selected row id.
             rowid = $('#lclBuangmtyGrid').jqGrid('getGridParam', 'selrow');
             rowdata = $('#lclBuangmtyGrid').getRowData(rowid);
-
+            console.log(rowdata);
             populateFormFields(rowdata, '');
             $('#TCONTAINER_PK').val(rowid);
-            $('#NO_BC11').val(rowdata.NO_BC11);
-            $('#TGL_BC11').val(rowdata.TGL_BC11);
-            $("#P_TGLKELUAR").datepicker('setDate', rowdata.P_TGLKELUAR);
-            $('#NO_SP2').val(rowdata.NO_SP2);
-            $("#TGL_SP2").datepicker('setDate', rowdata.TGL_SP2);
-            $('#ESEALCODE').val(rowdata.ESEALCODE).trigger('change');
-            
-            if(rowdata.TGLMASUK && rowdata.JAMMASUK) {
+            $('#NOPOL_MTY').val(rowdata.NOPOL_MTY);
+            $('#TUJUAN_MTY').val(rowdata.TUJUAN_MTY);
+            if(rowdata.STARTSTRIPPING && rowdata.STARTSTRIPPING) {
                 $('#btn-group-2').enableButtonGroup();
-                $('#gatein-form').enableFormGroup();
-                $('#UIDMASUK').val('{{ Auth::getUser()->name }}');
+                $('#buangmty-form').enableFormGroup();
+                $('#UIDMTY').val('{{ Auth::getUser()->name }}');
             }else{
                 $('#btn-group-2').disabledButtonGroup();
-                $('#gatein-form').disabledFormGroup();
+                $('#buangmty-form').disabledFormGroup();
             }
 
         });
         
-        $('#btn-print').click(function() {
+        $('#btn-print-bon').click(function() {
+
+        });
+        
+        $('#btn-print-cir').click(function() {
 
         });
         
         $('#btn-save').click(function() {
             
-            var url = $('#gatein-form').attr('action')+'/edit/'+$('#TCONTAINER_PK').val();
+            var url = $('#buangmty-form').attr('action')+'/edit/'+$('#TCONTAINER_PK').val();
 
             $.ajax({
                 type: 'POST',
-                data: JSON.stringify($('#gatein-form').formToObject('')),
+                data: JSON.stringify($('#buangmty-form').formToObject('')),
                 dataType : 'json',
                 url: url,
                 error: function (jqXHR, textStatus, errorThrown)
@@ -100,13 +100,13 @@
         
         $('#btn-refresh').click(function() {
             $('#lclBuangmtyGrid').jqGrid().trigger("reloadGrid");
-            $('#gatein-form').disabledFormGroup();
+            $('#buangmty-form').disabledFormGroup();
             $('#btn-toolbar').disabledButtonGroup();
             $('#btn-group-3').enableButtonGroup();
             
-            $('#gatein-form')[0].reset();
+            $('#buangmty-form')[0].reset();
             $('.select2').val(null).trigger("change");
-            $('#TCONTAINER_FK').val("");
+            $('#TCONTAINER_PK').val("");
         });
         
     });
@@ -150,15 +150,15 @@
                     ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','width'=>120))
                     ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','width'=>120,'hidden'=>true))
                     ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>80,'align'=>'center'))
-        //            ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>80,'align'=>'center'))
                     ->addColumn(array('label'=>'No. Seal','index'=>'NO_SEAL', 'width'=>120,'align'=>'right'))
                     ->addColumn(array('label'=>'Tgl. Masuk','index'=>'TGLMASUK','width'=>120))
                     ->addColumn(array('label'=>'Jam Masuk','index'=>'JAMMASUK','width'=>120))
-                    ->addColumn(array('label'=>'Petugas','index'=>'UIDMASUK','hidden'=>true))
-                    ->addColumn(array('label'=>'No. POL','index'=>'NOPOL','hidden'=>true))
-                    ->addColumn(array('label'=>'No. SP2','index'=>'NO_SP2','width'=>120,'hidden'=>true))
-                    ->addColumn(array('label'=>'Tgl. SP2','index'=>'TGL_SP2','hidden'=>true))
-                    ->addColumn(array('label'=>'MEAS','index'=>'MEAS','hidden'=>true))
+                    ->addColumn(array('label'=>'Start Stripping','index'=>'STARTSTRIPPING','hidden'=>true))
+                    ->addColumn(array('label'=>'End Stripping','index'=>'ENDSTRIPPING','hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. Buang MTY','index'=>'TGLBUANGMTY','hidden'=>true))
+                    ->addColumn(array('label'=>'Jam Buang MTY','index'=>'JAMBUANGMTY','hidden'=>true))
+                    ->addColumn(array('label'=>'No. POL MTY','index'=>'NOPOL_MTY','hidden'=>true))
+                    ->addColumn(array('label'=>'Tujuan MTY','index'=>'TUJUAN_MTY','hidden'=>true))
         //            ->addColumn(array('label'=>'Layout','index'=>'layout','width'=>80,'align'=>'center','hidden'=>true))
         //            ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
                     ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150))
@@ -180,8 +180,8 @@
                         <button class="btn btn-default" id="btn-cancel"><i class="fa fa-close"></i> Cancel</button>
                     </div>              
                     <div id="btn-group-4" class="btn-group">
-                        <button class="btn btn-default" id="btn-upload"><i class="fa fa-print"></i> Cetak BON Muat</button>
-                        <button class="btn btn-default" id="btn-upload"><i class="fa fa-print"></i> Cetak Surat Jalan (CIR)</button>
+                        <button class="btn btn-default" id="btn-print-bon"><i class="fa fa-print"></i> Cetak BON Muat</button>
+                        <button class="btn btn-default" id="btn-print-cir"><i class="fa fa-print"></i> Cetak Surat Jalan (CIR)</button>
                     </div>
                     <div id="btn-group-5" class="btn-group">
                         <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
@@ -190,7 +190,7 @@
             </div>
             
         </div>
-        <form class="form-horizontal" id="gatein-form" action="{{ route('lcl-realisasi-gatein-index') }}" method="POST">
+        <form class="form-horizontal" id="buangmty-form" action="{{ route('lcl-realisasi-buangmty-index') }}" method="POST">
             <div class="row">
                 <div class="col-md-6">
                     
@@ -259,7 +259,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Lokasi</label>
                         <div class="col-sm-8">
-                            <input type="text" id="LOKASI" name="LOKASI" class="form-control" required value="PRIMANATA">
+                            <input type="text" id="LOKASI_MTY" name="LOKASI_MTY" class="form-control" required value="PRIMANATA">
                         </div>
                     </div>
                     <div class="form-group">
@@ -271,7 +271,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Tujuan</label>
                         <div class="col-sm-8">
-                            <input type="text" id="TUJUAN" name="TUJUAN" class="form-control" required>
+                            <input type="text" id="TUJUAN_MTY" name="TUJUAN_MTY" class="form-control" required>
                         </div>
                     </div>
                 </div>
@@ -306,6 +306,7 @@
         showMeridian: false,
         showInputs: false,
         showSeconds: true,
+        defaultTime: false,
         minuteStep: 1,
         secondStep: 1
     });

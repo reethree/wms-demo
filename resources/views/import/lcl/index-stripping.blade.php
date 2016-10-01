@@ -120,7 +120,7 @@
             $('#btn-group-3').enableButtonGroup();
             
             $('#stripping-form')[0].reset();
-            $('#TCONTAINER_FK').val("");
+            $('#TCONTAINER_PK').val("");
         });
         
     });

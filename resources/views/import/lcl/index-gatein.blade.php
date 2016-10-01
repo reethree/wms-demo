@@ -106,7 +106,7 @@
             
             $('#gatein-form')[0].reset();
             $('.select2').val(null).trigger("change");
-            $('#TCONTAINER_FK').val("");
+            $('#TCONTAINER_PK').val("");
         });
         
     });
