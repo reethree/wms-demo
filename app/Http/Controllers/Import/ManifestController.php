@@ -224,4 +224,17 @@ class ManifestController extends Controller
  
       return json_encode(array('success' => true, 'message' => 'Manifest successfully deleted!'));
     }
+    
+    public function approve($id)
+    {
+        
+        $update = DBManifest::where('TMANIFEST_PK', $id)
+            ->update(array('VALIDASI'=>'Y'));
+        
+        if($update){
+            return json_encode(array('success' => true, 'message' => 'Manifest successfully saved!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
 }

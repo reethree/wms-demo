@@ -30,4 +30,8 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-manifest-delete',
         'uses' => 'ManifestController@destroy'
     ]);
+    Route::get('/manifest/approve/{id}', [
+        'as' => 'lcl-manifest-approve',
+        'uses' => 'ManifestController@approve'
+    ]);
 });

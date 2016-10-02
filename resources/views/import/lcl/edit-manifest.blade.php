@@ -121,15 +121,46 @@
     function gridCompleteEvent()
     {
         var ids = jQuery("#lclManifestGrid").jqGrid('getDataIDs'),
-            edt = '',
-            del = ''; 
+            apv = ''; 
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
             
-            edt = '<a href="{{ route("lcl-manifest-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
-            del = '<a href="{{ route("lcl-manifest-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
-            jQuery("#lclManifestGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
+            rowdata = $('#lclManifestGrid').getRowData(cl);
+            if(rowdata.VALIDASI == 'N') {
+                apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-manifest-btn" data-id="'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){ approveManifest('+cl+'); }else{return false;};"><i class="fa fa-check"></i> Approve</button>';
+            } else {
+                apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-manifest-btn" data-id="'+cl+'" disabled><i class="fa fa-check"></i> Approve</button>';
+            }
+            jQuery("#lclManifestGrid").jqGrid('setRowData',ids[i],{action:apv}); 
         } 
+    }
+    
+    function approveManifest($id)
+    {
+        $.ajax({
+            type: 'GET',
+            dataType : 'json',
+            url: $('#manifest-form').attr('action') + '/approve/'+$id,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+
+            },
+            success:function(json)
+            {
+                if(json.success) {
+                    $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                } else {
+                    $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                }
+
+                //Triggers the "Refresh" button funcionality.
+                $('#btn-refresh').click();
+            }
+        });
     }
     
     function onSelectRowEvent()
@@ -146,21 +177,20 @@
       //Binds onClick event to the "Refresh" button.
       $('#btn-refresh').click(function()
       {
-            //When toolbar is enabled, this method should be use to clean the toolbar and refresh the grid.
-//            $('#lclManifestGrid')[0].clearToolbar();
             $('#lclManifestGrid').jqGrid().trigger("reloadGrid");
-            //Disables all buttons within the toolbar
-            $('#btn-toolbar').disabledButtonGroup();
-            //Enables the first button group (new, refresh and export)
-            $('#btn-group-1').enableButtonGroup();
-            $('#btn-group-3').enableButtonGroup();
+            
             $('#manifest-form')[0].reset();
             $('.select2').val(null).trigger("change");
             $('#TNOTIFYPARTY_FK').val('Same of Consignee').trigger("change");
             $('#DG_SURCHARGE').val('N').trigger("change");
             $('#WEIGHT_SURCHARGE').val('N').trigger("change");
-            $('#VALIDASI').val('N').trigger("change");
+//            $('#VALIDASI').val('N').trigger("change");
             $('#id').val("");
+            
+            //Disables all buttons within the toolbar
+            $('#btn-toolbar').disabledButtonGroup();
+            $('#btn-group-3').enableButtonGroup();
+            $('#btn-group-1').enableButtonGroup();
       });
 
 //      //Binds onClick event to the "xls" button.
@@ -194,7 +224,7 @@
         $("#TPACKING_FK").val(rowdata.TPACKING_FK).trigger("change");
         $("#DG_SURCHARGE").val(rowdata.DG_SURCHARGE).trigger("change");
         $("#WEIGHT_SURCHARGE").val(rowdata.WEIGHT_SURCHARGE).trigger("change");
-        $("#VALIDASI").val(rowdata.VALIDASI).trigger("change");
+//        $("#VALIDASI").val(rowdata.VALIDASI).trigger("change");
         
         $("#TGL_HBL").datepicker('setDate', rowdata.TGL_HBL);
         $("#TGL_BC11").datepicker('setDate', rowdata.TGL_BC11);
@@ -320,7 +350,6 @@
                         ->setFilterToolbarOptions(array('autosearch'=>true))
                         ->setGridEvent('gridComplete', 'gridCompleteEvent')
                         ->setGridEvent('onSelectRow', 'onSelectRowEvent')
-        //                    ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                         ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
                         ->addColumn(array('label'=>'Status','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
                         ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
@@ -328,7 +357,7 @@
                         ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))
                         ->addColumn(array('label'=>'Notify Party','index'=>'NOTIFYPARTY','width'=>160))
                         ->addColumn(array('label'=>'Qty','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))
-                        ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>80))
+                        ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>120))
                         ->addColumn(array('label'=>'Kode Kemas','index'=>'KODE_KEMAS', 'width'=>100,'align'=>'center'))
                         ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150,'hidden'=>true))
                         ->addColumn(array('label'=>'No.HBL','index'=>'NOHBL', 'width'=>150,'hidden'=>true))
@@ -347,11 +376,11 @@
                         ->addColumn(array('label'=>'No.PLP','index'=>'NO_PLP', 'width'=>150,'hidden'=>true))                
                         ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>150,'hidden'=>true))                
                         ->addColumn(array('label'=>'Surcharge (DG)','index'=>'DG_SURCHARGE', 'width'=>150,'hidden'=>true))
-                        ->addColumn(array('label'=>'Surcharge (Weight)','index'=>'WEIGHT_SURCHARGE', 'width'=>150,'hidden'=>true))
-                        ->addColumn(array('label'=>'Validasi','index'=>'VALIDASI', 'width'=>150,'hidden'=>true))                        
+                        ->addColumn(array('label'=>'Surcharge (Weight)','index'=>'WEIGHT_SURCHARGE', 'width'=>150,'hidden'=>true))                      
                         ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
                         ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
                         ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
+                        ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                         ->renderGrid()
                     }}
                     
@@ -503,27 +532,27 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Surcharge(DG)</label>
+                            <label class="col-sm-3 control-label">Surcharge(DG)</label>
                             <div class="col-sm-2">
                                 <select class="form-control select2" id="DG_SURCHARGE" name="DG_SURCHARGE" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                     <option value="N">N</option>
                                     <option value="Y">Y</option>
                                 </select>
                             </div>
-                            <label class="col-sm-2 control-label">(Weight)</label>
+                            <label class="col-sm-4 control-label">Surcharge(Weight)</label>
                             <div class="col-sm-2">
                                 <select class="form-control select2" id="WEIGHT_SURCHARGE" name="WEIGHT_SURCHARGE" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                     <option value="N">N</option>
                                     <option value="Y">Y</option>
                                 </select>
                             </div>
-                            <label class="col-sm-2 control-label">Validasi</label>
+<!--                            <label class="col-sm-2 control-label">Validasi</label>
                             <div class="col-sm-2">
                                 <select class="form-control select2" id="VALIDASI" name="VALIDASI" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                     <option value="N">N</option>
                                     <option value="Y">Y</option>
                                 </select>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -550,6 +579,10 @@
         autoclose: true,
         todayHighlight: true,
         format: 'yyyy-mm-dd' 
+    });
+    $('.approve-manifest-btn').on('click', function() {
+        console.log('ok');
+        console.log($(this).data('id'));
     });
 </script>
 

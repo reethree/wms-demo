@@ -133,10 +133,10 @@ class LclController extends Controller
             ]
         ]; 
         
-        $spk_last_id = DBJoborder::select('TJOBORDER_PK as id')->orderBy('TJOBORDER_PK', 'DESC')->first();       
-        $regID = str_pad(intval((isset($spk_last_id->id) ? $spk_last_id->id : 0)+1), 4, '0', STR_PAD_LEFT);
-        
-        $data['spk_number'] = 'PNJP'.$regID.'/'.date('y');
+//        $spk_last_id = DBJoborder::select('TJOBORDER_PK as id')->orderBy('TJOBORDER_PK', 'DESC')->first();       
+//        $regID = str_pad(intval((isset($spk_last_id->id) ? $spk_last_id->id : 0)+1), 4, '0', STR_PAD_LEFT);
+//        
+//        $data['spk_number'] = 'PNJP'.$regID.'/'.date('y');
         $data['consolidators'] = DBConsolidator::select('TCONSOLIDATOR_PK as id','NAMACONSOLIDATOR as name')->get();
         $data['countries'] = DBNegara::select('TNEGARA_PK as id','NAMANEGARA as name')->get();
         $data['pelabuhans'] = DBPelabuhan::select('TPELABUHAN_PK as id','NAMAPELABUHAN as name','KODEPELABUHAN as code')->get();
@@ -167,7 +167,7 @@ class LclController extends Controller
         
         $validator = \Validator::make($request->all(), [
             'NOJOBORDER' => 'required|unique:tjoborder',
-            'NOMBL' => 'required',
+            'NOMBL' => 'required|unique:tjoborder',
             'TGL_MASTER_BL' => 'required',
             'TCONSOLIDATOR_FK' => 'required',
             'PARTY' => 'required',
