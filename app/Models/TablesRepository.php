@@ -25,6 +25,32 @@ class TablesRepository extends EloquentRepositoryAbstract {
                         ->where('TGLENTRY', '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
                         ->where('TGLENTRY', '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
                 $Columns = array('*');
+            }elseif(isset($request['module'])){
+                switch ($request['module']) {
+                    case 'gatein':
+                        $Model = \DB::table('tcontainer')
+                            ->whereNotNull('NO_BC11')
+                            ->whereNotNull('TGL_BC11')
+                            ->whereNotNull('NO_PLP')
+                            ->whereNotNull('TGL_PLP');
+                        $Columns = array('*');
+                        break;
+                    case 'stripping':
+                        $Model = \DB::table('tcontainer')
+                            ->whereNotNull('TGLMASUK')
+                            ->whereNotNull('JAMMASUK');
+                        $Columns = array('*');
+                        break;
+                    case 'buangmty':
+                        $Model = \DB::table('tcontainer')
+                            ->whereNotNull('TGLSTRIPPING')
+                            ->whereNotNull('JAMSTRIPPING');
+                        $Columns = array('*');
+                        break;
+                    
+                    default:
+                        $Columns = array('*');
+                }
             }else{
                 $Columns = array('*');
             }

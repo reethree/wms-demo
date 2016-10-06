@@ -59,6 +59,7 @@
             $('#selesai_tunda').val(rowdata.selesai_tunda);
             $('#operator_forklif').val(rowdata.operator_forklif);
             $('#working_hours').val(rowdata.working_hours);
+            $('#jumlah_bl').val(rowdata.jumlah_bl);
             
             if(rowdata.TGLMASUK && rowdata.JAMMASUK) {
                 $('#btn-group-2').enableButtonGroup();
@@ -140,7 +141,7 @@
                 {{
                     GridRender::setGridId("lclStrippingGrid")
                     ->enableFilterToolbar()
-                    ->setGridOption('url', URL::to('/lcl/register/grid-data'))
+                    ->setGridOption('url', URL::to('/lcl/register/grid-data?module=stripping'))
                     ->setGridOption('rowNum', 20)
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TCONTAINER_PK')

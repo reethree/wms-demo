@@ -103,7 +103,79 @@ class LclController extends Controller
         
         return view('import.lcl.index-buangmty')->with($data);
     }
-
+    
+    public function behandleIndex()
+    {
+        if ( !$this->access->can('show.lcl.behandle.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "LCL Delivery Behandle";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Delivery Behandle'
+            ]
+        ];        
+        
+        return view('import.lcl.index-behandle')->with($data);
+    }
+    
+    public function fiatmuatIndex()
+    {
+        if ( !$this->access->can('show.lcl.fiatmuat.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "LCL Delivery Fiat Muat";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Delivery Fiat Muat'
+            ]
+        ];        
+        
+        return view('import.lcl.index-fiatmuat')->with($data);
+    }
+    
+    public function suratjalanIndex()
+    {
+        if ( !$this->access->can('show.lcl.suratjalan.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "LCL Delivery Surat Jalan";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Delivery Surat Jalan'
+            ]
+        ];        
+        
+        return view('import.lcl.index-suratjalan')->with($data);
+    }
+    
+    public function releaseIndex()
+    {
+        if ( !$this->access->can('show.lcl.release.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "LCL Delivery Release";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Delivery Release'
+            ]
+        ];        
+        
+        return view('import.lcl.index-release')->with($data);
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -133,10 +205,10 @@ class LclController extends Controller
             ]
         ]; 
         
-//        $spk_last_id = DBJoborder::select('TJOBORDER_PK as id')->orderBy('TJOBORDER_PK', 'DESC')->first();       
-//        $regID = str_pad(intval((isset($spk_last_id->id) ? $spk_last_id->id : 0)+1), 4, '0', STR_PAD_LEFT);
-//        
-//        $data['spk_number'] = 'PNJP'.$regID.'/'.date('y');
+        $spk_last_id = DBJoborder::select('TJOBORDER_PK as id')->orderBy('TJOBORDER_PK', 'DESC')->first();       
+        $regID = str_pad(intval((isset($spk_last_id->id) ? $spk_last_id->id : 0)+1), 4, '0', STR_PAD_LEFT);
+        
+        $data['spk_number'] = 'PNJP'.$regID.'/'.date('y');
         $data['consolidators'] = DBConsolidator::select('TCONSOLIDATOR_PK as id','NAMACONSOLIDATOR as name')->get();
         $data['countries'] = DBNegara::select('TNEGARA_PK as id','NAMANEGARA as name')->get();
         $data['pelabuhans'] = DBPelabuhan::select('TPELABUHAN_PK as id','NAMAPELABUHAN as name','KODEPELABUHAN as code')->get();
@@ -322,7 +394,7 @@ class LclController extends Controller
         if($update){
             
             //UPDATE CONTAINER
-            $joborder = \App\Models\Joborder::findOrFail($id);
+            $joborder = DBJoborder::findOrFail($id);
             $data = array();
             $data['TJOBORDER_FK'] = $joborder->TJOBORDER_PK;
             $data['NoJob'] = $joborder->NOJOBORDER;
@@ -354,13 +426,19 @@ class LclController extends Controller
             if($updateContainer){
                 
                 //UPDATE MANIFEST
+                $data = array();
+                $data['NO_BC11'] = $joborder->TNO_BC11;
+                $data['TGL_BC11'] = $joborder->TTGL_BC11;
+                $data['NO_PLP'] = $joborder->TNO_PLP;
+                $data['TGL_PLP'] = $joborder->TTGL_PLP;
                 
-//                $updateManifest = '';
-//                
-//                if($updateManifest){
-//                    
-//                    return back()->with('success', 'LCL Register has been updated.');                   
-//                }
+                $updateManifest = DBManifest::where('TJOBORDER_FK', $id)
+                    ->update($data);
+               
+                if($updateManifest){
+                    
+                    return back()->with('success', 'LCL Register has been updated.');                   
+                }
                 
                 return back()->with('success', 'LCL Register & Container has been updated, but manifest not updated.');
             }
@@ -407,6 +485,8 @@ class LclController extends Controller
         
         $dataupdate['STARTSTRIPPING'] = $data['STARTSTRIPPING'].' '.$data['JAMSTARTSTRIPPING'];
         $dataupdate['ENDSTRIPPING'] = $data['ENDSTRIPPING'].' '.$data['JAMENDSTRIPPING'];
+        $dataupdate['TGLSTRIPPING'] = $data['ENDSTRIPPING'];
+        $dataupdate['JAMSTRIPPING'] = $data['JAMENDSTRIPPING'];
         $dataupdate['UIDSTRIPPING'] = $data['UIDSTRIPPING'];
         $dataupdate['coordinator_stripping'] = $data['coordinator_stripping'];
         $dataupdate['keterangan'] = $data['keterangan'];

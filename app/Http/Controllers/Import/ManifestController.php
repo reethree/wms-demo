@@ -57,18 +57,18 @@ class ManifestController extends Controller
     {
         $data = $request->json()->all(); 
         unset($data['id'], $data['_token']);
-
-        $num = 0; 
-        $manifestID = DBManifest::select('NOTALLY')->where('TCONTAINER_FK',$data['TCONTAINER_FK'])->orderBy('TMANIFEST_PK', 'DESC')->first();
-        if(count($manifestID) > 0){
-            $tally = explode('.', $manifestID->NOTALLY);
-            $num = intval($tally[1]);    
-        }
-        $regID = str_pad(intval((isset($num) ? $num : 0)+1), 3, '0', STR_PAD_LEFT);
         
         $container = DBContainer::find($data['TCONTAINER_FK']);  
         $packing = DBPacking::find($data['TPACKING_FK']);
         
+//        $num = 0; 
+        $manifestID = DBManifest::select('NOTALLY')->where('TJOBORDER_FK',$container->TJOBORDER_FK)->count();
+//        if(count($manifestID) > 0){
+//            $tally = explode('.', $manifestID->NOTALLY);
+//            $num = intval($tally[1]);    
+//        }
+        $regID = str_pad(intval(($manifestID > 0 ? $manifestID : 0)+1), 3, '0', STR_PAD_LEFT);
+ 
         $data['NOTALLY'] = $container->NoJob.'.'.$regID; 
         $data['TJOBORDER_FK'] = $container->TJOBORDER_FK;
         $data['KODE_KEMAS'] = $packing->KODEPACKING;
@@ -93,8 +93,13 @@ class ManifestController extends Controller
         $data['NOMBL'] = $container->NOMBL;  
         $data['TGL_MASTER_BL'] = $container->TGL_MASTER_BL;
         $data['LOKASI_GUDANG'] = $container->LOKASI_GUDANG;
+        $data['NO_BC11'] = $container->NO_BC11;
+        $data['TGL_BC11'] = $container->TGL_BC11;
+        $data['NO_PLP'] = $container->NO_PLP;
+        $data['TGL_PLP'] = $container->TGL_PLP;
         $data['SHIPPER'] = DBPerusahaan::getNameById($data['TSHIPPER_FK']);
         $data['CONSIGNEE'] = DBPerusahaan::getNameById($data['TCONSIGNEE_FK']);
+        $data['VALIDASI'] = 'N';
         if(is_numeric($data['TNOTIFYPARTY_FK'])) {
             $data['NOTIFYPARTY'] = DBPerusahaan::getNameById($data['TNOTIFYPARTY_FK']);
         }else{
@@ -109,6 +114,11 @@ class ManifestController extends Controller
         $insert_id = DBManifest::insertGetId($data);
         
         if($insert_id){
+            // Update Jumlah BL
+            $countbl = DBManifest::where('TCONTAINER_FK', $data['TCONTAINER_FK'])->count();
+            $container->jumlah_bl = $countbl;
+            $container->save();
+
             return json_encode(array('success' => true, 'message' => 'Manifest successfully saved!'));
         }
         
@@ -183,11 +193,18 @@ class ManifestController extends Controller
         $data = $request->json()->all(); 
         unset($data['id'], $data['_token']);
         
+        $container = DBContainer::find($data['TCONTAINER_FK']); 
         $packing = DBPacking::find($data['TPACKING_FK']);
+        
+        $data['NO_BC11'] = $container->NO_BC11;
+        $data['TGL_BC11'] = $container->TGL_BC11;
+        $data['NO_PLP'] = $container->NO_PLP;
+        $data['TGL_PLP'] = $container->TGL_PLP;
         $data['KODE_KEMAS'] = $packing->KODEPACKING;
         $data['NAMAPACKING'] = $packing->NAMAPACKING;  
         $data['SHIPPER'] = DBPerusahaan::getNameById($data['TSHIPPER_FK']);
         $data['CONSIGNEE'] = DBPerusahaan::getNameById($data['TCONSIGNEE_FK']);
+        $data['VALIDASI'] = 'N';
         if(is_numeric($data['TNOTIFYPARTY_FK'])) {
             $data['NOTIFYPARTY'] = DBPerusahaan::getNameById($data['TNOTIFYPARTY_FK']);
         }else{
@@ -215,7 +232,14 @@ class ManifestController extends Controller
     {
       try
       {
-          DBManifest::destroy($id);
+            $manifest = DBManifest::findOrFail($id);
+
+          // Update Jumlah BL
+            $countbl = DBManifest::where('TCONTAINER_FK', $manifest->TCONTAINER_FK)->count();
+            DBContainer::where('TCONTAINER_PK', $manifest->TCONTAINER_FK)
+                ->update(['jumlah_bl' => $countbl]);
+                  
+            DBManifest::destroy($id);
       }
       catch (Exception $e)
       {

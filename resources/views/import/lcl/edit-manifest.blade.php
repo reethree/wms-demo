@@ -227,11 +227,11 @@
 //        $("#VALIDASI").val(rowdata.VALIDASI).trigger("change");
         
         $("#TGL_HBL").datepicker('setDate', rowdata.TGL_HBL);
-        $("#TGL_BC11").datepicker('setDate', rowdata.TGL_BC11);
-        $("#TGL_PLP").datepicker('setDate', rowdata.TGL_PLP);
-        
+        $("#TGL_BC11").val(rowdata.TGL_BC11);
+        $("#TGL_PLP").val(rowdata.TGL_PLP);
         $("#NO_BC11").val(rowdata.NO_BC11);
         $("#NO_PLP").val(rowdata.NO_PLP);
+        $("#NO_POS_BC11").val(rowdata.NO_POS_BC11);
         
 //        console.log(rowdata);
         $('#btn-toolbar').disabledButtonGroup();
@@ -372,7 +372,7 @@
                         ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>150,'hidden'=>true))
                         ->addColumn(array('label'=>'No.BC11','index'=>'NO_BC11', 'width'=>150,'hidden'=>true))
                         ->addColumn(array('label'=>'Tgl.BC11','index'=>'TGL_BC11', 'width'=>150,'hidden'=>true))
-                        ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>150))
                         ->addColumn(array('label'=>'No.PLP','index'=>'NO_PLP', 'width'=>150,'hidden'=>true))                
                         ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>150,'hidden'=>true))                
                         ->addColumn(array('label'=>'Surcharge (DG)','index'=>'DG_SURCHARGE', 'width'=>150,'hidden'=>true))
@@ -465,6 +465,30 @@
                     </div>
                     <div class="col-md-6"> 
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">No.BC11</label>
+                            <div class="col-sm-3">
+                                <input type="text" id="NO_BC11" name="NO_BC11" class="form-control" required readonly>
+                            </div>
+                            <label class="col-sm-2 control-label">Tgl.BC11</label>
+                            <div class="col-sm-3">
+                                <!--<div class="input-group date">-->
+                                    <input type="text" id="TGL_BC11" name="TGL_BC11" class="form-control pull-right" required readonly>
+                                <!--</div>-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">No.PLP</label>
+                            <div class="col-sm-3">
+                                <input type="text" id="NO_PLP" name="NO_PLP" class="form-control" required readonly>
+                            </div>
+                            <label class="col-sm-2 control-label">Tgl.PLP</label>
+                            <div class="col-sm-3">
+                                <!--<div class="input-group date">-->
+                                    <input type="text" id="TGL_PLP" name="TGL_PLP" class="form-control pull-right" required readonly>
+                                <!--</div>-->
+                            </div>
+                        </div>
+                        <div class="form-group">
                           <label class="col-sm-3 control-label">Desc of Goods</label>
                           <div class="col-sm-8">
                               <textarea class="form-control" id="DESCOFGOODS" name="DESCOFGOODS" rows="3"></textarea>
@@ -495,41 +519,12 @@
                                 <input type="text" id="MEAS" name="MEAS" class="form-control" required>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">No.BC11</label>
-                            <div class="col-sm-3">
-                                <input type="text" id="NO_BC11" name="NO_BC11" class="form-control" required>
-                            </div>
-                            <label class="col-sm-2 control-label">Tgl.BC11</label>
-                            <div class="col-sm-3">
-                                <div class="input-group date">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                    <input type="text" id="TGL_BC11" name="TGL_BC11" class="form-control pull-right datepicker" required>
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div class="form-group">
                           <label class="col-sm-3 control-label">No.POS BC11</label>
                           <div class="col-sm-8">
                               <input type="text" id="NO_POS_BC11" name="NO_POS_BC11" class="form-control" required>
                           </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">No.PLP</label>
-                            <div class="col-sm-3">
-                                <input type="text" id="NO_PLP" name="NO_PLP" class="form-control" required>
-                            </div>
-                            <label class="col-sm-2 control-label">Tgl.PLP</label>
-                            <div class="col-sm-3">
-                                <div class="input-group date">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                    <input type="text" id="TGL_PLP" name="TGL_PLP" class="form-control pull-right datepicker" required>
-                                </div>
-                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Surcharge(DG)</label>

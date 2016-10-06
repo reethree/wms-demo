@@ -126,7 +126,7 @@
                 {{
                     GridRender::setGridId("lclBuangmtyGrid")
                     ->enableFilterToolbar()
-                    ->setGridOption('url', URL::to('/lcl/register/grid-data'))
+                    ->setGridOption('url', URL::to('/lcl/register/grid-data?module=buangmty'))
                     ->setGridOption('rowNum', 20)
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TCONTAINER_PK')

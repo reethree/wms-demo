@@ -62,18 +62,10 @@
                       <li class="dropdown-submenu">
                         <a class="submenu" href="#">Delivery <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a href="">Behandle</a>
-                                </li>
-                                <li>
-                                    <a href="">Fiat Muat</a>
-                                </li>
-                                <li>
-                                    <a href="">Surat Jalan</a>
-                                </li>
-                                <li>
-                                    <a href="">Release</a>
-                                </li>
+                            <li><a href="{{ route('lcl-delivery-behandle-index') }}">Behandle</a></li>
+                            <li><a href="{{ route('lcl-delivery-fiatmuat-index') }}">Fiat Muat</a></li>
+                            <li><a href="{{ route('lcl-delivery-suratjalan-index') }}">Surat Jalan</a></li>
+                            <li><a href="{{ route('lcl-delivery-release-index') }}">Release</a></li>
                         </ul>
                       </li>
                       <li class="dropdown-submenu">

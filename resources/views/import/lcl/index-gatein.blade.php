@@ -126,7 +126,7 @@
                 {{
                     GridRender::setGridId("lclGateinGrid")
                     ->enableFilterToolbar()
-                    ->setGridOption('url', URL::to('/lcl/register/grid-data'))
+                    ->setGridOption('url', URL::to('/lcl/register/grid-data?module=gatein'))
                     ->setGridOption('rowNum', 20)
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TCONTAINER_PK')
@@ -154,8 +154,8 @@
                     ->addColumn(array('label'=>'No. Seal','index'=>'NO_SEAL', 'width'=>120,'align'=>'right'))
                     ->addColumn(array('label'=>'Tgl. Masuk','index'=>'TGLMASUK','width'=>120))
                     ->addColumn(array('label'=>'Jam Masuk','index'=>'JAMMASUK','width'=>120))
-                    ->addColumn(array('label'=>'Tgl. Keluar','index'=>'TGLKELUAR','hidden'=>true))
-                    ->addColumn(array('label'=>'Jam Keluar','index'=>'JAMKELUAR','hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. Keluar TPK','index'=>'TGLKELUAR_TPK','hidden'=>true))
+                    ->addColumn(array('label'=>'Jam Keluar TPK','index'=>'JAMKELUAR_TPK','hidden'=>true))
                     ->addColumn(array('label'=>'Perkiraan Keluar','index'=>'P_TGLKELUAR','hidden'=>true))
                     ->addColumn(array('label'=>'Petugas','index'=>'UIDMASUK','hidden'=>true))
                     ->addColumn(array('label'=>'No. POL','index'=>'NOPOL','hidden'=>true))
@@ -238,7 +238,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" id="TGLMASUK" name="TGLMASUK" class="form-control pull-right datepicker" required>
+                                <input type="text" id="TGLMASUK" name="TGLMASUK" class="form-control pull-right datepicker" required value="{{ date('Y-m-d') }}" readonly>
                             </div>
                         </div>
                     </div>
@@ -248,7 +248,7 @@
                             <label class="col-sm-3 control-label">Jam Masuk</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input type="text" id="JAMMASUK" name="JAMMASUK" class="form-control timepicker" required>
+                                    <input type="text" id="JAMMASUK" name="JAMMASUK" class="form-control timepicker" required value="{{ date('H:i:s') }}">
                                     <div class="input-group-addon">
                                           <i class="fa fa-clock-o"></i>
                                     </div>
@@ -258,23 +258,23 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Tgl.Kaluar</label>
+                        <label class="col-sm-3 control-label">Tgl.Kaluar TPK</label>
                         <div class="col-sm-8">
                             <div class="input-group date">
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" id="TGLKELUAR" name="TGLKELUAR" class="form-control pull-right datepicker" required>
+                                <input type="text" id="TGLKELUAR_TPK" name="TGLKELUAR_TPK" class="form-control pull-right datepicker" required>
                             </div>
                         </div>
                     </div>
                     
                     <div class="bootstrap-timepicker">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Jam Kaluar</label>
+                            <label class="col-sm-3 control-label">Jam Kaluar TPK</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input type="text" id="JAMKELUAR" name="JAMKELUAR" class="form-control timepicker" required>
+                                    <input type="text" id="JAMKELUAR_TPK" name="JAMKELUAR_TPK" class="form-control timepicker" required>
                                     <div class="input-group-addon">
                                           <i class="fa fa-clock-o"></i>
                                     </div>
@@ -290,7 +290,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" id="P_TGLKELUAR" name="P_TGLKELUAR" class="form-control pull-right datepicker" required>
+                                <input type="text" id="P_TGLKELUAR" name="P_TGLKELUAR" class="form-control pull-right datepicker" required value="{{ date('Y-m-d',strtotime('+3Days')) }}">
                             </div>
                         </div>
                     </div>
@@ -308,7 +308,7 @@
                             <input type="text" id="NOPOL" name="NOPOL" class="form-control" required>
                         </div>
                     </div>
-                    <div class="form-group">
+<!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">No.SP2</label>
                         <div class="col-sm-8">
                             <input type="text" id="NO_SP2" name="NO_SP2" class="form-control" required>
@@ -325,7 +325,7 @@
                                 <input type="text" id="TGL_SP2" name="TGL_SP2" class="form-control pull-right datepicker" required>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label class="col-sm-3 control-label">E-Seal</label>
                         <div class="col-sm-8">
