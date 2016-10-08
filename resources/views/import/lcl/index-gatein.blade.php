@@ -47,7 +47,7 @@
             $("#TGL_SP2").datepicker('setDate', rowdata.TGL_SP2);
             $('#ESEALCODE').val(rowdata.ESEALCODE).trigger('change');
             
-            if(rowdata.NO_BC11 && rowdata.NO_PLP) {
+            if(!rowdata.TGLMASUK && !rowdata.JAMMASUK) {
                 $('#btn-group-2').enableButtonGroup();
                 $('#gatein-form').enableFormGroup();
                 $('#UIDMASUK').val('{{ Auth::getUser()->name }}');
@@ -63,6 +63,8 @@
         });
         
         $('#btn-save').click(function() {
+            
+            if(!confirm('Apakah anda yakin?')){return false;}
             
             var url = $('#gatein-form').attr('action')+'/edit/'+$('#TCONTAINER_PK').val();
 

@@ -279,6 +279,8 @@
       //Bind onClick event to the "Save" button.
     $('#btn-save').click(function()
       {
+          if(!confirm('Apakah anda yakin?')){return false;}
+          
         var url = $('#manifest-form').attr('action');
 
         if($('#id').val()) {

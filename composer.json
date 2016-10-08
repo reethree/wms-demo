@@ -9,7 +9,8 @@
         "laravel/framework": "5.2.*",
         "intervention/image": "^2.3",
         "caffeinated/shinobi": "^2.4",
-        "mgallegos/laravel-jqgrid": "1.*"
+        "mgallegos/laravel-jqgrid": "1.*",
+        "barryvdh/laravel-dompdf": "^0.7.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

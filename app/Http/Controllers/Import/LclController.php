@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Joborder as DBJoborder;
 use App\Models\Consolidator as DBConsolidator;
+use App\Models\Perusahaan as DBPerusahaan;
 use App\Models\Negara as DBNegara;
 use App\Models\Pelabuhan as DBPelabuhan;
 use App\Models\Vessel as DBVessel;
@@ -20,6 +21,7 @@ use App\Models\Manifest as DBManifest;
 
 class LclController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -172,6 +174,8 @@ class LclController extends Controller
                 'title' => 'LCL Delivery Release'
             ]
         ];        
+        
+        $data['perusahaans'] = DBPerusahaan::select('TPERUSAHAAN_PK as id', 'NAMAPERUSAHAAN as name')->get();
         
         return view('import.lcl.index-release')->with($data);
     }
@@ -510,7 +514,20 @@ class LclController extends Controller
             ->update($dataupdate);
         
         if($update){
-            return json_encode(array('success' => true, 'message' => 'Stripping successfully updated!'));
+            
+            $dataManifest['tglstripping'] = $data['ENDSTRIPPING'];
+            $dataManifest['jamstripping'] = $data['JAMENDSTRIPPING'];  
+            $dataManifest['STARTSTRIPPING'] = $data['STARTSTRIPPING'].' '.$data['JAMSTARTSTRIPPING'];
+            $dataManifest['ENDSTRIPPING'] = $data['ENDSTRIPPING'].' '.$data['JAMENDSTRIPPING'];
+            
+            $updateManifest = DBManifest::where('TCONTAINER_FK', $id)
+                    ->update($dataManifest);
+            
+            if($updateManifest){
+                return json_encode(array('success' => true, 'message' => 'Stripping successfully updated!'));
+            }
+            
+            return json_encode(array('success' => true, 'message' => 'Container successfully updated, but Manifest not updated!'));
         }
         
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
@@ -526,7 +543,79 @@ class LclController extends Controller
             ->update($data);
         
         if($update){
-            return json_encode(array('success' => true, 'message' => 'Stripping successfully updated!'));
+            
+            $dataManifest['tglbuangmty'] = $data['TGLBUANGMTY'];
+            $dataManifest['jambuangmty'] = $data['JAMBUANGMTY'];  
+            $dataManifest['NOPOL_MTY'] = $data['NOPOL_MTY'];
+            
+            $updateManifest = DBManifest::where('TCONTAINER_FK', $id)
+                    ->update($dataManifest);
+            
+            if($updateManifest){
+                return json_encode(array('success' => true, 'message' => 'Buang MTY successfully updated!'));
+            }
+            
+            return json_encode(array('success' => true, 'message' => 'Container successfully updated, but Manifest not updated!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+    
+    public function behandleUpdate(Request $request, $id)
+    {
+        $data = $request->json()->all(); 
+        unset($data['TMANIFEST_PK'], $data['_token']);
+
+        $update = DBManifest::where('TMANIFEST_PK', $id)
+            ->update($data);
+        
+        if($update){
+            return json_encode(array('success' => true, 'message' => 'Behandle successfully updated!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+    
+    public function fiatmuatUpdate(Request $request, $id)
+    {
+        $data = $request->json()->all(); 
+        unset($data['TMANIFEST_PK'], $data['_token']);
+
+        $update = DBManifest::where('TMANIFEST_PK', $id)
+            ->update($data);
+        
+        if($update){
+            return json_encode(array('success' => true, 'message' => 'Fiat Muat successfully updated!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+    
+    public function suratjalanUpdate(Request $request, $id)
+    {
+        $data = $request->json()->all(); 
+        unset($data['TMANIFEST_PK'], $data['_token']);
+        
+        $update = DBManifest::where('TMANIFEST_PK', $id)
+            ->update($data);
+        
+        if($update){
+            return json_encode(array('success' => true, 'message' => 'Surat Jalan successfully updated!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+    
+    public function releaseUpdate(Request $request, $id)
+    {
+        $data = $request->json()->all(); 
+        unset($data['TMANIFEST_PK'], $data['_token']);
+        
+        $update = DBManifest::where('TMANIFEST_PK', $id)
+            ->update($data);
+        
+        if($update){
+            return json_encode(array('success' => true, 'message' => 'Release successfully updated!'));
         }
         
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
@@ -540,7 +629,7 @@ class LclController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
     }
     
     public function registerPrintPermohonan(Request $request)
@@ -553,6 +642,9 @@ class LclController extends Controller
         $result['container'] = $container;
         $result['lokasisandar'] = $lokasisandar;
         
-        return view('print.permohonan', $result);
+        $pdf = \PDF::loadView('print.permohonan', $result);
+        return $pdf->download('Permohonan-'.$container->NOCONTAINER.'-'.date('dmy').'.pdf');
+        
+//        return view('print.permohonan', $result);
     }
 }

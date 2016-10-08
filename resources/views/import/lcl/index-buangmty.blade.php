@@ -64,6 +64,8 @@
         
         $('#btn-save').click(function() {
             
+            if(!confirm('Apakah anda yakin?')){return false;}
+            
             var url = $('#buangmty-form').attr('action')+'/edit/'+$('#TCONTAINER_PK').val();
 
             $.ajax({

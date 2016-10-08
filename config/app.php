@@ -160,7 +160,8 @@ return [
          * Thirdparty Service Provider...
          */
         Mgallegos\LaravelJqgrid\LaravelJqgridServiceProvider::class,
-        Caffeinated\Shinobi\ShinobiServiceProvider::class
+        Caffeinated\Shinobi\ShinobiServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -210,6 +211,7 @@ return [
         'GridRender' => Mgallegos\LaravelJqgrid\Facades\GridRender::class,
         'GridEncoder' => Mgallegos\LaravelJqgrid\Facades\GridEncoder::class,
         'Shinobi' => Caffeinated\Shinobi\Facades\Shinobi::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

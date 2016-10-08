@@ -20,6 +20,8 @@ class Controller extends BaseController
 
     public function __construct() {
         
+        date_default_timezone_set("Asia/Jakarta");
+        
         $user = \App\User::findOrfail(\Auth::getUser()->id);
         
         foreach ($user->roles as $role) {

@@ -352,48 +352,48 @@
               <h4 class="modal-title">Cetak Permohonan</h4>
             </div>
             <form class="form-horizontal" action="{{ route('lcl-register-print-permohonan') }}" method="POST">
-            <div class="modal-body"> 
-                <div class="row">
-                    <div class="col-md-12">
-                        <input name="_token" type="hidden" value="{{ csrf_token() }}">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">No. Surat</label>
-                            <div class="col-sm-8">
-                                <input type="text" name="no_surat" class="form-control" required> 
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">No. Surat</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="no_surat" class="form-control" required> 
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Prihal</label>
-                            <div class="col-sm-8">
-                                <textarea name="prihal_surat" class="form-control" required>Permohonan PLP-LCL Ke Gudang Primanata Jaya Persada</textarea>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Prihal</label>
+                                <div class="col-sm-8">
+                                    <textarea name="prihal_surat" class="form-control" required>Permohonan PLP-LCL Ke Gudang Primanata Jaya Persada</textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">SOR</label>
-                            <div class="col-sm-8">
-                                <input type="text" name="sor" class="form-control" required> 
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">SOR</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="sor" class="form-control" required> 
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Penandatangan</label>
-                            <div class="col-sm-8">
-                                <input type="text" name="penandatangan" class="form-control" required> 
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Penandatangan</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="penandatangan" class="form-control" required> 
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Jabatan Pemohon</label>
-                            <div class="col-sm-8">
-                                <input type="text" name="jabatan" class="form-control" required> 
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Jabatan Pemohon</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="jabatan" class="form-control" required> 
+                                </div>
                             </div>
+                            <input id="container_id" name="container_id" type="hidden" />
                         </div>
-                        <input id="container_id" name="container_id" type="hidden" />
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
-              <button type="submit" class="btn btn-primary">Cetak</button>
-            </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
+                  <button type="submit" class="btn btn-primary">Cetak</button>
+                </div>
             </form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

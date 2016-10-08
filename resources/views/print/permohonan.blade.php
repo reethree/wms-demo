@@ -19,7 +19,7 @@
             <b>Perihal: {{ $info['prihal_surat'] }}</b><br/><br/>
         </div>
         <div class="col-sm-12 invoice-col">
-            Dengan hormat, <br/><br/>
+            Dengan hormat, <br/>
             <p>Sehubungan dengan kedatangan barang import mitra kami, maka kami memohon agar kiranya dapat melaksanakan Over Brengen (OB) ke Gudang PRIMANATA JASA PERSADA</p>
             <p>Adapun data-datanya adalah sebagai berikut:</p>
         </div>
@@ -27,7 +27,7 @@
     
     <div class="row">
         <div class="col-xs-8 table-responsive">
-            <table class="table" style="font-size: 12px;">
+            <table class="table" style="font-size: 14px;">
                 <tbody>
                     <tr>
                         <td>NO. B/L</td>
