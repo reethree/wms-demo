@@ -171,6 +171,7 @@
     $(document).ready(function()
     {
         $('#btn-toolbar').disabledButtonGroup();
+        $('#btn-group-4').enableButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         $('#btn-group-1').enableButtonGroup();
 
@@ -189,6 +190,7 @@
             
             //Disables all buttons within the toolbar
             $('#btn-toolbar').disabledButtonGroup();
+            $('#btn-group-4').enableButtonGroup();
             $('#btn-group-3').enableButtonGroup();
             $('#btn-group-1').enableButtonGroup();
       });
@@ -396,6 +398,10 @@
                         </div>
                         <div id="btn-group-3" class="btn-group toolbar-block">
                             <button class="btn btn-default" id="btn-save"><i class="fa fa-save"></i> Save</button>
+                        </div>
+                        <div id="btn-group-4" class="btn-group pull-right">
+                            <button class="btn btn-default" id="btn-print-tally" onclick="window.open('{{ route('lcl-manifest-cetak', array('id'=>$container->TCONTAINER_PK,'type'=>'tally')) }}','preview tally sheet','width=600,height=600,menubar=no,status=no,scrollbars=yes');"><i class="fa fa-print"></i> Cetak Tally Sheet</button>
+                            <button class="btn btn-default" id="btn-print-log" onclick="window.open('{{ route('lcl-manifest-cetak', array('id'=>$container->TCONTAINER_PK,'type'=>'log')) }}','preview log stripping','width=600,height=600,menubar=no,status=no,scrollbars=yes');"><i class="fa fa-print"></i> Cetak Log Stripping</button>
                         </div>
                     </div>
                 </div>

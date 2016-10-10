@@ -647,4 +647,38 @@ class LclController extends Controller
         
 //        return view('print.permohonan', $result);
     }
+    
+    public function buangmtyCetak($id, $type)
+    {
+        $container = DBContainer::find($id);
+        
+//        return view('print.bon-muat', $container);
+        
+        switch ($type){
+            case 'bon-muat':
+                $pdf = \PDF::loadView('print.bon-muat', $container);        
+                break;
+            case 'surat-jalan':
+                $pdf = \PDF::loadView('print.surat-jalan', $container);
+                break;
+        }
+        
+        return $pdf->stream(ucfirst($type).'-'.$container->NOCONTAINER.'-'.date('dmy').'.pdf');
+    }
+    
+    public function behandleCetak($id)
+    {
+        $mainfest = DBManifest::find($id);
+//        return view('print.wo-behandle', $mainfest);
+        $pdf = \PDF::loadView('print.wo-behandle', $mainfest); 
+        return $pdf->stream('WO-Behandle-'.$mainfest->NOHBL.'-'.date('dmy').'.pdf');
+    }
+    
+    public function fiatmuatCetak($id)
+    {
+        $mainfest = DBManifest::find($id);
+        return view('print.wo-fiatmuat', $mainfest);
+        $pdf = \PDF::loadView('print.wo-fiatmuat', $mainfest); 
+        return $pdf->stream('WO-FiatMuat-'.$mainfest->NOHBL.'-'.date('dmy').'.pdf');
+    }
 }

@@ -261,4 +261,22 @@ class ManifestController extends Controller
         
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
     }
+    
+    public function cetak($id, $type)
+    {
+        $container = DBContainer::find($id);
+        
+//        return view('print.tally-sheet', $container);
+        
+        switch ($type){
+            case 'tally':
+                $pdf = \PDF::loadView('print.tally-sheet', $container);        
+                break;
+            case 'log':
+                $pdf = \PDF::loadView('print.log-stripping', $container);
+                break;
+        }
+        
+        return $pdf->stream(ucfirst($type).'-'.$container->NOCONTAINER.'-'.date('dmy').'.pdf');
+    }
 }

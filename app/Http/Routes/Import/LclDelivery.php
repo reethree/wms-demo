@@ -10,6 +10,11 @@ Route::group(['prefix' => 'lcl/delivery', 'namespace' => 'Import'], function(){
         'as' => 'lcl-delivery-behandle-update',
         'uses' => 'LclController@behandleUpdate'
     ]);
+    // PRINT
+    Route::get('/behandle/cetak/{id}', [
+        'as' => 'lcl-behandle-cetak',
+        'uses' => 'LclController@behandleCetak'
+    ]);
     
     Route::get('/fiatmuat', [
         'as' => 'lcl-delivery-fiatmuat-index',
@@ -18,6 +23,11 @@ Route::group(['prefix' => 'lcl/delivery', 'namespace' => 'Import'], function(){
     Route::post('/fiatmuat/edit/{id}', [
         'as' => 'lcl-delivery-fiatmuat-update',
         'uses' => 'LclController@fiatmuatUpdate'
+    ]);
+    // PRINT
+    Route::get('/fiatmuat/cetak/{id}', [
+        'as' => 'lcl-fiatmuat-cetak',
+        'uses' => 'LclController@fiatmuatCetak'
     ]);
     
     Route::get('/suratjalan', [

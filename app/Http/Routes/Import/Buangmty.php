@@ -10,4 +10,10 @@ Route::group(['prefix' => 'lcl/realisasi', 'namespace' => 'Import'], function(){
         'as' => 'lcl-realisasi-buangmty-update',
         'uses' => 'LclController@buangmtyUpdate'
     ]);
+    
+    // PRINT
+    Route::get('/buangmty/cetak/{id}/{type}', [
+        'as' => 'lcl-buangmty-cetak',
+        'uses' => 'LclController@buangmtyCetak'
+    ]);
 });

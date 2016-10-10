@@ -26,6 +26,8 @@
     {
         $('#btn-group-1').enableButtonGroup();
         $('#btn-group-4').enableButtonGroup();
+        rowid = $('#lclBuangmtyGrid').jqGrid('getGridParam', 'selrow');
+        $('#TCONTAINER_PK').val(rowid);
     }
     
     $(document).ready(function()
@@ -38,7 +40,7 @@
             //Gets the selected row id.
             rowid = $('#lclBuangmtyGrid').jqGrid('getGridParam', 'selrow');
             rowdata = $('#lclBuangmtyGrid').getRowData(rowid);
-            console.log(rowdata);
+
             populateFormFields(rowdata, '');
             $('#TCONTAINER_PK').val(rowid);
             $('#NOPOL_MTY').val(rowdata.NOPOL_MTY);
@@ -54,12 +56,10 @@
 
         });
         
-        $('#btn-print-bon').click(function() {
-
-        });
-        
-        $('#btn-print-cir').click(function() {
-
+        $('.btn-print').click(function() {
+            var id = $('#TCONTAINER_PK').val();
+            var type = $(this).data('type');
+            window.open("{{ route('lcl-buangmty-cetak', array('id'=>'','type'=>'')) }}/"+id+"/"+type,"preview bon muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");
         });
         
         $('#btn-save').click(function() {
@@ -181,11 +181,11 @@
                         <button class="btn btn-default" id="btn-save"><i class="fa fa-save"></i> Save</button>
                         <button class="btn btn-default" id="btn-cancel"><i class="fa fa-close"></i> Cancel</button>
                     </div>              
-                    <div id="btn-group-4" class="btn-group">
-                        <button class="btn btn-default" id="btn-print-bon"><i class="fa fa-print"></i> Cetak BON Muat</button>
-                        <button class="btn btn-default" id="btn-print-cir"><i class="fa fa-print"></i> Cetak Surat Jalan (CIR)</button>
+                    <div id="btn-group-4" class="btn-group pull-right">
+                        <button class="btn btn-default btn-print" id="btn-print-bon" data-type="bon-muat"><i class="fa fa-print"></i> Cetak BON Muat</button>
+                        <button class="btn btn-default btn-print" id="btn-print-cir" data-type="surat-jalan"><i class="fa fa-print"></i> Cetak Surat Jalan (CIR)</button>
                     </div>
-                    <div id="btn-group-5" class="btn-group">
+                    <div id="btn-group-5" class="btn-group pull-right">
                         <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
                     </div>
                 </div>

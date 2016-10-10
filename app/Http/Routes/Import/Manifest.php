@@ -34,4 +34,10 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-manifest-approve',
         'uses' => 'ManifestController@approve'
     ]);
+    
+    // PRINT
+    Route::get('/manifest/cetak/{id}/{type}', [
+        'as' => 'lcl-manifest-cetak',
+        'uses' => 'ManifestController@cetak'
+    ]);
 });

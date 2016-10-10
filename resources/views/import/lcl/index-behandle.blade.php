@@ -43,7 +43,8 @@
         });
         
         $('#btn-print').click(function() {
-            
+            var id = $('#lclBehandleGrid').jqGrid('getGridParam', 'selrow');
+            window.open("{{ route('lcl-behandle-cetak', '') }}/"+id,"preview wo behandle","width=600,height=600,menubar=no,status=no,scrollbars=yes");
         });
         
         $('#btn-save').click(function() {
@@ -175,7 +176,7 @@
                         <button class="btn btn-default" id="btn-cancel"><i class="fa fa-close"></i> Cancel</button>
                     </div>  
                     <div id="btn-group-4" class="btn-group">
-                        <button class="btn btn-default" id="btn-print"><i class="fa fa-print"></i> Cetak WO Lift Off</button>
+                        <button class="btn btn-default" id="btn-print"><i class="fa fa-print"></i> Cetak WO</button>
                     </div>
                 </div>
             </div>
