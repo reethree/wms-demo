@@ -651,15 +651,15 @@ class LclController extends Controller
     public function buangmtyCetak($id, $type)
     {
         $container = DBContainer::find($id);
-        
+        $data['container'] = $container;
 //        return view('print.bon-muat', $container);
         
         switch ($type){
             case 'bon-muat':
-                $pdf = \PDF::loadView('print.bon-muat', $container);        
+                $pdf = \PDF::loadView('print.bon-muat', $data);        
                 break;
             case 'surat-jalan':
-                $pdf = \PDF::loadView('print.surat-jalan', $container);
+                $pdf = \PDF::loadView('print.surat-jalan', $data);
                 break;
         }
         
@@ -669,16 +669,18 @@ class LclController extends Controller
     public function behandleCetak($id)
     {
         $mainfest = DBManifest::find($id);
+        $data['manifest'] = $mainfest;
 //        return view('print.wo-behandle', $mainfest);
-        $pdf = \PDF::loadView('print.wo-behandle', $mainfest); 
+        $pdf = \PDF::loadView('print.wo-behandle', $data); 
         return $pdf->stream('WO-Behandle-'.$mainfest->NOHBL.'-'.date('dmy').'.pdf');
     }
     
     public function fiatmuatCetak($id)
     {
         $mainfest = DBManifest::find($id);
-        return view('print.wo-fiatmuat', $mainfest);
-        $pdf = \PDF::loadView('print.wo-fiatmuat', $mainfest); 
+        $data['manifest'] = $mainfest;
+//        return view('print.wo-fiatmuat', $data);
+        $pdf = \PDF::loadView('print.wo-fiatmuat', $data); 
         return $pdf->stream('WO-FiatMuat-'.$mainfest->NOHBL.'-'.date('dmy').'.pdf');
     }
 }

@@ -117,7 +117,7 @@
 
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">LCL Realisasi Stripping</h3>
+        <h3 class="box-title">LCL Realisasi Buang MTY</h3>
 <!--        <div class="box-tools">
             <a href="{{ route('lcl-manifest-create') }}" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Add New</a>
         </div>-->

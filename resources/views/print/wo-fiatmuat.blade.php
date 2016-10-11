@@ -16,67 +16,67 @@
                         <tr>
                             <td>No. WO</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>LCL03716/16.008</td>
+                            <td>{{ $manifest->NOTALLY }}</td>
                         </tr>
                         <tr>
                             <td>No. Order</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>LCL03668/16</td>
+                            <td>{{ $manifest->NOJOBORDER }}</td>
                         </tr>
                         <tr>
                             <td>Consolidator</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>PT.Pelangi Bahari Anugerahtama</td>
+                            <td>{{ $manifest->NAMACONSOLIDATOR }}</td>
                         </tr>
                         <tr>
                             <td>No. Container</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>BMOU6469893</td>
+                            <td>{{ $manifest->NOCONTAINER }}</td>
                         </tr>
                         <tr>
                             <td>No. HB/L</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>YTC-BKK7976TH764</td>
+                            <td>{{ $manifest->NOHBL }}</td>
                         </tr>
                         <tr>
                             <td>Shipper</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>SIAM FUKOKU CO.,LTD.</td>
+                            <td>{{ $manifest->SHIPPER }}</td>
                         </tr>
                         <tr>
                             <td>Consignee</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>PT. CHEMCO HARAPAN NUSANTARA</td>
+                            <td>{{ $manifest->CONSIGNEE }}</td>
                         </tr>
                         <tr>
                             <td>Importir</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>CHEMCO HARAPAN NUSANTARA</td>
+                            <td>???</td>
                         </tr>
                         <tr>
                             <td>No. Bea / Cukai</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>372709/KPU.01/2016</td>
+                            <td>{{ $manifest->NO_SPPB }}</td>
                         </tr>
                         <tr>
                             <td>No. Kuitansi</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>408523 / 30-9-2016</td>
+                            <td>{{ $manifest->NO_KUITANSI }} / {{ date('d-m-Y') }}</td>
                         </tr>
                         <tr>
                             <td>No. RAK</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>408523 / 30-9-2016</td>
+                            <td>-</td>
                         </tr>
                         <tr>
                             <td>No. POS</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>0205</td>
+                            <td>{{ $manifest->NO_POS_BC11 }}</td>
                         </tr>
                         <tr>
                             <td>No. BC11 / Tgl. BC11</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>003592/ 30-9-2016</td>
+                            <td>{{ $manifest->NO_BC11 }} / {{ date('d-m-Y',strtotime($manifest->TGL_BC11)) }}</td>
                         </tr>
                     </table>
                 </td>
@@ -85,17 +85,17 @@
                         <tr>
                             <td>NO.URUT</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>0072</td>
+                            <td>{{ str_pad(intval($manifest->TMANIFEST_PK), 4, '0', STR_PAD_LEFT) }}</td>
                         </tr>
                         <tr>
                             <td>NO.TRUCK</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>B9244UCN</td>
+                            <td>{{ $manifest->NOPOL }}</td>
                         </tr>
                         <tr>
                             <td>LOKASI GUDANG</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>GUDANG 1</td>
+                            <td>PNJP</td>
                         </tr>
                     </table>
                     <table border="1" cellspacing="0" cellpadding="0">                       
@@ -176,11 +176,11 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>27/Carton</td>
-                    <td>198.95</td>
-                    <td>1.64</td>
-                    <td>PT. CHEMCO HARAPAN NUSANTARA</td>
-                    <td>VALVE COMP POPPET, SEAL PISTON, RUBBER REACTION INVOICE NO. CHEM-AS1608004 LOT NO. SE16080242</td>
+                    <td>{{ $manifest->QUANTITY }}/{{ $manifest->NAMAPACKING }}</td>
+                    <td>{{ number_format($manifest->WEIGHT,4) }}</td>
+                    <td>{{ number_format($manifest->MEAS,4) }}</td>
+                    <td>{{ $manifest->MARKING }}</td>
+                    <td>{{ $manifest->DESCOFGOODS }}</td>
                 </tr>
             </tbody>
         </table>

@@ -13,32 +13,32 @@
             <tr>
                 <td>No. WO</td>
                 <td class="padding-10 text-center">:</td>
-                <td>LCL03716/16.008</td>
+                <td>{{ $manifest->NOTALLY }}</td>
             </tr>
             <tr>
                 <td>No. Order</td>
                 <td class="padding-10 text-center">:</td>
-                <td>LCL03716/16/td>
+                <td>{{ $manifest->NOJOBORDER }}</td>
             </tr>
             <tr>
                 <td>No. HBL </td>
                 <td class="padding-10 text-center">:</td>
-                <td>SMRTE16080072</td>
+                <td>{{ $manifest->NOHBL }}</td>
             </tr>
             <tr>
                 <td>Consolidator</td>
                 <td class="padding-10 text-center">:</td>
-                <td>PT.Logistic Solution Indonesia</td>
+                <td>{{ $manifest->NAMACONSOLIDATOR }}</td>
             </tr>
             <tr>
                 <td>Consignee</td>
                 <td class="padding-10 text-center">:</td>
-                <td>PT. MRO INDONESIA</td>
+                <td>{{ $manifest->CONSIGNEE }}</td>
             </tr>
             <tr>
                 <td>Lokasi Gudang</td>
                 <td class="padding-10 text-center">:</td>
-                <td>GUDANG 1</td>
+                <td>PNJP</td>
             </tr>
             <tr>
                 <td>No. RAK</td>
@@ -48,7 +48,7 @@
             <tr>
                 <td>No. SPJM</td>
                 <td class="padding-10 text-center">:</td>
-                <td>408523 / 30-9-2016</td>
+                <td>{{ $manifest->NO_SPJM }} / {{ $manifest->TGL_SPJM }}</td>
             </tr>
 
         </table>
@@ -65,11 +65,11 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>27/Carton</td>
-                    <td>1,006.75</td>
-                    <td>2.63</td>
-                    <td>CARTONS NO. 1-27</td>
-                    <td>SAID TO CONTAIN 27 CARTONS OF STEP LIGHTING</td>
+                    <td>{{ $manifest->QUANTITY }}/{{ $manifest->NAMAPACKING }}</td>
+                    <td>{{ number_format($manifest->WEIGHT,4) }}</td>
+                    <td>{{ number_format($manifest->MEAS,4) }}</td>
+                    <td>{{ $manifest->MARKING }}</td>
+                    <td>{{ $manifest->DESCOFGOODS }}</td>
                 </tr>
             </tbody>
         </table>

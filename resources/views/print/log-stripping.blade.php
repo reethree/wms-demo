@@ -5,11 +5,7 @@
 @stop
 
 @section('content')
-
-<section class="invoice">
     
     Test Log Stripping
-    
-</section>
         
 @stop

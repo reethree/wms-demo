@@ -15,12 +15,12 @@
                         <tr>
                             <td>Consolidator</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>PT. PRATAMA GEMILANG MANDIRI</td>
+                            <td>{{ $container->NAMACONSOLIDATOR }}</td>
                         </tr>
                         <tr>
                             <td>No. Container</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>ISMU2926991/20</td>
+                            <td>{{ $container->NOCONTAINER }}/{{ $container->SIZE }}</td>
                         </tr>
                         <tr>
                             <td>Kondisi Container</td>
@@ -30,12 +30,12 @@
                         <tr>
                             <td>No. Segel</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>ILS073096</td>
+                            <td>{{ $container->NO_SEAL }}</td>
                         </tr>
                         <tr>
                             <td>No. MBL</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>IRSINJKT1603134</td>
+                            <td>{{ $container->NOMBL }}</td>
                         </tr>
                     </table> 
                 </td>
@@ -54,17 +54,17 @@
                         <tr>
                             <td>Kapal</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>CAIYUNHE</td>
+                            <td>{{ $container->VESSEL }}</td>
                         </tr>
                         <tr>
                             <td>Voy</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>297N</td>
+                            <td>{{ $container->VOY }}</td>
                         </tr>
                         <tr>
                             <td>Tgl.Tiba</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>10/1/2016</td>
+                            <td>{{ date("d/m/Y", strtotime($container->VESSEL)) }}</td>
                         </tr>
                     </table>
                 </td>
@@ -88,61 +88,19 @@
             </tr>
         </thead>
         <tbody>
+            @foreach($manifests as $manifest)
             <tr>
-                <td>1</td>
-                <td>PT. HONDA ACCESS INDONESIA</td>
-                <td>PT KAWAN LAMA SEJAHTERA JL. PURI KENCANA NO. 1 KEMBANGAN SELATAN KEMBANGAN JAKARTA BARAT-11610</td>
-                <td>7 Pallet</td>
+                <td class="text-center">{{ $manifest->TMANIFEST_PK }}</td>
+                <td>{{ $manifest->CONSIGNEE }}</td>
+                <td>{{ $manifest->MARKING }}</td>
+                <td class="text-center">{{ $manifest->QUANTITY.' '.$manifest->NAMAPACKING }}</td>
                 <td></td>
                 <td></td>
-                <td>636.00<br/>5.47</td>
-                <td>LCL04258/16.003<br/>HFLJKT16090059</td>
+                <td>{{ $manifest->WEIGHT }}<br/>{{ $manifest->MEAS }}</td>
+                <td>{{ $manifest->NOTALLY }}<br/>{{ $manifest->NOHBL }}</td>
                 <td></td>
             </tr>
-            <tr>
-                <td>1</td>
-                <td>PT. HONDA ACCESS INDONESIA</td>
-                <td>PT KAWAN LAMA SEJAHTERA JL. PURI KENCANA NO. 1 KEMBANGAN SELATAN KEMBANGAN JAKARTA BARAT-11610</td>
-                <td>7 Pallet</td>
-                <td></td>
-                <td></td>
-                <td>636.00<br/>5.47</td>
-                <td>LCL04258/16.003<br/>HFLJKT16090059</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>PT. HONDA ACCESS INDONESIA</td>
-                <td>PT KAWAN LAMA SEJAHTERA JL. PURI KENCANA NO. 1 KEMBANGAN SELATAN KEMBANGAN JAKARTA BARAT-11610</td>
-                <td>7 Pallet</td>
-                <td></td>
-                <td></td>
-                <td>636.00<br/>5.47</td>
-                <td>LCL04258/16.003<br/>HFLJKT16090059</td>
-                <td></td>
-            </tr> 
-            <tr>
-                <td>1</td>
-                <td>PT. HONDA ACCESS INDONESIA</td>
-                <td>PT KAWAN LAMA SEJAHTERA JL. PURI KENCANA NO. 1 KEMBANGAN SELATAN KEMBANGAN JAKARTA BARAT-11610</td>
-                <td>7 Pallet</td>
-                <td></td>
-                <td></td>
-                <td>636.00<br/>5.47</td>
-                <td>LCL04258/16.003<br/>HFLJKT16090059</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>PT. HONDA ACCESS INDONESIA</td>
-                <td>PT KAWAN LAMA SEJAHTERA JL. PURI KENCANA NO. 1 KEMBANGAN SELATAN KEMBANGAN JAKARTA BARAT-11610</td>
-                <td>7 Pallet</td>
-                <td></td>
-                <td></td>
-                <td>636.00<br/>5.47</td>
-                <td>LCL04258/16.003<br/>HFLJKT16090059</td>
-                <td></td>
-            </tr>
+            @endforeach         
         </tbody>
     </table>
     <table border="0" cellspacing="0" cellpadding="0">
@@ -161,4 +119,5 @@
             </tr>
         </tbody>
     </table>
+    
 @stop

@@ -13,7 +13,7 @@
             <tr>
                 <td>TANGGAL</td>
                 <td class="padding-10 text-center">:</td>
-                <td>3-10-2016</td>
+                <td>{{ date("d-m-Y", strtotime($container->TGLBUANGMTY)) }}</td>
             </tr>
             <tr>
                 <td>JENIS KEGIATAN</td>
@@ -23,17 +23,17 @@
             <tr>
                 <td>CONSOLIDATOR</td>
                 <td class="padding-10 text-center">:</td>
-                <td>PT. PRATAMA GEMILANG MANDIRI</td>
+                <td>{{ $container->NAMACONSOLIDATOR }}</td>
             </tr>
             <tr>
                 <td>VESSEL / VOY</td>
                 <td class="padding-10 text-center">:</td>
-                <td>CAIYUNHE / 297N</td>
+                <td>{{ $container->VESSEL }} / {{ $container->VOY }}</td>
             </tr>
             <tr>
                 <td>NO CONTAINER</td>
                 <td class="padding-10 text-center">:</td>
-                <td>ISMU2926991/20</td>
+                <td>{{ $container->NOCONTAINER }}/{{ $container->SIZE }}</td>
             </tr>
         </table>
         <table border="0" cellspacing="0" cellpadding="0">

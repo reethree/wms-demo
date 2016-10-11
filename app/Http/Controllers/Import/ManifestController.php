@@ -265,15 +265,18 @@ class ManifestController extends Controller
     public function cetak($id, $type)
     {
         $container = DBContainer::find($id);
+        $manifests = DBManifest::where('TCONTAINER_FK', $id)->get();
         
+        $data['container'] = $container;
+        $data['manifests'] = $manifests;
 //        return view('print.tally-sheet', $container);
         
         switch ($type){
             case 'tally':
-                $pdf = \PDF::loadView('print.tally-sheet', $container);        
+                $pdf = \PDF::loadView('print.tally-sheet', $data);        
                 break;
             case 'log':
-                $pdf = \PDF::loadView('print.log-stripping', $container);
+                $pdf = \PDF::loadView('print.log-stripping', $data);
                 break;
         }
         
