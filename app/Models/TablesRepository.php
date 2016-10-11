@@ -52,6 +52,8 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereNotNull('JAMSTRIPPING');
                     break;
                 }
+            }else{
+                
             }
             
         }elseif($Model->getMorphClass() == 'App\Models\Manifest'){
