@@ -81,7 +81,7 @@
         </table>
         
         <table border="0" cellspacing="0" cellpadding="0">
-            <tr><td height="150" style="font-size: 150px;line-height: 0;">&nbsp;</td></tr>
+            <tr><td height="50" style="font-size: 50px;line-height: 0;">&nbsp;</td></tr>
             <tr>
                 <td>CATATAN : DILARANG MEMBERIKAN / MENERIMA UANG TIP</td>
             </tr>

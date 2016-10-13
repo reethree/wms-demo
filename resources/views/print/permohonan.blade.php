@@ -2,7 +2,7 @@
 
 @section('content')
 
-<section class="invoice">
+<div class="invoice">
     
     <div class="row">
         <div class="col-sm-6 invoice-col">
@@ -94,6 +94,6 @@
         </div>
     </div>
     
-</section>
+</div>
         
 @stop

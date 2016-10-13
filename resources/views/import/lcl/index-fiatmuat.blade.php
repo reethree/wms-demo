@@ -48,7 +48,7 @@
         
         $('#btn-print').click(function() {
             var id = $('#lclFiatMuatGrid').jqGrid('getGridParam', 'selrow');
-            window.open("{{ route('lcl-fiatmuat-cetak', '') }}/"+id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");   
+            window.open("{{ route('lcl-delivery-fiatmuat-cetak', '') }}/"+id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");   
         });
         
         $('#btn-save').click(function() {

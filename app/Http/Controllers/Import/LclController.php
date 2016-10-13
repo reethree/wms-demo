@@ -683,4 +683,13 @@ class LclController extends Controller
         $pdf = \PDF::loadView('print.wo-fiatmuat', $data); 
         return $pdf->stream('WO-FiatMuat-'.$mainfest->NOHBL.'-'.date('dmy').'.pdf');
     }
+    
+    public function suratjalanCetak($id)
+    {
+        $mainfest = DBManifest::find($id);
+        $data['manifest'] = $mainfest;
+//        return view('print.delivery-surat-jalan', $data);
+        $pdf = \PDF::loadView('print.delivery-surat-jalan', $data); 
+        return $pdf->stream('Delivery-SuratJalan-'.$mainfest->NOHBL.'-'.date('dmy').'.pdf');
+    }
 }

@@ -26,7 +26,7 @@ Route::group(['prefix' => 'lcl/delivery', 'namespace' => 'Import'], function(){
     ]);
     // PRINT
     Route::get('/fiatmuat/cetak/{id}', [
-        'as' => 'lcl-fiatmuat-cetak',
+        'as' => 'lcl-delivery-fiatmuat-cetak',
         'uses' => 'LclController@fiatmuatCetak'
     ]);
     
@@ -37,6 +37,11 @@ Route::group(['prefix' => 'lcl/delivery', 'namespace' => 'Import'], function(){
     Route::post('/suratjalan/edit/{id}', [
         'as' => 'lcl-delivery-suratjalan-update',
         'uses' => 'LclController@suratjalanUpdate'
+    ]);
+    // PRINT
+    Route::get('/suratjalan/cetak/{id}', [
+        'as' => 'lcl-delivery-suratjalan-cetak',
+        'uses' => 'LclController@suratjalanCetak'
     ]);
     
     Route::get('/release', [
