@@ -16,3 +16,10 @@ class Joborder extends Model
     public $timestamps = false;
 
 }
+
+class Jobordercy extends Mode
+{
+    protected $table = 'tjobordercy';
+    protected $primaryKey = 'TJOBORDER_PK';
+    public $timestamps = false;
+}

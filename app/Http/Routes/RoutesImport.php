@@ -18,5 +18,13 @@ require_once 'Import/Stripping.php';
 // Buang MTY Routes
 require_once 'Import/Buangmty.php';
 
-// Buang MTY Routes
+// Delivery Routes
 require_once 'Import/LclDelivery.php';
+
+
+
+// FCL Routes
+require_once 'Import/Fcl.php';
+
+// Delivery Routes
+require_once 'Import/FclDelivery.php';

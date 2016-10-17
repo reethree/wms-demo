@@ -54,7 +54,7 @@
                             <li><a href="{{ route('lcl-realisasi-gatein-index') }}">Realisasi Masuk</a></li>
                             <li><a href="{{ route('lcl-realisasi-stripping-index') }}">Realisasi Stripping</a></li>
                             <!--<li><a href="">Penomoran Tally Racking</a></li>-->
-                            <li><a href="">Realisasi Manifest Racking</a></li>
+                            <!--<li><a href="">Realisasi Manifest Racking</a></li>-->
                             <li><a href="{{ route('lcl-realisasi-buangmty-index') }}">Realisasi Buang MTY</a></li>
                             <!--<li><a href="">Update</a></li>-->
                         </ul>
@@ -77,7 +77,7 @@
                                 <li>
                                     <a href="">Rekap Import</a>
                                 </li>
-                                <li>
+<!--                                <li>
                                     <a href="">Utilitas Gudang Harian</a>
                                 </li>
                                 <li>
@@ -91,7 +91,7 @@
                                 </li>
                                 <li>
                                     <a href="">Monitoring Rack Tally Release</a>
-                                </li>
+                                </li>-->
                         </ul>
                       </li>
                     </ul>
@@ -100,8 +100,8 @@
                     <a class="submenu" tabindex="-1" href="#">Import FCL <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       <li><a tabindex="-1" href="#">Register</a></li>
-                      <li><a tabindex="-1" href="#">Manifest</a></li>
-                      <li class="dropdown-submenu">
+                      <!--<li><a tabindex="-1" href="#">Manifest</a></li>-->
+<!--                      <li class="dropdown-submenu">
                         <a class="submenu" href="#">Realisasi Planning <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="">Realisasi Masuk</a></li>
@@ -111,22 +111,14 @@
                             <li><a href="">Realisasi Buang MTY</a></li>
                             <li><a href="">Update</a></li>
                         </ul>
-                      </li>
+                      </li>-->
                       <li class="dropdown-submenu">
                         <a class="submenu" href="#">Delivery <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a href="">Behandle</a>
-                                </li>
-                                <li>
-                                    <a href="">Fiat Muat</a>
-                                </li>
-                                <li>
-                                    <a href="">Surat Jalan</a>
-                                </li>
-                                <li>
-                                    <a href="">Release</a>
-                                </li>
+                            <li><a href="">Behandle</a></li>
+                            <li><a href="">Fiat Muat</a></li>
+                            <li><a href="">Surat Jalan</a></li>
+                            <li><a href="">Release</a></li>
                         </ul>
                       </li>
                       <li class="dropdown-submenu">
@@ -138,7 +130,7 @@
                                 <li>
                                     <a href="">Rekap Import</a>
                                 </li>
-                                <li>
+<!--                                <li>
                                     <a href="">Utilitas Gudang Harian</a>
                                 </li>
                                 <li>
@@ -152,7 +144,7 @@
                                 </li>
                                 <li>
                                     <a href="">Monitoring Rack Tally Release</a>
-                                </li>
+                                </li>-->
                         </ul>
                       </li>
                     </ul>
