@@ -212,7 +212,7 @@ class LclController extends Controller
         $spk_last_id = DBJoborder::select('TJOBORDER_PK as id')->orderBy('TJOBORDER_PK', 'DESC')->first();       
         $regID = str_pad(intval((isset($spk_last_id->id) ? $spk_last_id->id : 0)+1), 4, '0', STR_PAD_LEFT);
         
-        $data['spk_number'] = 'PNJP'.$regID.'/'.date('y');
+        $data['spk_number'] = 'PRJP'.$regID.'/'.date('y');
         $data['consolidators'] = DBConsolidator::select('TCONSOLIDATOR_PK as id','NAMACONSOLIDATOR as name')->get();
         $data['countries'] = DBNegara::select('TNEGARA_PK as id','NAMANEGARA as name')->get();
         $data['pelabuhans'] = DBPelabuhan::select('TPELABUHAN_PK as id','NAMAPELABUHAN as name','KODEPELABUHAN as code')->get();
@@ -366,13 +366,15 @@ class LclController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ( !$this->access->can('update.lcl.register.edit') ) {
-            return view('errors.no-access');
-        }
+        
     }
     
     public function registerUpdate(Request $request, $id)
     {
+        if ( !$this->access->can('update.lcl.register.edit') ) {
+            return view('errors.no-access');
+        }
+        
         $data = $request->except(['_token']); 
         $data['TGLENTRY'] = date('Y-m-d');
         $data['TGL_MASTER_BL'] = date('Y-m-d', strtotime($data['TGL_MASTER_BL']));

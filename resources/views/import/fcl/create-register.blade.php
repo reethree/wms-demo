@@ -12,7 +12,7 @@
       </div>
     </div>
     <!-- /.box-header -->
-    <form class="form-horizontal" action="{{ route('lcl-register-store') }}" method="POST">
+    <form class="form-horizontal" action="{{ route('fcl-register-store') }}" method="POST">
         <div class="box-body">            
             <div class="row">
                 <div class="col-md-6">
@@ -36,7 +36,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_MASTER_BL" class="form-control pull-right datepicker" required value="{{ old('TGL_MASTER_BL') }}">
+                                <input type="text" name="TGLMBL" class="form-control pull-right datepicker" required value="{{ old('TGLMBL') }}">
                             </div>
                         </div>
                     </div>
@@ -50,7 +50,18 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>            
+                    </div>    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Consignee</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" id="TCONSIGNEE_FK" name="TCONSIGNEE_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <option value="">Choose Consignee</option>
+                                @foreach($perusahaans as $perusahaan)
+                                    <option value="{{ $perusahaan->id }}">{{ $perusahaan->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-group">
                       <label for="PARTY" class="col-sm-3 control-label">Party</label>
                       <div class="col-sm-8">
@@ -169,18 +180,18 @@
                         <div class="col-sm-3">
                             <input type="text" name="GROSSWEIGHT" class="form-control" required value="{{ old('GROSSWEIGHT') }}">
                         </div>
-                        <label class="col-sm-2 control-label">Total HBL</label>
+<!--                        <label class="col-sm-2 control-label">Total HBL</label>
                         <div class="col-sm-3">
                             <input type="number" name="JUMLAHHBL" class="form-control" required value="{{ old('JUMLAHHBL') }}">
-                        </div>
-                    </div> 
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Measurment</label>
+                        </div>-->
+                        <label class="col-sm-2 control-label">Measurment</label>
                         <div class="col-sm-3">
                             <input type="text" name="MEASUREMENT" class="form-control" required value="{{ old('MEASUREMENT') }}">
                         </div>
-                        <label class="col-sm-2 control-label">ISO Code</label>
-                        <div class="col-sm-3">
+                    </div> 
+                    <div class="form-group">  
+                        <label class="col-sm-3 control-label">ISO Code</label>
+                        <div class="col-sm-8">
                             <input type="text" name="ISO_CODE" class="form-control" required value="{{ old('ISO_CODE') }}">
                         </div>
                     </div>
@@ -193,7 +204,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. BC11</label>
                         <div class="col-sm-8">
-                            <input type="text" name="TNO_BC11" class="form-control" required value="{{ old('TNO_BC11') }}">
+                            <input type="text" name="NO_BC11" class="form-control" required value="{{ old('NO_BC11') }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -203,8 +214,14 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TTGL_BC11" class="form-control pull-right datepicker" required value="{{ old('TTGL_BC11') }}">
+                                <input type="text" name="TGL_BC11" class="form-control pull-right datepicker" required value="{{ old('TGL_BC11') }}">
                             </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">No. POS BC11</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="NO_POS_BC11" class="form-control" required value="{{ old('NO_POS_BC11') }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -265,7 +282,7 @@
         <div class="box-footer">
             <button type="submit" class="btn btn-success pull-right"><i class="fa fa-save"></i> Simpan</button>
             <button type="reset" class="btn btn-default pull-right" style="margin-right: 10px;"><i class="fa fa-trash"></i> Batal</button>
-            <a href="{{ route('lcl-register-index') }}" class="btn btn-danger pull-right" style="margin-right: 10px;"><i class="fa fa-close"></i> Keluar</a>
+            <a href="{{ route('fcl-register-index') }}" class="btn btn-danger pull-right" style="margin-right: 10px;"><i class="fa fa-close"></i> Keluar</a>
         </div>
         <!-- /.box-footer -->
     </form>

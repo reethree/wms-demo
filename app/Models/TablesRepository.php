@@ -56,6 +56,35 @@ class TablesRepository extends EloquentRepositoryAbstract {
                 
             }
             
+        }elseif($Model->getMorphClass() == 'App\Models\Joborder'){
+            
+            if(isset($request['startdate']) || isset($request['enddate'])){
+                
+                $Model = \DB::table('tjoborder')
+                        ->where('TGLENTRY', '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
+                        ->where('TGLENTRY', '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                
+            }else{
+                
+            }
+            
+        }elseif($Model->getMorphClass() == 'App\Models\Jobordercy'){
+            
+            if(isset($request['jobid'])){
+                
+                $Model = \DB::table('tjobordercy')
+                        ->where('TJOBORDER_PK', $request['jobid']);
+                
+            }elseif(isset($request['startdate']) || isset($request['enddate'])){
+                
+                $Model = \DB::table('tjobordercy')
+                        ->where('TGLENTRY', '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
+                        ->where('TGLENTRY', '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                
+            }else{
+                
+            }
+            
         }elseif($Model->getMorphClass() == 'App\Models\Manifest'){
             
             if(isset($request['containerid'])){

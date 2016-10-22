@@ -99,7 +99,7 @@
                   <li class="dropdown-submenu">
                     <a class="submenu" tabindex="-1" href="#">Import FCL <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                      <li><a tabindex="-1" href="#">Register</a></li>
+                      <li><a tabindex="-1" href="{{ route('fcl-register-index') }}">Register</a></li>
                       <!--<li><a tabindex="-1" href="#">Manifest</a></li>-->
 <!--                      <li class="dropdown-submenu">
                         <a class="submenu" href="#">Realisasi Planning <span class="caret"></span></a>
@@ -115,10 +115,10 @@
                       <li class="dropdown-submenu">
                         <a class="submenu" href="#">Delivery <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="">Behandle</a></li>
-                            <li><a href="">Fiat Muat</a></li>
-                            <li><a href="">Surat Jalan</a></li>
-                            <li><a href="">Release</a></li>
+                            <li><a href="{{ route('fcl-delivery-behandle-index') }}">Behandle</a></li>
+                            <li><a href="{{ route('fcl-delivery-fiatmuat-index') }}">Fiat Muat</a></li>
+                            <li><a href="{{ route('fcl-delivery-suratjalan-index') }}">Surat Jalan</a></li>
+                            <li><a href="{{ route('fcl-delivery-release-index') }}">Release</a></li>
                         </ul>
                       </li>
                       <li class="dropdown-submenu">
