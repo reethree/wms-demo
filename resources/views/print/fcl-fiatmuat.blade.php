@@ -14,90 +14,80 @@
                 <td style="vertical-align: top;">
                     <table border="0" cellspacing="0" cellpadding="0" style="font-size: 12px;">
                         <tr>
-                            <td>No. WO</td>
-                            <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->NOTALLY }}</td>
-                        </tr>
-                        <tr>
                             <td>No. Order</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->NOJOBORDER }}</td>
+                            <td>{{ $container->NOJOBORDER }}</td>
                         </tr>
                         <tr>
                             <td>Consolidator</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->NAMACONSOLIDATOR }}</td>
+                            <td>{{ $container->NAMACONSOLIDATOR }}</td>
                         </tr>
                         <tr>
                             <td>No. Container</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->NOCONTAINER }}</td>
-                        </tr>
-                        <tr>
-                            <td>No. HB/L</td>
-                            <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->NOHBL }}</td>
-                        </tr>
-                        <tr>
-                            <td>Shipper</td>
-                            <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->SHIPPER }}</td>
+                            <td>{{ $container->NOCONTAINER }}</td>
                         </tr>
                         <tr>
                             <td>Consignee</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->CONSIGNEE }}</td>
+                            <td>{{ $container->CONSIGNEE }}</td>
                         </tr>
                         <tr>
                             <td>Importir</td>
                             <td class="padding-10 text-center">:</td>
-                            <td></td>
+                            <td>{{ $container->NAMA_IMP }}</td>
                         </tr>
                         <tr>
-                            <td>No. Bea / Cukai</td>
+                            <td>No/Tgl. SPJM</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->NO_SPPB }}</td>
+                            <td>{{ $container->NO_SPJM }} / {{ date('d-m-y', strtotime($container->TGL_SPJM)) }}</td>
                         </tr>
                         <tr>
                             <td>No. Kuitansi</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->NO_KUITANSI }} / {{ date('d-m-Y') }}</td>
+                            <td>{{ $container->NO_KUITANSI }} / {{ date('d-m-Y') }}</td>
                         </tr>
                         <tr>
-                            <td>No. RAK</td>
+                            <td>No/Tgl. MB/L</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>-</td>
+                            <td>{{ $container->NOMBL }} / {{ date('d-m-y', strtotime($container->TGLMBL)) }}</td>
                         </tr>
                         <tr>
-                            <td>No. POS</td>
+                            <td>No/ Tgl. Bea Cukai</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->NO_POS_BC11 }}</td>
+                            <td>{{ $container->NO_SPPB }} / {{ date('d-m-Y',strtotime($container->TGL_SPPB)) }}</td>
                         </tr>
                         <tr>
-                            <td>No. BC11 / Tgl. BC11</td>
+                            <td>Tgl. Behandle(*)</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->NO_BC11 }} / {{ date('d-m-Y',strtotime($manifest->TGL_BC11)) }}</td>
+                            <td>{{ date('d-m-y', strtotime($container->TGLBEHANDLE)) }} {{ date('H:i:s', strtotime($container->JAMBEHANDLE)) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Activity</td>
+                            <td class="padding-10 text-center">:</td>
+                            <td>CY/DG</td>
                         </tr>
                     </table>
                 </td>
                 <td style="vertical-align: top;">
-                    <table border="0" cellspacing="0" cellpadding="0" style="font-weight: bold;">
+<!--                    <table border="0" cellspacing="0" cellpadding="0" style="font-weight: bold;">
                         <tr>
                             <td>NO.URUT</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ str_pad(intval($manifest->TMANIFEST_PK), 4, '0', STR_PAD_LEFT) }}</td>
+                            <td>{{ str_pad(intval($container->TMANIFEST_PK), 4, '0', STR_PAD_LEFT) }}</td>
                         </tr>
                         <tr>
                             <td>NO.TRUCK</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->NOPOL }}</td>
+                            <td>{{ $container->NOPOL }}</td>
                         </tr>
                         <tr>
                             <td>LOKASI GUDANG</td>
                             <td class="padding-10 text-center">:</td>
                             <td>PNJP</td>
                         </tr>
-                    </table>
+                    </table>-->
                     <table border="1" cellspacing="0" cellpadding="0">                       
                         <tr>
                             <td class="text-center" style="font-size: 14px;font-weight: bold;">Time Release Jam</td>
@@ -167,20 +157,16 @@
         <table border="1" cellspacing="0" cellpadding="0">
             <thead>
                 <tr>
-                    <th>QUANTITY</th>
-                    <th>TONANSE</th>
-                    <th>CBM</th>
-                    <th>MARKING</th>
-                    <th>DESC OF GOOD</th>
+                    <th>No. Container</th>
+                    <th>Size</th>
+                    <th>Weight</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ $manifest->QUANTITY }}/{{ $manifest->NAMAPACKING }}</td>
-                    <td>{{ number_format($manifest->WEIGHT,4) }}</td>
-                    <td>{{ number_format($manifest->MEAS,4) }}</td>
-                    <td>{{ $manifest->MARKING }}</td>
-                    <td>{{ $manifest->DESCOFGOODS }}</td>
+                    <td>{{ $container->NOCONTAINER }}</td>
+                    <td class="text-center">{{ $container->SIZE }}</td>
+                    <td class="text-center">{{ number_format($container->WEIGHT,4) }}</td>
                 </tr>
             </tbody>
         </table>

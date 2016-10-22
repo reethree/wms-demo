@@ -44,8 +44,8 @@
             <tbody>
                 <tr>
                     <td>{{ $container->NOCONTAINER }}</td>
-                    <td>{{ $container->SIZE }}</td>
-                    <td>{{ number_format($container->WEIGHT,4) }}</td>
+                    <td class="text-center">{{ $container->SIZE }}</td>
+                    <td class="text-center">{{ number_format($container->WEIGHT,4) }}</td>
                 </tr>
             </tbody>
         </table>

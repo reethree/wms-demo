@@ -35,6 +35,7 @@
             $('#NO_SPPB').val(rowdata.NO_SPPB);
             $('#TGL_SPPB').val(rowdata.TGL_SPPB);
             $('#NO_KUITANSI').val(rowdata.NO_KUITANSI);
+            $('#KD_DOK_INOUT').val(rowdata.KD_DOK_INOUT).trigger('change');
 
             if(!rowdata.tglfiat && !rowdata.jamfiat) {
                 $('#btn-group-2').enableButtonGroup();

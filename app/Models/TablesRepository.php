@@ -56,6 +56,42 @@ class TablesRepository extends EloquentRepositoryAbstract {
                 
             }
             
+        }elseif($Model->getMorphClass() == 'App\Models\Containercy'){
+            
+            if(isset($request['jobid'])){
+                
+                $Model = \DB::table('tcontainercy')
+                        ->where('TJOBORDER_FK', $request['jobid']);
+                
+            }elseif(isset($request['module'])){
+                
+                switch ($request['module']) {
+                    case 'behandle':
+                        
+                    break;
+                    case 'fiatmuat':
+                        $Model = \DB::table('tcontainercy')
+//                            ->select('tmanifest.*','tperusahaan.NPWP as NPWP_CONSIGNEE')
+//                            ->join('tperusahaan', 'tperusahaan.TPERUSAHAAN_PK', '=', 'tmanifest.TCONSIGNEE_FK')
+                            ->whereNotNull('NO_SPJM')
+                            ->whereNotNull('TGL_SPJM');
+                    break;
+                    case 'suratjalan':
+                        $Model = \DB::table('tcontainercy')
+                            ->whereNotNull('NO_SPPB')
+                            ->whereNotNull('TGL_SPPB');
+                    break;
+                    case 'release':
+                        $Model = \DB::table('tcontainercy')
+                            ->whereNotNull('TGLSURATJALAN')
+                            ->whereNotNull('JAMSURATJALAN');
+                    break;
+                }
+                
+            }else{
+                
+            }
+            
         }elseif($Model->getMorphClass() == 'App\Models\Joborder'){
             
             if(isset($request['startdate']) || isset($request['enddate'])){

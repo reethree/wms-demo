@@ -21,22 +21,27 @@
         
         $('#btn-edit').click(function() {
             //Gets the selected row id.
-            rowid = $('#lclFiatMuatGrid').jqGrid('getGridParam', 'selrow');
-            rowdata = $('#lclFiatMuatGrid').getRowData(rowid);
+            rowid = $('#fclFiatMuatGrid').jqGrid('getGridParam', 'selrow');
+            rowdata = $('#fclFiatMuatGrid').getRowData(rowid);
 
             populateFormFields(rowdata, '');
-            $('#TMANIFEST_PK').val(rowid);
+            $('#TCONTAINER_PK').val(rowid);
+            $('#NOJOBORDER').val(rowdata.NoJob);
             $('#NO_BC11').val(rowdata.NO_BC11);
             $('#TGL_BC11').val(rowdata.TGL_BC11);
+            $('#NO_PLP').val(rowdata.NO_PLP);
+            $('#TGL_PLP').val(rowdata.TGL_PLP);
             $('#NO_POS_BC11').val(rowdata.NO_POS_BC11);
             $('#NO_SPJM').val(rowdata.NO_SPJM);
             $('#TGL_SPJM').val(rowdata.TGL_SPJM);
-            $('#NPWP_CONSIGNEE').val(rowdata.NPWP_CONSIGNEE);
+            $('#NAMA_IMP').val(rowdata.NAMA_IMP);
+            $('#NPWP_IMP').val(rowdata.NPWP_IMP);
             $('#NO_SPPB').val(rowdata.NO_SPPB);
             $('#TGL_SPPB').val(rowdata.TGL_SPPB);
             $('#NO_KUITANSI').val(rowdata.NO_KUITANSI);
+            $('#KD_DOK_INOUT').val(rowdata.KD_DOK_INOUT).trigger('change');
 
-            if(!rowdata.tglfiat && !rowdata.jamfiat) {
+            if(!rowdata.TGLFIAT && !rowdata.JAMFIAT) {
                 $('#btn-group-2').enableButtonGroup();
                 $('#fiatmuat-form').enableFormGroup();
             }else{
@@ -47,16 +52,16 @@
         });
         
         $('#btn-print').click(function() {
-            var id = $('#lclFiatMuatGrid').jqGrid('getGridParam', 'selrow');
-            window.open("{{ route('lcl-delivery-fiatmuat-cetak', '') }}/"+id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");   
+            var id = $('#fclFiatMuatGrid').jqGrid('getGridParam', 'selrow');
+            window.open("{{ route('fcl-delivery-fiatmuat-cetak', '') }}/"+id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");   
         });
         
         $('#btn-save').click(function() {
             
             if(!confirm('Apakah anda yakin?')){return false;}
             
-            var manifestId = $('#TMANIFEST_PK').val();
-            var url = "{{route('lcl-delivery-fiatmuat-update','')}}/"+manifestId;
+            var manifestId = $('#TCONTAINER_PK').val();
+            var url = "{{route('fcl-delivery-fiatmuat-update','')}}/"+manifestId;
 
             $.ajax({
                 type: 'POST',
@@ -73,7 +78,7 @@
                 },
                 success:function(json)
                 {
-                    console.log(json);
+//                    console.log(json);
                     if(json.success) {
                       $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
                     } else {
@@ -91,14 +96,14 @@
         });
         
         $('#btn-refresh').click(function() {
-            $('#lclFiatMuatGrid').jqGrid().trigger("reloadGrid");
+            $('#fclFiatMuatGrid').jqGrid().trigger("reloadGrid");
             $('#fiatmuat-form').disabledFormGroup();
             $('#btn-toolbar').disabledButtonGroup();
             $('#btn-group-3').enableButtonGroup();
             
             $('#fiatmuat-form')[0].reset();
             $('.select2').val(null).trigger("change");
-            $('#TMANIFEST_PK').val("");
+            $('#TCONTAINER_PK').val("");
         });
         
     });
@@ -107,36 +112,48 @@
 
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">LCL Delivery Fiat Muat</h3>
-<!--        <div class="box-tools">
-            <a href="{{ route('lcl-manifest-create') }}" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Add New</a>
-        </div>-->
+        <h3 class="box-title">FCL Delivery Fiat Muat</h3>
     </div>
     <div class="box-body">
         <div class="row" style="margin-bottom: 30px;">
             <div class="col-md-12"> 
                 {{
-                    GridRender::setGridId("lclFiatMuatGrid")
+                    GridRender::setGridId("fclFiatMuatGrid")
                     ->enableFilterToolbar()
-                    ->setGridOption('url', URL::to('/lcl/manifest/grid-data?module=fiatmuat'))
-                    ->setGridOption('rowNum', 20)
+                    ->setGridOption('url', URL::to('/container/grid-data-cy?module=fiatmuat'))
+//                    ->setGridOption('editurl',URL::to('/container/crud-cy/'))
+                    ->setGridOption('rowNum', 10)
                     ->setGridOption('shrinkToFit', true)
-                    ->setGridOption('sortname','TMANIFEST_PK')
+                    ->setGridOption('sortname','TCONTAINER_PK')
                     ->setGridOption('rownumbers', true)
-                    ->setGridOption('height', '250')
-                    ->setGridOption('rowList',array(20,50,100))
+                    ->setGridOption('height', '150')
+                    ->setGridOption('rowList',array(10,20,50))
                     ->setGridOption('useColSpanStyle', true)
                     ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
                     ->setNavigatorOptions('view',array('closeOnEscape'=>false))
+                    ->setNavigatorOptions('navigator', array('add' => false, 'edit' => false, 'del' => false, 'view' => true, 'refresh' => false))
+                    ->setNavigatorOptions('add', array('closeAfterAdd' => true))
+                    ->setNavigatorEvent('add', 'afterSubmit', 'afterSubmitEvent')
+                    ->setNavigatorOptions('edit', array('closeAfterEdit' => true))
+                    ->setNavigatorEvent('edit', 'afterSubmit', 'afterSubmitEvent')
+                    ->setNavigatorEvent('del', 'afterSubmit', 'afterSubmitEvent')
                     ->setFilterToolbarOptions(array('autosearch'=>true))
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
-                    ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
-                    ->addColumn(array('label'=>'Status','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
-                    ->addColumn(array('label'=>'No. HBL','index'=>'NOHBL','width'=>160))
-                    ->addColumn(array('label'=>'Tgl. HBL','index'=>'TGL_HBL', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
-                    ->addColumn(array('label'=>'No. SPK','index'=>'NOJOBORDER', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER', 'width'=>150,'hidden'=>true))
+                    ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
+                    ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>160,'editable' => true, 'editrules' => array('required' => true)))
+                    ->addColumn(array('label'=>'No. SPK','index'=>'NoJob','width'=>160))
+                    ->addColumn(array('label'=>'No. MBL','index'=>'NOMBL','width'=>160))
+                    ->addColumn(array('label'=>'Tgl. MBL','index'=>'TGLMBL','width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
+                    ->addColumn(array('label'=>'Tgl. Behandle','index'=>'TGLBEHANDLE','width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'Jam. Behandle','index'=>'JAMBEHANDLE', 'width'=>150,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. Fiat','index'=>'TGLFIAT','width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'Jam. Fiat','index'=>'JAMFIAT', 'width'=>150,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'No. BC11','index'=>'NO_BC11','width'=>150,'align'=>'right'))
+                    ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. POS BC11','index'=>'NO_POS_BC11','width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','width'=>150,'align'=>'right'))
+                    ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150))
                     ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150))
                     ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>150))
@@ -144,42 +161,23 @@
                     ->addColumn(array('label'=>'Kode Dokumen','index'=>'KODE_DOKUMEN', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('index'=>'KD_DOK_INOUT', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'Kode Kuitansi','index'=>'NO_KUITANSI', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>160))
                     ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))
-                    ->addColumn(array('label'=>'Notify Party','index'=>'NOTIFYPARTY','width'=>160))
-                    ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
-                    ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120))               
-                    ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>120))
-                    ->addColumn(array('label'=>'Qty','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))
-                    ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>120))
-                    ->addColumn(array('label'=>'Kode Kemas','index'=>'KODE_KEMAS', 'width'=>100,'align'=>'center'))
-                    ->addColumn(array('label'=>'No. Rack','index'=>'RACKING', 'width'=>150,'hidden'=>true)) 
-                    ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150,'hidden'=>true))          
-                    ->addColumn(array('index'=>'TSHIPPER_FK', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('index'=>'TCONSIGNEE_FK', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'NPWP Consignee','index'=>'NPWP_CONSIGNEE', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'No. Kuitansi','index'=>'NO_KUITANSI', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('index'=>'TNOTIFYPARTY_FK', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('index'=>'TPACKING_FK', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'Marking','index'=>'MARKING', 'width'=>150,'hidden'=>true)) 
-                    ->addColumn(array('label'=>'Desc of Goods','index'=>'DESCOFGOODS', 'width'=>150,'hidden'=>true))              
-                    ->addColumn(array('label'=>'No.BC11','index'=>'NO_BC11', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'Tgl.BC11','index'=>'TGL_BC11', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>150))
-                    ->addColumn(array('label'=>'No.PLP','index'=>'NO_PLP', 'width'=>150,'hidden'=>true))                
-                    ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>150,'hidden'=>true)) 
-                    ->addColumn(array('label'=>'Tgl.Behandle','index'=>'tglbehandle', 'width'=>150,'hidden'=>true)) 
-                    ->addColumn(array('label'=>'Surcharge (DG)','index'=>'DG_SURCHARGE', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'Surcharge (Weight)','index'=>'WEIGHT_SURCHARGE', 'width'=>150,'hidden'=>true)) 
+                    ->addColumn(array('label'=>'Importir','index'=>'NAMA_IMP','width'=>160))
+                    ->addColumn(array('label'=>'NPWP Importir','index'=>'NPWP_IMP','width'=>160))
+                    ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>80,'align'=>'center','editable' => true, 'editrules' => array('required' => true,'number'=>true),'edittype'=>'select','editoptions'=>array('value'=>"20:20;40:40")))
+                    ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>80,'align'=>'center','editable' => false))
+                    ->addColumn(array('label'=>'No. Seal','index'=>'NOSEGEL', 'width'=>120,'editable' => true, 'align'=>'right'))
+                    ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('required' => true)))
+                    ->addColumn(array('label'=>'Measurment','index'=>'MEAS', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('required' => true)))
+                    ->addColumn(array('label'=>'Layout','index'=>'layout', 'width'=>80,'editable' => true,'align'=>'center','editoptions'=>array('defaultValue'=>"C-1")))
+                    ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
                     ->addColumn(array('label'=>'Nama EMKL','index'=>'NAMAEMKL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'Telp. EMKL','index'=>'TELPEMKL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'No. Truck','index'=>'NOPOL', 'width'=>150,'hidden'=>true)) 
-                    ->addColumn(array('label'=>'Tgl. Fiat Muat','index'=>'tglfiat', 'width'=>120,'hidden'=>true))
-                    ->addColumn(array('label'=>'Jam. Fiat Muat','index'=>'jamfiat', 'width'=>70,'hidden'=>true))
-                    ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
-                    ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
-                    ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150, 'search'=>false))
+                    ->addColumn(array('label'=>'Jam. Entry','index'=>'JAMENTRY', 'width'=>150, 'search'=>false, 'hidden'=>true))
+                    ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
                     ->renderGrid()
                 }}
                 
@@ -201,18 +199,12 @@
             </div>
             
         </div>
-        <form class="form-horizontal" id="fiatmuat-form" action="{{ route('lcl-delivery-fiatmuat-index') }}" method="POST">
+        <form class="form-horizontal" id="fiatmuat-form" action="{{ route('fcl-delivery-fiatmuat-index') }}" method="POST">
             <div class="row">
                 <div class="col-md-6">
                     
                     <input name="_token" type="hidden" value="{{ csrf_token() }}">
-                    <input id="TMANIFEST_PK" name="TMANIFEST_PK" type="hidden">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">No. HBL</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="NOHBL" name="NOHBL" class="form-control" readonly>
-                        </div>
-                    </div>
+                    <input id="TCONTAINER_PK" name="TCONTAINER_PK" type="hidden">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. SPK</label>
                         <div class="col-sm-8">
@@ -226,23 +218,24 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">No. Tally</label>
+                        <label class="col-sm-3 control-label">Consolidator</label>
                         <div class="col-sm-8">
-                            <input type="text" id="NOTALLY" name="NOTALLY" class="form-control" readonly>
+                            <input type="text" id="NAMACONSOLIDATOR" name="NAMACONSOLIDATOR" class="form-control" readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">No. Rack</label>
+                        <label class="col-sm-3 control-label">Consignee</label>
                         <div class="col-sm-8">
-                            <input type="text" id="RACKING" name="RACKING" class="form-control" readonly>
+                            <input type="text" id="CONSIGNEE" name="CONSIGNEE" class="form-control" readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Tgl. Behandle</label>
+                        <label class="col-sm-3 control-label">NAMA Importir</label>
                         <div class="col-sm-8">
-                            <input type="text" id="tglbehandle" name="tglbehandle" class="form-control" readonly>
+                            <input type="text" id="NAMA_IMP" name="NAMA_IMP" class="form-control" readonly>
                         </div>
                     </div>
+                    
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
@@ -272,21 +265,15 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Consolidator</label>
+                        <label class="col-sm-3 control-label">Tgl. Behandle</label>
                         <div class="col-sm-8">
-                            <input type="text" id="NAMACONSOLIDATOR" name="NAMACONSOLIDATOR" class="form-control" readonly>
+                            <input type="text" id="TGLBEHANDLE" name="TGLBEHANDLE" class="form-control" readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Consignee</label>
+                        <label class="col-sm-3 control-label">NPWP Importir</label>
                         <div class="col-sm-8">
-                            <input type="text" id="CONSIGNEE" name="CONSIGNEE" class="form-control" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">NPWP Consignee</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="NPWP_CONSIGNEE" name="NPWP_CONSIGNEE" class="form-control" readonly>
+                            <input type="text" id="NPWP_IMP" name="NPWP_IMP" class="form-control" readonly>
                         </div>
                     </div>
                 </div>
@@ -339,7 +326,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" id="tglfiat" name="tglfiat" class="form-control pull-right datepicker" required value="{{ date('Y-m-d') }}" readonly>
+                                <input type="text" id="TGLFIAT" name="TGLFIAT" class="form-control pull-right datepicker" value="{{ date('Y-m-d') }}" required>
                             </div>
                         </div>
                     </div>
@@ -349,7 +336,7 @@
                             <label class="col-sm-3 control-label">Jam Fiat</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input type="text" id="jamfiat" name="jamfiat" class="form-control timepicker" value="{{ date('H:i:s') }}" required readonly>
+                                    <input type="text" id="JAMFIAT" name="JAMFIAT" class="form-control timepicker" value="{{ date('H:i:s') }}" required>
                                     <div class="input-group-addon">
                                           <i class="fa fa-clock-o"></i>
                                     </div>
@@ -388,14 +375,14 @@
 
 <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/datepicker/datepicker3.css") }}">
-<!--<link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.css") }}">-->
+<link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.css") }}">
 
 @endsection
 
 @section('custom_js')
 
 <script src="{{ asset("/bower_components/AdminLTE/plugins/datepicker/bootstrap-datepicker.js") }}"></script>
-<!--<script src="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.js") }}"></script>-->
+<script src="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.js") }}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
 <script type="text/javascript">
     $('.select2').select2();
@@ -404,13 +391,13 @@
         todayHighlight: true,
         format: 'yyyy-mm-dd' 
     });
-//    $('.timepicker').timepicker({ 
-//        showMeridian: false,
-//        showInputs: false,
-//        showSeconds: true,
-//        minuteStep: 1,
-//        secondStep: 1
-//    });
+    $('.timepicker').timepicker({ 
+        showMeridian: false,
+        showInputs: false,
+        showSeconds: true,
+        minuteStep: 1,
+        secondStep: 1
+    });
 </script>
 
 @endsection

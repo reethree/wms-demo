@@ -231,7 +231,7 @@ class FclController extends Controller
         $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
         $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();
         $data['SHIPPINGLINE'] = $namashippingline->SHIPPINGLINE;
-        $namaconsignee = DBPerusahaan::select('NAMAPERUSAHAAN')->where('TPERUSAHAAN_PK',$data['TPERUSAHAAN_FK'])->first();
+        $namaconsignee = DBPerusahaan::select('NAMAPERUSAHAAN')->where('TPERUSAHAAN_PK',$data['TCONSIGNEE_FK'])->first();
         $data['CONSIGNEE'] = $namaconsignee->NAMAPERUSAHAAN;
         $data['UID'] = \Auth::getUser()->name;
         
@@ -322,10 +322,10 @@ class FclController extends Controller
         
         $data = $request->except(['_token']); 
         $data['TGLENTRY'] = date('Y-m-d');
-        $data['TGL_MASTER_BL'] = date('Y-m-d', strtotime($data['TGL_MASTER_BL']));
+        $data['TGLMBL'] = date('Y-m-d', strtotime($data['TGLMBL']));
         $data['ETA'] = date('Y-m-d', strtotime($data['ETA']));
         $data['ETD'] = date('Y-m-d', strtotime($data['ETD']));
-        $data['TTGL_BC11'] = date('Y-m-d', strtotime($data['TTGL_BC11']));
+        $data['TGL_BC11'] = date('Y-m-d', strtotime($data['TGL_BC11']));
         $data['TTGL_PLP'] = date('Y-m-d', strtotime($data['TTGL_PLP']));
         $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
         $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
@@ -337,6 +337,8 @@ class FclController extends Controller
         $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
         $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();
         $data['SHIPPINGLINE'] = $namashippingline->SHIPPINGLINE;
+        $namaconsignee = DBPerusahaan::select('NAMAPERUSAHAAN')->where('TPERUSAHAAN_PK',$data['TCONSIGNEE_FK'])->first();
+        $data['CONSIGNEE'] = $namaconsignee->NAMAPERUSAHAAN;
         $data['UID'] = \Auth::getUser()->name;
         
         $update = DBJoborder::where('TJOBORDER_PK', $id)
@@ -515,9 +517,9 @@ class FclController extends Controller
     public function fiatmuatUpdate(Request $request, $id)
     {
         $data = $request->json()->all(); 
-        unset($data['TMANIFEST_PK'], $data['_token']);
+        unset($data['TCONTAINER_PK'], $data['_token']);
 
-        $update = DBManifest::where('TMANIFEST_PK', $id)
+        $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
         
         if($update){
@@ -606,26 +608,28 @@ class FclController extends Controller
     {
         $container = DBContainer::find($id);
         $data['container'] = $container;
-        return view('print.fcl-behandle', $data);
+//        return view('print.fcl-behandle', $data);
         $pdf = \PDF::loadView('print.fcl-behandle', $data); 
         return $pdf->stream('FCL-Behandle-'.$container->NOCONTAINER.'-'.date('dmy').'.pdf');
     }
     
     public function fiatmuatCetak($id)
     {
-        $mainfest = DBManifest::find($id);
-        $data['manifest'] = $mainfest;
-//        return view('print.wo-fiatmuat', $data);
-        $pdf = \PDF::loadView('print.wo-fiatmuat', $data); 
-        return $pdf->stream('WO-FiatMuat-'.$mainfest->NOHBL.'-'.date('dmy').'.pdf');
+        $container = DBContainer::find($id);
+        $joborder = DBJoborder::where('TJOBORDER_PK', $container->TJOBORDER_FK);
+        $data['container'] = $container;
+        $data['joborder'] = $joborder;
+        return view('print.fcl-fiatmuat', $data);
+        $pdf = \PDF::loadView('print.fcl-fiatmuat', $data); 
+        return $pdf->stream('FCL-FiatMuat-'.$container->NOCONTAINER.'-'.date('dmy').'.pdf');
     }
     
     public function suratjalanCetak($id)
     {
-        $mainfest = DBManifest::find($id);
-        $data['manifest'] = $mainfest;
+        $container = DBContainer::find($id);
+        $data['container'] = $container;
 //        return view('print.delivery-surat-jalan', $data);
         $pdf = \PDF::loadView('print.delivery-surat-jalan', $data); 
-        return $pdf->stream('Delivery-SuratJalan-'.$mainfest->NOHBL.'-'.date('dmy').'.pdf');
+        return $pdf->stream('Delivery-SuratJalan-'.$container->NOCONTAINER.'-'.date('dmy').'.pdf');
     }
 }
