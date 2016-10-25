@@ -245,26 +245,26 @@ class LclController extends Controller
             'NOJOBORDER' => 'required|unique:tjoborder',
             'NOMBL' => 'required|unique:tjoborder',
             'TGL_MASTER_BL' => 'required',
-            'TCONSOLIDATOR_FK' => 'required',
-            'PARTY' => 'required',
-            'TNEGARA_FK' => 'required',
-            'TPELABUHAN_FK' => 'required',
-            'VESSEL' => 'required',
-            'VOY' => 'required',
-            'CALLSIGN' => 'required',
-            'ETA' => 'required',
-            'ETD' => 'required',
-            'TLOKASISANDAR_FK' => 'required',
-            'KODE_GUDANG' => 'required',
-            'GUDANG_TUJUAN' => 'required',
-            'JENISKEGIATAN' => 'required',
-            'GROSSWEIGHT' => 'required',
-            'JUMLAHHBL' => 'required',
-            'MEASUREMENT' => 'required',
-            'ISO_CODE' => 'required',
-            'PEL_MUAT' => 'required',
-            'PEL_TRANSIT' => 'required',
-            'PEL_BONGKAR' => 'required'
+//            'TCONSOLIDATOR_FK' => 'required',
+//            'PARTY' => 'required',
+//            'TNEGARA_FK' => 'required',
+//            'TPELABUHAN_FK' => 'required',
+//            'VESSEL' => 'required',
+//            'VOY' => 'required',
+//            'CALLSIGN' => 'required',
+//            'ETA' => 'required',
+//            'ETD' => 'required',
+//            'TLOKASISANDAR_FK' => 'required',
+//            'KODE_GUDANG' => 'required',
+//            'GUDANG_TUJUAN' => 'required',
+//            'JENISKEGIATAN' => 'required',
+//            'GROSSWEIGHT' => 'required',
+//            'JUMLAHHBL' => 'required',
+//            'MEASUREMENT' => 'required',
+//            'ISO_CODE' => 'required',
+//            'PEL_MUAT' => 'required',
+//            'PEL_TRANSIT' => 'required',
+//            'PEL_BONGKAR' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -473,14 +473,14 @@ class LclController extends Controller
                     ->update($dataManifest);
             
             if($updateManifest){
-                return json_encode(array('success' => true, 'message' => 'Gate IN successfully updated!'));
+//                return json_encode(array('success' => true, 'message' => 'Gate IN successfully updated!'));
             }
             
-            return json_encode(array('success' => true, 'message' => 'Container successfully updated, but Manifest not updated!'));
+//            return json_encode(array('success' => true, 'message' => 'Container successfully updated, but Manifest not updated!'));
         }
         
-        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
-
+//        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+        return $data;
     }
     
     public function strippingUpdate(Request $request, $id)
@@ -501,15 +501,32 @@ class LclController extends Controller
         $dataupdate['operator_forklif'] = $data['operator_forklif'];
         
         // Calculate Working Hours
-        $date_start_stripping = strtotime($dataupdate['STARTSTRIPPING']);
-        $date_end_stripping = strtotime($dataupdate['ENDSTRIPPING']);
-        $stripping = abs($date_start_stripping - $date_end_stripping);
+//        $date_start_stripping = strtotime($dataupdate['STARTSTRIPPING']);
+//        $date_end_stripping = strtotime($dataupdate['ENDSTRIPPING']);
+//        $stripping = abs($date_start_stripping - $date_end_stripping);
         
-        $date_start_tunda = strtotime($dataupdate['mulai_tunda']);
-        $date_end_tunda = strtotime($dataupdate['selesai_tunda']);
-        $tunda = abs($date_start_tunda - $date_end_tunda);
+        $s_time1 = new \DateTime($dataupdate['STARTSTRIPPING']);
+        $s_time2 = new \DateTime($dataupdate['ENDSTRIPPING']);
+
+        $s_interval =  $s_time2->diff($s_time1);
         
-        $working_hours = date('H:i', abs($stripping - $tunda));
+//        $s_hours = $stripping / ( 60 * 60 );
+        
+//        $date_start_tunda = strtotime($dataupdate['mulai_tunda']);
+//        $date_end_tunda = strtotime($dataupdate['selesai_tunda']);
+//        $tunda = abs($date_start_tunda - $date_end_tunda);
+        
+        $t_time1 = new \DateTime($dataupdate['mulai_tunda']);
+        $t_time2 = new \DateTime($dataupdate['selesai_tunda']);
+
+        $t_interval =  $t_time2->diff($t_time1);
+        
+        $time1 = new \DateTime($s_interval->format("%H:%i:%s"));
+        $time2 = new \DateTime($t_interval->format("%H:%i:%s"));
+        
+        $interval = $time2->diff($time1);
+        
+        $working_hours = $interval->format("%H:%i");
         $dataupdate['working_hours'] = $working_hours;
         
         $update = DBContainer::where('TCONTAINER_PK', $id)
@@ -694,4 +711,42 @@ class LclController extends Controller
         $pdf = \PDF::loadView('print.delivery-surat-jalan', $data); 
         return $pdf->stream('Delivery-SuratJalan-'.$mainfest->NOHBL.'-'.date('dmy').'.pdf');
     }
+    
+    // REPORT
+    public function reportHarian()
+    {
+        if ( !$this->access->can('show.lcl.report.harian') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "LCL Report Delivery Harian";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Report Delivery Harian'
+            ]
+        ];        
+        
+        return view('import.lcl.report-harian')->with($data);
+    }
+    
+    public function reportRekap()
+    {
+        if ( !$this->access->can('show.lcl.report.rekap') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "LCL Rekap Import";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Rekap Import'
+            ]
+        ];        
+        
+        return view('import.lcl.report-rekap')->with($data);
+    }
+    
 }

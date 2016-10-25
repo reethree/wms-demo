@@ -20,13 +20,13 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. SPK</label>
                         <div class="col-sm-8">
-                            <input type="text" readonly name="NOJOBORDER" class="form-control" value="{{ $joborder->NOJOBORDER }}" required>
+                            <input type="text" readonly name="NOJOBORDER" class="form-control" value="{{ $joborder->NOJOBORDER }}" >
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="NOMBL" class="col-sm-3 control-label">No. MBL</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NOMBL" class="form-control" required value="{{ $joborder->NOMBL }}">
+                            <input type="text" name="NOMBL" class="form-control"  value="{{ $joborder->NOMBL }}" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -43,7 +43,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Consolidator</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="TCONSOLIDATOR_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <select class="form-control select2" name="TCONSOLIDATOR_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Consolidator</option>
                                 @foreach($consolidators as $consolidator)
                                     <option value="{{ $consolidator->id }}" @if($consolidator->id == $joborder->TCONSOLIDATOR_FK){{ "selected" }}@endif>{{ $consolidator->name }}</option>
@@ -54,13 +54,13 @@
                     <div class="form-group">
                       <label for="PARTY" class="col-sm-3 control-label">Party</label>
                       <div class="col-sm-8">
-                          <input type="text" name="PARTY" class="form-control" required value="{{ $joborder->PARTY }}"> 
+                          <input type="text" name="PARTY" class="form-control"  value="{{ $joborder->PARTY }}"> 
                       </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Country</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="TNEGARA_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <select class="form-control select2" name="TNEGARA_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Country</option>
                                 @foreach($countries as $country)
                                     <option value="{{ $country->id }}" @if($country->id == $joborder->TNEGARA_FK){{ "selected" }}@endif>{{ $country->name }}</option>
@@ -71,7 +71,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Port of Loading</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="TPELABUHAN_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <select class="form-control select2" name="TPELABUHAN_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Port of Loading</option>
                                 @foreach($pelabuhans as $pelabuhan)
                                     <option value="{{ $pelabuhan->id }}" @if($pelabuhan->id == $joborder->TPELABUHAN_FK){{ "selected" }}@endif>{{ $pelabuhan->name }}</option>
@@ -82,8 +82,8 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Vessel</label>
                         <div class="col-sm-8">
-                            <!--<input type="text" name="VESSEL" class="form-control" required value="{{ $joborder->VESSEL }}">-->
-                            <select class="form-control select2" id="vessel" name="VESSEL" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <!--<input type="text" name="VESSEL" class="form-control"  value="{{ $joborder->VESSEL }}">-->
+                            <select class="form-control select2" id="vessel" name="VESSEL" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Vessel</option>
                                 @foreach($vessels as $vessel)
                                     <option value="{{ $vessel->name }}" data-code="{{ $vessel->code }}" data-callsign="{{ $vessel->callsign }}" @if($vessel->name == $joborder->VESSEL){{ "selected" }}@endif>{{ $vessel->name }}</option>
@@ -94,11 +94,11 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Voy</label>
                         <div class="col-sm-3">
-                            <input type="text" name="VOY" class="form-control" required value="{{ $joborder->VOY }}">
+                            <input type="text" name="VOY" class="form-control"  value="{{ $joborder->VOY }}">
                         </div>
                         <label class="col-sm-2 control-label">Callsign</label>
                         <div class="col-sm-3">
-                            <input type="text" name="CALLSIGN" class="form-control" required readonly value="{{ $joborder->CALLSIGN }}">
+                            <input type="text" name="CALLSIGN" class="form-control"  readonly value="{{ $joborder->CALLSIGN }}">
                         </div>
                     </div>             
                     <div class="form-group">
@@ -108,14 +108,14 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="ETA" class="form-control pull-right datepicker" required value="{{ $joborder->ETA }}">
+                                <input type="text" name="ETA" class="form-control pull-right datepicker"  value="{{ $joborder->ETA }}">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Shipping Line</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="TSHIPPINGLINE_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <select class="form-control select2" name="TSHIPPINGLINE_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Shipping Line</option>
                                 @foreach($shippinglines as $shippingline)
                                     <option value="{{ $shippingline->id }}" @if($shippingline->id == $joborder->TSHIPPINGLINE_FK){{ "selected" }}@endif>{{ $shippingline->name }}</option>
@@ -130,14 +130,14 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="ETD" class="form-control pull-right datepicker" required value="{{ $joborder->ETD }}">
+                                <input type="text" name="ETD" class="form-control pull-right datepicker"  value="{{ $joborder->ETD }}">
                             </div>
                         </div>
                     </div>  
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Lokasi Sandar</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="TLOKASISANDAR_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <select class="form-control select2" name="TLOKASISANDAR_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Lokasi Sandar</option>
                                 @foreach($lokasisandars as $lokasisandar)
                                     <option value="{{ $lokasisandar->id }}" @if($lokasisandar->id == $joborder->TLOKASISANDAR_FK){{ "selected" }}@endif>{{ $lokasisandar->name }}</option>
@@ -150,37 +150,37 @@
                     <div class="form-group">                       
                         <label class="col-sm-3 control-label">Kode Gudang</label>
                         <div class="col-sm-3">
-                            <input type="text" name="KODE_GUDANG" value="{{ $joborder->KODE_GUDANG }}" class="form-control" required readonly>
+                            <input type="text" name="KODE_GUDANG" value="{{ $joborder->KODE_GUDANG }}" class="form-control"  readonly>
                         </div>
                         <label class="col-sm-2 control-label">Tujuan</label>
                         <div class="col-sm-3">
-                            <input type="text" name="GUDANG_TUJUAN" value="{{ $joborder->GUDANG_TUJUAN }}" class="form-control" required readonly>
+                            <input type="text" name="GUDANG_TUJUAN" value="{{ $joborder->GUDANG_TUJUAN }}" class="form-control"  readonly>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Jenis Kegiatan</label>
                         <div class="col-sm-8">
-                            <input type="text" name="JENISKEGIATAN" value="{{ $joborder->JENISKEGIATAN }}" class="form-control" required readonly>
+                            <input type="text" name="JENISKEGIATAN" value="{{ $joborder->JENISKEGIATAN }}" class="form-control"  readonly>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Gross Weight</label>
                         <div class="col-sm-3">
-                            <input type="text" name="GROSSWEIGHT" class="form-control" required value="{{ $joborder->GROSSWEIGHT }}">
+                            <input type="text" name="GROSSWEIGHT" class="form-control"  value="{{ $joborder->GROSSWEIGHT }}">
                         </div>
                         <label class="col-sm-2 control-label">Total HBL</label>
                         <div class="col-sm-3">
-                            <input type="number" name="JUMLAHHBL" class="form-control" required value="{{ $joborder->JUMLAHHBL }}">
+                            <input type="number" name="JUMLAHHBL" class="form-control"  value="{{ $joborder->JUMLAHHBL }}">
                         </div>
                     </div> 
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Measurment</label>
                         <div class="col-sm-3">
-                            <input type="text" name="MEASUREMENT" class="form-control" required value="{{ $joborder->MEASUREMENT }}">
+                            <input type="text" name="MEASUREMENT" class="form-control"  value="{{ $joborder->MEASUREMENT }}">
                         </div>
                         <label class="col-sm-2 control-label">ISO Code</label>
                         <div class="col-sm-3">
-                            <input type="text" name="ISO_CODE" class="form-control" required value="{{ $joborder->ISO_CODE }}">
+                            <input type="text" name="ISO_CODE" class="form-control"  value="{{ $joborder->ISO_CODE }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -192,7 +192,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. BC11</label>
                         <div class="col-sm-8">
-                            <input type="text" name="TNO_BC11" class="form-control" required value="{{ $joborder->TNO_BC11 }}">
+                            <input type="text" name="TNO_BC11" class="form-control"  value="{{ $joborder->TNO_BC11 }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -202,14 +202,14 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TTGL_BC11" class="form-control pull-right datepicker" required value="{{ $joborder->TTGL_BC11 }}">
+                                <input type="text" name="TTGL_BC11" class="form-control pull-right datepicker"  value="{{ $joborder->TTGL_BC11 }}">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. PLP</label>
                         <div class="col-sm-8">
-                            <input type="text" name="TNO_PLP" class="form-control" required value="{{ $joborder->TNO_PLP }}">
+                            <input type="text" name="TNO_PLP" class="form-control"  value="{{ $joborder->TNO_PLP }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -219,14 +219,14 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TTGL_PLP" class="form-control pull-right datepicker" required value="{{ $joborder->TTGL_PLP }}">
+                                <input type="text" name="TTGL_PLP" class="form-control pull-right datepicker"  value="{{ $joborder->TTGL_PLP }}">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Pel. Muat</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="PEL_MUAT" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <select class="form-control select2" name="PEL_MUAT" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Pelabuhan Muat</option>
                                 @foreach($pelabuhans as $pelabuhan)
                                     <option value="{{ $pelabuhan->code }}" @if($pelabuhan->code == $joborder->PEL_MUAT){{ "selected" }}@endif>{{ $pelabuhan->code }}</option>
@@ -237,7 +237,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Pel. Transit</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="PEL_TRANSIT" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <select class="form-control select2" name="PEL_TRANSIT" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Pelabuhan Transit</option>
                                 <option value="-" selected>-</option>
                                 @foreach($pelabuhans as $pelabuhan)
@@ -249,7 +249,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Pel. Bongkar</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="PEL_BONGKAR" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <select class="form-control select2" name="PEL_BONGKAR" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Pelabuhan Bongkar</option>
                                 @foreach($pelabuhans as $pelabuhan)
                                     <option value="{{ $pelabuhan->code }}" @if($pelabuhan->code == $joborder->PEL_BONGKAR){{'selected'}}@endif>{{ $pelabuhan->code }}</option>
@@ -311,12 +311,12 @@
                         ->setFilterToolbarOptions(array('autosearch'=>true))
                         ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                         ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
-                        ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>250,'editable' => true, 'editrules' => array('required' => true)))
-                        ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>80,'align'=>'center','editable' => true, 'editrules' => array('required' => true,'number'=>true),'edittype'=>'select','editoptions'=>array('value'=>"20:20;40:40")))
+                        ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>250,'editable' => true, 'editrules' => array('' => true)))
+                        ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>80,'align'=>'center','editable' => true, 'editrules' => array('' => true,'number'=>true),'edittype'=>'select','editoptions'=>array('value'=>"20:20;40:40")))
                         ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>80,'align'=>'center','editable' => false))
                         ->addColumn(array('label'=>'No. Seal','index'=>'NO_SEAL', 'width'=>120,'editable' => true, 'align'=>'right'))
-                        ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('required' => true)))
-                        ->addColumn(array('label'=>'Measurment','index'=>'MEAS', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('required' => true)))
+                        ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('' => true)))
+                        ->addColumn(array('label'=>'Measurment','index'=>'MEAS', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('' => true)))
                         ->addColumn(array('label'=>'Layout','index'=>'layout', 'width'=>80,'editable' => true,'align'=>'center','editoptions'=>array('defaultValue'=>"C-1")))
                         ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
                         ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150, 'search'=>false))
@@ -359,31 +359,31 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">No. Surat</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="no_surat" class="form-control" required> 
+                                    <input type="text" name="no_surat" class="form-control" > 
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Prihal</label>
                                 <div class="col-sm-8">
-                                    <textarea name="prihal_surat" class="form-control" required>Permohonan PLP-LCL Ke Gudang Primanata Jaya Persada</textarea>
+                                    <textarea name="prihal_surat" class="form-control" >Permohonan PLP-LCL Ke Gudang Primanata Jaya Persada</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">SOR</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="sor" class="form-control" required> 
+                                    <input type="text" name="sor" class="form-control" > 
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Penandatangan</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="penandatangan" class="form-control" required> 
+                                    <input type="text" name="penandatangan" class="form-control" > 
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Jabatan Pemohon</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="jabatan" class="form-control" required> 
+                                    <input type="text" name="jabatan" class="form-control" > 
                                 </div>
                             </div>
                             <input id="container_id" name="container_id" type="hidden" />

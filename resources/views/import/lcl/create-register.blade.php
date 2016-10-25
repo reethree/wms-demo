@@ -20,13 +20,13 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. SPK</label>
                         <div class="col-sm-8">
-                            <input type="text" readonly name="NOJOBORDER" class="form-control" value="{{$spk_number}}" required value="{{ old('NOJOBORDER') }}">
+                            <input type="text" readonly name="NOJOBORDER" class="form-control" value="{{$spk_number}}"  value="{{ old('NOJOBORDER') }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="NOMBL" class="col-sm-3 control-label">No. MBL</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NOMBL" class="form-control" required value="{{ old('NOMBL') }}">
+                            <input type="text" name="NOMBL" class="form-control"  value="{{ old('NOMBL') }}" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -43,7 +43,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Consolidator</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="TCONSOLIDATOR_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <select class="form-control select2" name="TCONSOLIDATOR_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Consolidator</option>
                                 @foreach($consolidators as $consolidator)
                                     <option value="{{ $consolidator->id }}">{{ $consolidator->name }}</option>
@@ -54,13 +54,13 @@
                     <div class="form-group">
                       <label for="PARTY" class="col-sm-3 control-label">Party</label>
                       <div class="col-sm-8">
-                          <input type="text" name="PARTY" class="form-control" required value="{{ old('PARTY') }}"> 
+                          <input type="text" name="PARTY" class="form-control"  value="{{ old('PARTY') }}"> 
                       </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Country</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="TNEGARA_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <select class="form-control select2" name="TNEGARA_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Country</option>
                                 @foreach($countries as $country)
                                     <option value="{{ $country->id }}">{{ $country->name }}</option>
@@ -71,7 +71,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Port of Loading</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="TPELABUHAN_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <select class="form-control select2" name="TPELABUHAN_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Port of Loading</option>
                                 @foreach($pelabuhans as $pelabuhan)
                                     <option value="{{ $pelabuhan->id }}">{{ $pelabuhan->name }}</option>
@@ -82,8 +82,8 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Vessel</label>
                         <div class="col-sm-8">
-                            <!--<input type="text" name="VESSEL" class="form-control" required value="{{ old('VESSEL') }}">-->
-                            <select class="form-control select2" id="vessel" name="VESSEL" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <!--<input type="text" name="VESSEL" class="form-control"  value="{{ old('VESSEL') }}">-->
+                            <select class="form-control select2" id="vessel" name="VESSEL" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Vessel</option>
                                 @foreach($vessels as $vessel)
                                     <option value="{{ $vessel->name }}" data-code="{{ $vessel->code }}" data-callsign="{{ $vessel->callsign }}">{{ $vessel->name }}</option>
@@ -95,11 +95,11 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Voy</label>
                         <div class="col-sm-3">
-                            <input type="text" name="VOY" class="form-control" required value="{{ old('VOY') }}">
+                            <input type="text" name="VOY" class="form-control"  value="{{ old('VOY') }}">
                         </div>
                         <label class="col-sm-2 control-label">Callsign</label>
                         <div class="col-sm-3">
-                            <input type="text" name="CALLSIGN" class="form-control" required readonly value="{{ old('CALLSIGN') }}">
+                            <input type="text" name="CALLSIGN" class="form-control"  readonly value="{{ old('CALLSIGN') }}">
                         </div>
                     </div>             
                     <div class="form-group">
@@ -109,14 +109,14 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="ETA" class="form-control pull-right datepicker" required value="{{ old('ETA') }}">
+                                <input type="text" name="ETA" class="form-control pull-right datepicker"  value="{{ old('ETA') }}">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Shipping Line</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="TSHIPPINGLINE_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <select class="form-control select2" name="TSHIPPINGLINE_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Shipping Line</option>
                                 @foreach($shippinglines as $shippingline)
                                     <option value="{{ $shippingline->id }}">{{ $shippingline->name }}</option>
@@ -131,14 +131,14 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="ETD" class="form-control pull-right datepicker" required value="{{ old('ETD') }}">
+                                <input type="text" name="ETD" class="form-control pull-right datepicker"  value="{{ old('ETD') }}">
                             </div>
                         </div>
                     </div>  
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Lokasi Sandar</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="TLOKASISANDAR_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <select class="form-control select2" name="TLOKASISANDAR_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Lokasi Sandar</option>
                                 @foreach($lokasisandars as $lokasisandar)
                                     <option value="{{ $lokasisandar->id }}">{{ $lokasisandar->name }}</option>
@@ -151,37 +151,37 @@
                     <div class="form-group">                       
                         <label class="col-sm-3 control-label">Kode Gudang</label>
                         <div class="col-sm-3">
-                            <input type="text" name="KODE_GUDANG" value="PRJP" class="form-control" required readonly>
+                            <input type="text" name="KODE_GUDANG" value="PRJP" class="form-control"  readonly>
                         </div>
                         <label class="col-sm-2 control-label">Tujuan</label>
                         <div class="col-sm-3">
-                            <input type="text" name="GUDANG_TUJUAN" value="PRJP" class="form-control" required readonly>
+                            <input type="text" name="GUDANG_TUJUAN" value="PRJP" class="form-control"  readonly>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Jenis Kegiatan</label>
                         <div class="col-sm-8">
-                            <input type="text" name="JENISKEGIATAN" value="CY/CFS" class="form-control" required readonly>
+                            <input type="text" name="JENISKEGIATAN" value="CY/CFS" class="form-control"  readonly>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Gross Weight</label>
                         <div class="col-sm-3">
-                            <input type="text" name="GROSSWEIGHT" class="form-control" required value="{{ old('GROSSWEIGHT') }}">
+                            <input type="text" name="GROSSWEIGHT" class="form-control"  value="{{ old('GROSSWEIGHT') }}">
                         </div>
                         <label class="col-sm-2 control-label">Total HBL</label>
                         <div class="col-sm-3">
-                            <input type="number" name="JUMLAHHBL" class="form-control" required value="{{ old('JUMLAHHBL') }}">
+                            <input type="number" name="JUMLAHHBL" class="form-control"  value="{{ old('JUMLAHHBL') }}">
                         </div>
                     </div> 
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Measurment</label>
                         <div class="col-sm-3">
-                            <input type="text" name="MEASUREMENT" class="form-control" required value="{{ old('MEASUREMENT') }}">
+                            <input type="text" name="MEASUREMENT" class="form-control"  value="{{ old('MEASUREMENT') }}">
                         </div>
                         <label class="col-sm-2 control-label">ISO Code</label>
                         <div class="col-sm-3">
-                            <input type="text" name="ISO_CODE" class="form-control" required value="{{ old('ISO_CODE') }}">
+                            <input type="text" name="ISO_CODE" class="form-control"  value="{{ old('ISO_CODE') }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -193,7 +193,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. BC11</label>
                         <div class="col-sm-8">
-                            <input type="text" name="TNO_BC11" class="form-control" required value="{{ old('TNO_BC11') }}">
+                            <input type="text" name="TNO_BC11" class="form-control"  value="{{ old('TNO_BC11') }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -203,14 +203,14 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TTGL_BC11" class="form-control pull-right datepicker" required value="{{ old('TTGL_BC11') }}">
+                                <input type="text" name="TTGL_BC11" class="form-control pull-right datepicker"  value="{{ old('TTGL_BC11') }}">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. PLP</label>
                         <div class="col-sm-8">
-                            <input type="text" name="TNO_PLP" class="form-control" required value="{{ old('TNO_PLP') }}">
+                            <input type="text" name="TNO_PLP" class="form-control"  value="{{ old('TNO_PLP') }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -220,14 +220,14 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TTGL_PLP" class="form-control pull-right datepicker" required value="{{ old('TTGL_PLP') }}">
+                                <input type="text" name="TTGL_PLP" class="form-control pull-right datepicker"  value="{{ old('TTGL_PLP') }}">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Pel. Muat</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="PEL_MUAT" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <select class="form-control select2" name="PEL_MUAT" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Pelabuhan Muat</option>
                                 @foreach($pelabuhans as $pelabuhan)
                                     <option value="{{ $pelabuhan->code }}">{{ $pelabuhan->code }}</option>
@@ -238,7 +238,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Pel. Transit</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="PEL_TRANSIT" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <select class="form-control select2" name="PEL_TRANSIT" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Pelabuhan Transit</option>
                                 <option value="-" selected>-</option>
                                 @foreach($pelabuhans as $pelabuhan)
@@ -250,7 +250,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Pel. Bongkar</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="PEL_BONGKAR" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                            <select class="form-control select2" name="PEL_BONGKAR" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Pelabuhan Bongkar</option>
                                 @foreach($pelabuhans as $pelabuhan)
                                     <option value="{{ $pelabuhan->code }}" @if($pelabuhan->code == 'IDTPP'){{'selected'}}@endif>{{ $pelabuhan->code }}</option>

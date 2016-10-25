@@ -194,7 +194,7 @@
             </tr>
             <tr><td height="50" style="font-size: 50px;line-height: 0;">&nbsp;</td></tr>
             <tr>
-                <td class="text-center">(admin)</td>
+                <td class="text-center">(..................)</td>
                 <td class="text-center">(..................)</td>
             </tr>
         </table>

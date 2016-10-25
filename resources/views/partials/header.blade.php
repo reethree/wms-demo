@@ -71,12 +71,8 @@
                       <li class="dropdown-submenu">
                         <a class="submenu" href="#">Report <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a href="">Delivery Harian</a>
-                                </li>
-                                <li>
-                                    <a href="">Rekap Import</a>
-                                </li>
+                            <li><a href="{{ route('lcl-report-harian') }}">Delivery Harian</a></li>
+                            <li><a href="{{ route('lcl-report-rekap') }}">Rekap Import</a></li>
 <!--                                <li>
                                     <a href="">Utilitas Gudang Harian</a>
                                 </li>
@@ -118,18 +114,14 @@
                             <li><a href="{{ route('fcl-delivery-behandle-index') }}">Behandle</a></li>
                             <li><a href="{{ route('fcl-delivery-fiatmuat-index') }}">Fiat Muat</a></li>
                             <li><a href="{{ route('fcl-delivery-suratjalan-index') }}">Surat Jalan</a></li>
-                            <li><a href="{{ route('fcl-delivery-release-index') }}">Release</a></li>
+                            <!--<li><a href="{{ route('fcl-delivery-release-index') }}">Release</a></li>-->
                         </ul>
                       </li>
                       <li class="dropdown-submenu">
                         <a class="submenu" href="#">Report <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a href="">Delivery Harian</a>
-                                </li>
-                                <li>
-                                    <a href="">Rekap Import</a>
-                                </li>
+                            <li><a href="{{ route('fcl-report-harian') }}">Delivery Harian</a></li>
+                            <li><a href="{{ route('fcl-report-rekap') }}">Rekap Import</a></li>
 <!--                                <li>
                                     <a href="">Utilitas Gudang Harian</a>
                                 </li>

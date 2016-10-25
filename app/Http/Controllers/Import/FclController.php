@@ -188,26 +188,26 @@ class FclController extends Controller
             'NOJOBORDER' => 'required|unique:tjoborder',
             'NOMBL' => 'required|unique:tjoborder',
             'TGLMBL' => 'required',
-            'TCONSOLIDATOR_FK' => 'required',
-            'PARTY' => 'required',
-            'TNEGARA_FK' => 'required',
-            'TPELABUHAN_FK' => 'required',
-            'VESSEL' => 'required',
-            'VOY' => 'required',
-            'CALLSIGN' => 'required',
-            'ETA' => 'required',
-            'ETD' => 'required',
-            'TLOKASISANDAR_FK' => 'required',
-            'KODE_GUDANG' => 'required',
-            'GUDANG_TUJUAN' => 'required',
-            'JENISKEGIATAN' => 'required',
-            'GROSSWEIGHT' => 'required',
+//            'TCONSOLIDATOR_FK' => 'required',
+//            'PARTY' => 'required',
+//            'TNEGARA_FK' => 'required',
+//            'TPELABUHAN_FK' => 'required',
+//            'VESSEL' => 'required',
+//            'VOY' => 'required',
+//            'CALLSIGN' => 'required',
+//            'ETA' => 'required',
+//            'ETD' => 'required',
+//            'TLOKASISANDAR_FK' => 'required',
+//            'KODE_GUDANG' => 'required',
+//            'GUDANG_TUJUAN' => 'required',
+//            'JENISKEGIATAN' => 'required',
+//            'GROSSWEIGHT' => 'required',
 //            'JUMLAHHBL' => 'required',
-            'MEASUREMENT' => 'required',
-            'ISO_CODE' => 'required',
-            'PEL_MUAT' => 'required',
-            'PEL_TRANSIT' => 'required',
-            'PEL_BONGKAR' => 'required'
+//            'MEASUREMENT' => 'required',
+//            'ISO_CODE' => 'required',
+//            'PEL_MUAT' => 'required',
+//            'PEL_TRANSIT' => 'required',
+//            'PEL_BONGKAR' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -619,7 +619,7 @@ class FclController extends Controller
         $joborder = DBJoborder::where('TJOBORDER_PK', $container->TJOBORDER_FK);
         $data['container'] = $container;
         $data['joborder'] = $joborder;
-        return view('print.fcl-fiatmuat', $data);
+//        return view('print.fcl-fiatmuat', $data);
         $pdf = \PDF::loadView('print.fcl-fiatmuat', $data); 
         return $pdf->stream('FCL-FiatMuat-'.$container->NOCONTAINER.'-'.date('dmy').'.pdf');
     }
@@ -628,8 +628,45 @@ class FclController extends Controller
     {
         $container = DBContainer::find($id);
         $data['container'] = $container;
-//        return view('print.delivery-surat-jalan', $data);
-        $pdf = \PDF::loadView('print.delivery-surat-jalan', $data); 
+        return view('print.fcl-surat-jalan', $data);
+        $pdf = \PDF::loadView('print.fcl-surat-jalan', $data); 
         return $pdf->stream('Delivery-SuratJalan-'.$container->NOCONTAINER.'-'.date('dmy').'.pdf');
+    }
+    
+    // REPORT
+    public function reportHarian()
+    {
+        if ( !$this->access->can('show.fcl.report.harian') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "FCL Report Delivery Harian";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'FCL Report Delivery Harian'
+            ]
+        ];        
+        
+        return view('import.fcl.report-harian')->with($data);
+    }
+    
+    public function reportRekap()
+    {
+        if ( !$this->access->can('show.fcl.report.rekap') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "FCL Rekap Import";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'FCL Rekap Import'
+            ]
+        ];        
+        
+        return view('import.fcl.report-rekap')->with($data);
     }
 }

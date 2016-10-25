@@ -46,15 +46,17 @@
             $('#NO_SP2').val(rowdata.NO_SP2);
             $("#TGL_SP2").datepicker('setDate', rowdata.TGL_SP2);
             $('#ESEALCODE').val(rowdata.ESEALCODE).trigger('change');
+            $('#TGLKELUAR_TPK').val(rowdata.TGLKELUAR_TPK);
+            $('#JAMKELUAR_TPK').val(rowdata.JAMKELUAR_TPK);
             
-            if(!rowdata.TGLMASUK && !rowdata.JAMMASUK) {
+//            if(!rowdata.TGLMASUK && !rowdata.JAMMASUK) {
                 $('#btn-group-2').enableButtonGroup();
                 $('#gatein-form').enableFormGroup();
                 $('#UIDMASUK').val('{{ Auth::getUser()->name }}');
-            }else{
-                $('#btn-group-2').disabledButtonGroup();
-                $('#gatein-form').disabledFormGroup();
-            }
+//            }else{
+//                $('#btn-group-2').disabledButtonGroup();
+//                $('#gatein-form').disabledFormGroup();
+//            }
 
         });
         
@@ -240,7 +242,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" id="TGLMASUK" name="TGLMASUK" class="form-control pull-right datepicker" required value="{{ date('Y-m-d') }}" readonly>
+                                <input type="text" id="TGLMASUK" name="TGLMASUK" class="form-control pull-right datepicker" required>
                             </div>
                         </div>
                     </div>
@@ -250,7 +252,7 @@
                             <label class="col-sm-3 control-label">Jam Masuk</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input type="text" id="JAMMASUK" name="JAMMASUK" class="form-control timepicker" required value="{{ date('H:i:s') }}">
+                                    <input type="text" id="JAMMASUK" name="JAMMASUK" class="form-control timepicker" required>
                                     <div class="input-group-addon">
                                           <i class="fa fa-clock-o"></i>
                                     </div>
@@ -374,6 +376,11 @@
         showSeconds: true,
         minuteStep: 1,
         secondStep: 1
+    });
+    $('#TGLMASUK').on("change", function (e) { 
+        var actualDate = new Date($(this).val());
+        var newDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate()+3);
+        $('#P_TGLKELUAR').datepicker('setDate', newDate );
     });
 </script>
 
