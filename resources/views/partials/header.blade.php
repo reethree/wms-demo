@@ -144,6 +144,63 @@
               </ul>
             </li>
             <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">TPS Online <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                  <li class="dropdown-submenu">
+                  <a class="submenu" href="#">Import <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-submenu">
+                                <a class="submenu" href="#">Table <span class="caret"></span></a>
+                                  <ul class="dropdown-menu">
+                                      <li><a href="{{ route('gudang-index') }}">Gudang</a></li>
+                                      <li><a href="{{ route('pelabuhandn-index') }}">Pelabuhan DN</a></li>
+                                      <li><a href="{{ route('pelabuhanln-index') }}">Pelabuhan LN</a></li>
+                                  </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a class="submenu" href="#">Penerimaan Data <span class="caret"></span></a>
+                                  <ul class="dropdown-menu">
+                                    <li><a href="#">Data Respon PLP</a></li>
+                                    <li><a href="#">Data Respon Batal PLP</a></li>
+                                    <li><a href="#">Data OB LCL</a></li>
+                                    <li><a href="#">Data OB FCL</a></li>
+                                    <li><a href="#">Data SPJM</a></li>
+                                    <li><a href="#">Data Dok Manual</a></li>
+                                    <li><a href="#">Data SPPB</a></li>
+                                    <li><a href="#">Data SPPB BC23</a></li>
+                                  </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a class="submenu" href="#">Pengiriman Data <span class="caret"></span></a>
+                                  <ul class="dropdown-menu">
+                                      <li class="dropdown-submenu">
+                                            <a class="submenu" href="#">Coari (Cargo Masuk) <span class="caret"></span></a>
+                                              <ul class="dropdown-menu">
+                                                  <li><a href="#">Coari Cont</a></li>
+                                                  <li><a href="#">Coari KMS</a></li>
+                                              </ul>
+                                        </li>
+                                        <li class="dropdown-submenu">
+                                            <a class="submenu" href="#">Codeco (Cargo Keluar) <span class="caret"></span></a>
+                                              <ul class="dropdown-menu">
+                                                  <li><a href="#">Codeco Cont FCL</a></li>
+                                                  <li><a href="#">Codeco Cont Buang MTY</a></li>
+                                                  <li><a href="#">Codeco KMS</a></li>
+                                              </ul>
+                                        </li>
+                                  </ul>
+                            </li>
+                            <li><a href="#">Coari Codeco Reject</a></li>
+                            <li><a href="#">Coari Codeco Terkirim</a></li>
+                            <li><a href="#">Coari Codeco Gagal</a></li>
+                            <li><a href="#">TPS Log Sevice</a></li>
+                            
+                        </ul>
+                  </li>
+              </ul>
+            </li>
+
+            <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Users <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="manu">
                     <li><a href="{{route('user-index')}}">User Lists</a></li>

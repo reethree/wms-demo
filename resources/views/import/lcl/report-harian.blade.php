@@ -1,13 +1,17 @@
 @extends('layout')
 
 @section('content')
-
+<style>
+    .datepicker.dropdown-menu {
+        z-index: 100 !important;
+    }
+</style>
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">LCL Register Lists</h3>
-        <div class="box-tools">
+<!--        <div class="box-tools">
             <a href="{{ route('lcl-register-create') }}" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Add New</a>
-        </div>
+        </div>-->
     </div>
     <div class="box-body table-responsive">
         <div class="row" style="margin-bottom: 30px;margin-right: 0;">
@@ -38,43 +42,60 @@
             </div>
         </div>
         {{
-            GridRender::setGridId("lclRegisterGrid")
+            GridRender::setGridId("lclDailyReportGrid")
             ->enableFilterToolbar()
-            ->setGridOption('url', URL::to('/lcl/joborder/grid-data'))
+            ->setGridOption('url', URL::to('/lcl/manifest/grid-data'))
             ->setGridOption('rowNum', 20)
             ->setGridOption('shrinkToFit', true)
-            ->setGridOption('sortname','TJOBORDER_PK')
+            ->setGridOption('sortname','TMANIFEST_PK')
             ->setGridOption('rownumbers', true)
-            ->setGridOption('height', '295')
+            ->setGridOption('height', '250')
             ->setGridOption('rowList',array(20,50,100))
             ->setGridOption('useColSpanStyle', true)
             ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
             ->setNavigatorOptions('view',array('closeOnEscape'=>false))
             ->setFilterToolbarOptions(array('autosearch'=>true))
-            ->setGridEvent('gridComplete', 'gridCompleteEvent')
-            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
-            ->addColumn(array('key'=>true,'index'=>'TJOBORDER_PK','hidden'=>true))
-            ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>160,'hidden'=>true))
-            ->addColumn(array('label'=>'No. Joborder','index'=>'NOJOBORDER','width'=>160))
-            ->addColumn(array('label'=>'No. MBL','index'=>'NOMBL','width'=>160))
-            ->addColumn(array('label'=>'Tgl. MBL','index'=>'TGL_MASTER_BL','width'=>150,'align'=>'center'))
+//            ->setGridEvent('onSelectRow', 'onSelectRowEvent')
+            ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
+            ->addColumn(array('label'=>'Status','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
+            ->addColumn(array('label'=>'No. HBL','index'=>'NOHBL','width'=>160))
+            ->addColumn(array('label'=>'Tgl. HBL','index'=>'TGL_HBL', 'width'=>150))
+            ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
+            ->addColumn(array('label'=>'No. SPK','index'=>'NOJOBORDER', 'width'=>150))
+            ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER', 'width'=>150))
+            ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150))
+            ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150))
+            ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>150))
+            ->addColumn(array('label'=>'Tgl. SPPB','index'=>'TGL_SPPB', 'width'=>150))
+            ->addColumn(array('label'=>'Kode Dokumen','index'=>'KODE_DOKUMEN', 'width'=>150))
+//            ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>160))
+//            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))
+//            ->addColumn(array('label'=>'Notify Party','index'=>'NOTIFYPARTY','width'=>160))
             ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
-            ->addColumn(array('label'=>'No. BC11','index'=>'TNO_BC11','width'=>150,'align'=>'right'))
-            ->addColumn(array('label'=>'Tgl. BC11','index'=>'TTGL_BC11','width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','width'=>150,'align'=>'right'))
-            ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'ETD','index'=>'ETD', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'Vessel','index'=>'VESSEL', 'width'=>150))
-            ->addColumn(array('label'=>'Callsign','index'=>'CALLSIGN', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'Voy','index'=>'VOY','width'=>80,'align'=>'center'))
-            ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>80,'align'=>'center','hidden'=>true))
-            ->addColumn(array('label'=>'No. Seal','index'=>'NO_SEAL', 'width'=>120,'align'=>'right','hidden'=>true))
-            ->addColumn(array('label'=>'Layout','index'=>'layout','width'=>80,'align'=>'center','hidden'=>true,'hidden'=>true))
-            ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
-            ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150,'align'=>'center'))
+            ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120))               
+            ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>120))
+            ->addColumn(array('label'=>'Qty','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))
+            ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>120))
+            ->addColumn(array('label'=>'Kode Kemas','index'=>'KODE_KEMAS', 'width'=>100,'align'=>'center'))        
+            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>150))
+//            ->addColumn(array('label'=>'NPWP Consignee','index'=>'NPWP_CONSIGNEE', 'width'=>150))
+            ->addColumn(array('label'=>'Marking','index'=>'MARKING', 'width'=>150)) 
+            ->addColumn(array('label'=>'Desc of Goods','index'=>'DESCOFGOODS', 'width'=>150))              
+            ->addColumn(array('label'=>'No.BC11','index'=>'NO_BC11', 'width'=>150))
+            ->addColumn(array('label'=>'Tgl.BC11','index'=>'TGL_BC11', 'width'=>150))
+            ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>150))
+            ->addColumn(array('label'=>'No.PLP','index'=>'NO_PLP', 'width'=>150))                
+            ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>150)) 
+            ->addColumn(array('label'=>'Tgl.Behandle','index'=>'tglbehandle', 'width'=>150)) 
+//            ->addColumn(array('label'=>'Surcharge (DG)','index'=>'DG_SURCHARGE', 'width'=>150))
+//            ->addColumn(array('label'=>'Surcharge (Weight)','index'=>'WEIGHT_SURCHARGE', 'width'=>150)) 
+            ->addColumn(array('label'=>'Tgl. Surat Jalan','index'=>'TGLSURATJALAN', 'width'=>120))
+            ->addColumn(array('label'=>'Jam. Surat Jalan','index'=>'JAMSURATJALAN', 'width'=>70))
+            ->addColumn(array('label'=>'Tgl. Fiat Muat','index'=>'tglfiat', 'width'=>120))
+            ->addColumn(array('label'=>'Jam. Fiat Muat','index'=>'jamfiat', 'width'=>70))
+            ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
+            ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
             ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
-//            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->renderGrid()
         }}
     </div>
@@ -102,7 +123,7 @@
     $('#searchByDateBtn').on("click", function(){
         var startdate = $("#startdate").val();
         var enddate = $("#enddate").val();
-        jQuery("#lclRegisterGrid").jqGrid('setGridParam',{url:"{{URL::to('/lcl/joborder/grid-data')}}?startdate="+startdate+"&enddate="+enddate}).trigger("reloadGrid");
+        jQuery("#lclDailyReportGrid").jqGrid('setGridParam',{url:"{{URL::to('/lcl/manifest/grid-data')}}?startdate="+startdate+"&enddate="+enddate}).trigger("reloadGrid");
         return false;
     });
 </script>

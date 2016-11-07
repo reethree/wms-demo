@@ -128,7 +128,7 @@ class TablesRepository extends EloquentRepositoryAbstract {
                 $Model = \DB::table('tmanifest')
                         ->where('TCONTAINER_FK', $request['containerid']);
 
-            }elseif($request['module']){
+            }elseif(isset($request['module'])){
                 
                 switch ($request['module']) {
                     case 'behandle':
@@ -152,6 +152,12 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereNotNull('JAMSURATJALAN');
                     break;
                 }
+                
+            }if(isset($request['startdate']) || isset($request['enddate'])){
+                
+                $Model = \DB::table('tmanifest')
+                        ->where('tglentry', '>=',date('Y-m-d',strtotime($request['startdate'])))
+                        ->where('tglentry', '<=',date('Y-m-d',strtotime($request['enddate'])));
                 
             }else{
                 

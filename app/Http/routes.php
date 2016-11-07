@@ -49,6 +49,9 @@
         // Import Routes
         require_once 'Routes/RoutesImport.php';
         
+        // TPS Online Routes
+        require_once 'Routes/RoutesTpsonline.php';
+        
     });
     
     
