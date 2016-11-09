@@ -34,6 +34,11 @@ Route::group(['prefix' => 'fcl', 'namespace' => 'Import'], function(){
         'uses' => 'FclControllerController@destroy'
     ]);
     
+    Route::get('/dispatche', [
+        'as' => 'fcl-dispatche-index',
+        'uses' => 'FclController@dispatcheIndex'
+    ]);
+    
     // REPORT
     Route::get('/report/harian', [
         'as' => 'fcl-report-harian',

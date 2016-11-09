@@ -40,6 +40,12 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'uses' => 'LclController@registerPrintPermohonan'
     ]);
     
+    
+    Route::get('/dispatche', [
+        'as' => 'lcl-dispatche-index',
+        'uses' => 'LclController@dispatcheIndex'
+    ]);
+    
     // REPORT
     Route::get('/report/harian', [
         'as' => 'lcl-report-harian',

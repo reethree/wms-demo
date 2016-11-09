@@ -122,6 +122,24 @@ class FclController extends Controller
         return view('import.fcl.index-release')->with($data);
     }
     
+    public function dispatcheIndex()
+    {
+        if ( !$this->access->can('show.fcl.dispatche.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "FCL Dispatche E-Seal";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'FCL Dispatche E-Seal'
+            ]
+        ];        
+        
+        return view('import.fcl.index-dispatche')->with($data);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -532,9 +550,9 @@ class FclController extends Controller
     public function suratjalanUpdate(Request $request, $id)
     {
         $data = $request->json()->all(); 
-        unset($data['TMANIFEST_PK'], $data['_token']);
+        unset($data['TCONTAINER_PK'], $data['TGLFIAT'], $data['_token']);
         
-        $update = DBManifest::where('TMANIFEST_PK', $id)
+        $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
         
         if($update){
@@ -547,9 +565,9 @@ class FclController extends Controller
     public function releaseUpdate(Request $request, $id)
     {
         $data = $request->json()->all(); 
-        unset($data['TMANIFEST_PK'], $data['_token']);
+        unset($data['TCONTAINER_PK'], $data['TGLSURATJALAN'], $data['_token']);
         
-        $update = DBManifest::where('TMANIFEST_PK', $id)
+        $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
         
         if($update){

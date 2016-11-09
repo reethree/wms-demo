@@ -180,6 +180,24 @@ class LclController extends Controller
         return view('import.lcl.index-release')->with($data);
     }
     
+    public function dispatcheIndex()
+    {
+        if ( !$this->access->can('show.lcl.dispatche.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "LCL Dispatche E-Seal";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Dispatche E-Seal'
+            ]
+        ];        
+        
+        return view('import.lcl.index-dispatche')->with($data);
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
