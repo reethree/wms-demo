@@ -195,6 +195,8 @@ class LclController extends Controller
             ]
         ];        
         
+        $data['eseals'] = DBEseal::select('eseal_id as id','esealcode as code')->get();
+        
         return view('import.lcl.index-dispatche')->with($data);
     }
     
@@ -656,6 +658,11 @@ class LclController extends Controller
         }
         
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+    
+    public function dispatcheUpdate(Request $request, $id)
+    {
+        
     }
     
     /**
