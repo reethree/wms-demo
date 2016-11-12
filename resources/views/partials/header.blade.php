@@ -162,14 +162,14 @@
                             <li class="dropdown-submenu">
                                 <a class="submenu" href="#">Penerimaan Data <span class="caret"></span></a>
                                   <ul class="dropdown-menu">
-                                    <li><a href="#">Data Respon PLP</a></li>
-                                    <li><a href="#">Data Respon Batal PLP</a></li>
-                                    <li><a href="#">Data OB LCL</a></li>
-                                    <li><a href="#">Data OB FCL</a></li>
-                                    <li><a href="#">Data SPJM</a></li>
-                                    <li><a href="#">Data Dok Manual</a></li>
-                                    <li><a href="#">Data SPPB</a></li>
-                                    <li><a href="#">Data SPPB BC23</a></li>
+                                    <li><a href="{{ route('tps-responPlp-index') }}">Data Respon PLP</a></li>
+                                    <li><a href="{{ route('tps-responBatalPlp-index') }}">Data Respon Batal PLP</a></li>
+                                    <li><a href="{{ route('tps-obLcl-index') }}">Data OB LCL</a></li>
+                                    <li><a href="{{ route('tps-obFcl-index') }}">Data OB FCL</a></li>
+                                    <li><a href="{{ route('tps-spjm-index') }}">Data SPJM</a></li>
+                                    <li><a href="{{ route('tps-dokManual-index') }}">Data Dok Manual</a></li>
+                                    <li><a href="{{ route('tps-sppbPib-index') }}">Data SPPB</a></li>
+                                    <li><a href="{{ route('tps-sppBc-index') }}">Data SPPB BC23</a></li>
                                   </ul>
                             </li>
                             <li class="dropdown-submenu">

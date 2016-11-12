@@ -4,3 +4,6 @@
 require_once 'Tpsonline/Gudang.php';
 require_once 'Tpsonline/PelabuhanDn.php';
 require_once 'Tpsonline/PelabuhanLn.php';
+
+// Data Penerimaan
+require_once 'Tpsonline/Penerimaan.php';

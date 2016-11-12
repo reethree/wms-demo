@@ -8,7 +8,7 @@ Route::group(['prefix' => 'tpsonline/gudang', 'namespace' => 'Tps'], function(){
     ]);
     Route::get('/grid-data', function()
     {
-        GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsGudang()) ,Illuminate\Support\Facades\Request::all());
+        GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsGudang(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
     Route::post('/crud', function()
     {

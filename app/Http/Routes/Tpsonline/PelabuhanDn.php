@@ -8,7 +8,7 @@ Route::group(['prefix' => 'tpsonline/pelabuhandn', 'namespace' => 'Tps'], functi
     ]);
     Route::get('/grid-data', function()
     {
-        GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsPelDn()) ,Illuminate\Support\Facades\Request::all());
+        GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsPelDn(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
     Route::post('/crud', function()
     {
