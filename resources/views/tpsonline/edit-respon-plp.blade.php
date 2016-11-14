@@ -108,7 +108,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Alasan Pindah</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="APL" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            <select class="form-control select2" id="apl" name="APL" style="width: 100%;" tabindex="-1" aria-hidden="true">
                                 <option value="">Choose Alasan Pindah Lokasi</option>
                                 <option value="1">YOR atau SOR sama dengan atau lebih tinggi dari batas standar...</option>
                                 <option value="2">Pada TPS asal tidak tersedia tempat penimbunan barang import konsolidasi...</option>
@@ -122,7 +122,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Alasan</label>
                         <div class="col-sm-8">
-                            <textarea class="form-control" name="ALASAN" rows="3">{{ $respon->ALASAN }}</textarea>
+                            <textarea class="form-control" id="alasan" name="ALASAN" rows="3">{{ $respon->ALASAN }}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -263,8 +263,34 @@
         todayHighlight: true,
         format: 'yyyy-mm-dd' 
     });
-    $('#vessel').on("change", function (e) { 
-        $('input[name="CALLSIGN"]').val($(this).find(":selected").data("callsign"));
+    $('#apl').on("change", function (e) { 
+        var alasan,
+            apl = $(this).val();
+        console.log(apl);
+        switch(apl) {
+            case '1':
+                alasan = "YOR atau SOR sama dengan atau lebih tinggi dari batas standar utilitas fasilitas yang ditetapkan oleh instansi teknis yang bertanggung jawab di bidang pelabuhan";
+                break;
+            case '2':
+                alasan = "Pada TPS Asal tidak tersedia tempat penimbunan barang impor konsolidasi, yaitu pengangkutan barang impor menggunakan satu peti kemas untuk lebih dari satu penerima barang atau menggunakan 1 (satu) peti kemas untuk lebih dari 1 (satu) house bill of lading dengan penerima barang yang sama (Lessthan Container Load/LCL)";
+                break;
+            case '3':
+                alasan = "Pada TPS Asal tidak tersedia lapangan atau gudang penumpukan barang impor yang membutuhkan sarana dan prasarana yang khusus atau penggunaan kapasitas tempat penumpukan dengan sarana dan prasarana yang khusus yang tersedia mencapai sama dengan atau lebih tinggi dari batas standar utilitas fasilitas";
+                break;
+            case '4':
+                alasan = "Barang impor berupa barang kena cukai yang akan dilekati pita cukai di TPS Tujuan";
+                break;
+            case '5':
+                alasan = "Barang impor konsolidasi dalam 1 (satu) masterairway bill atau master bill of lading";
+                break;
+            case '6':
+                alasan = "Berdasarkan pertibangan Kepala Kantor Pabean dimungkinkan terjadi stagnasi setelah mendapatkan masukan dari Pengusaha TPS Asal";
+                break;
+            default:
+                alasan = "";
+        }
+                
+        $('#alasan').val(alasan);
     });
     $('#cetak-permohonan').click(function()
     {

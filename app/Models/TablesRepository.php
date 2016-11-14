@@ -70,11 +70,11 @@ class TablesRepository extends EloquentRepositoryAbstract {
                         
                     break;
                     case 'fiatmuat':
-                        $Model = \DB::table('tcontainercy')
+//                        $Model = \DB::table('tcontainercy');
 //                            ->select('tmanifest.*','tperusahaan.NPWP as NPWP_CONSIGNEE')
 //                            ->join('tperusahaan', 'tperusahaan.TPERUSAHAAN_PK', '=', 'tmanifest.TCONSIGNEE_FK')
-                            ->whereNotNull('NO_SPJM')
-                            ->whereNotNull('TGL_SPJM');
+//                            ->whereNotNull('NO_SPJM')
+//                            ->whereNotNull('TGL_SPJM');
                     break;
                     case 'suratjalan':
                         $Model = \DB::table('tcontainercy')
@@ -137,9 +137,9 @@ class TablesRepository extends EloquentRepositoryAbstract {
                     case 'fiatmuat':
                         $Model = \DB::table('tmanifest')
                             ->select('tmanifest.*','tperusahaan.NPWP as NPWP_CONSIGNEE')
-                            ->join('tperusahaan', 'tperusahaan.TPERUSAHAAN_PK', '=', 'tmanifest.TCONSIGNEE_FK')
-                            ->whereNotNull('tmanifest.NO_SPJM')
-                            ->whereNotNull('tmanifest.TGL_SPJM');
+                            ->join('tperusahaan', 'tperusahaan.TPERUSAHAAN_PK', '=', 'tmanifest.TCONSIGNEE_FK');
+//                            ->whereNotNull('tmanifest.NO_SPJM')
+//                            ->whereNotNull('tmanifest.TGL_SPJM');
                     break;
                     case 'suratjalan':
                         $Model = \DB::table('tmanifest')

@@ -32,7 +32,7 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
     ]);
     Route::get('/register/delete/{id}', [
         'as' => 'lcl-register-delete',
-        'uses' => 'LclControllerController@destroy'
+        'uses' => 'LclController@destroy'
     ]);
     
     Route::post('/register/print-permohonan', [
