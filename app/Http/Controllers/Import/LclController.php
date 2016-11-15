@@ -493,14 +493,14 @@ class LclController extends Controller
                     ->update($dataManifest);
             
             if($updateManifest){
-//                return json_encode(array('success' => true, 'message' => 'Gate IN successfully updated!'));
+                return json_encode(array('success' => true, 'message' => 'Gate IN successfully updated!'));
             }
             
-//            return json_encode(array('success' => true, 'message' => 'Container successfully updated, but Manifest not updated!'));
+            return json_encode(array('success' => true, 'message' => 'Container successfully updated, but Manifest not updated!'));
         }
         
-//        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
-        return $data;
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+//        return $data;
     }
     
     public function strippingUpdate(Request $request, $id)

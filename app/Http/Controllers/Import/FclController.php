@@ -48,6 +48,26 @@ class FclController extends Controller
         return view('import.fcl.index-register')->with($data);
     }
     
+    public function gateinIndex()
+    {
+        if ( !$this->access->can('show.fcl.getin.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "FCL Realisasi Masuk / Gate In";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'FCL Realisasi Masuk / Gate In'
+            ]
+        ];        
+        
+        $data['eseals'] = DBEseal::select('eseal_id as id','esealcode as code')->get();
+        
+        return view('import.fcl.index-gatein')->with($data);
+    }
+    
     public function behandleIndex()
     {
         if ( !$this->access->can('show.fcl.behandle.index') ) {

@@ -86,6 +86,13 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereNotNull('TGLSURATJALAN')
                             ->whereNotNull('JAMSURATJALAN');
                     break;
+                    case 'gatein':
+                        $Model = \DB::table('tcontainercy')
+                            ->whereNotNull('NO_BC11')
+                            ->whereNotNull('TGL_BC11')
+                            ->whereNotNull('NO_PLP')
+                            ->whereNotNull('TGL_PLP');
+                    break;
                 }
                 
             }else{

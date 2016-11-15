@@ -52,7 +52,7 @@
                       <li class="dropdown-submenu">
                         <a class="submenu" href="#">Realisasi Planning <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('lcl-realisasi-gatein-index') }}">Realisasi Masuk</a></li>
+                            <li><a href="{{ route('lcl-realisasi-gatein-index') }}">Realisasi Masuk / Gate In</a></li>
                             <li><a href="{{ route('lcl-realisasi-stripping-index') }}">Realisasi Stripping</a></li>
                             <!--<li><a href="">Penomoran Tally Racking</a></li>-->
                             <!--<li><a href="">Realisasi Manifest Racking</a></li>-->
@@ -66,7 +66,7 @@
                             <li><a href="{{ route('lcl-delivery-behandle-index') }}">Behandle</a></li>
                             <li><a href="{{ route('lcl-delivery-fiatmuat-index') }}">Fiat Muat</a></li>
                             <li><a href="{{ route('lcl-delivery-suratjalan-index') }}">Surat Jalan</a></li>
-                            <li><a href="{{ route('lcl-delivery-release-index') }}">Release</a></li>
+                            <li><a href="{{ route('lcl-delivery-release-index') }}">Release / Gate Out</a></li>
                         </ul>
                       </li>
                       <li class="dropdown-submenu">
@@ -98,25 +98,25 @@
                     <ul class="dropdown-menu">
                       <li><a tabindex="-1" href="{{ route('fcl-register-index') }}">Register</a></li>
                       <li><a tabindex="-1" href="{{ route('fcl-dispatche-index') }}">Dispatche E-Seal</a></li>
-                      <!--<li><a tabindex="-1" href="#">Manifest</a></li>-->
-<!--                      <li class="dropdown-submenu">
+                      <li><a tabindex="-1" href="#">Manifest</a></li>
+                      <li class="dropdown-submenu">
                         <a class="submenu" href="#">Realisasi Planning <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="">Realisasi Masuk</a></li>
-                            <li><a href="">Realisasi Stripping</a></li>
+                            <li><a href="{{ route('fcl-realisasi-gatein-index') }}">Realisasi Masuk / Gate In</a></li>
+<!--                            <li><a href="">Realisasi Stripping</a></li>
                             <li><a href="">Penomoran Tally Racking</a></li>
                             <li><a href="">Realisasi Manifest Racking</a></li>
                             <li><a href="">Realisasi Buang MTY</a></li>
-                            <li><a href="">Update</a></li>
+                            <li><a href="">Update</a></li>-->
                         </ul>
-                      </li>-->
+                      </li>
                       <li class="dropdown-submenu">
                         <a class="submenu" href="#">Delivery <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('fcl-delivery-behandle-index') }}">Behandle</a></li>
                             <li><a href="{{ route('fcl-delivery-fiatmuat-index') }}">Fiat Muat</a></li>
                             <li><a href="{{ route('fcl-delivery-suratjalan-index') }}">Surat Jalan</a></li>
-                            <li><a href="{{ route('fcl-delivery-release-index') }}">Release/Gate Out</a></li>
+                            <li><a href="{{ route('fcl-delivery-release-index') }}">Release / Gate Out</a></li>
                         </ul>
                       </li>
                       <li class="dropdown-submenu">
