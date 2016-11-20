@@ -62,8 +62,61 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
             }else{
                 
             }
-        }else{
             
+        }elseif($Model->getMorphClass() == 'App\Models\TpsSppbPib'){   
+            if(isset($request['startdate']) && isset($request['enddate'])){
+                
+                $Model = \DB::table('tps_sppbxml')
+                        ->where($request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
+                        ->where($request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+            }else{
+                
+                if(isset($request['type']) && isset($request['sppbid'])){
+                    
+                    $type = $request['type'];
+                    
+                    if($type == 'cont') {
+                        $Model = \DB::table('tps_sppbcontxml')
+                            ->where('TPS_SPPBXML_FK', $request['sppbid']);
+                    }else{
+                        $Model = \DB::table('tps_sppbkmsxml')
+                            ->where('TPS_SPPBXML_FK', $request['sppbid']);
+                    }
+                    
+                }else{
+
+                }
+                
+            }
+            
+        }elseif($Model->getMorphClass() == 'App\Models\TpsSppbBc'){   
+            if(isset($request['startdate']) && isset($request['enddate'])){
+                
+                $Model = \DB::table('tps_sppbbc23xml')
+                        ->where($request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
+                        ->where($request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+            }else{
+                
+                if(isset($request['type']) && isset($request['sppbid'])){
+                    
+                    $type = $request['type'];
+                    
+                    if($type == 'cont') {
+                        $Model = \DB::table('tps_sppbbc23contxml')
+                            ->where('TPS_SPPBXML_FK', $request['sppbid']);
+                    }else{
+                        $Model = \DB::table('tps_sppbbc23kmsxml')
+                            ->where('TPS_SPPBXML_FK', $request['sppbid']);
+                    }
+                    
+                }else{
+
+                }
+                
+            }
+            
+        }else{
+                        
         }
         
         $this->Database = $Model;        

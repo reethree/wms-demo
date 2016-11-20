@@ -279,6 +279,30 @@ class PenerimaanController extends Controller
         return view('tpsonline.edit-sppb-pib')->with($data);
     }
     
+    public function sppbBcEdit($id)
+    {
+        if ( !$this->access->can('show.tps.sppbBc.edit') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "Edit SPPB BC23";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => route('tps-sppbBc-index'),
+                'title' => 'TPS SPPB BC23'
+            ],
+            [
+                'action' => '',
+                'title' => 'Edit'
+            ]
+        ];
+        
+        $data['sppb'] = \App\Models\TpsSppbBc::find($id);
+        
+        return view('tpsonline.edit-sppb-bc')->with($data);
+    }
+    
     /**
      * Update the specified resource in storage.
      *

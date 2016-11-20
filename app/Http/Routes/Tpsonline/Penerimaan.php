@@ -102,7 +102,7 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
     
     //SPPB BEA CUKAI
     Route::get('/sppb-bc', [
-        'as' => 'tps-sppBc-index',
+        'as' => 'tps-sppbBc-index',
         'uses' => 'PenerimaanController@sppbBcIndex'
     ]);
     Route::get('/sppb-bc/grid-data', function()
