@@ -7,3 +7,6 @@ require_once 'Tpsonline/PelabuhanLn.php';
 
 // Data Penerimaan
 require_once 'Tpsonline/Penerimaan.php';
+
+// Data Pengiriman
+require_once 'Tpsonline/Pengiriman.php';

@@ -612,7 +612,8 @@ class FclController extends Controller
      */
     public function destroy($id)
     {
-        
+        DBJoborder::destroy($id);
+        return back()->with('success', 'FCL Register has been deleted.'); 
     }
     
     public function registerPrintPermohonan(Request $request)

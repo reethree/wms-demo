@@ -171,6 +171,9 @@
                     <div id="btn-group-4" class="btn-group">
                         <button class="btn btn-default" id="btn-print"><i class="fa fa-print"></i> Cetak WO Lift Off</button>
                     </div>
+                    <div id="btn-group-5" class="btn-group pull-right">
+                        <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
+                    </div>
                 </div>
             </div>
             

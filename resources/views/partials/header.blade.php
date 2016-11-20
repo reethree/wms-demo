@@ -178,16 +178,16 @@
                                       <li class="dropdown-submenu">
                                             <a class="submenu" href="#">Coari (Cargo Masuk) <span class="caret"></span></a>
                                               <ul class="dropdown-menu">
-                                                  <li><a href="#">Coari Cont</a></li>
-                                                  <li><a href="#">Coari KMS</a></li>
+                                                  <li><a href="{{ route('tps-coariCont-index') }}">Coari Cont</a></li>
+                                                  <li><a href="{{ route('tps-coariKms-index') }}">Coari KMS</a></li>
                                               </ul>
                                         </li>
                                         <li class="dropdown-submenu">
                                             <a class="submenu" href="#">Codeco (Cargo Keluar) <span class="caret"></span></a>
                                               <ul class="dropdown-menu">
-                                                  <li><a href="#">Codeco Cont FCL</a></li>
-                                                  <li><a href="#">Codeco Cont Buang MTY</a></li>
-                                                  <li><a href="#">Codeco KMS</a></li>
+                                                  <li><a href="{{ route('tps-codecoContFcl-index') }}">Codeco Cont FCL</a></li>
+                                                  <li><a href="{{ route('tps-codecoContBuangMty-index') }}">Codeco Cont Buang MTY</a></li>
+                                                  <li><a href="{{ route('tps-codecoKms-index') }}">Codeco KMS</a></li>
                                               </ul>
                                         </li>
                                   </ul>

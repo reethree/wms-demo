@@ -673,7 +673,8 @@ class LclController extends Controller
      */
     public function destroy($id)
     {
-        
+        DBJoborder::destroy($id);
+        return back()->with('success', 'LCL Register has been deleted.'); 
     }
     
     public function registerPrintPermohonan(Request $request)
