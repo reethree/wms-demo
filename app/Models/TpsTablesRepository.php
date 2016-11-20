@@ -114,7 +114,66 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                 }
                 
             }
+        }elseif($Model->getMorphClass() == 'App\Models\TpsCoariCont'){ 
             
+            if(isset($request['startdate']) && isset($request['enddate'])){
+                
+                $Model = TpsCoariCont::select('*')
+                        ->join('tpscoaricontdetailxml', 'tpscoaricontxml.TPSCOARICONTXML_PK', '=', 'tpscoaricontdetailxml.TPSCOARICONTXML_FK')
+                        ->where('tpscoaricontxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
+                        ->where('tpscoaricontxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+            }else{
+                $Model = TpsCoariCont::select('*')
+                        ->join('tpscoaricontdetailxml', 'tpscoaricontxml.TPSCOARICONTXML_PK', '=', 'tpscoaricontdetailxml.TPSCOARICONTXML_FK');
+            }
+        }elseif($Model->getMorphClass() == 'App\Models\TpsCoariKms'){ 
+            
+            if(isset($request['startdate']) && isset($request['enddate'])){
+                
+                $Model = TpsCoariKms::select('*')
+                        ->join('tpscoarikmsdetailxml', 'tpscoarikmsxml.TPSCOARIKMSXML_PK', '=', 'tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
+                        ->where('tpscoarikmsxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
+                        ->where('tpscoarikmsxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+            }else{
+                $Model = TpsCoariKms::select('*')
+                        ->join('tpscoarikmsdetailxml', 'tpscoarikmsxml.TPSCOARIKMSXML_PK', '=', 'tpscoarikmsdetailxml.TPSCOARIKMSXML_FK');
+            }
+        }elseif($Model->getMorphClass() == 'App\Models\TpsCodecoContFcl'){ 
+            
+            if(isset($request['startdate']) && isset($request['enddate'])){
+                
+                $Model = TpsCodecoContFcl::select('*')
+                        ->join('tpscodecocontdetailxml', 'tpscodecocontxml.TPSCODECOCONTXML_PK', '=', 'tpscodecocontdetailxml.TPSCODECOCONTXML_FK')
+                        ->where('tpscodecocontxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
+                        ->where('tpscodecocontxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+            }else{
+                $Model = TpsCodecoContFcl::select('*')
+                        ->join('tpscodecocontdetailxml', 'tpscodecocontxml.TPSCODECOCONTXML_PK', '=', 'tpscodecocontdetailxml.TPSCODECOCONTXML_FK');
+            }
+        }elseif($Model->getMorphClass() == 'App\Models\TpsCodecoBuangMty'){ 
+            
+            if(isset($request['startdate']) && isset($request['enddate'])){
+                
+                $Model = TpsCodecoContFcl::select('*')
+                        ->join('tpscodecocontdetailxml', 'tpscodecocontxml.TPSCODECOCONTXML_PK', '=', 'tpscodecocontdetailxml.TPSCODECOCONTXML_FK')
+                        ->where('tpscodecocontxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
+                        ->where('tpscodecocontxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+            }else{
+                $Model = TpsCodecoContFcl::select('*')
+                        ->join('tpscodecocontdetailxml', 'tpscodecocontxml.TPSCODECOCONTXML_PK', '=', 'tpscodecocontdetailxml.TPSCODECOCONTXML_FK');
+            }
+        }elseif($Model->getMorphClass() == 'App\Models\TpsCodecoKms'){ 
+            
+            if(isset($request['startdate']) && isset($request['enddate'])){
+                
+                $Model = TpsCodecoKms::select('*')
+                        ->join('tpscodecokmsdetailxml', 'tpscodecokmsxml.TPSCODECOKMSXML_PK', '=', 'tpscodecokmsdetailxml.TPSCODECOKMSXML_FK')
+                        ->where('tpscodecokmsxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
+                        ->where('tpscodecokmsxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+            }else{
+                $Model = TpsCodecoKms::select('*')
+                        ->join('tpscodecokmsdetailxml', 'tpscodecokmsxml.TPSCODECOKMSXML_PK', '=', 'tpscodecokmsdetailxml.TPSCODECOKMSXML_FK');
+            }
         }else{
                         
         }

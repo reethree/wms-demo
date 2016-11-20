@@ -47,9 +47,15 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Kode KPBC</label>
+                        <label class="col-sm-3 control-label">Kode Kantor Pengawas</label>
                         <div class="col-sm-8">
-                            <input type="text" name="KD_KPBC" class="form-control"  value="{{ $sppb->KD_KPBC }}" required>
+                            <input type="text" name="KD_KANTOR_PENGAWAS" class="form-control"  value="{{ $sppb->KD_KANTOR_PENGAWAS }}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Kode Kantor Bongkar</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="KD_KANTOR_BONGKAR" class="form-control"  value="{{ $sppb->KD_KANTOR_BONGKAR }}" required>
                         </div>
                     </div>
                     <div class="form-group">

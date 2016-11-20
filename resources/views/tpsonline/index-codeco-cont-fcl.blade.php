@@ -6,10 +6,26 @@
         z-index: 100 !important;
     }
 </style>
-
+<script>
+ 
+    function gridCompleteEvent()
+    {
+        var ids = jQuery("#tpsCodecoContGrid").jqGrid('getDataIDs'),
+            edt = '',
+            del = ''; 
+        for(var i=0;i < ids.length;i++){ 
+            var cl = ids[i];
+            
+            edt = '<a href="{{ route("tps-codecoContFcl-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i> Details</a> ';
+//            del = '<a href="{{ route("lcl-register-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
+            jQuery("#tpsCodecoContGrid").jqGrid('setRowData',ids[i],{action:edt}); 
+        } 
+    }
+    
+</script>
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">TPS CODECO Container FCL</h3>
+        <h3 class="box-title">TPS CODECO Container</h3>
     </div>
     <div class="box-body table-responsive">
         <div class="row" style="margin-bottom: 30px;margin-right: 0;">
@@ -18,9 +34,8 @@
                 <div class="col-xs-12">&nbsp;</div>
                 <div class="col-xs-3">
                     <select class="form-control select2" id="by" name="by" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                        <option value="TGL_UPLOAD">Tgl. Upload</option>
-                        <option value="TGL_PIB">Tgl. SPJM</option>
-                        <option value="TGL_BC11">Tgl. BC11</option>                     
+                        <option value="TGL_ENTRY">Tgl. Entry</option>
+                        <option value="TGL_REVISI">Tgl. Revisi</option>                      
                     </select>
                 </div>
                 <div class="col-xs-3">
@@ -47,7 +62,34 @@
                 </div>
             </div>
         </div>
-        
+        {{
+            GridRender::setGridId("tpsCodecoContGrid")
+            ->enableFilterToolbar()
+            ->setGridOption('url', URL::to('/tpsonline/pengiriman/codeco-cont-fcl/grid-data'))
+            ->setGridOption('rowNum', 20)
+            ->setGridOption('shrinkToFit', true)
+            ->setGridOption('sortname','TPSCODECOCONTXML_PK')
+            ->setGridOption('rownumbers', true)
+            ->setGridOption('height', '295')
+            ->setGridOption('rowList',array(20,50,100))
+            ->setGridOption('useColSpanStyle', true)
+            ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
+            ->setNavigatorOptions('view',array('closeOnEscape'=>false))
+            ->setFilterToolbarOptions(array('autosearch'=>true))
+            ->setGridEvent('gridComplete', 'gridCompleteEvent')
+            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+            ->addColumn(array('key'=>true,'index'=>'TPSCODECOCONTXML_PK','hidden'=>true))
+            ->addColumn(array('label'=>'Ref. Number','index'=>'REF_NUMBER','width'=>160))  
+            ->addColumn(array('label'=>'Jenis Container','index'=>'JNS_CONT','width'=>160))              
+            ->addColumn(array('label'=>'No. Container','index'=>'NO_CONT','width'=>200))
+            ->addColumn(array('label'=>'Ukuran Container','index'=>'UK_CONT','width'=>160))
+            ->addColumn(array('label'=>'Status TPS','index'=>'STATUS_TPS','width'=>100))
+            ->addColumn(array('label'=>'Response','index'=>'RESPONSE','width'=>300))
+            ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGL_ENTRY','width'=>120))
+            ->addColumn(array('label'=>'Jam Entry','index'=>'JAM_ENTRY','width'=>120))
+            ->addColumn(array('label'=>'UID','index'=>'UID','width'=>120))
+            ->renderGrid()
+        }}
     </div>
 </div>
 
@@ -77,7 +119,7 @@
         var by = $("#by").val();
         var startdate = $("#startdate").val();
         var enddate = $("#enddate").val();
-        jQuery("#tpsSpjmGrid").jqGrid('setGridParam',{url:"{{URL::to('/tpsonline/pengiriman/spjm/grid-data')}}?startdate="+startdate+"&enddate="+enddate+"&by="+by}).trigger("reloadGrid");
+        jQuery("#tpsCodecoContGrid").jqGrid('setGridParam',{url:"{{URL::to('/tpsonline/pengiriman/codeco-cont-fcl/grid-data')}}?startdate="+startdate+"&enddate="+enddate+"&by="+by}).trigger("reloadGrid");
         return false;
     });
 </script>

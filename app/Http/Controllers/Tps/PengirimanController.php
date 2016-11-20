@@ -75,7 +75,7 @@ class PengirimanController extends Controller
     
     public function codecoContBuangMtyIndex()
     {
-                if ( !$this->access->can('show.tps.codecoContBuangMty.index') ) {
+        if ( !$this->access->can('show.tps.codecoContBuangMty.index') ) {
             return view('errors.no-access');
         }
         
