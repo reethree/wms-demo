@@ -162,6 +162,7 @@ return [
         Mgallegos\LaravelJqgrid\LaravelJqgridServiceProvider::class,
         Caffeinated\Shinobi\ShinobiServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Orchestra\Parser\XmlServiceProvider::class,
 
     ],
 
@@ -212,6 +213,7 @@ return [
         'GridEncoder' => Mgallegos\LaravelJqgrid\Facades\GridEncoder::class,
         'Shinobi' => Caffeinated\Shinobi\Facades\Shinobi::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'XmlParser' => Orchestra\Parser\Xml\Facade::class,
     ],
 
 ];

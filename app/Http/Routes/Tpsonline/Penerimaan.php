@@ -7,6 +7,10 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-responPlp-index',
         'uses' => 'PenerimaanController@responPlpIndex'
     ]);
+    Route::get('/respon-plp/get-xml', [
+        'as' => 'tps-responPlp-get',
+        'uses' => 'PenerimaanController@responPlpGetXml'
+    ]);
     Route::get('/respon-plp/edit/{id}', [
         'as' => 'tps-responPlp-edit',
         'uses' => 'PenerimaanController@responPlpEdit'
@@ -61,6 +65,10 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-obFcl-edit',
         'uses' => 'PenerimaanController@obEdit'
     ]);
+    Route::get('/ob/get-xml', [
+        'as' => 'tps-ob-get',
+        'uses' => 'PenerimaanController@obGetXml'
+    ]);
     
     // SPJM
     Route::get('/spjm', [
@@ -71,6 +79,10 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsSpjm(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
+    Route::get('/spjm/get-xml', [
+        'as' => 'tps-spjm-get',
+        'uses' => 'PenerimaanController@spjmGetXml'
+    ]);
     
     //Dok Manual
     Route::get('/dok-manual', [
@@ -98,6 +110,10 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
     Route::post('/sppb-pib/edit/{id}', [
         'as' => 'tps-sppbPib-update',
         'uses' => 'PenerimaanController@sppbPibUpdate'
+    ]);
+    Route::get('/sppb-pib/get-xml', [
+        'as' => 'tps-sppbPib-get',
+        'uses' => 'PenerimaanController@sppbPibGetXml'
     ]);
     
     //SPPB BEA CUKAI

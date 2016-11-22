@@ -335,5 +335,233 @@ class PenerimaanController extends Controller
     {
         //
     }    
+    
+    public function responPlpGetXml()
+    {
+        $xml = simplexml_load_file(url('xml/GetImpPLPCONT20161108011403.xml'));
+        $header = array();
+        $details = [];
+        foreach($xml->children() as $child) {
+            foreach($child as $key => $value) {
+                if($key == 'HEADER'){
+                    $header[] = $value;
+                }else{
+                    foreach ($value as $detail):
+                        $details[] = $detail;
+                    endforeach;
+                }
+            }
+        }
+        
+        // INSERT DATA
+        $respon = new \App\Models\TpsResponPlp;
+        foreach ($header[0] as $key=>$value):
+            $respon->$key = $value;
+        endforeach;
+        $respon->save();
+        
+        $plp_id = $respon->tps_responplptujuanxml_pk;
 
+        foreach ($details as $detail):     
+            $respon_detail = new \App\Models\TpsResponPlpDetail;
+            $respon_detail->tps_responplptujuanxml_fk = $plp_id;
+            foreach($detail as $key=>$value):
+                $respon_detail->$key = $value;
+            endforeach;
+            $respon_detail->save();
+        endforeach;
+        
+    }
+    
+    public function responBatalPlpGetXml()
+    {
+        
+    }
+    
+    public function obGetXml()
+    {
+        $xml = simplexml_load_file(url('xml/GetImpOB20161108012409.xml'));
+        $ob = array();
+        foreach($xml->children() as $child) {
+            $ob[] = $child;
+        }
+        
+        // INSERT DATA       
+        foreach ($ob as $data):
+            $obinsert = new \App\Models\TpsOb;
+            foreach ($data as $key=>$value):
+                if($key == 'KODE_KANTOR'){ $key='KD_KANTOR'; }
+                $obinsert->$key = $value;
+            endforeach;
+            $obinsert->save();
+        endforeach;
+        
+    }
+    
+    public function spjmGetXml()
+    {
+        $xml = simplexml_load_file(url('xml/GetSPJM20160509073625.xml'));
+        $header = array();
+        $kms = [];
+        $dok = [];
+        $cont = [];
+        foreach($xml->children() as $child) {
+            foreach($child as $key => $value) {
+                if($key == 'HEADER'){
+                    $header[] = $value;
+                }else{
+                    foreach ($value as $key => $value):
+                        if($key == 'KMS'):
+                            $kms[] = $value;
+                        elseif($key == 'DOK'):
+                            $dok[] = $value;
+                        elseif($key == 'CONT'):
+                            $cont[] = $value;
+                        endif;
+                    endforeach;
+                }
+            }
+        }
+        
+        // INSERT DATA
+        $spjm = new \App\Models\TpsSpjm;
+        foreach ($header[0] as $key=>$value):
+            $spjm->$key = $value;
+        endforeach;  
+        $spjm->save();   
+        
+        $spjm_id = $spjm->TPS_SPJMXML_PK;
+        
+        if(count($kms) > 0){
+            $datakms = array();
+            foreach ($kms[0] as $key=>$value):
+                $datakms[$key] = $value;
+            endforeach;
+            $datakms['TPS_SPJMXML_FK'] = $spjm_id;
+            \DB::table('tps_spjmkmsxml')->insert($datakms);
+        }
+        if(count($dok) > 0){
+            $datadok = array();
+            foreach ($dok[0] as $key=>$value):
+                $datadok[$key] = $value;
+            endforeach;
+            $datadok['TPS_SPJMXML_FK'] = $spjm_id;
+            \DB::table('tps_spjmdokxml')->insert($datadok);
+        }
+        if(count($cont) > 0){
+            $datacont = array();
+            foreach ($cont[0] as $key=>$value):
+                $datacont[$key] = $value;
+            endforeach;
+            $datacont['TPS_SPJMXML_FK'] = $spjm_id;
+            \DB::table('tps_spjmcontxml')->insert($datacont);
+        }
+    }
+    
+    public function sppbPibGetXml()
+    {     
+        $xml = simplexml_load_file(url('xml/GetImpPermit20161107071906.xml'));
+        
+        foreach ($xml as $data):            
+            foreach ($data as $key=>$value):
+                if($key == 'HEADER'){
+                    $header[] = $value;
+                }else{
+                    
+                }
+            endforeach;
+        endforeach;
+        
+        return $header;
+//<DOCUMENT>
+//  <SPPB>
+//    <HEADER>
+//      <CAR>00000000560320161107000743</CAR>
+//      <NO_SPPB>468313/KPU.01/2016</NO_SPPB>
+//      <TGL_SPPB>11/7/2016</TGL_SPPB>
+//      <KD_KPBC>040300</KD_KPBC>
+//      <NO_PIB>469318</NO_PIB>
+//      <TGL_PIB>11/7/2016</TGL_PIB>
+//      <NPWP_IMP>010001188092000</NPWP_IMP>
+//      <NAMA_IMP>PT. BRIDGESTONE TIRE INDONESIA</NAMA_IMP>
+//      <ALAMAT_IMP>THE MANOR BUILDING LT.7&amp;8 SURYA CIPTA SQUARE JL.SURYA UTAMA, KARAWANG</ALAMAT_IMP>
+//      <NPWP_PPJK>
+//      </NPWP_PPJK>
+//      <NAMA_PPJK>
+//      </NAMA_PPJK>
+//      <ALAMAT_PPJK>
+//      </ALAMAT_PPJK>
+//      <NM_ANGKUT>NYK DANIELLA</NM_ANGKUT>
+//      <NO_VOY_FLIGHT>017S</NO_VOY_FLIGHT>
+//      <BRUTO>5419</BRUTO>
+//      <NETTO>5089</NETTO>
+//      <GUDANG>RAYA</GUDANG>
+//      <STATUS_JALUR>H</STATUS_JALUR>
+//      <JML_CONT>
+//      </JML_CONT>
+//      <NO_BC11>004544</NO_BC11>
+//      <TGL_BC11>11/4/2016</TGL_BC11>
+//      <NO_POS_BC11>0252</NO_POS_BC11>
+//      <NO_BL_AWB>L41-6A020601</NO_BL_AWB>
+//      <TG_BL_AWB>10/31/2016</TG_BL_AWB>
+//      <NO_MASTER_BL_AWB>
+//      </NO_MASTER_BL_AWB>
+//      <TG_MASTER_BL_AWB>
+//      </TG_MASTER_BL_AWB>
+//    </HEADER>
+//    <DETIL>
+//      <KMS>
+//        <CAR>00000000560320161107000743</CAR>
+//        <JNS_KMS>SI</JNS_KMS>
+//        <MERK_KMS>SESUAI INVOICE</MERK_KMS>
+//        <JML_KMS>14</JML_KMS>
+//      </KMS>
+//    </DETIL>
+//  </SPPB>
+//  <SPPB>
+//    <HEADER>
+//      <CAR>00000000560320161107000744</CAR>
+//      <NO_SPPB>468315/KPU.01/2016</NO_SPPB>
+//      <TGL_SPPB>11/7/2016</TGL_SPPB>
+//      <KD_KPBC>040300</KD_KPBC>
+//      <NO_PIB>469320</NO_PIB>
+//      <TGL_PIB>11/7/2016</TGL_PIB>
+//      <NPWP_IMP>010001188092000</NPWP_IMP>
+//      <NAMA_IMP>PT. BRIDGESTONE TIRE INDONESIA</NAMA_IMP>
+//      <ALAMAT_IMP>THE MANOR BUILDING LT.7&amp;8 SURYA CIPTA SQUARE JL.SURYA UTAMA, KARAWANG</ALAMAT_IMP>
+//      <NPWP_PPJK>
+//      </NPWP_PPJK>
+//      <NAMA_PPJK>
+//      </NAMA_PPJK>
+//      <ALAMAT_PPJK>
+//      </ALAMAT_PPJK>
+//      <NM_ANGKUT>NYK DANIELLA</NM_ANGKUT>
+//      <NO_VOY_FLIGHT>017S</NO_VOY_FLIGHT>
+//      <BRUTO>1512</BRUTO>
+//      <NETTO>1377</NETTO>
+//      <GUDANG>RAYA</GUDANG>
+//      <STATUS_JALUR>H</STATUS_JALUR>
+//      <JML_CONT>
+//      </JML_CONT>
+//      <NO_BC11>004544</NO_BC11>
+//      <TGL_BC11>11/4/2016</TGL_BC11>
+//      <NO_POS_BC11>0251</NO_POS_BC11>
+//      <NO_BL_AWB>L41-6A020501</NO_BL_AWB>
+//      <TG_BL_AWB>10/31/2016</TG_BL_AWB>
+//      <NO_MASTER_BL_AWB>
+//      </NO_MASTER_BL_AWB>
+//      <TG_MASTER_BL_AWB>
+//      </TG_MASTER_BL_AWB>
+//    </HEADER>
+//    <DETIL>
+//      <KMS>
+//        <CAR>00000000560320161107000744</CAR>
+//        <JNS_KMS>SI</JNS_KMS>
+//        <MERK_KMS>SESUAI  INVOICE</MERK_KMS>
+//        <JML_KMS>6</JML_KMS>
+//      </KMS>
+//    </DETIL>
+//  </SPPB>
+//</DOCUMENT>
+    }
 }

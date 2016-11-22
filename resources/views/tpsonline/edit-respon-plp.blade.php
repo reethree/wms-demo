@@ -37,7 +37,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. Surat PLP</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NO_SURAT_PLP" class="form-control"  value="{{ $respon->NO_SURAT_PLP }}" required>
+                            <input type="text" name="NO_SURAT" class="form-control"  value="{{ $respon->NO_SURAT }}" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -215,9 +215,9 @@
                         ->addColumn(array('key'=>true,'index'=>'tps_responplptujuandetailxml_pk','hidden'=>true))
                         ->addColumn(array('label'=>'No. Container','index'=>'NO_CONT','width'=>250,'editable' => true, 'editrules' => array('' => true)))
                         ->addColumn(array('label'=>'Ukuran','index'=>'UK_CONT', 'width'=>80,'align'=>'center','editable' => true, 'editrules' => array('' => true,'number'=>true),'edittype'=>'select','editoptions'=>array('value'=>"20:20;40:40")))
-                        ->addColumn(array('label'=>'No. POS','index'=>'NO_POS_BC11', 'width'=>120,'align'=>'center','editable' => false))
-                        ->addColumn(array('label'=>'Jenis','index'=>'JNS_CONT	', 'width'=>80,'editable' => true, 'align'=>'right'))
-                        ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>250,'editable' => true, 'align'=>'right','editrules' => array('' => true)))
+                        ->addColumn(array('label'=>'No. POS','index'=>'NO_POS_BC11', 'width'=>200,'align'=>'center','editable' => false))
+                        ->addColumn(array('label'=>'Jenis','index'=>'JNS_CONT', 'width'=>80,'editable' => true, 'align'=>'center'))
+                        ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>350,'editable' => true,'editrules' => array('' => true)))
 //                        ->addColumn(array('label'=>'Measurment','index'=>'MEAS', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('' => true)))
 //                        ->addColumn(array('label'=>'Layout','index'=>'layout', 'width'=>80,'editable' => true,'align'=>'center','editoptions'=>array('defaultValue'=>"C-1")))
 //                        ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
