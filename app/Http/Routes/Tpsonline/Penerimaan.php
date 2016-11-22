@@ -133,4 +133,8 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-sppbBc-update',
         'uses' => 'PenerimaanController@sppbBcUpdate'
     ]);
+    Route::get('/sppb-bc/get-xml', [
+        'as' => 'tps-sppbBc-get',
+        'uses' => 'PenerimaanController@sppbBcGetXml'
+    ]);
 });

@@ -461,107 +461,79 @@ class PenerimaanController extends Controller
     public function sppbPibGetXml()
     {     
         $xml = simplexml_load_file(url('xml/GetImpPermit20161107071906.xml'));
-        
-        foreach ($xml as $data):            
+
+        foreach ($xml->children() as $data):  
             foreach ($data as $key=>$value):
-                if($key == 'HEADER'){
-                    $header[] = $value;
-                }else{
-                    
+                if($key == 'HEADER'){           
+                    $sppb = new \App\Models\TpsSppbPib;
+                    foreach ($value as $keyh=>$valueh):
+                        if($keyh == 'TG_BL_AWB'){ $keyh='TGL_BL_AWB'; }
+                        elseif($keyh == 'TG_MASTER_BL_AWB'){ $keyh='TGL_MASTER_BL_AWB'; }
+                        $sppb->$keyh = $valueh;
+                    endforeach;
+                    $sppb->save();
+                    $sppb_id = $sppb->TPS_SPPBXML_PK;
+                }elseif($key == 'DETIL'){
+                    foreach ($value as $key1=>$value1):
+                        if($key1 == 'KMS'){
+                            $kms = new \App\Models\TpsSppbPibKms;
+                            foreach ($value1 as $keyk=>$valuek):
+                                $kms->$keyk = $valuek;
+                            endforeach;
+                            $kms->TPS_SPPBXML_FK = $sppb_id;
+                            $kms->save();
+                        }elseif($key1 == 'CONT'){
+                            $cont = new \App\Models\TpsSppbPibCont;
+                            foreach ($value1 as $keyc=>$valuec):
+                                $cont->$keyc = $valuec;
+                            endforeach;
+                            $cont->TPS_SPPBXML_FK = $sppb_id;
+                            $cont->save();
+                        }
+                    endforeach;  
                 }
             endforeach;
         endforeach;
         
-        return $header;
-//<DOCUMENT>
-//  <SPPB>
-//    <HEADER>
-//      <CAR>00000000560320161107000743</CAR>
-//      <NO_SPPB>468313/KPU.01/2016</NO_SPPB>
-//      <TGL_SPPB>11/7/2016</TGL_SPPB>
-//      <KD_KPBC>040300</KD_KPBC>
-//      <NO_PIB>469318</NO_PIB>
-//      <TGL_PIB>11/7/2016</TGL_PIB>
-//      <NPWP_IMP>010001188092000</NPWP_IMP>
-//      <NAMA_IMP>PT. BRIDGESTONE TIRE INDONESIA</NAMA_IMP>
-//      <ALAMAT_IMP>THE MANOR BUILDING LT.7&amp;8 SURYA CIPTA SQUARE JL.SURYA UTAMA, KARAWANG</ALAMAT_IMP>
-//      <NPWP_PPJK>
-//      </NPWP_PPJK>
-//      <NAMA_PPJK>
-//      </NAMA_PPJK>
-//      <ALAMAT_PPJK>
-//      </ALAMAT_PPJK>
-//      <NM_ANGKUT>NYK DANIELLA</NM_ANGKUT>
-//      <NO_VOY_FLIGHT>017S</NO_VOY_FLIGHT>
-//      <BRUTO>5419</BRUTO>
-//      <NETTO>5089</NETTO>
-//      <GUDANG>RAYA</GUDANG>
-//      <STATUS_JALUR>H</STATUS_JALUR>
-//      <JML_CONT>
-//      </JML_CONT>
-//      <NO_BC11>004544</NO_BC11>
-//      <TGL_BC11>11/4/2016</TGL_BC11>
-//      <NO_POS_BC11>0252</NO_POS_BC11>
-//      <NO_BL_AWB>L41-6A020601</NO_BL_AWB>
-//      <TG_BL_AWB>10/31/2016</TG_BL_AWB>
-//      <NO_MASTER_BL_AWB>
-//      </NO_MASTER_BL_AWB>
-//      <TG_MASTER_BL_AWB>
-//      </TG_MASTER_BL_AWB>
-//    </HEADER>
-//    <DETIL>
-//      <KMS>
-//        <CAR>00000000560320161107000743</CAR>
-//        <JNS_KMS>SI</JNS_KMS>
-//        <MERK_KMS>SESUAI INVOICE</MERK_KMS>
-//        <JML_KMS>14</JML_KMS>
-//      </KMS>
-//    </DETIL>
-//  </SPPB>
-//  <SPPB>
-//    <HEADER>
-//      <CAR>00000000560320161107000744</CAR>
-//      <NO_SPPB>468315/KPU.01/2016</NO_SPPB>
-//      <TGL_SPPB>11/7/2016</TGL_SPPB>
-//      <KD_KPBC>040300</KD_KPBC>
-//      <NO_PIB>469320</NO_PIB>
-//      <TGL_PIB>11/7/2016</TGL_PIB>
-//      <NPWP_IMP>010001188092000</NPWP_IMP>
-//      <NAMA_IMP>PT. BRIDGESTONE TIRE INDONESIA</NAMA_IMP>
-//      <ALAMAT_IMP>THE MANOR BUILDING LT.7&amp;8 SURYA CIPTA SQUARE JL.SURYA UTAMA, KARAWANG</ALAMAT_IMP>
-//      <NPWP_PPJK>
-//      </NPWP_PPJK>
-//      <NAMA_PPJK>
-//      </NAMA_PPJK>
-//      <ALAMAT_PPJK>
-//      </ALAMAT_PPJK>
-//      <NM_ANGKUT>NYK DANIELLA</NM_ANGKUT>
-//      <NO_VOY_FLIGHT>017S</NO_VOY_FLIGHT>
-//      <BRUTO>1512</BRUTO>
-//      <NETTO>1377</NETTO>
-//      <GUDANG>RAYA</GUDANG>
-//      <STATUS_JALUR>H</STATUS_JALUR>
-//      <JML_CONT>
-//      </JML_CONT>
-//      <NO_BC11>004544</NO_BC11>
-//      <TGL_BC11>11/4/2016</TGL_BC11>
-//      <NO_POS_BC11>0251</NO_POS_BC11>
-//      <NO_BL_AWB>L41-6A020501</NO_BL_AWB>
-//      <TG_BL_AWB>10/31/2016</TG_BL_AWB>
-//      <NO_MASTER_BL_AWB>
-//      </NO_MASTER_BL_AWB>
-//      <TG_MASTER_BL_AWB>
-//      </TG_MASTER_BL_AWB>
-//    </HEADER>
-//    <DETIL>
-//      <KMS>
-//        <CAR>00000000560320161107000744</CAR>
-//        <JNS_KMS>SI</JNS_KMS>
-//        <MERK_KMS>SESUAI  INVOICE</MERK_KMS>
-//        <JML_KMS>6</JML_KMS>
-//      </KMS>
-//    </DETIL>
-//  </SPPB>
-//</DOCUMENT>
+    }
+    
+    public function sppbBcGetXml()
+    {     
+        $xml = simplexml_load_file(url('xml/GetImpPermitBC2320161111091704.xml'));
+
+        foreach ($xml->children() as $data):  
+            foreach ($data as $key=>$value):
+                if($key == 'HEADER'){           
+                    $sppb = new \App\Models\TpsSppbBc;
+                    foreach ($value as $keyh=>$valueh):
+                        if($keyh == 'TG_BL_AWB'){ $keyh='TGL_BL_AWB'; }
+                        elseif($keyh == 'TG_MASTER_BL_AWB'){ $keyh='TGL_MASTER_BL_AWB'; }
+                        elseif($keyh == 'BRUTTO'){ $keyh='BRUTO'; }
+                        $sppb->$keyh = $valueh;
+                    endforeach;
+                    $sppb->save();
+                    $sppb_id = $sppb->TPS_SPPBXML_PK;
+                }elseif($key == 'DETIL'){
+                    foreach ($value as $key1=>$value1):
+                        if($key1 == 'KMS'){
+                            $kms = new \App\Models\TpsSppbBcKms;
+                            foreach ($value1 as $keyk=>$valuek):
+                                $kms->$keyk = $valuek;
+                            endforeach;
+                            $kms->TPS_SPPBXML_FK = $sppb_id;
+                            $kms->save();
+                        }elseif($key1 == 'CONT'){
+                            $cont = new \App\Models\TpsSppbBcCont;
+                            foreach ($value1 as $keyc=>$valuec):
+                                $cont->$keyc = $valuec;
+                            endforeach;
+                            $cont->TPS_SPPBXML_FK = $sppb_id;
+                            $cont->save();
+                        }
+                    endforeach;  
+                }
+            endforeach;
+        endforeach;
+        
     }
 }
