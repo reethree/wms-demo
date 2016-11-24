@@ -235,7 +235,7 @@ class LclController extends Controller
         $data['spk_number'] = 'PRJP'.$regID.'/'.date('y');
         $data['consolidators'] = DBConsolidator::select('TCONSOLIDATOR_PK as id','NAMACONSOLIDATOR as name')->get();
         $data['countries'] = DBNegara::select('TNEGARA_PK as id','NAMANEGARA as name')->get();
-        $data['pelabuhans'] = DBPelabuhan::select('TPELABUHAN_PK as id','NAMAPELABUHAN as name','KODEPELABUHAN as code')->get();
+        $data['pelabuhans'] = DBPelabuhan::select('TPELABUHAN_PK as id','NAMAPELABUHAN as name','KODEPELABUHAN as code')->limit(300)->get();
         $data['vessels'] = DBVessel::select('tvessel_pk as id','vesselname as name','vesselcode as code','callsign')->get();
         $data['shippinglines'] = DBShippingline::select('TSHIPPINGLINE_PK as id','SHIPPINGLINE as name')->get();
         $data['lokasisandars'] = DBLokasisandar::select('TLOKASISANDAR_PK as id','NAMALOKASISANDAR as name')->get();
@@ -306,8 +306,10 @@ class LclController extends Controller
         $data['NAMAPELABUHAN'] = $namapelabuhan->NAMAPELABUHAN;
         $namalokasisandar = DBLokasisandar::select('NAMALOKASISANDAR')->where('TLOKASISANDAR_PK',$data['TLOKASISANDAR_FK'])->first();
         $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
-        $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();
-        $data['SHIPPINGLINE'] = $namashippingline->SHIPPINGLINE;
+        if($data['TSHIPPINGLINE_FK']){
+            $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();
+            $data['SHIPPINGLINE'] = $namashippingline->SHIPPINGLINE;
+        }
         $data['UID'] = \Auth::getUser()->name;
         
         $insert_id = DBJoborder::insertGetId($data);
@@ -364,7 +366,7 @@ class LclController extends Controller
         $data['consolidators'] = DBConsolidator::select('TCONSOLIDATOR_PK as id','NAMACONSOLIDATOR as name')->get();
         $data['countries'] = DBNegara::select('TNEGARA_PK as id','NAMANEGARA as name')->get();
 //        $data['pelabuhans'] = [];
-        $data['pelabuhans'] = DBPelabuhan::select('TPELABUHAN_PK as id','NAMAPELABUHAN as name','KODEPELABUHAN as code')->get();
+        $data['pelabuhans'] = DBPelabuhan::select('TPELABUHAN_PK as id','NAMAPELABUHAN as name','KODEPELABUHAN as code')->limit(300)->get();
         $data['vessels'] = DBVessel::select('tvessel_pk as id','vesselname as name','vesselcode as code','callsign')->get();
         $data['shippinglines'] = DBShippingline::select('TSHIPPINGLINE_PK as id','SHIPPINGLINE as name')->get();
         $data['lokasisandars'] = DBLokasisandar::select('TLOKASISANDAR_PK as id','NAMALOKASISANDAR as name')->get();
