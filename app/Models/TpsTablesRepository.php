@@ -121,10 +121,12 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                 $Model = TpsCoariCont::select('*')
                         ->join('tpscoaricontdetailxml', 'tpscoaricontxml.TPSCOARICONTXML_PK', '=', 'tpscoaricontdetailxml.TPSCOARICONTXML_FK')
                         ->where('tpscoaricontxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where('tpscoaricontxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        ->where('tpscoaricontxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])))
+                        ->groupBy('tpscoaricontdetailxml.TPSCOARICONTXML_FK');
             }else{
                 $Model = TpsCoariCont::select('*')
-                        ->join('tpscoaricontdetailxml', 'tpscoaricontxml.TPSCOARICONTXML_PK', '=', 'tpscoaricontdetailxml.TPSCOARICONTXML_FK');
+                        ->join('tpscoaricontdetailxml', 'tpscoaricontxml.TPSCOARICONTXML_PK', '=', 'tpscoaricontdetailxml.TPSCOARICONTXML_FK')
+                        ->groupBy('tpscoaricontdetailxml.TPSCOARICONTXML_FK');
             }
         }elseif($Model->getMorphClass() == 'App\Models\TpsCoariKms'){ 
             
@@ -133,10 +135,14 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                 $Model = TpsCoariKms::select('*')
                         ->join('tpscoarikmsdetailxml', 'tpscoarikmsxml.TPSCOARIKMSXML_PK', '=', 'tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
                         ->where('tpscoarikmsxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where('tpscoarikmsxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        ->where('tpscoarikmsxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])))
+                        ->groupBy('tpscoarikmsdetailxml.TPSCOARIKMSXML_FK');
+            }elseif(isset($request['coarikms_id'])){
+                $Model = TpsCoariKmsDetail::where('TPSCOARIKMSXML_FK',$request['coarikms_id']);
             }else{
                 $Model = TpsCoariKms::select('*')
-                        ->join('tpscoarikmsdetailxml', 'tpscoarikmsxml.TPSCOARIKMSXML_PK', '=', 'tpscoarikmsdetailxml.TPSCOARIKMSXML_FK');
+                        ->join('tpscoarikmsdetailxml', 'tpscoarikmsxml.TPSCOARIKMSXML_PK', '=', 'tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
+                        ->groupBy('tpscoarikmsdetailxml.TPSCOARIKMSXML_FK');
             }
         }elseif($Model->getMorphClass() == 'App\Models\TpsCodecoContFcl'){ 
             

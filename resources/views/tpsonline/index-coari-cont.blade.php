@@ -80,7 +80,7 @@
             ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('key'=>true,'index'=>'TPSCOARICONTXML_PK','hidden'=>true))
             ->addColumn(array('label'=>'Ref. Number','index'=>'REF_NUMBER','width'=>160))  
-            ->addColumn(array('label'=>'Jenis Container','index'=>'JNS_CONT','width'=>160))              
+            ->addColumn(array('label'=>'Jenis','index'=>'JNS_CONT','width'=>80,'align'=>'center'))              
             ->addColumn(array('label'=>'No. Container','index'=>'NO_CONT','width'=>200))
             ->addColumn(array('label'=>'Ukuran Container','index'=>'UK_CONT','width'=>160))
             ->addColumn(array('label'=>'Status TPS','index'=>'STATUS_TPS','width'=>100))

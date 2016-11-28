@@ -19,6 +19,14 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
         'as' => 'tps-coariCont-update',
         'uses' => 'PengirimanController@coariContUpdate'
     ]);
+    Route::get('/coari-cont/get-xml', [
+        'as' => 'tps-coariCont-get',
+        'uses' => 'PengirimanController@coariContGetXml'
+    ]);
+    Route::get('/coari-cont/create-xml', [
+        'as' => 'tps-coariCont-create-xml',
+        'uses' => 'PengirimanController@coariContCreateXml'
+    ]);
     
     // COARI KMS
     Route::get('/coari-kms', [
@@ -37,6 +45,14 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
         'as' => 'tps-coariKms-update',
         'uses' => 'PengirimanController@coariKmsUpdate'
     ]);
+    Route::post('/coari-kms/detail/edit/{id}', [
+        'as' => 'tps-coariKmsDetail-update',
+        'uses' => 'PengirimanController@coariKmsDetailUpdate'
+    ]);
+    Route::get('/coari-kms/get-xml', [
+        'as' => 'tps-coariKms-get',
+        'uses' => 'PengirimanController@coariKmsGetXml'
+    ]);
     
     // CODECO FCL
     Route::get('/codeco-cont-fcl', [
@@ -54,6 +70,10 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
     Route::post('/codeco-cont-fcl/edit/{id}', [
         'as' => 'tps-codecoContFcl-update',
         'uses' => 'PengirimanController@codecoContFclUpdate'
+    ]);
+    Route::get('/codeco-cont-fcl/get-xml', [
+        'as' => 'tps-codecoContFcl-get',
+        'uses' => 'PengirimanController@codecoContFclGetXml'
     ]);
     
     // CODECO Buang MTY

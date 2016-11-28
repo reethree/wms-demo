@@ -231,7 +231,7 @@
             <div class="row">
                 <div class="col-md-12">
                     {{
-                        GridRender::setGridId("tpstpsSppbPibContGrid")
+                        GridRender::setGridId("tpsSppbPibContGrid")
                         ->enableFilterToolbar()
                         ->setGridOption('url', URL::to('/tpsonline/penerimaan/sppb-pib/grid-data?type=cont&sppbid='.$sppb->TPS_SPPBXML_PK))
                         ->setGridOption('rowNum', 10)

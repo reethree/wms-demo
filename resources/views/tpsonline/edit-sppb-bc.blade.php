@@ -281,7 +281,7 @@
             <div class="row">
                 <div class="col-md-12">
                     {{
-                        GridRender::setGridId("tpstpsSppbBcKmsGrid")
+                        GridRender::setGridId("tpsSppbBcKmsGrid")
                         ->enableFilterToolbar()
                         ->setGridOption('url', URL::to('/tpsonline/penerimaan/sppb-bc/grid-data?type=kms&sppbid='.$sppb->TPS_SPPBXML_PK))
                         ->setGridOption('rowNum', 10)
