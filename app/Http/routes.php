@@ -57,6 +57,10 @@
             'as' => 'getDataPelabuhan',
             'uses' => 'Controller@getDataPelabuhan'
         ]);
+        Route::get('/getDataCodePelabuhan', [
+            'as' => 'getDataCodePelabuhan',
+            'uses' => 'Controller@getDataCodePelabuhan'
+        ]);
         
         
     });

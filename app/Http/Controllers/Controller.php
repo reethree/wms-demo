@@ -45,4 +45,15 @@ class Controller extends BaseController
         
         return json_encode($data);
     }
+    
+    public function getDataCodePelabuhan(Request $request) {
+        
+        $query = $request->q;
+        
+        $data['items'] = \App\Models\Pelabuhan::select('KODEPELABUHAN as id','KODEPELABUHAN as text')
+                ->orWhere('KODEPELABUHAN','LIKE','%'.$query.'%')
+                ->get();
+        
+        return json_encode($data);
+    }
 }

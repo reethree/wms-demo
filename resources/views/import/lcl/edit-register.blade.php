@@ -231,6 +231,9 @@
                         <div class="col-sm-8">
                             <select class="form-control select2" id="PEL_MUAT" name="PEL_MUAT" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Pelabuhan Muat</option>
+                                @if($joborder->PEL_MUAT)
+                                    <option value="{{$joborder->PEL_MUAT}}" selected="selected">{{$joborder->PEL_MUAT}}</option>
+                                @endif
 <!--                                @foreach($pelabuhans as $pelabuhan)
                                     <option value="{{ $pelabuhan->code }}" @if($pelabuhan->code == $joborder->PEL_MUAT){{ "selected" }}@endif>{{ $pelabuhan->code }}</option>
                                 @endforeach-->
@@ -242,7 +245,9 @@
                         <div class="col-sm-8">
                             <select class="form-control select2" id="PEL_TRANSIT" name="PEL_TRANSIT" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Pelabuhan Transit</option>
-                                <option value="-" selected>-</option>
+                                @if($joborder->PEL_TRANSIT)
+                                    <option value="{{$joborder->PEL_TRANSIT}}" selected="selected">{{$joborder->PEL_TRANSIT}}</option>
+                                @endif
 <!--                                @foreach($pelabuhans as $pelabuhan)
                                     <option value="{{ $pelabuhan->code }}" @if($pelabuhan->code == $joborder->PEL_TRANSIT){{ "selected" }}@endif>{{ $pelabuhan->code }}</option>
                                 @endforeach-->
@@ -254,6 +259,9 @@
                         <div class="col-sm-8">
                             <select class="form-control select2" id="PEL_BONGKAR" name="PEL_BONGKAR" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Pelabuhan Bongkar</option>
+                                @if($joborder->PEL_BONGKAR)
+                                    <option value="{{$joborder->PEL_BONGKAR}}" selected="selected">{{$joborder->PEL_BONGKAR}}</option>
+                                @endif
 <!--                                @foreach($pelabuhans as $pelabuhan)
                                     <option value="{{ $pelabuhan->code }}" @if($pelabuhan->code == $joborder->PEL_BONGKAR){{'selected'}}@endif>{{ $pelabuhan->code }}</option>
                                 @endforeach-->
@@ -438,9 +446,42 @@
             alert('Please Select Container.');
         }
     });
-    $("#TPELABUHAN_FK, #PEL_MUAT, #PEL_TRANSIT, #PEL_BONGKAR").select2({
+    $("#TPELABUHAN_FK").select2({
         ajax: {
           url: "{{ route('getDataPelabuhan') }}",
+          dataType: 'json',
+          delay: 250,
+          data: function (params) {
+            return {
+              q: params.term, // search term
+//              page: params.page
+            };
+          },
+          processResults: function (data, params) {
+//              console.log(data);
+            // parse the results into the format expected by Select2
+            // since we are using custom formatting functions we do not need to
+            // alter the remote JSON data, except to indicate that infinite
+            // scrolling can be used
+            params.page = params.page || 1;
+
+            return {
+              results: data.items,
+//              pagination: {
+//                more: (params.page * 30) < data.total_count
+//              }
+            };
+          },
+          cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+        minimumInputLength: 3,
+//        templateResult: formatRepo, // omitted for brevity, see the source of this page
+//        templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+    });
+    $("#PEL_MUAT, #PEL_TRANSIT, #PEL_BONGKAR").select2({
+        ajax: {
+          url: "{{ route('getDataCodePelabuhan') }}",
           dataType: 'json',
           delay: 250,
           data: function (params) {
