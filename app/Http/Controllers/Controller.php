@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 use Illuminate\Contracts\Auth\Authenticatable;
 
+use Illuminate\Http\Request;
+
 use Caffeinated\Shinobi\Models\Role as DBRole;
 
 class Controller extends BaseController
@@ -30,5 +32,17 @@ class Controller extends BaseController
         $this->access = DBRole::find($role_id);
         $this->user = $user;
         
+    }
+    
+    public function getDataPelabuhan(Request $request) {
+        
+        $query = $request->q;
+        
+        $data['items'] = \App\Models\Pelabuhan::select('TPELABUHAN_PK as id','NAMAPELABUHAN as text','KODEPELABUHAN as code')
+                ->where('NAMAPELABUHAN','LIKE','%'.$query.'%')
+                ->orWhere('KODEPELABUHAN','LIKE','%'.$query.'%')
+                ->get();
+        
+        return json_encode($data);
     }
 }

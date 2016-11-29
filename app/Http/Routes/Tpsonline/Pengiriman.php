@@ -111,6 +111,14 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
         'as' => 'tps-codecoKms-update',
         'uses' => 'PengirimanController@codecoKmsUpdate'
     ]);
+    Route::post('/codeco-kms/detail/edit/{id}', [
+        'as' => 'tps-codecoKmsDetail-update',
+        'uses' => 'PengirimanController@codecoKmsDetailUpdate'
+    ]);
+    Route::get('/codeco-kms/get-xml', [
+        'as' => 'tps-codecoKms-get',
+        'uses' => 'PengirimanController@codecoKmsGetXml'
+    ]);
     
 });
 

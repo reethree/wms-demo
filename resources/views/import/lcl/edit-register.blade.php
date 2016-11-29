@@ -71,11 +71,14 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Port of Loading</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="TPELABUHAN_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" >
+                            <select class="form-control select2" id="TPELABUHAN_FK" name="TPELABUHAN_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Port of Loading</option>
-                                @foreach($pelabuhans as $pelabuhan)
+                                @if($joborder->TPELABUHAN_FK)
+                                    <option value="{{$joborder->TPELABUHAN_FK}}" selected="selected">{{$joborder->NAMAPELABUHAN}}</option>
+                                @endif
+<!--                                @foreach($pelabuhans as $pelabuhan)
                                     <option value="{{ $pelabuhan->id }}" @if($pelabuhan->id == $joborder->TPELABUHAN_FK){{ "selected" }}@endif>{{ $pelabuhan->name }}</option>
-                                @endforeach
+                                @endforeach-->
                             </select>
                         </div>
                     </div>
@@ -226,34 +229,34 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Pel. Muat</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="PEL_MUAT" style="width: 100%;" tabindex="-1" aria-hidden="true" >
+                            <select class="form-control select2" id="PEL_MUAT" name="PEL_MUAT" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Pelabuhan Muat</option>
-                                @foreach($pelabuhans as $pelabuhan)
+<!--                                @foreach($pelabuhans as $pelabuhan)
                                     <option value="{{ $pelabuhan->code }}" @if($pelabuhan->code == $joborder->PEL_MUAT){{ "selected" }}@endif>{{ $pelabuhan->code }}</option>
-                                @endforeach
+                                @endforeach-->
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Pel. Transit</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="PEL_TRANSIT" style="width: 100%;" tabindex="-1" aria-hidden="true" >
+                            <select class="form-control select2" id="PEL_TRANSIT" name="PEL_TRANSIT" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Pelabuhan Transit</option>
                                 <option value="-" selected>-</option>
-                                @foreach($pelabuhans as $pelabuhan)
+<!--                                @foreach($pelabuhans as $pelabuhan)
                                     <option value="{{ $pelabuhan->code }}" @if($pelabuhan->code == $joborder->PEL_TRANSIT){{ "selected" }}@endif>{{ $pelabuhan->code }}</option>
-                                @endforeach
+                                @endforeach-->
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Pel. Bongkar</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="PEL_BONGKAR" style="width: 100%;" tabindex="-1" aria-hidden="true" >
+                            <select class="form-control select2" id="PEL_BONGKAR" name="PEL_BONGKAR" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Pelabuhan Bongkar</option>
-                                @foreach($pelabuhans as $pelabuhan)
+<!--                                @foreach($pelabuhans as $pelabuhan)
                                     <option value="{{ $pelabuhan->code }}" @if($pelabuhan->code == $joborder->PEL_BONGKAR){{'selected'}}@endif>{{ $pelabuhan->code }}</option>
-                                @endforeach
+                                @endforeach-->
                             </select>
                         </div>
                     </div>
@@ -434,6 +437,39 @@
         }else{
             alert('Please Select Container.');
         }
+    });
+    $("#TPELABUHAN_FK, #PEL_MUAT, #PEL_TRANSIT, #PEL_BONGKAR").select2({
+        ajax: {
+          url: "{{ route('getDataPelabuhan') }}",
+          dataType: 'json',
+          delay: 250,
+          data: function (params) {
+            return {
+              q: params.term, // search term
+//              page: params.page
+            };
+          },
+          processResults: function (data, params) {
+//              console.log(data);
+            // parse the results into the format expected by Select2
+            // since we are using custom formatting functions we do not need to
+            // alter the remote JSON data, except to indicate that infinite
+            // scrolling can be used
+            params.page = params.page || 1;
+
+            return {
+              results: data.items,
+//              pagination: {
+//                more: (params.page * 30) < data.total_count
+//              }
+            };
+          },
+          cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+        minimumInputLength: 3,
+//        templateResult: formatRepo, // omitted for brevity, see the source of this page
+//        templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
     });
 </script>
 

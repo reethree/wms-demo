@@ -227,6 +227,56 @@ class PengirimanController extends Controller
         return view('tpsonline.edit-codeco-cont')->with($data);
     }
     
+    public function codecoContBuangMtyEdit($id)
+    {
+        if ( !$this->access->can('show.tps.codecoContBuangMty.edit') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "Edit TPS CODECO Buang MTY";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => route('tps-codecoContBuangMty-index'),
+                'title' => 'TPS CODECO Buang MTY'
+            ],
+            [
+                'action' => '',
+                'title' => 'Edit'
+            ]
+        ];
+        
+        $data['header'] = \App\Models\TpsCodecoContFcl::find($id);
+        $data['detail'] = \App\Models\TpsCodecoContFclDetail::where('TPSCODECOCONTXML_FK', $id)->first();
+        
+        return view('tpsonline.edit-codeco-buang-mty')->with($data);
+    }
+    
+    public function codecoKmsEdit($id)
+    {
+        if ( !$this->access->can('show.tps.codecoKms.edit') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "Edit TPS CODECO Kemasan";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => route('tps-codecoKms-index'),
+                'title' => 'TPS CODECO Kemasan'
+            ],
+            [
+                'action' => '',
+                'title' => 'Edit'
+            ]
+        ];
+        
+        $data['header'] = \App\Models\TpsCodecoKms::find($id);
+//        $data['detail'] = \App\Models\TpsCoariKmsDetail::where('TPSCOARIKMSXML_FK', $id)->first();
+        
+        return view('tpsonline.edit-codeco-Kms')->with($data);
+    }
+    
     /**
      * Update the specified resource in storage.
      *
@@ -253,7 +303,22 @@ class PengirimanController extends Controller
         
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
     }
-
+    
+    public function codecoKmsDetailUpdate(Request $request, $id)
+    {
+        $data = $request->json()->all(); 
+        unset($data['TPSCODECOKMSDETAILXML_PK'], $data['_token']);
+        
+        $update = \App\Models\TpsCodecoKmsDetail::where('TPSCODECOKMSDETAILXML_PK', $id)
+            ->update($data);
+        
+        if($update){
+            return json_encode(array('success' => true, 'message' => 'CODECO Kemasan Detail successfully updated!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+    
         /**
      * Remove the specified resource from storage.
      *
@@ -440,6 +505,48 @@ class PengirimanController extends Controller
                                 $cont->$keyc = $valuec;
                             endforeach;
                             $cont->TPSCODECOCONTXML_FK = $coaricont_id;
+                            $cont->save();
+                        }
+                    endforeach; 
+                }
+            endforeach;
+        endforeach;
+        
+    }
+    
+    public function codecoKmsGetXml()
+    {     
+        $xml = simplexml_load_file(url('xml/CodecoKMS20161108010548.xml'));
+
+        foreach ($xml->children() as $data):  
+            foreach ($data as $key=>$value):
+                if($key == 'HEADER'){           
+                    $coaricont = new \App\Models\TpsCodecoKms;             
+                    foreach ($value as $keyh=>$valueh):
+                        if($keyh != 'KD_DOK' 
+                                && $keyh != 'KD_TPS' 
+                                && $keyh != 'KD_GUDANG' 
+                                && $keyh != 'NM_ANGKUT'
+                                && $keyh != 'NO_VOY_FLIGHT'
+                                && $keyh != 'CALL_SIGN'
+                                && $keyh != 'TGL_TIBA'){
+                            $coaricont->$keyh = $valueh;
+                        }
+                        $datah[$keyh] = $valueh;
+                    endforeach;
+                    $coaricont->save();
+                    $coaricont_id = $coaricont->TPSCODECOKMSXML_PK;                      
+                }elseif($key == 'DETIL'){
+                    foreach ($value as $key1=>$value1):
+                        $cont = new \App\Models\TpsCodecoKmsDetail;
+                        if($key1 == 'KMS'){    
+                            foreach ($datah as $keyd=>$valued):
+                                $cont->$keyd = $valued;
+                            endforeach;
+                            foreach ($value1 as $keyc=>$valuec):
+                                $cont->$keyc = $valuec;
+                            endforeach;
+                            $cont->TPSCODECOKMSXML_FK = $coaricont_id;
                             $cont->save();
                         }
                     endforeach; 

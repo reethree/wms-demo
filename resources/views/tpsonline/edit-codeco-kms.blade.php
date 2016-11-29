@@ -16,14 +16,14 @@
     
     $(document).ready(function()
     {
-        $('#coari-kms-form').disabledFormGroup();
+        $('#codeco-kms-form').disabledFormGroup();
         $('#btn-toolbar').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
         $('#btn-edit').click(function() {
             //Gets the selected row id.
-            rowid = $('#tpsCoariKmsGrid').jqGrid('getGridParam', 'selrow');
-            rowdata = $('#tpsCoariKmsGrid').getRowData(rowid);
+            rowid = $('#tpsCodecoKmsGrid').jqGrid('getGridParam', 'selrow');
+            rowdata = $('#tpsCodecoKmsGrid').getRowData(rowid);
             
             $.each(rowdata, function( index, value )
             {
@@ -51,14 +51,14 @@
                     }
             });
             
-            $('#TPSCOARIKMSDETAILXML_PK').val(rowid);
+            $('#TPSCODECOKMSDETAILXML_PK').val(rowid);
 
 //            if(!rowdata.TGLSURATJALAN && !rowdata.JAMSURATJALAN) {
                 $('#btn-group-2').enableButtonGroup();
-                $('#coari-kms-form').enableFormGroup();
+                $('#codeco-kms-form').enableFormGroup();
 //            }else{
 //                $('#btn-group-2').disabledButtonGroup();
-//                $('#coari-kms-form').disabledFormGroup();
+//                $('#codeco-kms-form').disabledFormGroup();
 //            }
 
         });
@@ -67,12 +67,12 @@
             
             if(!confirm('Apakah anda yakin?')){return false;}
             
-            var kmsId = $('#TPSCOARIKMSDETAILXML_PK').val();
-            var url = "{{route('tps-coariKmsDetail-update','')}}/"+kmsId;
+            var kmsId = $('#TPSCODECOKMSDETAILXML_PK').val();
+            var url = "{{route('tps-codecoKmsDetail-update','')}}/"+kmsId;
 
             $.ajax({
                 type: 'POST',
-                data: JSON.stringify($('#coari-kms-form').formToObject('')),
+                data: JSON.stringify($('#codeco-kms-form').formToObject('')),
                 dataType : 'json',
                 url: url,
                 error: function (jqXHR, textStatus, errorThrown)
@@ -103,14 +103,14 @@
         });
         
         $('#btn-refresh').click(function() {
-            $('#tpsCoariKmsGrid').jqGrid().trigger("reloadGrid");
-            $('#coari-kms-form').disabledFormGroup();
+            $('#tpsCodecoKmsGrid').jqGrid().trigger("reloadGrid");
+            $('#codeco-kms-form').disabledFormGroup();
             $('#btn-toolbar').disabledButtonGroup();
             $('#btn-group-3').enableButtonGroup();
             
-            $('#coari-kms-form')[0].reset();
+            $('#codeco-kms-form')[0].reset();
             $('.select2').val(null).trigger("change");
-            $('#TPSCOARIKMSDETAILXML_PK').val("");
+            $('#TPSCODECOKMSDETAILXML_PK').val("");
         });
         
     });
@@ -121,7 +121,7 @@
 
 <div class="box box-default">
     <div class="box-header with-border">
-      <h3 class="box-title">Edit TPS COARI Kemasan</h3>
+      <h3 class="box-title">Edit TPS CODECO Kemasan</h3>
       <div class="box-tools pull-right">
         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
       </div>
@@ -156,7 +156,7 @@
         <div class="box-footer">
             <button type="button" class="btn btn-info pull-right"><i class="fa fa-send"></i> Kirim Ulang</button>
             <button type="submit" class="btn btn-success pull-right" style="margin-right: 10px;"><i class="fa fa-save"></i> Simpan</button>
-            <a href="{{ route('tps-coariKms-index') }}" class="btn btn-danger pull-right" style="margin-right: 10px;"><i class="fa fa-close"></i> Keluar</a>
+            <a href="{{ route('tps-codecoKms-index') }}" class="btn btn-danger pull-right" style="margin-right: 10px;"><i class="fa fa-close"></i> Keluar</a>
         </div>
         <!-- /.box-footer -->
     </form>
@@ -164,7 +164,7 @@
 
 <div class="box box-default">
     <div class="box-header with-border">
-      <h3 class="box-title">COARI Kemasan Detail</h3>
+      <h3 class="box-title">CODECO Kemasan Detail</h3>
       <div class="box-tools pull-right">
         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
       </div>
@@ -176,12 +176,12 @@
             
                 <div class="col-md-12">
                     {{
-                        GridRender::setGridId("tpsCoariKmsGrid")
+                        GridRender::setGridId("tpsCodecoKmsGrid")
                         ->enableFilterToolbar()
-                        ->setGridOption('url', URL::to('/tpsonline/pengiriman/coari-kms/grid-data?coarikms_id='.$header->TPSCOARIKMSXML_PK))
+                        ->setGridOption('url', URL::to('/tpsonline/pengiriman/codeco-kms/grid-data?codecokms_id='.$header->TPSCODECOKMSXML_PK))
                         ->setGridOption('rowNum', 10)
                         ->setGridOption('shrinkToFit', true)
-                        ->setGridOption('sortname','TPSCOARIKMSDETAILXML_PK')
+                        ->setGridOption('sortname','TPSCODECOKMSDETAILXML_PK')
                         ->setGridOption('rownumbers', true)
                         ->setGridOption('height', '250')
                         ->setGridOption('rowList',array(20,50,100))
@@ -196,7 +196,7 @@
                         ->setNavigatorEvent('del', 'afterSubmit', 'afterSubmitEvent')
                         ->setFilterToolbarOptions(array('autosearch'=>true))
                         ->setGridEvent('onSelectRow', 'onSelectRowEvent')
-                        ->addColumn(array('key'=>true,'index'=>'TPSCOARIKMSDETAILXML_PK','hidden'=>true))
+                        ->addColumn(array('key'=>true,'index'=>'TPSCODECOKMSDETAILXML_PK','hidden'=>true))
 
                         ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY', 'width'=>150,'editable' => true, 'align'=>'left'))
                         ->addColumn(array('label'=>'Kode DOK','index'=>'KD_DOK', 'width'=>150,'editable' => true, 'align'=>'center'))
@@ -267,9 +267,9 @@
                 </div>
                 <div class="col-md-12"><hr /></div>
             </div>
-            <form class="form-horizontal" id="coari-kms-form" action="#" method="POST">
+            <form class="form-horizontal" id="codeco-kms-form" action="#" method="POST">
                 <input name="_token" type="hidden" value="{{ csrf_token() }}">
-                <input id="TPSCOARIKMSDETAILXML_PK" name="TPSCOARIKMSDETAILXML_PK" type="hidden">
+                <input id="TPSCODECOKMSDETAILXML_PK" name="TPSCODECOKMSDETAILXML_PK" type="hidden">
             <div class="row">        
                 <div class="col-md-6">
                     <div class="form-group">
