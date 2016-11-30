@@ -20,6 +20,9 @@ class PerusahaanController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index Perusahaan', 'slug' => 'show.perusahaan.index', 'description' => ''));
+        
         $data['page_title'] = "Perusahaan";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [

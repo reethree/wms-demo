@@ -25,6 +25,9 @@ class ManifestController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index LCL Manifest', 'slug' => 'show.lcl.manifest.index', 'description' => ''));
+        
         $data['page_title'] = "LCL Manifest";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -147,6 +150,11 @@ class ManifestController extends Controller
         if ( !$this->access->can('show.lcl.manifest.edit') ) {
             return view('errors.no-access');
         }
+        
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Edit LCL Manifest', 'slug' => 'show.lcl.manifest.edit', 'description' => ''));
+        
         
         $data['page_title'] = "Edit LCL Manifest";
         $data['page_description'] = "";

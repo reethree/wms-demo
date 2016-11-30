@@ -20,6 +20,9 @@ class TppController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index TPP', 'slug' => 'show.tpp.index', 'description' => ''));
+        
         $data['page_title'] = "TPP";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [

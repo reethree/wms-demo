@@ -26,6 +26,9 @@ class PenerimaanController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index TPS Respon PLP', 'slug' => 'show.tps.responPlp.index', 'description' => ''));
+        
         $data['page_title'] = "TPS Respon PLP";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -43,6 +46,9 @@ class PenerimaanController extends Controller
         if ( !$this->access->can('show.tps.responBatalPlp.index') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index TPS Respon Batal PLP', 'slug' => 'show.tps.responBatalPlp.index', 'description' => ''));
         
         $data['page_title'] = "TPS Respon Batal PLP";
         $data['page_description'] = "";
@@ -62,6 +68,9 @@ class PenerimaanController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index TPS OB LCL', 'slug' => 'show.tps.obLcl.index', 'description' => ''));
+        
         $data['page_title'] = "TPS OB LCL";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -79,6 +88,9 @@ class PenerimaanController extends Controller
         if ( !$this->access->can('show.tps.obFcl.index') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index TPS OB FCL', 'slug' => 'show.tps.obFcl.index', 'description' => ''));
         
         $data['page_title'] = "TPS OB FCL";
         $data['page_description'] = "";
@@ -98,6 +110,9 @@ class PenerimaanController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index TPS SPJM', 'slug' => 'show.tps.spjm.index', 'description' => ''));
+        
         $data['page_title'] = "TPS SPJM";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -115,6 +130,9 @@ class PenerimaanController extends Controller
         if ( !$this->access->can('show.tps.dokManual.index') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index TPS Dok Manual', 'slug' => 'show.tps.dokManual.index', 'description' => ''));
         
         $data['page_title'] = "TPS Dokumen Manual";
         $data['page_description'] = "";
@@ -134,6 +152,9 @@ class PenerimaanController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index TPS SPPB PIB', 'slug' => 'show.tps.sppbPib.index', 'description' => ''));
+        
         $data['page_title'] = "TPS SPPB PIB";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -151,6 +172,9 @@ class PenerimaanController extends Controller
         if ( !$this->access->can('show.tps.sppbBc.index') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index TPS SPPB BC', 'slug' => 'show.tps.sppbBc.index', 'description' => ''));
         
         $data['page_title'] = "TPS SPPB BC23";
         $data['page_description'] = "";
@@ -213,6 +237,9 @@ class PenerimaanController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Edit TPS Respon PLP', 'slug' => 'show.tps.responPlp.edit', 'description' => ''));
+        
         $data['page_title'] = "Edit TPS Respon PLP";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -236,6 +263,9 @@ class PenerimaanController extends Controller
         if ( !$this->access->can('show.tps.ob.edit') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Edit TPS OB', 'slug' => 'show.tps.ob.edit', 'description' => ''));
         
         $data['page_title'] = "Edit OB";
         $data['page_description'] = "";
@@ -261,6 +291,9 @@ class PenerimaanController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Edit TPS SPPB PIB', 'slug' => 'show.tps.sppbPib.edit', 'description' => ''));
+        
         $data['page_title'] = "Edit SPPB PIB";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -284,6 +317,9 @@ class PenerimaanController extends Controller
         if ( !$this->access->can('show.tps.sppbBc.edit') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Edit TPS SPPB BC', 'slug' => 'show.tps.sppbBc.edit', 'description' => ''));
         
         $data['page_title'] = "Edit SPPB BC23";
         $data['page_description'] = "";

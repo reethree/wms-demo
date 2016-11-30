@@ -20,6 +20,9 @@ class NegaraController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index Negara', 'slug' => 'show.negara.index', 'description' => ''));
+        
         $data['page_title'] = "Negara";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [

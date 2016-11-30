@@ -38,6 +38,9 @@ class LclController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index LCL Register', 'slug' => 'show.lcl.register.index', 'description' => ''));
+        
         $data['page_title'] = "LCL Register";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -55,6 +58,9 @@ class LclController extends Controller
         if ( !$this->access->can('show.lcl.getin.index') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index LCL GateIn', 'slug' => 'show.lcl.getin.index', 'description' => ''));
         
         $data['page_title'] = "LCL Realisasi Masuk / Gate In";
         $data['page_description'] = "";
@@ -76,6 +82,9 @@ class LclController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index LCL Stripping', 'slug' => 'show.lcl.stripping.index', 'description' => ''));
+        
         $data['page_title'] = "LCL Realisasi Stripping";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -93,6 +102,9 @@ class LclController extends Controller
         if ( !$this->access->can('show.lcl.buangmty.index') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index LCL Buang MTY', 'slug' => 'show.lcl.buangmty.index', 'description' => ''));
         
         $data['page_title'] = "LCL Realisasi Buang MTY";
         $data['page_description'] = "";
@@ -112,6 +124,9 @@ class LclController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index LCL Behandle', 'slug' => 'show.lcl.behandle.index', 'description' => ''));
+        
         $data['page_title'] = "LCL Delivery Behandle";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -129,6 +144,9 @@ class LclController extends Controller
         if ( !$this->access->can('show.lcl.fiatmuat.index') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index LCL Fiatmuat', 'slug' => 'show.lcl.fiatmuat.index', 'description' => ''));
         
         $data['page_title'] = "LCL Delivery Fiat Muat";
         $data['page_description'] = "";
@@ -148,6 +166,9 @@ class LclController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index LCL Surat Jalan', 'slug' => 'show.lcl.suratjalan.index', 'description' => ''));
+        
         $data['page_title'] = "LCL Delivery Surat Jalan";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -165,6 +186,9 @@ class LclController extends Controller
         if ( !$this->access->can('show.lcl.release.index') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index LCL Release', 'slug' => 'show.lcl.release.index', 'description' => ''));
         
         $data['page_title'] = "LCL Delivery Release";
         $data['page_description'] = "";
@@ -185,6 +209,9 @@ class LclController extends Controller
         if ( !$this->access->can('show.lcl.dispatche.index') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index LCL Dispatche', 'slug' => 'show.lcl.dispatche.index', 'description' => ''));
         
         $data['page_title'] = "LCL Dispatche E-Seal";
         $data['page_description'] = "";
@@ -215,6 +242,9 @@ class LclController extends Controller
         if ( !$this->access->can('show.lcl.register.create') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Create LCL Register', 'slug' => 'show.lcl.register.create', 'description' => ''));
         
         $data['page_title'] = "Create LCL Register";
         $data['page_description'] = "";
@@ -350,6 +380,9 @@ class LclController extends Controller
         if ( !$this->access->can('show.lcl.register.edit') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Edit LCL Register', 'slug' => 'show.lcl.register.edit', 'description' => ''));
         
         $data['page_title'] = "Edit LCL Register";
         $data['page_description'] = "";
@@ -748,6 +781,9 @@ class LclController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Report Harian LCL', 'slug' => 'show.lcl.report.harian', 'description' => ''));
+        
         $data['page_title'] = "LCL Report Delivery Harian";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -765,6 +801,9 @@ class LclController extends Controller
         if ( !$this->access->can('show.lcl.report.rekap') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Report Rekap LCL', 'slug' => 'show.lcl.report.rekap', 'description' => ''));
         
         $data['page_title'] = "LCL Rekap Import";
         $data['page_description'] = "";

@@ -20,6 +20,9 @@ class EsealController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index ESeal', 'slug' => 'show.eseal.index', 'description' => ''));
+        
         $data['page_title'] = "E-Seal";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [

@@ -20,6 +20,9 @@ class DepomtyController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index Depo MTY', 'slug' => 'show.depomty.index', 'description' => ''));
+        
         $data['page_title'] = "Depo MTY";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [

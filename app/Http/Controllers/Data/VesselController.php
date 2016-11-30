@@ -22,6 +22,9 @@ class VesselController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index Vessel', 'slug' => 'show.vessel.index', 'description' => ''));
+        
         $data['page_title'] = "Vessel";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [

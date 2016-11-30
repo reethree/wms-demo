@@ -22,6 +22,9 @@ class PelabuhanController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index Pelabuhan', 'slug' => 'show.pelabuhan.index', 'description' => ''));
+        
         $data['page_title'] = "Pelabuhan";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [

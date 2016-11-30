@@ -36,6 +36,9 @@ class FclController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index FCL Register', 'slug' => 'show.fcl.register.index', 'description' => ''));
+        
         $data['page_title'] = "FCL Register";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -53,6 +56,9 @@ class FclController extends Controller
         if ( !$this->access->can('show.fcl.getin.index') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index FCL GateIn', 'slug' => 'show.fcl.getin.index', 'description' => ''));
         
         $data['page_title'] = "FCL Realisasi Masuk / Gate In";
         $data['page_description'] = "";
@@ -74,6 +80,9 @@ class FclController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index FCL Behandle', 'slug' => 'show.fcl.behandle.index', 'description' => ''));
+        
         $data['page_title'] = "FCL Delivery Behandle";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -91,6 +100,9 @@ class FclController extends Controller
         if ( !$this->access->can('show.fcl.fiatmuat.index') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index FCL Fiatmuat', 'slug' => 'show.fcl.fiatmuat.index', 'description' => ''));
         
         $data['page_title'] = "FCL Delivery Fiat Muat";
         $data['page_description'] = "";
@@ -110,6 +122,9 @@ class FclController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index FCL Surat Jalan', 'slug' => 'show.fcl.suratjalan.index', 'description' => ''));
+        
         $data['page_title'] = "FCL Delivery Surat Jalan";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -127,6 +142,9 @@ class FclController extends Controller
         if ( !$this->access->can('show.fcl.release.index') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index FCL Release', 'slug' => 'show.fcl.release.index', 'description' => ''));
         
         $data['page_title'] = "FCL Delivery Release";
         $data['page_description'] = "";
@@ -147,6 +165,9 @@ class FclController extends Controller
         if ( !$this->access->can('show.fcl.dispatche.index') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index FCL Dispatche', 'slug' => 'show.fcl.dispatche.index', 'description' => ''));
         
         $data['page_title'] = "FCL Dispatche E-Seal";
         $data['page_description'] = "";
@@ -177,6 +198,9 @@ class FclController extends Controller
         if ( !$this->access->can('show.fcl.register.create') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Create FCL Register', 'slug' => 'show.fcl.register.create', 'description' => ''));
         
         $data['page_title'] = "Create FCL Register";
         $data['page_description'] = "";
@@ -315,6 +339,9 @@ class FclController extends Controller
         if ( !$this->access->can('show.fcl.register.edit') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Edit FCL Register', 'slug' => 'show.fcl.register.edit', 'description' => ''));
         
         $data['page_title'] = "Edit FCL Register";
         $data['page_description'] = "";
@@ -690,6 +717,9 @@ class FclController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Report Harian FCL', 'slug' => 'show.fcl.report.harian', 'description' => ''));
+        
         $data['page_title'] = "FCL Report Delivery Harian";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -707,6 +737,9 @@ class FclController extends Controller
         if ( !$this->access->can('show.fcl.report.rekap') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Report Rekap FCL', 'slug' => 'show.fcl.report.rekap', 'description' => ''));
         
         $data['page_title'] = "FCL Rekap Import";
         $data['page_description'] = "";

@@ -56,4 +56,20 @@ class Controller extends BaseController
         
         return json_encode($data);
     }
+    
+    public function insertRoleAccess($data = array())
+    {
+        if(count($data) > 0){
+            // $data = array('name','slug','desc')
+            $valid = \App\Models\Permission::where('slug', $data['slug'])->count();
+            if($valid > 0){
+                return false;
+            }
+
+            \App\Models\Permission::insert($data);
+            return true;
+        }
+        
+        return false;
+    }
 }

@@ -20,6 +20,9 @@ class LokasisandarController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index Lokasisandar', 'slug' => 'show.lokasisandar.index', 'description' => ''));
+        
         $data['page_title'] = "Lokasi Sandar";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [

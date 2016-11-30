@@ -25,6 +25,9 @@ class ConsolidatorController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index Consolidator', 'slug' => 'show.consolidator.index', 'description' => ''));
+        
         $data['page_title'] = "Consolidator";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [

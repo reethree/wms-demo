@@ -20,6 +20,9 @@ class PackingController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index Packing', 'slug' => 'show.packing.index', 'description' => ''));
+        
         $data['page_title'] = "Packing";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
