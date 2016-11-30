@@ -73,6 +73,60 @@ class TpsOnlineController extends Controller
         return view('tpsonline.index-pelln')->with($data);
     }
     
+    public function rejectIndex()
+    {
+        if ( !$this->access->can('show.tps.reject.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "COARI CODECO Reject";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'COARI CODECO Reject'
+            ]
+        ];        
+        
+        return view('tpsonline.index-reject')->with($data);
+    }
+    
+    public function terkirimIndex()
+    {
+        if ( !$this->access->can('show.tps.terkirim.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "COARI CODECO Terkirim";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'COARI CODECO Terkirim'
+            ]
+        ];        
+        
+        return view('tpsonline.index-terkirim')->with($data);
+    }
+    
+    public function gagalIndex()
+    {
+        if ( !$this->access->can('show.tps.gagal.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "COARI CODECO Gagal Terkirim";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'COARI CODECO Gagal Terkirim'
+            ]
+        ];        
+        
+        return view('tpsonline.index-gagal')->with($data);
+    }
+    
     /**
      * Show the form for creating a new resource.
      *

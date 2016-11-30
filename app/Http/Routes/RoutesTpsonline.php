@@ -10,3 +10,6 @@ require_once 'Tpsonline/Penerimaan.php';
 
 // Data Pengiriman
 require_once 'Tpsonline/Pengiriman.php';
+
+// Data Report
+require_once 'Tpsonline/Report.php';

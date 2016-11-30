@@ -192,9 +192,9 @@
                                         </li>
                                   </ul>
                             </li>
-                            <li><a href="#">Coari Codeco Reject</a></li>
-                            <li><a href="#">Coari Codeco Terkirim</a></li>
-                            <li><a href="#">Coari Codeco Gagal</a></li>
+                            <li><a href="{{ route('tps-reject-index') }}">Coari Codeco Reject</a></li>
+                            <li><a href="{{ route('tps-terkirim-index') }}">Coari Codeco Terkirim</a></li>
+                            <li><a href="{{ route('tps-gagal-index') }}">Coari Codeco Gagal</a></li>
                             <li><a href="#">TPS Log Sevice</a></li>
                             
                         </ul>

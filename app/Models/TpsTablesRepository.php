@@ -180,6 +180,46 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                 $Model = TpsCodecoKms::select('*')
                         ->join('tpscodecokmsdetailxml', 'tpscodecokmsxml.TPSCODECOKMSXML_PK', '=', 'tpscodecokmsdetailxml.TPSCODECOKMSXML_FK');
             }
+            
+        }elseif($Model->getMorphClass() == 'App\Models\TpsDataKirim'){ 
+            
+            if(isset($request['type'])){
+                switch ($request['type']) {
+                    case 'reject':
+                        if(isset($request['startdate']) && isset($request['enddate'])){
+                            $Model = TpsDataReject::select('*')
+                                    ->where($request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
+                                    ->where($request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        }else{
+                            $Model = new TpsDataReject();
+                        }
+
+                        break;
+                    case 'terkirim':
+                        if(isset($request['startdate']) && isset($request['enddate'])){
+                            $Model = TpsDataKirim::select('*')
+                                    ->where($request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
+                                    ->where($request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        }else{
+                            $Model = new TpsDataKirim();
+                        }
+
+                        break;
+                    case 'gagal':
+                        if(isset($request['startdate']) && isset($request['enddate'])){
+                            $Model = TpsDataGagal::select('*')
+                                    ->where($request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
+                                    ->where($request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        }else{
+                            $Model = new TpsDataGagal();
+                        }
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
         }else{
                         
         }
