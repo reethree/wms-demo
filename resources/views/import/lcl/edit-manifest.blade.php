@@ -73,15 +73,17 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">No.BC11</label>
                         <div class="col-sm-8">
-                            <input type="text" readonly="" name="NO_BC11" class="form-control" value="{{ $container->NO_BC11 }}" required="">
+                            <input type="text" readonly="" name="NO_BC11" id="C_NO_BC11" class="form-control" value="{{ $container->NO_BC11 }}" required="">
                         </div>
                     </div>
                 </div>
+                <input type="hidden" id="C_NO_PLP" name="NO_PLP" value="{{ $container->NO_PLP }}">
+                <input type="hidden" id="C_TGL_PLP" name="TGL_PLP" value="{{ $container->TGL_PLP }}">
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Tgl.BC11</label>
                         <div class="col-sm-8">
-                            <input type="text" readonly="" name="TGL_BC11" class="form-control" value="{{ date('d-m-Y', strtotime($container->TGL_BC11)) }}" required="">
+                            <input type="text" readonly="" name="TGL_BC11" id="C_TGL_BC11" class="form-control" value="{{ date('d-m-Y', strtotime($container->TGL_BC11)) }}" required="">
                         </div>
                     </div>
                 </div>
@@ -122,12 +124,16 @@
     {
         var ids = jQuery("#lclManifestGrid").jqGrid('getDataIDs'),
             apv = ''; 
+    
+        $('#btn-group-5').enableButtonGroup();   
+            
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
             
             rowdata = $('#lclManifestGrid').getRowData(cl);
             if(rowdata.VALIDASI == 'N') {
                 apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-manifest-btn" data-id="'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){ approveManifest('+cl+'); }else{return false;};"><i class="fa fa-check"></i> Approve</button>';
+                $('#btn-group-5').disabledButtonGroup();
             } else {
                 apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-manifest-btn" data-id="'+cl+'" disabled><i class="fa fa-check"></i> Approve</button>';
             }
@@ -174,6 +180,7 @@
         $('#btn-group-4').enableButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         $('#btn-group-1').enableButtonGroup();
+        $('#btn-group-5').enableButtonGroup();
 
       //Binds onClick event to the "Refresh" button.
       $('#btn-refresh').click(function()
@@ -279,9 +286,8 @@
       });
 
       //Bind onClick event to the "Save" button.
-    $('#btn-save').click(function()
-      {
-          if(!confirm('Apakah anda yakin?')){return false;}
+    $('#btn-save').click(function(){
+        if(!confirm('Apakah anda yakin?')){return false;}
           
         var url = $('#manifest-form').attr('action');
 
@@ -320,6 +326,60 @@
             $('#btn-refresh').click();
           }
         });
+    });
+    
+    $('#btn-upload').click(function(){
+        if(!confirm('Apakah anda yakin?')){return false;}
+        
+        if($('#C_NO_BC11').val() == ''){
+            alert('No. BC11 masih kosong!');
+            return false;
+        }else if($('#C_TGL_BC11').val() == ''){
+            alert('Tgl. BC11 masih kosong!');
+            return false;
+        }else if($('#C_NO_PLP').val() == ''){
+            alert('No. PLP masih kosong!');
+            return false;
+        }else if($('#C_TGL_PLP').val() == ''){
+            alert('Tgl. PLP masih kosong!');
+            return false;
+        }
+        
+        var url = '{{ route("lcl-manifest-upload") }}';
+            
+        $.ajax({
+            type: 'POST',
+            data: 
+            {
+                'container_id' : $('#TCONTAINER_FK').val(),
+                '_token' : '{{ csrf_token() }}'
+            },
+            dataType : 'json',
+            url: url,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+
+            },
+            success:function(json)
+            {
+                console.log(json);
+
+
+                if(json.success) {
+                  $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                } else {
+                  $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                }
+
+                //Triggers the "Close" button funcionality.
+                $('#btn-refresh').click();
+            }
+        });
+        
     });
 
 });
@@ -403,6 +463,9 @@
                             <button class="btn btn-default" id="btn-print-tally" onclick="window.open('{{ route('lcl-manifest-cetak', array('id'=>$container->TCONTAINER_PK,'type'=>'tally')) }}','preview tally sheet','width=600,height=600,menubar=no,status=no,scrollbars=yes');"><i class="fa fa-print"></i> Cetak Tally Sheet</button>
                             <button class="btn btn-default" id="btn-print-log" onclick="window.open('{{ route('lcl-manifest-cetak', array('id'=>$container->TCONTAINER_PK,'type'=>'log')) }}','preview log stripping','width=600,height=600,menubar=no,status=no,scrollbars=yes');"><i class="fa fa-print"></i> Cetak Log Stripping</button>
                         </div>
+                        <div id="btn-group-5" class="btn-group pull-right">
+                            <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -411,7 +474,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <input name="_token" type="hidden" value="{{ csrf_token() }}">
-                        <input name="TCONTAINER_FK" type="hidden" value="{{ $container->TCONTAINER_PK }}">
+                        <input name="TCONTAINER_FK" id="TCONTAINER_FK" type="hidden" value="{{ $container->TCONTAINER_PK }}">
                         <input name="id" id="id" type="hidden">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">No. HBL</label>

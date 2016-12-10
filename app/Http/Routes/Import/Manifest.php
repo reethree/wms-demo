@@ -40,4 +40,10 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-manifest-cetak',
         'uses' => 'ManifestController@cetak'
     ]);
+    
+    // TPS ONLINE COARI KEMASAN
+    Route::post('/manifest/upload', [
+        'as' => 'lcl-manifest-upload',
+        'uses' => 'ManifestController@upload'
+    ]);
 });

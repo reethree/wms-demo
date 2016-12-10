@@ -903,6 +903,10 @@ class LclController extends Controller
                 $coaricontdetail->JAM_ENTRY = date('H:i:s');
                 
                 if($coaricontdetail->save()){
+                    
+                    $container->REF_NUMBER_IN = $reff_number;
+                    $container->save();
+                    
                     return json_encode(array('success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di upload. Reff Number : '.$reff_number));
                 }
                 

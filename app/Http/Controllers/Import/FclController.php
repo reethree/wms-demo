@@ -767,7 +767,8 @@ class FclController extends Controller
         }
         
         // Reff Number
-        $reff_number = $this->getReffNumber();   
+        $reff_number = $this->getReffNumber();  
+        
         if($reff_number){
             $coaricont = new \App\Models\TpsCoariCont;
             $coaricont->REF_NUMBER = $reff_number;
@@ -839,6 +840,10 @@ class FclController extends Controller
                 $coaricontdetail->JAM_ENTRY = date('H:i:s');
                 
                 if($coaricontdetail->save()){
+                    
+                    $container->REF_NUMBER = $reff_number;
+                    $container->save();
+                    
                     return json_encode(array('success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di upload. Reff Number : '.$reff_number));
                 }
                 

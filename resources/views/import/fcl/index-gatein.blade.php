@@ -101,6 +101,9 @@
         });
         
         $('#btn-upload').click(function(){
+            
+            if(!confirm('Apakah anda yakin?')){return false;}
+            
             if($('#NAMACONSOLIDATOR').val() == ''){
                 alert('Consolidator masih kosong!');
                 return false;

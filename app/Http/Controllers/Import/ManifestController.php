@@ -290,4 +290,101 @@ class ManifestController extends Controller
         
         return $pdf->stream(ucfirst($type).'-'.$container->NOCONTAINER.'-'.date('dmy').'.pdf');
     }
+    
+    public function upload(Request $request)
+    {
+        $container_id = $request->container_id;
+        $container = DBContainer::where('TCONTAINER_PK', $container_id)->first();
+        
+        // Check data xml
+        $check = \App\Models\TpsCoariKmsDetail::where('CONT_ASAL', $container->NOCONTAINER)->count();
+        
+        if($check > 0){
+            return json_encode(array('success' => false, 'message' => 'No. Container '.$container->NOCONTAINER.' sudah di upload.'));
+        }
+        
+        // Reff Number
+        $reff_number = $this->getReffNumber();
+        
+        if($reff_number){
+            $coarikms = new \App\Models\TpsCoariKms;
+            $coarikms->REF_NUMBER = $reff_number;
+            $coarikms->TGL_ENTRY = date('Y-m-d');
+            $coarikms->JAM_ENTRY = date('H:i:s');
+            $coarikms->UID = \Auth::getUser()->name;
+            
+            if($coarikms->save()){
+                $manifest = DBManifest::where(array('TCONTAINER_FK' => $container->TCONTAINER_PK, 'TJOBORDER_FK' => $container->TJOBORDER_FK, 'VALIDASI' => 'Y'))
+                        ->get();
+                
+                $nourut = 0;
+                foreach ($manifest as $data):
+                    $coarikmsdetail = new \App\Models\TpsCoariKmsDetail;
+                    $coarikmsdetail->TPSCOARIKMSXML_FK = $coarikms->TPSCOARIKMSXML_PK;
+                    $coarikmsdetail->REF_NUMBER = $reff_number;
+                    $coarikmsdetail->NOTALLY = $data->NOTALLY;
+                    $coarikmsdetail->KD_DOK = 5;
+                    $coarikmsdetail->KD_TPS = 'PRJP';
+                    $coarikmsdetail->NM_ANGKUT = $data->VESSEL;
+                    $coarikmsdetail->NO_VOY_FLIGHT = $data->VOY;
+                    $coarikmsdetail->CALL_SIGN = $data->CALL_SIGN;
+                    $coarikmsdetail->TGL_TIBA = (!empty($data->ETA) ? date('Ymd', strtotime($data->ETA)) : '');
+                    $coarikmsdetail->KD_GUDANG = 'PRJP';
+                    $coarikmsdetail->NO_BL_AWB = $data->NOHBL;
+                    $coarikmsdetail->TGL_BL_AWB = (!empty($data->TGL_HBL) ? date('Ymd', strtotime($data->TGL_HBL)) : '');
+                    $coarikmsdetail->NO_MASTER_BL_AWB = $data->NOMBL;
+                    $coarikmsdetail->TGL_MASTER_BL_AWB = (!empty($data->TGL_MASTER_BL) ? date('Ymd', strtotime($data->TGL_MASTER_BL)) : '');
+                    $coarikmsdetail->ID_CONSIGNEE = $data->TCONSIGNEE_FK;
+                    $coarikmsdetail->CONSIGNEE = $data->CONSIGNEE;
+                    $coarikmsdetail->BRUTO = $data->WEIGHT;
+                    $coarikmsdetail->NO_BC11 = $data->NO_BC11;
+                    $coarikmsdetail->TGL_BC11 = (!empty($data->TGL_BC11) ? date('Ymd', strtotime($data->TGL_BC11)) : '');
+                    $coarikmsdetail->NO_POS_BC11 = $data->NO_POS_BC11;
+                    $coarikmsdetail->CONT_ASAL = $data->NOCONTAINER;
+                    $coarikmsdetail->SERI_KEMAS = 1;
+                    $coarikmsdetail->KD_KEMAS = $data->KODE_KEMAS;;
+                    $coarikmsdetail->JML_KEMAS = (!empty($data->QUANTITY) ? $data->QUANTITY : 0);
+                    $coarikmsdetail->KD_TIMBUN = 'GD';
+                    $coarikmsdetail->KD_DOK_INOUT = 3;
+                    $coarikmsdetail->NO_DOK_INOUT = (!empty($data->NO_PLP) ? $data->NO_PLP : '');
+                    $coarikmsdetail->TGL_DOK_INOUT = (!empty($data->TGL_PLP) ? date('Ymd', strtotime($data->TGL_PLP)) : '');
+                    $coarikmsdetail->WK_INOUT = date('Ymd', strtotime($data->tglstripping)).date('His', strtotime($data->jamstripping));;
+                    $coarikmsdetail->KD_SAR_ANGKUT_INOUT = 1;
+                    $coarikmsdetail->NO_POL = $data->NOPOL_MASUK;
+                    $coarikmsdetail->PEL_MUAT = $data->PEL_MUAT;
+                    $coarikmsdetail->PEL_TRANSIT = $data->PEL_TRANSIT;
+                    $coarikmsdetail->PEL_BONGKAR = $data->PEL_BONGKAR;
+                    $coarikmsdetail->GUDANG_TUJUAN = 'PRJP';
+                    $coarikmsdetail->UID = \Auth::getUser()->name;
+                    $coarikmsdetail->RESPONSE = '';
+                    $coarikmsdetail->STATUS_TPS = '';
+                    $coarikmsdetail->NOURUT = $nourut;
+                    $coarikmsdetail->KODE_KANTOR = '040200';
+                    $coarikmsdetail->NO_DAFTAR_PABEAN = '';
+                    $coarikmsdetail->TGL_DAFTAR_PABEAN = '';
+                    $coarikmsdetail->NO_SEGEL_BC = '';
+                    $coarikmsdetail->TGL_SEGEL_BC = '';
+                    $coarikmsdetail->NO_IJIN_TPS = '';
+                    $coarikmsdetail->TGL_IJIN_TPS = '';
+                    $coarikmsdetail->RESPONSE_IPC = '';
+                    $coarikmsdetail->STATUS_TPS_IPC = '';
+                    $coarikmsdetail->KD_TPS_ASAL = '';
+                    $coarikmsdetail->TGL_ENTRY = date('Y-m-d');
+                    $coarikmsdetail->JAM_ENTRY = date('H:i:s');
+                    
+                    if($coarikmsdetail->save()){
+                        
+                        DBManifest::where('TMANIFEST_PK', $data->TMANIFEST_PK)->update(['REF_NUMBER' => $reff_number]);
+                        
+                        $nourut++;
+                    }
+ 
+                endforeach;
+                
+                return json_encode(array('success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di upload. Reff Number : '.$reff_number));
+                    
+            }
+        }
+    }
+    
 }
