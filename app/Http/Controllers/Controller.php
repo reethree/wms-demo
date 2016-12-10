@@ -72,4 +72,30 @@ class Controller extends BaseController
         
         return false;
     }
+    
+    public function getReffNumber()
+    {
+        $reff = \DB::table('tpsurutxml')->select('REF_NUMBER as id')
+                ->where('TGL_ENTRY', date('Y-m-d'))
+                ->orderBy('TPSURUTXML_PK', 'DESC')
+                ->first();
+        
+        if(count($reff) > 0){
+            $reff_id = substr($reff->id, -4);
+        }else{
+            $reff_id = 0;
+        }
+        
+        $new_ref = 'PRJP'.date('ymd').str_pad(intval($reff_id+1), 4, '0', STR_PAD_LEFT);
+        
+        $insert = \DB::table('tpsurutxml')->insert(
+            ['REF_NUMBER' => $new_ref, 'TGL_ENTRY' => date('Y-m-d'), 'UID' => \Auth::getUser()->name, 'TAHUN' => date('Y')]
+        );
+        
+        if($insert){
+            return $new_ref;
+        }
+        
+        return false;
+    }
 }

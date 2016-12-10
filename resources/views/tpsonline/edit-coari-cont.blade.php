@@ -212,7 +212,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Jam DOK. INOUT</label>
+                        <label class="col-sm-3 control-label">Waktu DOK.INOUT</label>
                         <div class="col-sm-8">
                             <input type="text" name="WK_INOUT" class="form-control"  value="{{ $detail->WK_INOUT }}" required>
                         </div>

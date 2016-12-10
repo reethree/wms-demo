@@ -37,6 +37,7 @@
             
 //            if(!rowdata.TGLMASUK && !rowdata.JAMMASUK) {
                 $('#btn-group-2').enableButtonGroup();
+                $('#btn-group-5').enableButtonGroup();
                 $('#gatein-form').enableFormGroup();
                 $('#UIDMASUK').val('{{ Auth::getUser()->name }}');
 //            }else{
@@ -97,6 +98,64 @@
             $('#gatein-form')[0].reset();
             $('.select2').val(null).trigger("change");
             $('#TCONTAINER_PK').val("");
+        });
+        
+        $('#btn-upload').click(function(){
+            if($('#NAMACONSOLIDATOR').val() == ''){
+                alert('Consolidator masih kosong!');
+                return false;
+            }else if($('#NO_BC11').val() == ''){
+                alert('No. BC11 masih kosong!');
+                return false;
+            }else if($('#TGL_BC11').val() == ''){
+                alert('Tgl. BC11 masih kosong!');
+                return false;
+            }else if($('#NO_PLP').val() == ''){
+                alert('No. PLP masih kosong!');
+                return false;
+            }else if($('#TGL_PLP').val() == ''){
+                alert('Tgl. PLP masih kosong!');
+                return false;
+            }else if($('#TGLMASUK').val() == '' || $('#JAMMASUK').val() == ''){
+                alert('Tgl. & Jam Masuk masih kosong!');
+                return false;
+            }
+            
+            var url = '{{ route("fcl-realisasi-gatein-upload") }}';
+            
+            $.ajax({
+                type: 'POST',
+                data: 
+                {
+                    'id' : $('#TCONTAINER_PK').val(),
+                    '_token' : '{{ csrf_token() }}'
+                },
+                dataType : 'json',
+                url: url,
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                },
+                beforeSend:function()
+                {
+                    
+                },
+                success:function(json)
+                {
+                    console.log(json);
+                    
+                    
+                    if(json.success) {
+                      $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    } else {
+                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    }
+
+                    //Triggers the "Close" button funcionality.
+                    $('#btn-refresh').click();
+                }
+            });
+            
         });
         
     });

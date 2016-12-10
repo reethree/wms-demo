@@ -324,11 +324,11 @@ class LclController extends Controller
         
         $data = $request->except(['_token']); 
         $data['TGLENTRY'] = date('Y-m-d');
-        $data['TGL_MASTER_BL'] = date('Y-m-d', strtotime($data['TGL_MASTER_BL']));
-        $data['ETA'] = date('Y-m-d', strtotime($data['ETA']));
-        $data['ETD'] = date('Y-m-d', strtotime($data['ETD']));
-        $data['TTGL_BC11'] = date('Y-m-d', strtotime($data['TTGL_BC11']));
-        $data['TTGL_PLP'] = date('Y-m-d', strtotime($data['TTGL_PLP']));
+        $data['TGL_MASTER_BL'] = (!empty($data['TGL_MASTER_BL']) ? date('Y-m-d', strtotime($data['TGL_MASTER_BL'])) : null);
+        $data['ETA'] = (!empty($data['ETA']) ? date('Y-m-d', strtotime($data['ETA'])) : null );
+        $data['ETD'] = (!empty($data['ETD']) ? date('Y-m-d', strtotime($data['ETD'])) : null );
+        $data['TTGL_BC11'] = (!empty($data['TTGL_BC11']) ? date('Y-m-d', strtotime($data['TTGL_BC11'])) : null );
+        $data['TTGL_PLP'] = (!empty($data['TTGL_PLP']) ? date('Y-m-d', strtotime($data['TTGL_PLP'])) : null );
         $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
         $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
         $namanegara = DBNegara::select('NAMANEGARA')->where('TNEGARA_PK',$data['TNEGARA_FK'])->first();
@@ -433,11 +433,11 @@ class LclController extends Controller
         
         $data = $request->except(['_token']); 
         $data['TGLENTRY'] = date('Y-m-d');
-        $data['TGL_MASTER_BL'] = date('Y-m-d', strtotime($data['TGL_MASTER_BL']));
-        $data['ETA'] = date('Y-m-d', strtotime($data['ETA']));
-        $data['ETD'] = date('Y-m-d', strtotime($data['ETD']));
-        $data['TTGL_BC11'] = date('Y-m-d', strtotime($data['TTGL_BC11']));
-        $data['TTGL_PLP'] = date('Y-m-d', strtotime($data['TTGL_PLP']));
+        $data['TGL_MASTER_BL'] = (!empty($data['TGL_MASTER_BL']) ? date('Y-m-d', strtotime($data['TGL_MASTER_BL'])) : null);
+        $data['ETA'] = (!empty($data['ETA']) ? date('Y-m-d', strtotime($data['ETA'])) : null );
+        $data['ETD'] = (!empty($data['ETD']) ? date('Y-m-d', strtotime($data['ETD'])) : null );
+        $data['TTGL_BC11'] = (!empty($data['TTGL_BC11']) ? date('Y-m-d', strtotime($data['TTGL_BC11'])) : null );
+        $data['TTGL_PLP'] = (!empty($data['TTGL_PLP']) ? date('Y-m-d', strtotime($data['TTGL_PLP'])) : null );
         $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
         $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
         $namanegara = DBNegara::select('NAMANEGARA')->where('TNEGARA_PK',$data['TNEGARA_FK'])->first();
@@ -815,6 +815,104 @@ class LclController extends Controller
         ];        
         
         return view('import.lcl.report-rekap')->with($data);
+    }
+    
+    // TPS ONLINE    
+    public function gateinUpload(Request $request)
+    {
+        $container_id = $request->id; 
+        $container = DBContainer::where('TCONTAINER_PK', $container_id)->first();
+        
+        // Check data xml
+        $check = \App\Models\TpsCoariContDetail::where('NO_CONT', $container->NOCONTAINER)->count();
+        
+        if($check > 0){
+            return json_encode(array('success' => false, 'message' => 'No. Container '.$container->NOCONTAINER.' sudah di upload.'));
+        }
+        
+        // Reff Number
+        $reff_number = $this->getReffNumber();   
+        if($reff_number){
+            $coaricont = new \App\Models\TpsCoariCont;
+            $coaricont->REF_NUMBER = $reff_number;
+            $coaricont->TGL_ENTRY = date('Y-m-d');
+            $coaricont->JAM_ENTRY = date('H:i:s');
+            $coaricont->UID = \Auth::getUser()->name;
+            
+            if($coaricont->save()){
+                $coaricontdetail = new \App\Models\TpsCoariContDetail;
+                $coaricontdetail->TPSCOARICONTXML_FK = $coaricont->TPSCOARICONTXML_PK;
+                $coaricontdetail->REF_NUMBER = $reff_number;
+                $coaricontdetail->KD_DOK = 5;
+                $coaricontdetail->KD_TPS = 'PRJP';
+                $coaricontdetail->NM_ANGKUT = (!empty($container->VESSEL) ? $container->VESSEL : 0);
+                $coaricontdetail->NO_VOY_FLIGHT = (!empty($container->VOY) ? $container->VOY : 0);
+                $coaricontdetail->CALL_SIGN = (!empty($container->CALL_SIGN) ? $container->CALL_SIGN : 0);;
+                $coaricontdetail->TGL_TIBA = (!empty($container->ETA) ? date('Ymd', strtotime($container->ETA)) : '');
+                $coaricontdetail->KD_GUDANG = 'PRJP';
+                $coaricontdetail->NO_CONT = $container->NOCONTAINER;
+                $coaricontdetail->UK_CONT = $container->SIZE;
+                $coaricontdetail->NO_SEGEL = $container->NO_SEAL;
+                $coaricontdetail->JNS_CONT = 'L';
+                $coaricontdetail->NO_BL_AWB = '';
+                $coaricontdetail->TGL_BL_AWB = '';
+                $coaricontdetail->NO_MASTER_BL_AWB = $container->NOMBL;
+                $coaricontdetail->TGL_MASTER_BL_AWB = (!empty($container->TGL_MASTER_BL) ? date('Ymd', strtotime($container->TGL_MASTER_BL)) : '');
+                $coaricontdetail->ID_CONSIGNEE = $container->TCONSOLIDATOR_FK;
+                $coaricontdetail->CONSIGNEE = $container->NAMACONSOLIDATOR;
+                $coaricontdetail->BRUTO = (!empty($container->WEIGHT) ? $container->WEIGHT : 0);
+                $coaricontdetail->NO_BC11 = $container->NO_BC11;
+                $coaricontdetail->TGL_BC11 = (!empty($container->TGL_BC11) ? date('Ymd', strtotime($container->TGL_BC11)) : '');;
+                $coaricontdetail->NO_POS_BC11 = '';
+                $coaricontdetail->KD_TIMBUN = 'GD';
+                $coaricontdetail->KD_DOK_INOUT = 3;
+                $coaricontdetail->NO_DOK_INOUT = (!empty($container->NO_PLP) ? $container->NO_PLP : '');
+                $coaricontdetail->TGL_DOK_INOUT = (!empty($container->TGL_PLP) ? date('Ymd', strtotime($container->TGL_PLP)) : '');
+                $coaricontdetail->WK_INOUT = date('Ymd', strtotime($container->TGLMASUK)).date('His', strtotime($container->JAMMASUK));
+                $coaricontdetail->KD_SAR_ANGKUT_INOUT = 1;
+                $coaricontdetail->NO_POL = $container->NOPOL;
+                $coaricontdetail->FL_CONT_KOSONG = 2;
+                $coaricontdetail->ISO_CODE = '';
+                $coaricontdetail->PEL_MUAT = $container->PEL_MUAT;
+                $coaricontdetail->PEL_TRANSIT = $container->PEL_TRANSIT;
+                $coaricontdetail->PEL_BONGKAR = $container->PEL_BONGKAR;
+                $coaricontdetail->GUDANG_TUJUAN = 'PRJP';
+                $coaricontdetail->UID = \Auth::getUser()->name;
+                $coaricontdetail->NOURUT = 1;
+                $coaricontdetail->RESPONSE = '';
+                $coaricontdetail->STATUS_TPS = '';
+                $coaricontdetail->KODE_KANTOR = '040200';
+                $coaricontdetail->NO_DAFTAR_PABEAN = '';
+                $coaricontdetail->TGL_DAFTAR_PABEAN = '';
+                $coaricontdetail->NO_SEGEL_BC = '';
+                $coaricontdetail->TGL_SEGEL_BC = '';
+                $coaricontdetail->NO_IJIN_TPS = '';
+                $coaricontdetail->TGL_IJIN_TPS = '';
+                $coaricontdetail->RESPONSE_IPC = '';
+                $coaricontdetail->STATUS_TPS_IPC = '';
+                $coaricontdetail->NOPLP = '';
+                $coaricontdetail->TGLPLP = '';
+                $coaricontdetail->FLAG_REVISI = '';
+                $coaricontdetail->TGL_REVISI = '';
+                $coaricontdetail->TGL_REVISI_UPDATE = '';
+                $coaricontdetail->KD_TPS_ASAL = '';
+                $coaricontdetail->FLAG_UPD = '';
+                $coaricontdetail->RESPONSE_MAL0 = '';
+                $coaricontdetail->STATUS_TPS_MAL0 = '';
+                $coaricontdetail->TGL_ENTRY = date('Y-m-d');
+                $coaricontdetail->JAM_ENTRY = date('H:i:s');
+                
+                if($coaricontdetail->save()){
+                    return json_encode(array('success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di upload. Reff Number : '.$reff_number));
+                }
+                
+            }
+        } else {
+            return json_encode(array('success' => false, 'message' => 'Cannot create Reff Number, please try again later.'));
+        }
+              
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+        
     }
     
 }
