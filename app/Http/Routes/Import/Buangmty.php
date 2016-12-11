@@ -16,4 +16,10 @@ Route::group(['prefix' => 'lcl/realisasi', 'namespace' => 'Import'], function(){
         'as' => 'lcl-buangmty-cetak',
         'uses' => 'LclController@buangmtyCetak'
     ]);
+    
+    // TPS ONLINE UPLOAD
+    Route::post('/buangmty/upload', [
+        'as' => 'lcl-buangmty-upload',
+        'uses' => 'LclController@buangmtyUpload'
+    ]);
 });

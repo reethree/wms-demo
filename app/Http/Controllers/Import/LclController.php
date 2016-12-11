@@ -862,7 +862,7 @@ class LclController extends Controller
                 $coaricontdetail->CONSIGNEE = $container->NAMACONSOLIDATOR;
                 $coaricontdetail->BRUTO = (!empty($container->WEIGHT) ? $container->WEIGHT : 0);
                 $coaricontdetail->NO_BC11 = $container->NO_BC11;
-                $coaricontdetail->TGL_BC11 = (!empty($container->TGL_BC11) ? date('Ymd', strtotime($container->TGL_BC11)) : '');;
+                $coaricontdetail->TGL_BC11 = (!empty($container->TGL_BC11) ? date('Ymd', strtotime($container->TGL_BC11)) : '');
                 $coaricontdetail->NO_POS_BC11 = '';
                 $coaricontdetail->KD_TIMBUN = 'GD';
                 $coaricontdetail->KD_DOK_INOUT = 3;
@@ -911,12 +911,113 @@ class LclController extends Controller
                 }
                 
             }
+            
         } else {
             return json_encode(array('success' => false, 'message' => 'Cannot create Reff Number, please try again later.'));
         }
               
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
         
+    }
+    
+    public function buangmtyUpload(Request $request)
+    {
+        $container_id = $request->id; 
+        $container = DBContainer::where('TCONTAINER_PK', $container_id)->first();
+        
+        // Check data xml
+        $check = \App\Models\TpsCodecoContFclDetail::where('NO_CONT', $container->NOCONTAINER)->count();
+        
+        if($check > 0){
+            return json_encode(array('success' => false, 'message' => 'No. Container '.$container->NOCONTAINER.' sudah di upload.'));
+        }
+        
+        // Reff Number
+        $reff_number = $this->getReffNumber();   
+        if($reff_number){
+            
+            $codecocont = new \App\Models\TpsCodecoContFcl();
+            $codecocont->NOJOBORDER = $container->NoJob;
+            $codecocont->REF_NUMBER = $reff_number;
+            $codecocont->TGL_ENTRY = date('Y-m-d');
+            $codecocont->JAM_ENTRY = date('H:i:s');
+            $codecocont->UID = \Auth::getUser()->name;
+            
+            if($codecocont->save()){
+                $codecocontdetail = new \App\Models\TpsCodecoContFclDetail;
+                $codecocontdetail->TPSCODECOCONTXML_FK = $codecocont->TPSCODECOCONTXML_PK;
+                $codecocontdetail->REF_NUMBER = $reff_number;
+                $codecocontdetail->NOJOBORDER = $container->NoJob;
+                $codecocontdetail->KD_DOK = 6;
+                $codecocontdetail->KD_TPS = 'PRJP';
+                $codecocontdetail->NM_ANGKUT = (!empty($container->VESSEL) ? $container->VESSEL : 0);
+                $codecocontdetail->NO_VOY_FLIGHT = (!empty($container->VOY) ? $container->VOY : 0);
+                $codecocontdetail->CALL_SIGN = (!empty($container->CALL_SIGN) ? $container->CALL_SIGN : 0);;
+                $codecocontdetail->TGL_TIBA = (!empty($container->ETA) ? date('Ymd', strtotime($container->ETA)) : '');
+                $codecocontdetail->KD_GUDANG = 'PRJP';
+                $codecocontdetail->NO_CONT = $container->NOCONTAINER;
+                $codecocontdetail->UK_CONT = $container->SIZE;
+                $codecocontdetail->NO_SEGEL = $container->NO_SEAL;
+                $codecocontdetail->JNS_CONT = 'L';
+                $codecocontdetail->NO_BL_AWB = '';
+                $codecocontdetail->TGL_BL_AWB = '';
+                $codecocontdetail->NO_MASTER_BL_AWB = $container->NOMBL;
+                $codecocontdetail->TGL_MASTER_BL_AWB = (!empty($container->TGL_MASTER_BL) ? date('Ymd', strtotime($container->TGL_MASTER_BL)) : '');
+                $codecocontdetail->ID_CONSIGNEE = $container->TCONSOLIDATOR_FK;
+                $codecocontdetail->CONSIGNEE = $container->NAMACONSOLIDATOR;
+                $codecocontdetail->BRUTO = (!empty($container->WEIGHT) ? $container->WEIGHT : 0);
+                $codecocontdetail->NO_BC11 = $container->NO_BC11;
+                $codecocontdetail->TGL_BC11 = (!empty($container->TGL_BC11) ? date('Ymd', strtotime($container->TGL_BC11)) : '');
+                $codecocontdetail->NO_POS_BC11 = '';
+                $codecocontdetail->KD_TIMBUN = 'GD';
+                $codecocontdetail->KD_DOK_INOUT = 40;
+                $codecocontdetail->NO_DOK_INOUT = (!empty($container->NO_PLP) ? $container->NO_PLP : '');
+                $codecocontdetail->TGL_DOK_INOUT = (!empty($container->TGL_PLP) ? date('Ymd', strtotime($container->TGL_PLP)) : '');
+                $codecocontdetail->WK_INOUT = date('Ymd', strtotime($container->TGLBUANGMTY)).date('His', strtotime($container->JAMBUANGMTY));
+                $codecocontdetail->KD_SAR_ANGKUT_INOUT = 1;
+                $codecocontdetail->NO_POL = $container->NOPOL_MTY;
+                $codecocontdetail->FL_CONT_KOSONG = 1;
+                $codecocontdetail->ISO_CODE = '';
+                $codecocontdetail->PEL_MUAT = $container->PEL_MUAT;
+                $codecocontdetail->PEL_TRANSIT = $container->PEL_TRANSIT;
+                $codecocontdetail->PEL_BONGKAR = $container->PEL_BONGKAR;
+                $codecocontdetail->GUDANG_TUJUAN = 'PRJP';
+                $codecocontdetail->UID = \Auth::getUser()->name;
+                $codecocontdetail->NOURUT = 1;
+                $codecocontdetail->RESPONSE = '';
+                $codecocontdetail->STATUS_TPS = '';
+                $codecocontdetail->KODE_KANTOR = '040200';
+                $codecocontdetail->NO_DAFTAR_PABEAN = '';
+                $codecocontdetail->TGL_DAFTAR_PABEAN = '';
+                $codecocontdetail->NO_SEGEL_BC = '';
+                $codecocontdetail->TGL_SEGEL_BC = '';
+                $codecocontdetail->NO_IJIN_TPS = '';
+                $codecocontdetail->TGL_IJIN_TPS = '';
+                $codecocontdetail->RESPONSE_IPC = '';
+                $codecocontdetail->STATUS_TPS_IPC = '';
+                $codecocontdetail->NOSPPB = '';
+                $codecocontdetail->TGLSPPB = '';
+                $codecocontdetail->FLAG_REVISI = '';
+                $codecocontdetail->TGL_REVISI = '';
+                $codecocontdetail->TGL_REVISI_UPDATE = '';
+                $codecocontdetail->KD_TPS_ASAL = '';
+                $codecocontdetail->RESPONSE_MAL0 = '';
+                $codecocontdetail->STATUS_TPS_MAL0 = '';
+                $codecocontdetail->TGL_ENTRY = date('Y-m-d');
+                $codecocontdetail->JAM_ENTRY = date('H:i:s');
+                
+                if($codecocontdetail->save()){
+                    
+                    return json_encode(array('success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di upload. Reff Number : '.$reff_number));
+                }
+            }
+            
+        } else {
+            return json_encode(array('success' => false, 'message' => 'Cannot create Reff Number, please try again later.'));
+        }
+              
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+ 
     }
     
 }

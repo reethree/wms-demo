@@ -156,7 +156,7 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                 $Model = TpsCodecoContFcl::select('*')
                         ->join('tpscodecocontdetailxml', 'tpscodecocontxml.TPSCODECOCONTXML_PK', '=', 'tpscodecocontdetailxml.TPSCODECOCONTXML_FK');
             }
-        }elseif($Model->getMorphClass() == 'App\Models\TpsCodecoBuangMty'){ 
+        }elseif($Model->getMorphClass() == 'App\Models\TpsCodecoContBuangMty'){ 
             
             if(isset($request['startdate']) && isset($request['enddate'])){
                 

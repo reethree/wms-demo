@@ -134,7 +134,7 @@
                 alert('Tgl. PLP masih kosong!');
                 return false;
             }else if($('#TGLMASUK').val() == '' || $('#JAMMASUK').val() == ''){
-                alert('Tgl. & Jam Masuk masih kosong!');
+                alert('Tanggal / Jam Masuk masih kosong!');
                 return false;
             }
             
