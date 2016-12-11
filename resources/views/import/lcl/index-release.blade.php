@@ -49,10 +49,6 @@
         $('#btn-print').click(function() {
             
         });
-        
-        $('#btn-upload').click(function() {
-            
-        });
 
         $('#btn-save').click(function() {
             
@@ -102,6 +98,46 @@
             $('#release-form')[0].reset();
             $('.select2').val(null).trigger("change");
             $('#TMANIFEST_PK').val("");
+        });
+        
+        $('#btn-upload').click(function() {
+            
+            if(!confirm('Apakah anda yakin?')){return false;}
+
+            var url = '{{ route("lcl-delivery-release-upload") }}';
+
+            $.ajax({
+                type: 'POST',
+                data: 
+                {
+                    'id' : $('#TMANIFEST_PK').val(),
+                    '_token' : '{{ csrf_token() }}'
+                },
+                dataType : 'json',
+                url: url,
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                },
+                beforeSend:function()
+                {
+
+                },
+                success:function(json)
+                {
+                    console.log(json);
+
+                    if(json.success) {
+                      $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    } else {
+                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    }
+
+                    //Triggers the "Close" button funcionality.
+                    $('#btn-refresh').click();
+                }
+            });
+            
         });
         
     });

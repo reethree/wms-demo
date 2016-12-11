@@ -53,4 +53,10 @@ Route::group(['prefix' => 'lcl/delivery', 'namespace' => 'Import'], function(){
         'uses' => 'LclController@releaseUpdate'
     ]);
     
+    // TPS ONLINE UPLOAD
+    Route::post('/release/upload', [
+        'as' => 'lcl-delivery-release-upload',
+        'uses' => 'LclController@releaseUpload'
+    ]);
+    
 });

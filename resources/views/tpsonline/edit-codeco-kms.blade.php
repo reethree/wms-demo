@@ -145,7 +145,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_ENTRY" class="form-control pull-right datepicker" required value="">
+                                <input type="text" name="TGL_ENTRY" class="form-control pull-right datepicker" value="{{ $header->TGL_ENTRY }}" required value="">
                             </div>
                         </div>
                     </div>                  

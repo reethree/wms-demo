@@ -176,6 +176,8 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                         ->join('tpscodecokmsdetailxml', 'tpscodecokmsxml.TPSCODECOKMSXML_PK', '=', 'tpscodecokmsdetailxml.TPSCODECOKMSXML_FK')
                         ->where('tpscodecokmsxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
                         ->where('tpscodecokmsxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+            }elseif(isset($request['codecokms_id'])){
+                $Model = TpsCodecoKmsDetail::where('TPSCODECOKMSXML_FK', $request['codecokms_id']);
             }else{
                 $Model = TpsCodecoKms::select('*')
                         ->join('tpscodecokmsdetailxml', 'tpscodecokmsxml.TPSCODECOKMSXML_PK', '=', 'tpscodecokmsdetailxml.TPSCODECOKMSXML_FK');

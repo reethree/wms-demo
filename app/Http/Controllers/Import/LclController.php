@@ -1020,4 +1020,95 @@ class LclController extends Controller
  
     }
     
+    public function releaseUpload(Request $request)
+    {
+        $manifest_id = $request->id; 
+        $manifest = DBManifest::where('TMANIFEST_PK', $manifest_id)->first();
+        
+        // Check data xml
+        $check = \App\Models\TpsCodecoKmsDetail::where('NOTALLY', $manifest->NOTALLY)->count();
+        
+        if($check > 0){
+            return json_encode(array('success' => false, 'message' => 'No. Tally '.$manifest->NOTALLY.' sudah di upload.'));
+        }
+        
+        // Reff Number
+        $reff_number = $this->getReffNumber();   
+        if($reff_number){
+            $codecokms = new \App\Models\TpsCodecoKms;
+            $codecokms->NOJOBORDER = $manifest->NOJOBORDER;
+            $codecokms->REF_NUMBER = $reff_number;
+            $codecokms->TGL_ENTRY = date('Y-m-d');
+            $codecokms->JAM_ENTRY = date('H:i:s');
+            $codecokms->UID = \Auth::getUser()->name;
+            
+            if($codecokms->save()){
+                $codecokmsdetail = new \App\Models\TpsCodecoKmsDetail;
+                $codecokmsdetail->TPSCODECOKMSXML_FK = $codecokms->TPSCODECOKMSXML_PK;
+                $codecokmsdetail->REF_NUMBER = $reff_number;
+                $codecokmsdetail->NOTALLY = $manifest->NOTALLY;
+                $codecokmsdetail->KD_DOK = 6;
+                $codecokmsdetail->KD_TPS = 'PRJP';
+                $codecokmsdetail->NM_ANGKUT = $manifest->VESSEL;
+                $codecokmsdetail->NO_VOY_FLIGHT = $manifest->VOY;
+                $codecokmsdetail->CALL_SIGN = $manifest->CALL_SIGN;
+                $codecokmsdetail->TGL_TIBA = (!empty($manifest->ETA) ? date('Ymd', strtotime($manifest->ETA)) : '');
+                $codecokmsdetail->KD_GUDANG = 'PRJP';
+                $codecokmsdetail->NO_BL_AWB = $manifest->NOHBL;
+                $codecokmsdetail->TGL_BL_AWB = (!empty($manifest->TGL_HBL) ? date('Ymd', strtotime($manifest->TGL_HBL)) : '');
+                $codecokmsdetail->NO_MASTER_BL_AWB = $manifest->NOMBL;
+                $codecokmsdetail->TGL_MASTER_BL_AWB = (!empty($manifest->TGL_MASTER_BL) ? date('Ymd', strtotime($manifest->TGL_MASTER_BL)) : '');
+                $codecokmsdetail->ID_CONSIGNEE = $manifest->TCONSIGNEE_FK;
+                $codecokmsdetail->CONSIGNEE = $manifest->CONSIGNEE;
+                $codecokmsdetail->BRUTO = $manifest->WEIGHT;
+                $codecokmsdetail->NO_BC11 = $manifest->NO_BC11;
+                $codecokmsdetail->TGL_BC11 = (!empty($manifest->TGL_BC11) ? date('Ymd', strtotime($manifest->TGL_BC11)) : '');
+                $codecokmsdetail->NO_POS_BC11 = $manifest->NO_POS_BC11;
+                $codecokmsdetail->CONT_ASAL = $manifest->NOCONTAINER;
+                $codecokmsdetail->SERI_KEMAS = 1;
+                $codecokmsdetail->KD_KEMAS = $manifest->KODE_KEMAS;;
+                $codecokmsdetail->JML_KEMAS = (!empty($manifest->QUANTITY) ? $manifest->QUANTITY : 0);
+                $codecokmsdetail->KD_TIMBUN = 'GD';
+                $codecokmsdetail->KD_DOK_INOUT = $manifest->KD_DOK_INOUT;
+                $codecokmsdetail->NO_DOK_INOUT = (!empty($manifest->NO_SPPB) ? $manifest->NO_SPPB : '');
+                $codecokmsdetail->TGL_DOK_INOUT = (!empty($manifest->TGL_SPPB) ? date('Ymd', strtotime($manifest->TGL_SPPB)) : '');
+                $codecokmsdetail->WK_INOUT = date('Ymd', strtotime($manifest->tglrelease)).date('His', strtotime($manifest->jamrelease));;
+                $codecokmsdetail->KD_SAR_ANGKUT_INOUT = 1;
+                $codecokmsdetail->NO_POL = $manifest->NOPOL_MASUK;
+                $codecokmsdetail->PEL_MUAT = $manifest->PEL_MUAT;
+                $codecokmsdetail->PEL_TRANSIT = $manifest->PEL_TRANSIT;
+                $codecokmsdetail->PEL_BONGKAR = $manifest->PEL_BONGKAR;
+                $codecokmsdetail->GUDANG_TUJUAN = 'PRJP';
+                $codecokmsdetail->UID = \Auth::getUser()->name;
+                $codecokmsdetail->RESPONSE = '';
+                $codecokmsdetail->STATUS_TPS = '';
+                $codecokmsdetail->NOURUT = 1;
+                $codecokmsdetail->KODE_KANTOR = '040200';
+                $codecokmsdetail->NO_DAFTAR_PABEAN = '';
+                $codecokmsdetail->TGL_DAFTAR_PABEAN = '';
+                $codecokmsdetail->NO_SEGEL_BC = '';
+                $codecokmsdetail->TGL_SEGEL_BC = '';
+                $codecokmsdetail->NO_IJIN_TPS = '';
+                $codecokmsdetail->TGL_IJIN_TPS = '';
+                $codecokmsdetail->RESPONSE_IPC = '';
+                $codecokmsdetail->STATUS_TPS_IPC = '';
+                $codecokmsdetail->KD_TPS_ASAL = '';
+                $codecokmsdetail->TGL_ENTRY = date('Y-m-d');
+                $codecokmsdetail->JAM_ENTRY = date('H:i:s');
+                
+                if($codecokmsdetail->save()){
+                        
+                    DBManifest::where('TMANIFEST_PK', $manifest->TMANIFEST_PK)->update(['REF_NUMBER_OUT' => $reff_number]);
+                    
+                    return json_encode(array('success' => true, 'message' => 'No. Tally '.$manifest->NOTALLY.' berhasil di upload. Reff Number : '.$reff_number));
+                }
+            }
+        }else {
+            return json_encode(array('success' => false, 'message' => 'Cannot create Reff Number, please try again later.'));
+        }
+              
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+
+    }
+    
 }
