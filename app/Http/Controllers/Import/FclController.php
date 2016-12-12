@@ -855,4 +855,107 @@ class FclController extends Controller
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
         
     }
+    
+    public function releaseUpload(Request $request)
+    {
+        $container_id = $request->id; 
+        $container = DBContainer::where('TCONTAINER_PK', $container_id)->first();
+        
+        // Check data xml
+        $check = \App\Models\TpsCodecoContFclDetail::where(array('NO_CONT' => $container->NOCONTAINER, 'JNS_CONT' => 'F'))->count();
+        
+        if($check > 0){
+            return json_encode(array('success' => false, 'message' => 'No. Container '.$container->NOCONTAINER.' sudah di upload.'));
+        }
+        
+        // Reff Number
+        $reff_number = $this->getReffNumber();   
+        if($reff_number){
+            
+            $codecocont = new \App\Models\TpsCodecoContFcl();
+            $codecocont->NOJOBORDER = $container->NoJob;
+            $codecocont->REF_NUMBER = $reff_number;
+            $codecocont->TGL_ENTRY = date('Y-m-d');
+            $codecocont->JAM_ENTRY = date('H:i:s');
+            $codecocont->UID = \Auth::getUser()->name;
+            
+            if($codecocont->save()){
+                $codecocontdetail = new \App\Models\TpsCodecoContFclDetail;
+                $codecocontdetail->TPSCODECOCONTXML_FK = $codecocont->TPSCODECOCONTXML_PK;
+                $codecocontdetail->REF_NUMBER = $reff_number;
+                $codecocontdetail->NOJOBORDER = $container->NoJob;
+                $codecocontdetail->KD_DOK = 6;
+                $codecocontdetail->KD_TPS = 'PRJP';
+                $codecocontdetail->NM_ANGKUT = (!empty($container->VESSEL) ? $container->VESSEL : 0);
+                $codecocontdetail->NO_VOY_FLIGHT = (!empty($container->VOY) ? $container->VOY : 0);
+                $codecocontdetail->CALL_SIGN = (!empty($container->CALL_SIGN) ? $container->CALL_SIGN : 0);;
+                $codecocontdetail->TGL_TIBA = (!empty($container->ETA) ? date('Ymd', strtotime($container->ETA)) : '');
+                $codecocontdetail->KD_GUDANG = 'PRJP';
+                $codecocontdetail->NO_CONT = $container->NOCONTAINER;
+                $codecocontdetail->UK_CONT = $container->SIZE;
+                $codecocontdetail->NO_SEGEL = $container->NOSEGEL;
+                $codecocontdetail->JNS_CONT = 'F';
+                $codecocontdetail->NO_BL_AWB = '';
+                $codecocontdetail->TGL_BL_AWB = '';
+                $codecocontdetail->NO_MASTER_BL_AWB = $container->NOMBL;
+                $codecocontdetail->TGL_MASTER_BL_AWB = (!empty($container->TGLMBL) ? date('Ymd', strtotime($container->TGLMBL)) : '');
+                $codecocontdetail->ID_CONSIGNEE = $container->NPWP_IMP;
+                $codecocontdetail->CONSIGNEE = $container->NAMA_IMP;
+                $codecocontdetail->BRUTO = (!empty($container->WEIGHT) ? $container->WEIGHT : 0);
+                $codecocontdetail->NO_BC11 = $container->NO_BC11;
+                $codecocontdetail->TGL_BC11 = (!empty($container->TGL_BC11) ? date('Ymd', strtotime($container->TGL_BC11)) : '');
+                $codecocontdetail->NO_POS_BC11 = $container->NO_POS_BC11;;
+                $codecocontdetail->KD_TIMBUN = 'LAP';
+                $codecocontdetail->KD_DOK_INOUT = (!empty($container->KD_DOK_INOUT) ? $container->KD_DOK_INOUT : 3);
+                $codecocontdetail->NO_DOK_INOUT = (!empty($container->NO_SPPB) ? $container->NO_SPPB : '');
+                $codecocontdetail->TGL_DOK_INOUT = (!empty($container->TGL_SPPB) ? date('Ymd', strtotime($container->TGL_SPPB)) : '');
+                $codecocontdetail->WK_INOUT = date('Ymd', strtotime($container->TGLRELEASE)).date('His', strtotime($container->JAMRELEASE));
+                $codecocontdetail->KD_SAR_ANGKUT_INOUT = 1;
+                $codecocontdetail->NO_POL = $container->NOPOL_OUT;
+                $codecocontdetail->FL_CONT_KOSONG = 2;
+                $codecocontdetail->ISO_CODE = '';
+                $codecocontdetail->PEL_MUAT = $container->PEL_MUAT;
+                $codecocontdetail->PEL_TRANSIT = $container->PEL_TRANSIT;
+                $codecocontdetail->PEL_BONGKAR = $container->PEL_BONGKAR;
+                $codecocontdetail->GUDANG_TUJUAN = 'PRJP';
+                $codecocontdetail->UID = \Auth::getUser()->name;
+                $codecocontdetail->NOURUT = 1;
+                $codecocontdetail->RESPONSE = '';
+                $codecocontdetail->STATUS_TPS = '';
+                $codecocontdetail->KODE_KANTOR = '040200';
+                $codecocontdetail->NO_DAFTAR_PABEAN = (!empty($container->NO_PIB) ? $container->NO_PIB : '');;
+                $codecocontdetail->TGL_DAFTAR_PABEAN = (!empty($container->TGL_PIB) ? date('Ymd', strtotime($container->TGL_PIB)) : '');;
+                $codecocontdetail->NO_SEGEL_BC = '';
+                $codecocontdetail->TGL_SEGEL_BC = '';
+                $codecocontdetail->NO_IJIN_TPS = '';
+                $codecocontdetail->TGL_IJIN_TPS = '';
+                $codecocontdetail->RESPONSE_IPC = '';
+                $codecocontdetail->STATUS_TPS_IPC = '';
+                $codecocontdetail->NOSPPB = '';
+                $codecocontdetail->TGLSPPB = '';
+                $codecocontdetail->FLAG_REVISI = '';
+                $codecocontdetail->TGL_REVISI = '';
+                $codecocontdetail->TGL_REVISI_UPDATE = '';
+                $codecocontdetail->KD_TPS_ASAL = '';
+                $codecocontdetail->RESPONSE_MAL0 = '';
+                $codecocontdetail->STATUS_TPS_MAL0 = '';
+                $codecocontdetail->TGL_ENTRY = date('Y-m-d');
+                $codecocontdetail->JAM_ENTRY = date('H:i:s');
+                
+                if($codecocontdetail->save()){
+                    
+                    $container->REF_NUMBER_OUT = $reff_number;
+                    $container->save();
+                    
+                    return json_encode(array('success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di upload. Reff Number : '.$reff_number));
+                }
+            }
+            
+        } else {
+            return json_encode(array('success' => false, 'message' => 'Cannot create Reff Number, please try again later.'));
+        }
+              
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+ 
+    }
 }

@@ -53,4 +53,10 @@ Route::group(['prefix' => 'fcl/delivery', 'namespace' => 'Import'], function(){
         'uses' => 'FclController@releaseUpdate'
     ]);
     
+    // TPS ONLINE UPLOAD
+    Route::post('/release/upload', [
+        'as' => 'fcl-delivery-release-upload',
+        'uses' => 'FclController@releaseUpload'
+    ]);
+    
 });

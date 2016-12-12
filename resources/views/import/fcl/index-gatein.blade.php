@@ -111,16 +111,16 @@
                 alert('No. BC11 masih kosong!');
                 return false;
             }else if($('#TGL_BC11').val() == ''){
-                alert('Tgl. BC11 masih kosong!');
+                alert('Tanggal BC11 masih kosong!');
                 return false;
             }else if($('#NO_PLP').val() == ''){
                 alert('No. PLP masih kosong!');
                 return false;
             }else if($('#TGL_PLP').val() == ''){
-                alert('Tgl. PLP masih kosong!');
+                alert('Tanggal PLP masih kosong!');
                 return false;
             }else if($('#TGLMASUK').val() == '' || $('#JAMMASUK').val() == ''){
-                alert('Tgl. & Jam Masuk masih kosong!');
+                alert('Tangggal / Jam Masuk masih kosong!');
                 return false;
             }
             

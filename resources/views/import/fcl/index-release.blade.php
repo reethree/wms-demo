@@ -35,12 +35,13 @@
             $('#NAMA_IMP').val(rowdata.NAMA_IMP);
             $('#NPWP_IMP').val(rowdata.NPWP_IMP);
             $('#NOPOL_OUT').val(rowdata.NOPOL_OUT);
+            $('#REF_NUMBER_OUT').val(rowdata.REF_NUMBER_OUT);
 
             if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
-                $('#btn-group-5').enableButtonGroup();
                 $('#btn-group-2').enableButtonGroup();
                 $('#release-form').enableFormGroup();
             }else{
+                $('#btn-group-5').enableButtonGroup();
                 $('#btn-group-2').disabledButtonGroup();
                 $('#release-form').disabledFormGroup();
             }
@@ -48,10 +49,6 @@
         });
         
         $('#btn-print').click(function() {
-            
-        });
-        
-        $('#btn-upload').click(function() {
             
         });
 
@@ -102,7 +99,52 @@
             
             $('#release-form')[0].reset();
             $('.select2').val(null).trigger("change");
-            $('#TMANIFEST_PK').val("");
+            $('#TCONTAINER_PK').val("");
+        });
+        
+        $('#btn-upload').click(function() {
+            
+            if(!confirm('Apakah anda yakin?')){return false;}
+            
+            if($('#NAMACONSOLIDATOR').val() == ''){
+                alert('Consolidator masih kosong!');
+                return false;
+            }
+            
+            var url = '{{ route("fcl-delivery-release-upload") }}';
+
+            $.ajax({
+                type: 'POST',
+                data: 
+                {
+                    'id' : $('#TCONTAINER_PK').val(),
+                    '_token' : '{{ csrf_token() }}'
+                },
+                dataType : 'json',
+                url: url,
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                },
+                beforeSend:function()
+                {
+
+                },
+                success:function(json)
+                {
+                    console.log(json);
+
+                    if(json.success) {
+                        $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    } else {
+                        $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    }
+
+                    //Triggers the "Close" button funcionality.
+                    $('#btn-refresh').click();
+                }
+            });
+            
         });
         
     });

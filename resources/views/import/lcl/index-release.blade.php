@@ -36,10 +36,10 @@
             $('#TGL_SPPB').val(rowdata.TGL_SPPB);
 
             if(!rowdata.tglrelease && !rowdata.jamrelease) {
-                $('#btn-group-5').enableButtonGroup();
                 $('#btn-group-2').enableButtonGroup();
                 $('#release-form').enableFormGroup();
             }else{
+                $('#btn-group-5').enableButtonGroup();
                 $('#btn-group-2').disabledButtonGroup();
                 $('#release-form').disabledFormGroup();
             }
