@@ -844,6 +844,9 @@ class FclController extends Controller
                     $container->REF_NUMBER = $reff_number;
                     $container->save();
                     
+                    // Create XML
+                    
+                    
                     return json_encode(array('success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di upload. Reff Number : '.$reff_number));
                 }
                 
