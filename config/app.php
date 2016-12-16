@@ -163,6 +163,7 @@ return [
         Caffeinated\Shinobi\ShinobiServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Orchestra\Parser\XmlServiceProvider::class,
+        Artisaninweb\SoapWrapper\ServiceProvider::class,
 
     ],
 
@@ -214,6 +215,7 @@ return [
         'Shinobi' => Caffeinated\Shinobi\Facades\Shinobi::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'XmlParser' => Orchestra\Parser\Xml\Facade::class,
+        'SoapWrapper' => Artisaninweb\SoapWrapper\Facades\SoapWrapper::class,
     ],
 
 ];

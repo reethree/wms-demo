@@ -65,6 +65,6 @@
         
     });
     
-    
+    Route::get('/demo', ['as' => 'demo', 'uses' => 'Tps\SoapController@demo']);
     
 //});

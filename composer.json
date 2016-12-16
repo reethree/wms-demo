@@ -12,7 +12,8 @@
         "mgallegos/laravel-jqgrid": "1.*",
         "barryvdh/laravel-dompdf": "^0.7.0",
         "guzzlehttp/guzzle": "^6.2",
-        "orchestra/parser": "~3.0"
+        "orchestra/parser": "~3.0",
+        "artisaninweb/laravel-soap": "0.2.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -372,6 +372,13 @@ class ComposerStaticInitb970c9500f47250bf30825f5d43da69f
                 0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src',
             ),
         ),
+        'A' => 
+        array (
+            'Artisaninweb\\SoapWrapper' => 
+            array (
+                0 => __DIR__ . '/..' . '/artisaninweb/laravel-soap/src',
+            ),
+        ),
     );
 
     public static $classMap = array (
@@ -480,6 +487,12 @@ class ComposerStaticInitb970c9500f47250bf30825f5d43da69f
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
+        'Artisaninweb\\SoapWrapper\\Extension\\SoapService' => __DIR__ . '/..' . '/artisaninweb/laravel-soap/src/Artisaninweb/SoapWrapper/Extension/SoapService.php',
+        'Artisaninweb\\SoapWrapper\\Facade' => __DIR__ . '/..' . '/artisaninweb/laravel-soap/src/Artisaninweb/SoapWrapper/Facade.php',
+        'Artisaninweb\\SoapWrapper\\Facades\\SoapWrapper' => __DIR__ . '/..' . '/artisaninweb/laravel-soap/src/Artisaninweb/SoapWrapper/Facades/SoapWrapper.php',
+        'Artisaninweb\\SoapWrapper\\Service' => __DIR__ . '/..' . '/artisaninweb/laravel-soap/src/Artisaninweb/SoapWrapper/Service.php',
+        'Artisaninweb\\SoapWrapper\\ServiceProvider' => __DIR__ . '/..' . '/artisaninweb/laravel-soap/src/Artisaninweb/SoapWrapper/ServiceProvider.php',
+        'Artisaninweb\\SoapWrapper\\Wrapper' => __DIR__ . '/..' . '/artisaninweb/laravel-soap/src/Artisaninweb/SoapWrapper/Wrapper.php',
         'Barryvdh\\DomPDF\\Facade' => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src/Facade.php',
         'Barryvdh\\DomPDF\\PDF' => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src/PDF.php',
         'Barryvdh\\DomPDF\\ServiceProvider' => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src/ServiceProvider.php',

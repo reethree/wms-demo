@@ -17,4 +17,5 @@ return array(
     'FontLib\\' => array($vendorDir . '/phenx/php-font-lib/src'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib'),
     'Cron' => array($vendorDir . '/mtdowling/cron-expression/src'),
+    'Artisaninweb\\SoapWrapper' => array($vendorDir . '/artisaninweb/laravel-soap/src'),
 );
