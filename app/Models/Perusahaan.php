@@ -21,4 +21,10 @@ class Perusahaan extends Model
         return $data->NAMAPERUSAHAAN;
     }
     
+    public static function getNpwpById($id)
+    {
+        $data = Perusahaan::select('NPWP')->where('TPERUSAHAAN_PK', $id)->first();   
+        return $data->NPWP;
+    }
+    
 }

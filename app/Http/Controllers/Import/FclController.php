@@ -286,8 +286,9 @@ class FclController extends Controller
         $data['ETD'] = date('Y-m-d', strtotime($data['ETD']));
         $data['TGL_BC11'] = date('Y-m-d', strtotime($data['TGL_BC11']));
         $data['TTGL_PLP'] = date('Y-m-d', strtotime($data['TTGL_PLP']));
-        $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
+        $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR','NPWP')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
         $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
+//        $data['ID_CONSOLIDATOR'] = str_replace(array('.','-'),array('',''),$namaconsolidator->NPWP);
         $namanegara = DBNegara::select('NAMANEGARA')->where('TNEGARA_PK',$data['TNEGARA_FK'])->first();
         $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
         $namapelabuhan = DBPelabuhan::select('NAMAPELABUHAN')->where('TPELABUHAN_PK',$data['TPELABUHAN_FK'])->first();
@@ -398,8 +399,9 @@ class FclController extends Controller
         $data['ETD'] = date('Y-m-d', strtotime($data['ETD']));
         $data['TGL_BC11'] = date('Y-m-d', strtotime($data['TGL_BC11']));
         $data['TTGL_PLP'] = date('Y-m-d', strtotime($data['TTGL_PLP']));
-        $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
+        $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR','NPWP')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
         $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
+//        $data['ID_CONSOLIDATOR'] = str_replace(array('.','-'),array('',''),$namaconsolidator->NPWP);
         $namanegara = DBNegara::select('NAMANEGARA')->where('TNEGARA_PK',$data['TNEGARA_FK'])->first();
         $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
         $namapelabuhan = DBPelabuhan::select('NAMAPELABUHAN')->where('TPELABUHAN_PK',$data['TPELABUHAN_FK'])->first();

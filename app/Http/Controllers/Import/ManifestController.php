@@ -102,6 +102,7 @@ class ManifestController extends Controller
         $data['TGL_PLP'] = $container->TGL_PLP;
         $data['SHIPPER'] = DBPerusahaan::getNameById($data['TSHIPPER_FK']);
         $data['CONSIGNEE'] = DBPerusahaan::getNameById($data['TCONSIGNEE_FK']);
+        $data['ID_CONSIGNEE'] = DBPerusahaan::getNpwpById($data['TCONSIGNEE_FK']);
         $data['VALIDASI'] = 'N';
         if(is_numeric($data['TNOTIFYPARTY_FK'])) {
             $data['NOTIFYPARTY'] = DBPerusahaan::getNameById($data['TNOTIFYPARTY_FK']);
@@ -212,6 +213,7 @@ class ManifestController extends Controller
         $data['NAMAPACKING'] = $packing->NAMAPACKING;  
         $data['SHIPPER'] = DBPerusahaan::getNameById($data['TSHIPPER_FK']);
         $data['CONSIGNEE'] = DBPerusahaan::getNameById($data['TCONSIGNEE_FK']);
+        $data['ID_CONSIGNEE'] = DBPerusahaan::getNpwpById($data['TCONSIGNEE_FK']);
         $data['VALIDASI'] = 'N';
         if(is_numeric($data['TNOTIFYPARTY_FK'])) {
             $data['NOTIFYPARTY'] = DBPerusahaan::getNameById($data['TNOTIFYPARTY_FK']);
@@ -334,7 +336,7 @@ class ManifestController extends Controller
                     $coarikmsdetail->TGL_BL_AWB = (!empty($data->TGL_HBL) ? date('Ymd', strtotime($data->TGL_HBL)) : '');
                     $coarikmsdetail->NO_MASTER_BL_AWB = $data->NOMBL;
                     $coarikmsdetail->TGL_MASTER_BL_AWB = (!empty($data->TGL_MASTER_BL) ? date('Ymd', strtotime($data->TGL_MASTER_BL)) : '');
-                    $coarikmsdetail->ID_CONSIGNEE = $data->TCONSIGNEE_FK;
+                    $coarikmsdetail->ID_CONSIGNEE = $data->ID_CONSIGNEE;
                     $coarikmsdetail->CONSIGNEE = $data->CONSIGNEE;
                     $coarikmsdetail->BRUTO = $data->WEIGHT;
                     $coarikmsdetail->NO_BC11 = $data->NO_BC11;
@@ -342,13 +344,13 @@ class ManifestController extends Controller
                     $coarikmsdetail->NO_POS_BC11 = $data->NO_POS_BC11;
                     $coarikmsdetail->CONT_ASAL = $data->NOCONTAINER;
                     $coarikmsdetail->SERI_KEMAS = 1;
-                    $coarikmsdetail->KD_KEMAS = $data->KODE_KEMAS;;
+                    $coarikmsdetail->KD_KEMAS = $data->KODE_KEMAS;
                     $coarikmsdetail->JML_KEMAS = (!empty($data->QUANTITY) ? $data->QUANTITY : 0);
                     $coarikmsdetail->KD_TIMBUN = 'GD';
                     $coarikmsdetail->KD_DOK_INOUT = 3;
                     $coarikmsdetail->NO_DOK_INOUT = (!empty($data->NO_PLP) ? $data->NO_PLP : '');
                     $coarikmsdetail->TGL_DOK_INOUT = (!empty($data->TGL_PLP) ? date('Ymd', strtotime($data->TGL_PLP)) : '');
-                    $coarikmsdetail->WK_INOUT = date('Ymd', strtotime($data->tglstripping)).date('His', strtotime($data->jamstripping));;
+                    $coarikmsdetail->WK_INOUT = date('Ymd', strtotime($data->tglstripping)).date('His', strtotime($data->jamstripping));
                     $coarikmsdetail->KD_SAR_ANGKUT_INOUT = 1;
                     $coarikmsdetail->NO_POL = $data->NOPOL_MASUK;
                     $coarikmsdetail->PEL_MUAT = $data->PEL_MUAT;

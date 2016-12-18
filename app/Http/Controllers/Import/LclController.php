@@ -329,8 +329,9 @@ class LclController extends Controller
         $data['ETD'] = (!empty($data['ETD']) ? date('Y-m-d', strtotime($data['ETD'])) : null );
         $data['TTGL_BC11'] = (!empty($data['TTGL_BC11']) ? date('Y-m-d', strtotime($data['TTGL_BC11'])) : null );
         $data['TTGL_PLP'] = (!empty($data['TTGL_PLP']) ? date('Y-m-d', strtotime($data['TTGL_PLP'])) : null );
-        $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
+        $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR','NPWP')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
         $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
+//        $data['ID_CONSOLIDATOR'] = str_replace(array('.','-'),array('',''),$namaconsolidator->NPWP);
         $namanegara = DBNegara::select('NAMANEGARA')->where('TNEGARA_PK',$data['TNEGARA_FK'])->first();
         $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
         $namapelabuhan = DBPelabuhan::select('NAMAPELABUHAN')->where('TPELABUHAN_PK',$data['TPELABUHAN_FK'])->first();
@@ -438,8 +439,9 @@ class LclController extends Controller
         $data['ETD'] = (!empty($data['ETD']) ? date('Y-m-d', strtotime($data['ETD'])) : null );
         $data['TTGL_BC11'] = (!empty($data['TTGL_BC11']) ? date('Y-m-d', strtotime($data['TTGL_BC11'])) : null );
         $data['TTGL_PLP'] = (!empty($data['TTGL_PLP']) ? date('Y-m-d', strtotime($data['TTGL_PLP'])) : null );
-        $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
+        $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR','NPWP')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
         $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
+//        $data['ID_CONSOLIDATOR'] = str_replace(array('.','-'),array('',''),$namaconsolidator->NPWP);
         $namanegara = DBNegara::select('NAMANEGARA')->where('TNEGARA_PK',$data['TNEGARA_FK'])->first();
         $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
         $namapelabuhan = DBPelabuhan::select('NAMAPELABUHAN')->where('TPELABUHAN_PK',$data['TPELABUHAN_FK'])->first();
@@ -890,8 +892,8 @@ class LclController extends Controller
                 $coaricontdetail->TGL_IJIN_TPS = '';
                 $coaricontdetail->RESPONSE_IPC = '';
                 $coaricontdetail->STATUS_TPS_IPC = '';
-                $coaricontdetail->NOPLP = '';
-                $coaricontdetail->TGLPLP = '';
+                $coaricontdetail->NOPLP = $container->NO_PLP;
+                $coaricontdetail->TGLPLP = (!empty($container->TGL_PLP) ? date('Ymd', strtotime($container->TGL_PLP)) : '');;
                 $coaricontdetail->FLAG_REVISI = '';
                 $coaricontdetail->TGL_REVISI = '';
                 $coaricontdetail->TGL_REVISI_UPDATE = '';

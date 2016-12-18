@@ -23,8 +23,8 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
         'as' => 'tps-coariCont-get',
         'uses' => 'PengirimanController@coariContGetXml'
     ]);
-    Route::get('/coari-cont/create-xml', [
-        'as' => 'tps-coariCont-create-xml',
+    Route::get('/coari-cont/create-xml/{id}', [
+        'as' => 'tps-coariCont-upload',
         'uses' => 'PengirimanController@coariContCreateXml'
     ]);
     
@@ -52,6 +52,10 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
     Route::get('/coari-kms/get-xml', [
         'as' => 'tps-coariKms-get',
         'uses' => 'PengirimanController@coariKmsGetXml'
+    ]);
+    Route::get('/coari-kms/create-xml/{id}', [
+        'as' => 'tps-coariKms-upload',
+        'uses' => 'PengirimanController@coariKmsCreateXml'
     ]);
     
     // CODECO FCL
