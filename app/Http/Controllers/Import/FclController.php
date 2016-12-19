@@ -755,6 +755,11 @@ class FclController extends Controller
         return view('import.fcl.report-rekap')->with($data);
     }
     
+    public function reportStock()
+    {
+        
+    }
+    
     // TPS ONLINE
     public function gateinUpload(Request $request)
     {

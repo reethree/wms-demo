@@ -16,7 +16,7 @@
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
             
-            edt = '<a href="{{ route("tps-coariKms-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i> Details</a> ';
+            edt = '<a href="{{ route("tps-coariKms-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
             upl = '<a href="{{ route("tps-coariKms-upload",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>';
             jQuery("#tpsCoariKmsGrid").jqGrid('setRowData',ids[i],{action:edt+' |  '+upl}); 
         } 

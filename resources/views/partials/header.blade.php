@@ -50,13 +50,13 @@
                       <li><a tabindex="-1" href="{{ route('lcl-manifest-index') }}">Manifest</a></li>
                       <li><a tabindex="-1" href="{{ route('lcl-dispatche-index') }}">Dispatche E-Seal</a></li>
                       <li class="dropdown-submenu">
-                        <a class="submenu" href="#">Realisasi Planning <span class="caret"></span></a>
+                        <a class="submenu" href="#">Realisasi <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('lcl-realisasi-gatein-index') }}">Realisasi Masuk / Gate In</a></li>
-                            <li><a href="{{ route('lcl-realisasi-stripping-index') }}">Realisasi Stripping</a></li>
+                            <li><a href="{{ route('lcl-realisasi-gatein-index') }}">Masuk / Gate In</a></li>
+                            <li><a href="{{ route('lcl-realisasi-stripping-index') }}">Stripping</a></li>
                             <!--<li><a href="">Penomoran Tally Racking</a></li>-->
                             <!--<li><a href="">Realisasi Manifest Racking</a></li>-->
-                            <li><a href="{{ route('lcl-realisasi-buangmty-index') }}">Realisasi Buang MTY</a></li>
+                            <li><a href="{{ route('lcl-realisasi-buangmty-index') }}">Buang MTY</a></li>
                             <!--<li><a href="">Update</a></li>-->
                         </ul>
                       </li>
@@ -72,8 +72,9 @@
                       <li class="dropdown-submenu">
                         <a class="submenu" href="#">Report <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('lcl-report-harian') }}">Delivery Harian</a></li>
+                            <li><a href="{{ route('lcl-report-harian') }}">Rekap Delivery</a></li>
                             <li><a href="{{ route('lcl-report-rekap') }}">Rekap Import</a></li>
+                            <li><a href="{{ route('lcl-report-stock') }}">Rekap Stock</a></li>
 <!--                                <li>
                                     <a href="">Utilitas Gudang Harian</a>
                                 </li>
@@ -98,11 +99,11 @@
                     <ul class="dropdown-menu">
                       <li><a tabindex="-1" href="{{ route('fcl-register-index') }}">Register</a></li>
                       <li><a tabindex="-1" href="{{ route('fcl-dispatche-index') }}">Dispatche E-Seal</a></li>
-                      <li><a tabindex="-1" href="#">Manifest</a></li>
+                      <!--<li><a tabindex="-1" href="#">Manifest</a></li>-->
                       <li class="dropdown-submenu">
-                        <a class="submenu" href="#">Realisasi Planning <span class="caret"></span></a>
+                        <a class="submenu" href="#">Realisasi <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('fcl-realisasi-gatein-index') }}">Realisasi Masuk / Gate In</a></li>
+                            <li><a href="{{ route('fcl-realisasi-gatein-index') }}">Masuk / Gate In</a></li>
 <!--                            <li><a href="">Realisasi Stripping</a></li>
                             <li><a href="">Penomoran Tally Racking</a></li>
                             <li><a href="">Realisasi Manifest Racking</a></li>
@@ -124,6 +125,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('fcl-report-harian') }}">Delivery Harian</a></li>
                             <li><a href="{{ route('fcl-report-rekap') }}">Rekap Import</a></li>
+                            <li><a href="{{ route('fcl-report-stock') }}">Rekap Stock</a></li>
 <!--                                <li>
                                     <a href="">Utilitas Gudang Harian</a>
                                 </li>

@@ -9,7 +9,8 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
     ]);
     Route::get('/respon-plp/get-xml', [
         'as' => 'tps-responPlp-get',
-        'uses' => 'PenerimaanController@responPlpGetXml'
+//        'uses' => 'PenerimaanController@responPlpGetXml'
+        'uses' => 'SoapController@GetResponPLP'
     ]);
     Route::get('/respon-plp/edit/{id}', [
         'as' => 'tps-responPlp-edit',
@@ -65,9 +66,11 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-obFcl-edit',
         'uses' => 'PenerimaanController@obEdit'
     ]);
+    
     Route::get('/ob/get-xml', [
         'as' => 'tps-ob-get',
-        'uses' => 'PenerimaanController@obGetXml'
+//        'uses' => 'PenerimaanController@obGetXml'
+        'uses' => 'SoapController@GetOB'
     ]);
     
     // SPJM
@@ -81,7 +84,8 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
     });
     Route::get('/spjm/get-xml', [
         'as' => 'tps-spjm-get',
-        'uses' => 'PenerimaanController@spjmGetXml'
+//        'uses' => 'PenerimaanController@spjmGetXml'
+        'uses' => 'SoapController@GetSPJM'
     ]);
     
     //Dok Manual
@@ -93,6 +97,11 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsDokManual(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
+    Route::get('/dok-manual/get-xml', [
+        'as' => 'tps-dokManual-get',
+//        'uses' => 'PenerimaanController@sppbPibGetXml'
+        'uses' => 'SoapController@GetDokumenManual'
+    ]);
     
     //SPPB PIB
     Route::get('/sppb-pib', [
@@ -113,7 +122,8 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
     ]);
     Route::get('/sppb-pib/get-xml', [
         'as' => 'tps-sppbPib-get',
-        'uses' => 'PenerimaanController@sppbPibGetXml'
+//        'uses' => 'PenerimaanController@sppbPibGetXml'
+        'uses' => 'SoapController@GetImporPermit'
     ]);
     
     //SPPB BEA CUKAI
@@ -135,6 +145,7 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
     ]);
     Route::get('/sppb-bc/get-xml', [
         'as' => 'tps-sppbBc-get',
-        'uses' => 'PenerimaanController@sppbBcGetXml'
+//        'uses' => 'PenerimaanController@sppbBcGetXml'
+        'uses' => 'SoapController@GetBC23Permit'
     ]);
 });

@@ -819,6 +819,11 @@ class LclController extends Controller
         return view('import.lcl.report-rekap')->with($data);
     }
     
+    public function reportStock()
+    {
+        
+    }
+    
     // TPS ONLINE    
     public function gateinUpload(Request $request)
     {

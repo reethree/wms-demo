@@ -52,6 +52,9 @@ Route::group(['prefix' => 'fcl', 'namespace' => 'Import'], function(){
         'as' => 'fcl-report-rekap',
         'uses' => 'FclController@reportRekap'
     ]);
-    
+    Route::get('/report/stock', [
+        'as' => 'fcl-report-stock',
+        'uses' => 'FclController@reportStock'
+    ]);
 });
 

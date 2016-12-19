@@ -17,8 +17,8 @@
             var cl = ids[i];
             
             edt = '<a href="{{ route("tps-responPlp-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
-            del = '<a href="{{ route("lcl-register-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
-            jQuery("#tpsResponPlpGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
+//            del = '<a href="{{ route("lcl-register-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
+            jQuery("#tpsResponPlpGrid").jqGrid('setRowData',ids[i],{action:edt}); 
         } 
     }
     
@@ -27,6 +27,9 @@
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">TPS Respon PLP</h3>
+        <div class="box-tools">
+            <a href="{{ route('tps-responPlp-get') }}" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Get Data</a>
+        </div>
     </div>
     <div class="box-body table-responsive">
         <div class="row" style="margin-bottom: 30px;margin-right: 0;">

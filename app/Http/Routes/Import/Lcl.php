@@ -59,5 +59,8 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-report-rekap',
         'uses' => 'LclController@reportRekap'
     ]);
-    
+    Route::get('/report/stock', [
+        'as' => 'lcl-report-stock',
+        'uses' => 'LclController@reportStock'
+    ]);
 });
