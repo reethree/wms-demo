@@ -52,6 +52,9 @@
         // TPS Online Routes
         require_once 'Routes/RoutesTpsonline.php';
         
+        // Invoice Routes
+        require_once 'Routes/RoutesInvoice.php';
+        
         // GLOBAL Routes
         Route::get('/getDataPelabuhan', [
             'as' => 'getDataPelabuhan',
