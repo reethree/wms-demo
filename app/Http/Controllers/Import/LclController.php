@@ -1027,6 +1027,59 @@ class LclController extends Controller
  
     }
     
+    public function releaseCreateInvoice(Request $request)
+    {
+        $manifest_id = $request->id; 
+        $manifest = DBManifest::where('TMANIFEST_PK', $manifest_id)->first();        
+        
+//        $invoice = new \App\Models\Invoice;
+//        $invoice->manifest_id = $manifest_id;
+//        $invoice->no_reg = date('Ymd').'.'.str_pad(intval($manifest->TMANIFEST_PK), 4, '0', STR_PAD_LEFT);
+//        $invoice->no_invoice = 'I-'.str_pad(intval(rand()), 7, '0', STR_PAD_LEFT).'/LCL/'.date('Y');
+//        $invoice->tgl_cetak = '';
+//        $invoice->sub_total = '';
+//        $invoice->add_cost = '';
+//        $invoice->materai = '';
+//        $invoice->grand_total = '';
+//        $invoice->uid = \Auth::getUser()->name;
+//        
+//        if($invoice->save()){
+//        
+            // Storage Cargo
+            $storage = \DB::table('invoice_tarif_item')->where('id', 2)->first();
+            
+            // Perhitungan Hari
+            $date1 = date_create($manifest->tglstripping);
+            $date2 = date_create(date('Y-m-d',strtotime($manifest->tglrelease. '+1 days')));
+            $diff = date_diff($date1, $date2);
+            $hari = $diff->format("%a");
+            // Masa I
+            if($hari >= $storage->masa1_start || $hari <= $storage->masa1_end) {
+                
+            }
+            // Masa II
+            if($hari > 4 )
+            
+            // Perhitungan CBM
+            $weight = $manifest->WEIGHT / 1000;
+            $meas = $manifest->MEAS / 1000;
+            $cbm = array($weight,$meas);
+            $maxcbm = ceil(max($cbm));
+            if($maxcbm > $storage->nilai_batasan2){ $maxcbm = $storage->nilai_batasan2; }
+            
+            // Perhitungan Harga Storage
+            $harga = '';
+            
+            // Sub Total (CBM*Hari*harga)
+            
+            return json_encode(array('hari' => $hari, 'weight' => $weight, 'meas' => $meas, 'cbm' => $maxcbm));
+            return json_encode(array('success' => true, 'message' => 'No. Tally '.$manifest->NOTALLY.', invoice berhasih dibuat.'));
+//        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+        
+    }
+    
     public function releaseUpload(Request $request)
     {
         $manifest_id = $request->id; 

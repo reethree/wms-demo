@@ -28,6 +28,10 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
         'as' => 'invoice-tarif-item-edit',
         'uses' => 'InvoiceController@tarifItemEdit'
     ]);
+    Route::post('/tarif/item/edit/{id}', [
+        'as' => 'invoice-tarif-item-update',
+        'uses' => 'InvoiceController@tarifItemUpdate'
+    ]);
     Route::get('/tarif/item/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\InvoiceTablesRepository('invoice_tarif_item',Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());

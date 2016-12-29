@@ -10,7 +10,7 @@
     
     function onSelectRowEvent()
     {
-        $('#btn-group-1, #btn-group-4').enableButtonGroup();
+        $('#btn-group-1').enableButtonGroup();
     }
     
     $(document).ready(function()
@@ -34,11 +34,17 @@
             $('#NPWP_CONSIGNEE').val(rowdata.NPWP_CONSIGNEE);
             $('#NO_SPPB').val(rowdata.NO_SPPB);
             $('#TGL_SPPB').val(rowdata.TGL_SPPB);
-
+            $('#NOPOL_RELEASE').val(rowdata.NOPOL_RELEASE);
+            $('#PENAGIHAN').val(rowdata.PENAGIHAN).trigger("change");
+            $('#LOKASI_TUJUAN').val(rowdata.LOKASI_TUJUAN).trigger("change");
+            $('#REF_NUMBER_OUT').val(rowdata.REF_NUMBER_OUT);
+            $('#UIDRELEASE').val(rowdata.UIDRELEASE);
+                        
             if(!rowdata.tglrelease && !rowdata.jamrelease) {
                 $('#btn-group-2').enableButtonGroup();
                 $('#release-form').enableFormGroup();
             }else{
+                $('#btn-group-4').enableButtonGroup();
                 $('#btn-group-5').enableButtonGroup();
                 $('#btn-group-2').disabledButtonGroup();
                 $('#release-form').disabledFormGroup();
@@ -46,7 +52,43 @@
 
         });
         
-        $('#btn-print').click(function() {
+        $('#btn-invoice').click(function() {
+            if(!confirm('Apakah anda yakin?')){return false;}
+            
+            var manifestId = $('#TMANIFEST_PK').val();
+            var url = '{{ route("lcl-delivery-release-invoice") }}';
+            
+            $.ajax({
+                type: 'POST',
+                data: 
+                {
+                    'id' : manifestId,
+                    '_token' : '{{ csrf_token() }}'
+                },
+                dataType : 'json',
+                url: url,
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                },
+                beforeSend:function()
+                {
+
+                },
+                success:function(json)
+                {
+                    console.log(json);
+
+                    if(json.success) {
+                      $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    } else {
+                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    }
+
+                    //Triggers the "Close" button funcionality.
+                    $('#btn-refresh').click();
+                }
+            });
             
         });
 
@@ -214,13 +256,20 @@
                     ->addColumn(array('label'=>'Nama EMKL','index'=>'NAMAEMKL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'Telp. EMKL','index'=>'TELPEMKL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'No. Truck','index'=>'NOPOL', 'width'=>150,'hidden'=>true)) 
+                    ->addColumn(array('label'=>'No. POL Release','index'=>'NOPOL_RELEASE', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'Tgl. Surat Jalan','index'=>'TGLSURATJALAN', 'width'=>120,'hidden'=>true))
                     ->addColumn(array('label'=>'Jam. Surat Jalan','index'=>'JAMSURATJALAN', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Petugas Surat Jalan','index'=>'UIDSURATJALAN', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Petugas Release','index'=>'UIDRELEASE', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Penagihan','index'=>'PENAGIHAN', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Ref Number','index'=>'REF_NUMBER_OUT', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. Fiat Muat','index'=>'tglfiat', 'width'=>120,'hidden'=>true))
                     ->addColumn(array('label'=>'Jam. Fiat Muat','index'=>'jamfiat', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
                     ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. Release','index'=>'tglrelease', 'width'=>120))
+                    ->addColumn(array('label'=>'Jam. Release','index'=>'jamrelease', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Lokasi Tujuan','index'=>'LOKASI_TUJUAN', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
                     ->renderGrid()
                 }}
@@ -236,9 +285,9 @@
                         <button class="btn btn-default" id="btn-save"><i class="fa fa-save"></i> Save</button>
                         <button class="btn btn-default" id="btn-cancel"><i class="fa fa-close"></i> Cancel</button>
                     </div>  
-<!--                    <div id="btn-group-4" class="btn-group">
-                        <button class="btn btn-default" id="btn-print"><i class="fa fa-print"></i> Cetak Surat Jalan</button>
-                    </div>-->
+                    <div id="btn-group-4" class="btn-group pull-right">
+                        <button class="btn btn-default" id="btn-invoice"><i class="fa fa-print"></i> Create Invoice</button>
+                    </div>
                     <div id="btn-group-5" class="btn-group pull-right">
                         <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
                     </div>
@@ -365,7 +414,7 @@
                             <select class="form-control select2" id="LOKASI_TUJUAN" name="LOKASI_TUJUAN" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                 <option value="consignee">Consignee</option>
                                 @foreach($perusahaans as $perusahaan)
-                                    <option value="{{ $perusahaan->id }}">{{ $perusahaan->name }}</option>
+                                    <option value="{{ $perusahaan->name }}">{{ $perusahaan->name }}</option>
                                 @endforeach
                             </select>
                         </div>

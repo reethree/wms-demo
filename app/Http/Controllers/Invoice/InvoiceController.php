@@ -97,5 +97,25 @@ class InvoiceController extends Controller
         
         return view('invoice.edit-tarif')->with($data);
     }
+    
+    public function tarifItemUpdate(Request $request, $id)
+    {
+        if ( !$this->access->can('update.tarif.item.edit') ) {
+            return view('errors.no-access');
+        }
+        
+        unset($request['_token']);
+        
+        //UPDATE TARIF
+        $update = \DB::table('invoice_tarif_item')->where('id', $id)
+            ->update($request->all());
+
+        if($update){
+
+            return back()->with('success', 'LCL Register has been updated.');                   
+        }
+        
+        return back()->with('error', 'Something wrong, please try again.')->withInput();
+    }
 
 }
