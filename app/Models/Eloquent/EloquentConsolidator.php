@@ -14,6 +14,7 @@ class EloquentConsolidator {
     public function __construct()
     {
         $this->Consolidator = new \App\Models\Consolidator();
+        $this->Consolidator_Tarif = new \App\Models\ConsolidatorTarif();
     }
  
      /**
@@ -26,11 +27,22 @@ class EloquentConsolidator {
      */
     public function create(array $data)
     {
-        $data['UID'] = \Auth::getUser()->name;
+
       try
       {
 //        $this->Consolidator->create($data);
-        $this->Consolidator->insertGetId($data);
+        $cData['NAMACONSOLIDATOR'] = $data['NAMACONSOLIDATOR'];
+        $cData['ALAMAT'] = $data['ALAMAT'];
+        $cData['NOTELP'] = $data['NOTELP'];
+        $cData['CONTACTPERSON'] = $data['CONTACTPERSON'];
+        $cData['NPWP'] = $data['NPWP'];
+        $cData['UID'] = \Auth::getUser()->name;
+        $consolidator_id = $this->Consolidator->insertGetId($cData);
+        
+        unset($data['NAMACONSOLIDATOR'],$data['ALAMAT'],$data['NOTELP'],$data['CONTACTPERSON'],$data['NPWP']);
+        $data['TCONSOLIDATOR_FK'] = $consolidator_id;
+        $data['uid'] = \Auth::getUser()->name;
+        $this->Consolidator_Tarif->insertGetId($data);
       }
       catch (Exception $e)
       {
@@ -51,17 +63,36 @@ class EloquentConsolidator {
      */
     public function update($id, array $data)
     {
-      $Consolidator = $this->Consolidator->find($id);
-      $data['UID'] = \Auth::getUser()->name;
-      
-      foreach ($data as $key => $value)
-      {
-        $Consolidator->$key = $value;
-      }
+//      $Consolidator = $this->Consolidator->find($id);
+//      $data['UID'] = \Auth::getUser()->name;
+//      
+//      foreach ($data as $key => $value)
+//      {
+//        $Consolidator->$key = $value;
+//      }
  
       try
       {
-        $Consolidator->save();
+        $cData['NAMACONSOLIDATOR'] = $data['NAMACONSOLIDATOR'];
+        $cData['ALAMAT'] = $data['ALAMAT'];
+        $cData['NOTELP'] = $data['NOTELP'];
+        $cData['CONTACTPERSON'] = $data['CONTACTPERSON'];
+        $cData['NPWP'] = $data['NPWP'];
+        $cData['UID'] = \Auth::getUser()->name;
+        $this->Consolidator->where('TCONSOLIDATOR_PK', $id)->update($cData);
+        
+        unset($data['NAMACONSOLIDATOR'],$data['ALAMAT'],$data['NOTELP'],$data['CONTACTPERSON'],$data['NPWP']);
+        $data['uid'] = \Auth::getUser()->name;
+        
+        $tarif = $this->Consolidator_Tarif->where('TCONSOLIDATOR_FK', $id)->first();
+        if($tarif){
+            $this->Consolidator_Tarif->where('TCONSOLIDATOR_FK', $id)->update($data);
+        }else{
+            $consolidator = $this->Consolidator->find($id);
+            $data['TCONSOLIDATOR_FK'] = $consolidator->TCONSOLIDATOR_PK;
+            $this->Consolidator_Tarif->insertGetId($data);
+        }
+//        $Consolidator->save();
       }
       catch (Exception $e)
       {

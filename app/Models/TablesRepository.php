@@ -11,7 +11,12 @@ class TablesRepository extends EloquentRepositoryAbstract {
     {
         $Columns = array('*');
         
-        if($Model->getMorphClass() == 'App\User'){
+        if($Model->getMorphClass() == 'App\Models\Consolidator'){
+            
+            $Model = \DB::table('tconsolidator')
+                    ->leftjoin('tconsolidator_tarif', 'tconsolidator.TCONSOLIDATOR_PK', '=', 'tconsolidator_tarif.TCONSOLIDATOR_FK');
+            
+        }elseif($Model->getMorphClass() == 'App\User'){
             
             $Model = \DB::table('users')
                 ->join('role_user', 'users.id', '=', 'role_user.user_id')
