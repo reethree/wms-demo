@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Joborder as DBJoborder;
 use App\Models\Consolidator as DBConsolidator;
+use App\Models\ConsolidatorTarif as DBConsolidatorTarif;
 use App\Models\Perusahaan as DBPerusahaan;
 use App\Models\Negara as DBNegara;
 use App\Models\Pelabuhan as DBPelabuhan;
@@ -1032,6 +1033,8 @@ class LclController extends Controller
         $manifest_id = $request->id; 
         $manifest = DBManifest::where('TMANIFEST_PK', $manifest_id)->first();        
         
+        $tarif = DBConsolidatorTarif::where('TCONSOLIDATOR_FK', $manifest->TCONSOLIDATOR_FK)->first();
+        
 //        $invoice = new \App\Models\Invoice;
 //        $invoice->manifest_id = $manifest_id;
 //        $invoice->no_reg = date('Ymd').'.'.str_pad(intval($manifest->TMANIFEST_PK), 4, '0', STR_PAD_LEFT);
@@ -1045,32 +1048,83 @@ class LclController extends Controller
 //        
 //        if($invoice->save()){
 //        
-            // Storage Cargo
-            $storage = \DB::table('invoice_tarif_item')->where('id', 2)->first();
             
             // Perhitungan Hari
             $date1 = date_create($manifest->tglstripping);
             $date2 = date_create(date('Y-m-d',strtotime($manifest->tglrelease. '+1 days')));
             $diff = date_diff($date1, $date2);
             $hari = $diff->format("%a");
-            // Masa I
-            if($hari >= $storage->masa1_start || $hari <= $storage->masa1_end) {
-                
-            }
-            // Masa II
-            if($hari > 4 )
             
             // Perhitungan CBM
             $weight = $manifest->WEIGHT / 1000;
             $meas = $manifest->MEAS / 1000;
             $cbm = array($weight,$meas);
-            $maxcbm = ceil(max($cbm));
-            if($maxcbm > $storage->nilai_batasan2){ $maxcbm = $storage->nilai_batasan2; }
-            
-            // Perhitungan Harga Storage
-            $harga = '';
+            $maxcbm = ceil(max($cbm) * 2) / 2;
+//            $maxcbm = ceil(max($cbm));
+            if($maxcbm < 2){ $maxcbm = 2; }
             
             // Sub Total (CBM*Hari*harga)
+            if($tarif->storage > 0){
+                $sub_masa = $hari * $tarif->storage;
+                $tot_masa = $maxcbm * $sub_masa;
+            }else{
+                // Masa I
+                if($hari <= 3) {
+                    $hari_masa1 = 1;
+                    $sub_masa1 = $hari_masa1 * $tarif->storage_masa1;
+                    $tot_masa1 = $maxcbm * $sub_masa1;
+                }
+                // Masa II
+                if($hari > 3 ) {
+                    $hari_masa2 = $hari - 3;
+                    if($hari_masa2 > 2) { $hari_masa2 = 2; }
+                    $sub_masa2 = $hari_masa2 * $tarif->storage_masa2;
+                    $tot_masa2 = $maxcbm * $sub_masa2;
+                }
+                // Masa III
+                if($hari > 5) {
+                    $hari_masa3 = $hari - 5;
+                    $sub_masa3 = $hari_masa3 * $tarif->storage_masa2;
+                    $tot_masa3 = $maxcbm * $sub_masa3;
+                }
+            }
+            
+            $invoice_import = new \App\Models\Invoice;
+            $invoice_import->manifest_id = $manifest_id;
+            $invoice_import->no_invoice = 'INV-'.date('Ymd').str_pad($manifest_id, 5, '0', STR_PAD_LEFT);
+            $invoice_import->cbm = $maxcbm;
+            $invoice_import->rdm = $tarif->rdm * $maxcbm;
+            $invoice_import->storage = (isset($tot_masa)) ? $tot_masa : 0 ;
+            $invoice_import->storage_masa1 = (isset($tot_masa1)) ? $tot_masa1 : 0 ;
+            $invoice_import->storage_masa2 = (isset($tot_masa2)) ? $tot_masa2 : 0 ;
+            $invoice_import->storage_masa3 = (isset($tot_masa3)) ? $tot_masa3 : 0 ;
+            $invoice_import->hari = $hari;
+            $invoice_import->hari_masa1 = (isset($hari_masa1)) ? $hari_masa1 : 0 ;
+            $invoice_import->hari_masa2 = (isset($hari_masa2)) ? $hari_masa2 : 0 ;
+            $invoice_import->hari_masa3 = (isset($hari_masa3)) ? $hari_masa3 : 0 ;
+            $invoice_import->behandle = ($manifet->BEHANDLE == 'Y') ? 1 : 0;
+            $invoice_import->harga_behandle = 0;
+            $invoice_import->adm = $tarif->adm;
+            $invoice_import->weight_surcharge = $tarif->weight_surcharge;
+
+            $array_total = array(
+                $invoice_import->rdm,
+                $invoice_import->storage,
+                $invoice_import->storage_masa1,
+                $invoice_import->storage_masa2,
+                $invoice_import->storage_masa3,
+                $invoice_import->harga_behandle,
+                $invoice_import->adm,
+                $invoice_import->dg_surcharge,
+                $invoice_import->weight_surcharge
+            );
+            $sub_total = array_sum($array_total);
+            
+            $invoice_import->dg_surcharge = ($tarif->dg_surcharge * $sub_total) / 100;
+            $invoice_import->sub_total = $sub_total;
+            $invoice_import->materai = ($sub_total >= 1000000) ? 6000 : 3000;
+            $invoice_import->uid = \Auth::getUser()->name;
+                    
             
             return json_encode(array('hari' => $hari, 'weight' => $weight, 'meas' => $meas, 'cbm' => $maxcbm));
             return json_encode(array('success' => true, 'message' => 'No. Tally '.$manifest->NOTALLY.', invoice berhasih dibuat.'));

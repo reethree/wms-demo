@@ -340,7 +340,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" id="tglfiat" name="tglfiat" class="form-control pull-right datepicker" required value="{{ date('Y-m-d') }}" readonly>
+                                <input type="text" id="tglfiat" name="tglfiat" class="form-control pull-right datepicker" required value="{{ date('Y-m-d') }}">
                             </div>
                         </div>
                     </div>
@@ -350,7 +350,7 @@
                             <label class="col-sm-3 control-label">Jam Fiat</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input type="text" id="jamfiat" name="jamfiat" class="form-control timepicker" value="{{ date('H:i:s') }}" required readonly>
+                                    <input type="text" id="jamfiat" name="jamfiat" class="form-control timepicker" value="{{ date('H:i:s') }}" required>
                                     <div class="input-group-addon">
                                           <i class="fa fa-clock-o"></i>
                                     </div>
