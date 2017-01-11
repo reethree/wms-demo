@@ -24,8 +24,10 @@ class DefaultController extends BaseController
         echo '<?xml version="1.0" encoding="UTF-8"?>
             <vxml version = "2.1">
                 <form id="welcome">
-                    <field name="post_id" type="number">
-                        <audio src="'.url('uploads/audio/test.mp3').'"/> 
+                    <block>
+                        <audio src="'.url('uploads/audio/test.mp3').'"/>
+                    </block>
+                    <field name="post_id" type="number">  
                         <noinput>
                             <prompt>To better assist you, we need to know what computer you\'re using.</prompt>
                             <reprompt />
@@ -37,10 +39,10 @@ class DefaultController extends BaseController
                         <error>
                             <prompt>Sorry, something unexpected happened. Please call again.</prompt>
                             <exit />
-                        </error>
-                      
+                        </error>   
                     </field>
                     <filled>
+                        <prompt>Thank you, we\'ll get you specific contact.</prompt>
                         <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
                     </filled>                 
                 </form>
