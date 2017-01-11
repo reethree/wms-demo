@@ -25,9 +25,7 @@ class DefaultController extends BaseController
             <vxml version = "2.1">
                 <form id="welcome">
                     <field name="post_id" type="number">
-                        <prompt>
-                            <audio src="'.url('uploads/audio/test.mp3').'"/>
-                        </prompt>    
+                        <audio src="'.url('uploads/audio/test.mp3').'"/> 
                         <noinput>
                             <prompt>To better assist you, we need to know what computer you\'re using.</prompt>
                             <reprompt />
