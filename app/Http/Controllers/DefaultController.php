@@ -41,7 +41,6 @@ class DefaultController extends BaseController
                       
                     </field>
                     <filled>
-                        <prompt>Thank you, we\'ll get you specific contact.</prompt>
                         <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
                     </filled>                 
                 </form>
