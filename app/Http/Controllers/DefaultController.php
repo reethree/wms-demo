@@ -34,10 +34,7 @@ class DefaultController extends BaseController
                             <prompt>Please enter advertising number.</prompt>
                             <reprompt />
                         </noinput>
-                        <error>
-                            <prompt>Sorry, something unexpected happened. Please call again.</prompt>
-                            <exit />
-                        </error>   
+  
                         <help>
                             <prompt>
                                 Please enter advertising number.
