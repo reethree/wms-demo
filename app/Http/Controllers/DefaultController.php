@@ -25,19 +25,25 @@ class DefaultController extends BaseController
             <vxml version = "2.1">
                 <form id="welcome">
                     <field name="post_id">  
-                        <audio src="'.url('uploads/audio/test.mp3').'"/>
+                        <audio src="'.url('uploads/test.mp3').'"/>
                         <noinput>
-                            <prompt>To better assist you, we need to know what computer you\'re using.</prompt>
+                            <prompt>Please enter advertising number for specific contact.</prompt>
                             <reprompt />
                         </noinput>
                         <noinput count="2">
-                            <prompt>I didn\'t hear anything, perhaps there is an issue with the connection, or your phone is muted.</prompt>
+                            <prompt>Please enter advertising number.</prompt>
                             <reprompt />
                         </noinput>
                         <error>
                             <prompt>Sorry, something unexpected happened. Please call again.</prompt>
                             <exit />
                         </error>   
+                        <help>
+                            <prompt>
+                                Please enter advertising number.
+                            </prompt>
+                            <reprompt/>
+                        </help>
                     </field>
                     <filled>
                         <prompt>Thank you, we\'ll get you specific contact.</prompt>
