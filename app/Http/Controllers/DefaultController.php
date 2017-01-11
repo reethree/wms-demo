@@ -24,10 +24,8 @@ class DefaultController extends BaseController
         echo '<?xml version="1.0" encoding="UTF-8"?>
             <vxml version = "2.1">
                 <form id="welcome">
-                    <block>
+                    <field name="post_id">  
                         <audio src="'.url('uploads/audio/test.mp3').'"/>
-                    </block>
-                    <field name="post_id" type="number">  
                         <noinput>
                             <prompt>To better assist you, we need to know what computer you\'re using.</prompt>
                             <reprompt />
