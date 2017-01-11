@@ -21,11 +21,12 @@ class DefaultController extends BaseController
         $caller_id = $request['nexmo_caller_id'];
         $cid = ($caller_id != '') ? $caller_id : "9999";
 //        $cid = (isset($request->nexmo_caller_id)) ? $request->nexmo_caller_id : "9999";
+//        493051
         echo '<?xml version="1.0" encoding="UTF-8"?>
             <vxml version = "2.1">
                 <form id="welcome">
                     <field name="post_id">  
-                        <audio src="'.url('uploads/test.mp3').'"/>
+                        <prompt><audio src="'.url('uploads/test.mp3').'"/><break time="5s"/></prompt>
                         <noinput>
                             <prompt>Please enter advertising number for specific contact.</prompt>
                             <reprompt />
@@ -34,7 +35,10 @@ class DefaultController extends BaseController
                             <prompt>Please enter advertising number.</prompt>
                             <reprompt />
                         </noinput>
-  
+                        <error>
+                            <prompt>Sorry, something unexpected happened. Please call again.</prompt>
+                            <exit />
+                        </error>   
                         <help>
                             <prompt>
                                 Please enter advertising number.
@@ -42,7 +46,7 @@ class DefaultController extends BaseController
                             <reprompt/>
                         </help>
                     </field>
-                    <filled>
+                    <filled namelist="post_id" mode="all">
                         <prompt>Thank you, we\'ll get you specific contact.</prompt>
                         <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
                     </filled>                 
