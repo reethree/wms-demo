@@ -26,7 +26,7 @@ class DefaultController extends BaseController
             <vxml version = "2.1">
                 <form id="welcome">
                     <field name="post_id" type="digits">  
-                        <prompt><audio src="'.url('uploads/test.wav').'"/><break time="5s"/></prompt>
+                        <prompt><audio src="'.url('uploads/calltest.wav').'"/><break time="5s"/></prompt>
                         <noinput>
                             <prompt>Please enter advertising number for specific contact.</prompt>
                             <reprompt />
