@@ -11,12 +11,12 @@ class DefaultController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     
-    public function voiceCallback()
+    public function voiceCallback(Request $request)
     {
 //        <prompt>You entered is: <value expr="post_id" /> , , </prompt>
 //        <prompt>Thank you for contacting us.<break time="2s"/>Welcome to rukamen.com.<break time="3s"/> please enter id ads that you see.</prompt>
 //        <audio src="http://www.freesfx.co.uk/rx2/mp3s/9/10778_1380921485.mp3"/>
-        $caller_id = \Input::get('nexmo_caller_id');
+        $caller_id = $request['nexmo_caller_id'];
         $cid = ($caller_id != '') ? $caller_id : "9999";
 //        $cid = (isset($request->nexmo_caller_id)) ? $request->nexmo_caller_id : "9999";
         echo '<?xml version="1.0" encoding="UTF-8"?>
@@ -48,9 +48,9 @@ class DefaultController extends BaseController
             </vxml>';        
     }
     
-    public function voiceCallbackResponse($cid)
+    public function voiceCallbackResponse(Request $request, $cid)
     {
-        $post_id = \Input::get('post_id');
+        $post_id = $request['post_id'];
         $number = ($post_id != '') ? $post_id : "9999";
         
 //        $log = new \App\Model\CallLog;
