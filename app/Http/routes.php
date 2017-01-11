@@ -74,10 +74,10 @@
 
 // NEXMO
 Route::get('/voice/callback', [
-    'uses' => 'Controller@voiceCallback',
+    'uses' => 'DefaultController@voiceCallback',
     'as' => 'call-voice-callback'
 ]);
 Route::get('/voice/callback/response/{cid}', [
-    'uses' => 'Controller@voiceCallbackResponse',
+    'uses' => 'DefaultController@voiceCallbackResponse',
     'as' => 'call-voice-callback-response'
 ]);
