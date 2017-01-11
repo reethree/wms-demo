@@ -71,3 +71,13 @@
     Route::get('/demo', ['as' => 'demo', 'uses' => 'Tps\SoapController@demo']);
     
 //});
+
+// NEXMO
+Route::get('/voice/callback', [
+    'uses' => 'Controller@voiceCallback',
+    'as' => 'call-voice-callback'
+]);
+Route::get('/voice/callback/response/{cid}', [
+    'uses' => 'Controller@voiceCallbackResponse',
+    'as' => 'call-voice-callback-response'
+]);
