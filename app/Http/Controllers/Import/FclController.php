@@ -215,7 +215,8 @@ class FclController extends Controller
             ]
         ]; 
         
-        $spk_last_id = DBJoborder::select('TJOBORDER_PK as id')->orderBy('TJOBORDER_PK', 'DESC')->first();       
+//        $spk_last_id = DBJoborder::select('TJOBORDER_PK as id')->orderBy('TJOBORDER_PK', 'DESC')->first(); 
+        $spk_last_id = $this->getSpkNumber();
         $regID = str_pad(intval((isset($spk_last_id->id) ? $spk_last_id->id : 0)+1), 4, '0', STR_PAD_LEFT);
         
         $data['spk_number'] = 'PRJP'.$regID.'/'.date('y');

@@ -98,4 +98,24 @@ class Controller extends BaseController
         
         return false;
     }
+    
+    public function getSpkNumber()
+    {
+        $spk = \DB::table('tjoborderurut')->select('spk_number')
+                ->where('year', date('Y'))
+                ->orderBy('id', 'DESC')
+                ->pluck('spk_number');
+        
+        $new_spk = intval($spk+1);
+        
+        $insert = \DB::table('tjoborderurut')->insert(
+            ['spk_number' => $new_spk, 'uid' => \Auth::getUser()->name, 'year' => date('Y')]
+        );
+        
+        if($insert){
+            return $new_spk;
+        }
+        
+        return false;
+    }
 }

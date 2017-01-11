@@ -48,6 +48,9 @@
                                 @foreach($consolidators as $consolidator)
                                     <option value="{{ $consolidator->id }}">{{ $consolidator->name }}</option>
                                 @endforeach
+                                @foreach($lokasisandars as $lokasisandar)
+                                    <option value="{{ $lokasisandar->id }}">{{ $lokasisandar->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>    

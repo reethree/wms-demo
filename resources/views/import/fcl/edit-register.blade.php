@@ -46,7 +46,10 @@
                             <select class="form-control select2" name="TCONSOLIDATOR_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Consolidator</option>
                                 @foreach($consolidators as $consolidator)
-                                    <option value="{{ $consolidator->id }}" @if($consolidator->id == $joborder->TCONSOLIDATOR_FK){{ "selected" }}@endif>{{ $consolidator->name }}</option>
+                                    <option value="{{ $consolidator->id }}" @if($consolidator->name == $joborder->NAMACONSOLIDATOR){{ "selected" }}@endif>{{ $consolidator->name }}</option>
+                                @endforeach
+                                @foreach($lokasisandars as $lokasisandar)
+                                    <option value="{{ $lokasisandar->id }}" @if($consolidator->name == $joborder->NAMACONSOLIDATOR){{ "selected" }}@endif>{{ $lokasisandar->name }}</option>
                                 @endforeach
                             </select>
                         </div>
