@@ -25,8 +25,8 @@ class DefaultController extends BaseController
         echo '<?xml version="1.0" encoding="UTF-8"?>
             <vxml version = "2.1">
                 <form id="welcome">
-                    <field name="post_id">  
-                        <prompt><audio src="'.url('uploads/test.mp3').'"/><break time="5s"/></prompt>
+                    <field name="post_id" type="digits">  
+                        <prompt>Silahkan masukan nomor yang anda inginkan.<break time="5s"/></prompt>
                         <noinput>
                             <prompt>Please enter advertising number for specific contact.</prompt>
                             <reprompt />
