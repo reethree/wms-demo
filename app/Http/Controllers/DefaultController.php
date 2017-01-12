@@ -31,11 +31,15 @@ class DefaultController extends BaseController
 //        $cid = (isset($request->nexmo_caller_id)) ? $request->nexmo_caller_id : "9999";
 //        493051
         echo '<?xml version="1.0" encoding="UTF-8"?>
-            <vxml version = "2.1">
-                
+            <vxml version = "2.1">               
                 <form id="main">
+                    <block>
+                        <audio src="'.url('uploads/selamatdatang.wav').'"/>
+                    </block>
                     <field name="post_id" type="digits?minlength=5;maxlength=6">  
-                        <prompt><audio src="'.url('uploads/selamatdatang.wav').'"/> <audio src="'.url('uploads/masukannomor.wav').'"/></prompt>
+                        <block>
+                            <audio src="'.url('uploads/masukannomor.wav').'"/>
+                        </block>
                         <noinput>
                             <reprompt />
                         </noinput>
@@ -50,13 +54,11 @@ class DefaultController extends BaseController
                             <audio src="'.url('uploads/masukannomor.wav').'"/>
                             <reprompt/>
                         </help>
-                        
-                        <filled namelist="post_id" mode="all">
-                            <audio src="'.url('uploads/terimakasih.wav').'"/>
-                            <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
-                        </filled>
                     </field>
-                                     
+                    <filled namelist="post_id">
+                        <audio src="'.url('uploads/terimakasih.wav').'"/>
+                        <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
+                    </filled>                 
                 </form>
             </vxml>';        
     }
