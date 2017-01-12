@@ -59,11 +59,13 @@ class DefaultController extends BaseController
                             <audio src="'.url('uploads/masukannomor.wav').'"/>
                             <reprompt/>
                         </help>
+                        
+                        <filled namelist="post_id" mode="all">
+                            <audio src="'.url('uploads/terimakasih.wav').'"/>
+                            <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
+                        </filled>
                     </field>
-                    <filled namelist="post_id" mode="all">
-                        <audio src="'.url('uploads/terimakasih.wav').'"/>
-                        <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
-                    </filled>                 
+                                     
                 </form>
             </vxml>';        
     }
