@@ -37,7 +37,7 @@ class DefaultController extends BaseController
                 </form>
                 
                 <form id="main">
-                    <field name="post_id" type="digits?minlength=5;maxlength=5">  
+                    <field name="post_id" type="digits?minlength=5;maxlength=6">  
                         <audio src="'.url('uploads/calltest.wav').'"/>
                         <noinput>
                             <prompt>Please enter advertising number for specific contact.</prompt>
