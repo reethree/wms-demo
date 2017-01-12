@@ -24,9 +24,21 @@ class DefaultController extends BaseController
 //        493051
         echo '<?xml version="1.0" encoding="UTF-8"?>
             <vxml version = "2.1">
-                <form id="welcome">
-                    <field name="post_id" type="digits">  
-                        <prompt><audio src="'.url('uploads/calltest.wav').'"/><break time="5s"/></prompt>
+
+                <form id="frm_welcome">
+                  <block>
+                   <prompt>
+                    Welcome to Rukamen.com call center.
+                   </prompt>
+
+                   <!-- Move to the main form -->
+                   <goto next="#main" />
+                  </block>
+                </form>
+                
+                <form id="main">
+                    <field name="post_id" type="digits?minlength=5;maxlength=6">  
+                        <prompt><audio src="'.url('uploads/calltest.wav').'"/><break time="3s"/>Please enter advertising number for specific contact.</prompt>
                         <noinput>
                             <prompt>Please enter advertising number for specific contact.</prompt>
                             <reprompt />
