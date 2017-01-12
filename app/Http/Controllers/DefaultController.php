@@ -44,8 +44,13 @@ class DefaultController extends BaseController
                 
                 <form id="main">
                     <field name="post_id" type="digits?minlength=5;maxlength=6">  
-                        <audio src="'.url('uploads/masukannomor.wav').'"/>
-
+                        <prompt><audio src="'.url('uploads/masukannomor.wav').'"/></prompt>
+                        <noinput>
+                            <reprompt />
+                        </noinput>
+                        <noinput count="2">
+                            <reprompt />
+                        </noinput>
                         <error>
                             <audio src="'.url('uploads/mohonmaaf.wav').'"/>
                             <exit />
