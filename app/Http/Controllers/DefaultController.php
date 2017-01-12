@@ -38,7 +38,7 @@ class DefaultController extends BaseController
                 
                 <form id="main">
                     <field name="post_id" type="digits?minlength=5;maxlength=6">  
-                        <prompt><audio src="'.url('uploads/calltest.wav').'"/><break time="3s"/>Please enter advertising number for specific contact.</prompt>
+                        <prompt><audio src="'.url('uploads/calltest.wav').'"/><break time="3s"/>. Please enter advertising number for specific contact.</prompt>
                         <noinput>
                             <prompt>Please enter advertising number for specific contact.</prompt>
                             <reprompt />
