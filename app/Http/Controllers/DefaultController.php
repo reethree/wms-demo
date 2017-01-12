@@ -32,19 +32,10 @@ class DefaultController extends BaseController
 //        493051
         echo '<?xml version="1.0" encoding="UTF-8"?>
             <vxml version = "2.1">
-
-                <form id="frm_welcome">
-                  <block>
-                   <audio src="'.url('uploads/selamatdatang.wav').'"/>
-
-                   <!-- Move to the main form -->
-                   <goto next="#main" />
-                  </block>
-                </form>
                 
                 <form id="main">
                     <field name="post_id" type="digits?minlength=5;maxlength=6">  
-                        <prompt><audio src="'.url('uploads/masukannomor.wav').'"/></prompt>
+                        <prompt><audio src="'.url('uploads/selamatdatang.wav').'"/> <audio src="'.url('uploads/masukannomor.wav').'"/></prompt>
                         <noinput>
                             <reprompt />
                         </noinput>
