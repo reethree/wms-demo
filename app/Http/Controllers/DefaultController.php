@@ -16,6 +16,14 @@ class DefaultController extends BaseController
     public function voiceCallback(Request $request)
     {
 //        <prompt>You entered is: <value expr="post_id" /> , , </prompt>
+//                                <noinput>
+//                            <prompt>Please enter advertising number for specific contact.</prompt>
+//                            <reprompt />
+//                        </noinput>
+//                        <noinput count="2">
+//                            <prompt>Please enter advertising number.</prompt>
+//                            <reprompt />
+//                        </noinput>
 //        <prompt>Thank you for contacting us.<break time="2s"/>Welcome to rukamen.com.<break time="3s"/> please enter id ads that you see.</prompt>
 //        <audio src="http://www.freesfx.co.uk/rx2/mp3s/9/10778_1380921485.mp3"/>
         $caller_id = $request['nexmo_caller_id'];
@@ -27,9 +35,7 @@ class DefaultController extends BaseController
 
                 <form id="frm_welcome">
                   <block>
-                   <prompt>
-                    Welcome to Rukamen.com call center.
-                   </prompt>
+                   <audio src="'.url('uploads/selamatdatang.wav').'"/>
 
                    <!-- Move to the main form -->
                    <goto next="#main" />
@@ -38,28 +44,19 @@ class DefaultController extends BaseController
                 
                 <form id="main">
                     <field name="post_id" type="digits?minlength=5;maxlength=6">  
-                        <audio src="'.url('uploads/calltest.wav').'"/>
-                        <noinput>
-                            <prompt>Please enter advertising number for specific contact.</prompt>
-                            <reprompt />
-                        </noinput>
-                        <noinput count="2">
-                            <prompt>Please enter advertising number.</prompt>
-                            <reprompt />
-                        </noinput>
+                        <audio src="'.url('uploads/masukannomor.wav').'"/>
+
                         <error>
-                            <prompt>Sorry, something unexpected happened. Please call again.</prompt>
+                            <audio src="'.url('uploads/mohonmaaf.wav').'"/>
                             <exit />
                         </error>   
                         <help>
-                            <prompt>
-                                Please enter advertising number.
-                            </prompt>
+                            <audio src="'.url('uploads/masukannomor.wav').'"/>
                             <reprompt/>
                         </help>
                     </field>
                     <filled namelist="post_id" mode="all">
-                        <prompt>Thank you, we\'ll get you specific contact.</prompt>
+                        <audio src="'.url('uploads/terimakasih.wav').'"/>
                         <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
                     </filled>                 
                 </form>
@@ -86,14 +83,15 @@ class DefaultController extends BaseController
         
 //        $postmeta = \App\Model\Postmeta::where(array('meta_key' => 'post_number', 'meta_value' => $number))->first();
         
-        if(file_exists(public_path('uploads/'.$number.'.mp3'))){
+        if(file_exists(public_path('uploads/'.$number.'.wav'))){
 //            $post = \App\Model\Post::find($postmeta->post_id);
-            $prompt = '<prompt>You\'re advertising number :<break time="2s"/> '.$p_id.'<break time="2s"/>.</prompt><audio src="'.url('uploads/' . $number . '.mp3').'"/>';
+            $prompt = '<audio src="'.url('uploads/'.$number.'.wav').'"/>';
         }else{
-            $prompt = '<prompt>You\'re advertising number :<break time="2s"/> '.$p_id.'<break time="2s"/>. Sorry, something unexpected happened. Please call again.</prompt>';
+            $prompt = '<audio src="'.url('uploads/mohonmaaf.wav').'"/>';
         }
  
 //        493051
+//        Sewa Apartemen Ambassade Residences Jakarta Selatan - 1 BR 33m2 Furnished
 //        if($post){
 //            $audio = url('uploads/audio/' . $number . '.wav');
 //            $prompt = '<audio src="'.$audio.'"/>';    
