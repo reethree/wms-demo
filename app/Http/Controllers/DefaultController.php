@@ -37,11 +37,13 @@ class DefaultController extends BaseController
                         <audio src="'.url('uploads/selamatdatang.wav').'"/>
                     </block>
                     <field name="post_id" type="digits?minlength=5;maxlength=6">  
-                        <audio src="'.url('uploads/masukannomor.wav').'"/>
+                        <prompt><audio src="'.url('uploads/masukannomor.wav').'"/></prompt>
                         <noinput>
+                            <audio src="'.url('uploads/mohonmaaf.wav').'"/>
                             <reprompt />
                         </noinput>
                         <noinput count="2">
+                            <audio src="'.url('uploads/mohonmaaf.wav').'"/>
                             <reprompt />
                         </noinput>
                         <error>
