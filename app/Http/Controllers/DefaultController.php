@@ -34,9 +34,9 @@ class DefaultController extends BaseController
             <vxml version = "2.1">               
                 <form id="main">
                 
-                    <initial name="Initial_1" cond="true" expr="">
+                    <block name="Initial_1" cond="true" expr="">
                         <audio src="'.url('uploads/selamatdatang.wav').'"/>
-                    </initial>
+                    </block>
                     
                     <field cond="true" name="post_id" type="digits?minlength=5;maxlength=6">  
                         <prompt bargein="true" bargeintype="speech">
