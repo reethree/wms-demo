@@ -52,6 +52,11 @@ class DefaultController extends BaseController
                             <reprompt />
                         </noinput>
                         
+                        <error>
+                            <audio src="'.url('uploads/mohonmaaf.wav').'"/>
+                            <exit />
+                        </error> 
+                        
                         <help>
                             <audio src="'.url('uploads/masukannomor.wav').'"/>
                             <reprompt/>
@@ -59,9 +64,7 @@ class DefaultController extends BaseController
   
                     </field>
                     <filled namelist="post_id">
-                            <block name="submit" cond="true" expr="">
-                                <audio src="'.url('uploads/terimakasih.wav').'"/>
-                            </block>
+                            <audio src="'.url('uploads/terimakasih.wav').'"/>
                             <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
                         </filled>
                 </form>
