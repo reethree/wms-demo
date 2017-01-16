@@ -39,12 +39,9 @@ class DefaultController extends BaseController
                     </block>
                     
                     <field cond="true" name="post_id" type="digits?minlength=5;maxlength=6" expr="">  
-                        <block name="Main_1" cond="true" expr="">
-                            <prompt>
-                                <audio src="'.url('uploads/masukannomor.wav').'"/>
-                            </prompt>
-                        </block>
-
+                    
+                        <audio src="'.url('uploads/masukannomor.wav').'"/>
+                                    
                         <noinput cond="true" count="1">
                             <audio src="'.url('uploads/masukannomor.wav').'"/>
                             <reprompt />
