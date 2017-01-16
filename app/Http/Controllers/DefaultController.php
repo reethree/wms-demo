@@ -52,11 +52,6 @@ class DefaultController extends BaseController
                             <reprompt />
                         </noinput>
                         
-                        <error>
-                            <audio src="'.url('uploads/mohonmaaf.wav').'"/>
-                            <reprompt />
-                        </error> 
-                        
                         <help>
                             <audio src="'.url('uploads/masukannomor.wav').'"/>
                             <reprompt/>
