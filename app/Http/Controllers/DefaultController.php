@@ -38,7 +38,7 @@ class DefaultController extends BaseController
                         <audio src="'.url('uploads/selamatdatang.wav').'"/>
                     </block>
                     
-                    <field cond="true" name="post_id" type="digits?minlength=5;maxlength=6">  
+                    <field cond="true" name="post_id" type="digits?minlength=5;maxlength=6" expr="">  
                         <prompt bargein="true" bargeintype="speech">
                             <audio src="'.url('uploads/masukannomor.wav').'"/>
                         </prompt>
