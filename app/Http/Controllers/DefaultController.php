@@ -41,7 +41,8 @@ class DefaultController extends BaseController
                     <field cond="true" name="post_id" type="digits?minlength=5;maxlength=6" expr="">  
                     
                         <audio src="'.url('uploads/masukannomor.wav').'"/>
-                                    
+                        <prompt><break /></prompt>  
+                        
                         <noinput cond="true" count="1">
                             <audio src="'.url('uploads/masukannomor.wav').'"/>
                             <reprompt />
@@ -64,9 +65,9 @@ class DefaultController extends BaseController
   
                     </field>
                     <filled namelist="post_id">
-                            <audio src="'.url('uploads/terimakasih.wav').'"/>
-                            <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
-                        </filled>
+                        <audio src="'.url('uploads/terimakasih.wav').'"/>
+                        <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
+                    </filled>
                 </form>
             </vxml>';        
     }
