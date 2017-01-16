@@ -33,28 +33,34 @@ class DefaultController extends BaseController
         echo '<?xml version="1.0" encoding="UTF-8"?>
             <vxml version = "2.1">               
                 <form id="main">
-                    <block>
+                    <block count="1">
                         <audio src="'.url('uploads/selamatdatang.wav').'"/>
                     </block>
+                    
                     <field name="post_id" type="digits?minlength=5;maxlength=6">  
-                        <prompt><audio src="'.url('uploads/masukannomor.wav').'"/></prompt>
-                        <noinput>
+                        <prompt count="2" bargein="true" bargeintype="speech"><audio src="'.url('uploads/masukannomor.wav').'"/></prompt>
+                        
+                        <noinput count="3">
                             <audio src="'.url('uploads/mohonmaaf.wav').'"/>
                             <reprompt />
                         </noinput>
-                        <noinput count="2">
+                        
+                        <noinput count="4">
                             <audio src="'.url('uploads/mohonmaaf.wav').'"/>
                             <reprompt />
                         </noinput>
-                        <error>
+                        
+                        <error count="5">
                             <audio src="'.url('uploads/mohonmaaf.wav').'"/>
                             <exit />
-                        </error>   
+                        </error> 
+                        
                         <help>
                             <audio src="'.url('uploads/masukannomor.wav').'"/>
                             <reprompt/>
                         </help>
                     </field>
+                    
                     <filled namelist="post_id">
                         <audio src="'.url('uploads/terimakasih.wav').'"/>
                         <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
