@@ -33,11 +33,12 @@ class DefaultController extends BaseController
         echo '<?xml version="1.0" encoding="UTF-8"?>
             <vxml version = "2.1">               
                 <form id="main">
-                    <block>
+                
+                    <initial name="Initial_1" cond="true" expr="">
                         <audio src="'.url('uploads/selamatdatang.wav').'"/>
-                    </block>
+                    </initial>
                     
-                    <field name="post_id" type="digits?minlength=5;maxlength=6">  
+                    <field cond="true" name="post_id" type="digits?minlength=5;maxlength=6" expr="">  
                         <prompt bargein="true" bargeintype="speech">
                             <audio src="'.url('uploads/masukannomor.wav').'"/>
                         </prompt>
@@ -47,7 +48,7 @@ class DefaultController extends BaseController
                             <reprompt />
                         </noinput>
                         
-                        <noinput>
+                        <noinput count="2">
                             <audio src="'.url('uploads/mohonmaaf.wav').'"/>
                             <reprompt />
                         </noinput>
@@ -60,15 +61,13 @@ class DefaultController extends BaseController
                         <help>
                             <audio src="'.url('uploads/masukannomor.wav').'"/>
                             <reprompt/>
-                        </help>
-                        
-                        <filled namelist="post_id">
-                            <audio src="'.url('uploads/terimakasih.wav').'"/>
-                            <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
-                        </filled>  
-                        
+                        </help>                       
                     </field>
                     
+                    <filled namelist="post_id">
+                        <audio src="'.url('uploads/terimakasih.wav').'"/>
+                        <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
+                    </filled>
                                    
                 </form>
             </vxml>';        
