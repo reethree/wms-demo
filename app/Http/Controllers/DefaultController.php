@@ -39,14 +39,18 @@ class DefaultController extends BaseController
                     </block>
                     
                     <field cond="true" name="post_id" type="digits?minlength=5;maxlength=6" expr="">  
-   
+                        
+                        <prompt>
+                            <audio src="'.url('uploads/masukannomor.wav').'"/>
+                        </prompt>
+
                         <noinput cond="true" count="1">
-                            <audio src="'.url('uploads/mohonmaaf.wav').'"/>
+                            <audio src="'.url('uploads/masukannomor.wav').'"/>
                             <reprompt />
                         </noinput>
                         
                         <noinput cond="true" count="2">
-                            <audio src="'.url('uploads/mohonmaaf.wav').'"/>
+                            <audio src="'.url('uploads/masukannomor.wav').'"/>
                             <reprompt />
                         </noinput>
                         
@@ -59,11 +63,7 @@ class DefaultController extends BaseController
                             <audio src="'.url('uploads/masukannomor.wav').'"/>
                             <reprompt/>
                         </help>        
-                        
-                        <prompt>
-                            <audio src="'.url('uploads/masukannomor.wav').'"/>
-                        </prompt>
-                        
+
                         <filled namelist="post_id">
                             <block name="submit" cond="true" expr="">
                                 <audio src="'.url('uploads/terimakasih.wav').'"/>
