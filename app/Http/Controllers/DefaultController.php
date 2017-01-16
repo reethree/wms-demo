@@ -38,7 +38,7 @@ class DefaultController extends BaseController
                         <audio src="'.url('uploads/selamatdatang.wav').'"/>
                     </block>
                     
-                    <field cond="false" name="post_id" type="digits?minlength=5;maxlength=6" expr="">  
+                    <field cond="true" name="post_id" type="digits?minlength=5;maxlength=6" expr="">  
                     
                         <audio src="'.url('uploads/masukannomor.wav').'"/>
                         <prompt><break /></prompt>  
@@ -65,7 +65,7 @@ class DefaultController extends BaseController
   
                     </field>
                     <filled namelist="post_id">
-                        <if cond="post_id!=\'false\'">
+                        <if cond="post_id!=\'\'">
                             <audio src="'.url('uploads/terimakasih.wav').'"/>
                         </if>
                         <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
