@@ -106,7 +106,7 @@ class Controller extends BaseController
                 ->orderBy('id', 'DESC')
                 ->pluck('spk_number');
         
-        $new_spk = intval($spk+1);
+        $new_spk = intval((isset($spk) ? $spk : 0));
         
         $insert = \DB::table('tjoborderurut')->insert(
             ['spk_number' => $new_spk, 'uid' => \Auth::getUser()->name, 'year' => date('Y')]
