@@ -10,7 +10,8 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
     Route::get('/respon-plp/get-xml', [
         'as' => 'tps-responPlp-get',
 //        'uses' => 'PenerimaanController@responPlpGetXml'
-        'uses' => 'SoapController@GetResponPLP'
+//        'uses' => 'SoapController@GetResponPLP'
+        'uses' => 'SoapController@GetResponPLP_Tujuan'
     ]);
     Route::get('/respon-plp/edit/{id}', [
         'as' => 'tps-responPlp-edit',

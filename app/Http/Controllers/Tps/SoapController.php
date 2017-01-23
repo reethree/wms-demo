@@ -92,9 +92,10 @@ class SoapController extends DefaultController {
                 ->name('GetResponPLP_Tujuan')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
-                ->certificate()                                                 
+//                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-                ->options();                                                    
+//                ->options()
+                ;                                                    
         });
         
         $data = [
@@ -146,9 +147,16 @@ class SoapController extends DefaultController {
                 ->name('GetSPJM')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
-                ->certificate()                                                 
+                ->certificate(url('cert/cacert.pem'))                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-                ->options();                                                    
+                ->options([
+                    'ssl' => [
+                        'ciphers'=>'RC4-SHA', 
+                        'verify_peer'=>false, 
+                        'verify_peer_name'=>false
+                    ]
+                ])
+                ;                                                    
         });
         
         $data = [

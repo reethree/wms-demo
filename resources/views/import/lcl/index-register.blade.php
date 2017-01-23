@@ -63,6 +63,10 @@
             GridRender::setGridId("lclRegisterGrid")
             ->enableFilterToolbar()
             ->setGridOption('url', URL::to('/lcl/joborder/grid-data'))
+            ->setFileProperty('title', 'LCL Register') //Laravel Excel File Property
+            ->setFileProperty('creator', 'Reza') //Laravel Excel File Property
+            ->setSheetProperty('fitToPage', true) //Laravel Excel Sheet Property
+            ->setSheetProperty('fitToHeight', true)
             ->setGridOption('rowNum', 20)
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','TJOBORDER_PK')
