@@ -65,7 +65,7 @@ class SoapController extends DefaultController {
                 ->name('GetResponPLP')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
-                ->certificate()                                                 
+//                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
                 ->options();                                                    
         });
@@ -73,7 +73,7 @@ class SoapController extends DefaultController {
         $data = [
             'UserName' => $this->user, 
             'Password' => $this->password,
-            'Kd_asp' => 'PRJP'
+            'Kd_asp' => $this->kode
         ];
         
         // Using the added service
@@ -101,7 +101,7 @@ class SoapController extends DefaultController {
         $data = [
             'UserName' => $this->user, 
             'Password' => $this->password,
-            'Kd_asp' => 'PRJP'
+            'Kd_asp' => $this->kode
         ];
         
         // Using the added service
@@ -128,7 +128,7 @@ class SoapController extends DefaultController {
         $data = [
             'UserName' => $this->user, 
             'Password' => $this->password,
-            'Kd_asp' => 'PRJP'
+            'Kd_asp' => $this->kode
         ];
         
         // Using the added service
@@ -147,7 +147,7 @@ class SoapController extends DefaultController {
                 ->name('GetSPJM')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
-                ->certificate(url('cert/cacert.pem'))                                                 
+//                ->certificate(url('cert/cacert.pem'))                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
                 ->options([
                     'ssl' => [
@@ -155,14 +155,13 @@ class SoapController extends DefaultController {
                         'verify_peer'=>false, 
                         'verify_peer_name'=>false
                     ]
-                ])
-                ;                                                    
+                ]);                                                    
         });
         
         $data = [
             'UserName' => $this->user, 
             'Password' => $this->password,
-            'Kd_asp' => 'PRJP'
+            'Kd_Tps' => $this->kode
         ];
         
         // Using the added service
@@ -189,7 +188,7 @@ class SoapController extends DefaultController {
         $data = [
             'UserName' => $this->user, 
             'Password' => $this->password,
-            'Kd_Gudang' => 'PRJP'
+            'Kd_Gudang' => $this->kode
         ];
         
         // Using the added service
@@ -216,7 +215,7 @@ class SoapController extends DefaultController {
         $data = [
             'UserName' => $this->user, 
             'Password' => $this->password,
-            'Kd_Gudang' => 'PRJP'
+            'Kd_Gudang' => $this->kode
         ];
         
         // Using the added service
@@ -243,7 +242,7 @@ class SoapController extends DefaultController {
         $data = [
             'UserName' => $this->user, 
             'Password' => $this->password,
-            'Kd_Tps' => 'PRJP'
+            'Kd_Tps' => $this->kode
         ];
         
         // Using the added service
@@ -270,7 +269,7 @@ class SoapController extends DefaultController {
         $data = [
             'UserName' => $this->user, 
             'Password' => $this->password,
-            'Kd_Tps' => 'PRJP'
+            'Kd_Tps' => $this->kode
         ];
         
         // Using the added service
