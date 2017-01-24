@@ -168,8 +168,8 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetSPJM', function ($service) {        
-            $this->response = $service->call('GetSPJM')->GetSPJMResult;      
+        SoapWrapper::service('GetSPJM', function ($service) use ($data) {        
+            $this->response = $service->call('GetSPJM', [$data])->GetSPJMResult;      
         });
         
         var_dump($this->response);
