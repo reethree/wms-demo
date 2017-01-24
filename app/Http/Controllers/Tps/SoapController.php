@@ -129,7 +129,7 @@ class SoapController extends DefaultController {
         $data = [
             'UserName' => $this->user, 
             'Password' => $this->password,
-            'Kd_asp' => $this->kode
+            'Kd_ASP' => $this->kode
         ];
         
         // Using the added service
