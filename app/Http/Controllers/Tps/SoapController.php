@@ -20,7 +20,7 @@ class SoapController extends DefaultController {
     public function __construct() {
         
         $this->wsdl = 'https://tpsonline.beacukai.go.id/tps/service.asmx?WSDL';
-        $this->user = 'prjp.tps';
+        $this->user = 'prjp';
         $this->password = '123pjp';
         $this->kode = 'PRJP';
     }
@@ -155,16 +155,16 @@ class SoapController extends DefaultController {
 //                        'verify_peer'=>false, 
 //                        'verify_peer_name'=>false
 //                    ],
-                    'UserName' => 'prjp.tps', 
-                    'Password' => '123pjp',
-                    'Kd_Tps' => 'prjp'
+                    'UserName' => $this->user, 
+                    'Password' => $this->password,
+                    'Kd_Tps' => $this->kode
                 ]);                                                    
         });
         
         $data = [
-            'UserName' => 'prjp.tps', 
-            'Password' => '123pjp',
-            'Kd_Tps' => 'prjp'
+            'UserName' => $this->user, 
+            'Password' => $this->password,
+            'Kd_Tps' => $this->kode
         ];
         
         // Using the added service
