@@ -184,9 +184,10 @@ class SoapController extends DefaultController {
                 ->name('GetImporPermit')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
-                ->certificate()                                                 
+//                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-                ->options();                                                    
+//                ->options()
+                    ;                                                    
         });
         
         $data = [
@@ -211,9 +212,10 @@ class SoapController extends DefaultController {
                 ->name('GetBC23Permit')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
-                ->certificate()                                                 
+//                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-                ->options();                                                    
+//                ->options()
+                    ;                                                    
         });
         
         $data = [
