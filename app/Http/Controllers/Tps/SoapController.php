@@ -155,16 +155,16 @@ class SoapController extends DefaultController {
 //                        'verify_peer'=>false, 
 //                        'verify_peer_name'=>false
 //                    ],
-                    'UserName' => $this->user, 
-                    'Password' => $this->password,
-                    'Kd_Tps' => $this->kode
+                    'UserName' => 'prjp.tps', 
+                    'Password' => '123pjp',
+                    'Kd_Tps' => 'prjp'
                 ]);                                                    
         });
         
         $data = [
-            'UserName' => $this->user, 
-            'Password' => $this->password,
-            'Kd_Tps' => $this->kode
+            'UserName' => 'prjp.tps', 
+            'Password' => '123pjp',
+            'Kd_Tps' => 'prjp'
         ];
         
         // Using the added service
