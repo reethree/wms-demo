@@ -24,8 +24,8 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
             if(isset($request['startdate']) && isset($request['enddate'])){
                 
                 $Model = \DB::table('tps_responplptujuanxml')
-                        ->where($request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where($request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        ->where($request['by'], '>=', date('Y-m-d 00:00:00',strtotime($request['startdate'])))
+                        ->where($request['by'], '<=', date('Y-m-d 23:59:59',strtotime($request['enddate'])));
             }else{
                 
             }
@@ -33,8 +33,8 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
             if(isset($request['startdate']) && isset($request['enddate'])){
                 
                 $Model = \DB::table('tpsobxml')
-                        ->where($request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where($request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])))
+                        ->where($request['by'], '>=', date('Y-m-d 00:00:00',strtotime($request['startdate'])))
+                        ->where($request['by'], '<=', date('Y-m-d 23:59:59',strtotime($request['enddate'])))
                         ->where('JNS_CONT', $request['jenis']);
                 
             }else{
@@ -47,8 +47,8 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
             if(isset($request['startdate']) && isset($request['enddate'])){
                 
                 $Model = \DB::table('tps_spjmxml')
-                        ->where($request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where($request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        ->where($request['by'], '>=', date('Y-m-d',strtotime($request['startdate'])))
+                        ->where($request['by'], '<=', date('Y-m-d',strtotime($request['enddate'])));
             }else{
                 
             }   
