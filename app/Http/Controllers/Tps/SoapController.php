@@ -175,9 +175,9 @@ class SoapController extends DefaultController {
         
 //        var_dump($this->response);
         
-        $xml = simplexml_load_file($this->response);
+//        $xml = simplexml_load_file($this->response);
         
-        foreach($xml->children() as $child) {
+        foreach($this->response->children() as $child) {
             $header = array();
             $kms = [];
             $dok = [];
