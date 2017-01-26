@@ -183,15 +183,15 @@ class SoapController extends DefaultController {
             $dok = [];
             $cont = [];
             foreach($child as $key => $value) {
-                if($key == 'header'){
+                if($key == 'header' || $key == 'HEADER'){
                     $header[] = $value;
                 }else{
                     foreach ($value as $key => $value):
-                        if($key == 'kms'):
+                        if($key == 'kms' || $key == 'KMS'):
                             $kms[] = $value;
-                        elseif($key == 'dok'):
+                        elseif($key == 'dok' || $key == 'DOC'):
                             $dok[] = $value;
-                        elseif($key == 'cont'):
+                        elseif($key == 'cont' || $key == 'CONT'):
                             $cont[] = $value;
                         endif;
                     endforeach;
