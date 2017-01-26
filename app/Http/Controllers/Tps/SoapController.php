@@ -199,41 +199,43 @@ class SoapController extends DefaultController {
             }
             
             if(count($header) > 0){
-            
-                // INSERT DATA
-                $spjm = new \App\Models\TpsSpjm;
-                foreach ($header[0] as $key=>$value):
-                    $spjm->$key = $value;
-                endforeach;  
-                $spjm->TGL_UPLOAD = date('Y-m-d');
-                $spjm->JAM_UPLOAD = date('H:i:s');
-                $spjm->save();   
+                $check = \App\Models\TpsSpjm::where('CAR', $header[0]['CAR'])->count();
+                if($check == 0) {
+                    // INSERT DATA
+                    $spjm = new \App\Models\TpsSpjm;
+                    foreach ($header[0] as $key=>$value):
+                        $spjm->$key = $value;
+                    endforeach;  
+                    $spjm->TGL_UPLOAD = date('Y-m-d');
+                    $spjm->JAM_UPLOAD = date('H:i:s');
+                    $spjm->save();   
 
-                $spjm_id = $spjm->TPS_SPJMXML_PK;
+                    $spjm_id = $spjm->TPS_SPJMXML_PK;
 
-                if(count($kms) > 0){
-                    $datakms = array();
-                    foreach ($kms[0] as $key=>$value):
-                        $datakms[$key] = $value;
-                    endforeach;
-                    $datakms['TPS_SPJMXML_FK'] = $spjm_id;
-                    \DB::table('tps_spjmkmsxml')->insert($datakms);
-                }
-                if(count($dok) > 0){
-                    $datadok = array();
-                    foreach ($dok[0] as $key=>$value):
-                        $datadok[$key] = $value;
-                    endforeach;
-                    $datadok['TPS_SPJMXML_FK'] = $spjm_id;
-                    \DB::table('tps_spjmdokxml')->insert($datadok);
-                }
-                if(count($cont) > 0){
-                    $datacont = array();
-                    foreach ($cont[0] as $key=>$value):
-                        $datacont[$key] = $value;
-                    endforeach;
-                    $datacont['TPS_SPJMXML_FK'] = $spjm_id;
-                    \DB::table('tps_spjmcontxml')->insert($datacont);
+                    if(count($kms) > 0){
+                        $datakms = array();
+                        foreach ($kms[0] as $key=>$value):
+                            $datakms[$key] = $value;
+                        endforeach;
+                        $datakms['TPS_SPJMXML_FK'] = $spjm_id;
+                        \DB::table('tps_spjmkmsxml')->insert($datakms);
+                    }
+                    if(count($dok) > 0){
+                        $datadok = array();
+                        foreach ($dok[0] as $key=>$value):
+                            $datadok[$key] = $value;
+                        endforeach;
+                        $datadok['TPS_SPJMXML_FK'] = $spjm_id;
+                        \DB::table('tps_spjmdokxml')->insert($datadok);
+                    }
+                    if(count($cont) > 0){
+                        $datacont = array();
+                        foreach ($cont[0] as $key=>$value):
+                            $datacont[$key] = $value;
+                        endforeach;
+                        $datacont['TPS_SPJMXML_FK'] = $spjm_id;
+                        \DB::table('tps_spjmcontxml')->insert($datacont);
+                    }
                 }
             }
         }
