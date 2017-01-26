@@ -202,6 +202,10 @@ class SoapController extends DefaultController {
                 // INSERT DATA
                 $spjm = new \App\Models\TpsSpjm;
                 foreach ($header[0] as $key=>$value):
+                    if($key == 'tgl_pib' || $key == 'tgl_bc11'){
+                        $split_val = explode('/', $value);
+                        $value = $split_val[2].'-'.$split_val[1].'-'.$split_val[0];
+                    }
                     $spjm->$key = $value;
                 endforeach;  
                 $spjm->TGL_UPLOAD = date('Y-m-d');
