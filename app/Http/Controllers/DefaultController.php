@@ -40,27 +40,36 @@ class DefaultController extends BaseController
                     </block>
                     
                     <field cond="true" name="post_id" type="digits?minlength=5;maxlength=5" expr="">  
-                    
-                        <audio src="'.asset('uploads/masukannomor.wav').'"/>
-                        <prompt><break /></prompt>  
+                        <prompt bargein="false"> 
+                            <audio src="'.asset('uploads/masukannomor.wav').'"/> 
+                            <break />
+                        </prompt> 
                         
                         <noinput cond="true">
-                            <audio src="'.asset('uploads/masukannomor.wav').'"/>
+                            <prompt bargein="false"> 
+                                <audio src="'.asset('uploads/masukannomor.wav').'"/>
+                            </prompt> 
                             <reprompt />
                         </noinput>
                         
                         <noinput cond="true" count="2">
-                            <audio src="'.asset('uploads/masukannomor.wav').'"/>
+                            <prompt bargein="false"> 
+                                <audio src="'.asset('uploads/masukannomor.wav').'"/>
+                            </prompt> 
                             <reprompt />
                         </noinput>
                         
                         <error>
-                            <audio src="'.asset('uploads/mohonmaaf.wav').'"/>
+                            <prompt bargein="false">
+                                <audio src="'.asset('uploads/mohonmaaf.wav').'"/>
+                            </prompt>
                             <exit />
                         </error> 
                         
                         <help>
-                            <audio src="'.asset('uploads/masukannomor.wav').'"/>
+                            <prompt bargein="false">
+                                <audio src="'.asset('uploads/masukannomor.wav').'"/>
+                            </prompt>
                             <reprompt/>
                         </help>        
   
