@@ -35,39 +35,39 @@ class DefaultController extends BaseController
                 <form id="main">
                 
                     <block name="Initial_1" cond="true" expr="">
-                        <audio src="'.url('uploads/selamatdatang.wav').'"/>
+                        <audio src="'.public_path('uploads/selamatdatang.wav').'"/>
                         <prompt><break /></prompt>
                     </block>
                     
-                    <field cond="true" name="post_id" type="digits?minlength=5;maxlength=6" expr="">  
+                    <field cond="true" name="post_id" type="digits?minlength=5;maxlength=5" expr="">  
                     
-                        <audio src="'.url('uploads/masukannomor.wav').'"/>
+                        <audio src="'.public_path('uploads/masukannomor.wav').'"/>
                         <prompt><break /></prompt>  
                         
                         <noinput cond="true">
-                            <audio src="'.url('uploads/masukannomor.wav').'"/>
+                            <audio src="'.public_path('uploads/masukannomor.wav').'"/>
                             <reprompt />
                         </noinput>
                         
                         <noinput cond="true" count="2">
-                            <audio src="'.url('uploads/masukannomor.wav').'"/>
+                            <audio src="'.public_path('uploads/masukannomor.wav').'"/>
                             <reprompt />
                         </noinput>
                         
                         <error>
-                            <audio src="'.url('uploads/mohonmaaf.wav').'"/>
+                            <audio src="'.public_path('uploads/mohonmaaf.wav').'"/>
                             <exit />
                         </error> 
                         
                         <help>
-                            <audio src="'.url('uploads/masukannomor.wav').'"/>
+                            <audio src="'.public_path('uploads/masukannomor.wav').'"/>
                             <reprompt/>
                         </help>        
   
                     </field>
                     <filled namelist="post_id">
                         <if cond="post_id!=\'\'">
-                            <audio src="'.url('uploads/terimakasih.wav').'"/>
+                            <audio src="'.public_path('uploads/terimakasih.wav').'"/>
                         </if>
                         <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
                     </filled>
@@ -97,9 +97,9 @@ class DefaultController extends BaseController
         
         if(file_exists(public_path('uploads/'.$number.'.wav'))){
 //            $post = \App\Model\Post::find($postmeta->post_id);
-            $prompt = '<audio src="'.url('uploads/'.$number.'.wav').'"/>';
+            $prompt = '<audio src="'.public_path('uploads/'.$number.'.wav').'"/>';
         }else{
-            $prompt = '<audio src="'.url('uploads/mohonmaaf.wav').'"/>';
+            $prompt = '<audio src="'.public_path('uploads/mohonmaaf.wav').'"/>';
         }
  
 //        493051
