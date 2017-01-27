@@ -35,39 +35,39 @@ class DefaultController extends BaseController
                 <form id="main">
                 
                     <block name="Initial_1" cond="true" expr="">
-                        <audio src="'.public_path('uploads/selamatdatang.wav').'"/>
+                        <audio src="'.asset('uploads/selamatdatang.wav').'"/>
                         <prompt><break /></prompt>
                     </block>
                     
                     <field cond="true" name="post_id" type="digits?minlength=5;maxlength=5" expr="">  
                     
-                        <audio src="'.public_path('uploads/masukannomor.wav').'"/>
+                        <audio src="'.asset('uploads/masukannomor.wav').'"/>
                         <prompt><break /></prompt>  
                         
                         <noinput cond="true">
-                            <audio src="'.public_path('uploads/masukannomor.wav').'"/>
+                            <audio src="'.asset('uploads/masukannomor.wav').'"/>
                             <reprompt />
                         </noinput>
                         
                         <noinput cond="true" count="2">
-                            <audio src="'.public_path('uploads/masukannomor.wav').'"/>
+                            <audio src="'.asset('uploads/masukannomor.wav').'"/>
                             <reprompt />
                         </noinput>
                         
                         <error>
-                            <audio src="'.public_path('uploads/mohonmaaf.wav').'"/>
+                            <audio src="'.asset('uploads/mohonmaaf.wav').'"/>
                             <exit />
                         </error> 
                         
                         <help>
-                            <audio src="'.public_path('uploads/masukannomor.wav').'"/>
+                            <audio src="'.asset('uploads/masukannomor.wav').'"/>
                             <reprompt/>
                         </help>        
   
                     </field>
                     <filled namelist="post_id">
                         <if cond="post_id!=\'\'">
-                            <audio src="'.public_path('uploads/terimakasih.wav').'"/>
+                            <audio src="'.asset('uploads/terimakasih.wav').'"/>
                         </if>
                         <submit next="'.route('call-voice-callback-response', $cid).'" method="get" namelist="post_id"/>
                     </filled>
@@ -95,11 +95,11 @@ class DefaultController extends BaseController
         
 //        $postmeta = \App\Model\Postmeta::where(array('meta_key' => 'post_number', 'meta_value' => $number))->first();
         
-        if(file_exists(public_path('uploads/'.$number.'.wav'))){
+        if(file_exists('uploads/'.$number.'.wav')){
 //            $post = \App\Model\Post::find($postmeta->post_id);
-            $prompt = '<audio src="'.public_path('uploads/'.$number.'.wav').'"/>';
+            $prompt = '<audio src="'.asset('uploads/'.$number.'.wav').'"/>';
         }else{
-            $prompt = '<audio src="'.public_path('uploads/mohonmaaf.wav').'"/>';
+            $prompt = '<audio src="'.asset('uploads/mohonmaaf.wav').'"/>';
         }
  
 //        493051
