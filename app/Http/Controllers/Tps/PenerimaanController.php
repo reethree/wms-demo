@@ -436,62 +436,78 @@ class PenerimaanController extends Controller
     
     public function spjmGetXml()
     {
-        $xml = simplexml_load_file(url('xml/GetSPJM20160509073625.xml'));
-        $header = array();
-        $kms = [];
-        $dok = [];
-        $cont = [];
+        $xml = simplexml_load_file(url('xml/GetSpjm26012017.xml'));
+        
         foreach($xml->children() as $child) {
+            $header = array();
+            $kms = [];
+            $dok = [];
+            $cont = [];
             foreach($child as $key => $value) {
-                if($key == 'HEADER'){
+                if($key == 'header' || $key == 'HEADER'){
                     $header[] = $value;
                 }else{
                     foreach ($value as $key => $value):
-                        if($key == 'KMS'):
+                        if($key == 'kms' || $key == 'KMS'):
                             $kms[] = $value;
-                        elseif($key == 'DOK'):
+                        elseif($key == 'dok' || $key == 'DOC'):
                             $dok[] = $value;
-                        elseif($key == 'CONT'):
+                        elseif($key == 'cont' || $key == 'CONT'):
                             $cont[] = $value;
                         endif;
                     endforeach;
                 }
             }
+            
+            if(count($header) > 0){
+                // INSERT DATA
+                $spjm = new \App\Models\TpsSpjm;
+                foreach ($header[0] as $key=>$value):
+                    if($key == 'tgl_pib' || $key == 'tgl_bc11'){
+                        $split_val = explode('/', $value);
+                        $value = $split_val[2].'-'.$split_val[1].'-'.$split_val[0];
+                    }
+                    $spjm->$key = $value;
+                endforeach;  
+                $spjm->TGL_UPLOAD = date('Y-m-d');
+                $spjm->JAM_UPLOAD = date('H:i:s');
+                
+                // CHECK DATA
+//                $check = \App\Models\TpsSpjm::where('CAR', $spjm->car)->count();
+//                if($check > 0) { continue; }
+
+                $spjm->save();   
+
+                $spjm_id = $spjm->TPS_SPJMXML_PK;
+
+                if(count($kms) > 0){
+                    $datakms = array();
+                    foreach ($kms[0] as $key=>$value):
+                        $datakms[$key] = $value;
+                    endforeach;
+                    $datakms['TPS_SPJMXML_FK'] = $spjm_id;
+                    \DB::table('tps_spjmkmsxml')->insert($datakms);
+                }
+                if(count($dok) > 0){
+                    $datadok = array();
+                    foreach ($dok[0] as $key=>$value):
+                        $datadok[$key] = $value;
+                    endforeach;
+                    $datadok['TPS_SPJMXML_FK'] = $spjm_id;
+                    \DB::table('tps_spjmdokxml')->insert($datadok);
+                }
+                if(count($cont) > 0){
+                    $datacont = array();
+                    foreach ($cont[0] as $key=>$value):
+                        $datacont[$key] = $value;
+                    endforeach;
+                    $datacont['TPS_SPJMXML_FK'] = $spjm_id;
+                    \DB::table('tps_spjmcontxml')->insert($datacont);
+                }
+            }
         }
         
-        // INSERT DATA
-        $spjm = new \App\Models\TpsSpjm;
-        foreach ($header[0] as $key=>$value):
-            $spjm->$key = $value;
-        endforeach;  
-        $spjm->save();   
-        
-        $spjm_id = $spjm->TPS_SPJMXML_PK;
-        
-        if(count($kms) > 0){
-            $datakms = array();
-            foreach ($kms[0] as $key=>$value):
-                $datakms[$key] = $value;
-            endforeach;
-            $datakms['TPS_SPJMXML_FK'] = $spjm_id;
-            \DB::table('tps_spjmkmsxml')->insert($datakms);
-        }
-        if(count($dok) > 0){
-            $datadok = array();
-            foreach ($dok[0] as $key=>$value):
-                $datadok[$key] = $value;
-            endforeach;
-            $datadok['TPS_SPJMXML_FK'] = $spjm_id;
-            \DB::table('tps_spjmdokxml')->insert($datadok);
-        }
-        if(count($cont) > 0){
-            $datacont = array();
-            foreach ($cont[0] as $key=>$value):
-                $datacont[$key] = $value;
-            endforeach;
-            $datacont['TPS_SPJMXML_FK'] = $spjm_id;
-            \DB::table('tps_spjmcontxml')->insert($datacont);
-        }
+        return back()->with('success', 'Success.');
     }
     
     public function sppbPibGetXml()
