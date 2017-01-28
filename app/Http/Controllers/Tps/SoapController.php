@@ -67,7 +67,11 @@ class SoapController extends DefaultController {
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-                ->options();                                                    
+                ->options([
+                    'UserName' => $this->user, 
+                    'Password' => $this->password,
+                    'Kd_asp' => $this->kode
+                ]);                                                    
         });
         
         $data = [
@@ -94,8 +98,11 @@ class SoapController extends DefaultController {
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-//                ->options()
-                ;                                                    
+                ->options([
+                    'UserName' => $this->user, 
+                    'Password' => $this->password,
+                    'Kd_asp' => $this->kode
+                ]);                                                    
         });
         
         $data = [
@@ -122,8 +129,11 @@ class SoapController extends DefaultController {
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-//                ->options()
-                    ;                                                    
+                ->options([
+                    'UserName' => $this->user, 
+                    'Password' => $this->password,
+                    'Kd_ASP' => $this->kode
+                ]);                                                    
         });
         
         $data = [
@@ -259,8 +269,11 @@ class SoapController extends DefaultController {
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-//                ->options()
-                    ;                                                    
+                ->options([
+                    'UserName' => $this->user, 
+                    'Password' => $this->password,
+                    'Kd_Gudang' => $this->kode
+                ]);                                                    
         });
         
         $data = [
@@ -287,8 +300,11 @@ class SoapController extends DefaultController {
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-//                ->options()
-                    ;                                                    
+                ->options([
+                    'UserName' => $this->user, 
+                    'Password' => $this->password,
+                    'Kd_Gudang' => $this->kode
+                ]);                                                    
         });
         
         $data = [
@@ -313,9 +329,13 @@ class SoapController extends DefaultController {
                 ->name('GetDokumenManual')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
-                ->certificate()                                                 
+//                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-                ->options();                                                    
+                ->options([
+                    'UserName' => $this->user, 
+                    'Password' => $this->password,
+                    'Kd_Tps' => $this->kode
+                ]);                                                    
         });
         
         $data = [
@@ -340,9 +360,13 @@ class SoapController extends DefaultController {
                 ->name('GetRejectData')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
-                ->certificate()                                                 
+//                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-                ->options();                                                    
+                ->options([
+                    'UserName' => $this->user, 
+                    'Password' => $this->password,
+                    'Kd_Tps' => $this->kode
+                ]);                                                    
         });
         
         $data = [
@@ -367,9 +391,14 @@ class SoapController extends DefaultController {
                 ->name('CekDataGagalKirim')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
-                ->certificate()                                                 
+//                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-                ->options();                                                    
+                ->options([
+                    'UserName' => $this->user, 
+                    'Password' => $this->password,
+                    'Tgl_Awal' => date('d-m-Y', strtotime($request->tgl_awal)),
+                    'Tgl_Akhir' => date('d-m-Y', strtotime($request->tgl_akhir))
+                ]);                                                    
         });
         
         $data = [
@@ -395,9 +424,14 @@ class SoapController extends DefaultController {
                 ->name('CekDataTerkirim')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
-                ->certificate()                                                 
+//                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-                ->options();                                                    
+                ->options([
+                    'UserName' => $this->user, 
+                    'Password' => $this->password,
+                    'Tgl_Awal' => date('d-m-Y', strtotime($request->tgl_awal)),
+                    'Tgl_Akhir' => date('d-m-Y', strtotime($request->tgl_akhir))
+                ]);                                                    
         });
         
         $data = [
