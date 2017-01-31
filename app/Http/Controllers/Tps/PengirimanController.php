@@ -11,6 +11,19 @@ use Artisaninweb\SoapWrapper\Facades\SoapWrapper;
 
 class PengirimanController extends Controller
 {
+    protected $wsdl;
+    protected $user;
+    protected $password;
+    protected $kode;
+    protected $response;
+
+    public function __construct() {
+        
+        $this->wsdl = 'https://tpsonline.beacukai.go.id/tps/service.asmx?WSDL';
+        $this->user = 'PRJP';
+        $this->password = 'PRIMANATA';
+        $this->kode = 'PRJP';
+    }
     /**
      * Display a listing of the resource.
      *
