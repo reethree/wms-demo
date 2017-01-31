@@ -36,9 +36,9 @@ class PengirimanController extends Controller
    
     public function coariContIndex()
     {
-        if ( !$this->access->can('show.tps.coariCont.index') ) {
-            return view('errors.no-access');
-        }
+//        if ( !$this->access->can('show.tps.coariCont.index') ) {
+//            return view('errors.no-access');
+//        }
         
         $data['page_title'] = "TPS Coari Container";
         $data['page_description'] = "";
@@ -444,7 +444,7 @@ class PengirimanController extends Controller
         var_dump($this->response);
         
         
-        return back()->with('success', 'Coari Container XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dibuat.');
+//        return back()->with('success', 'Coari Container XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dibuat.');
     }
     
     public function coariKmsCreateXml($id)
