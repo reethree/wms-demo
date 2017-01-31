@@ -387,16 +387,48 @@ class PengirimanController extends Controller
         $cont->addChild('NO_IJIN_TPS', $dataDetail->NO_IJIN_TPS);
         $cont->addChild('TGL_IJIN_TPS', $dataDetail->TGL_IJIN_TPS);
         
-        $xml->saveXML('xml/CoariContainer'. date('Ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+//        $xml->saveXML('xml/CoariContainer'. date('Ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+//
+//        $response = \Response::make($xml->asXML(), 200);
+//
+//        $response->header('Cache-Control', 'public');
+//        $response->header('Content-Description', 'File Transfer');
+//        $response->header('Content-Disposition', 'attachment; filename=xml/CoariContainer'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+//        $response->header('Content-Transfer-Encoding', 'binary');
+//        $response->header('Content-Type', 'text/xml');
 
-        $response = \Response::make($xml->asXML(), 200);
-
-        $response->header('Cache-Control', 'public');
-        $response->header('Content-Description', 'File Transfer');
-        $response->header('Content-Disposition', 'attachment; filename=xml/CoariContainer'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
-        $response->header('Content-Transfer-Encoding', 'binary');
-        $response->header('Content-Type', 'text/xml');
-
+//        return $xml->asXML();
+        
+        // SEND
+        SoapWrapper::add(function ($service) {
+            $service
+                ->name('CoCoCont_Tes')
+                ->wsdl($this->wsdl)
+                ->trace(true)                                                                                                  
+//                ->certificate()                                                 
+                ->cache(WSDL_CACHE_NONE)                                        
+//                ->options([
+//                    'Username' => $this->user, 
+//                    'Password' => $this->password,
+//                    'fStream' => $xml->asXML()
+//                ])
+                ;                                                    
+        });
+        
+        $datas = [
+            'Username' => $this->user, 
+            'Password' => $this->password,
+            'fStream' => $xml->asXML()
+        ];
+        
+        // Using the added service
+        SoapWrapper::service('CoCoCont_Tes', function ($service) use ($datas) {        
+            $this->response = $service->call('CoCoCont_Tes', [$datas])->CoCoCont_TesResult;      
+        });
+        
+        var_dump($this->response);
+        
+        
         return back()->with('success', 'Coari Container XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dibuat.');
     }
     
@@ -462,16 +494,19 @@ class PengirimanController extends Controller
             
         endforeach;
         
-        $xml->saveXML('xml/CoariKMS'. date('Ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
-
-        $response = \Response::make($xml->asXML(), 200);
-
-        $response->header('Cache-Control', 'public');
-        $response->header('Content-Description', 'File Transfer');
-        $response->header('Content-Disposition', 'attachment; filename=xml/CoariContainer'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
-        $response->header('Content-Transfer-Encoding', 'binary');
-        $response->header('Content-Type', 'text/xml');
-
+//        $xml->saveXML('xml/CoariKMS'. date('Ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+//
+//        $response = \Response::make($xml->asXML(), 200);
+//
+//        $response->header('Cache-Control', 'public');
+//        $response->header('Content-Description', 'File Transfer');
+//        $response->header('Content-Disposition', 'attachment; filename=xml/CoariContainer'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+//        $response->header('Content-Transfer-Encoding', 'binary');
+//        $response->header('Content-Type', 'text/xml');
+        
+        
+        return $xml->asXML();
+        
         return back()->with('success', 'Coari Kemasan XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dibuat.');
  
     }

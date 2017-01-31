@@ -6,6 +6,10 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
         'as' => 'invoice-index',
         'uses' => 'InvoiceController@invoiceIndex'
     ]);
+    Route::get('/grid-data', function()
+    {
+        GridEncoder::encodeRequestedData(new \App\Models\InvoiceTablesRepository('invoice_import',Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
+    });
     
     Route::get('/tarif', [
         'as' => 'invoice-tarif-index',

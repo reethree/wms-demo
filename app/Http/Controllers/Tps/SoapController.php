@@ -450,4 +450,74 @@ class SoapController extends DefaultController {
         
     }
     
+    public function postCoCoCont_Tes()
+    {
+        SoapWrapper::add(function ($service) {
+            $service
+                ->name('CoCoCont_Tes')
+                ->wsdl($this->wsdl)
+                ->trace(true)                                                                                                  
+//                ->certificate()                                                 
+                ->cache(WSDL_CACHE_NONE)                                        
+                ->options([
+                    'Username' => $this->user, 
+                    'Password' => $this->password,
+                    'fStream' => ''
+                ]);                                                    
+        });
+        
+        $data = [
+            'Username' => $this->user, 
+            'Password' => $this->password,
+            'fStream' => ''
+        ];
+        
+        // Using the added service
+        SoapWrapper::service('CoCoCont_Tes', function ($service) use ($data) {        
+            $this->response = $service->call('CoCoCont_Tes', [$data])->CoCoCont_TesResult;      
+        });
+        
+        var_dump($this->response);
+    }
+    
+    public function postCoCoKms_Tes()
+    {
+        SoapWrapper::add(function ($service) {
+            $service
+                ->name('CoCoKms_Tes')
+                ->wsdl($this->wsdl)
+                ->trace(true)                                                                                                  
+//                ->certificate()                                                 
+                ->cache(WSDL_CACHE_NONE)                                        
+                ->options([
+                    'Username' => $this->user, 
+                    'Password' => $this->password,
+                    'fStream' => ''
+                ]);                                                    
+        });
+        
+        $data = [
+            'Username' => $this->user, 
+            'Password' => $this->password,
+            'fStream' => ''
+        ];
+        
+        // Using the added service
+        SoapWrapper::service('CoCoKms_Tes', function ($service) use ($data) {        
+            $this->response = $service->call('CoCoKms_Tes', [$data])->CoCoKms_TesResult;      
+        });
+        
+        var_dump($this->response);
+    }
+    
+    public function postCoarriCodeco_Container()
+    {
+        
+    }
+    
+    public function postCoarriCodeco_Kemasan()
+    {
+        
+    }
+    
 }

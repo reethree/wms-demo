@@ -644,7 +644,9 @@ class LclController extends Controller
     {
         $data = $request->json()->all(); 
         unset($data['TMANIFEST_PK'], $data['_token']);
-
+        
+        $data['BEHANDLE'] = 'Y';
+        
         $update = DBManifest::where('TMANIFEST_PK', $id)
             ->update($data);
         
@@ -890,7 +892,7 @@ class LclController extends Controller
                 $coaricontdetail->NOURUT = 1;
                 $coaricontdetail->RESPONSE = '';
                 $coaricontdetail->STATUS_TPS = '';
-                $coaricontdetail->KODE_KANTOR = '040200';
+                $coaricontdetail->KODE_KANTOR = '040300';
                 $coaricontdetail->NO_DAFTAR_PABEAN = '';
                 $coaricontdetail->TGL_DAFTAR_PABEAN = '';
                 $coaricontdetail->NO_SEGEL_BC = '';
@@ -1070,11 +1072,11 @@ class LclController extends Controller
                 $tot_masa = $maxcbm * $sub_masa;
             }else{
                 // Masa I
-                if($hari <= 3) {
-                    $hari_masa1 = 1;
-                    $sub_masa1 = $hari_masa1 * $tarif->storage_masa1;
-                    $tot_masa1 = $maxcbm * $sub_masa1;
-                }
+//                if($hari <> 3) {
+                $hari_masa1 = 1;
+                $sub_masa1 = $hari_masa1 * $tarif->storage_masa1;
+                $tot_masa1 = $maxcbm * $sub_masa1;
+//                }
                 // Masa II
                 if($hari > 3 ) {
                     $hari_masa2 = $hari - 3;
@@ -1103,8 +1105,8 @@ class LclController extends Controller
             $invoice_import->hari_masa1 = (isset($hari_masa1)) ? $hari_masa1 : 0 ;
             $invoice_import->hari_masa2 = (isset($hari_masa2)) ? $hari_masa2 : 0 ;
             $invoice_import->hari_masa3 = (isset($hari_masa3)) ? $hari_masa3 : 0 ;
-            $invoice_import->behandle = ($manifet->BEHANDLE == 'Y') ? 1 : 0;
-            $invoice_import->harga_behandle = 0;
+            $invoice_import->behandle = ($manifest->BEHANDLE == 'Y') ? 1 : 0;
+            $invoice_import->harga_behandle = ($manifest->BEHANDLE == 'Y') ? $tarif->behandle : 0;
             $invoice_import->adm = $tarif->adm;
             $invoice_import->weight_surcharge = $tarif->weight_surcharge;
 
@@ -1126,12 +1128,16 @@ class LclController extends Controller
             $invoice_import->materai = ($sub_total >= 1000000) ? 6000 : 3000;
             $invoice_import->uid = \Auth::getUser()->name;
                     
-            
-            return json_encode(array('hari' => $hari, 'weight' => $weight, 'meas' => $meas, 'cbm' => $maxcbm));
-            return json_encode(array('success' => true, 'message' => 'No. Tally '.$manifest->NOTALLY.', invoice berhasih dibuat.'));
+            if($invoice_import->save()){
+                return json_encode(array('success' => true, 'message' => 'No. Tally '.$manifest->NOTALLY.', invoice berhasih dibuat.'));
+            }else{
+                return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+            }
+//            return json_encode(array('hari' => $hari, 'weight' => $weight, 'meas' => $meas, 'cbm' => $maxcbm));
+//            return json_encode(array('success' => true, 'message' => 'No. Tally '.$manifest->NOTALLY.', invoice berhasih dibuat.'));
 //        }
         
-        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+//        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
         
     }
     
