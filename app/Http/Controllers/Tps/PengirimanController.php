@@ -402,15 +402,15 @@ class PengirimanController extends Controller
         $cont->addChild('NO_IJIN_TPS', $dataDetail->NO_IJIN_TPS);
         $cont->addChild('TGL_IJIN_TPS', $dataDetail->TGL_IJIN_TPS);
         
-//        $xml->saveXML('xml/CoariContainer'. date('Ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
-//
-//        $response = \Response::make($xml->asXML(), 200);
-//
-//        $response->header('Cache-Control', 'public');
-//        $response->header('Content-Description', 'File Transfer');
-//        $response->header('Content-Disposition', 'attachment; filename=xml/CoariContainer'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
-//        $response->header('Content-Transfer-Encoding', 'binary');
-//        $response->header('Content-Type', 'text/xml');
+        $xml->saveXML('xml/CoariContainer'. date('Ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+
+        $response = \Response::make($xml->asXML(), 200);
+
+        $response->header('Cache-Control', 'public');
+        $response->header('Content-Description', 'File Transfer');
+        $response->header('Content-Disposition', 'attachment; filename=xml/CoariContainer'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+        $response->header('Content-Transfer-Encoding', 'binary');
+        $response->header('Content-Type', 'text/xml');
 
 //        return $xml->asXML();
         
@@ -509,15 +509,15 @@ class PengirimanController extends Controller
             
         endforeach;
         
-//        $xml->saveXML('xml/CoariKMS'. date('Ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
-//
-//        $response = \Response::make($xml->asXML(), 200);
-//
-//        $response->header('Cache-Control', 'public');
-//        $response->header('Content-Description', 'File Transfer');
-//        $response->header('Content-Disposition', 'attachment; filename=xml/CoariContainer'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
-//        $response->header('Content-Transfer-Encoding', 'binary');
-//        $response->header('Content-Type', 'text/xml');
+        $xml->saveXML('xml/CoariKMS'. date('Ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+
+        $response = \Response::make($xml->asXML(), 200);
+
+        $response->header('Cache-Control', 'public');
+        $response->header('Content-Description', 'File Transfer');
+        $response->header('Content-Disposition', 'attachment; filename=xml/CoariContainer'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+        $response->header('Content-Transfer-Encoding', 'binary');
+        $response->header('Content-Type', 'text/xml');
         
         
         return $xml->asXML();
