@@ -353,7 +353,7 @@ class PengirimanController extends Controller
         $dataHeader = \App\Models\TpsCoariCont::find($id);
         $dataDetail = \App\Models\TpsCoariContDetail::where('TPSCOARICONTXML_FK', $dataHeader->TPSCOARICONTXML_PK)->first();
         
-        $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><DOCUMENT xmlns="cococont.xsd"></DOCUMENT>');
+        $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><DOCUMENT xmlns:namespace="cococont.xsd"></DOCUMENT>');
         
         $data = $xml->addchild('COCOCONT');
         $header = $data->addchild('HEADER');
