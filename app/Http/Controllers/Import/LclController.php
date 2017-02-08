@@ -333,7 +333,7 @@ class LclController extends Controller
         $data['TTGL_PLP'] = (!empty($data['TTGL_PLP']) ? date('Y-m-d', strtotime($data['TTGL_PLP'])) : null );
         $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR','NPWP')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
         $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
-//        $data['ID_CONSOLIDATOR'] = str_replace(array('.','-'),array('',''),$namaconsolidator->NPWP);
+        $data['ID_CONSOLIDATOR'] = str_replace(array('.','-'),array('',''),$namaconsolidator->NPWP);
         $namanegara = DBNegara::select('NAMANEGARA')->where('TNEGARA_PK',$data['TNEGARA_FK'])->first();
         $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
         $namapelabuhan = DBPelabuhan::select('NAMAPELABUHAN')->where('TPELABUHAN_PK',$data['TPELABUHAN_FK'])->first();
@@ -443,7 +443,7 @@ class LclController extends Controller
         $data['TTGL_PLP'] = (!empty($data['TTGL_PLP']) ? date('Y-m-d', strtotime($data['TTGL_PLP'])) : null );
         $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR','NPWP')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
         $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
-//        $data['ID_CONSOLIDATOR'] = str_replace(array('.','-'),array('',''),$namaconsolidator->NPWP);
+        $data['ID_CONSOLIDATOR'] = str_replace(array('.','-'),array('',''),$namaconsolidator->NPWP);
         $namanegara = DBNegara::select('NAMANEGARA')->where('TNEGARA_PK',$data['TNEGARA_FK'])->first();
         $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
         $namapelabuhan = DBPelabuhan::select('NAMAPELABUHAN')->where('TPELABUHAN_PK',$data['TPELABUHAN_FK'])->first();
@@ -869,7 +869,7 @@ class LclController extends Controller
                 $coaricontdetail->TGL_BL_AWB = '';
                 $coaricontdetail->NO_MASTER_BL_AWB = $container->NOMBL;
                 $coaricontdetail->TGL_MASTER_BL_AWB = (!empty($container->TGL_MASTER_BL) ? date('Ymd', strtotime($container->TGL_MASTER_BL)) : '');
-                $coaricontdetail->ID_CONSIGNEE = $container->TCONSOLIDATOR_FK;
+                $coaricontdetail->ID_CONSIGNEE = $container->ID_CONSOLIDATOR;
                 $coaricontdetail->CONSIGNEE = $container->NAMACONSOLIDATOR;
                 $coaricontdetail->BRUTO = (!empty($container->WEIGHT) ? $container->WEIGHT : 0);
                 $coaricontdetail->NO_BC11 = $container->NO_BC11;
@@ -974,7 +974,7 @@ class LclController extends Controller
                 $codecocontdetail->TGL_BL_AWB = '';
                 $codecocontdetail->NO_MASTER_BL_AWB = $container->NOMBL;
                 $codecocontdetail->TGL_MASTER_BL_AWB = (!empty($container->TGL_MASTER_BL) ? date('Ymd', strtotime($container->TGL_MASTER_BL)) : '');
-                $codecocontdetail->ID_CONSIGNEE = $container->TCONSOLIDATOR_FK;
+                $codecocontdetail->ID_CONSIGNEE = $container->ID_CONSOLIDATOR;
                 $codecocontdetail->CONSIGNEE = $container->NAMACONSOLIDATOR;
                 $codecocontdetail->BRUTO = (!empty($container->WEIGHT) ? $container->WEIGHT : 0);
                 $codecocontdetail->NO_BC11 = $container->NO_BC11;
@@ -1179,7 +1179,7 @@ class LclController extends Controller
                 $codecokmsdetail->TGL_BL_AWB = (!empty($manifest->TGL_HBL) ? date('Ymd', strtotime($manifest->TGL_HBL)) : '');
                 $codecokmsdetail->NO_MASTER_BL_AWB = $manifest->NOMBL;
                 $codecokmsdetail->TGL_MASTER_BL_AWB = (!empty($manifest->TGL_MASTER_BL) ? date('Ymd', strtotime($manifest->TGL_MASTER_BL)) : '');
-                $codecokmsdetail->ID_CONSIGNEE = $manifest->TCONSIGNEE_FK;
+                $codecokmsdetail->ID_CONSIGNEE = $manifest->ID_CONSOLIDATOR;
                 $codecokmsdetail->CONSIGNEE = $manifest->CONSIGNEE;
                 $codecokmsdetail->BRUTO = $manifest->WEIGHT;
                 $codecokmsdetail->NO_BC11 = $manifest->NO_BC11;
