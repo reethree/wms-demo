@@ -470,6 +470,7 @@ class LclController extends Controller
             $data['TGL_PLP'] = $joborder->TTGL_PLP;
             $data['TCONSOLIDATOR_FK'] = $joborder->TCONSOLIDATOR_FK;
             $data['NAMACONSOLIDATOR'] = $joborder->NAMACONSOLIDATOR;
+            $data['ID_CONSOLIDATOR'] = $joborder->ID_CONSOLIDATOR;
             $data['TLOKASISANDAR_FK'] = $joborder->TLOKASISANDAR_FK;
             $data['ETA'] = $joborder->ETA;
             $data['ETD'] = $joborder->ETD;
@@ -1179,7 +1180,7 @@ class LclController extends Controller
                 $codecokmsdetail->TGL_BL_AWB = (!empty($manifest->TGL_HBL) ? date('Ymd', strtotime($manifest->TGL_HBL)) : '');
                 $codecokmsdetail->NO_MASTER_BL_AWB = $manifest->NOMBL;
                 $codecokmsdetail->TGL_MASTER_BL_AWB = (!empty($manifest->TGL_MASTER_BL) ? date('Ymd', strtotime($manifest->TGL_MASTER_BL)) : '');
-                $codecokmsdetail->ID_CONSIGNEE = $manifest->ID_CONSOLIDATOR;
+                $codecokmsdetail->ID_CONSIGNEE = $manifest->ID_CONSIGNEE;
                 $codecokmsdetail->CONSIGNEE = $manifest->CONSIGNEE;
                 $codecokmsdetail->BRUTO = $manifest->WEIGHT;
                 $codecokmsdetail->NO_BC11 = $manifest->NO_BC11;

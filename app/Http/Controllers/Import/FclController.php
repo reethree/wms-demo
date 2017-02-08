@@ -402,7 +402,7 @@ class FclController extends Controller
         $data['TTGL_PLP'] = date('Y-m-d', strtotime($data['TTGL_PLP']));
         $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR','NPWP')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
         $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
-        $data['ID_CONSOLIDATOR'] = str_replace(array('.','-'),array('',''),$namaconsolidator->NPWP);
+        $data['ID_CONSIGNEE'] = str_replace(array('.','-'),array('',''),$namaconsolidator->NPWP);
         $namanegara = DBNegara::select('NAMANEGARA')->where('TNEGARA_PK',$data['TNEGARA_FK'])->first();
         $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
         $namapelabuhan = DBPelabuhan::select('NAMAPELABUHAN')->where('TPELABUHAN_PK',$data['TPELABUHAN_FK'])->first();
@@ -435,6 +435,7 @@ class FclController extends Controller
             $data['TGL_PLP'] = $joborder->TTGL_PLP;
             $data['TCONSOLIDATOR_FK'] = $joborder->TCONSOLIDATOR_FK;
             $data['NAMACONSOLIDATOR'] = $joborder->NAMACONSOLIDATOR;
+            $data['ID_CONSIGNEE'] = $joborder->ID_CONSIGNEE;
             $data['TCONSIGNEE_FK'] = $joborder->TCONSIGNEE_FK;
             $data['CONSIGNEE'] = $joborder->CONSIGNEE;
     //        $data['TLOKASISANDAR_FK'] = $joborder->TLOKASISANDAR_FK;
