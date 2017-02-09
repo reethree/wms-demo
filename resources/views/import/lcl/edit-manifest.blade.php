@@ -180,7 +180,7 @@
         $('#btn-group-4').enableButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         $('#btn-group-1').enableButtonGroup();
-        $('#btn-group-5').enableButtonGroup();
+//        $('#btn-group-5').enableButtonGroup();
 
       //Binds onClick event to the "Refresh" button.
       $('#btn-refresh').click(function()

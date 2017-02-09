@@ -54,9 +54,9 @@ class PengirimanController extends Controller
     
     public function coariKmsIndex()
     {
-        if ( !$this->access->can('show.tps.coariKms.index') ) {
-            return view('errors.no-access');
-        }
+//        if ( !$this->access->can('show.tps.coariKms.index') ) {
+//            return view('errors.no-access');
+//        }
         
         $data['page_title'] = "TPS Coari Kemasan";
         $data['page_description'] = "";
@@ -355,10 +355,10 @@ class PengirimanController extends Controller
         
         $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><DOCUMENT></DOCUMENT>');
         
-        $data = $xml->addAttribute('xmlns', 'cococont.xsd');
-        $data = $xml->addchild('COCOCONT');
-        $header = $data->addchild('HEADER');
-        $detail = $data->addchild('DETIL');
+        $xmldata = $xml->addAttribute('xmlns', 'cococont.xsd');
+        $xmldata = $xml->addchild('COCOCONT');
+        $header = $xmldata->addchild('HEADER');
+        $detail = $xmldata->addchild('DETIL');
         $cont = $detail->addChild('CONT');
         
         $header->addChild('KD_DOK', ($dataDetail->KD_DOK != '') ? $dataDetail->KD_DOK : '');
@@ -460,10 +460,10 @@ class PengirimanController extends Controller
         
         $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><DOCUMENT></DOCUMENT>');       
         
-        $data = $xml->addAttribute('xmlns', 'cocokms.xsd');
-        $data = $xml->addchild('COCOKMS');
-        $header = $data->addchild('HEADER');
-        $detail = $data->addchild('DETIL');
+        $xmldata = $xml->addAttribute('xmlns', 'cocokms.xsd');
+        $xmldata = $xml->addchild('COCOKMS');
+        $header = $xmldata->addchild('HEADER');
+        $detail = $xmldata->addchild('DETIL');
         
         $header->addChild('KD_DOK', $dataDetail->KD_DOK);
         $header->addChild('KD_TPS', $dataDetail->KD_TPS);
@@ -481,7 +481,7 @@ class PengirimanController extends Controller
             $kms->addChild('TGL_BL_AWB', $dataDetailkms->TGL_BL_AWB); 
             $kms->addChild('NO_MASTER_BL_AWB', $dataDetailkms->NO_MASTER_BL_AWB); 
             $kms->addChild('TGL_MASTER_BL_AWB', $dataDetailkms->TGL_MASTER_BL_AWB); 
-            $kms->addChild('ID_CONSIGNEE', $dataDetailkms->ID_CONSIGNEE);
+            $kms->addChild('ID_CONSIGNEE', str_replace(array('.','-'), array(''),$dataDetailkms->ID_CONSIGNEE));
             $kms->addChild('CONSIGNEE', $dataDetailkms->CONSIGNEE);
             $kms->addChild('BRUTO', $dataDetailkms->BRUTO);
             $kms->addChild('NO_BC11', $dataDetailkms->NO_BC11);
@@ -518,14 +518,41 @@ class PengirimanController extends Controller
 
         $response->header('Cache-Control', 'public');
         $response->header('Content-Description', 'File Transfer');
-        $response->header('Content-Disposition', 'attachment; filename=xml/CoariContainer'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+        $response->header('Content-Disposition', 'attachment; filename=xml/CoariKemasan'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
         $response->header('Content-Transfer-Encoding', 'binary');
         $response->header('Content-Type', 'text/xml');
         
+        SoapWrapper::add(function ($service) {
+            $service
+                ->name('CoCoKms_Tes')
+                ->wsdl($this->wsdl)
+                ->trace(true)                                                                                                  
+//                ->certificate()                                                 
+                ->cache(WSDL_CACHE_NONE)                                        
+//                ->options([
+//                    'Username' => $this->user, 
+//                    'Password' => $this->password,
+//                    'fStream' => ''
+//                ])
+                    ;                                                    
+        });
         
-        return $xml->asXML();
+        $data = [
+            'Username' => $this->user, 
+            'Password' => $this->password,
+            'fStream' => $xml->asXML()
+        ];
         
-        return back()->with('success', 'Coari Kemasan XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dibuat.');
+        // Using the added service
+        SoapWrapper::service('CoCoKms_Tes', function ($service) use ($data) {        
+            $this->response = $service->call('CoCoKms_Tes', [$data])->CoCoKms_TesResult;      
+        });
+        
+        var_dump($this->response);
+        
+//        return $xml->asXML();
+//        
+//        return back()->with('success', 'Coari Kemasan XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dibuat.');
  
     }
     
