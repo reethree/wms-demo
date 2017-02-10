@@ -328,7 +328,7 @@ class SoapController extends DefaultController {
     {
         SoapWrapper::add(function ($service) {
             $service
-                ->name('GetImpor_SPPB')
+                ->name('GetImpor_Sppb')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -349,8 +349,8 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetImpor_SPPB', function ($service) use ($data) {        
-            $this->response = $service->call('GetImpor_SPPB', [$data])->GetImpor_SPPBResult;      
+        SoapWrapper::service('GetImpor_Sppb', function ($service) use ($data) {        
+            $this->response = $service->call('GetImpor_Sppb', [$data])->GetImpor_SppbResult;      
         });
         
         var_dump($this->response);
