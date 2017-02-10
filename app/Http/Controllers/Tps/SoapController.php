@@ -116,7 +116,40 @@ class SoapController extends DefaultController {
             $this->response = $service->call('GetResponPLP_Tujuan', [$data])->GetResponPLP_TujuanResult;      
         });
         
-        var_dump($this->response);
+//        var_dump($this->response);
+        
+        $xml = simplexml_load_string($this->response);
+        $header = array();
+        $details = [];
+        foreach($xml->children() as $child) {
+            foreach($child as $key => $value) {
+                if($key == 'header'){
+                    $header[] = $value;
+                }else{
+                    foreach ($value as $detail):
+                        $details[] = $detail;
+                    endforeach;
+                }
+            }
+        }
+        
+        // INSERT DATA
+        $respon = new \App\Models\TpsResponPlp;
+        foreach ($header[0] as $key=>$value):
+            $respon->$key = $value;
+        endforeach;
+        $respon->save();
+        
+        $plp_id = $respon->tps_responplptujuanxml_pk;
+
+        foreach ($details as $detail):     
+            $respon_detail = new \App\Models\TpsResponPlpDetail;
+            $respon_detail->tps_responplptujuanxml_fk = $plp_id;
+            foreach($detail as $key=>$value):
+                $respon_detail->$key = $value;
+            endforeach;
+            $respon_detail->save();
+        endforeach;
         
     }
     
@@ -289,6 +322,38 @@ class SoapController extends DefaultController {
         
         var_dump($this->response);
         
+    }
+    
+    public function GetImpor_SPPB()
+    {
+        SoapWrapper::add(function ($service) {
+            $service
+                ->name('GetImpor_SPPB')
+                ->wsdl($this->wsdl)
+                ->trace(true)                                                                                                  
+//                ->certificate()                                                 
+                ->cache(WSDL_CACHE_NONE)                                        
+                ->options([
+                    'UserName' => $this->user, 
+                    'Password' => $this->password,
+                    'Kd_Gudang' => $this->kode
+                ]);                                                    
+        });
+        
+        $data = [
+            'UserName' => $this->user, 
+            'Password' => $this->password,
+            'No_Sppb' => '063484/KPU.01/2017',
+            'Tgl_Sppb' => '09022017',
+            'NPWP_Imp' => '033153321035000'
+        ];
+        
+        // Using the added service
+        SoapWrapper::service('GetImpor_SPPB', function ($service) use ($data) {        
+            $this->response = $service->call('GetImpor_SPPB', [$data])->GetImpor_SPPBResult;      
+        });
+        
+        var_dump($this->response);
     }
     
     public function GetBC23Permit()
