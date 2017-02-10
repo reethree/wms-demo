@@ -382,9 +382,9 @@ class PengirimanController extends Controller
         $cont->addChild('CONSIGNEE', ($dataDetail->CONSIGNEE != '') ? $dataDetail->CONSIGNEE : '');
         $cont->addChild('BRUTO', ($dataDetail->BRUTO != '') ? $dataDetail->BRUTO : '');
         $cont->addChild('NO_BC11', ($dataDetail->NO_BC11 != '') ? $dataDetail->NO_BC11 : '');
-        $cont->addChild('TGL_BC11', ($dataDetail->TGL_BC11 != '') ? $dataDetail->TGL_BC11 : '');
-        $cont->addChild('KD_TIMBUN', ($dataDetail->KD_TIMBUN != '') ? $dataDetail->KD_TIMBUN : '');
+        $cont->addChild('TGL_BC11', ($dataDetail->TGL_BC11 != '') ? $dataDetail->TGL_BC11 : '');        
         $cont->addChild('NO_POS_BC11', ($dataDetail->NO_POS_BC11 != '') ? $dataDetail->NO_POS_BC11 : '');
+        $cont->addChild('KD_TIMBUN', ($dataDetail->KD_TIMBUN != '') ? $dataDetail->KD_TIMBUN : '');
         $cont->addChild('KD_DOK_INOUT', ($dataDetail->KD_DOK_INOUT != '') ? $dataDetail->KD_DOK_INOUT : '');
         $cont->addChild('NO_DOK_INOUT', ($dataDetail->NO_DOK_INOUT != '') ? $dataDetail->NO_DOK_INOUT : '');
         $cont->addChild('TGL_DOK_INOUT', ($dataDetail->TGL_DOK_INOUT != '') ? $dataDetail->TGL_DOK_INOUT : '');
@@ -502,7 +502,7 @@ class PengirimanController extends Controller
             $kms->addChild('PEL_TRANSIT', $dataDetailkms->PEL_TRANSIT );
             $kms->addChild('PEL_BONGKAR', $dataDetailkms->PEL_BONGKAR );
             $kms->addChild('GUDANG_TUJUAN', $dataDetailkms->GUDANG_TUJUAN );
-            $kms->addChild('KODE_KANTOR', $dataDetailkms->KODE_KANTOR );
+            $kms->addChild('KODE_KANTOR', '040300' );
             $kms->addChild('NO_DAFTAR_PABEAN', $dataDetailkms->NO_DAFTAR_PABEAN );
             $kms->addChild('TGL_DAFTAR_PABEAN', $dataDetailkms->TGL_DAFTAR_PABEAN );
             $kms->addChild('NO_SEGEL_BC', $dataDetailkms->NO_SEGEL_BC);
