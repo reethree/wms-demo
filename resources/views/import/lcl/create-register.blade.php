@@ -356,10 +356,15 @@
           cache: true
         },
         escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-        minimumInputLength: 3,
+        minimumInputLength: 3
 //        templateResult: formatRepo, // omitted for brevity, see the source of this page
 //        templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
     });
+    
+    $("#PEL_BONGKAR").append('<option value="IDTPP" selected="selected">IDTPP</option>');
+    $("#PEL_BONGKAR").trigger('change');
+
+    
 </script>
 
 @endsection

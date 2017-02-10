@@ -252,8 +252,8 @@ class FclController extends Controller
         
         $validator = \Validator::make($request->all(), [
             'NOJOBORDER' => 'required|unique:tjoborder',
-            'NOMBL' => 'required|unique:tjoborder',
-            'TGLMBL' => 'required',
+//            'NOMBL' => 'required|unique:tjoborder',
+//            'TGLMBL' => 'required',
 //            'TCONSOLIDATOR_FK' => 'required',
 //            'PARTY' => 'required',
 //            'TNEGARA_FK' => 'required',
@@ -282,7 +282,7 @@ class FclController extends Controller
         
         $data = $request->except(['_token']); 
         $data['TGLENTRY'] = date('Y-m-d');
-        $data['TGLMBL'] = date('Y-m-d', strtotime($data['TGLMBL']));
+        $data['TGLMBL'] = (!empty($data['TGLMBL'])) ? date('Y-m-d', strtotime($data['TGLMBL'])) : '0000-00-00';
         $data['ETA'] = date('Y-m-d', strtotime($data['ETA']));
         $data['ETD'] = date('Y-m-d', strtotime($data['ETD']));
         $data['TGL_BC11'] = date('Y-m-d', strtotime($data['TGL_BC11']));
@@ -395,7 +395,7 @@ class FclController extends Controller
         
         $data = $request->except(['_token']); 
         $data['TGLENTRY'] = date('Y-m-d');
-        $data['TGLMBL'] = date('Y-m-d', strtotime($data['TGLMBL']));
+        $data['TGLMBL'] = (!empty($data['TGLMBL'])) ? date('Y-m-d', strtotime($data['TGLMBL'])) : '0000-00-00';
         $data['ETA'] = date('Y-m-d', strtotime($data['ETA']));
         $data['ETD'] = date('Y-m-d', strtotime($data['ETD']));
         $data['TGL_BC11'] = date('Y-m-d', strtotime($data['TGL_BC11']));
