@@ -79,6 +79,10 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
         'as' => 'tps-codecoContFcl-get',
         'uses' => 'PengirimanController@codecoContFclGetXml'
     ]);
+    Route::get('/codeco-cont-fcl/create-xml/{id}', [
+        'as' => 'tps-codecoContFcl-upload',
+        'uses' => 'PengirimanController@codecoContCreateXml'
+    ]);
     
     // CODECO Buang MTY
     Route::get('/codeco-cont-buang-mty', [
@@ -96,6 +100,10 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
     Route::post('/codeco-cont-buang-mty/edit/{id}', [
         'as' => 'tps-codecoContBuangMty-update',
         'uses' => 'PengirimanController@codecoContBuangMtyUpdate'
+    ]);
+    Route::get('/codeco-cont-buang-mty/create-xml/{id}', [
+        'as' => 'tps-codecoContBuangMty-upload',
+        'uses' => 'PengirimanController@codecoContCreateXml'
     ]);
     
     // CODECO KMS
@@ -123,6 +131,9 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
         'as' => 'tps-codecoKms-get',
         'uses' => 'PengirimanController@codecoKmsGetXml'
     ]);
-    
+    Route::get('/codeco-kms/create-xml/{id}', [
+        'as' => 'tps-codecoKms-upload',
+        'uses' => 'PengirimanController@codecoKmsCreateXml'
+    ]);
 });
 

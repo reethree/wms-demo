@@ -336,7 +336,7 @@ class ManifestController extends Controller
                     $coarikmsdetail->TGL_BL_AWB = (!empty($data->TGL_HBL) ? date('Ymd', strtotime($data->TGL_HBL)) : '');
                     $coarikmsdetail->NO_MASTER_BL_AWB = $data->NOMBL;
                     $coarikmsdetail->TGL_MASTER_BL_AWB = (!empty($data->TGL_MASTER_BL) ? date('Ymd', strtotime($data->TGL_MASTER_BL)) : '');
-                    $coarikmsdetail->ID_CONSIGNEE = $data->ID_CONSIGNEE;
+                    $coarikmsdetail->ID_CONSIGNEE = str_replace(array('.','-'), array(''),$data->ID_CONSIGNEE);
                     $coarikmsdetail->CONSIGNEE = $data->CONSIGNEE;
                     $coarikmsdetail->BRUTO = $data->WEIGHT;
                     $coarikmsdetail->NO_BC11 = $data->NO_BC11;
@@ -361,7 +361,7 @@ class ManifestController extends Controller
                     $coarikmsdetail->RESPONSE = '';
                     $coarikmsdetail->STATUS_TPS = '';
                     $coarikmsdetail->NOURUT = $nourut;
-                    $coarikmsdetail->KODE_KANTOR = '040200';
+                    $coarikmsdetail->KODE_KANTOR = '040300';
                     $coarikmsdetail->NO_DAFTAR_PABEAN = '';
                     $coarikmsdetail->TGL_DAFTAR_PABEAN = '';
                     $coarikmsdetail->NO_SEGEL_BC = '';

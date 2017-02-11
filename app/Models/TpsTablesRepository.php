@@ -150,11 +150,13 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                 
                 $Model = TpsCodecoContFcl::select('*')
                         ->join('tpscodecocontdetailxml', 'tpscodecocontxml.TPSCODECOCONTXML_PK', '=', 'tpscodecocontdetailxml.TPSCODECOCONTXML_FK')
+                        ->where('tpscodecocontdetailxml.JNS_CONT', 'F')
                         ->where('tpscodecocontxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
                         ->where('tpscodecocontxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
             }else{
                 $Model = TpsCodecoContFcl::select('*')
-                        ->join('tpscodecocontdetailxml', 'tpscodecocontxml.TPSCODECOCONTXML_PK', '=', 'tpscodecocontdetailxml.TPSCODECOCONTXML_FK');
+                        ->join('tpscodecocontdetailxml', 'tpscodecocontxml.TPSCODECOCONTXML_PK', '=', 'tpscodecocontdetailxml.TPSCODECOCONTXML_FK')
+                        ->where('tpscodecocontdetailxml.JNS_CONT', 'F');
             }
         }elseif($Model->getMorphClass() == 'App\Models\TpsCodecoContBuangMty'){ 
             
@@ -162,11 +164,13 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                 
                 $Model = TpsCodecoContFcl::select('*')
                         ->join('tpscodecocontdetailxml', 'tpscodecocontxml.TPSCODECOCONTXML_PK', '=', 'tpscodecocontdetailxml.TPSCODECOCONTXML_FK')
+                        ->where('tpscodecocontdetailxml.JNS_CONT', 'L')
                         ->where('tpscodecocontxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
                         ->where('tpscodecocontxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
             }else{
                 $Model = TpsCodecoContFcl::select('*')
-                        ->join('tpscodecocontdetailxml', 'tpscodecocontxml.TPSCODECOCONTXML_PK', '=', 'tpscodecocontdetailxml.TPSCODECOCONTXML_FK');
+                        ->join('tpscodecocontdetailxml', 'tpscodecocontxml.TPSCODECOCONTXML_PK', '=', 'tpscodecocontdetailxml.TPSCODECOCONTXML_FK')
+                        ->where('tpscodecocontdetailxml.JNS_CONT', 'L');
             }
         }elseif($Model->getMorphClass() == 'App\Models\TpsCodecoKms'){ 
             

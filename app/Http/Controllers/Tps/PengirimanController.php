@@ -72,9 +72,9 @@ class PengirimanController extends Controller
 
     public function codecoContFclIndex()
     {
-        if ( !$this->access->can('show.tps.codecoContFcl.index') ) {
-            return view('errors.no-access');
-        }
+//        if ( !$this->access->can('show.tps.codecoContFcl.index') ) {
+//            return view('errors.no-access');
+//        }
         
         $data['page_title'] = "TPS Codeco Cont FCL";
         $data['page_description'] = "";
@@ -90,9 +90,9 @@ class PengirimanController extends Controller
     
     public function codecoContBuangMtyIndex()
     {
-        if ( !$this->access->can('show.tps.codecoContBuangMty.index') ) {
-            return view('errors.no-access');
-        }
+//        if ( !$this->access->can('show.tps.codecoContBuangMty.index') ) {
+//            return view('errors.no-access');
+//        }
         
         $data['page_title'] = "TPS Codeco Cont Buang MTY";
         $data['page_description'] = "";
@@ -108,9 +108,9 @@ class PengirimanController extends Controller
     
     public function codecoKmsIndex()
     {
-        if ( !$this->access->can('show.tps.codecoKms.index') ) {
-            return view('errors.no-access');
-        }
+//        if ( !$this->access->can('show.tps.codecoKms.index') ) {
+//            return view('errors.no-access');
+//        }
         
         $data['page_title'] = "TPS Codeco Kemasan";
         $data['page_description'] = "";
@@ -194,9 +194,9 @@ class PengirimanController extends Controller
     
     public function coariKmsEdit($id)
     {
-        if ( !$this->access->can('show.tps.coariKms.edit') ) {
-            return view('errors.no-access');
-        }
+//        if ( !$this->access->can('show.tps.coariKms.edit') ) {
+//            return view('errors.no-access');
+//        }
         
         $data['page_title'] = "Edit TPS COARI Kemasan";
         $data['page_description'] = "";
@@ -219,9 +219,9 @@ class PengirimanController extends Controller
     
     public function codecoContFclEdit($id)
     {
-        if ( !$this->access->can('show.tps.codecoCont.edit') ) {
-            return view('errors.no-access');
-        }
+//        if ( !$this->access->can('show.tps.codecoCont.edit') ) {
+//            return view('errors.no-access');
+//        }
         
         $data['page_title'] = "Edit TPS CODECO CONT";
         $data['page_description'] = "";
@@ -244,9 +244,9 @@ class PengirimanController extends Controller
     
     public function codecoContBuangMtyEdit($id)
     {
-        if ( !$this->access->can('show.tps.codecoContBuangMty.edit') ) {
-            return view('errors.no-access');
-        }
+//        if ( !$this->access->can('show.tps.codecoContBuangMty.edit') ) {
+//            return view('errors.no-access');
+//        }
         
         $data['page_title'] = "Edit TPS CODECO Buang MTY";
         $data['page_description'] = "";
@@ -269,9 +269,9 @@ class PengirimanController extends Controller
     
     public function codecoKmsEdit($id)
     {
-        if ( !$this->access->can('show.tps.codecoKms.edit') ) {
-            return view('errors.no-access');
-        }
+//        if ( !$this->access->can('show.tps.codecoKms.edit') ) {
+//            return view('errors.no-access');
+//        }
         
         $data['page_title'] = "Edit TPS CODECO Kemasan";
         $data['page_description'] = "";
@@ -378,7 +378,7 @@ class PengirimanController extends Controller
         $cont->addChild('TGL_BL_AWB', ($dataDetail->TGL_BL_AWB != '') ? $dataDetail->TGL_BL_AWB : '');
         $cont->addChild('NO_MASTER_BL_AWB', ($dataDetail->NO_MASTER_BL_AWB != '') ? $dataDetail->NO_MASTER_BL_AWB : '');
         $cont->addChild('TGL_MASTER_BL_AWB', ($dataDetail->TGL_MASTER_BL_AWB != '') ? $dataDetail->TGL_MASTER_BL_AWB : '');
-        $cont->addChild('ID_CONSIGNEE', ($dataDetail->ID_CONSIGNEE != '') ? $dataDetail->ID_CONSIGNEE : '');
+        $cont->addChild('ID_CONSIGNEE', ($dataDetail->ID_CONSIGNEE != 000000000000000) ? $dataDetail->ID_CONSIGNEE : '');
         $cont->addChild('CONSIGNEE', ($dataDetail->CONSIGNEE != '') ? $dataDetail->CONSIGNEE : '');
         $cont->addChild('BRUTO', ($dataDetail->BRUTO != '') ? $dataDetail->BRUTO : '');
         $cont->addChild('NO_BC11', ($dataDetail->NO_BC11 != '') ? $dataDetail->NO_BC11 : '');
@@ -421,6 +421,7 @@ class PengirimanController extends Controller
         SoapWrapper::add(function ($service) {
             $service
                 ->name('CoCoCont_Tes')
+//                ->name('CoarriCodeco_Container')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -444,10 +445,15 @@ class PengirimanController extends Controller
             $this->response = $service->call('CoCoCont_Tes', [$datas])->CoCoCont_TesResult;      
         });
         
+        $dataDetail->STATUS_TPS = 1;
+        $dataDetail->RESPONSE = $this->response;
+        
+        if ($dataDetail->save()){
+            return back()->with('success', 'Coari Container XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dikirim.');
+        }
+        
         var_dump($this->response);
         
-        
-//        return back()->with('success', 'Coari Container XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dibuat.');
     }
     
     public function coariKmsCreateXml($id)
@@ -481,7 +487,7 @@ class PengirimanController extends Controller
             $kms->addChild('TGL_BL_AWB', $dataDetailkms->TGL_BL_AWB); 
             $kms->addChild('NO_MASTER_BL_AWB', $dataDetailkms->NO_MASTER_BL_AWB); 
             $kms->addChild('TGL_MASTER_BL_AWB', $dataDetailkms->TGL_MASTER_BL_AWB); 
-            $kms->addChild('ID_CONSIGNEE', str_replace(array('.','-'), array(''),$dataDetailkms->ID_CONSIGNEE));
+            $kms->addChild('ID_CONSIGNEE', ($dataDetailkms->ID_CONSIGNEE != 000000000000000) ? $dataDetailkms->ID_CONSIGNEE : '');
             $kms->addChild('CONSIGNEE', $dataDetailkms->CONSIGNEE);
             $kms->addChild('BRUTO', $dataDetailkms->BRUTO);
             $kms->addChild('NO_BC11', $dataDetailkms->NO_BC11);
@@ -502,7 +508,7 @@ class PengirimanController extends Controller
             $kms->addChild('PEL_TRANSIT', $dataDetailkms->PEL_TRANSIT );
             $kms->addChild('PEL_BONGKAR', $dataDetailkms->PEL_BONGKAR );
             $kms->addChild('GUDANG_TUJUAN', $dataDetailkms->GUDANG_TUJUAN );
-            $kms->addChild('KODE_KANTOR', '040300' );
+            $kms->addChild('KODE_KANTOR', $dataDetailkms->KODE_KANTOR );
             $kms->addChild('NO_DAFTAR_PABEAN', $dataDetailkms->NO_DAFTAR_PABEAN );
             $kms->addChild('TGL_DAFTAR_PABEAN', $dataDetailkms->TGL_DAFTAR_PABEAN );
             $kms->addChild('NO_SEGEL_BC', $dataDetailkms->NO_SEGEL_BC);
@@ -525,6 +531,7 @@ class PengirimanController extends Controller
         SoapWrapper::add(function ($service) {
             $service
                 ->name('CoCoKms_Tes')
+//                ->name('CoarriCodeco_Kemasan')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -548,22 +555,228 @@ class PengirimanController extends Controller
             $this->response = $service->call('CoCoKms_Tes', [$data])->CoCoKms_TesResult;      
         });
         
+        $update = \App\Models\TpsCoariKmsDetail::where('TPSCOARIKMSXML_FK', $dataHeader->TPSCOARIKMSXML_PK)->update(['STATUS_TPS' => 1, 'RESPONSE' => $this->response]);       
+        
+        if ($update){
+            return back()->with('success', 'Coari Kemasan XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dikirim.');
+        }
+        
         var_dump($this->response);
-        
-//        return $xml->asXML();
-//        
-//        return back()->with('success', 'Coari Kemasan XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dibuat.');
- 
     }
     
-    public function codecoContCreateXml()
+    public function codecoContCreateXml($id)
     {
+        if(!$id){ return false; }
         
+        $dataHeader = \App\Models\TpsCodecoContFcl::find($id);
+        $dataDetail = \App\Models\TpsCodecoContFclDetail::where('TPSCODECOCONTXML_FK', $dataHeader->TPSCODECOCONTXML_PK)->first();
+        
+        $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><DOCUMENT></DOCUMENT>');
+        
+        $xmldata = $xml->addAttribute('xmlns', 'cococont.xsd');
+        $xmldata = $xml->addchild('COCOCONT');
+        $header = $xmldata->addchild('HEADER');
+        $detail = $xmldata->addchild('DETIL');
+        $cont = $detail->addChild('CONT');
+        
+        $header->addChild('KD_DOK', ($dataDetail->KD_DOK != '') ? $dataDetail->KD_DOK : '');
+        $header->addChild('KD_TPS', ($dataDetail->KD_TPS != '') ? $dataDetail->KD_TPS : '');
+        $header->addChild('NM_ANGKUT', ($dataDetail->NM_ANGKUT != '') ? $dataDetail->NM_ANGKUT : '');
+        $header->addChild('NO_VOY_FLIGHT', ($dataDetail->NO_VOY_FLIGHT != '') ? $dataDetail->NO_VOY_FLIGHT : '');
+        $header->addChild('CALL_SIGN', ($dataDetail->CALL_SIGN != '') ? $dataDetail->CALL_SIGN : '');
+        $header->addChild('TGL_TIBA', ($dataDetail->TGL_TIBA != '') ? $dataDetail->TGL_TIBA : '');
+        $header->addChild('KD_GUDANG', ($dataDetail->KD_GUDANG != '') ? $dataDetail->KD_GUDANG : '');
+        $header->addChild('REF_NUMBER', ($dataHeader->REF_NUMBER != '') ? $dataDetail->REF_NUMBER : '');
+        
+        $cont->addChild('NO_CONT', ($dataDetail->NO_CONT != '') ? $dataDetail->NO_CONT : '');
+        $cont->addChild('UK_CONT', ($dataDetail->UK_CONT != '') ? $dataDetail->UK_CONT : '');
+        $cont->addChild('NO_SEGEL', ($dataDetail->NO_SEGEL != '') ? $dataDetail->NO_SEGEL : '');
+        $cont->addChild('JNS_CONT', ($dataDetail->JNS_CONT != '') ? $dataDetail->JNS_CONT : '');
+        $cont->addChild('NO_BL_AWB', ($dataDetail->NO_BL_AWB != '') ? $dataDetail->NO_BL_AWB : '');
+        $cont->addChild('TGL_BL_AWB', ($dataDetail->TGL_BL_AWB != '') ? $dataDetail->TGL_BL_AWB : '');
+        $cont->addChild('NO_MASTER_BL_AWB', ($dataDetail->NO_MASTER_BL_AWB != '') ? $dataDetail->NO_MASTER_BL_AWB : '');
+        $cont->addChild('TGL_MASTER_BL_AWB', ($dataDetail->TGL_MASTER_BL_AWB != '') ? $dataDetail->TGL_MASTER_BL_AWB : '');
+        $cont->addChild('ID_CONSIGNEE', ($dataDetail->ID_CONSIGNEE != 000000000000000) ? $dataDetail->ID_CONSIGNEE : '');
+        $cont->addChild('CONSIGNEE', ($dataDetail->CONSIGNEE != '') ? $dataDetail->CONSIGNEE : '');
+        $cont->addChild('BRUTO', ($dataDetail->BRUTO != '') ? $dataDetail->BRUTO : '');
+        $cont->addChild('NO_BC11', ($dataDetail->NO_BC11 != '') ? $dataDetail->NO_BC11 : '');
+        $cont->addChild('TGL_BC11', ($dataDetail->TGL_BC11 != '') ? $dataDetail->TGL_BC11 : '');        
+        $cont->addChild('NO_POS_BC11', ($dataDetail->NO_POS_BC11 != '') ? $dataDetail->NO_POS_BC11 : '');
+        $cont->addChild('KD_TIMBUN', ($dataDetail->KD_TIMBUN != '') ? $dataDetail->KD_TIMBUN : '');
+        $cont->addChild('KD_DOK_INOUT', ($dataDetail->KD_DOK_INOUT != '') ? $dataDetail->KD_DOK_INOUT : '');
+        $cont->addChild('NO_DOK_INOUT', ($dataDetail->NO_DOK_INOUT != '') ? $dataDetail->NO_DOK_INOUT : '');
+        $cont->addChild('TGL_DOK_INOUT', ($dataDetail->TGL_DOK_INOUT != '') ? $dataDetail->TGL_DOK_INOUT : '');
+        $cont->addChild('WK_INOUT', ($dataDetail->WK_INOUT != '') ? $dataDetail->WK_INOUT : '');
+        $cont->addChild('KD_SAR_ANGKUT_INOUT', ($dataDetail->KD_SAR_ANGKUT_INOUT != '') ? $dataDetail->KD_SAR_ANGKUT_INOUT : '');
+        $cont->addChild('NO_POL', ($dataDetail->NO_POL != '') ? $dataDetail->NO_POL : '');
+        $cont->addChild('FL_CONT_KOSONG', ($dataDetail->FL_CONT_KOSONG != '') ? $dataDetail->FL_CONT_KOSONG : '');
+        $cont->addChild('ISO_CODE', ($dataDetail->ISO_CODE != '') ? $dataDetail->ISO_CODE : '');
+        $cont->addChild('PEL_MUAT', ($dataDetail->PEL_MUAT != '') ? $dataDetail->PEL_MUAT : '');
+        $cont->addChild('PEL_TRANSIT', ($dataDetail->PEL_TRANSIT != '') ? $dataDetail->PEL_TRANSIT : '');
+        $cont->addChild('PEL_BONGKAR', ($dataDetail->PEL_BONGKAR != '') ? $dataDetail->PEL_BONGKAR : '');
+        $cont->addChild('GUDANG_TUJUAN', ($dataDetail->GUDANG_TUJUAN != '') ? $dataDetail->GUDANG_TUJUAN : '');
+        $cont->addChild('KODE_KANTOR', ($dataDetail->KODE_KANTOR != '') ? $dataDetail->KODE_KANTOR : '');
+        $cont->addChild('NO_DAFTAR_PABEAN', ($dataDetail->NO_DAFTAR_PABEAN != '') ? $dataDetail->NO_DAFTAR_PABEAN : '');
+        $cont->addChild('TGL_DAFTAR_PABEAN', ($dataDetail->TGL_DAFTAR_PABEAN != '') ? $dataDetail->TGL_DAFTAR_PABEAN : '');
+        $cont->addChild('NO_SEGEL_BC', ($dataDetail->NO_SEGEL_BC != '') ? $dataDetail->NO_SEGEL_BC : '');
+        $cont->addChild('TGL_SEGEL_BC', ($dataDetail->TGL_SEGEL_BC != '') ? $dataDetail->TGL_SEGEL_BC : '');
+        $cont->addChild('NO_IJIN_TPS', ($dataDetail->NO_IJIN_TPS != '') ? $dataDetail->NO_IJIN_TPS : '');
+        $cont->addChild('TGL_IJIN_TPS', ($dataDetail->TGL_IJIN_TPS != '') ? $dataDetail->TGL_IJIN_TPS : '');
+        
+        $xml->saveXML('xml/CodecoContainer'. date('Ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+
+        $response = \Response::make($xml->asXML(), 200);
+
+        $response->header('Cache-Control', 'public');
+        $response->header('Content-Description', 'File Transfer');
+        $response->header('Content-Disposition', 'attachment; filename=xml/CoariContainer'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+        $response->header('Content-Transfer-Encoding', 'binary');
+        $response->header('Content-Type', 'text/xml');
+        
+        // SEND
+        SoapWrapper::add(function ($service) {
+            $service
+                ->name('CoCoCont_Tes')
+//                ->name('CoarriCodeco_Container')
+                ->wsdl($this->wsdl)
+                ->trace(true)                                                                                                  
+//                ->certificate()                                                 
+                ->cache(WSDL_CACHE_NONE)                                        
+//                ->options([
+//                    'Username' => $this->user, 
+//                    'Password' => $this->password,
+//                    'fStream' => $xml->asXML()
+//                ])
+                ;                                                    
+        });
+        
+        $datas = [
+            'Username' => $this->user, 
+            'Password' => $this->password,
+            'fStream' => $xml->asXML()
+        ];
+        
+        // Using the added service
+        SoapWrapper::service('CoCoCont_Tes', function ($service) use ($datas) {        
+            $this->response = $service->call('CoCoCont_Tes', [$datas])->CoCoCont_TesResult;      
+        });
+        
+        $dataDetail->STATUS_TPS = 1;
+        $dataDetail->RESPONSE = $this->response;
+        
+        if ($dataDetail->save()){
+            return back()->with('success', 'Codeco Container XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dikirim.');
+        }
+        
+        var_dump($this->response);
     }
     
-    public function codecoKmsCreateXml()
+    public function codecoKmsCreateXml($id)
     {
+        if(!$id){ return false; }
         
+        $dataHeader = \App\Models\TpsCodecoKms::find($id);
+        $dataDetail = \App\Models\TpsCodecoKmsDetail::where('TPSCOARIKMSXML_FK', $dataHeader->TPSCOARIKMSXML_PK)->first();
+        $dataDetails = \App\Models\TpsCodecoKmsDetail::where('TPSCOARIKMSXML_FK', $dataHeader->TPSCOARIKMSXML_PK)->get();
+        
+        $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><DOCUMENT></DOCUMENT>');       
+        
+        $xmldata = $xml->addAttribute('xmlns', 'cocokms.xsd');
+        $xmldata = $xml->addchild('COCOKMS');
+        $header = $xmldata->addchild('HEADER');
+        $detail = $xmldata->addchild('DETIL');
+        
+        $header->addChild('KD_DOK', $dataDetail->KD_DOK);
+        $header->addChild('KD_TPS', $dataDetail->KD_TPS);
+        $header->addChild('NM_ANGKUT', $dataDetail->NM_ANGKUT);
+        $header->addChild('NO_VOY_FLIGHT', $dataDetail->NO_VOY_FLIGHT);
+        $header->addChild('CALL_SIGN', $dataDetail->CALL_SIGN);
+        $header->addChild('TGL_TIBA', $dataDetail->TGL_TIBA);
+        $header->addChild('KD_GUDANG', $dataDetail->KD_GUDANG);
+        $header->addChild('REF_NUMBER', $dataHeader->REF_NUMBER);
+        
+        foreach ($dataDetails as $dataDetailkms):
+            $kms = $detail->addChild('KMS');
+        
+            $kms->addChild('NO_BL_AWB', $dataDetailkms->NO_BL_AWB);
+            $kms->addChild('TGL_BL_AWB', $dataDetailkms->TGL_BL_AWB); 
+            $kms->addChild('NO_MASTER_BL_AWB', $dataDetailkms->NO_MASTER_BL_AWB); 
+            $kms->addChild('TGL_MASTER_BL_AWB', $dataDetailkms->TGL_MASTER_BL_AWB); 
+            $kms->addChild('ID_CONSIGNEE', ($dataDetailkms->ID_CONSIGNEE != 000000000000000) ? $dataDetailkms->ID_CONSIGNEE : '');
+            $kms->addChild('CONSIGNEE', $dataDetailkms->CONSIGNEE);
+            $kms->addChild('BRUTO', $dataDetailkms->BRUTO);
+            $kms->addChild('NO_BC11', $dataDetailkms->NO_BC11);
+            $kms->addChild('TGL_BC11', $dataDetailkms->TGL_BC11 );
+            $kms->addChild('NO_POS_BC11', $dataDetailkms->NO_POS_BC11 );
+            $kms->addChild('CONT_ASAL', $dataDetailkms->CONT_ASAL );
+            $kms->addChild('SERI_KEMAS', $dataDetailkms->SERI_KEMAS );
+            $kms->addChild('KD_KEMAS', $dataDetailkms->KD_KEMAS );
+            $kms->addChild('JML_KEMAS', $dataDetailkms->JML_KEMAS );
+            $kms->addChild('KD_TIMBUN', $dataDetailkms->KD_TIMBUN );
+            $kms->addChild('KD_DOK_INOUT', $dataDetailkms->KD_DOK_INOUT );
+            $kms->addChild('NO_DOK_INOUT', $dataDetailkms->NO_DOK_INOUT );
+            $kms->addChild('TGL_DOK_INOUT', $dataDetailkms->TGL_DOK_INOUT );
+            $kms->addChild('WK_INOUT', $dataDetailkms->WK_INOUT );
+            $kms->addChild('KD_SAR_ANGKUT_INOUT', $dataDetailkms->KD_SAR_ANGKUT_INOUT );
+            $kms->addChild('NO_POL', $dataDetailkms->NO_POL);
+            $kms->addChild('PEL_MUAT', $dataDetailkms->PEL_MUAT );
+            $kms->addChild('PEL_TRANSIT', $dataDetailkms->PEL_TRANSIT );
+            $kms->addChild('PEL_BONGKAR', $dataDetailkms->PEL_BONGKAR );
+            $kms->addChild('GUDANG_TUJUAN', $dataDetailkms->GUDANG_TUJUAN );
+            $kms->addChild('KODE_KANTOR', $dataDetailkms->KODE_KANTOR );
+            $kms->addChild('NO_DAFTAR_PABEAN', $dataDetailkms->NO_DAFTAR_PABEAN );
+            $kms->addChild('TGL_DAFTAR_PABEAN', $dataDetailkms->TGL_DAFTAR_PABEAN );
+            $kms->addChild('NO_SEGEL_BC', $dataDetailkms->NO_SEGEL_BC);
+            $kms->addChild('TGL_SEGEL_BC', $dataDetailkms->TGL_SEGEL_BC );
+            $kms->addChild('NO_IJIN_TPS', $dataDetailkms->NO_IJIN_TPS );
+            $kms->addChild('TGL_IJIN_TPS', $dataDetailkms->TGL_IJIN_TPS);
+            
+        endforeach;
+        
+        $xml->saveXML('xml/CodecoKMS'. date('Ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+
+        $response = \Response::make($xml->asXML(), 200);
+
+        $response->header('Cache-Control', 'public');
+        $response->header('Content-Description', 'File Transfer');
+        $response->header('Content-Disposition', 'attachment; filename=xml/CoariKemasan'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+        $response->header('Content-Transfer-Encoding', 'binary');
+        $response->header('Content-Type', 'text/xml');
+        
+        SoapWrapper::add(function ($service) {
+            $service
+                ->name('CoCoKms_Tes')
+//                ->name('CoarriCodeco_Kemasan')
+                ->wsdl($this->wsdl)
+                ->trace(true)                                                                                                  
+//                ->certificate()                                                 
+                ->cache(WSDL_CACHE_NONE)                                        
+//                ->options([
+//                    'Username' => $this->user, 
+//                    'Password' => $this->password,
+//                    'fStream' => ''
+//                ])
+                    ;                                                    
+        });
+        
+        $data = [
+            'Username' => $this->user, 
+            'Password' => $this->password,
+            'fStream' => $xml->asXML()
+        ];
+        
+        // Using the added service
+        SoapWrapper::service('CoCoKms_Tes', function ($service) use ($data) {        
+            $this->response = $service->call('CoCoKms_Tes', [$data])->CoCoKms_TesResult;      
+        });
+        
+        $update = \App\Models\TpsCodecoKmsDetail::where('TPSCODECOKMSXML_FK', $dataHeader->TPSCODECOKMSXML_PK)->update(['STATUS_TPS' => 1, 'RESPONSE' => $this->response]);       
+        
+        if ($update){
+            return back()->with('success', 'Codeco Kemasan XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dikirim.');
+        }
+        
+        var_dump($this->response);
     }
     
     public function coariContGetXml()

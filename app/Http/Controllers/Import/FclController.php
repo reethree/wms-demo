@@ -934,7 +934,7 @@ class FclController extends Controller
                 $codecocontdetail->NOURUT = 1;
                 $codecocontdetail->RESPONSE = '';
                 $codecocontdetail->STATUS_TPS = '';
-                $codecocontdetail->KODE_KANTOR = '040200';
+                $codecocontdetail->KODE_KANTOR = '040300';
                 $codecocontdetail->NO_DAFTAR_PABEAN = (!empty($container->NO_PIB) ? $container->NO_PIB : '');;
                 $codecocontdetail->TGL_DAFTAR_PABEAN = (!empty($container->TGL_PIB) ? date('Ymd', strtotime($container->TGL_PIB)) : '');;
                 $codecocontdetail->NO_SEGEL_BC = '';

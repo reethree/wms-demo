@@ -870,7 +870,7 @@ class LclController extends Controller
                 $coaricontdetail->TGL_BL_AWB = '';
                 $coaricontdetail->NO_MASTER_BL_AWB = $container->NOMBL;
                 $coaricontdetail->TGL_MASTER_BL_AWB = (!empty($container->TGL_MASTER_BL) ? date('Ymd', strtotime($container->TGL_MASTER_BL)) : '');
-                $coaricontdetail->ID_CONSIGNEE = $container->ID_CONSOLIDATOR;
+                $coaricontdetail->ID_CONSIGNEE = str_replace(array('.','-'), array(''),$container->ID_CONSOLIDATOR);
                 $coaricontdetail->CONSIGNEE = $container->NAMACONSOLIDATOR;
                 $coaricontdetail->BRUTO = (!empty($container->WEIGHT) ? $container->WEIGHT : 0);
                 $coaricontdetail->NO_BC11 = $container->NO_BC11;
@@ -975,7 +975,7 @@ class LclController extends Controller
                 $codecocontdetail->TGL_BL_AWB = '';
                 $codecocontdetail->NO_MASTER_BL_AWB = $container->NOMBL;
                 $codecocontdetail->TGL_MASTER_BL_AWB = (!empty($container->TGL_MASTER_BL) ? date('Ymd', strtotime($container->TGL_MASTER_BL)) : '');
-                $codecocontdetail->ID_CONSIGNEE = $container->ID_CONSOLIDATOR;
+                $codecocontdetail->ID_CONSIGNEE = str_replace(array('.','-'), array(''),$container->ID_CONSOLIDATOR);
                 $codecocontdetail->CONSIGNEE = $container->NAMACONSOLIDATOR;
                 $codecocontdetail->BRUTO = (!empty($container->WEIGHT) ? $container->WEIGHT : 0);
                 $codecocontdetail->NO_BC11 = $container->NO_BC11;
@@ -998,7 +998,7 @@ class LclController extends Controller
                 $codecocontdetail->NOURUT = 1;
                 $codecocontdetail->RESPONSE = '';
                 $codecocontdetail->STATUS_TPS = '';
-                $codecocontdetail->KODE_KANTOR = '040200';
+                $codecocontdetail->KODE_KANTOR = '040300';
                 $codecocontdetail->NO_DAFTAR_PABEAN = '';
                 $codecocontdetail->TGL_DAFTAR_PABEAN = '';
                 $codecocontdetail->NO_SEGEL_BC = '';
@@ -1180,7 +1180,7 @@ class LclController extends Controller
                 $codecokmsdetail->TGL_BL_AWB = (!empty($manifest->TGL_HBL) ? date('Ymd', strtotime($manifest->TGL_HBL)) : '');
                 $codecokmsdetail->NO_MASTER_BL_AWB = $manifest->NOMBL;
                 $codecokmsdetail->TGL_MASTER_BL_AWB = (!empty($manifest->TGL_MASTER_BL) ? date('Ymd', strtotime($manifest->TGL_MASTER_BL)) : '');
-                $codecokmsdetail->ID_CONSIGNEE = $manifest->ID_CONSIGNEE;
+                $codecokmsdetail->ID_CONSIGNEE = str_replace(array('.','-'), array(''),$manifest->ID_CONSIGNEE);
                 $codecokmsdetail->CONSIGNEE = $manifest->CONSIGNEE;
                 $codecokmsdetail->BRUTO = $manifest->WEIGHT;
                 $codecokmsdetail->NO_BC11 = $manifest->NO_BC11;
@@ -1205,7 +1205,7 @@ class LclController extends Controller
                 $codecokmsdetail->RESPONSE = '';
                 $codecokmsdetail->STATUS_TPS = '';
                 $codecokmsdetail->NOURUT = 1;
-                $codecokmsdetail->KODE_KANTOR = '040200';
+                $codecokmsdetail->KODE_KANTOR = '040300';
                 $codecokmsdetail->NO_DAFTAR_PABEAN = '';
                 $codecokmsdetail->TGL_DAFTAR_PABEAN = '';
                 $codecokmsdetail->NO_SEGEL_BC = '';

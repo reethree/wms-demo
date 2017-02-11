@@ -26,7 +26,7 @@
                     <div class="form-group">
                         <label for="NOMBL" class="col-sm-3 control-label">No. MBL</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NOMBL" class="form-control"  value="{{ $joborder->NOMBL }}" required>
+                            <input type="text" name="NOMBL" class="form-control"  value="{{ $joborder->NOMBL }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -36,7 +36,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_MASTER_BL" class="form-control pull-right datepicker" required value="{{ $joborder->TGL_MASTER_BL }}">
+                                <input type="text" name="TGL_MASTER_BL" class="form-control pull-right datepicker" value="{{ $joborder->TGL_MASTER_BL }}">
                             </div>
                         </div>
                     </div>

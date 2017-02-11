@@ -26,7 +26,7 @@
                     <div class="form-group">
                         <label for="NOMBL" class="col-sm-3 control-label">No. MBL</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NOMBL" class="form-control"  value="{{ old('NOMBL') }}" required>
+                            <input type="text" name="NOMBL" class="form-control"  value="{{ old('NOMBL') }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -36,7 +36,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGLMBL" class="form-control pull-right datepicker" required value="{{ old('TGLMBL') }}">
+                                <input type="text" name="TGLMBL" class="form-control pull-right datepicker" value="{{ old('TGLMBL') }}">
                             </div>
                         </div>
                     </div>
