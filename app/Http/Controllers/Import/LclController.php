@@ -1203,7 +1203,7 @@ class LclController extends Controller
                 $codecokmsdetail->GUDANG_TUJUAN = 'PRJP';
                 $codecokmsdetail->UID = \Auth::getUser()->name;
                 $codecokmsdetail->RESPONSE = '';
-                $codecokmsdetail->STATUS_TPS = '';
+                $codecokmsdetail->STATUS_TPS = 1;
                 $codecokmsdetail->NOURUT = 1;
                 $codecokmsdetail->KODE_KANTOR = '040300';
                 $codecokmsdetail->NO_DAFTAR_PABEAN = '';

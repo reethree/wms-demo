@@ -826,7 +826,7 @@ class FclController extends Controller
                 $coaricontdetail->UID = \Auth::getUser()->name;
                 $coaricontdetail->NOURUT = 1;
                 $coaricontdetail->RESPONSE = '';
-                $coaricontdetail->STATUS_TPS = '';
+                $coaricontdetail->STATUS_TPS = 1;
                 $coaricontdetail->KODE_KANTOR = '040200';
                 $coaricontdetail->NO_DAFTAR_PABEAN = '';
                 $coaricontdetail->TGL_DAFTAR_PABEAN = '';
@@ -933,7 +933,7 @@ class FclController extends Controller
                 $codecocontdetail->UID = \Auth::getUser()->name;
                 $codecocontdetail->NOURUT = 1;
                 $codecocontdetail->RESPONSE = '';
-                $codecocontdetail->STATUS_TPS = '';
+                $codecocontdetail->STATUS_TPS = 1;
                 $codecocontdetail->KODE_KANTOR = '040300';
                 $codecocontdetail->NO_DAFTAR_PABEAN = (!empty($container->NO_PIB) ? $container->NO_PIB : '');;
                 $codecocontdetail->TGL_DAFTAR_PABEAN = (!empty($container->TGL_PIB) ? date('Ymd', strtotime($container->TGL_PIB)) : '');;

@@ -359,7 +359,7 @@ class ManifestController extends Controller
                     $coarikmsdetail->GUDANG_TUJUAN = 'PRJP';
                     $coarikmsdetail->UID = \Auth::getUser()->name;
                     $coarikmsdetail->RESPONSE = '';
-                    $coarikmsdetail->STATUS_TPS = '';
+                    $coarikmsdetail->STATUS_TPS = 1;
                     $coarikmsdetail->NOURUT = $nourut;
                     $coarikmsdetail->KODE_KANTOR = '040300';
                     $coarikmsdetail->NO_DAFTAR_PABEAN = '';

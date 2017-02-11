@@ -214,7 +214,7 @@ class PengirimanController extends Controller
         $data['header'] = \App\Models\TpsCoariKms::find($id);
 //        $data['detail'] = \App\Models\TpsCoariKmsDetail::where('TPSCOARIKMSXML_FK', $id)->first();
         
-        return view('tpsonline.edit-coari-Kms')->with($data);
+        return view('tpsonline.edit-coari-kms')->with($data);
     }
     
     public function codecoContFclEdit($id)
@@ -289,7 +289,7 @@ class PengirimanController extends Controller
         $data['header'] = \App\Models\TpsCodecoKms::find($id);
 //        $data['detail'] = \App\Models\TpsCoariKmsDetail::where('TPSCOARIKMSXML_FK', $id)->first();
         
-        return view('tpsonline.edit-codeco-Kms')->with($data);
+        return view('tpsonline.edit-codeco-kms')->with($data);
     }
     
     /**
@@ -445,7 +445,7 @@ class PengirimanController extends Controller
             $this->response = $service->call('CoCoCont_Tes', [$datas])->CoCoCont_TesResult;      
         });
         
-        $dataDetail->STATUS_TPS = 1;
+        $dataDetail->STATUS_TPS = 2;
         $dataDetail->RESPONSE = $this->response;
         
         if ($dataDetail->save()){
@@ -555,7 +555,7 @@ class PengirimanController extends Controller
             $this->response = $service->call('CoCoKms_Tes', [$data])->CoCoKms_TesResult;      
         });
         
-        $update = \App\Models\TpsCoariKmsDetail::where('TPSCOARIKMSXML_FK', $dataHeader->TPSCOARIKMSXML_PK)->update(['STATUS_TPS' => 1, 'RESPONSE' => $this->response]);       
+        $update = \App\Models\TpsCoariKmsDetail::where('TPSCOARIKMSXML_FK', $dataHeader->TPSCOARIKMSXML_PK)->update(['STATUS_TPS' => 2, 'RESPONSE' => $this->response]);       
         
         if ($update){
             return back()->with('success', 'Coari Kemasan XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dikirim.');
@@ -661,7 +661,7 @@ class PengirimanController extends Controller
             $this->response = $service->call('CoCoCont_Tes', [$datas])->CoCoCont_TesResult;      
         });
         
-        $dataDetail->STATUS_TPS = 1;
+        $dataDetail->STATUS_TPS = 2;
         $dataDetail->RESPONSE = $this->response;
         
         if ($dataDetail->save()){
@@ -676,8 +676,8 @@ class PengirimanController extends Controller
         if(!$id){ return false; }
         
         $dataHeader = \App\Models\TpsCodecoKms::find($id);
-        $dataDetail = \App\Models\TpsCodecoKmsDetail::where('TPSCOARIKMSXML_FK', $dataHeader->TPSCOARIKMSXML_PK)->first();
-        $dataDetails = \App\Models\TpsCodecoKmsDetail::where('TPSCOARIKMSXML_FK', $dataHeader->TPSCOARIKMSXML_PK)->get();
+        $dataDetail = \App\Models\TpsCodecoKmsDetail::where('TPSCODECOKMSXML_FK', $dataHeader->TPSCODECOKMSXML_PK)->first();
+        $dataDetails = \App\Models\TpsCodecoKmsDetail::where('TPSCODECOKMSXML_FK', $dataHeader->TPSCODECOARIKMSXML_PK)->get();
         
         $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><DOCUMENT></DOCUMENT>');       
         
@@ -770,7 +770,7 @@ class PengirimanController extends Controller
             $this->response = $service->call('CoCoKms_Tes', [$data])->CoCoKms_TesResult;      
         });
         
-        $update = \App\Models\TpsCodecoKmsDetail::where('TPSCODECOKMSXML_FK', $dataHeader->TPSCODECOKMSXML_PK)->update(['STATUS_TPS' => 1, 'RESPONSE' => $this->response]);       
+        $update = \App\Models\TpsCodecoKmsDetail::where('TPSCODECOKMSXML_FK', $dataHeader->TPSCODECOKMSXML_PK)->update(['STATUS_TPS' => 2, 'RESPONSE' => $this->response]);       
         
         if ($update){
             return back()->with('success', 'Codeco Kemasan XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dikirim.');
