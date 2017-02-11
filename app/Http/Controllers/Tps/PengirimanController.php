@@ -765,6 +765,9 @@ class PengirimanController extends Controller
             'fStream' => $xml->asXML()
         ];
         
+        var_dump($this->response);
+        return;
+        
         // Using the added service
         SoapWrapper::service('CoCoKms_Tes', function ($service) use ($data) {        
             $this->response = $service->call('CoCoKms_Tes', [$data])->CoCoKms_TesResult;      
