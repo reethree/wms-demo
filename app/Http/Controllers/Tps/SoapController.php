@@ -120,7 +120,7 @@ class SoapController extends DefaultController {
         
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($this->response);
-        if(!$xml){
+        if(!$xml  || !$xml->children()){
            return back()->with('error', $this->response);
         }
         
@@ -195,9 +195,6 @@ class SoapController extends DefaultController {
         $xml = simplexml_load_string($this->response);
         if(!$xml || !$xml->children()){
            return back()->with('error', $this->response);
-        }else{
-            var_dump($this->response);
-            return;
         }
         
         $ob = array();
@@ -255,7 +252,7 @@ class SoapController extends DefaultController {
         
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($this->response);
-        if(!$xml){
+        if(!$xml || !$xml->children()){
            return back()->with('error', $this->response);
         }
         
@@ -363,7 +360,7 @@ class SoapController extends DefaultController {
         
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($this->response);
-        if(!$xml){
+        if(!$xml || !$xml->children()){
            return back()->with('error', $this->response);
         }
         
@@ -467,7 +464,7 @@ class SoapController extends DefaultController {
         
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($this->response);
-        if(!$xml){
+        if(!$xml || !$xml->children()){
            return back()->with('error', $this->response);
         }
         
