@@ -119,11 +119,16 @@ class SoapController extends DefaultController {
 //        var_dump($this->response);
         
         $xml = simplexml_load_string($this->response);
+        
+        if(!$xml){
+            return back()->with('error', $this->response);
+        }
+        
         $header = array();
         $details = [];
         foreach($xml->children() as $child) {
             foreach($child as $key => $value) {
-                if($key == 'header'){
+                if($key == 'header' || $key == 'HEADER'){
                     $header[] = $value;
                 }else{
                     foreach ($value as $detail):
@@ -150,6 +155,8 @@ class SoapController extends DefaultController {
             endforeach;
             $respon_detail->save();
         endforeach;
+        
+        return back()->with('success', 'Get Respon PLP has been success.');
         
     }
     
@@ -180,7 +187,30 @@ class SoapController extends DefaultController {
             $this->response = $service->call('GetDataOB', [$data])->GetDataOBResult;      
         });
         
-        var_dump($this->response);
+//        var_dump($this->response);
+        
+        $xml = simplexml_load_string($this->response);
+        
+        if(!$xml){
+            return back()->with('error', $this->response);
+        }
+        
+        $ob = array();
+        foreach($xml->children() as $child) {
+            $ob[] = $child;
+        }
+        
+        // INSERT DATA       
+        foreach ($ob as $data):
+            $obinsert = new \App\Models\TpsOb;
+            foreach ($data as $key=>$value):
+                if($key == 'KODE_KANTOR' || $key == 'kode_kantor'){ $key='KD_KANTOR'; }
+                $obinsert->$key = $value;
+            endforeach;
+            $obinsert->save();
+        endforeach;
+        
+        return back()->with('success', 'Get OB has been success.');
         
     }
     
@@ -219,6 +249,10 @@ class SoapController extends DefaultController {
 //        var_dump($this->response);
         
         $xml = simplexml_load_string($this->response);
+        
+        if(!$xml){
+            return back()->with('error', $this->response);
+        }
         
         foreach($xml->children() as $child) {
             $header = array();
@@ -320,7 +354,48 @@ class SoapController extends DefaultController {
             $this->response = $service->call('GetImporPermit', [$data])->GetImporPermitResult;      
         });
         
-        var_dump($this->response);
+//        var_dump($this->response);
+        
+        $xml = simplexml_load_string($this->response);
+        
+        if(!$xml){
+            return back()->with('error', $this->response);
+        }
+        
+        foreach ($xml->children() as $data):  
+            foreach ($data as $key=>$value):
+                if($key == 'HEADER' || $key == 'header'){           
+                    $sppb = new \App\Models\TpsSppbPib;
+                    foreach ($value as $keyh=>$valueh):
+                        if($keyh == 'TG_BL_AWB' || $keyh == 'tg_bl_awb'){ $keyh='TGL_BL_AWB'; }
+                        elseif($keyh == 'TG_MASTER_BL_AWB' || $keyh == 'tg_master_bl_awb'){ $keyh='TGL_MASTER_BL_AWB'; }
+                        $sppb->$keyh = $valueh;
+                    endforeach;
+                    $sppb->save();
+                    $sppb_id = $sppb->TPS_SPPBXML_PK;
+                }elseif($key == 'DETIL' || $key == 'detil'){
+                    foreach ($value as $key1=>$value1):
+                        if($key1 == 'KMS' || $key1 == 'kms'){
+                            $kms = new \App\Models\TpsSppbPibKms;
+                            foreach ($value1 as $keyk=>$valuek):
+                                $kms->$keyk = $valuek;
+                            endforeach;
+                            $kms->TPS_SPPBXML_FK = $sppb_id;
+                            $kms->save();
+                        }elseif($key1 == 'CONT' || $key1 == 'cont'){
+                            $cont = new \App\Models\TpsSppbPibCont;
+                            foreach ($value1 as $keyc=>$valuec):
+                                $cont->$keyc = $valuec;
+                            endforeach;
+                            $cont->TPS_SPPBXML_FK = $sppb_id;
+                            $cont->save();
+                        }
+                    endforeach;  
+                }
+            endforeach;
+        endforeach;
+        
+        return back()->with('success', 'Get SPPB PIB has been success.');
         
     }
     
@@ -383,7 +458,49 @@ class SoapController extends DefaultController {
             $this->response = $service->call('GetBC23Permit', [$data])->GetBC23PermitResult;      
         });
         
-        var_dump($this->response);
+//        var_dump($this->response);
+        
+        $xml = simplexml_load_string($this->response);
+        
+        if(!$xml){
+            return back()->with('error', $this->response);
+        }
+        
+        foreach ($xml->children() as $data):  
+            foreach ($data as $key=>$value):
+                if($key == 'HEADER' || $key == 'header'){           
+                    $sppb = new \App\Models\TpsSppbBc;
+                    foreach ($value as $keyh=>$valueh):
+                        if($keyh == 'TG_BL_AWB' || $keyh == 'tg_bl_awb'){ $keyh='TGL_BL_AWB'; }
+                        elseif($keyh == 'TG_MASTER_BL_AWB' || $keyh == 'tg_master_bl_awb'){ $keyh='TGL_MASTER_BL_AWB'; }
+                        elseif($keyh == 'BRUTTO' || $keyh == 'brutto'){ $keyh='BRUTO'; }
+                        $sppb->$keyh = $valueh;
+                    endforeach;
+                    $sppb->save();
+                    $sppb_id = $sppb->TPS_SPPBXML_PK;
+                }elseif($key == 'DETIL' || $key == 'detil'){
+                    foreach ($value as $key1=>$value1):
+                        if($key1 == 'KMS' || $key == 'kms'){
+                            $kms = new \App\Models\TpsSppbBcKms;
+                            foreach ($value1 as $keyk=>$valuek):
+                                $kms->$keyk = $valuek;
+                            endforeach;
+                            $kms->TPS_SPPBXML_FK = $sppb_id;
+                            $kms->save();
+                        }elseif($key1 == 'CONT' || $key == 'cont'){
+                            $cont = new \App\Models\TpsSppbBcCont;
+                            foreach ($value1 as $keyc=>$valuec):
+                                $cont->$keyc = $valuec;
+                            endforeach;
+                            $cont->TPS_SPPBXML_FK = $sppb_id;
+                            $cont->save();
+                        }
+                    endforeach;  
+                }
+            endforeach;
+        endforeach;
+        
+        return back()->with('success', 'Get SPPB BC23 has been success.');
         
     }
 

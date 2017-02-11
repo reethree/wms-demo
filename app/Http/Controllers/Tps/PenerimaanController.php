@@ -426,7 +426,7 @@ class PenerimaanController extends Controller
         foreach ($ob as $data):
             $obinsert = new \App\Models\TpsOb;
             foreach ($data as $key=>$value):
-                if($key == 'KODE_KANTOR'){ $key='KD_KANTOR'; }
+                if($key == 'KODE_KANTOR' || $key == 'kode_kantor'){ $key='KD_KANTOR'; }
                 $obinsert->$key = $value;
             endforeach;
             $obinsert->save();
