@@ -195,6 +195,9 @@ class SoapController extends DefaultController {
         $xml = simplexml_load_string($this->response);
         if(!$xml || !$xml->children()){
            return back()->with('error', $this->response);
+        }else{
+            var_dump($this->response);
+            return;
         }
         
         $ob = array();
