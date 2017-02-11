@@ -187,9 +187,9 @@ class SoapController extends DefaultController {
             $this->response = $service->call('GetDataOB', [$data])->GetDataOBResult;      
         });
         
-        var_dump($this->response);
-        
-        return false;
+//        var_dump($this->response);
+//        
+//        return false;
         
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($this->response);
