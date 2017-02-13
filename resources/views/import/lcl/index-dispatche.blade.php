@@ -15,7 +15,7 @@
     
     $(document).ready(function()
     {
-        $('#release-form').disabledFormGroup();
+        $('#dispatche-form').disabledFormGroup();
         $('#btn-toolbar').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
@@ -33,10 +33,10 @@
 
 //            if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
                 $('#btn-group-2').enableButtonGroup();
-                $('#release-form').enableFormGroup();
+                $('#dispatche-form').enableFormGroup();
 //            }else{
 //                $('#btn-group-2').disabledButtonGroup();
-//                $('#release-form').disabledFormGroup();
+//                $('#dispatche-form').disabledFormGroup();
 //            }
 
         });
@@ -46,6 +46,21 @@
         });
         
         $('#btn-upload').click(function() {
+            if(!confirm('Apakah anda yakin?')){return false;}
+            
+            if($('#NO_PLP').val() == ''){
+                alert('No. PLP masih kosong!');
+                return false;
+            }else if($('#TGL_PLP').val() == ''){
+                alert('Tgl. PLP masih kosong!');
+                return false;
+            }else if($('#ESEALCODE').val() == ''){
+                alert('E-Seal masih kosong!');
+                return false;
+            }else if($('#NOPOL').val() == ''){
+                alert('No. POL masih kosong!');
+                return false;
+            }
             
         });
 
@@ -53,12 +68,12 @@
             
             if(!confirm('Apakah anda yakin?')){return false;}
             
-            var manifestId = $('#TCONTAINER_PK').val();
-            var url = "{{route('lcl-dispatche-update','')}}/"+manifestId;
+            var containerId = $('#TCONTAINER_PK').val();
+            var url = "{{route('lcl-dispatche-update','')}}/"+containerId;
 
             $.ajax({
                 type: 'POST',
-                data: JSON.stringify($('#release-form').formToObject('')),
+                data: JSON.stringify($('#dispatche-form').formToObject('')),
                 dataType : 'json',
                 url: url,
                 error: function (jqXHR, textStatus, errorThrown)
@@ -90,11 +105,11 @@
         
         $('#btn-refresh').click(function() {
             $('#lclDispatcheGrid').jqGrid().trigger("reloadGrid");
-            $('#release-form').disabledFormGroup();
+            $('#dispatche-form').disabledFormGroup();
             $('#btn-toolbar').disabledButtonGroup();
             $('#btn-group-3').enableButtonGroup();
             
-            $('#release-form')[0].reset();
+            $('#dispatche-form')[0].reset();
             $('.select2').val(null).trigger("change");
             $('#TMANIFEST_PK').val("");
         });
@@ -197,14 +212,14 @@
 <!--                    <div id="btn-group-4" class="btn-group">
                         <button class="btn btn-default" id="btn-print"><i class="fa fa-print"></i> Cetak Surat Jalan</button>
                     </div>-->
-                    <div id="btn-group-5" class="btn-group">
-                        <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload</button>
+                    <div id="btn-group-5" class="btn-group pull-right">
+                        <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload EasyGO</button>
                     </div>
                 </div>
             </div>
             
         </div>
-        <form class="form-horizontal" id="release-form" action="{{ route('lcl-delivery-release-index') }}" method="POST">
+        <form class="form-horizontal" id="dispatche-form" action="" method="POST">
             <div class="row">
                 <div class="col-md-6">
                     

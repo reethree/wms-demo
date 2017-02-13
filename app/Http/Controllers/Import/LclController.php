@@ -705,7 +705,18 @@ class LclController extends Controller
     
     public function dispatcheUpdate(Request $request, $id)
     {
+        $data = $request->json()->all(); 
+        unset($data['TCONTAINER_PK'], $data['_token']);
         
+        $update = DBContainer::where('TCONTAINER_PK', $id)
+            ->update($data);
+        
+        if($update){
+            
+            return json_encode(array('success' => true, 'message' => 'Container successfully updated.'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
     }
     
     /**
@@ -1062,7 +1073,7 @@ class LclController extends Controller
             // Perhitungan CBM
             $weight = $manifest->WEIGHT / 1000;
             $meas = $manifest->MEAS / 1000;
-            $cbm = array($weight,$meas);
+            $cbm = array($weight, $meas);
             $maxcbm = ceil(max($cbm) * 2) / 2;
 //            $maxcbm = ceil(max($cbm));
             if($maxcbm < 2){ $maxcbm = 2; }
@@ -1109,7 +1120,6 @@ class LclController extends Controller
             $invoice_import->behandle = ($manifest->BEHANDLE == 'Y') ? 1 : 0;
             $invoice_import->harga_behandle = ($manifest->BEHANDLE == 'Y') ? $tarif->behandle : 0;
             $invoice_import->adm = $tarif->adm;
-            $invoice_import->weight_surcharge = $tarif->weight_surcharge;
 
             $array_total = array(
                 $invoice_import->rdm,
@@ -1124,8 +1134,10 @@ class LclController extends Controller
             );
             $sub_total = array_sum($array_total);
             
-            $invoice_import->dg_surcharge = ($tarif->dg_surcharge * $sub_total) / 100;
+            $invoice_import->weight_surcharge = ceil(($tarif->weight_surcharge * $sub_total) / 100);
+            $invoice_import->dg_surcharge = ceil(($tarif->dg_surcharge * $sub_total) / 100);
             $invoice_import->sub_total = $sub_total;
+            $invoice_import->ppn = ceil(($tarif->ppn * $sub_total) / 100);;
             $invoice_import->materai = ($sub_total >= 1000000) ? 6000 : 3000;
             $invoice_import->uid = \Auth::getUser()->name;
                     

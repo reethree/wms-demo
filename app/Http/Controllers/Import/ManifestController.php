@@ -83,6 +83,7 @@ class ManifestController extends Controller
         $data['TLOKASISANDAR_FK'] = $container->TLOKASISANDAR_FK;
         $data['KD_TPS_ASAL'] = $container->KD_TPS_ASAL;
         $data['KD_TPS_TUJUAN'] = $container->KD_TPS_TUJUAN;
+        $data['SIZE'] = $container->SIZE;
         $data['ETA'] = $container->ETA;
         $data['ETD'] = $container->ETD;
         $data['VESSEL'] = $container->VESSEL;
@@ -120,8 +121,22 @@ class ManifestController extends Controller
         if($insert_id){
             // Update Jumlah BL
             $countbl = DBManifest::where('TCONTAINER_FK', $data['TCONTAINER_FK'])->count();
+            
+            // Update Meas Wight           
+            $sum_weight_manifest = DBManifest::select('WEIGHT')->where('TCONTAINER_FK', $data['TCONTAINER_FK'])->sum('WEIGHT');
+            $sum_meas_marnifest = DBManifest::select('MEAS')->where('TCONTAINER_FK', $data['TCONTAINER_FK'])->sum('MEAS');         
+            $container->MEAS = $sum_meas_marnifest;
+            $container->WEIGHT = $sum_weight_manifest;
             $container->jumlah_bl = $countbl;
-            $container->save();
+            
+            if($container->save()){
+                
+                $sum_weight = DBContainer::select('WEIGHT')->where('TJOBORDER_FK', $container->TJOBORDER_FK)->sum('WEIGHT');
+                $sum_meas = DBContainer::select('MEAS')->where('TJOBORDER_FK', $container->TJOBORDER_FK)->sum('MEAS');         
+                \App\Models\Joborder::where('TJOBORDER_PK', $container->TJOBORDER_FK)
+                        ->update(['MEASUREMENT' => $sum_meas, 'GROSSWEIGHT' => $sum_weight]);
+                
+            }
 
             return json_encode(array('success' => true, 'message' => 'Manifest successfully saved!'));
         }
@@ -209,6 +224,7 @@ class ManifestController extends Controller
         $data['TGL_BC11'] = $container->TGL_BC11;
         $data['NO_PLP'] = $container->NO_PLP;
         $data['TGL_PLP'] = $container->TGL_PLP;
+        $data['SIZE'] = $container->SIZE;
         $data['KODE_KEMAS'] = $packing->KODEPACKING;
         $data['NAMAPACKING'] = $packing->NAMAPACKING;  
         $data['SHIPPER'] = DBPerusahaan::getNameById($data['TSHIPPER_FK']);
@@ -226,6 +242,22 @@ class ManifestController extends Controller
             ->update($data);
         
         if($update){
+            
+            // Update Meas Wight           
+            $sum_weight_manifest = DBManifest::select('WEIGHT')->where('TCONTAINER_FK', $data['TCONTAINER_FK'])->sum('WEIGHT');
+            $sum_meas_marnifest = DBManifest::select('MEAS')->where('TCONTAINER_FK', $data['TCONTAINER_FK'])->sum('MEAS');         
+            $container->MEAS = $sum_meas_marnifest;
+            $container->WEIGHT = $sum_weight_manifest;
+            
+            if($container->save()){
+                
+                $sum_weight = DBContainer::select('WEIGHT')->where('TJOBORDER_FK', $container->TJOBORDER_FK)->sum('WEIGHT');
+                $sum_meas = DBContainer::select('MEAS')->where('TJOBORDER_FK', $container->TJOBORDER_FK)->sum('MEAS');         
+                \App\Models\Joborder::where('TJOBORDER_PK', $container->TJOBORDER_FK)
+                        ->update(['MEASUREMENT' => $sum_meas, 'GROSSWEIGHT' => $sum_weight]);
+                
+            }
+            
             return json_encode(array('success' => true, 'message' => 'Manifest successfully saved!'));
         }
         

@@ -207,8 +207,8 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Invoice <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="manu">
-                    <li><a href="{{route('invoice-tarif-index')}}">List Tarif</a></li>
-                    <li><a href="{{route('invoice-index')}}">Invoice</a></li>
+                    <!--<li><a href="{{route('invoice-tarif-index')}}">List Tarif</a></li>-->
+                    <li><a href="{{route('invoice-index')}}">Data Invoice</a></li>
                 </ul>
             </li>
             

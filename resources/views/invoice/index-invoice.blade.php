@@ -5,9 +5,34 @@
     .datepicker.dropdown-menu {
         z-index: 100 !important;
     }
+    th.ui-th-column div{
+        white-space:normal !important;
+        height:auto !important;
+        padding:2px;
+    }
 </style>
 <script>
- 
+    
+    var grid = $("#lclInvoicesGrid"), headerRow, rowHight, resizeSpanHeight;
+
+    // get the header row which contains
+    headerRow = grid.closest("div.ui-jqgrid-view")
+        .find("table.ui-jqgrid-htable>thead>tr.ui-jqgrid-labels");
+
+    // increase the height of the resizing span
+    resizeSpanHeight = 'height: ' + headerRow.height() +
+        'px !important; cursor: col-resize;';
+    headerRow.find("span.ui-jqgrid-resize").each(function () {
+        this.style.cssText = resizeSpanHeight;
+    });
+
+    // set position of the dive with the column header text to the middle
+    rowHight = headerRow.height();
+    headerRow.find("div.ui-jqgrid-sortable").each(function () {
+        var ts = $(this);
+        ts.css('top', (rowHight - ts.outerHeight()) / 2 + 'px');
+    });
+    
     function gridCompleteEvent()
     {
         var ids = jQuery("#lclInvoicesGrid").jqGrid('getDataIDs'),
@@ -69,7 +94,7 @@
             ->setSheetProperty('fitToHeight', true)
             ->setGridOption('rowNum', 20)
             ->setGridOption('shrinkToFit', true)
-            ->setGridOption('sortname','TJOBORDER_PK')
+            ->setGridOption('sortname','updated_at')
             ->setGridOption('rownumbers', true)
             ->setGridOption('height', '295')
             ->setGridOption('rowList',array(20,50,100))
@@ -79,27 +104,39 @@
             ->setFilterToolbarOptions(array('autosearch'=>true))
             ->setGridEvent('gridComplete', 'gridCompleteEvent')
             ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
-            ->addColumn(array('key'=>true,'index'=>'TJOBORDER_PK','hidden'=>true))
-            ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>160,'hidden'=>true))
-            ->addColumn(array('label'=>'No. Joborder','index'=>'NOJOBORDER','width'=>160))
-            ->addColumn(array('label'=>'No. MBL','index'=>'NOMBL','width'=>160))
-            ->addColumn(array('label'=>'Tgl. MBL','index'=>'TGL_MASTER_BL','width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
-            ->addColumn(array('label'=>'No. BC11','index'=>'TNO_BC11','width'=>150,'align'=>'right'))
-            ->addColumn(array('label'=>'Tgl. BC11','index'=>'TTGL_BC11','width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'No. PLP','index'=>'TNO_PLP','width'=>150,'align'=>'right'))
-            ->addColumn(array('label'=>'Tgl. PLP','index'=>'TTGL_PLP','width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'ETD','index'=>'ETD', 'width'=>150,'align'=>'center'))
+            ->addColumn(array('key'=>true,'index'=>'id','hidden'=>true))
+            
+//            ->addColumn(array('label'=>'No. Joborder','index'=>'NOJOBORDER','width'=>160))
+//            ->addColumn(array('label'=>'No. MBL','index'=>'NOMBL','width'=>160))
+//            ->addColumn(array('label'=>'Tgl. MBL','index'=>'TGL_MASTER_BL','width'=>150,'align'=>'center'))
+//            ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
+//            ->addColumn(array('label'=>'No. BC11','index'=>'TNO_BC11','width'=>150,'align'=>'right'))
+//            ->addColumn(array('label'=>'Tgl. BC11','index'=>'TTGL_BC11','width'=>150,'align'=>'center'))
+//            ->addColumn(array('label'=>'No. PLP','index'=>'TNO_PLP','width'=>150,'align'=>'right'))
+//            ->addColumn(array('label'=>'Tgl. PLP','index'=>'TTGL_PLP','width'=>150,'align'=>'center'))
+//            ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
+//            ->addColumn(array('label'=>'ETD','index'=>'ETD', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Vessel','index'=>'VESSEL', 'width'=>150))
-            ->addColumn(array('label'=>'Callsign','index'=>'CALLSIGN', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Voy','index'=>'VOY','width'=>80,'align'=>'center'))
-            ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>80,'align'=>'center','hidden'=>true))
-            ->addColumn(array('label'=>'No. Seal','index'=>'NO_SEAL', 'width'=>120,'align'=>'right','hidden'=>true))
-            ->addColumn(array('label'=>'Layout','index'=>'layout','width'=>80,'align'=>'center','hidden'=>true,'hidden'=>true))
+            ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>160))
+            ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>80,'align'=>'center'))
+            ->addColumn(array('label'=>'Tanggal<br />Masuk','index'=>'ETA', 'width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'No. B/L','index'=>'NOHBL','width'=>160))          
+            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>250,))
+            ->addColumn(array('label'=>'CBM<br r/>eq','index'=>'cbm', 'width'=>60,'align'=>'center'))
+            ->addColumn(array('label'=>'Tanggal<br />Keluar','index'=>'ETD', 'width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'Hari','index'=>'hari','width'=>60,'align'=>'center'))
+            ->addColumn(array('label'=>'Bhndl','index'=>'behandle', 'width'=>60,'align'=>'center'))
+            ->addColumn(array('label'=>'Storage','index'=>'storage','width'=>120,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+            ->addColumn(array('label'=>'RDM','index'=>'rdm','width'=>80,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+            ->addColumn(array('label'=>'Bhndl','index'=>'harga_behandle', 'width'=>120,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+            ->addColumn(array('label'=>'Adm/Doc','index'=>'adm','width'=>80,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+            ->addColumn(array('label'=>'Surcharge','index'=>'weight_surcharge', 'width'=>120,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+            ->addColumn(array('label'=>'Sub Total','index'=>'sub_total', 'width'=>120,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+            ->addColumn(array('label'=>'PPN','index'=>'ppn', 'width'=>120,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
             ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
-            ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
+            ->addColumn(array('label'=>'Tanggal<br/>Entry','index'=>'TGLENTRY', 'width'=>120,'align'=>'center'))
+//            ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
 //            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->renderGrid()
         }}

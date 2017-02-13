@@ -45,7 +45,7 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-dispatche-index',
         'uses' => 'LclController@dispatcheIndex'
     ]);
-    Route::get('/dispatche/edit/{id}', [
+    Route::post('/dispatche/edit/{id}', [
         'as' => 'lcl-dispatche-update',
         'uses' => 'LclController@dispatcheUpdate'
     ]);
