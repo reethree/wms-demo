@@ -18,6 +18,7 @@ use App\Models\Shippingline as DBShippingline;
 use App\Models\Lokasisandar as DBLokasisandar;
 use App\Models\Container as DBContainer;
 use App\Models\Eseal as DBEseal;
+use App\Models\Depomty as DBDepomty;
 use App\Models\Manifest as DBManifest;
 
 class LclController extends Controller
@@ -115,6 +116,8 @@ class LclController extends Controller
                 'title' => 'LCL Realisasi Buang MTY'
             ]
         ];        
+        
+        $data['depomty'] = DBDepomty::get();
         
         return view('import.lcl.index-buangmty')->with($data);
     }
@@ -1065,6 +1068,7 @@ class LclController extends Controller
 //        
             
             // Perhitungan Hari
+            // Tgl masuk container
             $date1 = date_create($manifest->tglstripping);
             $date2 = date_create(date('Y-m-d',strtotime($manifest->tglrelease. '+1 days')));
             $diff = date_diff($date1, $date2);
@@ -1078,35 +1082,34 @@ class LclController extends Controller
 //            $maxcbm = ceil(max($cbm));
             if($maxcbm < 2){ $maxcbm = 2; }
             
-            // Sub Total (CBM*Hari*harga)
+            // Sub Total (CBM*harga*Hari)
             if($tarif->storage > 0){
-                $sub_masa = $hari * $tarif->storage;
-                $tot_masa = $maxcbm * $sub_masa;
+                $sub_masa = $maxcbm * $tarif->storage;
+                $tot_masa = $sub_masa * $hari;
             }else{
                 // Masa I
 //                if($hari <> 3) {
                 $hari_masa1 = 1;
-                $sub_masa1 = $hari_masa1 * $tarif->storage_masa1;
-                $tot_masa1 = $maxcbm * $sub_masa1;
+                $sub_masa1 = $maxcbm * $tarif->storage_masa1;
+                $tot_masa1 = $hari_masa1 * $sub_masa1;
 //                }
                 // Masa II
                 if($hari > 3 ) {
                     $hari_masa2 = $hari - 3;
                     if($hari_masa2 > 2) { $hari_masa2 = 2; }
-                    $sub_masa2 = $hari_masa2 * $tarif->storage_masa2;
-                    $tot_masa2 = $maxcbm * $sub_masa2;
+                    $sub_masa2 = $maxcbm * $tarif->storage_masa2;
+                    $tot_masa2 = $hari_masa2 * $sub_masa2;
                 }
                 // Masa III
                 if($hari > 5) {
                     $hari_masa3 = $hari - 5;
-                    $sub_masa3 = $hari_masa3 * $tarif->storage_masa2;
-                    $tot_masa3 = $maxcbm * $sub_masa3;
+                    $sub_masa3 = $maxcbm * $tarif->storage_masa2;
+                    $tot_masa3 = $hari_masa3 * $sub_masa3;
                 }
             }
             
             $invoice_import = new \App\Models\Invoice;
             $invoice_import->manifest_id = $manifest_id;
-            $invoice_import->no_invoice = 'INV-'.date('Ymd').str_pad($manifest_id, 5, '0', STR_PAD_LEFT);
             $invoice_import->cbm = $maxcbm;
             $invoice_import->rdm = $tarif->rdm * $maxcbm;
             $invoice_import->storage = (isset($tot_masa)) ? $tot_masa : 0 ;
@@ -1134,7 +1137,11 @@ class LclController extends Controller
             );
             $sub_total = array_sum($array_total);
             
-            $invoice_import->weight_surcharge = ceil(($tarif->weight_surcharge * $sub_total) / 100);
+            if($weight > 2500){
+                $invoice_import->weight_surcharge = ceil(($tarif->weight_surcharge * $sub_total) / 100);
+            }else{
+                $invoice_import->weight_surcharge = 0;
+            }
             $invoice_import->dg_surcharge = ceil(($tarif->dg_surcharge * $sub_total) / 100);
             $invoice_import->sub_total = $sub_total;
             $invoice_import->ppn = ceil(($tarif->ppn * $sub_total) / 100);;
@@ -1142,6 +1149,13 @@ class LclController extends Controller
             $invoice_import->uid = \Auth::getUser()->name;
                     
             if($invoice_import->save()){
+                
+                // Update Invoice Number
+                $array_bulan = array(1=>"I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
+                $bulan = $array_bulan[date('n')];
+                $no_invoice = str_pad($invoice_import->id, 4, '0', STR_PAD_LEFT).'/Gud/'.$bulan.'/'.date('Y').'-PJP';
+                \App\Models\Invoice::where('id', $invoice_import->id)->update(['no_invoice' => $no_invoice]);
+                
                 return json_encode(array('success' => true, 'message' => 'No. Tally '.$manifest->NOTALLY.', invoice berhasih dibuat.'));
             }else{
                 return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));

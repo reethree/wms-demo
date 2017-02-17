@@ -321,7 +321,12 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Tujuan</label>
                         <div class="col-sm-8">
-                            <input type="text" id="TUJUAN_MTY" name="TUJUAN_MTY" class="form-control" required>
+                            <select id="TUJUAN_MTY" class="form-control select2" name="TUJUAN_MTY" style="width: 100%;" tabindex="-1" aria-hidden="true" >
+                                <option value="">Choose Tujuan Depo MTY</option>
+                                @foreach($depomty as $depo)
+                                    <option value="{{ $depo->TDEPOMTY_PK }}">{{ $depo->NAMADEPOMTY }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
