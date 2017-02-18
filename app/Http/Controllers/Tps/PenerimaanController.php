@@ -374,12 +374,12 @@ class PenerimaanController extends Controller
     
     public function responPlpGetXml()
     {
-        $xml = simplexml_load_file(url('xml/GetImpPLPCONT20161108011403.xml'));
+        $xml = simplexml_load_file(url('xml/GetPlp.xml'));
         $header = array();
         $details = [];
         foreach($xml->children() as $child) {
             foreach($child as $key => $value) {
-                if($key == 'HEADER'){
+                if($key == 'header' || $key == 'HEADER'){
                     $header[] = $value;
                 }else{
                     foreach ($value as $detail):
@@ -394,6 +394,7 @@ class PenerimaanController extends Controller
         foreach ($header[0] as $key=>$value):
             $respon->$key = $value;
         endforeach;
+        $respon->TGL_UPLOAD = date('Y-m-d H:i:s');
         $respon->save();
         
         $plp_id = $respon->tps_responplptujuanxml_pk;
@@ -406,6 +407,8 @@ class PenerimaanController extends Controller
             endforeach;
             $respon_detail->save();
         endforeach;
+        
+        return back()->with('success', 'Get Respon PLP has been success.');
         
     }
     
