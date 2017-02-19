@@ -283,25 +283,35 @@ class FclController extends Controller
         $data = $request->except(['_token']); 
         $data['TGLENTRY'] = date('Y-m-d');
         $data['TGLMBL'] = (!empty($data['TGLMBL'])) ? date('Y-m-d', strtotime($data['TGLMBL'])) : '0000-00-00';
-        $data['ETA'] = date('Y-m-d', strtotime($data['ETA']));
-        $data['ETD'] = date('Y-m-d', strtotime($data['ETD']));
-        $data['TGL_BC11'] = date('Y-m-d', strtotime($data['TGL_BC11']));
-        $data['TTGL_PLP'] = date('Y-m-d', strtotime($data['TTGL_PLP']));
+        $data['ETA'] = (!empty($data['ETA'])) ? date('Y-m-d', strtotime($data['ETA'])) : '0000-00-00';
+        $data['ETD'] = (!empty($data['ETD'])) ? date('Y-m-d', strtotime($data['ETD'])) : '0000-00-00';
+        $data['TGL_BC11'] = (!empty($data['TGL_BC11'])) ? date('Y-m-d', strtotime($data['TGL_BC11'])) : '0000-00-00';
+        $data['TTGL_PLP'] = (!empty($data['TTGL_PLP'])) ? date('Y-m-d', strtotime($data['TTGL_PLP'])) : '0000-00-00';
         $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR','NPWP')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
-        $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
-        $data['ID_CONSOLIDATOR'] = str_replace(array('.','-'),array('',''),$namaconsolidator->NPWP);
+        if($namaconsolidator) {
+            $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
+            $data['ID_CONSOLIDATOR'] = str_replace(array('.','-'),array('',''),$namaconsolidator->NPWP);
+        }       
         $namanegara = DBNegara::select('NAMANEGARA')->where('TNEGARA_PK',$data['TNEGARA_FK'])->first();
-        $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
+        if($namanegara) {
+            $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
+        }
         $namapelabuhan = DBPelabuhan::select('NAMAPELABUHAN')->where('TPELABUHAN_PK',$data['TPELABUHAN_FK'])->first();
-        $data['NAMAPELABUHAN'] = $namapelabuhan->NAMAPELABUHAN;
+        if($namapelabuhan){
+            $data['NAMAPELABUHAN'] = $namapelabuhan->NAMAPELABUHAN;
+        }
         $namalokasisandar = DBLokasisandar::select('NAMALOKASISANDAR')->where('TLOKASISANDAR_PK',$data['TLOKASISANDAR_FK'])->first();
-        $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
+        if($namalokasisandar){
+            $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
+        }
         if($data['TSHIPPINGLINE_FK']){
             $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();
             $data['SHIPPINGLINE'] = $namashippingline->SHIPPINGLINE;
         }
         $namaconsignee = DBPerusahaan::select('NAMAPERUSAHAAN')->where('TPERUSAHAAN_PK',$data['TCONSIGNEE_FK'])->first();
-        $data['CONSIGNEE'] = $namaconsignee->NAMAPERUSAHAAN;
+        if($namaconsignee){
+            $data['CONSIGNEE'] = $namaconsignee->NAMAPERUSAHAAN;
+        }
         $data['UID'] = \Auth::getUser()->name;
         
         $insert_id = DBJoborder::insertGetId($data);
@@ -394,25 +404,36 @@ class FclController extends Controller
         }
         
         $data = $request->except(['_token']); 
-        $data['TGLENTRY'] = date('Y-m-d');
         $data['TGLMBL'] = (!empty($data['TGLMBL'])) ? date('Y-m-d', strtotime($data['TGLMBL'])) : '0000-00-00';
-        $data['ETA'] = date('Y-m-d', strtotime($data['ETA']));
-        $data['ETD'] = date('Y-m-d', strtotime($data['ETD']));
-        $data['TGL_BC11'] = date('Y-m-d', strtotime($data['TGL_BC11']));
-        $data['TTGL_PLP'] = date('Y-m-d', strtotime($data['TTGL_PLP']));
+        $data['ETA'] = (!empty($data['ETA'])) ? date('Y-m-d', strtotime($data['ETA'])) : '0000-00-00';
+        $data['ETD'] = (!empty($data['ETD'])) ? date('Y-m-d', strtotime($data['ETD'])) : '0000-00-00';
+        $data['TGL_BC11'] = (!empty($data['TGL_BC11'])) ? date('Y-m-d', strtotime($data['TGL_BC11'])) : '0000-00-00';
+        $data['TTGL_PLP'] = (!empty($data['TTGL_PLP'])) ? date('Y-m-d', strtotime($data['TTGL_PLP'])) : '0000-00-00';
         $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR','NPWP')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
-        $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
-        $data['ID_CONSIGNEE'] = str_replace(array('.','-'),array('',''),$namaconsolidator->NPWP);
+        if($namaconsolidator) {
+            $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
+            $data['ID_CONSOLIDATOR'] = str_replace(array('.','-'),array('',''),$namaconsolidator->NPWP);
+        }       
         $namanegara = DBNegara::select('NAMANEGARA')->where('TNEGARA_PK',$data['TNEGARA_FK'])->first();
-        $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
+        if($namanegara) {
+            $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
+        }
         $namapelabuhan = DBPelabuhan::select('NAMAPELABUHAN')->where('TPELABUHAN_PK',$data['TPELABUHAN_FK'])->first();
-        $data['NAMAPELABUHAN'] = $namapelabuhan->NAMAPELABUHAN;
+        if($namapelabuhan){
+            $data['NAMAPELABUHAN'] = $namapelabuhan->NAMAPELABUHAN;
+        }
         $namalokasisandar = DBLokasisandar::select('NAMALOKASISANDAR')->where('TLOKASISANDAR_PK',$data['TLOKASISANDAR_FK'])->first();
-        $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
-        $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();
-        $data['SHIPPINGLINE'] = $namashippingline->SHIPPINGLINE;
+        if($namalokasisandar){
+            $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
+        }
+        if($data['TSHIPPINGLINE_FK']){
+            $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();
+            $data['SHIPPINGLINE'] = $namashippingline->SHIPPINGLINE;
+        }
         $namaconsignee = DBPerusahaan::select('NAMAPERUSAHAAN')->where('TPERUSAHAAN_PK',$data['TCONSIGNEE_FK'])->first();
-        $data['CONSIGNEE'] = $namaconsignee->NAMAPERUSAHAAN;
+        if($namaconsignee){
+            $data['CONSIGNEE'] = $namaconsignee->NAMAPERUSAHAAN;
+        }
         $data['UID'] = \Auth::getUser()->name;
         
         $update = DBJoborder::where('TJOBORDER_PK', $id)

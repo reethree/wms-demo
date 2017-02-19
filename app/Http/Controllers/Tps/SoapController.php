@@ -143,6 +143,7 @@ class SoapController extends DefaultController {
         foreach ($header[0] as $key=>$value):
             $respon->$key = $value;
         endforeach;
+        $respon->TGL_UPLOAD = date('Y-m-d H:i:s');
         $respon->save();
         
         $plp_id = $respon->tps_responplptujuanxml_pk;
