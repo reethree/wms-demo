@@ -28,6 +28,40 @@ class InvoiceController extends Controller
         return view('invoice.index-invoice')->with($data);
     }
     
+    public function invoiceEdit($id)
+    {
+        
+        if ( !$this->access->can('edit.invoice.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "Edit Invoice";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => route('invoice-index'),
+                'title' => 'Invoice'
+            ],
+            [
+                'action' => '',
+                'title' => 'Edit'
+            ]
+        ];
+        
+        $data['invoice'] = \DB::table('invoice_import')->find($id);
+        $data['manifest'] = \App\Models\Manifest::find($data['invoice']->manifest_id);
+        $data['tarif'] = \App\Models\ConsolidatorTarif::where('TCONSOLIDATOR_FK', $data['manifest']->TCONSOLIDATOR_FK)->first();
+        $total = $data['invoice']->sub_total + $data['invoice']->ppn;
+        $data['terbilang'] = ucwords($this->terbilang($total))." Rupiah";
+        
+        return view('invoice.edit-invoice')->with($data);
+    }
+    
+    public function invoiceDestroy($id)
+    {
+        
+    }
+    
     public function tarifIndex()
     {
         if ( !$this->access->can('show.tarif.index') ) {

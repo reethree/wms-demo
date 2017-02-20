@@ -31,7 +31,7 @@ Route::group(['prefix' => 'fcl', 'namespace' => 'Import'], function(){
     ]);
     Route::get('/register/delete/{id}', [
         'as' => 'fcl-register-delete',
-        'uses' => 'FclControllerController@destroy'
+        'uses' => 'FclController@destroy'
     ]);
     
     Route::get('/dispatche', [

@@ -9,7 +9,16 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
     Route::get('/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\InvoiceTablesRepository('invoice_import',Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
-    });
+    });   
+    Route::get('/edit/{id}', [
+        'as' => 'invoice-edit',
+        'uses' => 'InvoiceController@invoiceEdit'
+    ]);
+    Route::get('/delete/{id}', [
+        'as' => 'invoice-delete',
+        'uses' => 'InvoiceController@invoiceDestroy'
+    ]);
+    
     
     Route::get('/tarif', [
         'as' => 'invoice-tarif-index',
