@@ -1069,7 +1069,8 @@ class LclController extends Controller
             
             // Perhitungan Hari
             // Tgl masuk container
-            $date1 = date_create($manifest->tglstripping);
+//            $date1 = date_create($manifest->tglstripping);
+            $date1 = date_create($manifest->tglmasuk);
             $date2 = date_create(date('Y-m-d',strtotime($manifest->tglrelease. '+1 days')));
             $diff = date_diff($date1, $date2);
             $hari = $diff->format("%a");

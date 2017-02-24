@@ -59,9 +59,33 @@ class InvoiceController extends Controller
     
     public function invoiceDestroy($id)
     {
-        
+        \DB::table('invoice_import')->where('id', $id)->delete();
+        return back()->with('success', 'Invoice has been deleted.'); 
     }
     
+    public function invoicePrint($id)
+    {
+        $data['invoice'] = \DB::table('invoice_import')->find($id);
+        $data['manifest'] = \App\Models\Manifest::find($data['invoice']->manifest_id);
+        $data['tarif'] = \App\Models\ConsolidatorTarif::where('TCONSOLIDATOR_FK', $data['manifest']->TCONSOLIDATOR_FK)->first();
+        $total = $data['invoice']->sub_total + $data['invoice']->ppn;
+        $data['terbilang'] = ucwords($this->terbilang($total))." Rupiah";
+//        return view('print.bon-muat', $container);
+        
+//        switch ($type){
+//            case 'bon-muat':
+//                $pdf = \PDF::loadView('print.bon-muat', $data);        
+//                break;
+//            case 'surat-jalan':
+//                $pdf = \PDF::loadView('print.surat-jalan', $data);
+//                break;
+//        }
+//        return view('print.invoice')->with($data);
+        $pdf = \PDF::loadView('print.invoice', $data);
+        
+        return $pdf->stream($data['invoice']->no_invoice.'-'.date('dmy').'.pdf');
+    }
+
     public function tarifIndex()
     {
         if ( !$this->access->can('show.tarif.index') ) {

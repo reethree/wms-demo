@@ -18,6 +18,10 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
         'as' => 'invoice-delete',
         'uses' => 'InvoiceController@invoiceDestroy'
     ]);
+    Route::get('/print/{id}', [
+        'as' => 'invoice-print',
+        'uses' => 'InvoiceController@invoicePrint'
+    ]);
     
     
     Route::get('/tarif', [

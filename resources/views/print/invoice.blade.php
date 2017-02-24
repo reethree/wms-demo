@@ -1,112 +1,69 @@
-@extends('layout')
+@extends('print')
+
+@section('title')
+    {{ 'Invoice '.$invoice->no_invoice }}
+@stop
 
 @section('content')
-<section class="invoice">
-    <!-- title row -->
-    <div class="row">
-      <div class="col-xs-12">
-        <h2 class="page-header">
-          PT. PRIMANATA JASA PERSADA
-          <small class="pull-right">Date: {{ date('d F, Y') }}</small>
-        </h2>
-      </div>
-      <!-- /.col -->
-    </div>
-    <!-- info row -->
-    <div class="row invoice-info">
+    <div id="details" class="clearfix">
+        <div class="row invoice-info">
         <div class="col-xs-12 text-center margin-bottom">
             <h2><b>INVOICE</b></h2>
         </div>
       <div class="col-sm-4 invoice-col">
-          <table>
+          <table border="0" cellspacing="0" cellpadding="0">
               <tr>
                   <td><b>Kepada Yth.</b></td>
-              </tr>
-              <tr>
-                  <td><b>Consignee</b></td>
-              </tr>
-              <tr>
-                  <td><b>Ex. Kapal</b></td>
-              </tr>
-              <tr>
-                  <td><b>No. B/L / D/O</b></td>
-              </tr>
-              <tr>
-                  <td><b>Party</b></td>
-              </tr>
-              <tr>
-                  <td>&nbsp;</td>
-              </tr>
-              <tr>
-                  <td><b>Ex. Cont</b></td>
-              </tr>
-              <tr>
-                  <td><b>Tempat Penumpokan</b></td>
-              </tr>
-          </table>
-      </div>
-      <!-- /.col -->
-      <div class="col-sm-4 invoice-col">
-        <table>
-              <tr>
                   <td>:&nbsp;&nbsp;&nbsp;&nbsp;<b>{{ $manifest->NAMACONSOLIDATOR }}</b></td>
-              </tr>
-              <tr>
-                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->CONSIGNEE }}</td>
-              </tr>
-              <tr>
-                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->VESSEL }}</td>
-              </tr>
-              <tr>
-                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->NOHBL }}</td>
-              </tr>
-              <tr>
-                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->WEIGHT }} KGS</td>
-              </tr>
-              <tr>
-                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->MEAS }} CBM</td>
-              </tr>
-              <tr>
-                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->NOCONTAINER }} / {{ $manifest->SIZE }}</td>
-              </tr>
-              <tr>
-                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;Gudang PRIMANATA</td>
-              </tr>
-          </table>
-      </div>
-      <!-- /.col -->
-      <div class="col-sm-4 invoice-col">
-          <table>
-              <tr>
                   <td>&nbsp;</td>
                   <td>&nbsp;</td>
                   <td align="right">( DRY )</td>
               </tr>
               <tr>
+                  <td><b>Consignee</b></td>
+                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->CONSIGNEE }}</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
                   <td>&nbsp;</td>
               </tr>
               <tr>
+                  <td><b>Ex. Kapal</b></td>
+                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->VESSEL }}</td>
                   <td><b>Tgl. Masuk</b></td>
                   <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
                   <td>{{ date('d-M-y', strtotime($manifest->tglmasuk)) }}</td>
               </tr>
               <tr>
+                  <td><b>No. B/L / D/O</b></td>
+                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->NOHBL }}</td>
                   <td><b>Tgl. ETA</b></td>
                   <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
                   <td>{{ date('d-M-y', strtotime($manifest->ETA)) }}</td>
               </tr>
               <tr>
+                  <td><b>Party</b></td>
+                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->WEIGHT }} KGS</td>
                   <td><b>Tgl. Keluar</b></td>
                   <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
                   <td>{{ date('d-M-y', strtotime($manifest->tglrelease)) }}</td>
               </tr>
               <tr>
                   <td>&nbsp;</td>
+                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->MEAS }} CBM</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
               </tr>
               <tr>
+                  <td><b>Ex. Cont</b></td>
+                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->NOCONTAINER }} / {{ $manifest->SIZE }}</td>
                   <td><b>No. Invoice</b></td>
                   <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
                   <td>{{ $invoice->no_invoice }}</td>
+              </tr>
+              <tr>
+                  <td><b>Tempat Penumpokan</b></td>
+                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;Gudang PRIMANATA</td>
               </tr>
           </table>
       </div>
@@ -117,7 +74,7 @@
     <!-- Table row -->
     <div class="row">
       <div class="col-xs-12 table-responsive">
-        <table class="table table-striped" border="0">
+        <table border="0" cellspacing="0" cellpadding="0">
           <thead>
           <tr>
             <th>&nbsp;</th>
@@ -182,6 +139,40 @@
             <td align="right">Rp.</td>
             <td align="right">{{ number_format($invoice->adm) }}</td>
           </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan="2">Terbilang:</td>
+                <td>&nbsp;</td>
+              <th align="right">Subtotal:</th>
+              <td align="right">Rp.</td>
+              <td align="right">{{ number_format($invoice->sub_total) }}</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan="2" class="dotted"><b>{{ $terbilang }}</b></td>
+                <td>&nbsp;</td>
+              <th align="right">PPN ({{ $tarif->ppn }}%)</th>
+              <td align="right">Rp.</td>
+              <td align="right">{{ number_format($invoice->ppn) }}</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              <th align="right">TOTAL:</th>
+              <td align="right"><b>Rp.</b></td>
+              <td align="right"><b>{{ number_format($invoice->sub_total + $invoice->ppn) }}</b></td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -189,67 +180,27 @@
     </div>
     <!-- /.row -->
 
-    <div class="row">
-      <!-- accepted payments column -->
-      <div class="col-xs-6">
-        <p>Terbilang:</p>
-        <p class="text-muted well well-sm no-shadow" style="margin-top: 10px; color: #000;">
-          {{ $terbilang }}
-        </p>
-      </div>
-      <!-- /.col -->
-      <div class="col-xs-6">
-        <!--<p class="lead">Amount Due 2/22/2014</p>-->
-
-        <div class="table-responsive">
-          <table class="table">
-            <tbody><tr>
-              <th style="width:50%" align="right">Subtotal:</th>
-              <td align="right">Rp.</td>
-              <td align="right">{{ number_format($invoice->sub_total) }}</td>
-            </tr>
-            <tr>
-              <th align="right">PPN ({{ $tarif->ppn }}%)</th>
-              <td align="right">Rp.</td>
-              <td align="right">{{ number_format($invoice->ppn) }}</td>
-            </tr>
-            <tr>
-              <th align="right">Total:</th>
-              <td align="right"><b>Rp.</b></td>
-              <td align="right"><b>{{ number_format($invoice->sub_total + $invoice->ppn) }}</b></td>
-            </tr>
-          </tbody></table>
-        </div>
-      </div>
-      <!-- /.col -->
+ 
+    <table border="0" cellspacing="0" cellpadding="0">
+        <tr><td height="50" style="font-size: 50px;line-height: 0;">&nbsp;</td></tr>
+        <tr>
+            <td>Catatan :</td>
+            <td class="text-center">Jakarta, {{ date('d F Y') }}</td>
+        </tr>
+        <tr>
+            <td width='60%'>
+                <ol>
+                    <li>Jika terdapat kekeliruan/keberatan harap diajukan dalam waktu 7 hari setelah kwitansi diterima, lewat batas waktu tersebut kami tidak melayani.</li>
+                    <li>Pengambilan/koreksi faktur pajak standard hatap diajukan paling lambat 14 hari setelah kwitansi diterima, lewat batas waktu tersebut kami tidak melayani.</li>
+                </ol>
+            </td>
+            <td class="text-center">&nbsp;</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td class="text-center">ADE SRI</td>
+        </tr>
+    </table>
     </div>
-    <!-- /.row -->
-
-    <!-- this row will not appear when printing -->
-    <div class="row no-print">
-      <div class="col-xs-12">
-          <button id="print-invoice-btn" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
-<!--        <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment
-        </button>
-        <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-          <i class="fa fa-download"></i> Generate PDF
-        </button>-->
-      </div>
-    </div>
-  </section>
-
-@endsection
-
-@section('custom_css')
-
-@endsection
-
-@section('custom_js')
-
-<script type="text/javascript">
-    $('#print-invoice-btn').click(function() {
-        window.open("{{ route('invoice-print',$invoice->id) }}","preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");
-    });
-</script>
-
-@endsection
+        
+@stop
