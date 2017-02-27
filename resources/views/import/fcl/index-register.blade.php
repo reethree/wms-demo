@@ -62,7 +62,8 @@
         {{
             GridRender::setGridId("fclRegisterGrid")
             ->enableFilterToolbar()
-            ->setGridOption('url', URL::to('/fcl/joborder/grid-data'))
+            ->setGridOption('mtype', 'POST')
+            ->setGridOption('url', URL::to('/fcl/joborder/grid-data?_token='.csrf_token()))
             ->setGridOption('rowNum', 20)
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','TJOBORDER_PK')
@@ -96,8 +97,7 @@
             ->addColumn(array('label'=>'Layout','index'=>'layout','width'=>80,'align'=>'center','hidden'=>true,'hidden'=>true))
             ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
             ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
-//            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+//            ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
             ->renderGrid()
         }}
     </div>

@@ -62,7 +62,8 @@
         {{
             GridRender::setGridId("lclRegisterGrid")
             ->enableFilterToolbar()
-            ->setGridOption('url', URL::to('/lcl/joborder/grid-data'))
+            ->setGridOption('mtype', 'POST')
+            ->setGridOption('url', URL::to('/lcl/joborder/grid-data?_token='.csrf_token()))
             ->setFileProperty('title', 'LCL Register') //Laravel Excel File Property
             ->setFileProperty('creator', 'Reza') //Laravel Excel File Property
             ->setSheetProperty('fitToPage', true) //Laravel Excel Sheet Property
@@ -99,7 +100,6 @@
             ->addColumn(array('label'=>'Layout','index'=>'layout','width'=>80,'align'=>'center','hidden'=>true,'hidden'=>true))
             ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
             ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
 //            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->renderGrid()
         }}

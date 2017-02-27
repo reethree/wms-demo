@@ -6,11 +6,11 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-register-index',
         'uses' => 'LclController@registerIndex'
     ]);
-    Route::get('/joborder/grid-data', function()
+    Route::post('/joborder/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TablesRepository(new App\Models\Joborder(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
-    Route::get('/register/grid-data', function()
+    Route::post('/register/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TablesRepository(new App\Models\Container(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
