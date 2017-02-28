@@ -192,7 +192,8 @@
                 {{
                     GridRender::setGridId("lclGateinGrid")
                     ->enableFilterToolbar()
-                    ->setGridOption('url', URL::to('/lcl/register/grid-data?module=gatein'))
+                    ->setGridOption('mtype', 'POST')
+                    ->setGridOption('url', URL::to('/lcl/register/grid-data?module=gatein&_token='.csrf_token()))
                     ->setGridOption('rowNum', 20)
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TCONTAINER_PK')
