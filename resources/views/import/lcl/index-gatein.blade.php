@@ -448,6 +448,8 @@
         var newDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate()+3);
         $('#P_TGLKELUAR').datepicker('setDate', newDate );
     });
+    $("#JAMMASUK").mask("99:99:99");
+    $("#JAMKELUAR_TPK").mask("99:99:99");
 </script>
 
 @endsection

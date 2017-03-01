@@ -501,6 +501,8 @@
         minuteStep: 1,
         secondStep: 1
     });
+    $("#JAMSURATJALAN").mask("99:99:99");
+    $("#jamrelease").mask("99:99:99");
 </script>
 
 @endsection

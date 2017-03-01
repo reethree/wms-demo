@@ -365,6 +365,7 @@
         minuteStep: 1,
         secondStep: 1
     });
+    $("#JAMBUANGMTY").mask("99:99:99");
 </script>
 
 @endsection

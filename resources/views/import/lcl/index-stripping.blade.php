@@ -423,6 +423,11 @@
         minuteStep: 1,
         secondStep: 1
     });
+    $("JAMMASUK").mask("99:99:99");
+    $("JAMSTARTSTRIPPING").mask("99:99:99");
+    $("JAMENDSTRIPPING").mask("99:99:99");
+    $("mulai_tunda").mask("99:99:99");
+    $("#selesai_tunda").mask("99:99:99");
 </script>
 
 @endsection
