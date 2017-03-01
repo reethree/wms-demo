@@ -6,7 +6,7 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-manifest-index',
         'uses' => 'ManifestController@Index'
     ]);
-    Route::get('/manifest/grid-data', function()
+    Route::post('/manifest/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TablesRepository(new App\Models\Manifest(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });

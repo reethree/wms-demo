@@ -1077,7 +1077,7 @@ class LclController extends Controller
             
             // Perhitungan CBM
             $weight = $manifest->WEIGHT / 1000;
-            $meas = $manifest->MEAS / 1000;
+            $meas = $manifest->MEAS;
             $cbm = array($weight, $meas);
             $maxcbm = ceil(max($cbm) * 2) / 2;
 //            $maxcbm = ceil(max($cbm));
