@@ -49,7 +49,7 @@
                                     <option value="{{ $consolidator->id }}" @if($consolidator->name == $joborder->NAMACONSOLIDATOR){{ "selected" }}@endif>{{ $consolidator->name }}</option>
                                 @endforeach
                                 @foreach($lokasisandars as $lokasisandar)
-                                    <option value="{{ $lokasisandar->id }}" @if($consolidator->name == $joborder->NAMACONSOLIDATOR){{ "selected" }}@endif>{{ $lokasisandar->name }}</option>
+                                    <option value="{{ $lokasisandar->id }}" @if($lokasisandar->name == $joborder->NAMACONSOLIDATOR){{ "selected" }}@endif>{{ $lokasisandar->name }}</option>
                                 @endforeach
                             </select>
                         </div>
