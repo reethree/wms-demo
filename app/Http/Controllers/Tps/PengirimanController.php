@@ -420,8 +420,8 @@ class PengirimanController extends Controller
         // SEND
         SoapWrapper::add(function ($service) {
             $service
-                ->name('CoCoCont_Tes')
-//                ->name('CoarriCodeco_Container')
+//                ->name('CoCoCont_Tes')
+                ->name('CoarriCodeco_Container')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -530,8 +530,8 @@ class PengirimanController extends Controller
         
         SoapWrapper::add(function ($service) {
             $service
-                ->name('CoCoKms_Tes')
-//                ->name('CoarriCodeco_Kemasan')
+//                ->name('CoCoKms_Tes')
+                ->name('CoarriCodeco_Kemasan')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -636,8 +636,8 @@ class PengirimanController extends Controller
         // SEND
         SoapWrapper::add(function ($service) {
             $service
-                ->name('CoCoCont_Tes')
-//                ->name('CoarriCodeco_Container')
+//                ->name('CoCoCont_Tes')
+                ->name('CoarriCodeco_Container')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -745,8 +745,8 @@ class PengirimanController extends Controller
         
         SoapWrapper::add(function ($service) {
             $service
-                ->name('CoCoKms_Tes')
-//                ->name('CoarriCodeco_Kemasan')
+//                ->name('CoCoKms_Tes')
+                ->name('CoarriCodeco_Kemasan')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 

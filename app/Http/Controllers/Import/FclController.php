@@ -380,9 +380,9 @@ class FclController extends Controller
         $data['shippinglines'] = DBShippingline::select('TSHIPPINGLINE_PK as id','SHIPPINGLINE as name')->get();
         $data['lokasisandars'] = DBLokasisandar::select('TLOKASISANDAR_PK as id','NAMALOKASISANDAR as name')->get();
         
-//        $jobid = DBContainer::select('TJOBORDER_FK as id')->where('TCONTAINER_PK',$id)->first();
+        $jobid = DBContainer::select('TJOBORDER_FK as id')->where('TCONTAINER_PK',$id)->first();
         
-        $data['joborder'] = DBJoborder::find($id);
+        $data['joborder'] = DBJoborder::find($jobid->id);
         
         return view('import.fcl.edit-register')->with($data);
     }

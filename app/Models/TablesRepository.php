@@ -108,29 +108,29 @@ class TablesRepository extends EloquentRepositoryAbstract {
             
             if(isset($request['startdate']) || isset($request['enddate'])){
                 
-                $Model = \DB::table('tjoborder')
+                $Model = \DB::table('tjoborder')->join('tcontainer', 'tjoborder.TJOBORDER_PK', '=', 'tcontainer.TJOBORDER_FK')
                         ->where('TGLENTRY', '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
                         ->where('TGLENTRY', '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
                 
             }else{
-                
+                $Model = \DB::table('tjoborder')->join('tcontainer', 'tjoborder.TJOBORDER_PK', '=', 'tcontainer.TJOBORDER_FK');
             }
             
         }elseif($Model->getMorphClass() == 'App\Models\Jobordercy'){
             
             if(isset($request['jobid'])){
                 
-                $Model = \DB::table('tjobordercy')
+                $Model = \DB::table('tjobordercy')->join('tcontainercy', 'tjobordercy.TJOBORDER_PK', '=', 'tcontainercy.TJOBORDER_FK')
                         ->where('TJOBORDER_PK', $request['jobid']);
                 
             }elseif(isset($request['startdate']) || isset($request['enddate'])){
                 
-                $Model = \DB::table('tjobordercy')
+                $Model = \DB::table('tjobordercy')->join('tcontainercy', 'tjobordercy.TJOBORDER_PK', '=', 'tcontainercy.TJOBORDER_FK')
                         ->where('TGLENTRY', '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
                         ->where('TGLENTRY', '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
                 
             }else{
-                
+                $Model = \DB::table('tjobordercy')->join('tcontainercy', 'tjobordercy.TJOBORDER_PK', '=', 'tcontainercy.TJOBORDER_FK');
             }
             
         }elseif($Model->getMorphClass() == 'App\Models\Manifest'){
