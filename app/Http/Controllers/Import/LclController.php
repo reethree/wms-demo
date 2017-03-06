@@ -338,11 +338,17 @@ class LclController extends Controller
         $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
         $data['ID_CONSOLIDATOR'] = str_replace(array('.','-'),array('',''),$namaconsolidator->NPWP);
         $namanegara = DBNegara::select('NAMANEGARA')->where('TNEGARA_PK',$data['TNEGARA_FK'])->first();
-        $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
+        if($namanegara){
+            $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
+        }
         $namapelabuhan = DBPelabuhan::select('NAMAPELABUHAN')->where('TPELABUHAN_PK',$data['TPELABUHAN_FK'])->first();
-        $data['NAMAPELABUHAN'] = $namapelabuhan->NAMAPELABUHAN;
+        if($namapelabuhan){
+            $data['NAMAPELABUHAN'] = $namapelabuhan->NAMAPELABUHAN;
+        } 
         $namalokasisandar = DBLokasisandar::select('NAMALOKASISANDAR')->where('TLOKASISANDAR_PK',$data['TLOKASISANDAR_FK'])->first();
-        $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
+        if($namalokasisandar){
+            $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
+        }
         if($data['TSHIPPINGLINE_FK']){
             $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();
             $data['SHIPPINGLINE'] = $namashippingline->SHIPPINGLINE;
@@ -353,7 +359,38 @@ class LclController extends Controller
         
         if($insert_id){
             
-            return redirect()->route('lcl-register-edit',$insert_id)->with('success', 'LCL Register has been added.');
+            // COPY JOBORDER
+            $joborder = DBJoborder::findOrFail($insert_id);
+            
+            $data = array();
+            
+            $data['TJOBORDER_FK'] = $joborder->TJOBORDER_PK;
+            $data['NoJob'] = $joborder->NOJOBORDER;
+            $data['NO_BC11'] = $joborder->TNO_BC11;
+            $data['TGL_BC11'] = $joborder->TTGL_BC11;
+            $data['NO_PLP'] = $joborder->NO_PLP;
+            $data['TGL_PLP'] = $joborder->TGL_PLP;
+            $data['TCONSOLIDATOR_FK'] = $joborder->TCONSOLIDATOR_FK;
+            $data['NAMACONSOLIDATOR'] = $joborder->NAMACONSOLIDATOR;
+            $data['TLOKASISANDAR_FK'] = $joborder->TLOKASISANDAR_FK;
+            $data['ETA'] = $joborder->ETA;
+            $data['ETD'] = $joborder->ETD;
+            $data['VESSEL'] = $joborder->VESSEL;
+            $data['VOY'] = $joborder->VOY;
+            $data['TPELABUHAN_FK'] = $joborder->TPELABUHAN_FK;
+            $data['NAMAPELABUHAN'] = $joborder->NAMAPELABUHAN;
+            $data['PEL_MUAT'] = $joborder->PEL_MUAT;
+            $data['PEL_BONGKAR'] = $joborder->PEL_BONGKAR;
+            $data['PEL_TRANSIT'] = $joborder->PEL_TRANSIT;
+            $data['NOMBL'] = $joborder->NOMBL;
+            $data['TGL_MASTER_BL'] = $joborder->TGL_MASTER_BL;
+            $data['KD_TPS_ASAL'] = $joborder->KD_TPS_ASAL;
+            $data['KD_TPS_TUJUAN'] = $joborder->GUDANG_TUJUAN;
+            $data['CALL_SIGN'] = $joborder->CALLSIGN;
+
+            $container_insert_id = DBContainer::insertGetId($data);
+            
+            return redirect()->route('lcl-register-edit', $container_insert_id)->with('success', 'LCL Register has been added.');
         }
         
         return back()->withInput();

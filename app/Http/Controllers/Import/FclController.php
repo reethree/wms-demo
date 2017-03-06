@@ -321,7 +321,41 @@ class FclController extends Controller
         
         if($insert_id){
             
-            return redirect()->route('fcl-register-edit',$insert_id)->with('success', 'FCL Register has been added.');
+            // COPY JOBORDER
+            $joborder = DBJoborder::findOrFail($insert_id);
+
+            $data = array();
+            $data['TJOBORDER_FK'] = $joborder->TJOBORDER_PK;
+            $data['NoJob'] = $joborder->NOJOBORDER;
+            $data['NOMBL'] = $joborder->NOMBL;
+            $data['TGLMBL'] = $joborder->TGLMBL;
+            $data['NO_BC11'] = $joborder->NO_BC11;
+            $data['TGL_BC11'] = $joborder->TGL_BC11;
+            $data['NO_POS_BC11'] = $joborder->NO_POS_BC11;
+            $data['NO_PLP'] = $joborder->TNO_PLP;
+            $data['TGL_PLP'] = $joborder->TTGL_PLP;
+            $data['TCONSOLIDATOR_FK'] = $joborder->TCONSOLIDATOR_FK;
+            $data['NAMACONSOLIDATOR'] = $joborder->NAMACONSOLIDATOR;
+            $data['TCONSIGNEE_FK'] = $joborder->TCONSIGNEE_FK;
+            $data['CONSIGNEE'] = $joborder->CONSIGNEE;
+    //        $data['TLOKASISANDAR_FK'] = $joborder->TLOKASISANDAR_FK;
+            $data['ETA'] = $joborder->ETA;
+            $data['ETD'] = $joborder->ETD;
+            $data['VESSEL'] = $joborder->VESSEL;
+            $data['VOY'] = $joborder->VOY;
+    //        $data['TPELABUHAN_FK'] = $joborder->TPELABUHAN_FK;
+    //        $data['NAMAPELABUHAN'] = $joborder->NAMAPELABUHAN;
+            $data['PEL_MUAT'] = $joborder->PEL_MUAT;
+            $data['PEL_BONGKAR'] = $joborder->PEL_BONGKAR;
+            $data['PEL_TRANSIT'] = $joborder->PEL_TRANSIT;
+            $data['KD_TPS_ASAL'] = $joborder->KD_TPS_ASAL;
+            $data['GUDANG_TUJUAN'] = $joborder->GUDANG_TUJUAN;
+            $data['CALLSIGN'] = $joborder->CALLSIGN;
+            $data['UID'] = \Auth::getUser()->name;
+            
+            $container_insert_id = DBContainer::insertGetId($data);
+            
+            return redirect()->route('fcl-register-edit',$container_insert_id)->with('success', 'FCL Register has been added.');
         }
         
         return back()->withInput();
