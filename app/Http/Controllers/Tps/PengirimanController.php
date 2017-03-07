@@ -441,8 +441,8 @@ class PengirimanController extends Controller
         ];
         
         // Using the added service
-        SoapWrapper::service('CoCoCont_Tes', function ($service) use ($datas) {        
-            $this->response = $service->call('CoCoCont_Tes', [$datas])->CoCoCont_TesResult;      
+        SoapWrapper::service('CoarriCodeco_Container', function ($service) use ($datas) {        
+            $this->response = $service->call('CoarriCodeco_Container', [$datas])->CoarriCodeco_ContainerResult;      
         });
         
         $dataDetail->STATUS_TPS = 2;
@@ -551,8 +551,8 @@ class PengirimanController extends Controller
         ];
         
         // Using the added service
-        SoapWrapper::service('CoCoKms_Tes', function ($service) use ($data) {        
-            $this->response = $service->call('CoCoKms_Tes', [$data])->CoCoKms_TesResult;      
+        SoapWrapper::service('CoarriCodeco_Kemasan', function ($service) use ($data) {        
+            $this->response = $service->call('CoarriCodeco_Kemasan', [$data])->CoarriCodeco_KemasanResult;      
         });
         
         $update = \App\Models\TpsCoariKmsDetail::where('TPSCOARIKMSXML_FK', $dataHeader->TPSCOARIKMSXML_PK)->update(['STATUS_TPS' => 2, 'RESPONSE' => $this->response]);       
@@ -657,8 +657,8 @@ class PengirimanController extends Controller
         ];
         
         // Using the added service
-        SoapWrapper::service('CoCoCont_Tes', function ($service) use ($datas) {        
-            $this->response = $service->call('CoCoCont_Tes', [$datas])->CoCoCont_TesResult;      
+        SoapWrapper::service('CoarriCodeco_Container', function ($service) use ($datas) {        
+            $this->response = $service->call('CoarriCodeco_Container', [$datas])->CoarriCodeco_ContainerResult;      
         });
         
         $dataDetail->STATUS_TPS = 2;
@@ -765,12 +765,12 @@ class PengirimanController extends Controller
             'fStream' => $xml->asXML()
         ];
         
-        var_dump($this->response);
-        return;
+//        var_dump($this->response);
+//        return;
         
         // Using the added service
-        SoapWrapper::service('CoCoKms_Tes', function ($service) use ($data) {        
-            $this->response = $service->call('CoCoKms_Tes', [$data])->CoCoKms_TesResult;      
+        SoapWrapper::service('CoarriCodeco_Kemasan', function ($service) use ($data) {        
+            $this->response = $service->call('CoarriCodeco_Kemasan', [$data])->CoarriCodeco_KemasanResult;      
         });
         
         $update = \App\Models\TpsCodecoKmsDetail::where('TPSCODECOKMSXML_FK', $dataHeader->TPSCODECOKMSXML_PK)->update(['STATUS_TPS' => 2, 'RESPONSE' => $this->response]);       
