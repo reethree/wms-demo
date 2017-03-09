@@ -28,6 +28,29 @@ class InvoiceController extends Controller
         return view('invoice.index-invoice')->with($data);
     }
     
+    public function releaseIndex()
+    {
+        if ( !$this->access->can('show.invoice.release.index') ) {
+            return view('errors.no-access');
+        }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index Invoice Release', 'slug' => 'show.invoice.release.index', 'description' => ''));
+        
+        $data['page_title'] = "Invoice Release";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'Invoice Release'
+            ]
+        ];        
+        
+//        $data['perusahaans'] = DBPerusahaan::select('TPERUSAHAAN_PK as id', 'NAMAPERUSAHAAN as name')->get();
+        
+        return view('invoice.index-release')->with($data);
+    }
+    
     public function invoiceEdit($id)
     {
         

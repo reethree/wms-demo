@@ -199,7 +199,8 @@
                 {{
                     GridRender::setGridId("lclReleaseGrid")
                     ->enableFilterToolbar()
-                    ->setGridOption('url', URL::to('/lcl/manifest/grid-data?module=release'))
+                    ->setGridOption('mtype', 'POST')
+                    ->setGridOption('url', URL::to('/lcl/manifest/grid-data?module=release&_token='.csrf_token()))
                     ->setGridOption('rowNum', 20)
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TMANIFEST_PK')

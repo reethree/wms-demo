@@ -119,7 +119,8 @@
                 {{
                     GridRender::setGridId("lclFiatMuatGrid")
                     ->enableFilterToolbar()
-                    ->setGridOption('url', URL::to('/lcl/manifest/grid-data?module=fiatmuat'))
+                    ->setGridOption('mtype', 'POST')
+                    ->setGridOption('url', URL::to('/lcl/manifest/grid-data?module=fiatmuat&_token='.csrf_token()))
                     ->setGridOption('rowNum', 20)
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TMANIFEST_PK')

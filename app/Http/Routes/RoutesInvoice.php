@@ -23,6 +23,11 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
         'uses' => 'InvoiceController@invoicePrint'
     ]);
     
+    // RELEASE INVOICE
+    Route::get('/release', [
+        'as' => 'invoice-release-index',
+        'uses' => 'InvoiceController@releaseIndex'
+    ]);
     
     Route::get('/tarif', [
         'as' => 'invoice-tarif-index',

@@ -114,7 +114,8 @@
                 {{
                     GridRender::setGridId("lclBehandleGrid")
                     ->enableFilterToolbar()
-                    ->setGridOption('url', URL::to('/lcl/manifest/grid-data?module=behandle'))
+                    ->setGridOption('mtype', 'POST')
+                    ->setGridOption('url', URL::to('/lcl/manifest/grid-data?module=behandle&_token='.csrf_token()))
                     ->setGridOption('rowNum', 20)
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TMANIFEST_PK')

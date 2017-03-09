@@ -10,19 +10,19 @@
     
     function onSelectRowEvent()
     {
-        $('#btn-group-1, #btn-group-4').enableButtonGroup();
+        $('#btn-group-1').enableButtonGroup();
     }
     
     $(document).ready(function()
     {
-        $('#suratjalan-form').disabledFormGroup();
+        $('#release-form').disabledFormGroup();
         $('#btn-toolbar').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
         $('#btn-edit').click(function() {
             //Gets the selected row id.
-            rowid = $('#lclSuratJalanGrid').jqGrid('getGridParam', 'selrow');
-            rowdata = $('#lclSuratJalanGrid').getRowData(rowid);
+            rowid = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
+            rowdata = $('#lclReleaseGrid').getRowData(rowid);
 
             populateFormFields(rowdata, '');
             $('#TMANIFEST_PK').val(rowid);
@@ -34,32 +34,74 @@
             $('#NPWP_CONSIGNEE').val(rowdata.NPWP_CONSIGNEE);
             $('#NO_SPPB').val(rowdata.NO_SPPB);
             $('#TGL_SPPB').val(rowdata.TGL_SPPB);
-
-            if(!rowdata.TGLSURATJALAN && !rowdata.JAMSURATJALAN) {
+            $('#NOPOL_RELEASE').val(rowdata.NOPOL_RELEASE);
+            $('#PENAGIHAN').val(rowdata.PENAGIHAN).trigger("change");
+            $('#LOKASI_TUJUAN').val(rowdata.LOKASI_TUJUAN).trigger("change");
+            $('#REF_NUMBER_OUT').val(rowdata.REF_NUMBER_OUT);
+            $('#UIDRELEASE').val(rowdata.UIDRELEASE);
+                        
+            if(!rowdata.tglrelease && !rowdata.jamrelease) {
                 $('#btn-group-2').enableButtonGroup();
-                $('#suratjalan-form').enableFormGroup();
+                $('#release-form').enableFormGroup();
             }else{
+                $('#btn-group-4').enableButtonGroup();
+                $('#btn-group-5').enableButtonGroup();
                 $('#btn-group-2').disabledButtonGroup();
-                $('#suratjalan-form').disabledFormGroup();
+                $('#release-form').disabledFormGroup();
             }
 
         });
         
-        $('#btn-print').click(function() {
-            var id = $('#lclSuratJalanGrid').jqGrid('getGridParam', 'selrow');
-            window.open("{{ route('lcl-delivery-suratjalan-cetak', '') }}/"+id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");
+        $('#btn-invoice').click(function() {
+            if(!confirm('Apakah anda yakin?')){return false;}
+            
+            var manifestId = $('#TMANIFEST_PK').val();
+            var url = '{{ route("lcl-delivery-release-invoice") }}';
+            
+            $.ajax({
+                type: 'POST',
+                data: 
+                {
+                    'id' : manifestId,
+                    '_token' : '{{ csrf_token() }}'
+                },
+                dataType : 'json',
+                url: url,
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                },
+                beforeSend:function()
+                {
+
+                },
+                success:function(json)
+                {
+                    console.log(json);
+
+                    if(json.success) {
+                      $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    } else {
+                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    }
+
+                    //Triggers the "Close" button funcionality.
+                    $('#btn-refresh').click();
+                }
+            });
+            
         });
-        
+
         $('#btn-save').click(function() {
             
             if(!confirm('Apakah anda yakin?')){return false;}
             
             var manifestId = $('#TMANIFEST_PK').val();
-            var url = "{{route('lcl-delivery-suratjalan-update','')}}/"+manifestId;
+            var url = "{{route('lcl-delivery-release-update','')}}/"+manifestId;
 
             $.ajax({
                 type: 'POST',
-                data: JSON.stringify($('#suratjalan-form').formToObject('')),
+                data: JSON.stringify($('#release-form').formToObject('')),
                 dataType : 'json',
                 url: url,
                 error: function (jqXHR, textStatus, errorThrown)
@@ -90,12 +132,12 @@
         });
         
         $('#btn-refresh').click(function() {
-            $('#lclSuratJalanGrid').jqGrid().trigger("reloadGrid");
-            $('#suratjalan-form').disabledFormGroup();
+            $('#lclReleaseGrid').jqGrid().trigger("reloadGrid");
+            $('#release-form').disabledFormGroup();
             $('#btn-toolbar').disabledButtonGroup();
             $('#btn-group-3').enableButtonGroup();
             
-            $('#suratjalan-form')[0].reset();
+            $('#release-form')[0].reset();
             $('.select2').val(null).trigger("change");
             $('#TMANIFEST_PK').val("");
         });
@@ -106,7 +148,7 @@
 
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">LCL Delivery Surat Jalan</h3>
+        <h3 class="box-title">LCL Delivery Release</h3>
 <!--        <div class="box-tools">
             <a href="{{ route('lcl-manifest-create') }}" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Add New</a>
         </div>-->
@@ -115,10 +157,10 @@
         <div class="row" style="margin-bottom: 30px;">
             <div class="col-md-12"> 
                 {{
-                    GridRender::setGridId("lclSuratJalanGrid")
+                    GridRender::setGridId("lclReleaseGrid")
                     ->enableFilterToolbar()
                     ->setGridOption('mtype', 'POST')
-                    ->setGridOption('url', URL::to('/lcl/manifest/grid-data?module=suratjalan&_token='.csrf_token()))
+                    ->setGridOption('url', URL::to('/lcl/manifest/grid-data?module=release&_token='.csrf_token()))
                     ->setGridOption('rowNum', 20)
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TMANIFEST_PK')
@@ -136,18 +178,18 @@
                     ->addColumn(array('label'=>'Tgl. HBL','index'=>'TGL_HBL', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
                     ->addColumn(array('label'=>'No. SPK','index'=>'NOJOBORDER', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER', 'width'=>150,'hidden'=>true))
+                    ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER', 'width'=>150,'hidden'=>false))
+                    ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
+                    ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>250))
+                    ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>250))                   
+                    ->addColumn(array('label'=>'Notify Party','index'=>'NOTIFYPARTY','width'=>200))
                     ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150))
                     ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150))
                     ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>150))
                     ->addColumn(array('label'=>'Tgl. SPPB','index'=>'TGL_SPPB', 'width'=>150))
                     ->addColumn(array('label'=>'Kode Dokumen','index'=>'KODE_DOKUMEN', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('index'=>'KD_DOK_INOUT', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'Kode Kuitansi','index'=>'NO_KUITANSI', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>160))
-                    ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))
-                    ->addColumn(array('label'=>'Notify Party','index'=>'NOTIFYPARTY','width'=>160))
-                    ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
+                    ->addColumn(array('label'=>'Kode Kuitansi','index'=>'NO_KUITANSI', 'width'=>150,'hidden'=>true))                                       
                     ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120))               
                     ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>120))
                     ->addColumn(array('label'=>'Qty','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))
@@ -175,13 +217,20 @@
                     ->addColumn(array('label'=>'Nama EMKL','index'=>'NAMAEMKL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'Telp. EMKL','index'=>'TELPEMKL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'No. Truck','index'=>'NOPOL', 'width'=>150,'hidden'=>true)) 
+                    ->addColumn(array('label'=>'No. POL Release','index'=>'NOPOL_RELEASE', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'Tgl. Surat Jalan','index'=>'TGLSURATJALAN', 'width'=>120,'hidden'=>true))
                     ->addColumn(array('label'=>'Jam. Surat Jalan','index'=>'JAMSURATJALAN', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Petugas Surat Jalan','index'=>'UIDSURATJALAN', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Petugas Release','index'=>'UIDRELEASE', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Penagihan','index'=>'PENAGIHAN', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Ref Number','index'=>'REF_NUMBER_OUT', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. Fiat Muat','index'=>'tglfiat', 'width'=>120,'hidden'=>true))
                     ->addColumn(array('label'=>'Jam. Fiat Muat','index'=>'jamfiat', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
                     ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. Release','index'=>'tglrelease', 'width'=>120))
+                    ->addColumn(array('label'=>'Jam. Release','index'=>'jamrelease', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Lokasi Tujuan','index'=>'LOKASI_TUJUAN', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
                     ->renderGrid()
                 }}
@@ -197,14 +246,14 @@
                         <button class="btn btn-default" id="btn-save"><i class="fa fa-save"></i> Save</button>
                         <button class="btn btn-default" id="btn-cancel"><i class="fa fa-close"></i> Cancel</button>
                     </div>  
-                    <div id="btn-group-4" class="btn-group">
-                        <button class="btn btn-default" id="btn-print"><i class="fa fa-print"></i> Cetak Surat Jalan</button>
+                    <div id="btn-group-4" class="btn-group pull-right">
+                        <button class="btn btn-default" id="btn-invoice"><i class="fa fa-print"></i> Create Invoice</button>
                     </div>
                 </div>
             </div>
             
         </div>
-        <form class="form-horizontal" id="suratjalan-form" action="{{ route('lcl-delivery-suratjalan-index') }}" method="POST">
+        <form class="form-horizontal" id="release-form" action="{{ route('lcl-delivery-release-index') }}" method="POST">
             <div class="row">
                 <div class="col-md-6">
                     
@@ -235,15 +284,15 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">No. Rack</label>
+                        <label class="col-sm-3 control-label">Tgl.Surat Jalan</label>
                         <div class="col-sm-8">
-                            <input type="text" id="RACKING" name="RACKING" class="form-control" readonly>
+                            <input type="text" id="TGLSURATJALAN" name="TGLSURATJALAN" class="form-control" readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Tgl. Behandle</label>
+                        <label class="col-sm-3 control-label">Jam Surat Jalan</label>
                         <div class="col-sm-8">
-                            <input type="text" id="tglbehandle" name="tglbehandle" class="form-control" readonly>
+                            <input type="text" id="JAMSURATJALAN" name="JAMSURATJALAN" class="form-control" readonly>
                         </div>
                     </div>
                 </div>
@@ -310,32 +359,41 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">No. POL</label>
+                        <label class="col-sm-3 control-label">Ref. Number</label>
                         <div class="col-sm-8">
-                            <input type="text" id="NOPOL" name="NOPOL" class="form-control" required readonly>
+                            <input type="text" id="REF_NUMBER_OUT" name="REF_NUMBER_OUT" class="form-control" required>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6"> 
-                    
+
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Tgl.Surat Jalan</label>
+                        <label class="col-sm-3 control-label">Penagihan</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" id="PENAGIHAN" name="PENAGIHAN" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <option value="kredit">Kredit</option>
+                                <option value="tunai">Tunai</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Tgl.Release</label>
                         <div class="col-sm-8">
                             <div class="input-group date">
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" id="TGLSURATJALAN" name="TGLSURATJALAN" class="form-control pull-right datepicker" required value="{{ date('Y-m-d') }}">
+                                <input type="text" id="tglrelease" name="tglrelease" class="form-control pull-right datepicker" required value="{{ date('Y-m-d') }}">
                             </div>
                         </div>
                     </div>
                     
                     <div class="bootstrap-timepicker">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Jam Surat Jalan</label>
+                            <label class="col-sm-3 control-label">Jam Release</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input type="text" id="JAMSURATJALAN" name="JAMSURATJALAN" class="form-control timepicker" value="{{ date('H:i:s') }}" required>
+                                    <input type="text" id="jamrelease" name="jamrelease" class="form-control timepicker" value="{{ date('H:i:s') }}" required>
                                     <div class="input-group-addon">
                                           <i class="fa fa-clock-o"></i>
                                     </div>
@@ -347,10 +405,15 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Petugas</label>
                         <div class="col-sm-8">
-                            <input type="text" id="UIDSURATJALAN" name="UIDSURATJALAN" class="form-control" required>
+                            <input type="text" id="UIDRELEASE" name="UIDRELEASE" class="form-control" required>
                         </div>
                     </div>
-                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">No. POL</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="NOPOL_RELEASE" name="NOPOL_RELEASE" class="form-control" required>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>  
@@ -386,7 +449,8 @@
         minuteStep: 1,
         secondStep: 1
     });
-    $("JAMSURATJALAN").mask("99:99:99");
+    $("#JAMSURATJALAN").mask("99:99:99");
+    $("#jamrelease").mask("99:99:99");
 </script>
 
 @endsection
