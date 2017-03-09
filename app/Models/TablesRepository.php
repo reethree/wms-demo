@@ -109,8 +109,8 @@ class TablesRepository extends EloquentRepositoryAbstract {
             if(isset($request['startdate']) || isset($request['enddate'])){
                 
                 $Model = \DB::table('tjoborder')->join('tcontainer', 'tjoborder.TJOBORDER_PK', '=', 'tcontainer.TJOBORDER_FK')
-                        ->where('TGLENTRY', '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where('TGLENTRY', '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        ->where('tcontainer.TGLENTRY', '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
+                        ->where('tcontainer.TGLENTRY', '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
                 
             }else{
                 $Model = \DB::table('tjoborder')->join('tcontainer', 'tjoborder.TJOBORDER_PK', '=', 'tcontainer.TJOBORDER_FK');
@@ -126,8 +126,8 @@ class TablesRepository extends EloquentRepositoryAbstract {
             }elseif(isset($request['startdate']) || isset($request['enddate'])){
                 
                 $Model = \DB::table('tjobordercy')->join('tcontainercy', 'tjobordercy.TJOBORDER_PK', '=', 'tcontainercy.TJOBORDER_FK')
-                        ->where('TGLENTRY', '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where('TGLENTRY', '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        ->where('tcontainercy.TGLENTRY', '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
+                        ->where('tcontainercy.TGLENTRY', '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
                 
             }else{
                 $Model = \DB::table('tjobordercy')->join('tcontainercy', 'tjobordercy.TJOBORDER_PK', '=', 'tcontainercy.TJOBORDER_FK');
