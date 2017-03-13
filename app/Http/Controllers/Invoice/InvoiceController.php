@@ -127,6 +127,30 @@ class InvoiceController extends Controller
         return view('invoice.index-tarif')->with($data);
     }
     
+    public function tarifCreate()
+    {
+        if ( !$this->access->can('show.tarif.create') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "Create Tarif";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => route('invoice-tarif-index'),
+                'title' => 'Daftar Tarif'
+            ],
+            [
+                'action' => '',
+                'title' => 'Create'
+            ]
+        ];         
+        
+        $data['consolidators'] = \App\Models\Consolidator::select('TCONSOLIDATOR_PK as id','NAMACONSOLIDATOR as name')->get();
+        
+        return view('invoice.create-tarif')->with($data);
+    }
+
     public function tarifView($id)
     {
         if ( !$this->access->can('show.tarif.view') ) {
@@ -151,6 +175,32 @@ class InvoiceController extends Controller
         $data['tarif'] = $tarif;
         
         return view('invoice.view-tarif')->with($data);
+    }
+    
+    public function tarifStore(Request $request)
+    {
+        if ( !$this->access->can('store.tarif.create') ) {
+            return view('errors.no-access');
+        }
+        
+        $validator = \Validator::make($request->all(), [
+            'consolidator_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        
+        $data = $request->except(['_token']);
+        $data['UID'] = \Auth::getUser()->name;
+        
+        $insert_id = \App\Models\InvoiceTarif::insertGetId($data);
+        
+        if($insert_id){
+            return redirect()->route('invoice-tarif-index')->with('success', 'Tarif has been created.');
+        }
+        
+        return back()->with('error', 'Tarif cannot create, please try again.')->withInput();
     }
     
     public function tarifItemEdit($id)

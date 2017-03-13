@@ -20,10 +20,10 @@
 </script>
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">Daftar Tarif Kesepakatan Aptesindo</h3>
-<!--        <div class="box-tools">
-            <a href="{{ route('consolidator-create') }}" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Add New</a>
-        </div>-->
+        <h3 class="box-title">Daftar Tarif Consolidator</h3>
+        <div class="box-tools">
+            <a href="{{ route('invoice-tarif-create') }}" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Add New</a>
+        </div>
     </div>
     <div class="box-body table-responsive">
             {{
@@ -43,12 +43,21 @@
                 ->setFilterToolbarOptions(array('autosearch'=>true))
                 ->setGridEvent('gridComplete', 'gridCompleteEvent')
                 ->addColumn(array('key'=>true,'index'=>'id','hidden'=>true))
+                ->addColumn(array('index'=>'consolidator_id','hidden'=>true))
                 ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
-                ->addColumn(array('label'=>'Type','index'=>'type', 'width'=>200, 'align'=>'center'))
-                ->addColumn(array('label'=>'Link','index'=>'link', 'width'=>200, 'align'=>'center'))
-                ->addColumn(array('label'=>'Service','index'=>'service', 'width'=>200, 'align'=>'center'))
-                ->addColumn(array('label'=>'Update','index'=>'update_at', 'width'=>200, 'align'=>'center'))
-                ->addColumn(array('label'=>'UID','index'=>'uid', 'width'=>200, 'align'=>'center'))
+                ->addColumn(array('label'=>'Type','index'=>'type', 'width'=>80, 'align'=>'center'))
+                ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR', 'width'=>200, 'align'=>'center'))
+                ->addColumn(array('label'=>'RDM','index'=>'rdm', 'width'=>150, 'align'=>'center', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+                ->addColumn(array('label'=>'Storage','index'=>'storage', 'width'=>150, 'align'=>'center', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+                ->addColumn(array('label'=>'Behandle','index'=>'behandle', 'width'=>150, 'align'=>'center', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+                ->addColumn(array('label'=>'Admin','index'=>'adm', 'width'=>150, 'align'=>'center', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+                ->addColumn(array('label'=>'Surcharge','index'=>'surcharge_price', 'width'=>150, 'align'=>'center', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+                ->addColumn(array('label'=>'> 2.5Ton','index'=>'surcharge', 'width'=>120, 'align'=>'center'))
+                ->addColumn(array('label'=>'X CBM','index'=>'cbm', 'width'=>120, 'align'=>'center'))
+                ->addColumn(array('label'=>'Pembulatan','index'=>'pembulatan', 'width'=>120, 'align'=>'center'))
+                ->addColumn(array('label'=>'Created','index'=>'created_at', 'width'=>160, 'align'=>'center'))
+                ->addColumn(array('label'=>'Update','index'=>'update_at', 'width'=>160, 'align'=>'center'))
+                ->addColumn(array('label'=>'UID','index'=>'uid', 'width'=>160, 'align'=>'center'))
                 ->renderGrid()
             }}
     </div>

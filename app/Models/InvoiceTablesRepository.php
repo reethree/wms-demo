@@ -11,15 +11,18 @@ class InvoiceTablesRepository extends EloquentRepositoryAbstract {
     {
         $Columns = array('*');
 
-        if(isset($request['tarif_id'])){
-            $Model = \DB::table($ModelRef)->where('tarif_id', $request['tarif_id']);
-        }else{
-            $Model = \DB::table($ModelRef);
-        }
+//        if(isset($request['tarif_id'])){
+//            $Model = \DB::table($ModelRef)->where('tarif_id', $request['tarif_id']);
+//        }else{
+//            $Model = \DB::table($ModelRef);
+//        }
         
         if($ModelRef == 'invoice_import'){
             $Model = \DB::table($ModelRef)
                     ->join('tmanifest', 'invoice_import.manifest_id', '=', 'tmanifest.TMANIFEST_PK');
+        }elseif($ModelRef == 'invoice_tarif_consolidator'){
+            $Model = \DB::table($ModelRef)
+                    ->join('tconsolidator', 'invoice_tarif_consolidator.consolidator_id', '=', 'tconsolidator.TCONSOLIDATOR_PK');
         }
         
         $this->Database = $Model;        

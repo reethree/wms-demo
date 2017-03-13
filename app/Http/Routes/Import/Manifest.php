@@ -10,6 +10,17 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
     {
         GridEncoder::encodeRequestedData(new \App\Models\TablesRepository(new App\Models\Manifest(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
+    Route::post('/manifest/crud', function()
+    {
+        $Eloquent = new \App\Models\Eloquent\EloquentManifest();
+
+        switch (Illuminate\Support\Facades\Request::get('oper'))
+        {
+          case 'edit':
+            return $Eloquent->update(Illuminate\Support\Facades\Request::get('id'), Illuminate\Support\Facades\Request::except('id', 'oper'));
+            break;
+        }
+    });
     Route::get('/manifest/create', [
         'as' => 'lcl-manifest-create',
         'uses' => 'ManifestController@Create'

@@ -1087,8 +1087,8 @@ class LclController extends Controller
     {
         $manifest_id = $request->id; 
         $manifest = DBManifest::where('TMANIFEST_PK', $manifest_id)->first();        
-        
-        $tarif = DBConsolidatorTarif::where('TCONSOLIDATOR_FK', $manifest->TCONSOLIDATOR_FK)->first();
+
+        $tarif = \App\Models\InvoiceTarif::where(array('consolidator_id' => $manifest->TCONSOLIDATOR_FK, 'type' => $manifest->INVOICE))->first();
         
 //        $invoice = new \App\Models\Invoice;
 //        $invoice->manifest_id = $manifest_id;
@@ -1116,8 +1116,14 @@ class LclController extends Controller
             $weight = $manifest->WEIGHT / 1000;
             $meas = $manifest->MEAS;
             $cbm = array($weight, $meas);
-            $maxcbm = ceil(max($cbm) * 2) / 2;
-//            $maxcbm = ceil(max($cbm));
+            
+            if($tarif->pembulatan){            
+                $maxcbm = ceil(max($cbm) * 2) / 2;
+    //            $maxcbm = ceil(max($cbm));               
+            }else{
+                $maxcbm = max($cbm);
+            }
+            
             if($maxcbm < 2){ $maxcbm = 2; }
             
             // Sub Total (CBM*harga*Hari)
@@ -1159,7 +1165,14 @@ class LclController extends Controller
             $invoice_import->hari_masa2 = (isset($hari_masa2)) ? $hari_masa2 : 0 ;
             $invoice_import->hari_masa3 = (isset($hari_masa3)) ? $hari_masa3 : 0 ;
             $invoice_import->behandle = ($manifest->BEHANDLE == 'Y') ? 1 : 0;
-            $invoice_import->harga_behandle = ($manifest->BEHANDLE == 'Y') ? $tarif->behandle : 0;
+            if($manifest->BEHANDLE == 'Y'){
+                if($tarif->cbm){
+                    $harga_behandle = $tarif->behandle * $maxcbm;
+                }else{
+                    $harga_behandle = $tarif->behandle;
+                }
+            }           
+            $invoice_import->harga_behandle = ($manifest->BEHANDLE == 'Y') ? $harga_behandle : 0;
             $invoice_import->adm = $tarif->adm;
 
             $array_total = array(
@@ -1175,15 +1188,26 @@ class LclController extends Controller
             );
             $sub_total = array_sum($array_total);
             
-            if($weight > 2500){
-                $invoice_import->weight_surcharge = ceil(($tarif->weight_surcharge * $sub_total) / 100);
+            if($tarif->surcharge){
+                if($manifest->WEIGHT > 2500){
+                    if($tarif->surcharce_price > 100){
+                        $invoice_import->weight_surcharge = $tarif->surcharce_price;
+                    }else{
+                        $invoice_import->weight_surcharge = ceil(($tarif->surcharce_price * $sub_total) / 100);
+                    }                     
+                }
             }else{
-                $invoice_import->weight_surcharge = 0;
+                if($tarif->surcharce_price > 100){
+                    $invoice_import->weight_surcharge = $tarif->surcharce_price;
+                }else{
+                    $invoice_import->weight_surcharge = ceil(($tarif->surcharce_price * $sub_total) / 100);
+                }  
             }
-            $invoice_import->dg_surcharge = ceil(($tarif->dg_surcharge * $sub_total) / 100);
+
+//            $invoice_import->dg_surcharge = ceil(($tarif->dg_surcharge * $sub_total) / 100);
             $invoice_import->sub_total = $sub_total;
-            $invoice_import->ppn = ceil(($tarif->ppn * $sub_total) / 100);;
-            $invoice_import->materai = ($sub_total >= 1000000) ? 6000 : 3000;
+//            $invoice_import->ppn = ceil(($tarif->ppn * $sub_total) / 100);
+//            $invoice_import->materai = ($sub_total >= 1000000) ? 6000 : 3000;
             $invoice_import->uid = \Auth::getUser()->name;
                     
             if($invoice_import->save()){
@@ -1194,7 +1218,7 @@ class LclController extends Controller
                 $no_invoice = str_pad($invoice_import->id, 4, '0', STR_PAD_LEFT).'/Gud/'.$bulan.'/'.date('Y').'-PJP';
                 \App\Models\Invoice::where('id', $invoice_import->id)->update(['no_invoice' => $no_invoice]);
                 
-                return json_encode(array('success' => true, 'message' => 'No. Tally '.$manifest->NOTALLY.', invoice berhasih dibuat.'));
+                return json_encode(array('success' => true, 'message' => 'No. HBL '.$manifest->NOHBL.', invoice berhasih dibuat.'));
             }else{
                 return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
             }

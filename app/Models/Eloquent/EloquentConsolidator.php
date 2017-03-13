@@ -39,10 +39,10 @@ class EloquentConsolidator {
         $cData['UID'] = \Auth::getUser()->name;
         $consolidator_id = $this->Consolidator->insertGetId($cData);
         
-        unset($data['NAMACONSOLIDATOR'],$data['ALAMAT'],$data['NOTELP'],$data['CONTACTPERSON'],$data['NPWP']);
-        $data['TCONSOLIDATOR_FK'] = $consolidator_id;
-        $data['uid'] = \Auth::getUser()->name;
-        $this->Consolidator_Tarif->insertGetId($data);
+//        unset($data['NAMACONSOLIDATOR'],$data['ALAMAT'],$data['NOTELP'],$data['CONTACTPERSON'],$data['NPWP']);
+//        $data['TCONSOLIDATOR_FK'] = $consolidator_id;
+//        $data['uid'] = \Auth::getUser()->name;
+//        $this->Consolidator_Tarif->insertGetId($data);
       }
       catch (Exception $e)
       {
@@ -81,17 +81,17 @@ class EloquentConsolidator {
         $cData['UID'] = \Auth::getUser()->name;
         $this->Consolidator->where('TCONSOLIDATOR_PK', $id)->update($cData);
         
-        unset($data['NAMACONSOLIDATOR'],$data['ALAMAT'],$data['NOTELP'],$data['CONTACTPERSON'],$data['NPWP']);
-        $data['uid'] = \Auth::getUser()->name;
-        
-        $tarif = $this->Consolidator_Tarif->where('TCONSOLIDATOR_FK', $id)->first();
-        if($tarif){
-            $this->Consolidator_Tarif->where('TCONSOLIDATOR_FK', $id)->update($data);
-        }else{
-            $consolidator = $this->Consolidator->find($id);
-            $data['TCONSOLIDATOR_FK'] = $consolidator->TCONSOLIDATOR_PK;
-            $this->Consolidator_Tarif->insertGetId($data);
-        }
+//        unset($data['NAMACONSOLIDATOR'],$data['ALAMAT'],$data['NOTELP'],$data['CONTACTPERSON'],$data['NPWP']);
+//        $data['uid'] = \Auth::getUser()->name;
+//        
+//        $tarif = $this->Consolidator_Tarif->where('TCONSOLIDATOR_FK', $id)->first();
+//        if($tarif){
+//            $this->Consolidator_Tarif->where('TCONSOLIDATOR_FK', $id)->update($data);
+//        }else{
+//            $consolidator = $this->Consolidator->find($id);
+//            $data['TCONSOLIDATOR_FK'] = $consolidator->TCONSOLIDATOR_PK;
+//            $this->Consolidator_Tarif->insertGetId($data);
+//        }
 //        $Consolidator->save();
       }
       catch (Exception $e)

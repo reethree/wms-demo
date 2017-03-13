@@ -13,8 +13,8 @@ class TablesRepository extends EloquentRepositoryAbstract {
         
         if($Model->getMorphClass() == 'App\Models\Consolidator'){
             
-            $Model = \DB::table('tconsolidator')
-                    ->leftjoin('tconsolidator_tarif', 'tconsolidator.TCONSOLIDATOR_PK', '=', 'tconsolidator_tarif.TCONSOLIDATOR_FK');
+            $Model = \DB::table('tconsolidator');
+//                    ->leftjoin('tconsolidator_tarif', 'tconsolidator.TCONSOLIDATOR_PK', '=', 'tconsolidator_tarif.TCONSOLIDATOR_FK');
             
         }elseif($Model->getMorphClass() == 'App\User'){
             

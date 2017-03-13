@@ -29,9 +29,18 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
         'uses' => 'InvoiceController@releaseIndex'
     ]);
     
+    // TARIF
     Route::get('/tarif', [
         'as' => 'invoice-tarif-index',
         'uses' => 'InvoiceController@tarifIndex'
+    ]);
+    Route::get('/tarif/create', [
+        'as' => 'invoice-tarif-create',
+        'uses' => 'InvoiceController@tarifCreate'
+    ]);
+    Route::post('/tarif/create', [
+        'as' => 'invoice-tarif-store',
+        'uses' => 'InvoiceController@tarifStore'
     ]);
     Route::get('/tarif/view/{id}', [
         'as' => 'invoice-tarif-view',
@@ -39,7 +48,7 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
     ]);
     Route::get('/tarif/grid-data', function()
     {
-        GridEncoder::encodeRequestedData(new \App\Models\InvoiceTablesRepository('invoice_tarif',Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
+        GridEncoder::encodeRequestedData(new \App\Models\InvoiceTablesRepository('invoice_tarif_consolidator',Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
     
     Route::get('/tarif/item', [

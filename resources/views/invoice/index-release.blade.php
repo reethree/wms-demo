@@ -10,52 +10,61 @@
     
     function onSelectRowEvent()
     {
-        $('#btn-group-1').enableButtonGroup();
+        $('#btn-group-4').enableButtonGroup();
     }
     
     $(document).ready(function()
     {
         $('#release-form').disabledFormGroup();
         $('#btn-toolbar').disabledButtonGroup();
-        $('#btn-group-3').enableButtonGroup();
+//        $('#btn-group-3').enableButtonGroup();
         
-        $('#btn-edit').click(function() {
-            //Gets the selected row id.
-            rowid = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
-            rowdata = $('#lclReleaseGrid').getRowData(rowid);
-
-            populateFormFields(rowdata, '');
-            $('#TMANIFEST_PK').val(rowid);
-            $('#NO_BC11').val(rowdata.NO_BC11);
-            $('#TGL_BC11').val(rowdata.TGL_BC11);
-            $('#NO_POS_BC11').val(rowdata.NO_POS_BC11);
-            $('#NO_SPJM').val(rowdata.NO_SPJM);
-            $('#TGL_SPJM').val(rowdata.TGL_SPJM);
-            $('#NPWP_CONSIGNEE').val(rowdata.NPWP_CONSIGNEE);
-            $('#NO_SPPB').val(rowdata.NO_SPPB);
-            $('#TGL_SPPB').val(rowdata.TGL_SPPB);
-            $('#NOPOL_RELEASE').val(rowdata.NOPOL_RELEASE);
-            $('#PENAGIHAN').val(rowdata.PENAGIHAN).trigger("change");
-            $('#LOKASI_TUJUAN').val(rowdata.LOKASI_TUJUAN).trigger("change");
-            $('#REF_NUMBER_OUT').val(rowdata.REF_NUMBER_OUT);
-            $('#UIDRELEASE').val(rowdata.UIDRELEASE);
-                        
-            if(!rowdata.tglrelease && !rowdata.jamrelease) {
-                $('#btn-group-2').enableButtonGroup();
-                $('#release-form').enableFormGroup();
-            }else{
-                $('#btn-group-4').enableButtonGroup();
-                $('#btn-group-5').enableButtonGroup();
-                $('#btn-group-2').disabledButtonGroup();
-                $('#release-form').disabledFormGroup();
-            }
-
-        });
+//        $('#btn-edit').click(function() {
+//            //Gets the selected row id.
+//            rowid = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
+//            rowdata = $('#lclReleaseGrid').getRowData(rowid);
+//
+//            populateFormFields(rowdata, '');
+//            $('#TMANIFEST_PK').val(rowid);
+//            $('#NO_BC11').val(rowdata.NO_BC11);
+//            $('#TGL_BC11').val(rowdata.TGL_BC11);
+//            $('#NO_POS_BC11').val(rowdata.NO_POS_BC11);
+//            $('#NO_SPJM').val(rowdata.NO_SPJM);
+//            $('#TGL_SPJM').val(rowdata.TGL_SPJM);
+//            $('#NPWP_CONSIGNEE').val(rowdata.NPWP_CONSIGNEE);
+//            $('#NO_SPPB').val(rowdata.NO_SPPB);
+//            $('#TGL_SPPB').val(rowdata.TGL_SPPB);
+//            $('#NOPOL_RELEASE').val(rowdata.NOPOL_RELEASE);
+//            $('#PENAGIHAN').val(rowdata.PENAGIHAN).trigger("change");
+//            $('#LOKASI_TUJUAN').val(rowdata.LOKASI_TUJUAN).trigger("change");
+//            $('#REF_NUMBER_OUT').val(rowdata.REF_NUMBER_OUT);
+//            $('#UIDRELEASE').val(rowdata.UIDRELEASE);
+//                        
+//            if(!rowdata.tglrelease && !rowdata.jamrelease) {
+//                $('#btn-group-2').enableButtonGroup();
+//                $('#release-form').enableFormGroup();
+//            }else{
+//                $('#btn-group-4').enableButtonGroup();
+//                $('#btn-group-5').enableButtonGroup();
+//                $('#btn-group-2').disabledButtonGroup();
+//                $('#release-form').disabledFormGroup();
+//            }
+//
+//        });
         
         $('#btn-invoice').click(function() {
             if(!confirm('Apakah anda yakin?')){return false;}
             
-            var manifestId = $('#TMANIFEST_PK').val();
+            //Gets the selected row id.
+            rowid = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
+            rowdata = $('#lclReleaseGrid').getRowData(rowid);
+            
+            if(rowdata.INVOICE == ''){
+                alert('Please Select Type of Invoice');
+                return false;
+            }
+            
+            var manifestId = rowdata.TMANIFEST_PK;
             var url = '{{ route("lcl-delivery-release-invoice") }}';
             
             $.ajax({
@@ -80,9 +89,9 @@
                     console.log(json);
 
                     if(json.success) {
-                      $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                      $('#alert-message').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
                     } else {
-                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                      $('#alert-message').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
                     }
 
                     //Triggers the "Close" button funcionality.
@@ -92,55 +101,55 @@
             
         });
 
-        $('#btn-save').click(function() {
-            
-            if(!confirm('Apakah anda yakin?')){return false;}
-            
-            var manifestId = $('#TMANIFEST_PK').val();
-            var url = "{{route('lcl-delivery-release-update','')}}/"+manifestId;
-
-            $.ajax({
-                type: 'POST',
-                data: JSON.stringify($('#release-form').formToObject('')),
-                dataType : 'json',
-                url: url,
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Something went wrong, please try again later.');
-                },
-                beforeSend:function()
-                {
-
-                },
-                success:function(json)
-                {
-                    console.log(json);
-                    if(json.success) {
-                      $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
-                    } else {
-                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
-                    }
-
-                    //Triggers the "Close" button funcionality.
-                    $('#btn-refresh').click();
-                }
-            });
-        });
+//        $('#btn-save').click(function() {
+//            
+//            if(!confirm('Apakah anda yakin?')){return false;}
+//            
+//            var manifestId = $('#TMANIFEST_PK').val();
+//            var url = "{{route('lcl-delivery-release-update','')}}/"+manifestId;
+//
+//            $.ajax({
+//                type: 'POST',
+//                data: JSON.stringify($('#release-form').formToObject('')),
+//                dataType : 'json',
+//                url: url,
+//                error: function (jqXHR, textStatus, errorThrown)
+//                {
+//                    alert('Something went wrong, please try again later.');
+//                },
+//                beforeSend:function()
+//                {
+//
+//                },
+//                success:function(json)
+//                {
+//                    console.log(json);
+//                    if(json.success) {
+//                      $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+//                    } else {
+//                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+//                    }
+//
+//                    //Triggers the "Close" button funcionality.
+//                    $('#btn-refresh').click();
+//                }
+//            });
+//        });
         
-        $('#btn-cancel').click(function() {
-            $('#btn-refresh').click();
-        });
-        
-        $('#btn-refresh').click(function() {
-            $('#lclReleaseGrid').jqGrid().trigger("reloadGrid");
-            $('#release-form').disabledFormGroup();
-            $('#btn-toolbar').disabledButtonGroup();
-            $('#btn-group-3').enableButtonGroup();
-            
-            $('#release-form')[0].reset();
-            $('.select2').val(null).trigger("change");
-            $('#TMANIFEST_PK').val("");
-        });
+//        $('#btn-cancel').click(function() {
+//            $('#btn-refresh').click();
+//        });
+//        
+//        $('#btn-refresh').click(function() {
+//            $('#lclReleaseGrid').jqGrid().trigger("reloadGrid");
+//            $('#release-form').disabledFormGroup();
+//            $('#btn-toolbar').disabledButtonGroup();
+//            $('#btn-group-3').enableButtonGroup();
+//            
+//            $('#release-form')[0].reset();
+//            $('.select2').val(null).trigger("change");
+//            $('#TMANIFEST_PK').val("");
+//        });
         
     });
     
@@ -149,18 +158,22 @@
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">LCL Delivery Release</h3>
-<!--        <div class="box-tools">
-            <a href="{{ route('lcl-manifest-create') }}" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Add New</a>
-        </div>-->
+        <div class="box-tools" id="btn-toolbar">
+            <div id="btn-group-4">
+                <button class="btn btn-info btn-sm" id="btn-invoice"><i class="fa fa-print"></i> Create Invoice</button>
+            </div>
+        </div>
     </div>
     <div class="box-body">
-        <div class="row" style="margin-bottom: 30px;">
+        <div id="alert-message"></div>
+        <div class="row">
             <div class="col-md-12"> 
                 {{
                     GridRender::setGridId("lclReleaseGrid")
                     ->enableFilterToolbar()
                     ->setGridOption('mtype', 'POST')
                     ->setGridOption('url', URL::to('/lcl/manifest/grid-data?module=release&_token='.csrf_token()))
+                    ->setGridOption('editurl',URL::to('/lcl/manifest/crud'))
                     ->setGridOption('rowNum', 20)
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TMANIFEST_PK')
@@ -168,32 +181,35 @@
                     ->setGridOption('height', '250')
                     ->setGridOption('rowList',array(20,50,100))
                     ->setGridOption('useColSpanStyle', true)
-                    ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
+                    ->setNavigatorOptions('navigator', array('viewtext'=>'view','edittext'=>'edit'))
+                    ->setNavigatorOptions('navigator', array('add' => false, 'edit' => true, 'del' => false, 'view' => true, 'refresh' => true))
+                    ->setNavigatorOptions('edit', array('closeAfterEdit' => true))
+                    ->setNavigatorEvent('edit', 'afterSubmit', 'afterSubmitEvent')
                     ->setNavigatorOptions('view',array('closeOnEscape'=>false))
                     ->setFilterToolbarOptions(array('autosearch'=>true))
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                     ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
-                    ->addColumn(array('label'=>'Status','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
+                    ->addColumn(array('label'=>'Type INV','index'=>'INVOICE','width'=>80, 'align'=>'center','editable' => true, 'formatter' => 'select', 'edittype' => 'select', 'editoptions' => array('value' => 'BB:BB;DRY:DRY')))
                     ->addColumn(array('label'=>'No. HBL','index'=>'NOHBL','width'=>160))
                     ->addColumn(array('label'=>'Tgl. HBL','index'=>'TGL_HBL', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
                     ->addColumn(array('label'=>'No. SPK','index'=>'NOJOBORDER', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER', 'width'=>150,'hidden'=>false))
+                    ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
                     ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>250))
                     ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>250))                   
                     ->addColumn(array('label'=>'Notify Party','index'=>'NOTIFYPARTY','width'=>200))
-                    ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150))
-                    ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150))
-                    ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>150))
-                    ->addColumn(array('label'=>'Tgl. SPPB','index'=>'TGL_SPPB', 'width'=>150))
+                    ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. SPPB','index'=>'TGL_SPPB', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'Kode Dokumen','index'=>'KODE_DOKUMEN', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('index'=>'KD_DOK_INOUT', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'Kode Kuitansi','index'=>'NO_KUITANSI', 'width'=>150,'hidden'=>true))                                       
-                    ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120))               
-                    ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>120))
+                    ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120,'align'=>'center'))               
+                    ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'Qty','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))
-                    ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>120))
+                    ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'Kode Kemas','index'=>'KODE_KEMAS', 'width'=>100,'align'=>'center'))
                     ->addColumn(array('label'=>'No. Rack','index'=>'RACKING', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150,'hidden'=>true))          
@@ -208,7 +224,7 @@
                     ->addColumn(array('label'=>'Desc of Goods','index'=>'DESCOFGOODS', 'width'=>150,'hidden'=>true))              
                     ->addColumn(array('label'=>'No.BC11','index'=>'NO_BC11', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'Tgl.BC11','index'=>'TGL_BC11', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>150))
+                    ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'No.PLP','index'=>'NO_PLP', 'width'=>150,'hidden'=>true))                
                     ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'Tgl.Behandle','index'=>'tglbehandle', 'width'=>150,'hidden'=>true)) 
@@ -226,9 +242,9 @@
                     ->addColumn(array('label'=>'Ref Number','index'=>'REF_NUMBER_OUT', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. Fiat Muat','index'=>'tglfiat', 'width'=>120,'hidden'=>true))
                     ->addColumn(array('label'=>'Jam. Fiat Muat','index'=>'jamfiat', 'width'=>70,'hidden'=>true))
-                    ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
+                    ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
-                    ->addColumn(array('label'=>'Tgl. Release','index'=>'tglrelease', 'width'=>120))
+                    ->addColumn(array('label'=>'Tgl. Release','index'=>'tglrelease', 'width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'Jam. Release','index'=>'jamrelease', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Lokasi Tujuan','index'=>'LOKASI_TUJUAN', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
@@ -236,7 +252,7 @@
                 }}
                 
                 <div id="btn-toolbar" class="section-header btn-toolbar" role="toolbar" style="margin: 10px 0;">
-                    <div id="btn-group-3" class="btn-group">
+<!--                    <div id="btn-group-3" class="btn-group">
                         <button class="btn btn-default" id="btn-refresh"><i class="fa fa-refresh"></i> Refresh</button>
                     </div>
                     <div id="btn-group-1" class="btn-group">
@@ -245,15 +261,15 @@
                     <div id="btn-group-2" class="btn-group toolbar-block">
                         <button class="btn btn-default" id="btn-save"><i class="fa fa-save"></i> Save</button>
                         <button class="btn btn-default" id="btn-cancel"><i class="fa fa-close"></i> Cancel</button>
-                    </div>  
-                    <div id="btn-group-4" class="btn-group pull-right">
-                        <button class="btn btn-default" id="btn-invoice"><i class="fa fa-print"></i> Create Invoice</button>
-                    </div>
+                    </div>  -->
+<!--                    <div id="btn-group-4" class="btn-group pull-right">
+                        <button class="btn btn-info" id="btn-invoice"><i class="fa fa-print"></i> Create Invoice</button>
+                    </div>-->
                 </div>
             </div>
             
         </div>
-        <form class="form-horizontal" id="release-form" action="{{ route('lcl-delivery-release-index') }}" method="POST">
+<!--        <form class="form-horizontal" id="release-form" action="{{ route('lcl-delivery-release-index') }}" method="POST">
             <div class="row">
                 <div class="col-md-6">
                     
@@ -416,7 +432,7 @@
                     </div>
                 </div>
             </div>
-        </form>  
+        </form>  -->
     </div>
 </div>
 
@@ -424,15 +440,15 @@
 
 @section('custom_css')
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
+<!--<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/datepicker/datepicker3.css") }}">
-<link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.css") }}">
+<link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.css") }}">-->
 
 @endsection
 
 @section('custom_js')
 
-<script src="{{ asset("/bower_components/AdminLTE/plugins/datepicker/bootstrap-datepicker.js") }}"></script>
+<!--<script src="{{ asset("/bower_components/AdminLTE/plugins/datepicker/bootstrap-datepicker.js") }}"></script>
 <script src="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.js") }}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
 <script type="text/javascript">
@@ -451,6 +467,6 @@
     });
     $("#JAMSURATJALAN").mask("99:99:99");
     $("#jamrelease").mask("99:99:99");
-</script>
+</script>-->
 
 @endsection
