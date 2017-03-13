@@ -888,7 +888,7 @@ class FclController extends Controller
                 $coaricontdetail->NOURUT = 1;
                 $coaricontdetail->RESPONSE = '';
                 $coaricontdetail->STATUS_TPS = 1;
-                $coaricontdetail->KODE_KANTOR = '040200';
+                $coaricontdetail->KODE_KANTOR = '040300';
                 $coaricontdetail->NO_DAFTAR_PABEAN = '';
                 $coaricontdetail->TGL_DAFTAR_PABEAN = '';
                 $coaricontdetail->NO_SEGEL_BC = '';
