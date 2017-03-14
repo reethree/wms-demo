@@ -161,6 +161,8 @@ class LclController extends Controller
             ]
         ];        
         
+        $data['kode_doks'] = \App\Models\KodeDok::get(); 
+        
         return view('import.lcl.index-fiatmuat')->with($data);
     }
     
@@ -910,7 +912,7 @@ class LclController extends Controller
                 $coaricontdetail->KD_TPS = 'PRJP';
                 $coaricontdetail->NM_ANGKUT = (!empty($container->VESSEL) ? $container->VESSEL : 0);
                 $coaricontdetail->NO_VOY_FLIGHT = (!empty($container->VOY) ? $container->VOY : 0);
-                $coaricontdetail->CALL_SIGN = (!empty($container->CALL_SIGN) ? $container->CALL_SIGN : 0);;
+                $coaricontdetail->CALL_SIGN = (!empty($container->CALL_SIGN) ? $container->CALL_SIGN : 0);
                 $coaricontdetail->TGL_TIBA = (!empty($container->ETA) ? date('Ymd', strtotime($container->ETA)) : '');
                 $coaricontdetail->KD_GUDANG = 'PRJP';
                 $coaricontdetail->NO_CONT = $container->NOCONTAINER;
@@ -954,7 +956,7 @@ class LclController extends Controller
                 $coaricontdetail->RESPONSE_IPC = '';
                 $coaricontdetail->STATUS_TPS_IPC = '';
                 $coaricontdetail->NOPLP = $container->NO_PLP;
-                $coaricontdetail->TGLPLP = (!empty($container->TGL_PLP) ? date('Ymd', strtotime($container->TGL_PLP)) : '');;
+                $coaricontdetail->TGLPLP = (!empty($container->TGL_PLP) ? date('Ymd', strtotime($container->TGL_PLP)) : '');
                 $coaricontdetail->FLAG_REVISI = '';
                 $coaricontdetail->TGL_REVISI = '';
                 $coaricontdetail->TGL_REVISI_UPDATE = '';
@@ -1015,7 +1017,7 @@ class LclController extends Controller
                 $codecocontdetail->KD_TPS = 'PRJP';
                 $codecocontdetail->NM_ANGKUT = (!empty($container->VESSEL) ? $container->VESSEL : 0);
                 $codecocontdetail->NO_VOY_FLIGHT = (!empty($container->VOY) ? $container->VOY : 0);
-                $codecocontdetail->CALL_SIGN = (!empty($container->CALL_SIGN) ? $container->CALL_SIGN : 0);;
+                $codecocontdetail->CALL_SIGN = (!empty($container->CALL_SIGN) ? $container->CALL_SIGN : 0);
                 $codecocontdetail->TGL_TIBA = (!empty($container->ETA) ? date('Ymd', strtotime($container->ETA)) : '');
                 $codecocontdetail->KD_GUDANG = 'PRJP';
                 $codecocontdetail->NO_CONT = $container->NOCONTAINER;
@@ -1276,13 +1278,13 @@ class LclController extends Controller
                 $codecokmsdetail->NO_POS_BC11 = $manifest->NO_POS_BC11;
                 $codecokmsdetail->CONT_ASAL = $manifest->NOCONTAINER;
                 $codecokmsdetail->SERI_KEMAS = 1;
-                $codecokmsdetail->KD_KEMAS = $manifest->KODE_KEMAS;;
+                $codecokmsdetail->KD_KEMAS = $manifest->KODE_KEMAS;
                 $codecokmsdetail->JML_KEMAS = (!empty($manifest->QUANTITY) ? $manifest->QUANTITY : 0);
                 $codecokmsdetail->KD_TIMBUN = 'GD';
                 $codecokmsdetail->KD_DOK_INOUT = $manifest->KD_DOK_INOUT;
                 $codecokmsdetail->NO_DOK_INOUT = (!empty($manifest->NO_SPPB) ? $manifest->NO_SPPB : '');
                 $codecokmsdetail->TGL_DOK_INOUT = (!empty($manifest->TGL_SPPB) ? date('Ymd', strtotime($manifest->TGL_SPPB)) : '');
-                $codecokmsdetail->WK_INOUT = date('Ymd', strtotime($manifest->tglrelease)).date('His', strtotime($manifest->jamrelease));;
+                $codecokmsdetail->WK_INOUT = date('Ymd', strtotime($manifest->tglrelease)).date('His', strtotime($manifest->jamrelease));
                 $codecokmsdetail->KD_SAR_ANGKUT_INOUT = 1;
                 $codecokmsdetail->NO_POL = $manifest->NOPOL_MASUK;
                 $codecokmsdetail->PEL_MUAT = $manifest->PEL_MUAT;

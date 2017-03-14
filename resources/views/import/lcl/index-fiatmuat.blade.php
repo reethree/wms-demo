@@ -318,10 +318,9 @@
                         <div class="col-sm-8">
                             <select class="form-control select2" id="KD_DOK_INOUT" name="KD_DOK_INOUT" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                 <option value="">Choose Document</option>
-                                <option value="1">SPPB PIB</option>
-                                <option value="2">SPPB PIB</option>
-                                <option value="3">SPPB PIB</option>
-                                <option value="4">SPPB PIB</option>
+                                @foreach($kode_doks as $kode)
+                                    <option value="{{ $kode->kode }}">({{$kode->kode}}) {{ $kode->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

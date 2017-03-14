@@ -113,6 +113,8 @@ class FclController extends Controller
             ]
         ];        
         
+        $data['kode_doks'] = \App\Models\KodeDok::get(); 
+        
         return view('import.fcl.index-fiatmuat')->with($data);
     }
     
@@ -854,7 +856,7 @@ class FclController extends Controller
                 $coaricontdetail->KD_TPS = 'PRJP';
                 $coaricontdetail->NM_ANGKUT = (!empty($container->VESSEL) ? $container->VESSEL : 0);
                 $coaricontdetail->NO_VOY_FLIGHT = (!empty($container->VOY) ? $container->VOY : 0);
-                $coaricontdetail->CALL_SIGN = (!empty($container->CALL_SIGN) ? $container->CALL_SIGN : 0);;
+                $coaricontdetail->CALL_SIGN = (!empty($container->CALL_SIGN) ? $container->CALL_SIGN : 0);
                 $coaricontdetail->TGL_TIBA = (!empty($container->ETA) ? date('Ymd', strtotime($container->ETA)) : '');
                 $coaricontdetail->KD_GUDANG = 'PRJP';
                 $coaricontdetail->NO_CONT = $container->NOCONTAINER;
@@ -869,7 +871,7 @@ class FclController extends Controller
                 $coaricontdetail->CONSIGNEE = $container->NAMACONSOLIDATOR;
                 $coaricontdetail->BRUTO = (!empty($container->WEIGHT) ? $container->WEIGHT : 0);
                 $coaricontdetail->NO_BC11 = $container->NO_BC11;
-                $coaricontdetail->TGL_BC11 = (!empty($container->TGL_BC11) ? date('Ymd', strtotime($container->TGL_BC11)) : '');;
+                $coaricontdetail->TGL_BC11 = (!empty($container->TGL_BC11) ? date('Ymd', strtotime($container->TGL_BC11)) : '');
                 $coaricontdetail->NO_POS_BC11 = '';
                 $coaricontdetail->KD_TIMBUN = 'GD';
                 $coaricontdetail->KD_DOK_INOUT = 3;
@@ -961,7 +963,7 @@ class FclController extends Controller
                 $codecocontdetail->KD_TPS = 'PRJP';
                 $codecocontdetail->NM_ANGKUT = (!empty($container->VESSEL) ? $container->VESSEL : 0);
                 $codecocontdetail->NO_VOY_FLIGHT = (!empty($container->VOY) ? $container->VOY : 0);
-                $codecocontdetail->CALL_SIGN = (!empty($container->CALL_SIGN) ? $container->CALL_SIGN : 0);;
+                $codecocontdetail->CALL_SIGN = (!empty($container->CALL_SIGN) ? $container->CALL_SIGN : 0);
                 $codecocontdetail->TGL_TIBA = (!empty($container->ETA) ? date('Ymd', strtotime($container->ETA)) : '');
                 $codecocontdetail->KD_GUDANG = 'PRJP';
                 $codecocontdetail->NO_CONT = $container->NOCONTAINER;
@@ -977,7 +979,7 @@ class FclController extends Controller
                 $codecocontdetail->BRUTO = (!empty($container->WEIGHT) ? $container->WEIGHT : 0);
                 $codecocontdetail->NO_BC11 = $container->NO_BC11;
                 $codecocontdetail->TGL_BC11 = (!empty($container->TGL_BC11) ? date('Ymd', strtotime($container->TGL_BC11)) : '');
-                $codecocontdetail->NO_POS_BC11 = $container->NO_POS_BC11;;
+                $codecocontdetail->NO_POS_BC11 = $container->NO_POS_BC11;
                 $codecocontdetail->KD_TIMBUN = 'LAP';
                 $codecocontdetail->KD_DOK_INOUT = (!empty($container->KD_DOK_INOUT) ? $container->KD_DOK_INOUT : 3);
                 $codecocontdetail->NO_DOK_INOUT = (!empty($container->NO_SPPB) ? $container->NO_SPPB : '');
@@ -996,8 +998,8 @@ class FclController extends Controller
                 $codecocontdetail->RESPONSE = '';
                 $codecocontdetail->STATUS_TPS = 1;
                 $codecocontdetail->KODE_KANTOR = '040300';
-                $codecocontdetail->NO_DAFTAR_PABEAN = (!empty($container->NO_PIB) ? $container->NO_PIB : '');;
-                $codecocontdetail->TGL_DAFTAR_PABEAN = (!empty($container->TGL_PIB) ? date('Ymd', strtotime($container->TGL_PIB)) : '');;
+                $codecocontdetail->NO_DAFTAR_PABEAN = (!empty($container->NO_PIB) ? $container->NO_PIB : '');
+                $codecocontdetail->TGL_DAFTAR_PABEAN = (!empty($container->TGL_PIB) ? date('Ymd', strtotime($container->TGL_PIB)) : '');
                 $codecocontdetail->NO_SEGEL_BC = '';
                 $codecocontdetail->TGL_SEGEL_BC = '';
                 $codecocontdetail->NO_IJIN_TPS = '';
