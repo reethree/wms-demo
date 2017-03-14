@@ -99,7 +99,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. Segel</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NO_SEEGEL" class="form-control"  value="{{ $detail->NO_SEEGEL }}" required>
+                            <input type="text" name="NO_SEEGEL" class="form-control"  value="{{ $detail->NO_SEGEL }}" required>
                         </div>
                     </div>
                     <div class="form-group">

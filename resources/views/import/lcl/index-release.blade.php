@@ -40,15 +40,15 @@
             $('#REF_NUMBER_OUT').val(rowdata.REF_NUMBER_OUT);
             $('#UIDRELEASE').val(rowdata.UIDRELEASE);
                         
-            if(!rowdata.tglrelease && !rowdata.jamrelease) {
+//            if(!rowdata.tglrelease && !rowdata.jamrelease) {
                 $('#btn-group-2').enableButtonGroup();
                 $('#release-form').enableFormGroup();
-            }else{
-                $('#btn-group-4').enableButtonGroup();
-                $('#btn-group-5').enableButtonGroup();
-                $('#btn-group-2').disabledButtonGroup();
-                $('#release-form').disabledFormGroup();
-            }
+//            }else{
+//                $('#btn-group-4').enableButtonGroup();
+//                $('#btn-group-5').enableButtonGroup();
+//                $('#btn-group-2').disabledButtonGroup();
+//                $('#release-form').disabledFormGroup();
+//            }
 
         });
         

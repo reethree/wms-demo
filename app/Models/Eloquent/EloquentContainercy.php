@@ -48,6 +48,7 @@ class EloquentContainercy {
         $data['NAMACONSOLIDATOR'] = $joborder->NAMACONSOLIDATOR;
         $data['TCONSIGNEE_FK'] = $joborder->TCONSIGNEE_FK;
         $data['CONSIGNEE'] = $joborder->CONSIGNEE;
+        $data['ID_CONSIGNEE'] = $joborder->ID_CONSIGNEE;
 //        $data['TLOKASISANDAR_FK'] = $joborder->TLOKASISANDAR_FK;
         $data['ETA'] = $joborder->ETA;
         $data['ETD'] = $joborder->ETD;
@@ -113,6 +114,7 @@ class EloquentContainercy {
         $data['NAMACONSOLIDATOR'] = $joborder->NAMACONSOLIDATOR;
         $data['TCONSIGNEE_FK'] = $joborder->TCONSIGNEE_FK;
         $data['CONSIGNEE'] = $joborder->CONSIGNEE;
+        $data['ID_CONSIGNEE'] = $joborder->ID_CONSIGNEE;
 //        $data['TLOKASISANDAR_FK'] = $joborder->TLOKASISANDAR_FK;
         $data['ETA'] = $joborder->ETA;
         $data['ETD'] = $joborder->ETD;

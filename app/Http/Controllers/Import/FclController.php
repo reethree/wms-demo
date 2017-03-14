@@ -313,9 +313,10 @@ class FclController extends Controller
             $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();
             $data['SHIPPINGLINE'] = $namashippingline->SHIPPINGLINE;
         }
-        $namaconsignee = DBPerusahaan::select('NAMAPERUSAHAAN')->where('TPERUSAHAAN_PK',$data['TCONSIGNEE_FK'])->first();
+        $namaconsignee = DBPerusahaan::select('NAMAPERUSAHAAN','NPWP')->where('TPERUSAHAAN_PK',$data['TCONSIGNEE_FK'])->first();
         if($namaconsignee){
             $data['CONSIGNEE'] = $namaconsignee->NAMAPERUSAHAAN;
+            $data['ID_CONSIGNEE'] = str_replace(array('.','-'),array('',''),$namaconsignee->NPWP);
         }
         $data['UID'] = \Auth::getUser()->name;
         
@@ -340,6 +341,7 @@ class FclController extends Controller
             $data['NAMACONSOLIDATOR'] = $joborder->NAMACONSOLIDATOR;
             $data['TCONSIGNEE_FK'] = $joborder->TCONSIGNEE_FK;
             $data['CONSIGNEE'] = $joborder->CONSIGNEE;
+            $data['ID_CONSIGNEE'] = $joborder->ID_CONSIGNEE;
     //        $data['TLOKASISANDAR_FK'] = $joborder->TLOKASISANDAR_FK;
             $data['ETA'] = $joborder->ETA;
             $data['ETD'] = $joborder->ETD;
@@ -472,9 +474,10 @@ class FclController extends Controller
             $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();
             $data['SHIPPINGLINE'] = $namashippingline->SHIPPINGLINE;
         }
-        $namaconsignee = DBPerusahaan::select('NAMAPERUSAHAAN')->where('TPERUSAHAAN_PK',$data['TCONSIGNEE_FK'])->first();
+        $namaconsignee = DBPerusahaan::select('NAMAPERUSAHAAN','NPWP')->where('TPERUSAHAAN_PK',$data['TCONSIGNEE_FK'])->first();
         if($namaconsignee){
             $data['CONSIGNEE'] = $namaconsignee->NAMAPERUSAHAAN;
+            $data['ID_CONSIGNEE'] = str_replace(array('.','-'),array('',''),$namaconsignee->NPWP);
         }
         $data['UID'] = \Auth::getUser()->name;
         
@@ -863,8 +866,8 @@ class FclController extends Controller
                 $coaricontdetail->UK_CONT = $container->SIZE;
                 $coaricontdetail->NO_SEGEL = $container->NO_SEAL;
                 $coaricontdetail->JNS_CONT = 'F';
-                $coaricontdetail->NO_BL_AWB = '';
-                $coaricontdetail->TGL_BL_AWB = '';
+                $coaricontdetail->NO_BL_AWB = $container->NO_BL_AWB;
+                $coaricontdetail->TGL_BL_AWB = (!empty($container->TGL_BL_AWB) ? date('Ymd', strtotime($container->TGL_BL_AWB)) : '');
                 $coaricontdetail->NO_MASTER_BL_AWB = $container->NOMBL;
                 $coaricontdetail->TGL_MASTER_BL_AWB = (!empty($container->TGL_MASTER_BL) ? date('Ymd', strtotime($container->TGL_MASTER_BL)) : '');
                 $coaricontdetail->ID_CONSIGNEE = $container->ID_CONSOLIDATOR;
@@ -891,8 +894,8 @@ class FclController extends Controller
                 $coaricontdetail->RESPONSE = '';
                 $coaricontdetail->STATUS_TPS = 1;
                 $coaricontdetail->KODE_KANTOR = '040300';
-                $coaricontdetail->NO_DAFTAR_PABEAN = '';
-                $coaricontdetail->TGL_DAFTAR_PABEAN = '';
+                $coaricontdetail->NO_DAFTAR_PABEAN = $container->NO_DAFTAR_PABEAN;
+                $coaricontdetail->TGL_DAFTAR_PABEAN = (!empty($container->TGL_DAFTAR_PABEAN) ? date('Ymd', strtotime($container->TGL_DAFTAR_PABEAN)) : '');
                 $coaricontdetail->NO_SEGEL_BC = '';
                 $coaricontdetail->TGL_SEGEL_BC = '';
                 $coaricontdetail->NO_IJIN_TPS = '';
@@ -963,7 +966,7 @@ class FclController extends Controller
                 $codecocontdetail->KD_TPS = 'PRJP';
                 $codecocontdetail->NM_ANGKUT = (!empty($container->VESSEL) ? $container->VESSEL : 0);
                 $codecocontdetail->NO_VOY_FLIGHT = (!empty($container->VOY) ? $container->VOY : 0);
-                $codecocontdetail->CALL_SIGN = (!empty($container->CALL_SIGN) ? $container->CALL_SIGN : 0);
+                $codecocontdetail->CALL_SIGN = (!empty($container->CALLSIGN) ? $container->CALLSIGN : 0);
                 $codecocontdetail->TGL_TIBA = (!empty($container->ETA) ? date('Ymd', strtotime($container->ETA)) : '');
                 $codecocontdetail->KD_GUDANG = 'PRJP';
                 $codecocontdetail->NO_CONT = $container->NOCONTAINER;
@@ -974,8 +977,10 @@ class FclController extends Controller
                 $codecocontdetail->TGL_BL_AWB = '';
                 $codecocontdetail->NO_MASTER_BL_AWB = $container->NOMBL;
                 $codecocontdetail->TGL_MASTER_BL_AWB = (!empty($container->TGLMBL) ? date('Ymd', strtotime($container->TGLMBL)) : '');
-                $codecocontdetail->ID_CONSIGNEE = $container->NPWP_IMP;
-                $codecocontdetail->CONSIGNEE = $container->NAMA_IMP;
+//                $codecocontdetail->ID_CONSIGNEE = $container->NPWP_IMP;
+//                $codecocontdetail->CONSIGNEE = $container->NAMA_IMP;
+                $codecocontdetail->ID_CONSIGNEE = $container->ID_CONSIGNEE;
+                $codecocontdetail->CONSIGNEE = $container->CONSIGNEE;
                 $codecocontdetail->BRUTO = (!empty($container->WEIGHT) ? $container->WEIGHT : 0);
                 $codecocontdetail->NO_BC11 = $container->NO_BC11;
                 $codecocontdetail->TGL_BC11 = (!empty($container->TGL_BC11) ? date('Ymd', strtotime($container->TGL_BC11)) : '');
