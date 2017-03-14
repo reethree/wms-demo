@@ -297,13 +297,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">No. SPPB</label>
+                        <label class="col-sm-3 control-label">No. Dok</label>
                         <div class="col-sm-8">
                             <input type="text" id="NO_SPPB" name="NO_SPPB" class="form-control" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Tgl. SPPB</label>
+                        <label class="col-sm-3 control-label">Tgl. Dok</label>
                         <div class="col-sm-8">
                             <div class="input-group date">
                                 <div class="input-group-addon">
