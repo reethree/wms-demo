@@ -10,8 +10,7 @@
             <div>
                 <h2 class="name">PT. PRIMANATA JASA PERSADA</h2>
                 <div>Jl. Enggano No. 40 E Jakarta 14310 - Indonesia</div>
-                <div>Tel. (021) 43932076-77, (021) 43909872-73</div>
-                <div>Fax. (021) 43932087</div>
+                <div>Tel. (021) 43932076-77, (021) 43909872-73 &nbsp;Fax. (021) 43932087</div>
                 <div>Email : <a href="mailto:primanatajp@yahoo.co.id">primanatajp@yahoo.co.id</a></div>
             </div>
         </div>

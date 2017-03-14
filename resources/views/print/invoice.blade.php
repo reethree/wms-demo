@@ -17,7 +17,7 @@
                   <td>:&nbsp;&nbsp;&nbsp;&nbsp;<b>{{ $manifest->NAMACONSOLIDATOR }}</b></td>
                   <td>&nbsp;</td>
                   <td>&nbsp;</td>
-                  <td align="right">( DRY )</td>
+                  <td align="right">( {{ $manifest->INVOICE }} )</td>
               </tr>
               <tr>
                   <td><b>Consignee</b></td>

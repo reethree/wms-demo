@@ -25,6 +25,8 @@ class InvoiceController extends Controller
             ]
         ];        
         
+        $data['consolidators'] = \App\Models\Consolidator::select('TCONSOLIDATOR_PK as id','NAMACONSOLIDATOR as name')->get();
+        
         return view('invoice.index-invoice')->with($data);
     }
     
@@ -108,7 +110,44 @@ class InvoiceController extends Controller
         
         return $pdf->stream($data['invoice']->no_invoice.'-'.date('dmy').'.pdf');
     }
+    
+    public function invoicePrintRekap(Request $request)
+    {
+        $consolidator_id = $request->consolidator_id;
+        $start = $request->tanggal.' 00:00:00';
+        $end = date('Y-m-d', strtotime('+1 Day', strtotime($request->tanggal))).' 00:00:00';
+        $type = $request->type;
+        
+        $data['consolidator'] = \App\Models\Consolidator::find($consolidator_id);
+        $data['invoices'] = \App\Models\Invoice::select('*')
+                ->join('tmanifest','invoice_import.manifest_id','=','tmanifest.TMANIFEST_PK')
+                ->where('tmanifest.TCONSOLIDATOR_FK', $consolidator_id)
+                ->where('invoice_import.created_at','>=',$start)
+                ->where('invoice_import.created_at','<',$end)
+                ->where('tmanifest.INVOICE', $type)
+                ->get();
+        
+        if(count($data['invoices']) > 0):
+            $sum_total = array();
+            foreach ($data['invoices'] as $invoice):
+                $sum_total[] = $invoice->sub_total;        
+            endforeach;
+            
+            $data['sub_total'] = array_sum($sum_total);
+            $data['ppn'] = $data['sub_total']*10/100;
+            $data['materai'] = ($data['sub_total'] > 1000000) ? '6000' : '3000';
+            $data['total'] = $data['sub_total'] + $data['ppn'] + $data['materai'];           
+            $data['terbilang'] = ucwords($this->terbilang($data['total']))." Rupiah";
 
+            $pdf = \PDF::loadView('print.invoice-rekap', $data);
+
+            return $pdf->stream('Rekap Invoice '.date('d-m-Y').'-'.$data['consolidator']->NAMACONSOLIDATOR.'.pdf');
+            
+        endif;
+        
+        return back()->with('error', 'Data tidak ditemukan.')->withInput();
+    }
+    
     public function tarifIndex()
     {
         if ( !$this->access->can('show.tarif.index') ) {

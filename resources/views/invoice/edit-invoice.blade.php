@@ -80,7 +80,7 @@
               <tr>
                   <td>&nbsp;</td>
                   <td>&nbsp;</td>
-                  <td align="right">( DRY )</td>
+                  <td align="right">( {{ $manifest->INVOICE }} )</td>
               </tr>
               <tr>
                   <td>&nbsp;</td>

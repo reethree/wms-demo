@@ -3,7 +3,7 @@
 @section('content')
 <style>
     .datepicker.dropdown-menu {
-        z-index: 100 !important;
+        z-index: 9999 !important;
     }
     th.ui-th-column div{
         white-space:normal !important;
@@ -53,7 +53,7 @@
     <div class="box-header with-border">
         <h3 class="box-title">LCL Invoices Lists</h3>
         <div class="box-tools">
-            <a href="{{ route('lcl-register-create') }}" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Add New</a>
+            <button class="btn btn-block btn-info btn-sm" id="cetak-rekap"><i class="fa fa-print"></i> Cetak Rekap Harian</button>
         </div>
     </div>
     <div class="box-body table-responsive">
@@ -129,20 +129,76 @@
             ->addColumn(array('label'=>'Hari','index'=>'hari','width'=>60,'align'=>'center'))
             ->addColumn(array('label'=>'Bhndl','index'=>'behandle', 'width'=>60,'align'=>'center'))
             ->addColumn(array('label'=>'Storage','index'=>'storage','width'=>120,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
-            ->addColumn(array('label'=>'RDM','index'=>'rdm','width'=>80,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
-            ->addColumn(array('label'=>'Bhndl','index'=>'harga_behandle', 'width'=>120,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
-            ->addColumn(array('label'=>'Adm/Doc','index'=>'adm','width'=>80,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
-            ->addColumn(array('label'=>'Surcharge<br/>>2.5 TON','index'=>'weight_surcharge', 'width'=>120,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+            ->addColumn(array('label'=>'RDM','index'=>'rdm','width'=>100,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+            ->addColumn(array('label'=>'Behandle','index'=>'harga_behandle', 'width'=>120,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+            ->addColumn(array('label'=>'Adm/Doc','index'=>'adm','width'=>100,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+            ->addColumn(array('label'=>'Surcharge','index'=>'weight_surcharge', 'width'=>120,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
             ->addColumn(array('label'=>'Sub Total','index'=>'sub_total', 'width'=>120,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
-            ->addColumn(array('label'=>'PPN','index'=>'ppn', 'width'=>120,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+//            ->addColumn(array('label'=>'PPN','index'=>'ppn', 'width'=>120,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
             ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
-            ->addColumn(array('label'=>'Tanggal<br/>Entry','index'=>'created_at', 'width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'Tanggal<br/>Entry','index'=>'created_at', 'width'=>160,'align'=>'center'))
 //            ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
 //            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->renderGrid()
         }}
     </div>
 </div>
+
+<div id="cetak-rekap-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Cetak Rekap</h4>
+            </div>
+            <form class="form-horizontal" action="{{ route('invoice-print-rekap') }}" method="POST">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Consolidator</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control select2" name="consolidator_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                        <option value="">Choose Consolidator</option>
+                                        @foreach($consolidators as $consolidator)
+                                            <option value="{{ $consolidator->id }}">{{ $consolidator->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tgl. Invoice</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" name="tanggal" class="form-control pull-right datepicker" required>
+                                    </div>
+                                </div>
+                            </div>   
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Type</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control select2" name="type" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                        <option value="">Choose Type</option>
+                                        <option value="BB">BB</option>
+                                        <option value="DRY">DRY</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
+                  <button type="submit" class="btn btn-primary">Cetak</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 @endsection
 
@@ -168,6 +224,10 @@
         var enddate = $("#enddate").val();
         jQuery("#lclInvoicesGrid").jqGrid('setGridParam',{url:"{{URL::to('/invoice/grid-data')}}?startdate="+startdate+"&enddate="+enddate}).trigger("reloadGrid");
         return false;
+    });
+    
+    $('#cetak-rekap').on('click', function(){
+        $('#cetak-rekap-modal').modal('show');
     });
 </script>
 
