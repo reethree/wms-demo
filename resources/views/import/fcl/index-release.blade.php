@@ -36,15 +36,17 @@
             $('#NPWP_IMP').val(rowdata.NPWP_IMP);
             $('#NOPOL_OUT').val(rowdata.NOPOL_OUT);
             $('#REF_NUMBER_OUT').val(rowdata.REF_NUMBER_OUT);
+            $('#KD_DOK_INOUT').val(rowdata.KD_DOK_INOUT);
 
-//            if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
+            if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
                 $('#btn-group-2').enableButtonGroup();
                 $('#release-form').enableFormGroup();
-//            }else{
-//                $('#btn-group-5').enableButtonGroup();
-//                $('#btn-group-2').disabledButtonGroup();
-//                $('#release-form').disabledFormGroup();
-//            }
+                $('#btn-group-5').disabledButtonGroup();
+            }else{
+                $('#btn-group-5').enableButtonGroup();
+                $('#btn-group-2').disabledButtonGroup();
+                $('#release-form').disabledFormGroup();
+            }
 
         });
         
