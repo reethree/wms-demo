@@ -276,7 +276,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Kode Dokumen</label>
                         <div class="col-sm-8">
-                            <input type="text" id="KODE_DOKUMEN" name="KODE_DOKUMEN" class="form-control" readonly>
+                            <input type="text" id="KD_DOK_INOUT" name="KD_DOK_INOUT" class="form-control" readonly>
                         </div>
                     </div>
                     

@@ -121,12 +121,12 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                 $Model = TpsCoariCont::select('*')
                         ->join('tpscoaricontdetailxml', 'tpscoaricontxml.TPSCOARICONTXML_PK', '=', 'tpscoaricontdetailxml.TPSCOARICONTXML_FK')
                         ->where('tpscoaricontxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where('tpscoaricontxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])))
-                        ->groupBy('tpscoaricontdetailxml.TPSCOARICONTXML_FK');
+                        ->where('tpscoaricontxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+//                        ->groupBy('tpscoaricontdetailxml.TPSCOARICONTXML_FK');
             }else{
                 $Model = TpsCoariCont::select('*')
-                        ->join('tpscoaricontdetailxml', 'tpscoaricontxml.TPSCOARICONTXML_PK', '=', 'tpscoaricontdetailxml.TPSCOARICONTXML_FK')
-                        ->groupBy('tpscoaricontdetailxml.TPSCOARICONTXML_FK');
+                        ->join('tpscoaricontdetailxml', 'tpscoaricontxml.TPSCOARICONTXML_PK', '=', 'tpscoaricontdetailxml.TPSCOARICONTXML_FK');
+//                        ->groupBy('tpscoaricontdetailxml.TPSCOARICONTXML_FK');
             }
         }elseif($Model->getMorphClass() == 'App\Models\TpsCoariKms'){ 
             
