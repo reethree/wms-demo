@@ -13,6 +13,72 @@ class DefaultController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     
+    public function getFlatFile()
+    {
+//        $flat = readfile(asset('flat_file/1702S.txt'));
+//        $flat = fopen(asset('flat_file/1702S.txt'), "r") or die("Unable to open file!");
+//            echo fread($flat,filesize('1702S.txt'));
+//             echo explode('CNNGBCNNGBIDTPPIDTPP', $flat);
+//        fclose($flat);
+        
+        $sparator_header = array(
+            'HDR0111IS',
+            'DTL0101I',
+            
+        );
+        
+        $sparator_detail = array(
+            'DTL02SNM01', //Shipper Name
+            'DTL02SNA01', //Shipper Address,
+            'DTL02CNM01', //Consignee Name,
+            'DTL02CNA01', //Consignee Address
+            'DTL02NNM01', //Notify Name,
+            'DTL02NNA01', //Notify Address,
+            'DTL02SMR01', //Marking.....
+            'DTL02HSC01', //
+            'DTL02DES01', //Uraian
+            'CNT010000', // No.Container,
+            'TSN0224769', //
+            'DTL0101I', //
+        );
+        
+        $resplace_detail = array(
+            '|ShipperName^', //Shipper Name
+            '|ShipperAddress^', //Shipper Address,
+            '|ConsigneeName^', //Consignee Name,
+            '|ConsigneeAddress^', //Consignee Address
+            '|NotifyName^', //Notify Name,
+            '|NotifyAddress^', //Notify Address,
+            '|Marking^', //Marking.....
+            '|DTL02HSC01^', //
+            '|Uraian^', //Uraian
+            '|NoContainer^', // No.Container,
+            '|TSN0224769^', //
+            '|DTL0101I^', //
+        );
+        
+        $flat = \File::get(public_path('flat_file/1702S.txt'));
+        $datas = explode('CNNGBCNNGBIDTPPIDTPP', $flat);
+        
+        $results = array();
+        
+        $i = 0;
+        
+        foreach ($datas as $data):
+            if($i == 0){
+                $data = str_replace($sparator_header, '|^', $data); 
+            }else{
+                $data = str_replace($sparator_detail, $resplace_detail, $data); 
+                $dataExplode = explode('|',$data);               
+                $results[] = $dataExplode;
+            }
+            $i++;
+        endforeach;
+
+        print_r($results);
+        
+    }
+    
     public function voiceCallback(Request $request)
     {
 //        <prompt>You entered is: <value expr="post_id" /> , , </prompt>

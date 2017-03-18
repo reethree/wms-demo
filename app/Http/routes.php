@@ -81,3 +81,9 @@ Route::get('/voice/callback/response/{cid}', [
     'uses' => 'DefaultController@voiceCallbackResponse',
     'as' => 'call-voice-callback-response'
 ]);
+
+// FlatFIle
+Route::get('/flat', [
+    'uses' => 'DefaultController@getFlatFile',
+    'as' => 'flat-file'
+]);

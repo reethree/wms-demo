@@ -10,9 +10,9 @@
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">COARI CODECO Reject</h3>
-<!--        <div class="box-tools">
-            <a href="{{ route('consolidator-create') }}" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Add New</a>
-        </div>-->
+        <div class="box-tools">
+            <a href="{{ route('tps-reject-get') }}" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Get Data</a>
+        </div>
     </div>
     <div class="box-body table-responsive">
         <div class="row" style="margin-bottom: 30px;margin-right: 0;">

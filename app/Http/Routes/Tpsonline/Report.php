@@ -6,13 +6,25 @@ Route::group(['prefix' => 'tpsonline/report', 'namespace' => 'Tps'], function(){
         'as' => 'tps-reject-index',
         'uses' => 'TpsOnlineController@rejectIndex'
     ]);
+    Route::get('/reject/get-xml', [
+        'as' => 'tps-reject-get',
+        'uses' => 'SoapController@GetRejectData'
+    ]);
     Route::get('/terkirim', [
         'as' => 'tps-terkirim-index',
         'uses' => 'TpsOnlineController@terkirimIndex'
     ]);
+    Route::get('/terkirim/get-xml', [
+        'as' => 'tps-terkirim-get',
+        'uses' => 'SoapController@CekDataTerkirim'
+    ]);
     Route::get('/gagal', [
         'as' => 'tps-gagal-index',
         'uses' => 'TpsOnlineController@gagalIndex'
+    ]);
+    Route::get('/gagal/get-xml', [
+        'as' => 'tps-gagal-get',
+        'uses' => 'SoapController@CekDataGagalKirim'
     ]);
     Route::get('/grid-data', function()
     {

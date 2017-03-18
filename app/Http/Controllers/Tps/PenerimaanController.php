@@ -591,4 +591,9 @@ class PenerimaanController extends Controller
         endforeach;
         
     }
+    
+    public function rejectGetXml()
+    {
+        
+    }
 }
