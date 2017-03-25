@@ -291,7 +291,8 @@
     <div class="box-header with-border">
       <h3 class="box-title">Form Container</h3>
       <div class="box-tools pull-right">
-        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>-->
+          <button id="upload-file" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Upload TXT File</button>
       </div>
     </div>
     <!-- /.box-header -->
@@ -410,6 +411,37 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div id="upload-file-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Upload TXT File</h4>
+            </div>
+            <form class="form-horizontal" action="{{ route('lcl-register-upload-file') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">File</label>
+                                <div class="col-sm-8">
+                                    <input type="file" id="file-txt-input" name="filetxt" />
+                                </div>
+                            </div>
+                            <input id="container_id" name="jobid" type="hidden" value="{{$joborder->TJOBORDER_PK}}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
+                  <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @endsection
 
 @section('custom_css')
@@ -445,6 +477,9 @@
         }else{
             alert('Please Select Container.');
         }
+    });
+    $('#upload-file').on("click", function(){
+        $('#upload-file-modal').modal('show');
     });
     $("#TPELABUHAN_FK").select2({
         ajax: {

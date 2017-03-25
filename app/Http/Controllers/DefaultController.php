@@ -15,16 +15,9 @@ class DefaultController extends BaseController
     
     public function getFlatFile()
     {
-//        $flat = readfile(asset('flat_file/1702S.txt'));
-//        $flat = fopen(asset('flat_file/1702S.txt'), "r") or die("Unable to open file!");
-//            echo fread($flat,filesize('1702S.txt'));
-//             echo explode('CNNGBCNNGBIDTPPIDTPP', $flat);
-//        fclose($flat);
-        
+       
         $sparator_header = array(
-            'HDR0111IS',
-            'DTL0101I',
-            
+            'HDR0111IS', 
         );
         
         $sparator_detail = array(
@@ -37,30 +30,39 @@ class DefaultController extends BaseController
             'DTL02SMR01', //Marking.....
             'DTL02HSC01', //
             'DTL02DES01', //Uraian
-            'CNT010000', // No.Container,
-            'TSN0224769', //
-            'DTL0101I', //
+            'DTL02DES02', //Uraian2
+            'DTL02DES03', //Uraian3
+            'DTL02DES04', //Uraian4
+            'DTL02DES05', //Uraian5
+            'DTL02DES06', //Uraian6
+            'CNT010000', //No.Container,
+//            'DTL0101I', //No.POS
         );
         
         $resplace_detail = array(
-            '|ShipperName^', //Shipper Name
-            '|ShipperAddress^', //Shipper Address,
-            '|ConsigneeName^', //Consignee Name,
-            '|ConsigneeAddress^', //Consignee Address
-            '|NotifyName^', //Notify Name,
-            '|NotifyAddress^', //Notify Address,
-            '|Marking^', //Marking.....
+            '|SHIPPER^', //Shipper Name
+            '|SHIPPER_ADDRESS^', //Shipper Address,
+            '|CONSIGNEE^', //Consignee Name,
+            '|CONSIGNEE_ADDRESS^', //Consignee Address
+            '|NOTIFYPARTY^', //Notify Name,
+            '|NOTIFYPARTY_ADDRESS^', //Notify Address,
+            '|MARKING^', //Marking.....
             '|DTL02HSC01^', //
-            '|Uraian^', //Uraian
-            '|NoContainer^', // No.Container,
-            '|TSN0224769^', //
-            '|DTL0101I^', //
+            '|DESCOFGOODS^', //Uraian
+            '|DESCOFGOODS^', //Uraian2
+            '|DESCOFGOODS^', //Uraian3
+            '|DESCOFGOODS^', //Uraian4
+            '|DESCOFGOODS^', //Uraian5
+            '|DESCOFGOODS^', //Uraian6
+            '|NOCONTAINER^', // No.Container,
+//            '|NO_POS^', //No.POS
         );
         
         $flat = \File::get(public_path('flat_file/1702S.txt'));
-        $datas = explode('CNNGBCNNGBIDTPPIDTPP', $flat);
+        $datas = explode('DTL0101I', $flat);
         
         $results = array();
+        $dataFinals = array();
         
         $i = 0;
         
@@ -69,13 +71,36 @@ class DefaultController extends BaseController
                 $data = str_replace($sparator_header, '|^', $data); 
             }else{
                 $data = str_replace($sparator_detail, $resplace_detail, $data); 
-                $dataExplode = explode('|',$data);               
+                $dataExplode = explode('|',$data);   
+                
                 $results[] = $dataExplode;
             }
             $i++;
         endforeach;
-
-        print_r($results);
+        
+        foreach($results as $value):  
+            $desc = '';
+            foreach ($value as $v):
+                $val = explode('^', $v); 
+                if(is_array($val) && count($val) > 1):
+                    if($val[0] == 'DESCOFGOODS'){
+                        $desc .= $val[1];
+                        $dataval[$val[0]] = trim($desc);
+                    }else{
+                        $dataval[$val[0]] = trim($val[1]);
+                    }
+                else:
+                    $dataval['HEADER'] = trim($val[0]);
+                endif;
+                
+            endforeach;
+            
+            $dataFinals[] = $dataval;              
+        endforeach;
+        
+//        print_r($dataFinals);
+        
+        return json_encode($dataFinals);
         
     }
     

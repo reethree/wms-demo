@@ -140,4 +140,9 @@ class Controller extends BaseController
           return $this->terbilang($x / 1000000) . " juta" . $this->terbilang($x % 1000000);  
     }
     
+    public function removeSpace($string)
+    {
+        return preg_replace('!\s+!', ' ', $string);
+    }
+    
 }

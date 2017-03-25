@@ -27,4 +27,23 @@ class Perusahaan extends Model
         return $data->NPWP;
     }
     
+    public static function insertOrGet($name, $address)
+    {
+        $perusahaan = Perusahaan::where('NAMAPERUSAHAAN', $name)->first();
+        if($perusahaan){
+            return $perusahaan;
+        }else{
+            $data = array();
+            $data['UID'] = \Auth::getUser()->name;
+            $data['NAMAPERUSAHAAN'] = $name;
+            $data['ALAMAT'] = $address;
+            
+            $perusahaan_id = Perusahaan::insertGetId($data);
+            
+            $perusahaan = Perusahaan::find($perusahaan_id);
+            
+            return $perusahaan;
+        }
+    }
+    
 }

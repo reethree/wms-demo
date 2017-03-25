@@ -1323,4 +1323,185 @@ class LclController extends Controller
 
     }
     
+    public function uploadTxtFile(Request $request)
+    {
+        if ($request->hasFile('filetxt')) {
+            $extension = $request->filetxt->extension();
+            if($extension == 'txt'){
+                
+                $jobid = $request->jobid;             
+                
+                $sparator_header = array(
+                    'HDR0111IS', 
+                );
+
+                $sparator_detail = array(
+                    'DTL02SNM01', //Shipper Name
+                    'DTL02SNA01', //Shipper Address,
+                    'DTL02CNM01', //Consignee Name,
+                    'DTL02CNA01', //Consignee Address
+                    'DTL02NNM01', //Notify Name,
+                    'DTL02NNA01', //Notify Address,
+                    'DTL02SMR01', //Marking.....
+                    'DTL02HSC01', //
+                    'DTL02DES01', //Uraian
+                    'DTL02DES02', //Uraian2
+                    'DTL02DES03', //Uraian3
+                    'DTL02DES04', //Uraian4
+                    'DTL02DES05', //Uraian5
+                    'DTL02DES06', //Uraian6
+                    'CNT010000', //No.Container,
+        //            'DTL0101I', //No.POS
+                );
+
+                $resplace_detail = array(
+                    '|SHIPPER^', //Shipper Name
+                    '|SHIPPER_ADDRESS^', //Shipper Address,
+                    '|CONSIGNEE^', //Consignee Name,
+                    '|CONSIGNEE_ADDRESS^', //Consignee Address
+                    '|NOTIFYPARTY^', //Notify Name,
+                    '|NOTIFYPARTY_ADDRESS^', //Notify Address,
+                    '|MARKING^', //Marking.....
+                    '|DTL02HSC01^', //
+                    '|DESCOFGOODS^', //Uraian
+                    '|DESCOFGOODS^', //Uraian2
+                    '|DESCOFGOODS^', //Uraian3
+                    '|DESCOFGOODS^', //Uraian4
+                    '|DESCOFGOODS^', //Uraian5
+                    '|DESCOFGOODS^', //Uraian6
+                    '|NOCONTAINER^', // No.Container,
+        //            '|NO_POS^', //No.POS
+                );
+                
+                $flat = \File::get($request->filetxt);
+                $datas = explode('DTL0101I', $flat);
+                
+                $results = array();
+                $dataFinals = array();
+
+                $i = 0;
+
+                foreach ($datas as $data):
+                    if($i == 0){
+                        $data = str_replace($sparator_header, '|^', $data); 
+                    }else{
+                        $data = str_replace($sparator_detail, $resplace_detail, $data); 
+                        $dataExplode = explode('|',$data);   
+
+                        $results[] = $dataExplode;
+                    }
+                    $i++;
+                endforeach;
+
+                foreach($results as $value):  
+                    $desc = '';
+                    $container = '';
+                    foreach ($value as $v):
+                        $val = explode('^', $v); 
+                        if(is_array($val) && count($val) > 1):
+                            if($val[0] == 'DESCOFGOODS'){
+                                $desc .= $val[1];
+                                $dataval[$val[0]] = trim($desc);
+                            }else{
+                                $dataval[$val[0]] = trim($val[1]);
+                            }
+
+                        else:
+                            $dataval['HEADER'] = trim($val[0]);
+                        endif;
+
+                    endforeach;
+
+                    $dataFinals[] = $dataval;              
+                endforeach;
+
+                // INSERT FILE TO DATABASE
+                foreach ($dataFinals as $df):
+                    // Insert Container
+                    $ex_cont = explode(" ", $this->removeSpace($df['NOCONTAINER']));
+                    $no_cont = $ex_cont[0];
+                    $size_cont = str_replace("L", "", $ex_cont[1]);
+
+                    // Get Container
+                    $container = DBContainer::insertOrGet($no_cont, $size_cont, $jobid);
+
+                    if($container){
+                        $data = array();
+                        $manifestID = DBManifest::select('NOTALLY')->where('TJOBORDER_FK',$container->TJOBORDER_FK)->count();
+                        
+                        $regID = str_pad(intval(($manifestID > 0 ? $manifestID : 0)+1), 3, '0', STR_PAD_LEFT);
+
+                        // Copy Container
+                        $data['NOTALLY'] = $container->NoJob.'.'.$regID; 
+                        $data['TJOBORDER_FK'] = $container->TJOBORDER_FK;
+                        $data['NOJOBORDER'] = $container->NoJob;
+                        $data['TCONTAINER_FK'] = $container->TCONTAINER_PK;
+                        $data['NOCONTAINER'] = $container->NOCONTAINER;
+                        $data['TCONSOLIDATOR_FK'] = $container->TCONSOLIDATOR_FK;
+                        $data['NAMACONSOLIDATOR'] = $container->NAMACONSOLIDATOR;
+                        $data['TLOKASISANDAR_FK'] = $container->TLOKASISANDAR_FK;
+                        $data['KD_TPS_ASAL'] = $container->KD_TPS_ASAL;
+                        $data['KD_TPS_TUJUAN'] = $container->KD_TPS_TUJUAN;
+                        $data['SIZE'] = $container->SIZE;
+                        $data['ETA'] = $container->ETA;
+                        $data['ETD'] = $container->ETD;
+                        $data['VESSEL'] = $container->VESSEL;
+                        $data['VOY'] = $container->VOY;
+                        $data['CALL_SIGN'] = $container->CALL_SIGN;
+                        $data['TPELABUHAN_FK'] = $container->TPELABUHAN_FK;     
+                        $data['NAMAPELABUHAN'] = $container->NAMAPELABUHAN;
+                        $data['PEL_MUAT'] = $container->PEL_MUAT;
+                        $data['PEL_BONGKAR'] = $container->PEL_BONGKAR;
+                        $data['PEL_TRANSIT'] = $container->PEL_TRANSIT;
+                        $data['NOMBL'] = $container->NOMBL;  
+                        $data['TGL_MASTER_BL'] = $container->TGL_MASTER_BL;
+                        $data['LOKASI_GUDANG'] = $container->LOKASI_GUDANG;
+                        $data['NO_BC11'] = $container->NO_BC11;
+                        $data['TGL_BC11'] = $container->TGL_BC11;
+                        $data['NO_PLP'] = $container->NO_PLP;
+                        $data['TGL_PLP'] = $container->TGL_PLP;
+                        $data['VALIDASI'] = 'N';
+                        
+                        // Get Perusahaan
+                        $notifyparty = DBPerusahaan::insertOrGet($df['NOTIFYPARTY'], $df['NOTIFYPARTY_ADDRESS']);
+                        $shipper = DBPerusahaan::insertOrGet($df['SHIPPER'], $df['SHIPPER_ADDRESS']);
+                        $consignee = DBPerusahaan::insertOrGet($df['CONSIGNEE'], $df['CONSIGNEE_ADDRESS']);
+
+                        $data['TNOTIFYPARTY_FK'] = $notifyparty['TPERUSAHAAN_PK'];
+                        $data['NOTIFYPARTY'] = $notifyparty['NAMAPERUSAHAAN'];
+                        $data['TSHIPPER_FK'] = $shipper['TPERUSAHAAN_PK'];
+                        $data['SHIPPER'] = $shipper['NAMAPERUSAHAAN'];
+                        $data['TCONSIGNEE_FK'] = $consignee['TPERUSAHAAN_PK'];
+                        $data['CONSIGNEE'] = $consignee['NAMAPERUSAHAAN'];
+                        $data['ID_CONSIGNEE'] = $consignee['NPWP'];
+                        
+                        $data['MARKING'] = $df['MARKING'];
+                        $data['DESCOFGOODS'] = $df['DESCOFGOODS'];
+
+                        $data['tglentry'] = date('Y-m-d');
+                        $data['jamentry'] = date('H:i:s');
+                        $data['UID'] = $data['UID'] = \Auth::getUser()->name;
+
+                        $insert_id = DBManifest::insertGetId($data);
+                        
+                        if($insert_id){
+                            // Update Jumlah BL
+                            $countbl = DBManifest::where('TCONTAINER_FK', $data['TCONTAINER_FK'])->count();
+                            $container->jumlah_bl = $countbl;
+                            $container->save();
+                        }
+                    }
+                endforeach;
+                       
+                return back()->with('success', 'LCL Register has been update.')->withInput();
+//                return json_encode($dataFinals);
+             
+            }
+            return back()->with('error', 'Please upload TXT file format.')->withInput();
+            
+        }
+        
+        return back()->with('error', 'Cannot upload TXT file, please try again.')->withInput();   
+    }
+    
 }

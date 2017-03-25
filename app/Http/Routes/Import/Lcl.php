@@ -40,6 +40,10 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'uses' => 'LclController@registerPrintPermohonan'
     ]);
     
+    Route::post('/register/upload-file', [
+        'as' => 'lcl-register-upload-file',
+        'uses' => 'LclController@uploadTxtFile'
+    ]); 
     
     Route::get('/dispatche', [
         'as' => 'lcl-dispatche-index',
