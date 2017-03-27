@@ -837,9 +837,9 @@ class FclController extends Controller
         // Check data xml
         $check = \App\Models\TpsCoariContDetail::where('NO_CONT', $container->NOCONTAINER)->count();
         
-        if($check > 0){
-            return json_encode(array('success' => false, 'message' => 'No. Container '.$container->NOCONTAINER.' sudah di upload.'));
-        }
+//        if($check > 0){
+//            return json_encode(array('success' => false, 'message' => 'No. Container '.$container->NOCONTAINER.' sudah di upload.'));
+//        }
         
         // Reff Number
         $reff_number = $this->getReffNumber();  
@@ -920,8 +920,6 @@ class FclController extends Controller
                     $container->save();
                     
                     // Create XML
-                    
-                    
                     return json_encode(array('success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di upload. Reff Number : '.$reff_number));
                 }
                 
