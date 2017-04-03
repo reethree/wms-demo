@@ -304,9 +304,31 @@ class PengirimanController extends Controller
         //
     }
     
+    public function coariContUpdate(Request $request, $id)
+    {
+        $data = $request->all();
+
+        $detail_id = $data['TPSCOARICONTDETAILXML_PK'];
+        unset($data['TPSCOARICONTDETAILXML_PK'], $data['_token']);
+        
+        $update = \App\Models\TpsCoariContDetail::where('TPSCOARICONTDETAILXML_PK', $detail_id)
+            ->update($data);
+        
+        if($update){
+            return back()->with('success', 'COARI Container Detail successfully updated!');
+        }
+        
+        return back()->with('error', 'Something went wrong, please try again later.')->withInput();
+    }
+    
+    public function codecoContUpdate(Request $request, $id)
+    {
+        $data = $request->json()->all();
+    }
+
     public function coariKmsDetailUpdate(Request $request, $id)
     {
-        $data = $request->json()->all(); 
+        $data = $request->all(); 
         unset($data['TPSCOARIKMSDETAILXML_PK'], $data['_token']);
         
         $update = \App\Models\TpsCoariKmsDetail::where('TPSCOARIKMSDETAILXML_PK', $id)
@@ -321,7 +343,7 @@ class PengirimanController extends Controller
     
     public function codecoKmsDetailUpdate(Request $request, $id)
     {
-        $data = $request->json()->all(); 
+        $data = $request->all(); 
         unset($data['TPSCODECOKMSDETAILXML_PK'], $data['_token']);
         
         $update = \App\Models\TpsCodecoKmsDetail::where('TPSCODECOKMSDETAILXML_PK', $id)
@@ -352,6 +374,15 @@ class PengirimanController extends Controller
         
         $dataHeader = \App\Models\TpsCoariCont::find($id);
         $dataDetail = \App\Models\TpsCoariContDetail::where('TPSCOARICONTXML_FK', $dataHeader->TPSCOARICONTXML_PK)->first();
+        
+        if($dataDetail->STATUS_TPS == 2){
+            $reff_number = $this->getReffNumber();
+            $dataDetail->REF_NUMBER = $reff_number;
+            $dataDetail->FLAG_REVISI = (empty($dataDetail->FLAG_REVISI) ? 0 : $dataDetail->FLAG_REVISI) + 1;
+            $dataDetail->TGL_REVISI = date('Y-m-d H:i:s');
+            
+            $dataDetail->save();
+        }
         
         $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><DOCUMENT></DOCUMENT>');
         

@@ -73,7 +73,7 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
     ]);
     Route::post('/codeco-cont-fcl/edit/{id}', [
         'as' => 'tps-codecoContFcl-update',
-        'uses' => 'PengirimanController@codecoContFclUpdate'
+        'uses' => 'PengirimanController@codecoContUpdate'
     ]);
     Route::get('/codeco-cont-fcl/get-xml', [
         'as' => 'tps-codecoContFcl-get',
@@ -99,7 +99,7 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
     ]);
     Route::post('/codeco-cont-buang-mty/edit/{id}', [
         'as' => 'tps-codecoContBuangMty-update',
-        'uses' => 'PengirimanController@codecoContBuangMtyUpdate'
+        'uses' => 'PengirimanController@codecoContUpdate'
     ]);
     Route::get('/codeco-cont-buang-mty/create-xml/{id}', [
         'as' => 'tps-codecoContBuangMty-upload',

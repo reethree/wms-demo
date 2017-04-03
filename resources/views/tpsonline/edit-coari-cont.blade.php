@@ -8,19 +8,22 @@
     <div class="box-header with-border">
       <h3 class="box-title">Edit TPS COARI CONT</h3>
       <div class="box-tools pull-right">
-        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>-->
+          <a href="{{ route("tps-coariCont-upload", $header->TPSCOARICONTXML_PK) }}" type="button" id="resend-btn" class="btn btn-info btn-sm"><i class="fa fa-send"></i> Kirim Ulang</a>
       </div>
     </div>
     <!-- /.box-header -->
-    <form class="form-horizontal" action="#" method="POST">
+    <form class="form-horizontal" action="{{ route('tps-coariCont-update', $header->TPSCOARICONTXML_PK) }}" method="POST">
         <div class="box-body">            
             <div class="row">
-                  
+                <input name="action" type="hidden" value="resend">
+                <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                <input id="TPSCOARIKMSDETAILXML_PK" name="TPSCOARICONTDETAILXML_PK" type="hidden" value="{{ $detail->TPSCOARICONTDETAILXML_PK }}">  
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">REF Number</label>
                         <div class="col-sm-8">
-                            <input type="text" name="REF_NUMBER" class="form-control"  value="{{ $detail->REF_NUMBER }}" required>
+                            <input type="text" name="REF_NUMBER" class="form-control"  value="{{ $detail->REF_NUMBER }}" required readonly>
                         </div>
                     </div>
                     <div class="form-group">
@@ -30,10 +33,10 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_ENTRY" class="form-control pull-right datepicker" required value="{{ date('Y-m-d',strtotime($detail->TGL_ENTRY)) }}">
+                                <input type="text" name="TGL_ENTRY" class="form-control pull-right datepicker" required value="{{ date('Y-m-d',strtotime($detail->TGL_ENTRY)) }}" readonly>
                             </div>
                         </div>
-                    </div>                  
+                    </div>     
                 </div>
                 <div class="col-md-12"><hr /></div>
                 <div class="col-md-6">
@@ -74,7 +77,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_TIBA" class="form-control pull-right datepicker" required value="{{ date('Y-m-d',strtotime($detail->TGL_TIBA)) }}">
+                                <input type="text" name="TGL_TIBA" class="form-control pull-right datepicker" required value="{{ $detail->TGL_TIBA }}">
                             </div>
                         </div>
                     </div>
@@ -99,7 +102,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. Segel</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NO_SEEGEL" class="form-control"  value="{{ $detail->NO_SEGEL }}" required>
+                            <input type="text" name="NO_SEGEL" class="form-control"  value="{{ $detail->NO_SEGEL }}" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -122,7 +125,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_MASTER_BL_AWB" class="form-control pull-right datepicker" required value="{{ date('Y-m-d',strtotime($detail->TGL_MASTER_BL_AWB)) }}">
+                                <input type="text" name="TGL_MASTER_BL_AWB" class="form-control pull-right datepicker" required value="{{ $detail->TGL_MASTER_BL_AWB }}">
                             </div>
                         </div>
                     </div>
@@ -139,7 +142,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_BL_AWB" class="form-control pull-right datepicker" required value="{{ date('Y-m-d',strtotime($detail->TGL_BL_AWB)) }}">
+                                <input type="text" name="TGL_BL_AWB" class="form-control pull-right datepicker" required value="{{ $detail->TGL_BL_AWB }}">
                             </div>
                         </div>
                     </div>
@@ -168,7 +171,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_BC11" class="form-control pull-right datepicker" required value="{{ date('Y-m-d',strtotime($detail->TGL_BC11)) }}">
+                                <input type="text" name="TGL_BC11" class="form-control pull-right datepicker" required value="{{ $detail->TGL_BC11 }}">
                             </div>
                         </div>
                     </div>
@@ -207,7 +210,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_DOK_INOUT" class="form-control pull-right datepicker" required value="{{ date('Y-m-d',strtotime($detail->TGL_DOK_INOUT)) }}">
+                                <input type="text" name="TGL_DOK_INOUT" class="form-control pull-right datepicker" required value="{{ $detail->TGL_DOK_INOUT }}">
                             </div>
                         </div>
                     </div>
@@ -286,7 +289,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_DAFTAR_PABEAN" class="form-control pull-right datepicker" required value="{{ date('Y-m-d',strtotime($detail->TGL_DAFTAR_PABEAN)) }}">
+                                <input type="text" name="TGL_DAFTAR_PABEAN" class="form-control pull-right datepicker" required value="{{ $detail->TGL_DAFTAR_PABEAN }}">
                             </div>
                         </div>
                     </div>
@@ -303,7 +306,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_SEGEL_BC" class="form-control pull-right datepicker" required value="{{ date('Y-m-d',strtotime($detail->TGL_SEGEL_BC)) }}">
+                                <input type="text" name="TGL_SEGEL_BC" class="form-control pull-right datepicker" required value="{{ $detail->TGL_SEGEL_BC }}">
                             </div>
                         </div>
                     </div>
@@ -320,7 +323,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_IJIN_TPS" class="form-control pull-right datepicker" required value="{{ date('Y-m-d',strtotime($detail->TGL_IJIN_TPS)) }}">
+                                <input type="text" name="TGL_IJIN_TPS" class="form-control pull-right datepicker" required value="{{ $detail->TGL_IJIN_TPS }}">
                             </div>
                         </div>
                     </div>
@@ -329,7 +332,6 @@
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
-            <button type="button" class="btn btn-info pull-right"><i class="fa fa-send"></i> Kirim Ulang</button>
             <button type="submit" class="btn btn-success pull-right" style="margin-right: 10px;"><i class="fa fa-save"></i> Simpan</button>
             <a href="{{ route('tps-coariCont-index') }}" class="btn btn-danger pull-right" style="margin-right: 10px;"><i class="fa fa-close"></i> Keluar</a>
         </div>
@@ -355,9 +357,13 @@
     $('.datepicker').datepicker({
         autoclose: true,
         todayHighlight: true,
-        format: 'yyyy-mm-dd' 
+        format: 'yyyymmdd' 
     });
-
+    
+    $("#resend-btn").on("click", function(e){
+        if(!confirm('Apakah anda yakin?')){return false;}
+    });
+    
 </script>
 
 @endsection

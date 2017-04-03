@@ -123,7 +123,8 @@
     <div class="box-header with-border">
       <h3 class="box-title">Edit TPS COARI Kemasan</h3>
       <div class="box-tools pull-right">
-        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>-->
+          <a href="{{ route('tps-coariKms-upload', $header->TPSCOARIKMSXML_PK) }}" id="resend-btn" type="button" class="btn btn-info btn-sm"><i class="fa fa-send"></i> Kirim Ulang</a>
       </div>
     </div>
     <!-- /.box-header -->
@@ -135,7 +136,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">REF Number</label>
                         <div class="col-sm-8">
-                            <input type="text" name="REF_NUMBER" class="form-control"  value="{{ $header->REF_NUMBER }}" required>
+                            <input type="text" name="REF_NUMBER" class="form-control"  value="{{ $header->REF_NUMBER }}" required readonly>
                         </div>
                     </div>
                     <div class="form-group">
@@ -145,7 +146,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_ENTRY" class="form-control pull-right datepicker" required value="{{ $header->TGL_ENTRY }}">
+                                <input type="text" name="TGL_ENTRY" class="form-control pull-right datepicker" required value="{{ $header->TGL_ENTRY }}" readonly>
                             </div>
                         </div>
                     </div>                  
@@ -153,8 +154,7 @@
             </div>
         </div>
         <!-- /.box-body -->
-        <div class="box-footer">
-            <button type="button" class="btn btn-info pull-right"><i class="fa fa-send"></i> Kirim Ulang</button>
+        <div class="box-footer">           
             <button type="submit" class="btn btn-success pull-right" style="margin-right: 10px;"><i class="fa fa-save"></i> Simpan</button>
             <a href="{{ route('tps-coariKms-index') }}" class="btn btn-danger pull-right" style="margin-right: 10px;"><i class="fa fa-close"></i> Keluar</a>
         </div>
@@ -577,9 +577,12 @@
     $('.datepicker').datepicker({
         autoclose: true,
         todayHighlight: true,
-        format: 'yyyy-mm-dd' 
+        format: 'yyyymmdd' 
     });
 
+    $("#resend-btn").on("click", function(e){     
+        if(!confirm('Apakah anda yakin?')){return false;}
+    });
 </script>
 
 @endsection
