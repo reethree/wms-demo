@@ -1478,8 +1478,9 @@ class LclController extends Controller
                         if($df['MARKING']){
                             $data['MARKING'] = $df['MARKING'];
                         }
-                        $data['DESCOFGOODS'] = $df['DESCOFGOODS'];
-
+                        if($df['DESCOFGOODS']){
+                            $data['DESCOFGOODS'] = $df['DESCOFGOODS'];
+                        }
                         $data['tglentry'] = date('Y-m-d');
                         $data['jamentry'] = date('H:i:s');
                         $data['UID'] = $data['UID'] = \Auth::getUser()->name;
