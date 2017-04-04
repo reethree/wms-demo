@@ -16,7 +16,6 @@
     <form class="form-horizontal" action="{{ route('tps-coariCont-update', $header->TPSCOARICONTXML_PK) }}" method="POST">
         <div class="box-body">            
             <div class="row">
-                <input name="action" type="hidden" value="resend">
                 <input name="_token" type="hidden" value="{{ csrf_token() }}">
                 <input id="TPSCOARIKMSDETAILXML_PK" name="TPSCOARICONTDETAILXML_PK" type="hidden" value="{{ $detail->TPSCOARICONTDETAILXML_PK }}">  
                 <div class="col-md-6">

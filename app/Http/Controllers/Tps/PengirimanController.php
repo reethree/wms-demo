@@ -328,7 +328,7 @@ class PengirimanController extends Controller
 
     public function coariKmsDetailUpdate(Request $request, $id)
     {
-        $data = $request->all(); 
+        $data = $request->json()->all(); 
         unset($data['TPSCOARIKMSDETAILXML_PK'], $data['_token']);
         
         $update = \App\Models\TpsCoariKmsDetail::where('TPSCOARIKMSDETAILXML_PK', $id)
@@ -343,7 +343,7 @@ class PengirimanController extends Controller
     
     public function codecoKmsDetailUpdate(Request $request, $id)
     {
-        $data = $request->all(); 
+        $data = $request->json()->all(); 
         unset($data['TPSCODECOKMSDETAILXML_PK'], $data['_token']);
         
         $update = \App\Models\TpsCodecoKmsDetail::where('TPSCODECOKMSDETAILXML_PK', $id)
