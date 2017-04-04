@@ -1344,7 +1344,8 @@ class LclController extends Controller
                     'DTL02NNA01', //Notify Address,
                     'DTL02SMR01', //Marking.....
                     'DTL02HSC01', //
-                    'DTL02DES01', //Uraian
+                    'DTL02DES00', //Uraian
+                    'DTL02DES01', //Uraian1
                     'DTL02DES02', //Uraian2
                     'DTL02DES03', //Uraian3
                     'DTL02DES04', //Uraian4
@@ -1364,6 +1365,7 @@ class LclController extends Controller
                     '|MARKING^', //Marking.....
                     '|DTL02HSC01^', //
                     '|DESCOFGOODS^', //Uraian
+                    '|DESCOFGOODS^', //Uraian1
                     '|DESCOFGOODS^', //Uraian2
                     '|DESCOFGOODS^', //Uraian3
                     '|DESCOFGOODS^', //Uraian4
