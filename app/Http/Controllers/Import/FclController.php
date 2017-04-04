@@ -940,9 +940,9 @@ class FclController extends Controller
         // Check data xml
         $check = \App\Models\TpsCodecoContFclDetail::where(array('NO_CONT' => $container->NOCONTAINER, 'JNS_CONT' => 'F'))->count();
         
-        if($check > 0){
-            return json_encode(array('success' => false, 'message' => 'No. Container '.$container->NOCONTAINER.' sudah di upload.'));
-        }
+//        if($check > 0){
+//            return json_encode(array('success' => false, 'message' => 'No. Container '.$container->NOCONTAINER.' sudah di upload.'));
+//        }
         
         // Reff Number
         $reff_number = $this->getReffNumber();   

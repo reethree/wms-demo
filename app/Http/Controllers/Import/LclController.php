@@ -891,9 +891,9 @@ class LclController extends Controller
         // Check data xml
         $check = \App\Models\TpsCoariContDetail::where('NO_CONT', $container->NOCONTAINER)->count();
         
-        if($check > 0){
-            return json_encode(array('success' => false, 'message' => 'No. Container '.$container->NOCONTAINER.' sudah di upload.'));
-        }
+//        if($check > 0){
+//            return json_encode(array('success' => false, 'message' => 'No. Container '.$container->NOCONTAINER.' sudah di upload.'));
+//        }
         
         // Reff Number
         $reff_number = $this->getReffNumber();   
@@ -993,9 +993,9 @@ class LclController extends Controller
         // Check data xml
         $check = \App\Models\TpsCodecoContFclDetail::where('NO_CONT', $container->NOCONTAINER)->count();
         
-        if($check > 0){
-            return json_encode(array('success' => false, 'message' => 'No. Container '.$container->NOCONTAINER.' sudah di upload.'));
-        }
+//        if($check > 0){
+//            return json_encode(array('success' => false, 'message' => 'No. Container '.$container->NOCONTAINER.' sudah di upload.'));
+//        }
         
         // Reff Number
         $reff_number = $this->getReffNumber();   
@@ -1240,9 +1240,9 @@ class LclController extends Controller
         // Check data xml
         $check = \App\Models\TpsCodecoKmsDetail::where('NOTALLY', $manifest->NOTALLY)->count();
         
-        if($check > 0){
-            return json_encode(array('success' => false, 'message' => 'No. Tally '.$manifest->NOTALLY.' sudah di upload.'));
-        }
+//        if($check > 0){
+//            return json_encode(array('success' => false, 'message' => 'No. Tally '.$manifest->NOTALLY.' sudah di upload.'));
+//        }
         
         // Reff Number
         $reff_number = $this->getReffNumber();   

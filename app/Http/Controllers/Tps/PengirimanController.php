@@ -380,6 +380,7 @@ class PengirimanController extends Controller
             $dataDetail->REF_NUMBER = $reff_number;
             $dataDetail->FLAG_REVISI = (empty($dataDetail->FLAG_REVISI) ? 0 : $dataDetail->FLAG_REVISI) + 1;
             $dataDetail->TGL_REVISI = date('Y-m-d H:i:s');
+            $dataDetail->STATUS_TPS = 1;
             
             $dataDetail->save();
         }
