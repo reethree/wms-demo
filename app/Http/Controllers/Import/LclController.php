@@ -1475,10 +1475,10 @@ class LclController extends Controller
                         $data['CONSIGNEE'] = $consignee['NAMAPERUSAHAAN'];
                         $data['ID_CONSIGNEE'] = $consignee['NPWP'];
                         
-                        if($df['MARKING']){
+                        if(isset($df['MARKING'])){
                             $data['MARKING'] = $df['MARKING'];
                         }
-                        if($df['DESCOFGOODS']){
+                        if(isset($df['DESCOFGOODS'])){
                             $data['DESCOFGOODS'] = $df['DESCOFGOODS'];
                         }
                         $data['tglentry'] = date('Y-m-d');
