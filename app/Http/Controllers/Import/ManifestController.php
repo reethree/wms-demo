@@ -369,7 +369,7 @@ class ManifestController extends Controller
                     $coarikmsdetail->NO_MASTER_BL_AWB = $data->NOMBL;
                     $coarikmsdetail->TGL_MASTER_BL_AWB = (!empty($data->TGL_MASTER_BL) ? date('Ymd', strtotime($data->TGL_MASTER_BL)) : '');
                     $coarikmsdetail->ID_CONSIGNEE = str_replace(array('.','-'), array(''),$data->ID_CONSIGNEE);
-                    $coarikmsdetail->CONSIGNEE = $data->CONSIGNEE;
+                    $coarikmsdetail->CONSIGNEE = trim($data->CONSIGNEE);
                     $coarikmsdetail->BRUTO = $data->WEIGHT;
                     $coarikmsdetail->NO_BC11 = $data->NO_BC11;
                     $coarikmsdetail->TGL_BC11 = (!empty($data->TGL_BC11) ? date('Ymd', strtotime($data->TGL_BC11)) : '');
