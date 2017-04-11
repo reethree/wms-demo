@@ -55,6 +55,9 @@
         // Invoice Routes
         require_once 'Routes/RoutesInvoice.php';
         
+        // EasyGo Routes
+        require_once 'Routes/RoutesEasyGo.php';
+        
         // GLOBAL Routes
         Route::get('/getDataPelabuhan', [
             'as' => 'getDataPelabuhan',

@@ -62,6 +62,33 @@
                 return false;
             }
             
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify($('#dispatche-form').formToObject('')),
+                dataType : 'json',
+                url: '{{ route("easygo-inputdo") }}',
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                },
+                beforeSend:function()
+                {
+
+                },
+                success:function(json)
+                {
+                    console.log(json);
+                    if(json.success) {
+                      $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    } else {
+                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    }
+
+                    //Triggers the "Close" button funcionality.
+                    $('#btn-refresh').click();
+                }
+            });
+            
         });
 
         $('#btn-save').click(function() {

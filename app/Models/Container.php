@@ -15,7 +15,7 @@ class Container extends Model
     protected $primaryKey = 'TCONTAINER_PK';
     public $timestamps = false;
     
-    public static function insertOrGet($no_cont, $size, $jobid)
+    public static function insertOrGet($no_cont, $size, $noseal, $jobid)
     {
         // Check Container
         $container = Container::where(array('TJOBORDER_FK' => $jobid, 'NOCONTAINER' => $no_cont))->first();
@@ -33,6 +33,7 @@ class Container extends Model
             $data['NOCONTAINER'] = $no_cont;
             $data['SIZE'] = $size;
             $data['TEUS'] = $size / 20;
+            $data['NO_SEAL'] = $noseal;
             $data['TJOBORDER_FK'] = $joborder->TJOBORDER_PK;
             $data['NoJob'] = $joborder->NOJOBORDER;
             $data['NO_BC11'] = $joborder->TNO_BC11;

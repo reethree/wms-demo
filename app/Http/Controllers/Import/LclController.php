@@ -1375,6 +1375,15 @@ class LclController extends Controller
         //            '|NO_POS^', //No.POS
                 );
                 
+                array(
+                    1 => '10',
+                    'weight(KGM)' => '4-21',
+                    'meas(m3)' => '5-17 / 5-16',
+                    'qty' => '1-1 / 2-2',
+                    5 => '26',
+                    'packing' => '2-2'
+                );
+                
                 $flat = \File::get($request->filetxt);
                 $datas = explode('DTL0101I', $flat);
                 
@@ -1410,22 +1419,34 @@ class LclController extends Controller
 
                         else:
                             $dataval['HEADER'] = trim($val[0]);
+                            $ex_header = explode(" ", $this->removeSpace($val[0]));
+//                            $dataval['EX_HEADER'] = $ex_header;
+                            $dataval['NOHBL'] = $ex_header[4];
+                            $dataval['TGL_HBL'] = $ex_header[6];                           
+                            $berat = $ex_header[7];
+                            $dataval['weight'] = substr($berat, 10, 4);
+                            $dataval['meas'] = substr($berat, 31, 5);
+                            $dataval['qty'] = substr($berat, 48, 1);
+                            $dataval['pack'] = substr($berat, 75, 2);
                         endif;
 
                     endforeach;
 
                     $dataFinals[] = $dataval;              
                 endforeach;
-
+                
+//                return $dataFinals;
+                
                 // INSERT FILE TO DATABASE
                 foreach ($dataFinals as $df):
                     // Insert Container
                     $ex_cont = explode(" ", $this->removeSpace($df['NOCONTAINER']));
                     $no_cont = $ex_cont[0];
                     $size_cont = str_replace("L", "", $ex_cont[1]);
+                    $noseal = $ex_cont[2];
 
                     // Get Container
-                    $container = DBContainer::insertOrGet($no_cont, $size_cont, $jobid);
+                    $container = DBContainer::insertOrGet($no_cont, $size_cont, $noseal, $jobid);
 
                     if($container){
                         $data = array();
@@ -1483,10 +1504,16 @@ class LclController extends Controller
                         if(isset($df['DESCOFGOODS'])){
                             $data['DESCOFGOODS'] = $df['DESCOFGOODS'];
                         }
+                        $data['NOHBL'] = $df['NOHBL'];
+                        $data['TGL_HBL'] = $df['TGL_HBL'];
+                        $data['WEIGHT'] = $df['weight'];
+                        $data['MEAS'] = $df['meas'];
+                        $data['QUANTITY'] = $df['qty'];
+                        
                         $data['tglentry'] = date('Y-m-d');
                         $data['jamentry'] = date('H:i:s');
                         $data['UID'] = $data['UID'] = \Auth::getUser()->name;
-
+                                                                     
                         $insert_id = DBManifest::insertGetId($data);
                         
                         if($insert_id){
