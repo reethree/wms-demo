@@ -8,6 +8,23 @@
 </style>
 <script>
     
+    function gridCompleteEvent()
+    {
+        var ids = jQuery("#lclReleaseGrid").jqGrid('getDataIDs');   
+            
+        for(var i=0;i < ids.length;i++){ 
+            var cl = ids[i];
+            
+            rowdata = $('#lclReleaseGrid').getRowData(cl);
+            if(rowdata.VALIDASI == 'Y') {
+                $("#" + cl).find("td").css("color", "#999999");
+            }
+            if(rowdata.flag_bc == 'Y') {
+                $("#" + cl).find("td").css("color", "#FF0000");
+            } 
+        } 
+    }
+    
     function onSelectRowEvent()
     {
         $('#btn-group-1').enableButtonGroup();
@@ -48,6 +65,13 @@
             }else{
                 $('#btn-group-4').enableButtonGroup();
                 $('#btn-group-5').enableButtonGroup();
+                $('#btn-group-2').disabledButtonGroup();
+                $('#release-form').disabledFormGroup();
+            }
+            
+            if(rowdata.flag_bc == 'Y'){
+                $('#btn-group-4').disabledButtonGroup();
+                $('#btn-group-5').disabledButtonGroup();
                 $('#btn-group-2').disabledButtonGroup();
                 $('#release-form').disabledFormGroup();
             }
@@ -213,9 +237,10 @@
                     ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
                     ->setNavigatorOptions('view',array('closeOnEscape'=>false))
                     ->setFilterToolbarOptions(array('autosearch'=>true))
+                    ->setGridEvent('gridComplete', 'gridCompleteEvent')
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                     ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
-                    ->addColumn(array('label'=>'Status','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
+                    ->addColumn(array('label'=>'Validasi','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
                     ->addColumn(array('label'=>'No. HBL','index'=>'NOHBL','width'=>160))
                     ->addColumn(array('label'=>'Tgl. HBL','index'=>'TGL_HBL', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
@@ -255,7 +280,8 @@
                     ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'Tgl.Behandle','index'=>'tglbehandle', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'Surcharge (DG)','index'=>'DG_SURCHARGE', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'Surcharge (Weight)','index'=>'WEIGHT_SURCHARGE', 'width'=>150,'hidden'=>true)) 
+                    ->addColumn(array('label'=>'Surcharge (Weight)','index'=>'WEIGHT_SURCHARGE', 'width'=>150,'hidden'=>true))
+                    ->addColumn(array('label'=>'Flag','index'=>'flag_bc','width'=>80, 'align'=>'center'))
                     ->addColumn(array('label'=>'Nama EMKL','index'=>'NAMAEMKL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'Telp. EMKL','index'=>'TELPEMKL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'No. Truck','index'=>'NOPOL', 'width'=>150,'hidden'=>true)) 
@@ -288,9 +314,9 @@
                         <button class="btn btn-default" id="btn-save"><i class="fa fa-save"></i> Save</button>
                         <button class="btn btn-default" id="btn-cancel"><i class="fa fa-close"></i> Cancel</button>
                     </div>  
-                    <div id="btn-group-4" class="btn-group pull-right">
+<!--                    <div id="btn-group-4" class="btn-group pull-right">
                         <button class="btn btn-default" id="btn-invoice"><i class="fa fa-print"></i> Create Invoice</button>
-                    </div>
+                    </div>-->
                     <div id="btn-group-5" class="btn-group pull-right">
                         <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
                     </div>

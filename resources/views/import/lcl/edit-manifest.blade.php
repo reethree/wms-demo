@@ -136,6 +136,10 @@
                 $('#btn-group-5').disabledButtonGroup();
             } else {
                 apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-manifest-btn" data-id="'+cl+'" disabled><i class="fa fa-check"></i> Approve</button>';
+                $("#" + cl).find("td").css("color", "#999999");
+            }
+            if(rowdata.flag_bc == 'Y') {
+                $("#" + cl).find("td").css("color", "#FF0000");
             }
             jQuery("#lclManifestGrid").jqGrid('setRowData',ids[i],{action:apv}); 
         } 
@@ -233,7 +237,7 @@
         $("#TPACKING_FK").val(rowdata.TPACKING_FK).trigger("change");
         $("#DG_SURCHARGE").val(rowdata.DG_SURCHARGE).trigger("change");
         $("#WEIGHT_SURCHARGE").val(rowdata.WEIGHT_SURCHARGE).trigger("change");
-//        $("#VALIDASI").val(rowdata.VALIDASI).trigger("change");
+        $("#flag_bc").val(rowdata.flag_bc).trigger("change");
         
         $("#TGL_HBL").datepicker('setDate', rowdata.TGL_HBL);
         $("#TGL_BC11").val(rowdata.TGL_BC11);
@@ -416,12 +420,13 @@
                         ->setGridEvent('gridComplete', 'gridCompleteEvent')
                         ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                         ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
-                        ->addColumn(array('label'=>'Status','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
-                        ->addColumn(array('label'=>'No.HBL','index'=>'NOHBL', 'width'=>160))
-                        ->addColumn(array('label'=>'Tgl.HBL','index'=>'TGL_HBL', 'width'=>160))
+                        ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+                        ->addColumn(array('label'=>'Validasi','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
+                        ->addColumn(array('label'=>'No.HBL','index'=>'NOHBL', 'width'=>160, 'align'=>'center'))
+                        ->addColumn(array('label'=>'Tgl.HBL','index'=>'TGL_HBL', 'width'=>160, 'align'=>'center'))
                         ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
-                        ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>160))
-                        ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))
+                        ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>230))
+                        ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>250))
                         ->addColumn(array('label'=>'Notify Party','index'=>'NOTIFYPARTY','width'=>160))
                         ->addColumn(array('label'=>'Qty','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))
                         ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>120))
@@ -433,19 +438,19 @@
                         ->addColumn(array('index'=>'TPACKING_FK', 'width'=>150,'hidden'=>true))
                         ->addColumn(array('label'=>'Marking','index'=>'MARKING', 'width'=>150,'hidden'=>true)) 
                         ->addColumn(array('label'=>'Desc of Goods','index'=>'DESCOFGOODS', 'width'=>150,'hidden'=>false))              
-                        ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>150,'hidden'=>false))               
-                        ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>150,'hidden'=>false))
+                        ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120,'hidden'=>false, 'align'=>'right'))               
+                        ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>120,'hidden'=>false, 'align'=>'right'))
                         ->addColumn(array('label'=>'No.BC11','index'=>'NO_BC11', 'width'=>150,'hidden'=>true))
                         ->addColumn(array('label'=>'Tgl.BC11','index'=>'TGL_BC11', 'width'=>150,'hidden'=>true))
-                        ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>150))
+                        ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>150, 'align'=>'center'))
                         ->addColumn(array('label'=>'No.PLP','index'=>'NO_PLP', 'width'=>150,'hidden'=>true))                
                         ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>150,'hidden'=>true))                
                         ->addColumn(array('label'=>'Surcharge (DG)','index'=>'DG_SURCHARGE', 'width'=>150,'hidden'=>true))
-                        ->addColumn(array('label'=>'Surcharge (Weight)','index'=>'WEIGHT_SURCHARGE', 'width'=>150,'hidden'=>true))                      
+                        ->addColumn(array('label'=>'Surcharge (Weight)','index'=>'WEIGHT_SURCHARGE', 'width'=>150,'hidden'=>true))      
+                        ->addColumn(array('label'=>'Flag','index'=>'flag_bc','width'=>80, 'align'=>'center'))
                         ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
                         ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
                         ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
-                        ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                         ->renderGrid()
                     }}
                     
@@ -613,13 +618,15 @@
                                     <option value="Y">Y</option>
                                 </select>
                             </div>
-<!--                            <label class="col-sm-2 control-label">Validasi</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">FLAG</label>
                             <div class="col-sm-2">
-                                <select class="form-control select2" id="VALIDASI" name="VALIDASI" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <select class="form-control select2" id="flag_bc" name="flag_bc" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                     <option value="N">N</option>
                                     <option value="Y">Y</option>
                                 </select>
-                            </div>-->
+                            </div>
                         </div>
                     </div>
                 </div>

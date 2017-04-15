@@ -8,6 +8,23 @@
 </style>
 <script>
     
+    function gridCompleteEvent()
+    {
+        var ids = jQuery("#lclFiatMuatGrid").jqGrid('getDataIDs');   
+            
+        for(var i=0;i < ids.length;i++){ 
+            var cl = ids[i];
+            
+            rowdata = $('#lclFiatMuatGrid').getRowData(cl);
+            if(rowdata.VALIDASI == 'Y') {
+                $("#" + cl).find("td").css("color", "#999999");
+            }
+            if(rowdata.flag_bc == 'Y') {
+                $("#" + cl).find("td").css("color", "#FF0000");
+            } 
+        } 
+    }
+    
     function onSelectRowEvent()
     {
         $('#btn-group-1, #btn-group-4').enableButtonGroup();
@@ -37,13 +54,13 @@
             $('#NO_KUITANSI').val(rowdata.NO_KUITANSI);
             $('#KD_DOK_INOUT').val(rowdata.KD_DOK_INOUT).trigger('change');
 
-            if(!rowdata.tglfiat && !rowdata.jamfiat) {
+//            if(!rowdata.tglfiat && !rowdata.jamfiat) {
                 $('#btn-group-2').enableButtonGroup();
                 $('#fiatmuat-form').enableFormGroup();
-            }else{
-                $('#btn-group-2').disabledButtonGroup();
-                $('#fiatmuat-form').disabledFormGroup();
-            }
+//            }else{
+//                $('#btn-group-2').disabledButtonGroup();
+//                $('#fiatmuat-form').disabledFormGroup();
+//            }
 
         });
         
@@ -131,27 +148,28 @@
                     ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
                     ->setNavigatorOptions('view',array('closeOnEscape'=>false))
                     ->setFilterToolbarOptions(array('autosearch'=>true))
+                    ->setGridEvent('gridComplete', 'gridCompleteEvent')
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                     ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
-                    ->addColumn(array('label'=>'Status','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
+                    ->addColumn(array('label'=>'Validasi','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
                     ->addColumn(array('label'=>'No. HBL','index'=>'NOHBL','width'=>160))
                     ->addColumn(array('label'=>'Tgl. HBL','index'=>'TGL_HBL', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
                     ->addColumn(array('label'=>'No. SPK','index'=>'NOJOBORDER', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150))
-                    ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150))
-                    ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>150))
-                    ->addColumn(array('label'=>'Tgl. SPPB','index'=>'TGL_SPPB', 'width'=>150))
+                    ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. SPPB','index'=>'TGL_SPPB', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'Kode Dokumen','index'=>'KODE_DOKUMEN', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('index'=>'KD_DOK_INOUT', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'Kode Kuitansi','index'=>'NO_KUITANSI', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>160))
-                    ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))
+                    ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>230))
+                    ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>250))
                     ->addColumn(array('label'=>'Notify Party','index'=>'NOTIFYPARTY','width'=>160))
                     ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
-                    ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120))               
-                    ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>120))
+                    ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120,'align'=>'right'))               
+                    ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>120,'align'=>'right'))
                     ->addColumn(array('label'=>'Qty','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))
                     ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>120))
                     ->addColumn(array('label'=>'Kode Kemas','index'=>'KODE_KEMAS', 'width'=>100,'align'=>'center'))
@@ -168,18 +186,19 @@
                     ->addColumn(array('label'=>'Desc of Goods','index'=>'DESCOFGOODS', 'width'=>150,'hidden'=>true))              
                     ->addColumn(array('label'=>'No.BC11','index'=>'NO_BC11', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'Tgl.BC11','index'=>'TGL_BC11', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>150))
+                    ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'No.PLP','index'=>'NO_PLP', 'width'=>150,'hidden'=>true))                
                     ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'Tgl.Behandle','index'=>'tglbehandle', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'Surcharge (DG)','index'=>'DG_SURCHARGE', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'Surcharge (Weight)','index'=>'WEIGHT_SURCHARGE', 'width'=>150,'hidden'=>true)) 
+                    ->addColumn(array('label'=>'Flag','index'=>'flag_bc','width'=>80, 'align'=>'center'))
                     ->addColumn(array('label'=>'Nama EMKL','index'=>'NAMAEMKL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'Telp. EMKL','index'=>'TELPEMKL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'No. Truck','index'=>'NOPOL', 'width'=>150,'hidden'=>true)) 
-                    ->addColumn(array('label'=>'Tgl. Fiat Muat','index'=>'tglfiat', 'width'=>120,'hidden'=>true))
-                    ->addColumn(array('label'=>'Jam. Fiat Muat','index'=>'jamfiat', 'width'=>70,'hidden'=>true))
-                    ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
+                    ->addColumn(array('label'=>'Tgl. Fiat Muat','index'=>'tglfiat', 'width'=>120,'hidden'=>false,'align'=>'center'))
+                    ->addColumn(array('label'=>'Jam. Fiat Muat','index'=>'jamfiat', 'width'=>120,'hidden'=>false,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
                     ->renderGrid()
@@ -396,7 +415,7 @@
 @section('custom_js')
 
 <script src="{{ asset("/bower_components/AdminLTE/plugins/datepicker/bootstrap-datepicker.js") }}"></script>
-<!--<script src="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.js") }}"></script>-->
+<script src="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.js") }}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
 <script type="text/javascript">
     $('.select2').select2();
@@ -405,14 +424,14 @@
         todayHighlight: true,
         format: 'yyyy-mm-dd' 
     });
-//    $('.timepicker').timepicker({ 
-//        showMeridian: false,
-//        showInputs: false,
-//        showSeconds: true,
-//        minuteStep: 1,
-//        secondStep: 1
-//    });
-$("#jamfiat").mask("99:99:99");
+    $('.timepicker').timepicker({ 
+        showMeridian: false,
+        showInputs: false,
+        showSeconds: true,
+        minuteStep: 1,
+        secondStep: 1
+    });
+    $("#jamfiat").mask("99:99:99");
 </script>
 
 @endsection
