@@ -86,10 +86,12 @@ class EasygoController extends Controller
         
         $results = json_decode($dataResults);
         
+        if($results->ResponseStatus == 'OK'){        
+            $container->STATUS_DISPATCHE = 'Y';
+            $container->TGL_DISPATCHE = date('Y-m-d');
+            $container->JAM_DISPATCHE = date('H:i:s');
+        }
         $container->DO_ID = $results->DO_ID;
-        $container->STATUS_DISPATCHE = 'Y';
-        $container->TGL_DISPATCHE = date('Y-m-d');
-        $container->JAM_DISPATCHE = date('H:i:s');
         $container->RESPONSE_DISPATCHE = $results->ResponseStatus;
         $container->KODE_DISPATCHE = $results->ResponseCode;
         
