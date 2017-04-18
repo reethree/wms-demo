@@ -30,6 +30,8 @@
             $('#NO_PLP').val(rowdata.NO_PLP);
             $('#TGL_PLP').val(rowdata.TGL_PLP);
             $('#ESEALCODE').val(rowdata.ESEALCODE).trigger('change');
+            $('#RESPONSE_DISPATCHE').val(rowdata.RESPONSE_DISPATCHE);
+            $('#STATUS_DISPATCHE').val(rowdata.STATUS_DISPATCHE);
 
 //            if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
                 $('#btn-group-2').enableButtonGroup();
@@ -203,6 +205,7 @@
                     ->addColumn(array('label'=>'E-Seal','index'=>'ESEALCODE','width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'No. POL','index'=>'NOPOL','width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'Status','index'=>'STATUS_DISPATCHE','width'=>80,'align'=>'center'))
+                    ->addColumn(array('label'=>'Response','index'=>'RESPONSE_DISPATCHE','width'=>80,'align'=>'center','hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. Dispatche','index'=>'TGL_DISPATCHE','width'=>130,'align'=>'center'))
                     ->addColumn(array('label'=>'Jam Dispatche','index'=>'JAM_DISPATCHE','width'=>130,'align'=>'center'))
                     ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
@@ -343,6 +346,12 @@
                         <label class="col-sm-4 control-label">Status Dispatche</label>
                         <div class="col-sm-2">
                             <input type="text" id="STATUS_DISPATCHE" name="STATUS_DISPATCHE" class="form-control" required readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Response Dispatche</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="RESPONSE_DISPATCHE" name="RESPONSE_DISPATCHE" class="form-control" required readonly>
                         </div>
                     </div>
                     

@@ -36,12 +36,14 @@ class EasygoController extends Controller
 
     public function vts_inputdo(Request $request)
     {
-//        return $request->json()->all();
-        if($request->container_type == 'F'){
-            $container = \App\Models\Containercy::find($request->TCONTAINER_PK);
+        $data = $request->json()->all();
+        
+        if($data['container_type'] == 'F'){
+            $container = \App\Models\Containercy::find($data['TCONTAINER_PK']);
         }else{
-            $container = \App\Models\Container::find($request->TCONTAINER_PK);
+            $container = \App\Models\Container::find($data['TCONTAINER_PK']);
         }
+        
         $kode_asal = \App\Models\Lokasisandar::find($container->TLOKASISANDAR_FK);
         
         $fileurl = 'vts_inputDO.aspx';
@@ -54,20 +56,20 @@ class EasygoController extends Controller
         // Data to POST
         curl_setopt($ch, CURLOPT_POSTFIELDS, array(     
             'token' => $this->token, // Token
-            'Car_plate' => $request->NOPOL,
-            'Tgl_DO' => $request->TGL_PLP, // Tgl.PLP
+            'Car_plate' => $data['NOPOL'],
+            'Tgl_DO' => $data['TGL_PLP'], // Tgl.PLP
             'Kode_asal' => $kode_asal->KD_TPS_ASAL, 
             'Kode_tujuan' => 'PRJP',
-            'No_do' => $request->NO_PLP, // No.PLP
+            'No_do' => $data['NO_PLP'], // No.PLP
 //            'No_sj' => '', // No.Surat Jalan
-            'No_Container' => $request->NOCONTAINER,
+            'No_Container' => $data['NOCONTAINER'],
 //            'Opsi_Complete' => '',
 //            'Max_time_delivery' => '',
 //            'Allow_over_time' => '',
 //            'Idle_time_alert' => '',
 //            'Durasi_valid_tujuan' => '',
-            'Container_size' => $request->SIZE,
-            'Container_type' => $request->container_type,
+            'Container_size' => $data['SIZE'],
+            'Container_type' => $data['container_type'],
 //            'No_Polisi' => '',
 //            'Telegram1' => '',
 //            'Telegram2' => '',
@@ -79,17 +81,17 @@ class EasygoController extends Controller
             'Url_reply' => $this->url_reply,
         ));
 
-        $data = curl_exec($ch);
+        $dataResults = curl_exec($ch);
         curl_close($ch);
         
-        $results = json_decode($data);
+        $results = json_decode($dataResults);
         
-        $container->DO_ID = $results['DO_ID'];
+        $container->DO_ID = $results->DO_ID;
         $container->STATUS_DISPATCHE = 'Y';
         $container->TGL_DISPATCHE = date('Y-m-d');
         $container->JAM_DISPATCHE = date('H:i:s');
-        $container->RESPONSE_DISPATCHE = $results['ResponseStatus'];
-        $container->KODE_DISPATCHE = $results['ResponseCode'];
+        $container->RESPONSE_DISPATCHE = $results->ResponseStatus;
+        $container->KODE_DISPATCHE = $results->ResponseCode;
         
         if($container->save()){
             return json_encode(array('success' => true, 'message' => 'Dispatche successfully updated!'));

@@ -767,7 +767,7 @@ class LclController extends Controller
     public function dispatcheUpdate(Request $request, $id)
     {
         $data = $request->json()->all(); 
-        unset($data['TCONTAINER_PK'], $data['_token']);
+        unset($data['TCONTAINER_PK'], $data['_token'], $data['container_type']);
         
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);

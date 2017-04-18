@@ -704,7 +704,18 @@ class FclController extends Controller
     
     public function dispatcheUpdate(Request $request, $id)
     {
+        $data = $request->json()->all(); 
+        unset($data['TCONTAINER_PK'], $data['_token'], $data['container_type']);
         
+        $update = DBContainer::where('TCONTAINER_PK', $id)
+            ->update($data);
+        
+        if($update){
+            
+            return json_encode(array('success' => true, 'message' => 'Container successfully updated.'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
     }
     
     /**
