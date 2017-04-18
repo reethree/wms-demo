@@ -350,6 +350,7 @@ class LclController extends Controller
         $namalokasisandar = DBLokasisandar::select('NAMALOKASISANDAR')->where('TLOKASISANDAR_PK',$data['TLOKASISANDAR_FK'])->first();
         if($namalokasisandar){
             $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
+            $data['KD_TPS_ASAL'] = $namalokasisandar->KD_TPS_ASAL;
         }
         if($data['TSHIPPINGLINE_FK']){
             $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();
@@ -486,14 +487,32 @@ class LclController extends Controller
         $namaconsolidator = DBConsolidator::select('NAMACONSOLIDATOR','NPWP')->where('TCONSOLIDATOR_PK',$data['TCONSOLIDATOR_FK'])->first();
         $data['NAMACONSOLIDATOR'] = $namaconsolidator->NAMACONSOLIDATOR;
         $data['ID_CONSOLIDATOR'] = str_replace(array('.','-'),array('',''),$namaconsolidator->NPWP);
+//        $namanegara = DBNegara::select('NAMANEGARA')->where('TNEGARA_PK',$data['TNEGARA_FK'])->first();
+//        $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
+//        $namapelabuhan = DBPelabuhan::select('NAMAPELABUHAN')->where('TPELABUHAN_PK',$data['TPELABUHAN_FK'])->first();
+//        $data['NAMAPELABUHAN'] = $namapelabuhan->NAMAPELABUHAN;
+//        $namalokasisandar = DBLokasisandar::select('NAMALOKASISANDAR')->where('TLOKASISANDAR_PK',$data['TLOKASISANDAR_FK'])->first();
+//        $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
+//        $data['KD_TPS_ASAL'] = $namalokasisandar->KD_TPS_ASAL;
+//        $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();
+//        $data['SHIPPINGLINE'] = $namashippingline->SHIPPINGLINE;
         $namanegara = DBNegara::select('NAMANEGARA')->where('TNEGARA_PK',$data['TNEGARA_FK'])->first();
-        $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
+        if($namanegara){
+            $data['NAMANEGARA'] = $namanegara->NAMANEGARA;
+        }
         $namapelabuhan = DBPelabuhan::select('NAMAPELABUHAN')->where('TPELABUHAN_PK',$data['TPELABUHAN_FK'])->first();
-        $data['NAMAPELABUHAN'] = $namapelabuhan->NAMAPELABUHAN;
+        if($namapelabuhan){
+            $data['NAMAPELABUHAN'] = $namapelabuhan->NAMAPELABUHAN;
+        } 
         $namalokasisandar = DBLokasisandar::select('NAMALOKASISANDAR')->where('TLOKASISANDAR_PK',$data['TLOKASISANDAR_FK'])->first();
-        $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
-        $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();
-        $data['SHIPPINGLINE'] = $namashippingline->SHIPPINGLINE;
+        if($namalokasisandar){
+            $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
+            $data['KD_TPS_ASAL'] = $namalokasisandar->KD_TPS_ASAL;
+        }
+        if($data['TSHIPPINGLINE_FK']){
+            $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();
+            $data['SHIPPINGLINE'] = $namashippingline->SHIPPINGLINE;
+        }
         $data['UID'] = \Auth::getUser()->name;
         
         $update = DBJoborder::where('TJOBORDER_PK', $id)

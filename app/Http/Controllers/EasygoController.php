@@ -36,7 +36,14 @@ class EasygoController extends Controller
 
     public function vts_inputdo(Request $request)
     {
-        return $request->json()->all();
+//        return $request->json()->all();
+        if($request->container_type == 'F'){
+            $container = \App\Models\Containercy::find($request->TCONTAINER_PK);
+        }else{
+            $container = \App\Models\Container::find($request->TCONTAINER_PK);
+        }
+        $kode_asal = \App\Models\Lokasisandar::find($container->TLOKASISANDAR_FK);
+        
         $fileurl = 'vts_inputDO.aspx';
         
         $ch = curl_init();
@@ -49,40 +56,75 @@ class EasygoController extends Controller
             'token' => $this->token, // Token
             'Car_plate' => $request->NOPOL,
             'Tgl_DO' => $request->TGL_PLP, // Tgl.PLP
-            'Kode_asal' => 'PRJP', 
+            'Kode_asal' => $kode_asal->KD_TPS_ASAL, 
             'Kode_tujuan' => 'PRJP',
             'No_do' => $request->NO_PLP, // No.PLP
-            'No_sj' => '', // No.Surat Jalan
+//            'No_sj' => '', // No.Surat Jalan
             'No_Container' => $request->NOCONTAINER,
-            'Opsi_Complete' => '',
-            'Max_time_delivery' => '',
-            'Allow_over_time' => '',
-            'Idle_time_alert' => '',
-            'Durasi_valid_tujuan' => '',
-            'Container_size' => '',
-            'Container_type' => '',
-            'No_Polisi' => '',
-            'Telegram1' => '',
-            'Telegram2' => '',
-            'Telegram3' => '',
-            'Telegram4' => '',
-            'Telegram5' => '',
-            'Telegram6' => '',
-            'Email' => '',
+//            'Opsi_Complete' => '',
+//            'Max_time_delivery' => '',
+//            'Allow_over_time' => '',
+//            'Idle_time_alert' => '',
+//            'Durasi_valid_tujuan' => '',
+            'Container_size' => $request->SIZE,
+            'Container_type' => $request->container_type,
+//            'No_Polisi' => '',
+//            'Telegram1' => '',
+//            'Telegram2' => '',
+//            'Telegram3' => '',
+//            'Telegram4' => '',
+//            'Telegram5' => '',
+//            'Telegram6' => '',
+//            'Email' => '',
             'Url_reply' => $this->url_reply,
         ));
 
         $data = curl_exec($ch);
         curl_close($ch);
         
-        return $data;
-        
         $results = json_decode($data);
+        
+        $container->DO_ID = $results['DO_ID'];
+        $container->STATUS_DISPATCHE = 'Y';
+        $container->TGL_DISPATCHE = date('Y-m-d');
+        $container->JAM_DISPATCHE = date('H:i:s');
+        $container->RESPONSE_DISPATCHE = $results['ResponseStatus'];
+        $container->KODE_DISPATCHE = $results['ResponseCode'];
+        
+        if($container->save()){
+            return json_encode(array('success' => true, 'message' => 'Dispatche successfully updated!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
     }
     
     public function vts_close_do(Request $request)
     {
         $fileurl = 'vts_close_do.aspx';
+    }
+    
+    public function vts_inputdo_callback(Request $request)
+    {
+//        "DO_ID": 103918,
+//        "Status_DO": 3,
+//        "GPS_TIME" : "2017-11-03 10:20:00",
+//        "Address": "Jl. Mangga Dua, RW 12, Mangga Dua Selatan, Sawah Besar, Jakarta Pusat,  Jakarta, 10730",
+//        "Lon": 106.82971,
+//        "Lat": -6.13537
+        
+//        $data = $request->all();
+        
+        $inset = new \App\Models\Easygo;
+        $inset->DO_ID = $request->DO_ID;
+        $inset->Status_DO = $request->Status_DO;
+        $inset->GPS_TIME = $request->GPS_TIME;
+        $inset->Address = $request->Address;
+        $inset->Lon = $request->Lon;
+        $inset->Lat = $request->Lat;
+        
+        $inset->save();
+        
+        return;      
     }
 
 }

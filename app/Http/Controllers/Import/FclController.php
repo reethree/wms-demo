@@ -308,6 +308,7 @@ class FclController extends Controller
         $namalokasisandar = DBLokasisandar::select('NAMALOKASISANDAR')->where('TLOKASISANDAR_PK',$data['TLOKASISANDAR_FK'])->first();
         if($namalokasisandar){
             $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
+            $data['KD_TPS_ASAL'] = $namalokasisandar->KD_TPS_ASAL;
         }
         if($data['TSHIPPINGLINE_FK']){
             $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();
@@ -469,6 +470,7 @@ class FclController extends Controller
         $namalokasisandar = DBLokasisandar::select('NAMALOKASISANDAR')->where('TLOKASISANDAR_PK',$data['TLOKASISANDAR_FK'])->first();
         if($namalokasisandar){
             $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
+            $data['KD_TPS_ASAL'] = $namalokasisandar->KD_TPS_ASAL;
         }
         if($data['TSHIPPINGLINE_FK']){
             $namashippingline = DBShippingline::select('SHIPPINGLINE')->where('TSHIPPINGLINE_PK',$data['TSHIPPINGLINE_FK'])->first();

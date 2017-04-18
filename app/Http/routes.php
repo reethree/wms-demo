@@ -12,7 +12,8 @@
 */
 
 //Route::group(['middleware' => ['web']], function(){
-    
+    // EasyGo Routes
+        require_once 'Routes/RoutesEasyGo.php';
     Route::group(['middleware' => ['guest'], 'namespace' => 'Auth'], function(){
         
         // Login Routes
@@ -55,8 +56,7 @@
         // Invoice Routes
         require_once 'Routes/RoutesInvoice.php';
         
-        // EasyGo Routes
-        require_once 'Routes/RoutesEasyGo.php';
+        
         
         // GLOBAL Routes
         Route::get('/getDataPelabuhan', [

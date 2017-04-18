@@ -15,7 +15,7 @@
     
     $(document).ready(function()
     {
-        $('#release-form').disabledFormGroup();
+        $('#dispatche-form').disabledFormGroup();
         $('#btn-toolbar').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
@@ -33,10 +33,10 @@
 
 //            if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
                 $('#btn-group-2').enableButtonGroup();
-                $('#release-form').enableFormGroup();
+                $('#dispatche-form').enableFormGroup();
 //            }else{
 //                $('#btn-group-2').disabledButtonGroup();
-//                $('#release-form').disabledFormGroup();
+//                $('#dispatche-form').disabledFormGroup();
 //            }
 
         });
@@ -46,7 +46,48 @@
         });
         
         $('#btn-upload').click(function() {
+            if(!confirm('Apakah anda yakin?')){return false;}
             
+            if($('#NO_PLP').val() == ''){
+                alert('No. PLP masih kosong!');
+                return false;
+            }else if($('#TGL_PLP').val() == ''){
+                alert('Tgl. PLP masih kosong!');
+                return false;
+            }else if($('#ESEALCODE').val() == ''){
+                alert('E-Seal masih kosong!');
+                return false;
+            }else if($('#NOPOL').val() == ''){
+                alert('No. POL masih kosong!');
+                return false;
+            }
+            
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify($('#dispatche-form').formToObject('')),
+                dataType : 'json',
+                url: '{{ route("easygo-inputdo") }}',
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                },
+                beforeSend:function()
+                {
+
+                },
+                success:function(json)
+                {
+                    console.log(json);
+                    if(json.success) {
+                      $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    } else {
+                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    }
+
+                    //Triggers the "Close" button funcionality.
+                    $('#btn-refresh').click();
+                }
+            });
         });
 
         $('#btn-save').click(function() {
@@ -58,7 +99,7 @@
 
             $.ajax({
                 type: 'POST',
-                data: JSON.stringify($('#release-form').formToObject('')),
+                data: JSON.stringify($('#dispatche-form').formToObject('')),
                 dataType : 'json',
                 url: url,
                 error: function (jqXHR, textStatus, errorThrown)
@@ -90,11 +131,11 @@
         
         $('#btn-refresh').click(function() {
             $('#fclDispatcheGrid').jqGrid().trigger("reloadGrid");
-            $('#release-form').disabledFormGroup();
+            $('#dispatche-form').disabledFormGroup();
             $('#btn-toolbar').disabledButtonGroup();
             $('#btn-group-3').enableButtonGroup();
             
-            $('#release-form')[0].reset();
+            $('#dispatche-form')[0].reset();
             $('.select2').val(null).trigger("change");
             $('#TMANIFEST_PK').val("");
         });
@@ -204,12 +245,13 @@
             </div>
             
         </div>
-        <form class="form-horizontal" id="release-form" action="{{ route('fcl-delivery-release-index') }}" method="POST">
+        <form class="form-horizontal" id="dispatche-form" action="{{ route('fcl-delivery-release-index') }}" method="POST">
             <div class="row">
                 <div class="col-md-6">
                     
                     <input name="_token" type="hidden" value="{{ csrf_token() }}">
                     <input id="TCONTAINER_PK" name="TCONTAINER_PK" type="hidden">
+                    <input id="container_type" name="container_type" type="hidden" value="F">
 <!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">No. SPK</label>
                         <div class="col-sm-8">
