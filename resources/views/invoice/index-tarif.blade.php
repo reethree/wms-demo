@@ -11,9 +11,9 @@
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
             
-            edt = '<a title="View Detail" href="{{ route("invoice-tarif-view",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
-//            del = '<a href="{{ route("lcl-register-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
-            jQuery("#invTarifGrid").jqGrid('setRowData',ids[i],{action:edt}); 
+            edt = '<a title="Edit" href="{{ route("invoice-tarif-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
+            del = '<a href="{{ route("invoice-tarif-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
+            jQuery("#invTarifGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
         } 
     }
     

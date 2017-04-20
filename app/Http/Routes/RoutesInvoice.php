@@ -50,6 +50,18 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
         'as' => 'invoice-tarif-view',
         'uses' => 'InvoiceController@tarifView'
     ]);
+    Route::get('/tarif/edit/{id}', [
+        'as' => 'invoice-tarif-edit',
+        'uses' => 'InvoiceController@tarifEdit'
+    ]);
+    Route::post('/tarif/edit/{id}', [
+        'as' => 'invoice-tarif-update',
+        'uses' => 'InvoiceController@tarifUpdate'
+    ]);
+    Route::get('/tarif/delete/{id}', [
+       'as' => 'invoice-tarif-delete',
+        'uses' => 'InvoiceController@tarifDestroy'
+    ]);
     Route::get('/tarif/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\InvoiceTablesRepository('invoice_tarif_consolidator',Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());

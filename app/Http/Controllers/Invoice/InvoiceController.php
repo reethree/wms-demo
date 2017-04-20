@@ -216,6 +216,30 @@ class InvoiceController extends Controller
         return view('invoice.view-tarif')->with($data);
     }
     
+    public function tarifEdit($id)
+    {
+        if ( !$this->access->can('show.tarif.edit') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "Edit Tarif";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => route('invoice-tarif-index'),
+                'title' => 'Daftar Tarif'
+            ],
+            [
+                'action' => '',
+                'title' => 'Edit'
+            ]
+        ];         
+        $data['tarif'] = \App\Models\InvoiceTarif::find($id);
+        $data['consolidators'] = \App\Models\Consolidator::select('TCONSOLIDATOR_PK as id','NAMACONSOLIDATOR as name')->get();
+        
+        return view('invoice.update-tarif')->with($data);
+    }
+    
     public function tarifStore(Request $request)
     {
         if ( !$this->access->can('store.tarif.create') ) {
@@ -240,6 +264,40 @@ class InvoiceController extends Controller
         }
         
         return back()->with('error', 'Tarif cannot create, please try again.')->withInput();
+    }
+    
+    public function tarifUpdate(Request $request, $id)
+    {
+        if ( !$this->access->can('show.tarif.edit') ) {
+            return view('errors.no-access');
+        }
+        
+        $validator = \Validator::make($request->all(), [
+            'consolidator_id' => 'required'
+        ]);
+        
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        
+        $data = $request->except(['_token']);
+        if(!isset($data['surcharge'])) { $data['surcharge'] = 0; }
+        if(!isset($data['cbm'])) { $data['cbm'] = 0; }
+        if(!isset($data['pembulatan'])) { $data['pembulatan'] = 0; }
+
+        $update = \App\Models\InvoiceTarif::where('id', $id)->update($data);
+        
+        if($update){
+            return redirect()->route('invoice-tarif-index')->with('success', 'Tarif has been updated.');
+        }
+        
+        return back()->with('error', 'Tarif cannot update, please try again.')->withInput();
+    }
+    
+    public function tarifDestroy($id)
+    {
+        \App\Models\InvoiceTarif::where('id', $id)->delete();
+        return back()->with('success', 'Invoice tarif has been deleted.'); 
     }
     
     public function tarifItemEdit($id)

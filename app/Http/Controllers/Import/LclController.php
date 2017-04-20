@@ -1529,6 +1529,9 @@ class LclController extends Controller
                         $data['MEAS'] = $df['meas'];
                         $data['QUANTITY'] = $df['qty'];
                         
+                        $data['tglmasuk'] = $container->TGLMASUK;
+                        $data['jammasuk'] = $container->JAMMASUK;
+                        
                         $data['tglentry'] = date('Y-m-d');
                         $data['jamentry'] = date('H:i:s');
                         $data['UID'] = $data['UID'] = \Auth::getUser()->name;

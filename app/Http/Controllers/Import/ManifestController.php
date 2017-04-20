@@ -111,7 +111,8 @@ class ManifestController extends Controller
             $data['NOTIFYPARTY'] = $data['TNOTIFYPARTY_FK'];
             unset($data['TNOTIFYPARTY_FK']);
         }
-        
+        $data['tglmasuk'] = $container->TGLMASUK;
+        $data['jammasuk'] = $container->JAMMASUK;
         $data['tglentry'] = date('Y-m-d');
         $data['jamentry'] = date('H:i:s');
         $data['UID'] = $data['UID'] = \Auth::getUser()->name;
@@ -237,6 +238,9 @@ class ManifestController extends Controller
             $data['NOTIFYPARTY'] = $data['TNOTIFYPARTY_FK'];
             unset($data['TNOTIFYPARTY_FK']);
         }
+        
+        $data['tglmasuk'] = $container->TGLMASUK;
+        $data['jammasuk'] = $container->JAMMASUK;
         
         $update = DBManifest::where('TMANIFEST_PK', $id)
             ->update($data);
