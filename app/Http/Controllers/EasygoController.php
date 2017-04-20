@@ -56,7 +56,7 @@ class EasygoController extends Controller
         // Data to POST
         curl_setopt($ch, CURLOPT_POSTFIELDS, array(     
             'token' => $this->token, // Token
-            'Car_plate' => $data['NOPOL'],
+            'Car_plate' => $data['ESEALCODE'],
             'Tgl_DO' => $data['TGL_PLP'], // Tgl.PLP
             'Kode_asal' => $kode_asal->KD_TPS_ASAL, 
             'Kode_tujuan' => 'PRJP',
