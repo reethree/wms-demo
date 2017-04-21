@@ -32,6 +32,7 @@
             $('#ESEALCODE').val(rowdata.ESEALCODE).trigger('change');
             $('#RESPONSE_DISPATCHE').val(rowdata.RESPONSE_DISPATCHE);
             $('#STATUS_DISPATCHE').val(rowdata.STATUS_DISPATCHE);
+            $('#KODE_DISPATCHE').val(rowdata.KODE_DISPATCHE);
 
 //            if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
                 $('#btn-group-2').enableButtonGroup();
@@ -203,8 +204,9 @@
 //                    ->addColumn(array('label'=>'NPWP Importir','index'=>'NPWP_IMP','width'=>160))
                     ->addColumn(array('label'=>'E-Seal','index'=>'ESEALCODE','width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'No. POL','index'=>'NOPOL','width'=>120,'align'=>'center'))
-                    ->addColumn(array('label'=>'Status','index'=>'STATUS_DISPATCHE','width'=>80,'align'=>'center'))
-                    ->addColumn(array('label'=>'Response','index'=>'RESPONSE_DISPATCHE','width'=>80,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'Status','index'=>'STATUS_DISPATCHE','width'=>60,'align'=>'center'))
+                    ->addColumn(array('label'=>'Kode','index'=>'KODE_DISPATCHE','width'=>60,'align'=>'center'))
+                    ->addColumn(array('label'=>'Response','index'=>'RESPONSE_DISPATCHE','width'=>120,'align'=>'center','hidden'=>false))
                     ->addColumn(array('label'=>'Tgl. Dispatche','index'=>'TGL_DISPATCHE','width'=>130,'align'=>'center'))
                     ->addColumn(array('label'=>'Jam Dispatche','index'=>'JAM_DISPATCHE','width'=>130,'align'=>'center'))
                     ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
@@ -345,6 +347,9 @@
                         <label class="col-sm-4 control-label">Status Dispatche</label>
                         <div class="col-sm-2">
                             <input type="text" id="STATUS_DISPATCHE" name="STATUS_DISPATCHE" class="form-control" required readonly>
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" id="KODE_DISPATCHE" name="KODE_DISPATCHE" class="form-control" required readonly>
                         </div>
                     </div>
                     <div class="form-group">
