@@ -37,7 +37,7 @@ class EasygoController extends Controller
     public function vts_inputdo(Request $request)
     {
         $data = $request->json()->all();
-        
+//        return $data;
         if($data['container_type'] == 'F'){
             $container = \App\Models\Containercy::find($data['TCONTAINER_PK']);
         }else{
@@ -45,6 +45,11 @@ class EasygoController extends Controller
         }
         
         $kode_asal = \App\Models\Lokasisandar::find($container->TLOKASISANDAR_FK);
+        
+        if(empty($kode_asal->KD_TPS_ASAL) || !isset($kode_asal->KD_TPS_ASAL))
+        {
+            return json_encode(array('success' => false, 'message' => 'Kode TPS ASAL tidak ada.'));
+        }
         
         $fileurl = 'vts_inputDO.aspx';
         
@@ -86,11 +91,11 @@ class EasygoController extends Controller
         
         $results = json_decode($dataResults);
         
-        if($results->ResponseStatus == 'OK'){        
+//        if($results->ResponseStatus == 'OK'){        
             $container->STATUS_DISPATCHE = 'Y';
             $container->TGL_DISPATCHE = date('Y-m-d');
             $container->JAM_DISPATCHE = date('H:i:s');
-        }
+//        }
         $container->DO_ID = $results->DO_ID;
         $container->RESPONSE_DISPATCHE = $results->ResponseStatus;
         $container->KODE_DISPATCHE = $results->ResponseCode;

@@ -140,9 +140,10 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
             }elseif(isset($request['coarikms_id'])){
                 $Model = TpsCoariKmsDetail::where('TPSCOARIKMSXML_FK',$request['coarikms_id']);
             }else{
-                $Model = TpsCoariKms::select('*')
+                $Model = TpsCoariKms::select('tpscoarikmsxml.*','tpscoarikmsdetailxml.RESPONSE','tpscoarikmsdetailxml.STATUS_TPS')
                         ->join('tpscoarikmsdetailxml', 'tpscoarikmsxml.TPSCOARIKMSXML_PK', '=', 'tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
-                        ->groupBy('tpscoarikmsdetailxml.TPSCOARIKMSXML_FK');
+                        ->groupBy('tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
+                        ;
             }
         }elseif($Model->getMorphClass() == 'App\Models\TpsCodecoContFcl'){ 
             

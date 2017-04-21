@@ -1204,33 +1204,35 @@ class LclController extends Controller
                 $invoice_import->storage_masa3,
                 $invoice_import->harga_behandle,
                 $invoice_import->adm,
-                $invoice_import->dg_surcharge,
-                $invoice_import->weight_surcharge
+                $invoice_import->dg_surcharge
+//                $invoice_import->weight_surcharge
             );
             $sub_total = array_sum($array_total);
             
             if($tarif->surcharge){
                 if($manifest->WEIGHT > 2500){
-                    if($tarif->surcharce_price > 100){
-                        $invoice_import->weight_surcharge = $tarif->surcharce_price;
+                    if($tarif->surcharge_price > 100){
+                        $invoice_import->weight_surcharge = $tarif->surcharge_price;
                     }else{
-                        $invoice_import->weight_surcharge = ceil(($tarif->surcharce_price * $sub_total) / 100);
+                        $invoice_import->weight_surcharge = ceil(($tarif->surcharge_price * $sub_total) / 100);
                     }                     
                 }
             }else{
-                if($tarif->surcharce_price > 100){
-                    $invoice_import->weight_surcharge = $tarif->surcharce_price;
+                if($tarif->surcharge_price > 100){
+                    $invoice_import->weight_surcharge = $tarif->surcharge_price;
                 }else{
-                    $invoice_import->weight_surcharge = ceil(($tarif->surcharce_price * $sub_total) / 100);
+                    $invoice_import->weight_surcharge = ceil(($tarif->surcharge_price * $sub_total) / 100);
                 }  
             }
 
 //            $invoice_import->dg_surcharge = ceil(($tarif->dg_surcharge * $sub_total) / 100);
-            $invoice_import->sub_total = $sub_total;
+            $invoice_import->sub_total = $sub_total+$invoice_import->weight_surcharge;
 //            $invoice_import->ppn = ceil(($tarif->ppn * $sub_total) / 100);
 //            $invoice_import->materai = ($sub_total >= 1000000) ? 6000 : 3000;
             $invoice_import->uid = \Auth::getUser()->name;
                     
+            return $invoice_import;
+            
             if($invoice_import->save()){
                 
                 // Update Invoice Number

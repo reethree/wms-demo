@@ -71,7 +71,7 @@
             ->setGridOption('sortname','TPSCOARIKMSXML_PK')
             ->setGridOption('rownumbers', true)
             ->setGridOption('height', '295')
-            ->setGridOption('rowList',array(20,50,100))
+            ->setGridOption('rowList',array(20,50,100,200))
             ->setGridOption('useColSpanStyle', true)
             ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
             ->setNavigatorOptions('view',array('closeOnEscape'=>false))
