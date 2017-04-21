@@ -63,8 +63,8 @@ class EasygoController extends Controller
             'token' => $this->token, // Token
             'Car_plate' => $data['ESEALCODE'],
             'Tgl_DO' => $data['TGL_PLP'], // Tgl.PLP
-            'Kode_asal' => $kode_asal->KD_TPS_ASAL, 
-            'Kode_tujuan' => 'PRJP',
+            'Kode_asal' => 'TPS '.$kode_asal->KD_TPS_ASAL, 
+            'Kode_tujuan' => 'TPS PRJP',
             'No_do' => $data['NO_PLP'], // No.PLP
 //            'No_sj' => '', // No.Surat Jalan
             'No_Container' => $data['NOCONTAINER'],
