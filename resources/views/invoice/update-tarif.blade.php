@@ -49,13 +49,31 @@
                       </div>
                     </div>
                     <div class="form-group">
+                      <label for="storage_masa1" class="col-sm-3 control-label">Storage Masa I</label>
+                      <div class="col-sm-8">
+                          <input type="number" name="storage_masa1" class="form-control" id="storage_masa1" value="{{ $tarif->storage_masa1 }}" required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="storage_masa2" class="col-sm-3 control-label">Storage Masa II</label>
+                      <div class="col-sm-8">
+                          <input type="number" name="storage_masa2" class="form-control" id="storage_masa2" value="{{ $tarif->storage_masa2 }}" required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="storage_masa3" class="col-sm-3 control-label">Storage Masa III</label>
+                      <div class="col-sm-8">
+                          <input type="number" name="storage_masa3" class="form-control" id="storage_masa3" value="{{ $tarif->storage_masa3 }}" required>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-6"> 
+                    <div class="form-group">
                       <label for="behandle" class="col-sm-3 control-label">Behandle</label>
                       <div class="col-sm-8">
                           <input type="number" name="behandle" class="form-control" id="behandle" value="{{ $tarif->behandle }}" required>
                       </div>
                     </div>
-                </div>
-                <div class="col-md-6"> 
                     <div class="form-group">
                       <label for="adm" class="col-sm-3 control-label">Biaya Admin</label>
                       <div class="col-sm-8">
