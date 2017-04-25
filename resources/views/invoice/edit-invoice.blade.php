@@ -41,7 +41,7 @@
                   <td><b>Ex. Cont</b></td>
               </tr>
               <tr>
-                  <td><b>Tempat Penumpokan</b></td>
+                  <td><b>Tempat Penumpukan</b></td>
               </tr>
           </table>
       </div>

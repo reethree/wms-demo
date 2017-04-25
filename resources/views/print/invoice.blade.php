@@ -62,7 +62,7 @@
                   <td>{{ $invoice->no_invoice }}</td>
               </tr>
               <tr>
-                  <td><b>Tempat Penumpokan</b></td>
+                  <td><b>Tempat Penumpukan</b></td>
                   <td>:&nbsp;&nbsp;&nbsp;&nbsp;Gudang PRIMANATA</td>
               </tr>
           </table>
@@ -121,12 +121,12 @@
             <td align="right">Rp.</td>
             <td align="right">{{ number_format($invoice->harga_behandle) }}</td>
           </tr>
-          <tr>
+            <tr>
             <td>4</td>
             <td>Surharge > 2.5 Ton</td>
             <td>-</td>
-            <td align="right">%</td>
-            <td align="right">{{ number_format($tarif->weight_surcharge) }}</td>
+            <td align="right">{{ ($tarif->surcharge_price > 100) ? 'Rp.' : '%' }}</td>
+            <td align="right">{{ number_format($tarif->surcharge_price) }}</td>
             <td align="right">Rp.</td>
             <td align="right">{{ number_format($invoice->weight_surcharge) }}</td>
           </tr>
@@ -152,19 +152,22 @@
                 <td>&nbsp;</td>
                 <td colspan="2">Terbilang:</td>
                 <td>&nbsp;</td>
-              <th align="right">Subtotal:</th>
+                <th align="right">TOTAL:</th>
+                <td align="right"><b>Rp.</b></td>
+                <td align="right"><b>{{ number_format($invoice->sub_total + $invoice->ppn) }}</b></td>
+<!--              <th align="right">Subtotal:</th>
               <td align="right">Rp.</td>
-              <td align="right">{{ number_format($invoice->sub_total) }}</td>
+              <td align="right">{{ number_format($invoice->sub_total) }}</td>-->
             </tr>
             <tr>
                 <td>&nbsp;</td>
                 <td colspan="2" class="dotted"><b>{{ $terbilang }}</b></td>
                 <td>&nbsp;</td>
-              <th align="right">PPN ({{ $tarif->ppn }}%)</th>
+<!--              <th align="right">PPN ({{ $tarif->ppn }}%)</th>
               <td align="right">Rp.</td>
-              <td align="right">{{ number_format($invoice->ppn) }}</td>
+              <td align="right">{{ number_format($invoice->ppn) }}</td>-->
             </tr>
-            <tr>
+<!--            <tr>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
@@ -172,7 +175,7 @@
               <th align="right">TOTAL:</th>
               <td align="right"><b>Rp.</b></td>
               <td align="right"><b>{{ number_format($invoice->sub_total + $invoice->ppn) }}</b></td>
-            </tr>
+            </tr>-->
           </tbody>
         </table>
       </div>
