@@ -1231,7 +1231,7 @@ class LclController extends Controller
 //            $invoice_import->materai = ($sub_total >= 1000000) ? 6000 : 3000;
             $invoice_import->uid = \Auth::getUser()->name;
                     
-            return $invoice_import;
+//            return $invoice_import;
             
             if($invoice_import->save()){
                 

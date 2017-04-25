@@ -168,8 +168,8 @@
             <td>4</td>
             <td>Surharge > 2.5 Ton</td>
             <td>-</td>
-            <td align="right">%</td>
-            <td align="right">{{ number_format($tarif->weight_surcharge) }}</td>
+            <td align="right">{{ ($tarif->surcharge_price > 100) ? 'Rp.' : '%' }}</td>
+            <td align="right">{{ number_format($tarif->surcharge_price) }}</td>
             <td align="right">Rp.</td>
             <td align="right">{{ number_format($invoice->weight_surcharge) }}</td>
           </tr>
@@ -203,16 +203,17 @@
 
         <div class="table-responsive">
           <table class="table">
-            <tbody><tr>
+            <tbody>
+<!--            <tr>
               <th style="width:50%" align="right">Subtotal:</th>
               <td align="right">Rp.</td>
               <td align="right">{{ number_format($invoice->sub_total) }}</td>
-            </tr>
-            <tr>
+            </tr>-->
+<!--            <tr>
               <th align="right">PPN ({{ $tarif->ppn }}%)</th>
               <td align="right">Rp.</td>
               <td align="right">{{ number_format($invoice->ppn) }}</td>
-            </tr>
+            </tr>-->
             <tr>
               <th align="right">Total:</th>
               <td align="right"><b>Rp.</b></td>
