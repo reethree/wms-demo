@@ -709,7 +709,7 @@ class PengirimanController extends Controller
         
         $dataHeader = \App\Models\TpsCodecoKms::find($id);
         $dataDetail = \App\Models\TpsCodecoKmsDetail::where('TPSCODECOKMSXML_FK', $dataHeader->TPSCODECOKMSXML_PK)->first();
-        $dataDetails = \App\Models\TpsCodecoKmsDetail::where('TPSCODECOKMSXML_FK', $dataHeader->TPSCODECOARIKMSXML_PK)->get();
+        $dataDetails = \App\Models\TpsCodecoKmsDetail::where('TPSCODECOKMSXML_FK', $dataHeader->TPSCODECOKMSXML_PK)->get();
         
         $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><DOCUMENT></DOCUMENT>');       
         
@@ -771,9 +771,13 @@ class PengirimanController extends Controller
 //
 //        $response->header('Cache-Control', 'public');
 //        $response->header('Content-Description', 'File Transfer');
-//        $response->header('Content-Disposition', 'attachment; filename=xml/CoariKemasan'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+//        $response->header('Content-Disposition', 'attachment; filename=xml/CodecoKemasan'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
 //        $response->header('Content-Transfer-Encoding', 'binary');
 //        $response->header('Content-Type', 'text/xml');
+//        
+//        return $response;
+//        return back()->with('success', 'Codeco Kemasan XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dikirim.');
+//        
         
         SoapWrapper::add(function ($service) {
             $service
