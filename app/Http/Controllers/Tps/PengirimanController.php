@@ -767,13 +767,13 @@ class PengirimanController extends Controller
         
 //        $xml->saveXML('xml/CodecoKMS'. date('Ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
 //
-//        $response = \Response::make($xml->asXML(), 200);
-//
-//        $response->header('Cache-Control', 'public');
-//        $response->header('Content-Description', 'File Transfer');
-//        $response->header('Content-Disposition', 'attachment; filename=xml/CodecoKemasan'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
-//        $response->header('Content-Transfer-Encoding', 'binary');
-//        $response->header('Content-Type', 'text/xml');
+        $response = \Response::make($xml->asXML(), 200);
+
+        $response->header('Cache-Control', 'public');
+        $response->header('Content-Description', 'File Transfer');
+        $response->header('Content-Disposition', 'attachment; filename=xml/CodecoKemasan'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+        $response->header('Content-Transfer-Encoding', 'binary');
+        $response->header('Content-Type', 'text/xml');
 //        
 //        return $response;
 //        return back()->with('success', 'Codeco Kemasan XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dikirim.');
@@ -812,7 +812,8 @@ class PengirimanController extends Controller
         $update = \App\Models\TpsCodecoKmsDetail::where('TPSCODECOKMSXML_FK', $dataHeader->TPSCODECOKMSXML_PK)->update(['STATUS_TPS' => 2, 'RESPONSE' => $this->response]);       
         
         if ($update){
-            return back()->with('success', 'Codeco Kemasan XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dikirim.');
+            return $response;
+//            return back()->with('success', 'Codeco Kemasan XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dikirim.');
         }
         
         var_dump($this->response);
