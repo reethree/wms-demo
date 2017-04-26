@@ -33,6 +33,7 @@
             $('#RESPONSE_DISPATCHE').val(rowdata.RESPONSE_DISPATCHE);
             $('#STATUS_DISPATCHE').val(rowdata.STATUS_DISPATCHE);
             $('#KODE_DISPATCHE').val(rowdata.KODE_DISPATCHE);
+            $('#DO_ID').val(rowdata.DO_ID);
 
 //            if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
                 $('#btn-group-2').enableButtonGroup();
@@ -204,7 +205,8 @@
 //                    ->addColumn(array('label'=>'Importir','index'=>'NAMA_IMP','width'=>160))
 //                    ->addColumn(array('label'=>'NPWP Importir','index'=>'NPWP_IMP','width'=>160))
                     ->addColumn(array('label'=>'E-Seal','index'=>'ESEALCODE','width'=>120,'align'=>'center'))
-                    ->addColumn(array('label'=>'No. POL','index'=>'NOPOL','width'=>120,'align'=>'center'))    
+                    ->addColumn(array('label'=>'No. POL','index'=>'NOPOL','width'=>120,'align'=>'center'))  
+                    ->addColumn(array('label'=>'DO ID','index'=>'DO_ID','width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'Status','index'=>'STATUS_DISPATCHE','width'=>60,'align'=>'center'))
                     ->addColumn(array('label'=>'Kode','index'=>'KODE_DISPATCHE','width'=>60,'align'=>'center'))
                     ->addColumn(array('label'=>'Response','index'=>'RESPONSE_DISPATCHE','width'=>120,'align'=>'center','hidden'=>false))
@@ -359,7 +361,12 @@
                             <input type="text" id="RESPONSE_DISPATCHE" name="RESPONSE_DISPATCHE" class="form-control" required readonly>
                         </div>
                     </div>
-                    
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">DO ID</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="DO_ID" name="DO_ID" class="form-control" required readonly>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6"> 
                                      
