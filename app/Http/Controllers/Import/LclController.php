@@ -1307,7 +1307,7 @@ class LclController extends Controller
                 $codecokmsdetail->TGL_DOK_INOUT = (!empty($manifest->TGL_SPPB) ? date('Ymd', strtotime($manifest->TGL_SPPB)) : '');
                 $codecokmsdetail->WK_INOUT = date('Ymd', strtotime($manifest->tglrelease)).date('His', strtotime($manifest->jamrelease));
                 $codecokmsdetail->KD_SAR_ANGKUT_INOUT = 1;
-                $codecokmsdetail->NO_POL = $manifest->NOPOL_MASUK;
+                $codecokmsdetail->NO_POL = $manifest->NOPOL_RELEASE;
                 $codecokmsdetail->PEL_MUAT = $manifest->PEL_MUAT;
                 $codecokmsdetail->PEL_TRANSIT = $manifest->PEL_TRANSIT;
                 $codecokmsdetail->PEL_BONGKAR = $manifest->PEL_BONGKAR;
