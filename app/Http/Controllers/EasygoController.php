@@ -75,7 +75,7 @@ class EasygoController extends Controller
 //            'Durasi_valid_tujuan' => '',
             'Container_size' => $data['SIZE'],
             'Container_type' => $data['container_type'],
-//            'No_Polisi' => '',
+            'No_Polisi' => $data['NOPOL'],
 //            'Telegram1' => '',
 //            'Telegram2' => '',
 //            'Telegram3' => '',
