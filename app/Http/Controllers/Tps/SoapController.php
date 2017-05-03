@@ -402,8 +402,9 @@ class SoapController extends DefaultController {
         
     }
     
-    public function GetImpor_SPPB()
+    public function GetImpor_SPPB(Request $request)
     {
+//        return $request->all();
         SoapWrapper::add(function ($service) {
             $service
                 ->name('GetImpor_Sppb')
@@ -411,19 +412,20 @@ class SoapController extends DefaultController {
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-                ->options([
-                    'UserName' => $this->user, 
-                    'Password' => $this->password,
-                    'Kd_Gudang' => $this->kode
-                ]);                                                    
+//                ->options([
+//                    'UserName' => $this->user, 
+//                    'Password' => $this->password,
+//                    'Kd_Gudang' => $this->kode
+//                ])
+                ;                                                    
         });
         
         $data = [
             'UserName' => $this->user, 
             'Password' => $this->password,
-            'No_Sppb' => '063484/KPU.01/2017',
-            'Tgl_Sppb' => '09022017',
-            'NPWP_Imp' => '033153321035000'
+            'No_Sppb' => $request->no_sppb, //063484/KPU.01/2017
+            'Tgl_Sppb' => $request->tgl_sppb, //09022017
+            'NPWP_Imp' => $request->npwp_imp //033153321035000
         ];
         
         // Using the added service
@@ -431,7 +433,48 @@ class SoapController extends DefaultController {
             $this->response = $service->call('GetImpor_Sppb', [$data])->GetImpor_SppbResult;      
         });
         
-        var_dump($this->response);
+//        var_dump($this->response);
+        
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($this->response);
+        if(!$xml || !$xml->children()){
+           return back()->with('error', $this->response);
+        }
+        
+        foreach ($xml->children() as $data):  
+            foreach ($data as $key=>$value):
+                if($key == 'HEADER' || $key == 'header'){           
+                    $sppb = new \App\Models\TpsSppbPib;
+                    foreach ($value as $keyh=>$valueh):
+                        if($keyh == 'TG_BL_AWB' || $keyh == 'tg_bl_awb'){ $keyh='TGL_BL_AWB'; }
+                        elseif($keyh == 'TG_MASTER_BL_AWB' || $keyh == 'tg_master_bl_awb'){ $keyh='TGL_MASTER_BL_AWB'; }
+                        $sppb->$keyh = $valueh;
+                    endforeach;
+                    $sppb->save();
+                    $sppb_id = $sppb->TPS_SPPBXML_PK;
+                }elseif($key == 'DETIL' || $key == 'detil'){
+                    foreach ($value as $key1=>$value1):
+                        if($key1 == 'KMS' || $key1 == 'kms'){
+                            $kms = new \App\Models\TpsSppbPibKms;
+                            foreach ($value1 as $keyk=>$valuek):
+                                $kms->$keyk = $valuek;
+                            endforeach;
+                            $kms->TPS_SPPBXML_FK = $sppb_id;
+                            $kms->save();
+                        }elseif($key1 == 'CONT' || $key1 == 'cont'){
+                            $cont = new \App\Models\TpsSppbPibCont;
+                            foreach ($value1 as $keyc=>$valuec):
+                                $cont->$keyc = $valuec;
+                            endforeach;
+                            $cont->TPS_SPPBXML_FK = $sppb_id;
+                            $cont->save();
+                        }
+                    endforeach;  
+                }
+            endforeach;
+        endforeach;
+        
+        return back()->with('success', 'Upload SPPB PIB has been success.');
     }
     
     public function GetBC23Permit()

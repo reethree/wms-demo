@@ -127,6 +127,10 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'uses' => 'SoapController@GetImporPermit'
 //        'uses' => 'SoapController@GetImpor_SPPB'
     ]);
+    Route::post('/sppb-pib/upload-xml', [
+        'as' => 'tps-sppbPib-upload',
+        'uses' => 'SoapController@GetImpor_SPPB'
+    ]);
     
     //SPPB BEA CUKAI
     Route::get('/sppb-bc', [

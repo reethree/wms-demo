@@ -3,7 +3,7 @@
 @section('content')
 <style>
     .datepicker.dropdown-menu {
-        z-index: 100 !important;
+        /*z-index: 100 !important;*/
     }
 </style>
 <script>
@@ -147,8 +147,59 @@
             ->addColumn(array('label'=>'Jam Upload','index'=>'JAM_UPLOAD','width'=>160,'align'=>'center'))
             ->renderGrid()
         }}
+        
+        <div class="row" style="margin: 30px 0 0;">
+            <button class="btn btn-info" id="upload-sppb-btn"><i class="fa fa-upload"></i> Upload SPPB</button>
+        </div>
     </div>
 </div>
+
+<div id="upload-sppb-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Upload SPPB</h4>
+            </div>
+            <form class="form-horizontal" action="{{ route('tps-sppbPib-upload') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">NO. SPPB</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="no_sppb" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tgl. SPPB</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" name="tgl_sppb" class="form-control pull-right datepicker" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">NPWP Importir</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" name="npwp_imp" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
+                  <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 @endsection
 
@@ -168,8 +219,8 @@
     $('.datepicker').datepicker({
         autoclose: true,
         todayHighlight: true,
-        format: 'yyyy-mm-dd',
-        zIndex: 99
+        format: 'ddmmyyyy',
+        zIndex: 999999
     });
     
     $('#searchByDateBtn').on("click", function(){
@@ -178,6 +229,10 @@
         var enddate = $("#enddate").val();
         jQuery("#tpsSppbPibGrid").jqGrid('setGridParam',{url:"{{URL::to('/tpsonline/penerimaan/sppb-pib/grid-data')}}?startdate="+startdate+"&enddate="+enddate+"&by="+by}).trigger("reloadGrid");
         return false;
+    });
+    
+    $('#upload-sppb-btn').on("click", function(){
+        $('#upload-sppb-modal').modal('show');
     });
 </script>
 
