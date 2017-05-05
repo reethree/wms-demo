@@ -133,16 +133,17 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
             if(isset($request['startdate']) && isset($request['enddate'])){
                 
                 $Model = TpsCoariKms::select('*')
-                        ->join('tpscoarikmsdetailxml', 'tpscoarikmsxml.TPSCOARIKMSXML_PK', '=', 'tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
+                        ->leftjoin('tpscoarikmsdetailxml', 'tpscoarikmsxml.TPSCOARIKMSXML_PK', '=', 'tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
                         ->where('tpscoarikmsxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
                         ->where('tpscoarikmsxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])))
-                        ->groupBy('tpscoarikmsdetailxml.TPSCOARIKMSXML_FK');
+//                        ->groupBy('tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
+                        ;
             }elseif(isset($request['coarikms_id'])){
                 $Model = TpsCoariKmsDetail::where('TPSCOARIKMSXML_FK',$request['coarikms_id']);
             }else{
                 $Model = TpsCoariKms::select('tpscoarikmsxml.*','tpscoarikmsdetailxml.RESPONSE','tpscoarikmsdetailxml.STATUS_TPS')
-                        ->join('tpscoarikmsdetailxml', 'tpscoarikmsxml.TPSCOARIKMSXML_PK', '=', 'tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
-                        ->groupBy('tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
+                        ->leftJoin('tpscoarikmsdetailxml', 'tpscoarikmsxml.TPSCOARIKMSXML_PK', '=', 'tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
+//                        ->groupBy('tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
                         ;
             }
         }elseif($Model->getMorphClass() == 'App\Models\TpsCodecoContFcl'){ 
@@ -178,14 +179,14 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
             if(isset($request['startdate']) && isset($request['enddate'])){
                 
                 $Model = TpsCodecoKms::select('*')
-                        ->join('tpscodecokmsdetailxml', 'tpscodecokmsxml.TPSCODECOKMSXML_PK', '=', 'tpscodecokmsdetailxml.TPSCODECOKMSXML_FK')
+                        ->leftjoin('tpscodecokmsdetailxml', 'tpscodecokmsxml.TPSCODECOKMSXML_PK', '=', 'tpscodecokmsdetailxml.TPSCODECOKMSXML_FK')
                         ->where('tpscodecokmsxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
                         ->where('tpscodecokmsxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
             }elseif(isset($request['codecokms_id'])){
                 $Model = TpsCodecoKmsDetail::where('TPSCODECOKMSXML_FK', $request['codecokms_id']);
             }else{
                 $Model = TpsCodecoKms::select('*')
-                        ->join('tpscodecokmsdetailxml', 'tpscodecokmsxml.TPSCODECOKMSXML_PK', '=', 'tpscodecokmsdetailxml.TPSCODECOKMSXML_FK');
+                        ->leftjoin('tpscodecokmsdetailxml', 'tpscodecokmsxml.TPSCODECOKMSXML_PK', '=', 'tpscodecokmsdetailxml.TPSCODECOKMSXML_FK');
             }
             
         }elseif($Model->getMorphClass() == 'App\Models\TpsDataKirim'){ 
