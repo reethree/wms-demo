@@ -85,6 +85,7 @@
           </tr>
           </thead>
           <tbody>
+          @if($invoice->storage > 0)
           <tr>
             <td>&nbsp;</td>
             <td>Biaya Penumpukan</td>
@@ -95,7 +96,7 @@
             <td>&nbsp;</td>
           </tr>
           <tr>
-            <td>1</td>
+            <td>1</td>           
             <td>Storage</td>
             <td>{{ number_format($invoice->cbm * 1000, 0, ',', '.') }} Cbm x {{ $invoice->hari }} hari</td>
             <td align="right">Rp.</td>
@@ -103,6 +104,40 @@
             <td align="right">Rp.</td>
             <td align="right">{{ number_format($invoice->storage) }}</td>
           </tr>
+          @else
+          <tr>
+              <td>1</td>
+              <td>Biaya Storage</td>
+              <td colspan="5">&nbsp;</td>
+          </tr>
+          <tr>
+              <td>&nbsp;</td>
+              <td>Masa I (1-3 Hari)</td>
+              <td>{{ number_format($invoice->cbm, 2, '.', ',') }} Cbm x {{ $invoice->hari_masa1 + 1 }} hari</td>
+              <td align="right">Rp.</td>
+              <td align="right">{{ number_format($tarif->storage_masa1) }}</td>
+              <td align="right">Rp.</td>
+              <td align="right">{{ number_format($invoice->storage_masa1) }}</td>
+          </tr>
+          <tr>
+              <td>&nbsp;</td>
+              <td>Masa II (4-5 Hari)</td>
+              <td>{{ number_format($invoice->cbm, 2, '.', ',') }} Cbm x {{ $invoice->hari_masa2 }} hari</td>
+              <td align="right">Rp.</td>
+              <td align="right">{{ number_format($tarif->storage_masa2) }}</td>
+              <td align="right">Rp.</td>
+              <td align="right">{{ number_format($invoice->storage_masa2) }}</td>
+          </tr>
+          <tr>
+              <td>&nbsp;</td>
+              <td>Masa III (6 Hari - dst)</td>
+              <td>{{ number_format($invoice->cbm, 2, '.', ',') }} Cbm x {{ $invoice->hari_masa3 }} hari</td>
+              <td align="right">Rp.</td>
+              <td align="right">{{ number_format($tarif->storage_masa3) }}</td>
+              <td align="right">Rp.</td>
+              <td align="right">{{ number_format($invoice->storage_masa3) }}</td>
+          </tr>
+          @endif
           <tr>
             <td>2</td>
             <td>RDM</td>
