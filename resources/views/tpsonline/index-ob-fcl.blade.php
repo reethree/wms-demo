@@ -85,7 +85,7 @@
 //            ->setGridEvent('gridComplete', 'gridCompleteEvent')
 //            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('key'=>true,'index'=>'TPSOBXML_PK','hidden'=>true))
-            ->addColumn(array('label'=>'Tgl. Upload','index'=>'TGL_UPLOAD','width'=>160,'align'=>'center'))
+            ->addColumn(array('label'=>'Tgl. Upload','index'=>'TGLUPLOAD','width'=>160,'align'=>'center'))
             ->addColumn(array('label'=>'Ref Number','index'=>'REF_NUMBER','width'=>160,'hidden'=>true))			
             ->addColumn(array('label'=>'No. Surat PLP','index'=>'NO_SURAT_PLP','width'=>160))			
             ->addColumn(array('label'=>'Tgl. Surat PLP','index'=>'TGL_SURAT_PLP','width'=>160))			
