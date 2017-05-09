@@ -52,13 +52,13 @@
             $('#NO_SPPB').val(rowdata.NO_SPPB);
             $('#TGL_SPPB').val(rowdata.TGL_SPPB);
 
-            if(!rowdata.TGLSURATJALAN && !rowdata.JAMSURATJALAN) {
+//            if(!rowdata.TGLSURATJALAN && !rowdata.JAMSURATJALAN) {
                 $('#btn-group-2').enableButtonGroup();
                 $('#suratjalan-form').enableFormGroup();
-            }else{
-                $('#btn-group-2').disabledButtonGroup();
-                $('#suratjalan-form').disabledFormGroup();
-            }
+//            }else{
+//                $('#btn-group-2').disabledButtonGroup();
+//                $('#suratjalan-form').disabledFormGroup();
+//            }
 
         });
         

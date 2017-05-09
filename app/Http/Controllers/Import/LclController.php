@@ -723,7 +723,13 @@ class LclController extends Controller
     {
         $data = $request->json()->all(); 
         unset($data['TMANIFEST_PK'], $data['_token']);
-
+        
+        $data['TGLSURATJALAN'] = $data['tglfiat'];
+        $data['JAMSURATJALAN'] = $data['jamfiat'];
+        $data['tglrelease'] = $data['tglfiat'];
+        $data['jamrelease'] = $data['jamfiat'];
+        $data['NOPOL_RELEASE'] = $data['NOPOL'];
+        
         $update = DBManifest::where('TMANIFEST_PK', $id)
             ->update($data);
         
@@ -1530,6 +1536,13 @@ class LclController extends Controller
                         $data['WEIGHT'] = $df['weight'];
                         $data['MEAS'] = $df['meas'];
                         $data['QUANTITY'] = $df['qty'];
+                        
+                        // Get Packing
+                        if($df['pack']) {
+                            $packing = \App\Models\Packing::where('KODEPACKING', $df['pack'])->first();
+                            $data['TPACKING_FK'] = $packing->TPACKING_PK;
+                            $data['NAMAPACKING'] = $packing->NAMAPACKING;
+                        }
                         
                         $data['tglmasuk'] = $container->TGLMASUK;
                         $data['jammasuk'] = $container->JAMMASUK;

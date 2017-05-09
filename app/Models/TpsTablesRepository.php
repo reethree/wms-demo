@@ -22,19 +22,31 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
             }
         }elseif($Model->getMorphClass() == 'App\Models\TpsResponPlp'){   
             if(isset($request['startdate']) && isset($request['enddate'])){
-                
+                if($request['by'] == 'TGL_UPLOAD') {
+                    $start_date = date('Y-m-d 00:00:00',strtotime($request['startdate']));
+                    $end_date = date('Y-m-d 23:59:59',strtotime($request['enddate']));
+                }else{
+                    $start_date = date('Ymd',strtotime($request['startdate']));
+                    $end_date = date('Ymd',strtotime($request['enddate']));      
+                }
                 $Model = \DB::table('tps_responplptujuanxml')
-                        ->where($request['by'], '>=', date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where($request['by'], '<=', date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        ->where($request['by'], '>=', $start_date)
+                        ->where($request['by'], '<=', $end_date);
             }else{
                 
             }
         }elseif($Model->getMorphClass() == 'App\Models\TpsOb'){   
             if(isset($request['startdate']) && isset($request['enddate'])){
-                
+                if($request['by'] == 'TGLUPLOAD') {
+                    $start_date = date('Y-m-d 00:00:00',strtotime($request['startdate']));
+                    $end_date = date('Y-m-d 23:59:59',strtotime($request['enddate']));
+                }else{
+                    $start_date = date('Ymd',strtotime($request['startdate']));
+                    $end_date = date('Ymd',strtotime($request['enddate']));      
+                }
                 $Model = \DB::table('tpsobxml')
-                        ->where($request['by'], '>=', date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where($request['by'], '<=', date('Y-m-d 23:59:59',strtotime($request['enddate'])))
+                        ->where($request['by'], '>=', $start_date)
+                        ->where($request['by'], '<=', $end_date)
                         ->where('JNS_CONT', $request['jenis']);
                 
             }else{
@@ -45,30 +57,48 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
             }
         }elseif($Model->getMorphClass() == 'App\Models\TpsSpjm'){   
             if(isset($request['startdate']) && isset($request['enddate'])){
-                
+                if($request['by'] == 'TGL_UPLOAD') {
+                    $start_date = date('Y-m-d',strtotime($request['startdate']));
+                    $end_date = date('Y-m-d',strtotime($request['enddate']));
+                }else{
+                    $start_date = date('d/m/Y',strtotime($request['startdate']));
+                    $end_date = date('d/m/Y',strtotime($request['enddate']));      
+                }
                 $Model = \DB::table('tps_spjmxml')
-                        ->where($request['by'], '>=', date('Y-m-d',strtotime($request['startdate'])))
-                        ->where($request['by'], '<=', date('Y-m-d',strtotime($request['enddate'])));
+                        ->where($request['by'], '>=', $start_date)
+                        ->where($request['by'], '<=', $end_date);
             }else{
                 
             }   
             
         }elseif($Model->getMorphClass() == 'App\Models\TpsDokManual'){   
             if(isset($request['startdate']) && isset($request['enddate'])){
-                
+                if($request['by'] == 'TGL_UPLOAD') {
+                    $start_date = date('Y-m-d 00:00:00', strtotime($request['startdate']));
+                    $end_date = date('Y-m-d 23:59:59', strtotime($request['enddate']));
+                }else{
+                    $start_date = date('Ymd',strtotime($request['startdate']));
+                    $end_date = date('Ymd',strtotime($request['enddate']));      
+                }
                 $Model = \DB::table('tps_dokmanualxml')
-                        ->where($request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where($request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        ->where($request['by'], '>=', $start_date)
+                        ->where($request['by'], '<=', $end_date);
             }else{
                 
             }
             
         }elseif($Model->getMorphClass() == 'App\Models\TpsSppbPib'){   
             if(isset($request['startdate']) && isset($request['enddate'])){
-                
+                if($request['by'] == 'TGL_UPLOAD') {
+                    $start_date = date('Y-m-d 00:00:00', strtotime($request['startdate']));
+                    $end_date = date('Y-m-d 23:59:59', strtotime($request['enddate']));
+                }else{
+                    $start_date = date('Ymd',strtotime($request['startdate']));
+                    $end_date = date('Ymd',strtotime($request['enddate']));      
+                }
                 $Model = \DB::table('tps_sppbxml')
-                        ->where($request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where($request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        ->where($request['by'], '>=', $start_date)
+                        ->where($request['by'], '<=', $end_date);
             }else{
                 
                 if(isset($request['type']) && isset($request['sppbid'])){
@@ -91,10 +121,16 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
             
         }elseif($Model->getMorphClass() == 'App\Models\TpsSppbBc'){   
             if(isset($request['startdate']) && isset($request['enddate'])){
-                
+                if($request['by'] == 'TGL_UPLOAD') {
+                    $start_date = date('Y-m-d 00:00:00', strtotime($request['startdate']));
+                    $end_date = date('Y-m-d 23:59:59', strtotime($request['enddate']));
+                }else{
+                    $start_date = date('Ymd',strtotime($request['startdate']));
+                    $end_date = date('Ymd',strtotime($request['enddate']));      
+                }
                 $Model = \DB::table('tps_sppbbc23xml')
-                        ->where($request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where($request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        ->where($request['by'], '>=', $start_date)
+                        ->where($request['by'], '<=', $end_date);
             }else{
                 
                 if(isset($request['type']) && isset($request['sppbid'])){
@@ -117,11 +153,17 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
         }elseif($Model->getMorphClass() == 'App\Models\TpsCoariCont'){ 
             
             if(isset($request['startdate']) && isset($request['enddate'])){
-                
+                if($request['by'] == 'TGL_UPLOAD') {
+                    $start_date = date('Y-m-d 00:00:00', strtotime($request['startdate']));
+                    $end_date = date('Y-m-d 23:59:59', strtotime($request['enddate']));
+                }else{
+                    $start_date = date('Ymd',strtotime($request['startdate']));
+                    $end_date = date('Ymd',strtotime($request['enddate']));      
+                }
                 $Model = TpsCoariCont::select('*')
                         ->join('tpscoaricontdetailxml', 'tpscoaricontxml.TPSCOARICONTXML_PK', '=', 'tpscoaricontdetailxml.TPSCOARICONTXML_FK')
-                        ->where('tpscoaricontxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where('tpscoaricontxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        ->where('tpscoaricontxml.'.$request['by'], '>=', $start_date)
+                        ->where('tpscoaricontxml.'.$request['by'], '<=', $end_date);
 //                        ->groupBy('tpscoaricontdetailxml.TPSCOARICONTXML_FK');
             }else{
                 $Model = TpsCoariCont::select('*')
@@ -131,11 +173,17 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
         }elseif($Model->getMorphClass() == 'App\Models\TpsCoariKms'){ 
             
             if(isset($request['startdate']) && isset($request['enddate'])){
-                
+                if($request['by'] == 'TGL_UPLOAD') {
+                    $start_date = date('Y-m-d 00:00:00', strtotime($request['startdate']));
+                    $end_date = date('Y-m-d 23:59:59', strtotime($request['enddate']));
+                }else{
+                    $start_date = date('Ymd',strtotime($request['startdate']));
+                    $end_date = date('Ymd',strtotime($request['enddate']));      
+                }
                 $Model = TpsCoariKms::select('*')
                         ->leftjoin('tpscoarikmsdetailxml', 'tpscoarikmsxml.TPSCOARIKMSXML_PK', '=', 'tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
-                        ->where('tpscoarikmsxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where('tpscoarikmsxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])))
+                        ->where('tpscoarikmsxml.'.$request['by'], '>=', $start_date)
+                        ->where('tpscoarikmsxml.'.$request['by'], '<=', $end_date)
 //                        ->groupBy('tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
                         ;
             }elseif(isset($request['coarikms_id'])){
@@ -149,12 +197,18 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
         }elseif($Model->getMorphClass() == 'App\Models\TpsCodecoContFcl'){ 
             
             if(isset($request['startdate']) && isset($request['enddate'])){
-                
+                if($request['by'] == 'TGL_UPLOAD') {
+                    $start_date = date('Y-m-d 00:00:00', strtotime($request['startdate']));
+                    $end_date = date('Y-m-d 23:59:59', strtotime($request['enddate']));
+                }else{
+                    $start_date = date('Ymd',strtotime($request['startdate']));
+                    $end_date = date('Ymd',strtotime($request['enddate']));      
+                }
                 $Model = TpsCodecoContFcl::select('*')
                         ->join('tpscodecocontdetailxml', 'tpscodecocontxml.TPSCODECOCONTXML_PK', '=', 'tpscodecocontdetailxml.TPSCODECOCONTXML_FK')
                         ->where('tpscodecocontdetailxml.JNS_CONT', 'F')
-                        ->where('tpscodecocontxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where('tpscodecocontxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        ->where('tpscodecocontxml.'.$request['by'], '>=', $start_date)
+                        ->where('tpscodecocontxml.'.$request['by'], '<=', $end_date);
             }else{
                 $Model = TpsCodecoContFcl::select('*')
                         ->join('tpscodecocontdetailxml', 'tpscodecocontxml.TPSCODECOCONTXML_PK', '=', 'tpscodecocontdetailxml.TPSCODECOCONTXML_FK')
@@ -163,12 +217,18 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
         }elseif($Model->getMorphClass() == 'App\Models\TpsCodecoContBuangMty'){ 
             
             if(isset($request['startdate']) && isset($request['enddate'])){
-                
+                if($request['by'] == 'TGL_UPLOAD') {
+                    $start_date = date('Y-m-d 00:00:00', strtotime($request['startdate']));
+                    $end_date = date('Y-m-d 23:59:59', strtotime($request['enddate']));
+                }else{
+                    $start_date = date('Ymd',strtotime($request['startdate']));
+                    $end_date = date('Ymd',strtotime($request['enddate']));      
+                }
                 $Model = TpsCodecoContFcl::select('*')
                         ->join('tpscodecocontdetailxml', 'tpscodecocontxml.TPSCODECOCONTXML_PK', '=', 'tpscodecocontdetailxml.TPSCODECOCONTXML_FK')
                         ->where('tpscodecocontdetailxml.JNS_CONT', 'L')
-                        ->where('tpscodecocontxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where('tpscodecocontxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        ->where('tpscodecocontxml.'.$request['by'], '>=', $start_date)
+                        ->where('tpscodecocontxml.'.$request['by'], '<=', $end_date);
             }else{
                 $Model = TpsCodecoContFcl::select('*')
                         ->join('tpscodecocontdetailxml', 'tpscodecocontxml.TPSCODECOCONTXML_PK', '=', 'tpscodecocontdetailxml.TPSCODECOCONTXML_FK')
@@ -177,11 +237,17 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
         }elseif($Model->getMorphClass() == 'App\Models\TpsCodecoKms'){ 
             
             if(isset($request['startdate']) && isset($request['enddate'])){
-                
+                if($request['by'] == 'TGL_UPLOAD') {
+                    $start_date = date('Y-m-d 00:00:00', strtotime($request['startdate']));
+                    $end_date = date('Y-m-d 23:59:59', strtotime($request['enddate']));
+                }else{
+                    $start_date = date('Ymd',strtotime($request['startdate']));
+                    $end_date = date('Ymd',strtotime($request['enddate']));      
+                }
                 $Model = TpsCodecoKms::select('*')
                         ->leftjoin('tpscodecokmsdetailxml', 'tpscodecokmsxml.TPSCODECOKMSXML_PK', '=', 'tpscodecokmsdetailxml.TPSCODECOKMSXML_FK')
-                        ->where('tpscodecokmsxml.'.$request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                        ->where('tpscodecokmsxml.'.$request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                        ->where('tpscodecokmsxml.'.$request['by'], '>=', $start_date)
+                        ->where('tpscodecokmsxml.'.$request['by'], '<=', $end_date);
             }elseif(isset($request['codecokms_id'])){
                 $Model = TpsCodecoKmsDetail::where('TPSCODECOKMSXML_FK', $request['codecokms_id']);
             }else{
@@ -195,9 +261,16 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                 switch ($request['type']) {
                     case 'reject':
                         if(isset($request['startdate']) && isset($request['enddate'])){
+                            if($request['by'] == 'TGL_UPLOAD') {
+                                $start_date = date('Y-m-d 00:00:00', strtotime($request['startdate']));
+                                $end_date = date('Y-m-d 23:59:59', strtotime($request['enddate']));
+                            }else{
+                                $start_date = date('Ymd',strtotime($request['startdate']));
+                                $end_date = date('Ymd',strtotime($request['enddate']));      
+                            }
                             $Model = TpsDataReject::select('*')
-                                    ->where($request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                                    ->where($request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                                    ->where($request['by'], '>=', $start_date)
+                                    ->where($request['by'], '<=', $end_date);
                         }else{
                             $Model = new TpsDataReject();
                         }
@@ -205,9 +278,16 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                         break;
                     case 'terkirim':
                         if(isset($request['startdate']) && isset($request['enddate'])){
+                            if($request['by'] == 'TGL_UPLOAD') {
+                                $start_date = date('Y-m-d 00:00:00', strtotime($request['startdate']));
+                                $end_date = date('Y-m-d 23:59:59', strtotime($request['enddate']));
+                            }else{
+                                $start_date = date('Ymd',strtotime($request['startdate']));
+                                $end_date = date('Ymd',strtotime($request['enddate']));      
+                            }
                             $Model = TpsDataKirim::select('*')
-                                    ->where($request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                                    ->where($request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                                    ->where($request['by'], '>=', $start_date)
+                                    ->where($request['by'], '<=', $end_date);
                         }else{
                             $Model = new TpsDataKirim();
                         }
@@ -215,9 +295,16 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                         break;
                     case 'gagal':
                         if(isset($request['startdate']) && isset($request['enddate'])){
+                            if($request['by'] == 'TGL_UPLOAD') {
+                                $start_date = date('Y-m-d 00:00:00', strtotime($request['startdate']));
+                                $end_date = date('Y-m-d 23:59:59', strtotime($request['enddate']));
+                            }else{
+                                $start_date = date('Ymd',strtotime($request['startdate']));
+                                $end_date = date('Ymd',strtotime($request['enddate']));      
+                            }
                             $Model = TpsDataGagal::select('*')
-                                    ->where($request['by'], '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
-                                    ->where($request['by'], '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
+                                    ->where($request['by'], '>=', $start_date)
+                                    ->where($request['by'], '<=', $end_date);
                         }else{
                             $Model = new TpsDataGagal();
                         }

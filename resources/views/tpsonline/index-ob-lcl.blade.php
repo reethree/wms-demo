@@ -37,11 +37,11 @@
                 <div class="col-xs-12">Search By Date</div>
                 <div class="col-xs-12">&nbsp;</div>
                 <div class="col-xs-3">
-                    <select class="form-control select2" id="by" name="by" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                        <option value="TGL_UPLOAD">Tgl. Upload</option>
+                    <select class="form-control select2" id="by" name="by" style="width: 100%;" tabindex="-1" aria-hidden="true">                        
                         <option value="TGL_PLP">Tgl. PLP</option>
                         <option value="TGL_BC11">Tgl. BC11</option>
-                        <option value="TGL_TIBA">Tgl. Tiba</option>                       
+                        <option value="TGL_TIBA">Tgl. Tiba</option>  
+                        <option value="TGLUPLOAD">Tgl. Upload</option>
                     </select>
                 </div>
                 <div class="col-xs-3">

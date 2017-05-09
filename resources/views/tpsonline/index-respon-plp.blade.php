@@ -40,6 +40,7 @@
                     <select class="form-control select2" id="by" name="by" style="width: 100%;" tabindex="-1" aria-hidden="true">
                         <option value="TGL_UPLOAD">Tgl. Upload</option>
                         <option value="TGL_PLP">Tgl. PLP</option>
+                        <option value="TGL_SURAT">Tgl. Surat</option>
                         <option value="TGL_BC11">Tgl. BC11</option>
                         <option value="TGL_TIBA">Tgl. Tiba</option>                       
                     </select>

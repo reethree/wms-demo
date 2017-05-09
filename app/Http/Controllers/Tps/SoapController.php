@@ -423,7 +423,7 @@ class SoapController extends DefaultController {
         $data = [
             'UserName' => $this->user, 
             'Password' => $this->password,
-            'No_Sppb' => $request->no_sppb, //063484/KPU.01/2017
+            'No_Sppb' => $request->no_sppb.'/KPU.01/'.date('Y'), //063484/KPU.01/2017
             'Tgl_Sppb' => $request->tgl_sppb, //09022017
             'NPWP_Imp' => $request->npwp_imp //033153321035000
         ];
