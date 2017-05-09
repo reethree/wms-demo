@@ -58,13 +58,13 @@
             $('#UIDRELEASE').val(rowdata.UIDRELEASE);
                         
 //            if(!rowdata.tglrelease && !rowdata.jamrelease) {
+//                $('#btn-group-4').disabledButtonGroup();
+//                $('#btn-group-5').disabledButtonGroup();
                 $('#btn-group-2').enableButtonGroup();
                 $('#release-form').enableFormGroup();
-                $('#btn-group-4').disabledButtonGroup();
-                $('#btn-group-5').disabledButtonGroup();
 //            }else{
-//                $('#btn-group-4').enableButtonGroup();
-//                $('#btn-group-5').enableButtonGroup();
+                $('#btn-group-4').enableButtonGroup();
+                $('#btn-group-5').enableButtonGroup();
 //                $('#btn-group-2').disabledButtonGroup();
 //                $('#release-form').disabledFormGroup();
 //            }
