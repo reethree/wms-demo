@@ -169,7 +169,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">NO. SPPB</label>
                                 <div class="col-sm-5">
-                                    <input type="number" class="form-control" name="no_sppb" maxlength="6" max="6" />
+                                    <input type="number" class="form-control" name="no_sppb" />
                                 </div>
                                 <div class="col-sm-3"><input type="text" class="form-control" disabled="disabled" readonly="readonly" value="/KPU.01/{{ date('Y') }}" /></div>
                             </div>
