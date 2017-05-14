@@ -155,6 +155,11 @@
 
                     //Triggers the "Close" button funcionality.
                     $('#btn-refresh').click();
+                    
+                    $('#tpsonline-modal-text').html(json.message+', Apakah anda ingin mengirimkan CODECO Buang MTY XML data sekarang?');
+                    $("#tpsonline-send-btn").attr("href", "{{ route('tps-codecoContBuangMty-upload','') }}/"+json.insert_id);
+                    
+                    $('#tpsonline-modal').modal('show');
                 }
             });
         });

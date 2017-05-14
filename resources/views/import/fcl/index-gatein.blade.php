@@ -156,6 +156,11 @@
 
                     //Triggers the "Close" button funcionality.
                     $('#btn-refresh').click();
+                    
+                    $('#tpsonline-modal-text').html(json.message+', Apakah anda ingin mengirimkan COARI Kontainer XML data sekarang?');
+                    $("#tpsonline-send-btn").attr("href", "{{ route('tps-coariCont-upload','') }}/"+json.insert_id);
+                    
+                    $('#tpsonline-modal').modal('show');
                 }
             });
             

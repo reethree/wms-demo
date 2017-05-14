@@ -372,7 +372,6 @@
             {
                 console.log(json);
 
-
                 if(json.success) {
                   $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
                 } else {
@@ -381,6 +380,11 @@
 
                 //Triggers the "Close" button funcionality.
                 $('#btn-refresh').click();
+                
+                $('#tpsonline-modal-text').html(json.message+', Apakah anda ingin mengirimkan COARI Kemasan XML data sekarang?');
+                $("#tpsonline-send-btn").attr("href", "{{ route('tps-coariKms-upload','') }}/"+json.insert_id);
+
+                $('#tpsonline-modal').modal('show');
             }
         });
         

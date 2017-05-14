@@ -107,7 +107,26 @@
             @include('partials.footer')
             
         </div><!-- ./wrapper -->
-
+        
+        <!--TPS ONLINE MODAL-->
+        <div id="tpsonline-modal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Upload TPS Online</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="tpsonline-modal-text"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
+                        <a href="#" id="tpsonline-send-btn" class="btn btn-primary">Kirim Sekarang</a>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        
         <!-- REQUIRED JS SCRIPTS -->
 
         <!-- Bootstrap 3.3.2 JS -->

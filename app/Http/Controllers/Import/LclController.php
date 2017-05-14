@@ -995,9 +995,9 @@ class LclController extends Controller
                 if($coaricontdetail->save()){
                     
                     $container->REF_NUMBER_IN = $reff_number;
-                    $container->save();
+                    $container->save();                    
                     
-                    return json_encode(array('success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di upload. Reff Number : '.$reff_number));
+                    return json_encode(array('insert_id' => $coaricont->TPSCOARICONTXML_PK, 'ref_number' => $reff_number, 'success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di simpan. Reff Number : '.$reff_number));
                 }
                 
             }
@@ -1098,7 +1098,7 @@ class LclController extends Controller
                 
                 if($codecocontdetail->save()){
                     
-                    return json_encode(array('success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di upload. Reff Number : '.$reff_number));
+                    return json_encode(array('insert_id' => $codecocont->TPSCODECOCONTXML_PK, 'ref_number' => $reff_number, 'success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di simpan. Reff Number : '.$reff_number));
                 }
             }
             
@@ -1167,16 +1167,20 @@ class LclController extends Controller
                 // Masa II
                 if($hari > 3 ) {
                     $hari_masa2 = $hari - 3;
-                    if($hari_masa2 > 2) { $hari_masa2 = 2; }
+                    if($tarif->storage_masa3 > 0){                        
+                        if($hari_masa2 > 2) { $hari_masa2 = 2; } 
+                    }
                     $sub_masa2 = $maxcbm * $tarif->storage_masa2;
                     $tot_masa2 = $hari_masa2 * $sub_masa2;
                 }
                 // Masa III
-                if($hari > 5) {
-                    $hari_masa3 = $hari - 5;
-                    $sub_masa3 = $maxcbm * $tarif->storage_masa2;
-                    $tot_masa3 = $hari_masa3 * $sub_masa3;
-                }
+                if($tarif->storage_masa3 > 0){ 
+                    if($hari > 5) {
+                        $hari_masa3 = $hari - 5;
+                        $sub_masa3 = $maxcbm * $tarif->storage_masa3;
+                        $tot_masa3 = $hari_masa3 * $sub_masa3;
+                    }
+                }                
             }
             
             $invoice_import = new \App\Models\Invoice;
@@ -1339,7 +1343,7 @@ class LclController extends Controller
                         
                     DBManifest::where('TMANIFEST_PK', $manifest->TMANIFEST_PK)->update(['REF_NUMBER_OUT' => $reff_number]);
                     
-                    return json_encode(array('success' => true, 'message' => 'No. Tally '.$manifest->NOTALLY.' berhasil di upload. Reff Number : '.$reff_number));
+                    return json_encode(array('insert_id' => $codecokms->TPSCODECOKMSXML_PK, 'ref_number' => $reff_number, 'success' => true, 'message' => 'No. Tally '.$manifest->NOTALLY.' berhasil di simpan. Reff Number : '.$reff_number));
                 }
             }
         }else {

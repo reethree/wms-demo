@@ -419,10 +419,15 @@ class ManifestController extends Controller
  
                 endforeach;
                 
-                return json_encode(array('success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di upload. Reff Number : '.$reff_number));
+                return json_encode(array('insert_id' => $coarikms->TPSCOARIKMSXML_PK, 'ref_number' => $reff_number, 'success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di simpan. Reff Number : '.$reff_number));
                     
             }
+            
+        } else {
+            return json_encode(array('success' => false, 'message' => 'Cannot create Reff Number, please try again later.'));
         }
+              
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
     }
     
 }
