@@ -238,6 +238,9 @@ class SoapController extends DefaultController {
                         'verify_peer'=>false, 
                         'verify_peer_name'=>false
                     ],
+                    'http'=> [
+                        'user_agent' => 'PHPSoapClient'
+                    ],
                     'UserName' => $this->user, 
                     'Password' => $this->password,
                     'Kd_Tps' => $this->kode
