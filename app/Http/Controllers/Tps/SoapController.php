@@ -101,7 +101,13 @@ class SoapController extends DefaultController {
                 ->options([
                     'UserName' => $this->user, 
                     'Password' => $this->password,
-                    'Kd_asp' => $this->kode
+                    'Kd_asp' => $this->kode,
+                    'ssl' => [
+                        // set some SSL/TLS specific options
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true
+                    ]
                 ]);                                                    
         });
         
