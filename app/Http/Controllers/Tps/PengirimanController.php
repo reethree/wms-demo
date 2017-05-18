@@ -674,17 +674,17 @@ class PengirimanController extends Controller
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-                ->options([
-                    'ssl' => [
-                        // set some SSL/TLS specific options
-                        'verify_peer' => false,
-                        'verify_peer_name' => false,
-                        'allow_self_signed' => true
-                    ]
-//                    'Username' => $this->user, 
-//                    'Password' => $this->password,
-//                    'fStream' => $xml->asXML()
-                ])
+//                ->options([
+//                    'ssl' => [
+//                        // set some SSL/TLS specific options
+//                        'verify_peer' => false,
+//                        'verify_peer_name' => false,
+//                        'allow_self_signed' => true
+//                    ]
+////                    'Username' => $this->user, 
+////                    'Password' => $this->password,
+////                    'fStream' => $xml->asXML()
+//                ])
                 ;                                                    
         });
         
