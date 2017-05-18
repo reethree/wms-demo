@@ -230,14 +230,14 @@ class SoapController extends DefaultController {
                 ->name('GetSPJM')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
-//                ->certificate(url('cert/cacert.pem'))                                                 
+                ->certificate(url('cert/cacert.pem'))                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
                 ->options([
-//                    'ssl' => [
-//                        'ciphers'=>'RC4-SHA', 
-//                        'verify_peer'=>false, 
-//                        'verify_peer_name'=>false
-//                    ],
+                    'ssl' => [
+                        'ciphers'=>'RC4-SHA', 
+                        'verify_peer'=>false, 
+                        'verify_peer_name'=>false
+                    ],
                     'UserName' => $this->user, 
                     'Password' => $this->password,
                     'Kd_Tps' => $this->kode
