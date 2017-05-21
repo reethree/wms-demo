@@ -16,5 +16,15 @@ Route::group(['prefix' => 'easygo'], function(){
         'as' => 'easygo-inputdo-callback',
         'uses' => 'EasygoController@vts_inputdo_callback'
     ]);
+    
+    Route::get('/dispatche', [
+        'as' => 'lcl-dispatche-index',
+        'uses' => 'LclController@dispatcheIndex'
+    ]);
+    
+    Route::get('/dispatche/get-detail/{ob_id}', [
+        'as' => 'easygo-get-detail',
+        'uses' => 'EasygoController@getDetailDispatche'
+    ]);
 
 });

@@ -312,6 +312,13 @@ class JqGridRender implements RenderInterface {
 	*/
 	protected $token;
 
+	/**
+	 * Check on exist visible export button(s)
+	 *
+	 * @var boolean
+	 *
+	 */
+	protected $exportButtonsVisible;
 
 	/**
 	 * Create a new JqGridRender instance.
@@ -768,6 +775,30 @@ class JqGridRender implements RenderInterface {
 	}
 
 	/**
+	* Set a export button option
+	*
+	* @param  string $option
+	* 	A valid export button option: xlsButtonVisible, xlsButtonText, xlsIcon, csvButtonVisible, csvButtonText, csvIcon, srcDateFormat, newDateFormat
+	* @param  mixed $option
+	* 	A value of an option can be a string or boolean.
+	* @return $this
+	*  Returns an object, allowing the calls to be chained together in a single statement
+	*/
+	public function setExportButtonsOption($option, $value)
+	{
+		if(isset($this->exportButtonsOptions[$option]))
+		{
+			$this->exportButtonsOptions[$option] = $value;
+		}
+		else
+		{
+			$this->exportButtonsOptions = array_add($this->exportButtonsOptions, $option, $value);
+		}
+
+		return $this;
+	}
+
+	/**
 	* Set a Laravel Excel file property.
 	*
 	* @param  string $option
@@ -964,6 +995,9 @@ class JqGridRender implements RenderInterface {
 								<input id="'. $this->gridId .'Filters" name="filters" type="hidden">
 								<input id="'. $this->gridId .'PivotFlag" name="pivot" type="hidden" value="' . $this->jqPivot . '">
 								<input id="'. $this->gridId .'Rows" name="pivotRows" type="hidden">
+								<input id="'. $this->gridId .'SrcDateFormat" name="srcDateFormat" type="hidden">
+								<input id="'. $this->gridId .'NewDateFormat" name="newDateFormat" type="hidden">
+								<input id="'. $this->gridId .'FotterRow" name="fotterRow" type="hidden">
 								<input name="fileProperties" type="hidden" value=\'' . json_encode($this->fileProperties) . '\'>
 								<input name="sheetProperties" type="hidden" value=\'' . json_encode($this->sheetProperties) . '\'>
 								<input name="groupingView" type="hidden" value=\'' . json_encode($groupingView) . '\'>
@@ -992,7 +1026,7 @@ class JqGridRender implements RenderInterface {
 			$script = 'jQuery("#' . $this->gridId . '").jqGrid(' .  json_encode($this->options) . ')';
 			$script .= '.navGrid("#'. $this->options['pager'] .'", '. json_encode($this->navigatorOptions, JSON_FORCE_OBJECT) .', '. json_encode($this->navigatorEditOptions, JSON_FORCE_OBJECT) .', '. json_encode($this->navigatorAddOptions, JSON_FORCE_OBJECT) .', '. json_encode($this->navigatorDeleteOptions, JSON_FORCE_OBJECT) .', '. json_encode($this->navigatorSearchOptions, JSON_FORCE_OBJECT) .', '. json_encode($this->navigatorViewOptions, JSON_FORCE_OBJECT) .' );';
 		}
-
+/*
 		$script .= 'jQuery("#' . $this->gridId . '").jqGrid("navButtonAdd", "#' .  $this->options['pager'] . '",{"id": "' . $this->gridId . 'XlsButton", "caption":"' . $this->exportButtonsOptions['xlsButtonText'] . '", "buttonicon":"' . $this->exportButtonsOptions['xlsIcon'] . '", "onClickButton":function(){ ' . $this->getJavascriptExportFunctionCode() . ' jQuery("#' . $this->gridId . 'ExportFormat").val("xls"); jQuery("#' . $this->gridId . 'ExportForm").submit();} });';
 		$script .= 'jQuery("#' . $this->gridId . '").jqGrid("navButtonAdd", "#' .  $this->options['pager'] . '",{"id": "' . $this->gridId . 'CsvButton", "caption":"' . $this->exportButtonsOptions['csvButtonText'] . '", "buttonicon":"' . $this->exportButtonsOptions['csvIcon'] . '", "onClickButton":function(){ ' . $this->getJavascriptExportFunctionCode() . ' jQuery("#' . $this->gridId . 'ExportFormat").val("csv"); jQuery("#' . $this->gridId . 'ExportForm").submit();} });';
 
@@ -1009,6 +1043,20 @@ class JqGridRender implements RenderInterface {
 		if(!$this->exportButtonsOptions['csvButtonVisible'])
 		{
 			$script .= 'jQuery("#' . $this->gridId . 'CsvButton").hide();';
+		}
+*/
+		foreach ($this->exportButtonsOptions as $key => $value)
+		{
+			if( preg_match('/ButtonVisible$/', $key) && gettype($value) == 'boolean' )
+			{
+				$script .= "\n\n\t// Add button and hendler for ". strtoupper(substr($key, 0, -1*strlen('ButtonVisible'))) . "-export : \n";
+				$script .= $this->getJavascriptExportFunctionCode( substr($key, 0, -1*strlen('ButtonVisible') ) );
+			}
+		}
+
+		if($this->exportButtonsVisible)
+		{
+			$script .= 'jQuery("#' . $this->gridId . '").jqGrid("navSeparatorAdd", "#' .  $this->options['pager'] . '");';
 		}
 
 		if($this->filterToolbarButtonsOptions['filterToolbar'])
@@ -1030,7 +1078,7 @@ class JqGridRender implements RenderInterface {
 
 		if(!empty($this->groupHeaderOptions))
 		{
-			$script .= 'jQuery("#' . $this->gridId . '").jqGrid("setGroupHeaders", ' .  json_encode($this->groupHeaderOptions) . ');';
+			$script .= 'setTimeout(function () {jQuery("#' . $this->gridId . '").jqGrid("setGroupHeaders", ' .  json_encode($this->groupHeaderOptions) . ');}, 500);';
 		}
 
 		if($this->frozenColumn)
@@ -1038,7 +1086,7 @@ class JqGridRender implements RenderInterface {
 			$script .= 'jQuery("#' . $this->gridId . '").jqGrid("setFrozenColumns");';
 		}
 
-		$script = str_replace(array('"###','###"','\"'), array('', '', '"'), $script);
+		$script = str_replace(array('"###','###"','\"', '"JS>>>', '<<<JS"'), array('', '', '"', '' ,''), $script);
 
 		$this->reset();
 
@@ -1133,14 +1181,19 @@ class JqGridRender implements RenderInterface {
 	}
 
 	/**
-	* Get exporter's javascript code.
-	*
-	* @return void
-	*/
-	protected function getJavascriptExportFunctionCode()
+	 * Get exporter's javascript code.
+	 *
+	 * @param  string $exportFormat
+	 * @return void
+	 */
+	protected function getJavascriptExportFunctionCode($exportFormat)
 	{
+		$code = 'jQuery("#' . $this->gridId . '").jqGrid("navButtonAdd", "#' .  $this->options['pager'];
+		$code .= '",{"id": "' . $this->gridId . ucfirst($exportFormat) . 'Button", "caption":"' . $this->exportButtonsOptions[$exportFormat . 'ButtonText'];
+		$code .= '", "buttonicon":"' . $this->exportButtonsOptions[$exportFormat . 'Icon'];
+		$code .= '", "onClickButton":function(){ ';
 
-		$code = '
+		$code .= '
 			var headers = [], rows = [], row, cellCounter, postData, groupingView, sidx, sord;
 			jQuery("#' . $this->gridId . 'Model").val(JSON.stringify(jQuery("#' . $this->gridId . '").getGridParam("colModel")));
 			postData = jQuery("#' . $this->gridId . '").getGridParam("postData");
@@ -1148,6 +1201,9 @@ class JqGridRender implements RenderInterface {
 			{
 				jQuery("#' . $this->gridId . 'Filters").val(postData["filters"]);
 			}
+		';
+
+		$code .= '
 			groupingView = jQuery("#' . $this->gridId . '").getGridParam("groupingView");
 			sidx = jQuery("#' . $this->gridId . '").getGridParam("sortname");
 			if(sidx == null) sidx = "";
@@ -1164,31 +1220,95 @@ class JqGridRender implements RenderInterface {
 			jQuery("#' . $this->gridId . 'Sord").val(sord);
 		';
 
-		$jqPivot = '
-			jQuery.each($("#gbox_' . $this->gridId . '").find(".ui-jqgrid-sortable"), function( index, header )
-			{
-				headers.push(jQuery(header).text());
-			});
-			jQuery.each($("#gview_' . $this->gridId . '").find(".ui-widget-content"), function( index, gridRows )
-			{
+		if($this->jqPivot)
+		{
+			$code .= '
+				jQuery.each($("#gbox_' . $this->gridId . '").find(".ui-jqgrid-sortable"), function( index, header )
+				{
+					headers.push(jQuery(header).text());
+				});
+				jQuery.each($("#gview_' . $this->gridId . '").find(".ui-widget-content"), function( index, gridRows )
+				{
+					row = {}, cellCounter = 0;
+					jQuery.each($(gridRows).find("td"), function( index, cell)
+					{
+						row[headers[cellCounter++]] = $(cell).text();
+					});
+					for (i = cellCounter; i < headers.length; i++) {
+							row[headers[i]] = "";
+					}
+					rows.push(row);
+				});
+				jQuery("#' . $this->gridId . 'Rows").val(JSON.stringify(rows));
+				';
+		}
+		else
+		{
+			//Include footer row if exists
+			$code .= '
+				jQuery.each($("#gbox_' . $this->gridId . '").find(".ui-jqgrid-sortable").filter(":visible"), function( index, header )
+				{
+					headers.push(jQuery(header).text());
+				});
 				row = {}, cellCounter = 0;
-				jQuery.each($(gridRows).find("td"), function( index, cell)
+				jQuery.each($("#gview_' . $this->gridId . '").find(".footrow").find("td").filter(":visible"), function( index, cell)
 				{
 					row[headers[cellCounter++]] = $(cell).text();
 				});
-				for (i = cellCounter; i < headers.length; i++) {
-						row[headers[i]] = "";
-				}
-				rows.push(row);
-			});
-			jQuery("#' . $this->gridId . 'Rows").val(JSON.stringify(rows));
-		';
+				jQuery("#' . $this->gridId . 'FotterRow").val(JSON.stringify(row));
+			';
+		}
 
-		if($this->jqPivot)
+
+		if(isset($this->exportButtonsOptions['srcDateFormat']))
 		{
-			$code .= $jqPivot;
+			$code .= ' jQuery("#' . $this->gridId . 'SrcDateFormat").val("' . $this->exportButtonsOptions['srcDateFormat'] . '");';
+		}
+
+		if(isset($this->exportButtonsOptions['newDateFormat']))
+		{
+			$code .= ' jQuery("#' . $this->gridId . 'NewDateFormat").val("' . $this->exportButtonsOptions['newDateFormat'] . '");';
+		}
+
+		$code .= ' jQuery("#' . $this->gridId . 'ExportFormat").val("' . $exportFormat . '");';
+		$code .= 'jQuery("#' . $this->gridId . 'ExportForm").submit();} });';
+
+		if(!$this->exportButtonsOptions[$exportFormat . 'ButtonVisible'])
+		{
+			$code .= 'jQuery("#' . $this->gridId . ucfirst($exportFormat) . 'Button").hide();';
+		}else
+		{
+			$this->exportButtonsVisible = TRUE;
 		}
 
 		return $code;
+	}
+
+
+	public function addExport(array $properties = array())
+	{
+		$export_type = '';
+		foreach ($properties as $key => $value)
+		{
+			if( preg_match('/ButtonVisible$/', $key) && gettype($value) == 'boolean' )
+			{
+				$export_type = substr($key, 0, -1*strlen('ButtonVisible')  );
+			}
+		}
+		if ( $export_type == '' )
+		{
+			throw new \Exception('addExport-method does not set the required parameter ...ButtonVisible or can not determine the type of the method by prefix of this parameter');
+		}
+
+		$notFoundKeys = array_diff( [$export_type.'ButtonVisible', $export_type.'ButtonText', $export_type.'Icon'], array_keys($properties));
+		if ( count($notFoundKeys) > 0 )
+		{
+			throw new \Exception('addExport-method does not set the required parameters: '.implode(', ', $notFoundKeys));
+		}
+
+		$this->exportButtonsOptions = array_merge($this->exportButtonsOptions, $properties);
+
+		return $this;
+
 	}
 }

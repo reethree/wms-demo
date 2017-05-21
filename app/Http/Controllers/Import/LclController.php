@@ -230,7 +230,7 @@ class LclController extends Controller
         
         $data['eseals'] = DBEseal::select('eseal_id as id','esealcode as code')->get();
         
-        return view('import.lcl.index-dispatche')->with($data);
+        return view('import.lcl.index-dispatche-ob')->with($data);
     }
     
     /**
@@ -773,12 +773,27 @@ class LclController extends Controller
     public function dispatcheUpdate(Request $request, $id)
     {
         $data = $request->json()->all(); 
-        unset($data['TCONTAINER_PK'], $data['_token'], $data['container_type']);
+//        return $data;
+//        unset($data['TCONTAINER_PK'], $data['_token'], $data['container_type']);
+//        
+//        $update = DBContainer::where('TCONTAINER_PK', $id)
+//            ->update($data);
         
-        $update = DBContainer::where('TCONTAINER_PK', $id)
-            ->update($data);
+        $insert = new \App\Models\Easygo;
+        $insert->ESEALCODE = $data['ESEALCODE'];
+	$insert->TGL_PLP = $data['TGL_PLP'];
+	$insert->NO_PLP = $data['NO_PLP'];
+        $insert->KD_TPS_ASAL = $data['KD_TPS_ASAL'];
+        $insert->KD_TPS_TUJUAN = 'PRJP';
+        $insert->NOCONTAINER = $data['NO_CONT'];
+        $insert->SIZE = $data['UK_CONT'];
+        $insert->TYPE = $data['TYPE'];
+        $insert->NOPOL = $data['NOPOL'];
+        $insert->OB_ID = $id;
         
-        if($update){
+        if($insert->save()){
+            
+            $updateOB = \App\Models\TpsOb::where('TPSOBXML_PK', $id)->update(['STATUS_DISPATCHE' => 'S']);
             
             return json_encode(array('success' => true, 'message' => 'Container successfully updated.'));
         }

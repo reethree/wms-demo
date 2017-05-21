@@ -9,8 +9,14 @@
 
 namespace Mgallegos\LaravelJqgrid\Encoders;
 
+use Mgallegos\LaravelJqgrid\Exceptions\JsonEncodingMaxDepthException;
+use Mgallegos\LaravelJqgrid\Exceptions\JsonEncodingStateMismatchException;
+use Mgallegos\LaravelJqgrid\Exceptions\JsonEncodingSyntaxErrorException;
+use Mgallegos\LaravelJqgrid\Exceptions\JsonEncodingUnexpectedControlCharException;
+use Mgallegos\LaravelJqgrid\Exceptions\JsonEncodingUnknownException;
 use Mgallegos\LaravelJqgrid\Repositories\RepositoryInterface;
 use Maatwebsite\Excel\Excel;
+use Carbon\Carbon;
 use Exception;
 
 class JqGridJsonEncoder implements RequestedDataInterface {
@@ -170,7 +176,11 @@ class JqGridJsonEncoder implements RequestedDataInterface {
 						break;
 					case 'cn': //contains
 						$filter['op'] = 'like';
-						$filter['data'] = '%' . $filter['data'] . '%';
+						$filter['data'] = '%' . str_replace(' ', '%', $filter['data']) . '%';
+						break;
+					case 'cnpg': //contains PostgreSQL
+						$filter['op'] = 'ilike';
+						$filter['data'] = '%' . str_replace(' ', '%', $filter['data']) . '%';
 						break;
 					case 'nc': //does not contains
 						$filter['op'] = 'not like';
@@ -184,6 +194,9 @@ class JqGridJsonEncoder implements RequestedDataInterface {
             $filter['op'] = 'is not null';
             $filter['data'] = '';
            	break;
+           				case 'btw': //between
+						$filter['op'] = 'between';
+						break;
 				}
 			}
 		}
@@ -236,6 +249,8 @@ class JqGridJsonEncoder implements RequestedDataInterface {
 		{
 			$rows = $Repository->getRows($limit, $start, $sidx, $sord, $filters['rules'], $nodeId, $nodeLevel, $exporting);
 
+			//$rows = self::utf8ize($rows);
+
 			if($count < count($rows))
 			{
 				$count = count($rows);
@@ -253,6 +268,18 @@ class JqGridJsonEncoder implements RequestedDataInterface {
 
 		if($exporting)
 		{
+			$method_name = 'export_to_'.$postedData['exportFormat'];
+
+			if(method_exists($Repository, $method_name) )
+			{
+				return $Repository->$method_name(
+					array_merge(
+						['rows'=> $rows],
+						['postedData'=> $postedData]
+		      )
+			 	);
+			}
+
 			$this->Excel->create($postedData['name'], function($Excel) use ($rows, $postedData)
 			{
 				foreach (json_decode($postedData['fileProperties'], true) as $key => $value)
@@ -268,7 +295,7 @@ class JqGridJsonEncoder implements RequestedDataInterface {
 
 					$groupHeaders = json_decode($postedData['groupHeaders'], true);
 
-					$columnsPositions = $summaryTypes = $modelLabels = $modelSelectFormattersValues = $modelNumberFormatters = $numericColumns = array();
+					$columnsPositions = $summaryTypes = $modelLabels = $modelSelectFormattersValues = $modelNumberFormatters = $modelDateFormatters = $numericColumns = array();
 
 					$groupFieldName = '';
 
@@ -366,6 +393,32 @@ class JqGridJsonEncoder implements RequestedDataInterface {
 									array_push($numericColumns, isset($model['label'])?$model['label']:$model['name']);
 
 									break;
+								case 'date':
+									if((isset($model['formatoptions']['srcformat']) || $postedData['srcDateFormat']) && (isset($model['formatoptions']['newformat']) || $postedData['newDateFormat']))
+									{
+										if(isset($model['formatoptions']['srcformat']))
+										{
+											$srcformat = $model['formatoptions']['srcformat'];
+										}
+										else
+										{
+											$srcformat = $postedData['srcDateFormat'];
+										}
+
+										if(isset($model['formatoptions']['newformat']))
+										{
+											$newformat = $model['formatoptions']['newformat'];
+										}
+										else
+										{
+											$newformat = $postedData['newDateFormat'];
+										}
+
+										// $modelDateFormatters[$model['name']] = array('srcformat' => $srcformat, 'newformat' => $newformat);
+										$modelDateFormatters[isset($model['label'])?$model['label']:$model['name']] = array('srcformat' => $srcformat, 'newformat' => $newformat);
+									}
+
+									break;
 							}
 						}
 
@@ -385,10 +438,7 @@ class JqGridJsonEncoder implements RequestedDataInterface {
 
 							foreach ($modelLabels as $columnName => $value)
 							{
-                                                                if($columnName != 'action'):
-                                                                    $currentRow[$value] = $row[$columnName];
-                                                                endif;
-								
+								$currentRow[$value] = isset($row[$columnName])?$row[$columnName]:'';
 							}
 
 							foreach ($modelSelectFormattersValues as $label => $modelSelectFormatterValue)
@@ -396,6 +446,14 @@ class JqGridJsonEncoder implements RequestedDataInterface {
 								if(isset($currentRow[$label]))
 								{
 									$currentRow[$label] = isset($modelSelectFormatterValue[$currentRow[$label]])?$modelSelectFormatterValue[$currentRow[$label]]:$currentRow[$label];
+								}
+							}
+
+							foreach ($modelDateFormatters as $label => $modelDateFormatter)
+							{
+								if(isset($currentRow[$label]) && !empty($currentRow[$label]))
+								{
+									$currentRow[$label] = Carbon::createFromFormat($modelDateFormatter['srcformat'], $currentRow[$label])->format($modelDateFormatter['newformat']);
 								}
 							}
 
@@ -574,14 +632,22 @@ class JqGridJsonEncoder implements RequestedDataInterface {
 
 					$Sheet->setColumnFormat($columnFormats);
 
+					// var_dump($rows);die();
+					$footerRow = json_decode($postedData['fotterRow'], true);
+
+					if(!empty($footerRow))
+					{
+						array_push($rows, $footerRow);
+					}
+
+					$headers = $firstHeader = array();
+
 					if(empty($groupHeaders))
 					{
 						$Sheet->fromArray($rows, null, 'A1', true, true);
 					}
 					else
 					{
-						$headers = $firstHeader = array();
-
 						for ($i = 0; $i < count($columnsPositions); $i++)
 						{
 							$firstHeader[$i] = '';
@@ -618,12 +684,29 @@ class JqGridJsonEncoder implements RequestedDataInterface {
 						});
 					}
 
+					if(!empty($footerRow))
+					{
+						if(!empty($headers))
+						{
+							$footerRowNumber = count($rows) + count($headers);
+						}
+						else
+						{
+							$footerRowNumber = count($rows) + 1;
+						}
+
+						$Sheet->row($footerRowNumber, function($Row)
+						{
+							$Row->setFontWeight('bold');
+						});
+					}
+
 				});
 			})->export($postedData['exportFormat']);
 		}
 		else
 		{
-				echo json_encode(array('page' => $page, 'total' => $totalPages, 'records' => $count, 'rows' => $rows));
+				echo $this->safe_json_encode(array('page' => $page, 'total' => $totalPages, 'records' => $count, 'rows' => $rows));
 		}
 	}
 
@@ -643,4 +726,59 @@ class JqGridJsonEncoder implements RequestedDataInterface {
 		$letter .= 	(floor($num/26) > 0) ? str_repeat($letter, floor($num/26)) : '';
 		return 		($uppercase ? strtoupper($letter) : $letter);
 	}
+
+    /**
+     * Safe JSON_ENCODE function that tries to deal with UTF8 chars or throws a valid exception.
+     *
+     * Lifted from http://stackoverflow.com/questions/10199017/how-to-solve-json-error-utf8-error-in-php-json-decode
+     * Based on: http://php.net/manual/en/function.json-last-error.php#115980
+     * @param $value
+     * @return string
+     */
+    protected function safe_json_encode($value){
+        if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
+            $encoded = json_encode($value, JSON_PRETTY_PRINT);
+        } else {
+            $encoded = json_encode($value);
+        }
+        switch (json_last_error()) {
+            case JSON_ERROR_NONE:
+                return $encoded;
+            case JSON_ERROR_DEPTH:
+                throw new JsonEncodingMaxDepthException('Maximum stack depth exceeded');
+            case JSON_ERROR_STATE_MISMATCH:
+                throw new JsonEncodingStateMismatchException('Underflow or the modes mismatch');
+            case JSON_ERROR_CTRL_CHAR:
+                throw new JsonEncodingUnexpectedControlCharException('Unexpected control character found');
+            case JSON_ERROR_SYNTAX:
+                throw new JsonEncodingSyntaxErrorException('Syntax error, malformed JSON');
+            case JSON_ERROR_UTF8:
+                $clean = self::utf8ize($value);
+                return self::safe_json_encode($clean);
+            default:
+                throw new JsonEncodingUnknownException('Unknown error');
+
+        }
+    }
+
+    /**
+     * Clean the array passed in from UTF8 chars.
+     *
+     * Lifted from http://stackoverflow.com/questions/10199017/how-to-solve-json-error-utf8-error-in-php-json-decode
+     * Based on: http://php.net/manual/en/function.json-last-error.php#115980
+     *
+     * @param $mixed
+     * @return array|string
+     */
+    protected function utf8ize($mixed) {
+        if (is_array($mixed)) {
+            foreach ($mixed as $key => $value) {
+                $mixed[$key] = self::utf8ize($value);
+            }
+        } else if (is_string ($mixed)) {
+            return utf8_encode($mixed);
+        }
+        return $mixed;
+    }
+
 }
