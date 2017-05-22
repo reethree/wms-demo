@@ -343,8 +343,10 @@
                     ->addColumn(array('index'=>'REFNUM_CODECO','width'=>160,'hidden'=>true))	
                     ->addColumn(array('index'=>'REFDATE_CODECO','width'=>160,'hidden'=>true))
                     ->addColumn(array('index'=>'GATEOUT_DEPO','width'=>160,'hidden'=>true))
-                    ->addColumn(array('index'=>'DO_ID','width'=>160,'hidden'=>true))
+                    ->addColumn(array('index'=>'DO_ID','width'=>160,'hidden'=>false))
                     ->addColumn(array('index'=>'STATUS_DISPATCHE','width'=>160,'hidden'=>true))
+                    ->addColumn(array('index'=>'KODE_DISPATCHE','width'=>160,'hidden'=>false))
+                    ->addColumn(array('index'=>'RESPONSE_DISPATCHE','width'=>160,'hidden'=>false))
                     ->renderGrid()
                 }}
                 
