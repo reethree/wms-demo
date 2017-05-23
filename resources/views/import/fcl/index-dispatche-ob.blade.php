@@ -377,7 +377,7 @@
                     
                     <input name="_token" type="hidden" value="{{ csrf_token() }}">
                     <input id="ob_id" name="ob_id" type="hidden">
-                    <input id="TYPE" name="TYPE" type="hidden" value="L">
+                    <input id="TYPE" name="TYPE" type="hidden" value="F">
 <!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">No. SPK</label>
                         <div class="col-sm-8">
