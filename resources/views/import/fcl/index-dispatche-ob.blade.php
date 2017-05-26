@@ -298,7 +298,7 @@
                     ->addColumn(array('index'=>'DO_ID','width'=>160,'hidden'=>false))
                     ->addColumn(array('index'=>'STATUS_DISPATCHE','width'=>160,'hidden'=>true))
                     ->addColumn(array('index'=>'KODE_DISPATCHE','width'=>160,'hidden'=>false))
-                    ->addColumn(array('index'=>'RESPONSE_DISPATCHE','width'=>160,'hidden'=>true))
+                    ->addColumn(array('index'=>'RESPONSE_DISPATCHE','width'=>160,'hidden'=>false))
                     ->addColumn(array('label'=>'Ref Number','index'=>'REF_NUMBER','width'=>160,'hidden'=>true))			
                     ->addColumn(array('label'=>'No. Surat PLP','index'=>'NO_SURAT_PLP','width'=>250,'hidden'=>true))			
                     ->addColumn(array('label'=>'Tgl. Surat PLP','index'=>'TGL_SURAT_PLP','width'=>160,'align'=>'center','hidden'=>true))			
