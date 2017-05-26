@@ -8,9 +8,26 @@
 </style>
 <script>
     
+    function gridCompleteEvent()
+    {
+        var ids = jQuery("#fclReleaseGrid").jqGrid('getDataIDs');   
+            
+        for(var i=0;i < ids.length;i++){ 
+            var cl = ids[i];
+            
+            rowdata = $('#fclReleaseGrid').getRowData(cl);
+            if(rowdata.VALIDASI == 'Y') {
+                $("#" + cl).find("td").css("color", "#666");
+            }
+            if(rowdata.flag_bc == 'Y') {
+                $("#" + cl).find("td").css("color", "#FF0000");
+            } 
+        } 
+    }
+    
     function onSelectRowEvent()
     {
-        $('#btn-group-1, #btn-group-4').enableButtonGroup();
+        $('#btn-group-1').enableButtonGroup();
     }
     
     $(document).ready(function()
@@ -27,31 +44,44 @@
             populateFormFields(rowdata, '');
             $('#TCONTAINER_PK').val(rowid);
             $('#NOJOBORDER').val(rowdata.NoJob);
+            $('#NO_BC11').val(rowdata.NO_BC11);
+            $('#TGL_BC11').val(rowdata.TGL_BC11);
+            $('#NO_PLP').val(rowdata.NO_PLP);
+            $('#TGL_PLP').val(rowdata.TGL_PLP);
+            $('#NO_POS_BC11').val(rowdata.NO_POS_BC11);
             $('#NO_SPJM').val(rowdata.NO_SPJM);
             $('#TGL_SPJM').val(rowdata.TGL_SPJM);
+            $('#NAMA_IMP').val(rowdata.NAMA_IMP);
+            $('#NPWP_IMP').val(rowdata.NPWP_IMP);
             $('#NO_SPPB').val(rowdata.NO_SPPB);
             $('#TGL_SPPB').val(rowdata.TGL_SPPB);
             $('#TGLSURATJALAN').val(rowdata.TGLSURATJALAN+' '+rowdata.JAMSURATJALAN);
-            $('#NAMA_IMP').val(rowdata.NAMA_IMP);
-            $('#NPWP_IMP').val(rowdata.NPWP_IMP);
             $('#NOPOL_OUT').val(rowdata.NOPOL_OUT);
             $('#REF_NUMBER_OUT').val(rowdata.REF_NUMBER_OUT);
-            $('#KD_DOK_INOUT').val(rowdata.KD_DOK_INOUT);
+            $('#ID_CONSIGNEE').val(rowdata.ID_CONSIGNEE);
+            $('#KD_DOK_INOUT').val(rowdata.KD_DOK_INOUT).trigger('change');
 
-            if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
+//            if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
                 $('#btn-group-2').enableButtonGroup();
                 $('#release-form').enableFormGroup();
-                $('#btn-group-5').disabledButtonGroup();
-            }else{
+//                $('#btn-group-5').disabledButtonGroup();
+//            }else{
+                $('#btn-group-4').enableButtonGroup();
                 $('#btn-group-5').enableButtonGroup();
-                $('#btn-group-2').disabledButtonGroup();
-                $('#release-form').disabledFormGroup();
-            }
+//                $('#btn-group-2').disabledButtonGroup();
+//                $('#release-form').disabledFormGroup();
+//            }
 
         });
         
-        $('#btn-print').click(function() {
-            
+        $('#btn-print-sj').click(function() {
+            var id = $('#fclReleaseGrid').jqGrid('getGridParam', 'selrow');
+            window.open("{{ route('fcl-delivery-suratjalan-cetak', '') }}/"+id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");
+        });
+        
+        $('#btn-print-wo').click(function() {
+            var id = $('#fclReleaseGrid').jqGrid('getGridParam', 'selrow');
+            window.open("{{ route('fcl-delivery-fiatmuat-cetak', '') }}/"+id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");   
         });
 
         $('#btn-save').click(function() {
@@ -134,7 +164,7 @@
                 },
                 success:function(json)
                 {
-                    console.log(json);
+//                    console.log(json);
 
                     if(json.success) {
                         $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
@@ -207,8 +237,9 @@
                     ->addColumn(array('index'=>'KD_DOK_INOUT', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'Kode Kuitansi','index'=>'NO_KUITANSI', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))
-                    ->addColumn(array('label'=>'Importir','index'=>'NAMA_IMP','width'=>160))
-                    ->addColumn(array('label'=>'NPWP Importir','index'=>'NPWP_IMP','width'=>160))
+                    ->addColumn(array('label'=>'NPWP Consignee','index'=>'ID_CONSIGNEE','width'=>160))
+                    ->addColumn(array('label'=>'Importir','index'=>'NAMA_IMP','width'=>160,'hidden'=>true))
+                    ->addColumn(array('label'=>'NPWP Importir','index'=>'NPWP_IMP','width'=>160,'hidden'=>true))
                     ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>80,'align'=>'center','editable' => true, 'editrules' => array('required' => true,'number'=>true),'edittype'=>'select','editoptions'=>array('value'=>"20:20;40:40")))
                     ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>80,'align'=>'center','editable' => false))
@@ -240,9 +271,10 @@
                         <button class="btn btn-default" id="btn-save"><i class="fa fa-save"></i> Save</button>
                         <button class="btn btn-default" id="btn-cancel"><i class="fa fa-close"></i> Cancel</button>
                     </div>  
-<!--                    <div id="btn-group-4" class="btn-group">
-                        <button class="btn btn-default" id="btn-print"><i class="fa fa-print"></i> Cetak Surat Jalan</button>
-                    </div>-->
+                    <div id="btn-group-4" class="btn-group">
+                        <button class="btn btn-default" id="btn-print-wo"><i class="fa fa-print"></i> Cetak WO</button>
+                        <button class="btn btn-default" id="btn-print-sj"><i class="fa fa-print"></i> Cetak Surat Jalan</button>
+                    </div>
                     <div id="btn-group-5" class="btn-group pull-right">
                         <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
                     </div>
@@ -280,17 +312,17 @@
                             <input type="text" id="NAMACONSOLIDATOR" name="NAMACONSOLIDATOR" class="form-control" readonly>
                         </div>
                     </div>
-                    <div class="form-group">
+<!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">Kode Dokumen</label>
                         <div class="col-sm-8">
                             <input type="text" id="KD_DOK_INOUT" name="KD_DOK_INOUT" class="form-control" readonly>
                         </div>
-                    </div>
+                    </div>-->
                     
 
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
+<!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">No.SPPB</label>
                         <div class="col-sm-3">
                             <input type="text" id="NO_SPPB" name="NO_SPPB" class="form-control" readonly>
@@ -299,7 +331,7 @@
                         <div class="col-sm-3">
                             <input type="text" id="TGL_SPPB" name="TGL_SPPB" class="form-control" readonly>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No.SPJM</label>
                         <div class="col-sm-3">
@@ -311,23 +343,23 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">NAMA Importir</label>
+                        <label class="col-sm-3 control-label">Consignee</label>
                         <div class="col-sm-8">
-                            <input type="text" id="NAMA_IMP" name="NAMA_IMP" class="form-control" readonly>
+                            <input type="text" id="CONSIGNEE" name="CONSIGNEE" class="form-control" readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">NPWP Importir</label>
+                        <label class="col-sm-3 control-label">NPWP Consignee</label>
                         <div class="col-sm-8">
-                            <input type="text" id="NPWP_IMP" name="NPWP_IMP" class="form-control" readonly>
+                            <input type="text" id="ID_CONSIGNEE" name="ID_CONSIGNEE" class="form-control">
                         </div>
                     </div>
-                    <div class="form-group">
+<!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">Tgl. Surat Jalan</label>
                         <div class="col-sm-8">
                             <input type="text" id="TGLSURATJALAN" name="TGLSURATJALAN" class="form-control" readonly>
                         </div>
-                    </div>
+                    </div>-->
 <!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">Jam Surat Jalan</label>
                         <div class="col-sm-8">
@@ -339,6 +371,78 @@
             <hr />
             <div class="row">
                 <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">No. SPPB</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="NO_SPPB" name="NO_SPPB" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Tgl. SPPB</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" id="TGL_SPPB" name="TGL_SPPB" class="form-control pull-right datepicker" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Kode Dokumen</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" id="KD_DOK_INOUT" name="KD_DOK_INOUT" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <option value="">Choose Document</option>
+                                @foreach($kode_doks as $kode)
+                                    <option value="{{ $kode->kode }}">({{$kode->kode}}) {{ $kode->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">No. Kuitansi</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="NO_KUITANSI" name="NO_KUITANSI" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">No. B/L AWB</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="NO_BL_AWB" name="NO_BL_AWB" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Tgl. B/L AWB</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" id="TGL_BL_AWB" name="TGL_BL_AWB" class="form-control pull-right datepicker" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">No. Pabean</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="NO_DAFTAR_PABEAN" name="NO_DAFTAR_PABEAN" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Tgl. Pabean</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" id="TGL_DAFTAR_PABEAN" name="TGL_DAFTAR_PABEAN" class="form-control pull-right datepicker" required>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Tgl. Release</label>
                         <div class="col-sm-8">
@@ -379,7 +483,7 @@
                     </div>
                     
                 </div>
-                <div class="col-md-6"> 
+                <!--<div class="col-md-6">--> 
                                      
 <!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">Petugas</label>
@@ -388,7 +492,7 @@
                         </div>
                     </div>-->
                     
-                </div>
+                <!--</div>-->
             </div>
         </form>  
     </div>

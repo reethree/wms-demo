@@ -157,6 +157,7 @@ class FclController extends Controller
             ]
         ];        
         
+        $data['kode_doks'] = \App\Models\KodeDok::get(); 
         $data['perusahaans'] = DBPerusahaan::select('TPERUSAHAAN_PK as id', 'NAMAPERUSAHAAN as name')->get();
         
         return view('import.fcl.index-release')->with($data);
@@ -690,7 +691,14 @@ class FclController extends Controller
     public function releaseUpdate(Request $request, $id)
     {
         $data = $request->json()->all(); 
-        unset($data['TCONTAINER_PK'], $data['TGLSURATJALAN'], $data['_token']);
+        unset($data['TCONTAINER_PK'], $data['_token']);
+        
+        $data['TGLFIAT'] = $data['TGLRELEASE'];
+        $data['JAMFIAT'] = $data['JAMRELEASE'];
+        $data['TGLSURATJALAN'] = $data['TGLRELEASE'];
+        $data['JAMSURATJALAN'] = $data['JAMRELEASE'];
+        $data['NAMAEMKL'] = '';
+        $data['NOPOL'] = $data['NOPOL_OUT'];
         
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);

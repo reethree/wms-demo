@@ -17,7 +17,7 @@
             
             rowdata = $('#lclReleaseGrid').getRowData(cl);
             if(rowdata.VALIDASI == 'Y') {
-                $("#" + cl).find("td").css("color", "#999999");
+                $("#" + cl).find("td").css("color", "#666");
             }
             if(rowdata.flag_bc == 'Y') {
                 $("#" + cl).find("td").css("color", "#FF0000");
@@ -56,6 +56,7 @@
             $('#LOKASI_TUJUAN').val(rowdata.LOKASI_TUJUAN).trigger("change");
             $('#REF_NUMBER_OUT').val(rowdata.REF_NUMBER_OUT);
             $('#UIDRELEASE').val(rowdata.UIDRELEASE);
+            $('#KD_DOK_INOUT').val(rowdata.KD_DOK_INOUT).trigger('change');
                         
 //            if(!rowdata.tglrelease && !rowdata.jamrelease) {
 //                $('#btn-group-4').disabledButtonGroup();
@@ -168,6 +169,16 @@
             $('#TMANIFEST_PK').val("");
         });
         
+        $('#btn-print-sj').click(function() {
+            var id = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
+            window.open("{{ route('lcl-delivery-suratjalan-cetak', '') }}/"+id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");
+        });
+        
+        $('#btn-print-wo').click(function() {
+            var id = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
+            window.open("{{ route('lcl-delivery-fiatmuat-cetak', '') }}/"+id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");   
+        });
+        
         $('#btn-upload').click(function() {
             
             if(!confirm('Apakah anda yakin?')){return false;}
@@ -193,7 +204,7 @@
                 },
                 success:function(json)
                 {
-                    console.log(json);
+//                    console.log(json);
 
                     if(json.success) {
                       $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
@@ -319,9 +330,10 @@
                         <button class="btn btn-default" id="btn-save"><i class="fa fa-save"></i> Save</button>
                         <button class="btn btn-default" id="btn-cancel"><i class="fa fa-close"></i> Cancel</button>
                     </div>  
-<!--                    <div id="btn-group-4" class="btn-group pull-right">
-                        <button class="btn btn-default" id="btn-invoice"><i class="fa fa-print"></i> Create Invoice</button>
-                    </div>-->
+                    <div id="btn-group-4" class="btn-group">
+                        <button class="btn btn-default" id="btn-print-wo"><i class="fa fa-print"></i> Cetak WO</button>
+                        <button class="btn btn-default" id="btn-print-sj"><i class="fa fa-print"></i> Cetak Surat Jalan</button>
+                    </div>
                     <div id="btn-group-5" class="btn-group pull-right">
                         <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
                     </div>
@@ -359,7 +371,7 @@
                             <input type="text" id="NOTALLY" name="NOTALLY" class="form-control" readonly>
                         </div>
                     </div>
-                    <div class="form-group">
+<!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">Tgl.Surat Jalan</label>
                         <div class="col-sm-8">
                             <input type="text" id="TGLSURATJALAN" name="TGLSURATJALAN" class="form-control" readonly>
@@ -370,7 +382,7 @@
                         <div class="col-sm-8">
                             <input type="text" id="JAMSURATJALAN" name="JAMSURATJALAN" class="form-control" readonly>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
@@ -422,16 +434,39 @@
             <hr />
             <div class="row">
                 <div class="col-md-6">
+                    
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No.SPPB/BC.23</label>
                         <div class="col-sm-8">
-                            <input type="text" id="NO_SPPB" name="NO_SPPB" class="form-control" required readonly>
+                            <input type="text" id="NO_SPPB" name="NO_SPPB" class="form-control" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Tgl.SPPB/BC.23</label>
                         <div class="col-sm-8">
-                            <input type="text" id="TGL_SPPB" name="TGL_SPPB" class="form-control" required readonly>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" id="TGL_SPPB" name="TGL_SPPB" class="form-control pull-right datepicker" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Kode Dokumen</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" id="KD_DOK_INOUT" name="KD_DOK_INOUT" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <option value="">Choose Document</option>
+                                @foreach($kode_doks as $kode)
+                                    <option value="{{ $kode->kode }}">({{$kode->kode}}) {{ $kode->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">No. Kuitansi</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="NO_KUITANSI" name="NO_KUITANSI" class="form-control" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -442,7 +477,7 @@
                     </div>
                 </div>
                 <div class="col-md-6"> 
-                    <div class="form-group">
+<!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">Lokasi Tujuan</label>
                         <div class="col-sm-8">
                             <select class="form-control select2" id="LOKASI_TUJUAN" name="LOKASI_TUJUAN" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
@@ -461,7 +496,7 @@
                                 <option value="tunai">Tunai</option>
                             </select>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Tgl.Release</label>
                         <div class="col-sm-8">
@@ -525,7 +560,7 @@
     $('.select2').select2();
     $('.datepicker').datepicker({
         autoclose: true,
-        todayHighlight: true,
+        todayHighlight: false,
         format: 'yyyy-mm-dd' 
     });
     $('.timepicker').timepicker({ 

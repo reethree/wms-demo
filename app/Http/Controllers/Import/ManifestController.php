@@ -302,7 +302,20 @@ class ManifestController extends Controller
             ->update(array('VALIDASI'=>'Y'));
         
         if($update){
-            return json_encode(array('success' => true, 'message' => 'Manifest successfully saved!'));
+            return json_encode(array('success' => true, 'message' => 'Manifest successfully approved!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+    
+    public function approveAll($container_id)
+    {
+        
+        $update = DBManifest::where('TCONTAINER_FK', $container_id)
+            ->update(array('VALIDASI'=>'Y'));
+        
+        if($update){
+            return json_encode(array('success' => true, 'message' => 'All Manifest successfully approved!'));
         }
         
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));

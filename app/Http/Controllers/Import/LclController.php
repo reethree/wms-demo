@@ -205,6 +205,7 @@ class LclController extends Controller
             ]
         ];        
         
+        $data['kode_doks'] = \App\Models\KodeDok::get(); 
         $data['perusahaans'] = DBPerusahaan::select('TPERUSAHAAN_PK as id', 'NAMAPERUSAHAAN as name')->get();
         
         return view('import.lcl.index-release')->with($data);
@@ -759,6 +760,14 @@ class LclController extends Controller
     {
         $data = $request->json()->all(); 
         unset($data['TMANIFEST_PK'], $data['_token']);
+        
+        $data['TGLSURATJALAN'] = $data['tglrelease'];
+        $data['JAMSURATJALAN'] = $data['jamrelease'];
+        $data['tglfiat'] = $data['tglrelease'];
+        $data['jamfiat'] = $data['jamrelease'];
+        $data['NAMAEMKL'] = $data['UIDRELEASE'];
+        $data['UIDSURATJALAN'] = $data['UIDRELEASE'];
+        $data['NOPOL'] = $data['NOPOL_RELEASE'];
         
         $update = DBManifest::where('TMANIFEST_PK', $id)
             ->update($data);

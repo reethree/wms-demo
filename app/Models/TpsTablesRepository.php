@@ -44,16 +44,30 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                     $start_date = date('Ymd',strtotime($request['startdate']));
                     $end_date = date('Ymd',strtotime($request['enddate']));      
                 }
-                $Model = \DB::table('tpsobxml')
+                
+                if(isset($request['group'])){
+                    $Model = \DB::table('tpsobxml')
+                        ->where($request['by'], '>=', $start_date)
+                        ->where($request['by'], '<=', $end_date)
+                        ->where('JNS_CONT', $request['jenis'])
+                        ->groupBy('NO_CONT');
+                }else{
+                    $Model = \DB::table('tpsobxml')
                         ->where($request['by'], '>=', $start_date)
                         ->where($request['by'], '<=', $end_date)
                         ->where('JNS_CONT', $request['jenis']);
-                
+                }
+
             }else{
-                
-                $Model = \DB::table('tpsobxml')
+                if(isset($request['group'])){
+                    $Model = \DB::table('tpsobxml')
+                        ->where('JNS_CONT', $request['jenis'])
+                        ->groupBy('NO_CONT');
+                }else{
+                    $Model = \DB::table('tpsobxml')
                         ->where('JNS_CONT', $request['jenis']);
-                
+                }
+ 
             }
         }elseif($Model->getMorphClass() == 'App\Models\TpsSpjm'){   
             if(isset($request['startdate']) && isset($request['enddate'])){

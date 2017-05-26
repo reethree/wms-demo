@@ -103,7 +103,7 @@ class EasygoController extends Controller
         $dispatche->url_reply = $this->url_reply;
         
         if($dispatche->save()){
-            $updateOB = \App\Models\TpsOb::where('TPSOBXML_PK', $request->ob_id)->update(['STATUS_DISPATCHE' => 'Y']);
+            $updateOB = \App\Models\TpsOb::where('TPSOBXML_PK', $request->ob_id)->update(['STATUS_DISPATCHE' => 'Y','DO_ID' => $results->DO_ID,'RESPONSE_DISPATCHE' => $results->ResponseStatus,'KODE_DISPATCHE' => $results->ResponseCode]);
             
             return json_encode(array('success' => true, 'message' => 'Dispatche successfully updated!'));
         }

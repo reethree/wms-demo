@@ -64,8 +64,8 @@
                         <a class="submenu" href="#">Delivery <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('lcl-delivery-behandle-index') }}">Behandle</a></li>
-                            <li><a href="{{ route('lcl-delivery-fiatmuat-index') }}">Fiat Muat</a></li>
-                            <li><a href="{{ route('lcl-delivery-suratjalan-index') }}">Surat Jalan</a></li>
+<!--                            <li><a href="{{ route('lcl-delivery-fiatmuat-index') }}">Fiat Muat</a></li>
+                            <li><a href="{{ route('lcl-delivery-suratjalan-index') }}">Surat Jalan</a></li>-->
                             <li><a href="{{ route('lcl-delivery-release-index') }}">Release / Gate Out</a></li>
                         </ul>
                       </li>
@@ -115,8 +115,8 @@
                         <a class="submenu" href="#">Delivery <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('fcl-delivery-behandle-index') }}">Behandle</a></li>
-                            <li><a href="{{ route('fcl-delivery-fiatmuat-index') }}">Fiat Muat</a></li>
-                            <li><a href="{{ route('fcl-delivery-suratjalan-index') }}">Surat Jalan</a></li>
+<!--                            <li><a href="{{ route('fcl-delivery-fiatmuat-index') }}">Fiat Muat</a></li>
+                            <li><a href="{{ route('fcl-delivery-suratjalan-index') }}">Surat Jalan</a></li>-->
                             <li><a href="{{ route('fcl-delivery-release-index') }}">Release / Gate Out</a></li>
                         </ul>
                       </li>

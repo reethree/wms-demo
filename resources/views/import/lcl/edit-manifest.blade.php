@@ -184,7 +184,7 @@
         $('#btn-group-4').enableButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         $('#btn-group-1').enableButtonGroup();
-//        $('#btn-group-5').enableButtonGroup();
+        $('#btn-group-6').enableButtonGroup();
 
       //Binds onClick event to the "Refresh" button.
       $('#btn-refresh').click(function()
@@ -389,6 +389,35 @@
         });
         
     });
+    
+    $("#btn-approve-all").on("click", function() {
+        if(!confirm('Apakah anda yakin?')){return false;}
+        
+        $.ajax({
+            type: 'GET',
+            dataType : 'json',
+            url: $('#manifest-form').attr('action') + '/approve-all/'+{{$container->TCONTAINER_PK}},
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+
+            },
+            success:function(json)
+            {
+                if(json.success) {
+                    $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                } else {
+                    $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                }
+
+                //Triggers the "Refresh" button funcionality.
+                $('#btn-refresh').click();
+            }
+        });
+    });
 
 });
     
@@ -415,7 +444,7 @@
                         ->setGridOption('shrinkToFit', true)
                         ->setGridOption('sortname','TMANIFEST_PK')
                         ->setGridOption('rownumbers', true)
-                        ->setGridOption('height', '150')
+                        ->setGridOption('height', '295')
                         ->setGridOption('rowList',array(10,20,50))
                         ->setGridOption('useColSpanStyle', true)
                         ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
@@ -475,6 +504,9 @@
                         </div>
                         <div id="btn-group-5" class="btn-group pull-right">
                             <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
+                        </div>
+                        <div id="btn-group-6" class="btn-group pull-right">
+                            <button class="btn btn-default" id="btn-approve-all"><i class="fa fa-check"></i> Approve All</button>
                         </div>
                     </div>
                 </div>

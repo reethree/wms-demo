@@ -87,9 +87,10 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereNotNull('TGL_SPPB');
                     break;
                     case 'release':
-                        $Model = \DB::table('tcontainercy')
-                            ->whereNotNull('TGLSURATJALAN')
-                            ->whereNotNull('JAMSURATJALAN');
+//                        $Model = \DB::table('tcontainercy')
+//                            ->whereNotNull('TGLSURATJALAN')
+//                            ->whereNotNull('JAMSURATJALAN')
+                            ;
                     break;
                     case 'gatein':
                         $Model = \DB::table('tcontainercy')
@@ -160,8 +161,11 @@ class TablesRepository extends EloquentRepositoryAbstract {
                     break;
                     case 'release':
                         $Model = \DB::table('tmanifest')
-                            ->whereNotNull('TGLSURATJALAN')
-                            ->whereNotNull('JAMSURATJALAN');
+                            ->select('tmanifest.*','tperusahaan.NPWP as NPWP_CONSIGNEE')
+                            ->join('tperusahaan', 'tperusahaan.TPERUSAHAAN_PK', '=', 'tmanifest.TCONSIGNEE_FK');
+//                        $Model = \DB::table('tmanifest')
+//                            ->whereNotNull('TGLSURATJALAN')
+//                            ->whereNotNull('JAMSURATJALAN');
                     break;
                 }
                 
