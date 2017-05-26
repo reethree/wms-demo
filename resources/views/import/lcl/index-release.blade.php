@@ -426,7 +426,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">NPWP Consignee</label>
                         <div class="col-sm-8">
-                            <input type="text" id="NPWP_CONSIGNEE" name="NPWP_CONSIGNEE" class="form-control" readonly>
+                            <input type="text" id="NPWP_CONSIGNEE" name="NPWP_CONSIGNEE" class="form-control">
                         </div>
                     </div>
                 </div>
