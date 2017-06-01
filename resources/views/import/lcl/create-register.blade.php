@@ -81,7 +81,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Vessel</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-6">
                             <!--<input type="text" name="VESSEL" class="form-control"  value="{{ old('VESSEL') }}">-->
                             <select class="form-control select2" id="vessel" name="VESSEL" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Vessel</option>
@@ -90,7 +90,9 @@
                                 @endforeach
                             </select>
                         </div>
-                        
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-info" id="add-vessel-btn">Add Vessel</button>
+                        </div>
                     </div>                    
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Voy</label>
@@ -271,6 +273,59 @@
     </form>
 </div>
 
+<div id="vessel-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Add New Vessel</h4>
+            </div>
+            <form class="form-horizontal" id="create-vessel-form" action="{{ route('vessel-store') }}" method="POST">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Vessel Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="vesselname" class="form-control" required /> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Vessel Code</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="vesselcode" class="form-control" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Call Sign</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="callsign" class="form-control" required /> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Country</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control select2" id="nationality" name="nationality" style="width: 100%;" tabindex="-1" aria-hidden="true" >
+                                        <option value="">Choose Country</option>
+                                        @foreach($countries as $country)
+                                            <option value="{{ $country->name }}">{{ $country->name }}</option>
+                                        @endforeach
+                                    </select> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @endsection
 
 @section('custom_css')
@@ -364,7 +419,50 @@
     $("#PEL_BONGKAR").append('<option value="IDTPP" selected="selected">IDTPP</option>');
     $("#PEL_BONGKAR").trigger('change');
 
+    $("#add-vessel-btn").on("click", function(e){
+        e.preventDefault();
+        $("#vessel-modal").modal('show');
+        return false;
+    });
     
+    $("#create-vessel-form").on("submit", function(){
+        console.log(JSON.stringify($(this).formToObject('')));
+        var url = $(this).attr('action');
+
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify($(this).formToObject('')),
+            dataType : 'json',
+            url: url,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+
+            },
+            success:function(json)
+            {
+//                console.log(json);
+
+                if(json.success) {
+                    $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    $("#vessel").append('<option value="'+json.data.vesselname+'" selected="selected">'+json.data.vesselname+'</option>');
+                    $("#vessel").trigger('change');
+                    $('input[name="CALLSIGN"]').val(json.data.callsign);
+                    $("#vessel-modal").modal('hide');
+                } else {
+                    $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                }
+//                
+//                //Triggers the "Close" button funcionality.
+//                $('#btn-refresh').click();
+            }
+        });
+        
+        return false;
+    });
 </script>
 
 @endsection

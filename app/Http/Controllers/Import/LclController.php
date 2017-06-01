@@ -603,7 +603,7 @@ class LclController extends Controller
         }
         
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
-//        return $data;
+
     }
     
     public function strippingUpdate(Request $request, $id)

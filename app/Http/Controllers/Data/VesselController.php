@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Models\Negara as DBNegara;
+use App\Models\Vessel as DBVessel;
 
 class VesselController extends Controller
 {
@@ -63,7 +64,21 @@ class VesselController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->json()->all(); 
+        unset($data['_token']);
+        
+        $data['uid'] = \Auth::getUser()->name;
+        try
+        {
+  //        $this->Vessel->create($data);
+            DBVessel::insertGetId($data);
+        }
+        catch (Exception $e)
+        {
+            return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+        }
+
+        return json_encode(array('success' => true, 'message' => 'Vessel successfully saved!', 'data' => $data));
     }
 
     /**

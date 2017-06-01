@@ -56,13 +56,16 @@
                     </div>    
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Consignee</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-6">
                             <select class="form-control select2" id="TCONSIGNEE_FK" name="TCONSIGNEE_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Consignee</option>
                                 @foreach($perusahaans as $perusahaan)
                                     <option value="{{ $perusahaan->id }}">{{ $perusahaan->name }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-info" id="add-consignee-btn">Add Consignee</button>
                         </div>
                     </div>
                     <div class="form-group">
@@ -95,7 +98,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Vessel</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-6">
                             <!--<input type="text" name="VESSEL" class="form-control"  value="{{ old('VESSEL') }}">-->
                             <select class="form-control select2" id="vessel" name="VESSEL" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Vessel</option>
@@ -104,7 +107,9 @@
                                 @endforeach
                             </select>
                         </div>
-                        
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-info" id="add-vessel-btn">Add Vessel</button>
+                        </div>
                     </div>                    
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Voy</label>
@@ -291,6 +296,120 @@
     </form>
 </div>
 
+<div id="vessel-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Add New Vessel</h4>
+            </div>
+            <form class="form-horizontal" id="create-vessel-form" action="{{ route('vessel-store') }}" method="POST">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Vessel Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="vesselname" class="form-control" required /> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Vessel Code</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="vesselcode" class="form-control" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Call Sign</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="callsign" class="form-control" required /> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Country</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control select2" id="nationality" name="nationality" style="width: 100%;" tabindex="-1" aria-hidden="true" >
+                                        <option value="">Choose Country</option>
+                                        @foreach($countries as $country)
+                                            <option value="{{ $country->name }}">{{ $country->name }}</option>
+                                        @endforeach
+                                    </select> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="consignee-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Add New Consignee</h4>
+            </div>
+            <form class="form-horizontal" id="create-consignee-form" action="{{ route('perusahaan-store') }}" method="POST">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Nama Perusahaan</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="NAMAPERUSAHAAN" class="form-control" required /> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">NPWP</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="npwp" name="NPWP" class="form-control" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Telepon</label>
+                                <div class="col-sm-8">
+                                    <input type="tel" name="NOTELP" class="form-control" /> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Email</label>
+                                <div class="col-sm-8">
+                                    <input type="email" name="EMAIL" class="form-control" /> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">CP</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="CONTACTPERSON" class="form-control" /> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Alamat</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" name="ALAMAT"></textarea>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @endsection
 
 @section('custom_css')
@@ -306,6 +425,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
 <script type="text/javascript">
     $('select').select2();
+    $('#npwp').mask("99.999.999.9-999.999");
     $('.datepicker').datepicker({
         autoclose: true,
         todayHighlight: true,
@@ -383,6 +503,96 @@
     
     $("#PEL_BONGKAR").append('<option value="IDTPP" selected="selected">IDTPP</option>');
     $("#PEL_BONGKAR").trigger('change');
+    
+    $("#add-vessel-btn").on("click", function(e){
+        e.preventDefault();
+        $("#vessel-modal").modal('show');
+        return false;
+    });
+    
+    $("#add-consignee-btn").on("click", function(e){
+        e.preventDefault();
+        $("#consignee-modal").modal('show');
+        return false;
+    });
+    
+    $("#create-vessel-form").on("submit", function(){
+        console.log(JSON.stringify($(this).formToObject('')));
+        var url = $(this).attr('action');
+
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify($(this).formToObject('')),
+            dataType : 'json',
+            url: url,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+
+            },
+            success:function(json)
+            {
+//                console.log(json);
+
+                if(json.success) {
+                    $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    $("#vessel").append('<option value="'+json.data.vesselname+'" selected="selected">'+json.data.vesselname+'</option>');
+                    $("#vessel").trigger('change');
+                    $('input[name="CALLSIGN"]').val(json.data.callsign);
+                    $("#vessel-modal").modal('hide');
+                } else {
+                    $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                }
+//                
+//                //Triggers the "Close" button funcionality.
+//                $('#btn-refresh').click();
+            }
+        });
+        
+        return false;
+    });
+    
+    $("#create-consignee-form").on("submit", function(){
+        console.log(JSON.stringify($(this).formToObject('')));
+        var url = $(this).attr('action');
+
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify($(this).formToObject('')),
+            dataType : 'json',
+            url: url,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+
+            },
+            success:function(json)
+            {
+                console.log(json);
+
+                if(json.success) {
+                    $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    $("#TCONSIGNEE_FK").append('<option value="'+json.data.id+'" selected="selected">'+json.data.NAMAPERUSAHAAN+'</option>');
+                    $("#TCONSIGNEE_FK").trigger('change');
+                    $("#consignee-modal").modal('hide');
+                } else {
+                    $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                }
+//                
+//                //Triggers the "Close" button funcionality.
+//                $('#btn-refresh').click();
+            }
+        });
+        
+        return false;
+    });
+    
 </script>
 
 @endsection

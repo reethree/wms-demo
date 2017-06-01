@@ -46,26 +46,24 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                 }
                 
                 if(isset($request['group'])){
-                    $Model = \DB::table('tpsobxml')
-                        ->where($request['by'], '>=', $start_date)
+                    $Model = TpsOb::where($request['by'], '>=', $start_date)
                         ->where($request['by'], '<=', $end_date)
                         ->where('JNS_CONT', $request['jenis'])
-                        ->groupBy('NO_CONT');
+//                        ->groupBy('NO_CONT')
+                        ;
                 }else{
-                    $Model = \DB::table('tpsobxml')
-                        ->where($request['by'], '>=', $start_date)
+                    $Model = TpsOb::where($request['by'], '>=', $start_date)
                         ->where($request['by'], '<=', $end_date)
                         ->where('JNS_CONT', $request['jenis']);
                 }
 
             }else{
                 if(isset($request['group'])){
-                    $Model = \DB::table('tpsobxml')
-                        ->where('JNS_CONT', $request['jenis'])
-                        ->groupBy('NO_CONT');
+                    $Model = TpsOb::where('JNS_CONT', $request['jenis'])
+//                        ->groupBy('NO_CONT')
+                        ;
                 }else{
-                    $Model = \DB::table('tpsobxml')
-                        ->where('JNS_CONT', $request['jenis']);
+                    $Model = TpsOb::where('JNS_CONT', $request['jenis']);
                 }
  
             }

@@ -8,6 +8,16 @@
 </style>
 <script>
     
+    var arrtSetting = function (rowId, val, rawObject, cm) {
+        var attr = rawObject.NO_CONT, result;
+        if (attr.rowspan) {
+            result = ' rowspan=' + '"' + attr.rowspan + '"';
+        } else if (attr.display) {
+            result = ' style="display:' + attr.display + '"';
+        }
+        return result;
+    };
+    
     function gridCompleteEvent()
     {
         var ids = jQuery("#lclDispatcheGrid").jqGrid('getDataIDs'),
@@ -275,6 +285,7 @@
             <div class="col-md-12"> 
                 {{
                     GridRender::setGridId("lclDispatcheGrid")
+//                    ->setGridAsPivot()
                     ->enableFilterToolbar()
                     ->setGridOption('url', URL::to('/tpsonline/penerimaan/ob-lcl/grid-data?jenis=L&group=1'))
                     ->setGridOption('rowNum', 20)
@@ -284,6 +295,8 @@
                     ->setGridOption('height', '295')
                     ->setGridOption('rowList',array(20,50,100))
                     ->setGridOption('useColSpanStyle', true)
+                    ->setGridOption('grouping', true)
+                    ->setGridOption('groupingView', array('groupField'=>['NO_CONT']))
                     ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
                     ->setNavigatorOptions('view',array('closeOnEscape'=>false))
                     ->setFilterToolbarOptions(array('autosearch'=>true))
@@ -291,7 +304,7 @@
                     ->setGridEvent('gridComplete', 'gridCompleteEvent')
                     ->addColumn(array('key'=>true,'index'=>'TPSOBXML_PK','hidden'=>true))
                     ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>160, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
-                    ->addColumn(array('label'=>'No. Container','index'=>'NO_CONT','width'=>200))
+                    ->addColumn(array('label'=>'No. Container','index'=>'NO_CONT','width'=>200, 'cellattr'=>'arrtSetting'))
                     ->addColumn(array('label'=>'Ukuran Cont.','index'=>'UK_CONT','width'=>120,'align'=>'center'))		
                     ->addColumn(array('label'=>'No. Segel','index'=>'NO_SEGEL','width'=>160,'align'=>'center','hidden'=>true))	
                     ->addColumn(array('label'=>'Janis Cont.','index'=>'JNS_CONT','width'=>80,'align'=>'center','align'=>'center'))
@@ -299,6 +312,8 @@
                     ->addColumn(array('index'=>'STATUS_DISPATCHE','width'=>160,'hidden'=>true))
                     ->addColumn(array('index'=>'KODE_DISPATCHE','width'=>160,'hidden'=>false))
                     ->addColumn(array('index'=>'RESPONSE_DISPATCHE','width'=>160,'hidden'=>false))
+                    ->addColumn(array('index'=>'ID_CONSIGNEE','width'=>160,'hidden'=>true))		
+                    ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>350))
                     ->addColumn(array('label'=>'Ref Number','index'=>'REF_NUMBER','width'=>160,'hidden'=>true))			
                     ->addColumn(array('label'=>'No. Surat PLP','index'=>'NO_SURAT_PLP','width'=>250,'hidden'=>true))			
                     ->addColumn(array('label'=>'Tgl. Surat PLP','index'=>'TGL_SURAT_PLP','width'=>160,'align'=>'center','hidden'=>true))			
@@ -318,9 +333,7 @@
                     ->addColumn(array('label'=>'No. BL AWB','index'=>'NO_BL_AWB','width'=>160,'hidden'=>true))		
                     ->addColumn(array('label'=>'Tgl. BL AWB','index'=>'TGL_BL_AWB','width'=>160,'hidden'=>true))		
                     ->addColumn(array('label'=>'No. MBL AWB','index'=>'NO_MASTER_BL_AWB','width'=>160,'hidden'=>true))		
-                    ->addColumn(array('label'=>'Tgl. MBL AWB','index'=>'TGL_MASTER_BL_AWB','width'=>160,'hidden'=>true))		
-                    ->addColumn(array('index'=>'ID_CONSIGNEE','width'=>160,'hidden'=>true))		
-                    ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>350))	
+                    ->addColumn(array('label'=>'Tgl. MBL AWB','index'=>'TGL_MASTER_BL_AWB','width'=>160,'hidden'=>true))			
                     ->addColumn(array('label'=>'Bruto','index'=>'BRUTO','width'=>80,'align'=>'center','hidden'=>true))	
                     ->addColumn(array('label'=>'No. BC11','index'=>'NO_BC11','width'=>160,'align'=>'center'))			
                     ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','width'=>160,'align'=>'center'))			

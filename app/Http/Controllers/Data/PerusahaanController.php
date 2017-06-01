@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Models\Perusahaan as DBPerusahaan;
+
 class PerusahaanController extends Controller
 {
     /**
@@ -53,7 +55,22 @@ class PerusahaanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->json()->all(); 
+        unset($data['_token']);
+        
+        $data['UID'] = \Auth::getUser()->name;
+        try
+        {
+  //        $this->Perusahaan->create($data);
+            $id = DBPerusahaan::insertGetId($data);
+            $data['id'] = $id;
+        }
+        catch (Exception $e)
+        {
+            return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+        }
+
+        return json_encode(array('success' => true, 'message' => 'Perusahaan successfully saved!', 'data' => $data));
     }
 
     /**

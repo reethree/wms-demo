@@ -86,7 +86,7 @@
             ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>160,'hidden'=>false))
             ->addColumn(array('label'=>'No. MBL','index'=>'NOMBL','width'=>160))
             ->addColumn(array('label'=>'Tgl. MBL','index'=>'TGL_MASTER_BL','width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
+            ->addColumn(array('label'=>'Consolidator','index'=>'tjoborder.NAMACONSOLIDATOR','width'=>250))
             ->addColumn(array('label'=>'No. BC11','index'=>'TNO_BC11','width'=>150,'align'=>'right'))
             ->addColumn(array('label'=>'Tgl. BC11','index'=>'TTGL_BC11','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'No. PLP','index'=>'TNO_PLP','width'=>150,'align'=>'right'))

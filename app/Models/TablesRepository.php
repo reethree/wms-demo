@@ -110,11 +110,14 @@ class TablesRepository extends EloquentRepositoryAbstract {
             if(isset($request['startdate']) || isset($request['enddate'])){
                 
                 $Model = \DB::table('tjoborder')->join('tcontainer', 'tjoborder.TJOBORDER_PK', '=', 'tcontainer.TJOBORDER_FK')
+                        ->select('tjoborder.*','tjoborder.NAMACONSOLIDATOR as tjoborder.NAMACONSOLIDATOR','tcontainer.NOCONTAINER')
                         ->where('tcontainer.TGLENTRY', '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
                         ->where('tcontainer.TGLENTRY', '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
                 
             }else{
-                $Model = \DB::table('tjoborder')->join('tcontainer', 'tjoborder.TJOBORDER_PK', '=', 'tcontainer.TJOBORDER_FK');
+                $Model = \DB::table('tjoborder')
+                        ->select('tjoborder.*','tjoborder.NAMACONSOLIDATOR as tjoborder.NAMACONSOLIDATOR','tcontainer.NOCONTAINER')
+                        ->join('tcontainer', 'tjoborder.TJOBORDER_PK', '=', 'tcontainer.TJOBORDER_FK');
             }
             
         }elseif($Model->getMorphClass() == 'App\Models\Jobordercy'){
