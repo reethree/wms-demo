@@ -141,7 +141,7 @@
           <tr>
             <td>1</td>           
             <td>Storage</td>
-            <td>{{ number_format($invoice->cbm * 1000, 0, ',', '.') }} Cbm x {{ $invoice->hari }} hari</td>
+            <td>{{ number_format($invoice->cbm * 1000, 0, '.', ',') }} Cbm x {{ $invoice->hari }} hari</td>
             <td align="right">Rp.</td>
             <td align="right">{{ number_format($tarif->storage) }}</td>
             <td align="right">Rp.</td>
