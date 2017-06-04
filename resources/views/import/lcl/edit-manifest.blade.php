@@ -196,7 +196,7 @@
             $('#TNOTIFYPARTY_FK').val('Same of Consignee').trigger("change");
             $('#DG_SURCHARGE').val('N').trigger("change");
             $('#WEIGHT_SURCHARGE').val('N').trigger("change");
-//            $('#VALIDASI').val('N').trigger("change");
+            $('#flag_bc').val('N').trigger("change");
             $('#id').val("");
             
             //Disables all buttons within the toolbar
