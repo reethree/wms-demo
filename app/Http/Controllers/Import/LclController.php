@@ -348,7 +348,7 @@ class LclController extends Controller
         if($namapelabuhan){
             $data['NAMAPELABUHAN'] = $namapelabuhan->NAMAPELABUHAN;
         } 
-        $namalokasisandar = DBLokasisandar::select('NAMALOKASISANDAR')->where('TLOKASISANDAR_PK',$data['TLOKASISANDAR_FK'])->first();
+        $namalokasisandar = DBLokasisandar::select('NAMALOKASISANDAR','KD_TPS_ASAL')->where('TLOKASISANDAR_PK',$data['TLOKASISANDAR_FK'])->first();
         if($namalokasisandar){
             $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
             $data['KD_TPS_ASAL'] = $namalokasisandar->KD_TPS_ASAL;
@@ -505,7 +505,7 @@ class LclController extends Controller
         if($namapelabuhan){
             $data['NAMAPELABUHAN'] = $namapelabuhan->NAMAPELABUHAN;
         } 
-        $namalokasisandar = DBLokasisandar::select('NAMALOKASISANDAR')->where('TLOKASISANDAR_PK',$data['TLOKASISANDAR_FK'])->first();
+        $namalokasisandar = DBLokasisandar::select('NAMALOKASISANDAR','KD_TPS_ASAL')->where('TLOKASISANDAR_PK',$data['TLOKASISANDAR_FK'])->first();
         if($namalokasisandar){
             $data['NAMALOKASISANDAR'] = $namalokasisandar->NAMALOKASISANDAR;
             $data['KD_TPS_ASAL'] = $namalokasisandar->KD_TPS_ASAL;
@@ -556,6 +556,20 @@ class LclController extends Controller
                 
                 //UPDATE MANIFEST
                 $data = array();
+                $data['TCONSOLIDATOR_FK'] = $joborder->TCONSOLIDATOR_FK;
+                $data['NAMACONSOLIDATOR'] = $joborder->NAMACONSOLIDATOR;
+                $data['TLOKASISANDAR_FK'] = $joborder->TLOKASISANDAR_FK;
+                $data['KD_TPS_ASAL'] = $joborder->KD_TPS_ASAL;
+                $data['ETA'] = $joborder->ETA;
+                $data['ETD'] = $joborder->ETD;
+                $data['VESSEL'] = $joborder->VESSEL;
+                $data['VOY'] = $joborder->VOY;
+                $data['TPELABUHAN_FK'] = $joborder->TPELABUHAN_FK;
+                $data['NAMAPELABUHAN'] = $joborder->NAMAPELABUHAN;
+                $data['PEL_MUAT'] = $joborder->PEL_MUAT;
+                $data['PEL_BONGKAR'] = $joborder->PEL_BONGKAR;
+                $data['PEL_TRANSIT'] = $joborder->PEL_TRANSIT;
+
                 $data['NO_BC11'] = $joborder->TNO_BC11;
                 $data['TGL_BC11'] = $joborder->TTGL_BC11;
                 $data['NO_PLP'] = $joborder->TNO_PLP;
@@ -884,6 +898,27 @@ class LclController extends Controller
     }
     
     // REPORT
+    public function reportInout()
+    {
+        if ( !$this->access->can('show.lcl.report.inout') ) {
+            return view('errors.no-access');
+        }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Report Harian LCL', 'slug' => 'show.lcl.report.inout', 'description' => ''));
+        
+        $data['page_title'] = "LCL Report IN OUT";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Report IN OUT'
+            ]
+        ];        
+        
+        return view('import.lcl.report-inout')->with($data);
+    }
+    
     public function reportHarian()
     {
         if ( !$this->access->can('show.lcl.report.harian') ) {

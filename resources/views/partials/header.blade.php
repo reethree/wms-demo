@@ -72,6 +72,7 @@
                       <li class="dropdown-submenu">
                         <a class="submenu" href="#">Report <span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                            <li><a href="{{ route('lcl-report-inout') }}">Rekap In Out</a></li>
                             <li><a href="{{ route('lcl-report-harian') }}">Rekap Delivery</a></li>
                             <li><a href="{{ route('lcl-report-rekap') }}">Rekap Import</a></li>
                             <li><a href="{{ route('lcl-report-stock') }}">Rekap Stock</a></li>

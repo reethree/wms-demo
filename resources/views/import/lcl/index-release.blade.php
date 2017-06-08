@@ -48,7 +48,7 @@
             $('#NO_POS_BC11').val(rowdata.NO_POS_BC11);
             $('#NO_SPJM').val(rowdata.NO_SPJM);
             $('#TGL_SPJM').val(rowdata.TGL_SPJM);
-            $('#NPWP_CONSIGNEE').val(rowdata.NPWP_CONSIGNEE);
+            $('#ID_CONSIGNEE').val(rowdata.ID_CONSIGNEE);
             $('#NO_SPPB').val(rowdata.NO_SPPB);
             $('#TGL_SPPB').val(rowdata.TGL_SPPB);
             $('#NOPOL_RELEASE').val(rowdata.NOPOL_RELEASE);
@@ -283,7 +283,7 @@
                     ->addColumn(array('index'=>'TSHIPPER_FK', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('index'=>'TCONSIGNEE_FK', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'NPWP Consignee','index'=>'NPWP_CONSIGNEE', 'width'=>150,'hidden'=>true))
+                    ->addColumn(array('label'=>'NPWP Consignee','index'=>'ID_CONSIGNEE', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'No. Kuitansi','index'=>'NO_KUITANSI', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('index'=>'TNOTIFYPARTY_FK', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('index'=>'TPACKING_FK', 'width'=>150,'hidden'=>true))
@@ -426,7 +426,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">NPWP Consignee</label>
                         <div class="col-sm-8">
-                            <input type="text" id="NPWP_CONSIGNEE" name="NPWP_CONSIGNEE" class="form-control">
+                            <input type="text" id="ID_CONSIGNEE" name="ID_CONSIGNEE" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -572,6 +572,7 @@
     });
     $("#JAMSURATJALAN").mask("99:99:99");
     $("#jamrelease").mask("99:99:99");
+    $("#ID_CONSIGNEE").mask("99.999.999.9-999.999");
 </script>
 
 @endsection

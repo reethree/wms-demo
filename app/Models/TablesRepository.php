@@ -166,9 +166,9 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereNotNull('TGL_SPPB');
                     break;
                     case 'release':
-                        $Model = \DB::table('tmanifest')
-                            ->select('tmanifest.*','tperusahaan.NPWP as NPWP_CONSIGNEE')
-                            ->join('tperusahaan', 'tperusahaan.TPERUSAHAAN_PK', '=', 'tmanifest.TCONSIGNEE_FK');
+                        $Model = \DB::table('tmanifest');
+//                            ->select('tmanifest.*','tperusahaan.NPWP as NPWP_CONSIGNEE')
+//                            ->join('tperusahaan', 'tperusahaan.TPERUSAHAAN_PK', '=', 'tmanifest.TCONSIGNEE_FK');
 //                        $Model = \DB::table('tmanifest')
 //                            ->whereNotNull('TGLSURATJALAN')
 //                            ->whereNotNull('JAMSURATJALAN');
