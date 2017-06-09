@@ -741,7 +741,7 @@ class PengirimanController extends Controller
             $kms->addChild('NO_MASTER_BL_AWB', $dataDetailkms->NO_MASTER_BL_AWB); 
             $kms->addChild('TGL_MASTER_BL_AWB', $dataDetailkms->TGL_MASTER_BL_AWB); 
             $kms->addChild('ID_CONSIGNEE', ($dataDetailkms->ID_CONSIGNEE != 000000000000000) ? $dataDetailkms->ID_CONSIGNEE : '');
-            $kms->addChild('CONSIGNEE', $dataDetailkms->CONSIGNEE);
+            $kms->addChild('CONSIGNEE', htmlspecialchars($dataDetailkms->CONSIGNEE));
             $kms->addChild('BRUTO', $dataDetailkms->BRUTO);
             $kms->addChild('NO_BC11', $dataDetailkms->NO_BC11);
             $kms->addChild('TGL_BC11', $dataDetailkms->TGL_BC11 );
