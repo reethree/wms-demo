@@ -177,9 +177,12 @@ class TablesRepository extends EloquentRepositoryAbstract {
                 
             }if(isset($request['startdate']) || isset($request['enddate'])){
                 
+                $start_date = date('Y-m-d',strtotime($request['startdate']));
+                $end_date = date('Y-m-d',strtotime($request['enddate']));      
+                
                 $Model = \DB::table('tmanifest')
-                        ->where('tglentry', '>=',date('Y-m-d',strtotime($request['startdate'])))
-                        ->where('tglentry', '<=',date('Y-m-d',strtotime($request['enddate'])));
+                        ->where($request['by'], '>=',$start_date)
+                        ->where($request['by'], '<=',$end_date);
                 
             }else{
                 

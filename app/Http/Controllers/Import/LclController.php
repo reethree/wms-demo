@@ -900,23 +900,44 @@ class LclController extends Controller
     // REPORT
     public function reportInout()
     {
-        if ( !$this->access->can('show.lcl.report.inout') ) {
+        if ( !$this->access->can('show.lcl.report.stock') ) {
             return view('errors.no-access');
         }
         
         // Create Roles Access
-        $this->insertRoleAccess(array('name' => 'Report Harian LCL', 'slug' => 'show.lcl.report.inout', 'description' => ''));
+        $this->insertRoleAccess(array('name' => 'Report Stock LCL', 'slug' => 'show.lcl.report.stock', 'description' => ''));
         
-        $data['page_title'] = "LCL Report IN OUT";
+        $data['page_title'] = "LCL Report Stock";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
             [
                 'action' => '',
-                'title' => 'LCL Report IN OUT'
+                'title' => 'LCL Report Stock'
             ]
         ];        
         
         return view('import.lcl.report-inout')->with($data);
+    }
+    
+    public function reportContainer()
+    {
+        if ( !$this->access->can('show.lcl.report.container') ) {
+            return view('errors.no-access');
+        }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Report Container LCL', 'slug' => 'show.lcl.report.container', 'description' => ''));
+        
+        $data['page_title'] = "LCL Report Container";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Report Container'
+            ]
+        ];        
+        
+        return view('import.lcl.report-container')->with($data);
     }
     
     public function reportHarian()

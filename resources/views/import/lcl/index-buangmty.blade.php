@@ -44,7 +44,7 @@
             populateFormFields(rowdata, '');
             $('#TCONTAINER_PK').val(rowid);
             $('#NOPOL_MTY').val(rowdata.NOPOL_MTY);
-            $('#TUJUAN_MTY').val(rowdata.TUJUAN_MTY);
+            $('#TUJUAN_MTY').val(rowdata.TUJUAN_MTY)trigger('change');
             if(rowdata.STARTSTRIPPING && rowdata.STARTSTRIPPING) {
                 $('#btn-group-2').enableButtonGroup();
                 $('#buangmty-form').enableFormGroup();
@@ -213,8 +213,8 @@
                     ->addColumn(array('label'=>'End Stripping','index'=>'ENDSTRIPPING','align'=>'center','width'=>150,'hidden'=>false))
                     ->addColumn(array('label'=>'Tgl. Buang MTY','index'=>'TGLBUANGMTY','align'=>'center','width'=>120,'hidden'=>false))
                     ->addColumn(array('label'=>'Jam Buang MTY','index'=>'JAMBUANGMTY','align'=>'center','width'=>120,'hidden'=>false))
-                    ->addColumn(array('label'=>'No. POL MTY','index'=>'NOPOL_MTY','hidden'=>true))
-                    ->addColumn(array('label'=>'Tujuan MTY','index'=>'TUJUAN_MTY','hidden'=>true))
+                    ->addColumn(array('label'=>'No. POL MTY','index'=>'NOPOL_MTY','hidden'=>false))
+                    ->addColumn(array('label'=>'Tujuan MTY','index'=>'TUJUAN_MTY','hidden'=>false))
         //            ->addColumn(array('label'=>'Layout','index'=>'layout','width'=>80,'align'=>'center','hidden'=>true))
         //            ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
                     ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY','align'=>'center', 'width'=>150))
