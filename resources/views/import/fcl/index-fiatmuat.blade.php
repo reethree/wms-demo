@@ -120,7 +120,8 @@
                 {{
                     GridRender::setGridId("fclFiatMuatGrid")
                     ->enableFilterToolbar()
-                    ->setGridOption('url', URL::to('/container/grid-data-cy?module=fiatmuat'))
+                    ->setGridOption('mtype', 'POST')
+                    ->setGridOption('url', URL::to('/container/grid-data-cy?module=fiatmuat&_token='.csrf_token()))
 //                    ->setGridOption('editurl',URL::to('/container/crud-cy/'))
                     ->setGridOption('rowNum', 10)
                     ->setGridOption('shrinkToFit', true)

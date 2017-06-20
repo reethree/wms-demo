@@ -2,7 +2,7 @@
 
 Route::group(['prefix' => 'container', 'namespace' => 'Import'], function(){
     
-    Route::get('/grid-data', function()
+    Route::post('/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TablesRepository(new App\Models\Container(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
@@ -24,7 +24,7 @@ Route::group(['prefix' => 'container', 'namespace' => 'Import'], function(){
         }
     });
     
-    Route::get('/grid-data-cy', function()
+    Route::post('/grid-data-cy', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TablesRepository(new App\Models\Containercy(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });

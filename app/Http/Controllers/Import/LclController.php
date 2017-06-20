@@ -937,6 +937,23 @@ class LclController extends Controller
             ]
         ];        
         
+        $twenty = DBContainer::where('SIZE', 20)->where(\DB::raw("MONTH(TGLMASUK) = '".date('m')."'"))->where(\DB::raw("YEAR(TGLMASUK) = '".date('Y')."'"))->count();
+        $fourty = DBContainer::where('SIZE', 40)->where(\DB::raw("MONTH(TGLMASUK) = '".date('m')."'"))->where(\DB::raw("YEAR(TGLMASUK) = '".date('Y')."'"))->count();
+        $teus = ($twenty*1)+($fourty*2);
+        $data['countbysize'] = array('twenty' => $twenty, 'fourty' => $fourty, 'total' => $twenty+$fourty, 'teus' => $teus);
+        
+        $jict = DBContainer::where('KD_TPS_ASAL', 'JICT')->where(\DB::raw("MONTH(TGLMASUK) = '".date('m')."'"))->where(\DB::raw("YEAR(TGLMASUK) = '".date('Y')."'"))->count();
+        $koja = DBContainer::where('KD_TPS_ASAL', 'KOJA')->where(\DB::raw("MONTH(TGLMASUK) = '".date('m')."'"))->where(\DB::raw("YEAR(TGLMASUK) = '".date('Y')."'"))->count();
+        $mal = DBContainer::where('KD_TPS_ASAL', 'MAL0')->where(\DB::raw("MONTH(TGLMASUK) = '".date('m')."'"))->where(\DB::raw("YEAR(TGLMASUK) = '".date('Y')."'"))->count();
+        $nct1 = DBContainer::where('KD_TPS_ASAL', 'NCT1')->where(\DB::raw("MONTH(TGLMASUK) = '".date('m')."'"))->where(\DB::raw("YEAR(TGLMASUK) = '".date('Y')."'"))->count();
+        $pldc = DBContainer::where('KD_TPS_ASAL', 'PLDC')->where(\DB::raw("MONTH(TGLMASUK) = '".date('m')."'"))->where(\DB::raw("YEAR(TGLMASUK) = '".date('Y')."'"))->count();
+        $data['countbytps'] = array('JICT' => $jict, 'KOJA' => $koja, 'MAL0' => $mal, 'NCT1' => $nct1, 'PLDC' => $pldc);
+        
+        $fc = DBContainer::whereIn('TCONSOLIDATOR_FK', array(1,4))->where(\DB::raw("MONTH(TGLMASUK) = '".date('m')."'"))->where(\DB::raw("YEAR(TGLMASUK) = '".date('Y')."'"))->count();
+        $me = DBContainer::whereIn('TCONSOLIDATOR_FK', array(13,16))->where(\DB::raw("MONTH(TGLMASUK) = '".date('m')."'"))->where(\DB::raw("YEAR(TGLMASUK) = '".date('Y')."'"))->count();;
+        $ap = DBContainer::whereIn('TCONSOLIDATOR_FK', array(10,12))->where(\DB::raw("MONTH(TGLMASUK) = '".date('m')."'"))->where(\DB::raw("YEAR(TGLMASUK) = '".date('Y')."'"))->count();;
+        $data['countbyconsolidator'] = array('FBI/CPL' => $fc, 'MKT/ECU' => $me, 'ARJAKA/PELOPOR' => $ap);
+        
         return view('import.lcl.report-container')->with($data);
     }
     

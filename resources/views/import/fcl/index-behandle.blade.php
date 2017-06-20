@@ -116,7 +116,8 @@
                 {{
                     GridRender::setGridId("fclBehandleGrid")
                     ->enableFilterToolbar()
-                    ->setGridOption('url', URL::to('/container/grid-data-cy?module=behandle'))
+                    ->setGridOption('mtype', 'POST')
+                    ->setGridOption('url', URL::to('/container/grid-data-cy?module=behandle&_token='.csrf_token()))
 //                    ->setGridOption('editurl',URL::to('/container/crud-cy/'))
                     ->setGridOption('rowNum', 10)
                     ->setGridOption('shrinkToFit', true)

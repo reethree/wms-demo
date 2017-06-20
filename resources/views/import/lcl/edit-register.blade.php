@@ -303,8 +303,10 @@
                     {{
                         GridRender::setGridId("containerGrid")
                         ->enableFilterToolbar()
-                        ->setGridOption('url', URL::to('/container/grid-data?jobid='.$joborder->TJOBORDER_PK))
-                        ->setGridOption('editurl',URL::to('/container/crud/'.$joborder->TJOBORDER_PK))
+                        ->setGridOption('mtype', 'POST')
+                        ->setGridOption('url', URL::to('/container/grid-data?jobid='.$joborder->TJOBORDER_PK.'&_token='.csrf_token()))
+//                        ->setGridOption('url', URL::to('/container/grid-data?jobid='.$joborder->TJOBORDER_PK))
+                        ->setGridOption('editurl',URL::to('/container/crud/'.$joborder->TJOBORDER_PK.'&_token='.csrf_token()))
                         ->setGridOption('rowNum', 10)
                         ->setGridOption('shrinkToFit', true)
                         ->setGridOption('sortname','TCONTAINER_PK')

@@ -114,7 +114,9 @@
                 {{
                     GridRender::setGridId("fclSuratJalanGrid")
                     ->enableFilterToolbar()
-                    ->setGridOption('url', URL::to('/container/grid-data-cy?module=suratjalan'))
+                    ->setGridOption('mtype', 'POST')
+//                    ->setGridOption('url', URL::to('/container/grid-data-cy?_token='.csrf_token()))
+                    ->setGridOption('url', URL::to('/container/grid-data-cy?module=suratjalan&_token='.csrf_token()))
 //                    ->setGridOption('editurl',URL::to('/container/crud-cy/'))
                     ->setGridOption('rowNum', 10)
                     ->setGridOption('shrinkToFit', true)

@@ -198,7 +198,8 @@
                 {{
                     GridRender::setGridId("fclReleaseGrid")
                     ->enableFilterToolbar()
-                    ->setGridOption('url', URL::to('/container/grid-data-cy?module=release'))
+                    ->setGridOption('mtype', 'POST')
+                    ->setGridOption('url', URL::to('/container/grid-data-cy?module=release&_token='.csrf_token()))
                     ->setGridOption('rowNum', 20)
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TCONTAINER_PK')

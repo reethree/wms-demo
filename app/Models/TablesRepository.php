@@ -28,6 +28,7 @@ class TablesRepository extends EloquentRepositoryAbstract {
             if(isset($request['jobid'])){
                 
                 $Model = \DB::table('tcontainer')
+                        ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK')
                         ->where('TJOBORDER_FK', $request['jobid']);
                 
             }elseif(isset($request['startdate']) || isset($request['enddate'])){
@@ -58,7 +59,8 @@ class TablesRepository extends EloquentRepositoryAbstract {
                     break;
                 }
             }else{
-                
+                $Model = \DB::table('tcontainer')
+                        ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK');
             }
             
         }elseif($Model->getMorphClass() == 'App\Models\Containercy'){

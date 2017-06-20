@@ -21,8 +21,8 @@
                 <div class="col-xs-3">
                     <select class="form-control select2" id="by" name="by" style="width: 100%;" tabindex="-1" aria-hidden="true">
                         <option value="TGL_PLP">Tgl. PLP</option>
-                        <option value="tglmasuk">Tgl. GateIn</option>
-                        <option value="ETA">ETA</option>                       
+                        <option value="TGLMASUK">Tgl. GateIn</option>
+                        <option value="TGL_BC11">Tgl. BC1.1</option>                       
                     </select>
                 </div>
                 <div class="col-xs-3">
@@ -50,13 +50,13 @@
             </div>
         </div>
         {{
-            GridRender::setGridId("lclInoutReportGrid")
+            GridRender::setGridId("lclContainerReportGrid")
             ->enableFilterToolbar()
             ->setGridOption('mtype', 'POST')
-            ->setGridOption('url', URL::to('/lcl/manifest/grid-data?_token='.csrf_token()))
+            ->setGridOption('url', URL::to('/container/grid-data?_token='.csrf_token()))
             ->setGridOption('rowNum', 20)
             ->setGridOption('shrinkToFit', true)
-            ->setGridOption('sortname','TMANIFEST_PK')
+            ->setGridOption('sortname','TCONTAINER_PK')
             ->setGridOption('rownumbers', true)
             ->setGridOption('height', '320')
             ->setGridOption('rowList',array(20,50,100))
@@ -65,43 +65,45 @@
             ->setNavigatorOptions('view',array('closeOnEscape'=>false))
             ->setFilterToolbarOptions(array('autosearch'=>true))
 //            ->setGridEvent('onSelectRow', 'onSelectRowEvent')
-            ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
+            ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
 //            ->addColumn(array('label'=>'Status','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
-            ->addColumn(array('label'=>'No. Joborder','index'=>'NOJOBORDER', 'width'=>150))
+            ->addColumn(array('label'=>'No. Joborder','index'=>'NoJob', 'width'=>150))
             ->addColumn(array('label'=>'Nama Angkut','index'=>'VESSEL','width'=>160))
-            ->addColumn(array('label'=>'VOY','index'=>'VOY','width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'VOY','index'=>'VOY','width'=>100,'align'=>'center','hidden'=>true))
             ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>100,'align'=>'center','hidden'=>true))
-            ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>120,'align'=>'center','hidden'=>true))
             ->addColumn(array('label'=>'TPS Asal','index'=>'KD_TPS_ASAL', 'width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
-            ->addColumn(array('label'=>'No. HBL','index'=>'NOHBL','width'=>160))
-            ->addColumn(array('label'=>'Tgl. HBL','index'=>'TGL_HBL', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
-            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>250))
-            ->addColumn(array('label'=>'Quantity','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))
-            ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>120,'align'=>'center'))
-            ->addColumn(array('label'=>'Kode Kemas','index'=>'KODE_KEMAS', 'width'=>100,'align'=>'center'))        
-            ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120,'align'=>'center'))               
-            ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>120,'align'=>'center'))
+
+//            ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
+//            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>250))
+//            ->addColumn(array('label'=>'Quantity','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))
+//            ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>120,'align'=>'center'))
+//            ->addColumn(array('label'=>'Kode Kemas','index'=>'KODE_KEMAS', 'width'=>100,'align'=>'center'))        
+//            ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120,'align'=>'center'))               
+//            ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>120,'align'=>'center'))
             ->addColumn(array('label'=>'No.PLP','index'=>'NO_PLP', 'width'=>150,'align'=>'center'))                
             ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'No.BC 1.1','index'=>'NO_BC11', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Tgl.BC 1.1','index'=>'TGL_BC11', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'Tgl. Gate In','index'=>'tglmasuk', 'width'=>120,'align'=>'center'))
-            ->addColumn(array('label'=>'Jam. Gate In','index'=>'jammasuk', 'width'=>100,'align'=>'center'))
-            ->addColumn(array('label'=>'Tgl. Stripping','index'=>'tglstripping', 'width'=>120,'align'=>'center'))
-            ->addColumn(array('label'=>'Jam. Stripping','index'=>'jamstripping', 'width'=>100,'align'=>'center'))
-            ->addColumn(array('label'=>'Tgl. Release','index'=>'tglrelease', 'width'=>120,'align'=>'center'))
-            ->addColumn(array('label'=>'Jam. Release','index'=>'jamrelease', 'width'=>100,'align'=>'center'))
-            ->addColumn(array('label'=>'Kode Dokumen','index'=>'KODE_DOKUMEN', 'width'=>150))
-            ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>150))
-            ->addColumn(array('label'=>'Tgl. SPPB','index'=>'TGL_SPPB', 'width'=>150))
-            ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150))
-            ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150))
-            ->addColumn(array('label'=>'No. POL','index'=>'NOPOL', 'width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'Tgl. Gate In','index'=>'TGLMASUK', 'width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'Jam. Gate In','index'=>'JAMMASUK', 'width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'Tgl. Stripping','index'=>'TGLSTRIPPING', 'width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'Jam. Stripping','index'=>'JAMSTRIPPING', 'width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'Tgl. Buang MTY','index'=>'TGLBUANGMTY', 'width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'Jam. Buang MTY','index'=>'JAMBUANGMTY', 'width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'Tujuan MTY','index'=>'NAMADEPOMTY', 'width'=>200,'align'=>'left'))
+//            ->addColumn(array('label'=>'Tgl. Release','index'=>'tglrelease', 'width'=>120,'align'=>'center'))
+//            ->addColumn(array('label'=>'Jam. Release','index'=>'jamrelease', 'width'=>100,'align'=>'center'))
+//            ->addColumn(array('label'=>'Kode Dokumen','index'=>'KODE_DOKUMEN', 'width'=>150))
+//            ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>150))
+//            ->addColumn(array('label'=>'Tgl. SPPB','index'=>'TGL_SPPB', 'width'=>150))
+//            ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150))
+//            ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150))
+//            ->addColumn(array('label'=>'No. POL','index'=>'NOPOL', 'width'=>120,'align'=>'center'))
 //            ->addColumn(array('label'=>'Kode Dokumen','index'=>'KODE_DOKUMEN', 'width'=>150))
 //            ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>160))
 //            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))
@@ -121,6 +123,81 @@
 //            ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
             ->renderGrid()
         }}
+    </div>
+</div>
+
+<div class="box">
+    <div class="box-header with-border">
+        <h3 class="box-title">Total Penarikan Bulanan ({{ date('F Y') }})</h3>
+    </div>
+    <div class="box-body table-responsive">
+        <div class="row" style="margin-bottom: 30px;margin-right: 0;">
+            <div class="col-sm-4">
+                <table class="table table-bordered">
+                    <tbody><tr>
+                        <th>UKURAN</th>
+                        <th>JUMLAH CONTAINER</th>
+                    </tr>
+                    <tr>
+                        <td align="center">20</td>
+                        <td align="center">{{ $countbysize['twenty'] }}</td>
+                    </tr>
+                    <tr>
+                        <td align="center">40</td>
+                        <td align="center">{{ $countbysize['fourty'] }}</td>
+                    </tr>
+                    <tr>
+                        <th>TOTAL</th>
+                        <td align="center"><strong>{{ $countbysize['total'] }}</strong></td>
+                    </tr>
+                    <tr>
+                        <th>TEUS</th>
+                        <td align="center"><strong>{{ $countbysize['teus'] }}</strong></td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>TPS ASAL</th>
+                            <th>JUMLAH CONTAINER</th>
+                        </tr>
+                        @foreach($countbytps as $key=>$value)
+                        <tr>
+                            <td>{{ $key }}</td>
+                            <td align="center">{{ $value }}</td>
+                        </tr>
+                        @endforeach
+                        <tr>
+                            <th>TOTAL</th>
+                            <td align="center"><strong>{{ array_sum($countbytps) }}</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>CONSOLIDATOR</th>
+                            <th>JUMLAH CONTAINER</th>
+                        </tr>
+                        @foreach($countbyconsolidator as $key=>$value)
+                        <tr>
+                            <td>{{ $key }}</td>
+                            <td align="center">{{ $value }}</td>
+                        </tr>
+                        @endforeach
+                        <tr>
+                            <th>TOTAL</th>
+                            <td align="center"><strong>{{ array_sum($countbyconsolidator) }}</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -148,7 +225,9 @@
         var startdate = $("#startdate").val();
         var enddate = $("#enddate").val();
         
-        jQuery("#lclInoutReportGrid").jqGrid('setGridParam',{url:"{{URL::to('/lcl/manifest/grid-data')}}?startdate="+startdate+"&enddate="+enddate+"&by="+by}).trigger("reloadGrid");
+        var filters = '{"groupOp":"AND","rules":[{"field":"'+by+'","op":"ge","data":"'+startdate+'"},{"field":"'+by+'","op":"le","data":"'+enddate+'"}]}';
+
+        jQuery("#lclContainerReportGrid").jqGrid("setGridParam", { postData: {filters} }).trigger("reloadGrid");
         
         return false;
     });
