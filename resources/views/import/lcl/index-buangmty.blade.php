@@ -44,7 +44,7 @@
             populateFormFields(rowdata, '');
             $('#TCONTAINER_PK').val(rowid);
             $('#NOPOL_MTY').val(rowdata.NOPOL_MTY);
-            $('#TUJUAN_MTY').val(rowdata.TUJUAN_MTY)trigger('change');
+            $('#TUJUAN_MTY').val(rowdata.TUJUAN_MTY).trigger('change');
             if(rowdata.STARTSTRIPPING && rowdata.STARTSTRIPPING) {
                 $('#btn-group-2').enableButtonGroup();
                 $('#buangmty-form').enableFormGroup();
