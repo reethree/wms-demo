@@ -125,9 +125,9 @@
                       <li class="dropdown-submenu">
                         <a class="submenu" href="#">Report <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('fcl-report-harian') }}">Delivery Harian</a></li>
-                            <li><a href="{{ route('fcl-report-rekap') }}">Rekap Import</a></li>
-                            <li><a href="{{ route('fcl-report-stock') }}">Rekap Stock</a></li>
+                            <!--<li><a href="{{ route('fcl-report-harian') }}">Delivery Harian</a></li>-->
+                            <li><a href="{{ route('fcl-report-rekap') }}">Report Container</a></li>
+                            <!--<li><a href="{{ route('fcl-report-stock') }}">Rekap Stock</a></li>-->
 <!--                                <li>
                                     <a href="">Utilitas Gudang Harian</a>
                                 </li>
