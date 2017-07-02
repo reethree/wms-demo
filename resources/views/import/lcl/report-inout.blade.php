@@ -147,8 +147,25 @@
         var by = $("#by").val();
         var startdate = $("#startdate").val();
         var enddate = $("#enddate").val();
-        
+        var string_filters = '';
         var filters = '{"groupOp":"AND","rules":[{"field":"'+by+'","op":"ge","data":"'+startdate+'"},{"field":"'+by+'","op":"le","data":"'+enddate+'"}]}';
+
+        var current_filters = jQuery("#lclInoutReportGrid").getGridParam("postData").filters;
+        
+        if (current_filters) {
+            var get_filters = $.parseJSON(current_filters);
+            if (get_filters.rules !== undefined && get_filters.rules.length > 0) {
+
+                var tempData = get_filters.rules;
+                
+                tempData.push( { "field":by,"op":"ge","data":startdate } );
+                tempData.push( { "field":by,"op":"le","data":enddate } );
+                
+                string_filters = JSON.stringify(tempData);
+                
+                filters = '{"groupOp":"AND","rules":'+string_filters+'}';
+            }
+        }
         
 //        jQuery("#lclInoutReportGrid").jqGrid('setGridParam',{url:"{{URL::to('/lcl/manifest/grid-data')}}?startdate="+startdate+"&enddate="+enddate+"&by="+by}).trigger("reloadGrid");
         jQuery("#lclInoutReportGrid").jqGrid("setGridParam", { postData: {filters} }).trigger("reloadGrid");

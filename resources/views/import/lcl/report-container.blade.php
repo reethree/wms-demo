@@ -128,7 +128,36 @@
 
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">Total Penarikan Bulanan ({{ date('F Y') }})</h3>
+        <h3 class="box-title">Total Penarikan Bulanan</h3>
+        <form action="{{ route('lcl-report-container') }}" method="GET">
+            <div class="row">
+                <div class="col-md-2">
+                    <select class="form-control select2" id="by" name="month" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                        <option value="01" @if($month == 01) {{ 'selected' }} @endif>Januari</option>
+                        <option value="02" @if($month == 02) {{ 'selected' }} @endif>Februari</option>
+                        <option value="03" @if($month == 03) {{ 'selected' }} @endif>Maret</option>
+                        <option value="04" @if($month == 04) {{ 'selected' }} @endif>April</option>
+                        <option value="05" @if($month == 05) {{ 'selected' }} @endif>Mei</option>
+                        <option value="06" @if($month == 06) {{ 'selected' }} @endif>Juni</option>
+                        <option value="07" @if($month == 07) {{ 'selected' }} @endif>Juli</option>
+                        <option value="08" @if($month == 08) {{ 'selected' }} @endif>Agustus</option>
+                        <option value="09" @if($month == 09) {{ 'selected' }} @endif>September</option>
+                        <option value="10" @if($month == 10) {{ 'selected' }} @endif>Oktober</option>
+                        <option value="11" @if($month == 11) {{ 'selected' }} @endif>November</option>
+                        <option value="12" @if($month == 12) {{ 'selected' }} @endif>Desember</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control select2" id="by" name="year" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                        <option value="2016" @if($year == 2016) {{ 'selected' }} @endif>2016</option>
+                        <option value="2017" @if($year == 2017) {{ 'selected' }} @endif>2017</option>                      
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" id="searchByMonthBtn" class="btn btn-default">Search</button>
+                </div>
+            </div>
+        </form>
     </div>
     <div class="box-body table-responsive">
         <div class="row" style="margin-bottom: 30px;margin-right: 0;">
@@ -224,8 +253,25 @@
         var by = $("#by").val();
         var startdate = $("#startdate").val();
         var enddate = $("#enddate").val();
-        
+        var string_filters = '';
         var filters = '{"groupOp":"AND","rules":[{"field":"'+by+'","op":"ge","data":"'+startdate+'"},{"field":"'+by+'","op":"le","data":"'+enddate+'"}]}';
+
+        var current_filters = jQuery("#lclInoutReportGrid").getGridParam("postData").filters;
+        
+        if (current_filters) {
+            var get_filters = $.parseJSON(current_filters);
+            if (get_filters.rules !== undefined && get_filters.rules.length > 0) {
+
+                var tempData = get_filters.rules;
+                
+                tempData.push( { "field":by,"op":"ge","data":startdate } );
+                tempData.push( { "field":by,"op":"le","data":enddate } );
+                
+                string_filters = JSON.stringify(tempData);
+                
+                filters = '{"groupOp":"AND","rules":'+string_filters+'}';
+            }
+        }
 
         jQuery("#lclContainerReportGrid").jqGrid("setGridParam", { postData: {filters} }).trigger("reloadGrid");
         

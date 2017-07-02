@@ -398,7 +398,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. POS BC11</label>
                         <div class="col-sm-8">
-                            <input type="text" id="NO_POS_BC11" name="NO_POS_BC11" class="form-control" readonly>
+                            <input type="text" id="NO_POS_BC11" name="NO_POS_BC11" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
