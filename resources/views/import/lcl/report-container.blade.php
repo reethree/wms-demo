@@ -256,7 +256,7 @@
         var string_filters = '';
         var filters = '{"groupOp":"AND","rules":[{"field":"'+by+'","op":"ge","data":"'+startdate+'"},{"field":"'+by+'","op":"le","data":"'+enddate+'"}]}';
 
-        var current_filters = jQuery("#lclInoutReportGrid").getGridParam("postData").filters;
+        var current_filters = jQuery("#lclContainerReportGrid").getGridParam("postData").filters;
         
         if (current_filters) {
             var get_filters = $.parseJSON(current_filters);
