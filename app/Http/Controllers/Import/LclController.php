@@ -775,6 +775,13 @@ class LclController extends Controller
         $data = $request->json()->all(); 
         unset($data['TMANIFEST_PK'], $data['_token']);
         
+        if(empty($data['NOTALLY'])) {
+            $manifestID = DBManifest::select('NOTALLY')->where('NOTALLY', NULL)->count();
+            $regID = str_pad(intval(($manifestID > 0 ? $manifestID : 0)+1), 3, '0', STR_PAD_LEFT);
+
+            $data['NOTALLY'] = 'PRJPL0000/17.'.$regID;
+        }
+        
         $data['TGLSURATJALAN'] = $data['tglrelease'];
         $data['JAMSURATJALAN'] = $data['jamrelease'];
         $data['tglfiat'] = $data['tglrelease'];
