@@ -944,7 +944,7 @@ class FclController extends Controller
                 $coaricontdetail->KD_DOK_INOUT = 3;
                 $coaricontdetail->NO_DOK_INOUT = (!empty($container->NO_PLP) ? $container->NO_PLP : '');
                 $coaricontdetail->TGL_DOK_INOUT = (!empty($container->TGL_PLP) ? date('Ymd', strtotime($container->TGL_PLP)) : '');
-                $coaricontdetail->WK_INOUT = date('Ymd', strtotime($container->TGL_PLP)).date('His', strtotime($container->JAMMASUK));
+                $coaricontdetail->WK_INOUT = date('Ymd', strtotime($container->TGLMASUK)).date('His', strtotime($container->JAMMASUK));
                 $coaricontdetail->KD_SAR_ANGKUT_INOUT = 1;
                 $coaricontdetail->NO_POL = $container->NOPOL;
                 $coaricontdetail->FL_CONT_KOSONG = 2;
