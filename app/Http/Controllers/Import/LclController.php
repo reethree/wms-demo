@@ -782,6 +782,10 @@ class LclController extends Controller
             $data['NOTALLY'] = 'PRJPL0000/17.'.$regID;
         }
         
+        $kode_dok = \App\Models\KodeDok::find($data['KD_DOK_INOUT']);
+        if($kode_dok){
+            $data['KODE_DOKUMEN'] = $kode_dok->name;
+        }
         $data['TGLSURATJALAN'] = $data['tglrelease'];
         $data['JAMSURATJALAN'] = $data['jamrelease'];
         $data['tglfiat'] = $data['tglrelease'];
