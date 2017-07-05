@@ -602,7 +602,7 @@ class LclController extends Controller
         
         if($update){
             
-            $dataManifest['tglmasuk'] = $data['tglmasuk'];
+            $dataManifest['tglmasuk'] = $data['TGLMASUK'];
             $dataManifest['Jammasuk'] = $data['JAMMASUK'];  
             $dataManifest['NOPOL_MASUK'] = $data['NOPOL']; 
             
