@@ -22,7 +22,8 @@
                     <select class="form-control select2" id="by" name="by" style="width: 100%;" tabindex="-1" aria-hidden="true">
                         <option value="TGL_PLP">Tgl. PLP</option>
                         <option value="tglmasuk">Tgl. GateIn</option>
-                        <option value="ETA">ETA</option>                       
+                        <option value="ETA">ETA</option>
+                        <option value="tglrelease">Tgl. Release</option>
                     </select>
                 </div>
                 <div class="col-xs-3">
