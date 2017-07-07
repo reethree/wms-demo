@@ -976,7 +976,7 @@ class LclController extends Controller
 //        BY GATEIN
         $twentyg = DBContainer::where('SIZE', 20)->whereRaw('MONTH(TGLMASUK) = '.$month)->whereRaw('YEAR(TGLMASUK) = '.$year)->count();
         $fourtyg = DBContainer::where('SIZE', 40)->whereRaw('MONTH(TGLMASUK) = '.$month)->whereRaw('YEAR(TGLMASUK) = '.$year)->count();
-        $teusg = ($twenty*1)+($fourty*2);
+        $teusg = ($twentyg*1)+($fourtyg*2);
         $data['countbysizegatein'] = array('twenty' => $twentyg, 'fourty' => $fourtyg, 'total' => $twentyg+$fourtyg, 'teus' => $teusg);
         
         $jictg = DBContainer::where('KD_TPS_ASAL', 'JICT')->whereRaw('MONTH(TGLMASUK) = '.$month)->whereRaw('YEAR(TGLMASUK) = '.$year)->count();
@@ -992,6 +992,12 @@ class LclController extends Controller
         
         $data['countbytps'] = array('JICT' => array($jict, $jictg), 'KOJA' => array($koja, $kojag), 'MAL0' => array($mal, $malg), 'NCT1' => array($nct1, $nct1g), 'PLDC' => array($pldc, $pldcg));
         $data['countbyconsolidator'] = array('FBI/CPL' => array($fc, $fcg), 'MKT/ECU' => array($me, $meg), 'ARJAKA/PELOPOR' => array($ap, $apg));
+        
+        $data['totcounttpsp'] = array_sum(array($jict,$koja,$mal,$nct1,$pldc));
+        $data['totcounttpsg'] = array_sum(array($jictg,$kojag,$malg,$nct1g,$pldcg));
+        
+        $data['totcountconsolidatorp'] = array_sum(array($fc,$me,$ap));
+        $data['totcountconsolidatorg'] = array_sum(array($fcg,$meg,$apg));
         
         $data['month'] = $month;
         $data['year'] = $year;

@@ -209,7 +209,8 @@
                         @endforeach
                         <tr>
                             <th>TOTAL</th>
-                            <td align="center"><strong>{{ array_sum($countbytps) }}</strong></td>
+                            <td align="center"><strong>{{ $totcounttpsp }}</strong></td>
+                            <td align="center"><strong>{{ $totcounttpsg }}</strong></td>
                         </tr>
                     </tbody>
                 </table>
@@ -231,7 +232,8 @@
                         @endforeach
                         <tr>
                             <th>TOTAL</th>
-                            <td align="center"><strong>{{ array_sum($countbyconsolidator) }}</strong></td>
+                            <td align="center"><strong>{{ $totcountconsolidatorp }}</strong></td>
+                            <td align="center"><strong>{{ $totcountconsolidatorg }}</strong></td>
                         </tr>
                     </tbody>
                 </table>
