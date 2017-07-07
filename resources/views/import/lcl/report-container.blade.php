@@ -163,27 +163,33 @@
         <div class="row" style="margin-bottom: 30px;margin-right: 0;">
             <div class="col-sm-4">
                 <table class="table table-bordered">
-                    <tbody><tr>
-                        <th>UKURAN</th>
-                        <th>JUMLAH CONTAINER</th>
-                    </tr>
-                    <tr>
-                        <td align="center">20</td>
-                        <td align="center">{{ $countbysize['twenty'] }}</td>
-                    </tr>
-                    <tr>
-                        <td align="center">40</td>
-                        <td align="center">{{ $countbysize['fourty'] }}</td>
-                    </tr>
-                    <tr>
-                        <th>TOTAL</th>
-                        <td align="center"><strong>{{ $countbysize['total'] }}</strong></td>
-                    </tr>
-                    <tr>
-                        <th>TEUS</th>
-                        <td align="center"><strong>{{ $countbysize['teus'] }}</strong></td>
-                    </tr>
-                  </tbody>
+                    <tbody>
+                        <tr>
+                            <th>UKURAN</th>
+                            <th>JML CONT (PLP)</th>
+                            <th>JML CONT (GATEIN)</th>
+                        </tr>
+                        <tr>
+                            <td align="center">20</td>
+                            <td align="center">{{ $countbysize['twenty'] }}</td>
+                            <td align="center">{{ $countbysizegatein['twenty'] }}</td>
+                        </tr>
+                        <tr>
+                            <td align="center">40</td>
+                            <td align="center">{{ $countbysize['fourty'] }}</td>
+                            <td align="center">{{ $countbysizegatein['fourty'] }}</td>
+                        </tr>
+                        <tr>
+                            <th>TOTAL</th>
+                            <td align="center"><strong>{{ $countbysize['total'] }}</strong></td>
+                            <td align="center"><strong>{{ $countbysizegatein['total'] }}</strong></td>
+                        </tr>
+                        <tr>
+                            <th>TEUS</th>
+                            <td align="center"><strong>{{ $countbysize['teus'] }}</strong></td>
+                            <td align="center"><strong>{{ $countbysizegatein['teus'] }}</strong></td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             <div class="col-sm-4">
@@ -191,12 +197,14 @@
                     <tbody>
                         <tr>
                             <th>TPS ASAL</th>
-                            <th>JUMLAH CONTAINER</th>
+                            <th>JML CONT (PLP)</th>
+                            <th>JML CONT (GATEIN)</th>
                         </tr>
                         @foreach($countbytps as $key=>$value)
                         <tr>
                             <td>{{ $key }}</td>
-                            <td align="center">{{ $value }}</td>
+                            <td align="center">{{ $value[0] }}</td>
+                            <td align="center">{{ $value[1] }}</td>
                         </tr>
                         @endforeach
                         <tr>
@@ -211,12 +219,14 @@
                     <tbody>
                         <tr>
                             <th>CONSOLIDATOR</th>
-                            <th>JUMLAH CONTAINER</th>
+                            <th>JML CONT (PLP)</th>
+                            <th>JML CONT (GATEIN)</th>
                         </tr>
                         @foreach($countbyconsolidator as $key=>$value)
                         <tr>
                             <td>{{ $key }}</td>
-                            <td align="center">{{ $value }}</td>
+                            <td align="center">{{ $value[0] }}</td>
+                            <td align="center">{{ $value[1] }}</td>
                         </tr>
                         @endforeach
                         <tr>
