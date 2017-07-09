@@ -104,6 +104,38 @@ class DefaultController extends BaseController
         
     }
     
+    public function updateSor($type, $value)
+    {
+        $sor = \App\Models\SorYor::where('type', 'sor')->first();
+        if($type == 'stripping'):
+            $k_trisi = $sor->kapasitas_awal + $value;
+        elseif($type == 'release'):
+            $k_trisi = $sor->kapasitas_awal - $value;
+        endif;
+        
+        $k_kosong = $sor->kapasitas_default - $k_trisi;
+        
+        $sor = ($k_trisi / $sor->kapasitas_default) * (100/100);
+        
+        return $sor;
+    }
+    
+    public function updateYor($type, $value)
+    {
+        $yor = \App\Models\SorYor::where('type', 'yor')->first();
+        if($type == 'gatein'):
+            $k_trisi = $yor->kapasitas_awal + $value;
+        elseif($type == 'release'):
+            $k_trisi = $yor->kapasitas_awal - $value;
+        endif;
+        
+        $k_kosong = $yor->kapasitas_default - $k_trisi;
+        
+        $yor = ($k_trisi / $yor->kapasitas_default) * (100/100);
+        
+        return $yor;
+    }
+    
     public function voiceCallback(Request $request)
     {
 //        <prompt>You entered is: <value expr="post_id" /> , , </prompt>

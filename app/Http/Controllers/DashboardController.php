@@ -18,6 +18,9 @@ class DashboardController extends Controller
         $data['page_title'] = "Welcome to Dashboard";
         $data['page_description'] = "This is Admin Page Primanata WMS!";
         
+        $data['sor'] = \App\Models\SorYor::where('type', 'sor')->first();
+        $data['yor'] = \App\Models\SorYor::where('type', 'yor')->first();
+        
         return view('welcome')->with($data);
     }
 }

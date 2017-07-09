@@ -145,4 +145,49 @@ class Controller extends BaseController
         return preg_replace('!\s+!', ' ', $string);
     }
     
+    public function updateSor($type, $value)
+    {
+     
+        $sor = \App\Models\SorYor::where('type', 'sor')->first();
+        
+        if($type == 'approve'):
+            $k_trisi = ($sor->kapasitas_terisi*1000) + ($value*1000);
+        elseif($type == 'release'):
+            $k_trisi = ($sor->kapasitas_terisi*1000) - ($value*1000);
+        endif;
+        
+        $k_kosong = ($sor->kapasitas_default*1000) - $k_trisi;
+        
+        $tot_sor = ($k_trisi / ($sor->kapasitas_default*1000)) * 100;
+        
+        $sor->kapasitas_terisi = (float)($k_trisi/1000);
+        $sor->kapasitas_kosong = (float)($k_kosong/1000);
+        $sor->total = $tot_sor;
+        $sor->save();
+        
+        return json_encode(array('value' => $value, 'default' => $sor->kapasitas_default,'awal' => $sor->kapasitas_awal,'terisi' => (float)($k_trisi/1000), 'sor' => $tot_sor));
+    }
+    
+    public function updateYor($type, $value)
+    {
+        $yor = \App\Models\SorYor::where('type', 'yor')->first();
+        if($type == 'gatein'):
+            $k_trisi = ($yor->kapasitas_terisi*1000) + ($value*1000);
+        elseif($type == 'release'):
+            $k_trisi = ($yor->kapasitas_terisi*1000) - ($value*1000);
+        endif;
+        
+        $k_kosong = ($yor->kapasitas_default*1000) - $k_trisi;
+        
+        $tot_yor = ($k_trisi / ($yor->kapasitas_default*1000)) * 100;
+        
+        $yor->kapasitas_terisi = (float)($k_trisi/1000);
+        $yor->kapasitas_kosong = (float)($k_kosong/1000);
+        $yor->total = $tot_yor;
+        $yor->save();
+        
+        return json_encode(array('value' => $value, 'default' => $yor->kapasitas_default, 'awal' => $yor->kapasitas_awal, 'terisi' => (float)($k_trisi/1000), 'yor' => $tot_yor));
+
+    }
+    
 }

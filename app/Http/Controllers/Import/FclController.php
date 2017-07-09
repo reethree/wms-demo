@@ -540,10 +540,18 @@ class FclController extends Controller
         $data = $request->json()->all(); 
         unset($data['TCONTAINER_PK'], $data['_token']);
         
+        $teus = DBContainer::select('TEUS')->where('TCONTAINER_PK', $id)->first();
+
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
         
         if($update){
+            $cont = DBContainer::find($id);
+            if($cont->yor_update == 0){
+                $yor = $this->updateYor('gatein', $teus->TEUS);
+                $cont->yor_update = 1;
+                $cont->save();
+            }
             
 //            $dataManifest['tglmasuk'] = $data['tglmasuk'];
 //            $dataManifest['Jammasuk'] = $data['JAMMASUK'];  
@@ -693,6 +701,8 @@ class FclController extends Controller
         $data = $request->json()->all(); 
         unset($data['TCONTAINER_PK'], $data['_token']);
         
+        $teus = DBContainer::select('TEUS')->where('TCONTAINER_PK', $id)->first();
+        
         $data['TGLFIAT'] = $data['TGLRELEASE'];
         $data['JAMFIAT'] = $data['JAMRELEASE'];
         $data['TGLSURATJALAN'] = $data['TGLRELEASE'];
@@ -704,6 +714,13 @@ class FclController extends Controller
             ->update($data);
         
         if($update){
+            $cont = DBContainer::find($id);
+            if($cont->yor_update == 1){
+                $yor = $this->updateYor('release', $teus->TEUS);
+                $cont->yor_update = 2;
+                $cont->save();
+            }
+            
             return json_encode(array('success' => true, 'message' => 'Release successfully updated!'));
         }
         
@@ -901,6 +918,8 @@ class FclController extends Controller
         
         $data['month'] = $month;
         $data['year'] = $year;
+        
+        $data['yor'] = \App\Models\SorYor::where('type', 'yor')->first();
         
         return view('import.fcl.report-rekap')->with($data);
     }

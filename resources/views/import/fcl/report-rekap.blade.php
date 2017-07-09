@@ -162,7 +162,7 @@
     </div>
     <div class="box-body table-responsive">
         <div class="row" style="margin-bottom: 30px;margin-right: 0;">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <table class="table table-bordered">
                     <tbody><tr>
                         <th>UKURAN</th>
@@ -192,7 +192,7 @@
                   </tbody>
                 </table>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <table class="table table-bordered">
                     <tbody>
                         <tr>
@@ -215,8 +215,37 @@
                     </tbody>
                 </table>
             </div>
+            
+        </div>
+    </div>
+</div>
+<div class="box">
+    <div class="box-header with-border">
+        <h3 class="box-title">Report YOR ({{ date('d F Y') }})</h3>
+    </div>
+    <div class="box-body table-responsive">
+        <div class="row" style="margin-bottom: 30px;margin-right: 0;">
             <div class="col-sm-4">
-                
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>KAPASITAS TERISI</th>
+                            <td align="right">{{ number_format($yor->kapasitas_terisi,'2','.',',') }} TEUS</td>
+                        </tr>
+                        <tr>
+                            <th>KAPASITAS LAPANGAN</th>
+                            <td align="right">{{ number_format($yor->kapasitas_default,'2','.',',') }} TEUS</td>
+                        </tr>
+                        <tr>
+                            <th>KAPASITAS KOSONG</th>
+                            <td align="right">{{ number_format($yor->kapasitas_kosong,'2','.',',') }} TEUS</td>
+                        </tr>
+                        <tr>
+                            <th>YOR (%)</th>
+                            <td align="right">{{ number_format($yor->total,'2','.',',') }} %</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

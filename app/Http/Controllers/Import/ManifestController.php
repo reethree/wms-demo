@@ -298,10 +298,19 @@ class ManifestController extends Controller
     public function approve($id)
     {
         
+        $meas = DBManifest::select('MEAS')->where('TMANIFEST_PK', $id)->first();
+
         $update = DBManifest::where('TMANIFEST_PK', $id)
             ->update(array('VALIDASI'=>'Y'));
         
         if($update){
+            $manifest = DBManifest::find($id);
+            if($manifest->sor_update == 0){
+                $sor = $this->updateSor('approve', $meas->MEAS);
+                $manifest->sor_update = 1;
+                $manifest->save();
+            }
+
             return json_encode(array('success' => true, 'message' => 'Manifest successfully approved!'));
         }
         
@@ -315,6 +324,15 @@ class ManifestController extends Controller
             ->update(array('VALIDASI'=>'Y'));
         
         if($update){
+            
+            $manifest = DBManifest::where('TCONTAINER_FK', $container_id)->get();
+            foreach ($manifest as $mfs):
+                if($mfs->sor_update == 0){
+                    $sor = $this->updateSor('approve', $mfs->MEAS);
+                    DBManifest::where('TMANIFEST_PK', $mfs->TMANIFEST_PK)->update(array('sor_update'=>1));
+                }
+            endforeach;
+            
             return json_encode(array('success' => true, 'message' => 'All Manifest successfully approved!'));
         }
         

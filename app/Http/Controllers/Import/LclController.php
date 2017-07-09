@@ -775,6 +775,8 @@ class LclController extends Controller
         $data = $request->json()->all(); 
         unset($data['TMANIFEST_PK'], $data['_token']);
         
+        $meas = DBManifest::select('MEAS')->where('TMANIFEST_PK', $id)->first();
+        
         if(empty($data['NOTALLY'])) {
             $manifestID = DBManifest::select('NOTALLY')->where('NOTALLY', NULL)->count();
             $regID = str_pad(intval(($manifestID > 0 ? $manifestID : 0)+1), 3, '0', STR_PAD_LEFT);
@@ -798,6 +800,8 @@ class LclController extends Controller
             ->update($data);
         
         if($update){
+            $sor = $this->updateSor('release', $meas->MEAS);
+
             return json_encode(array('success' => true, 'message' => 'Release successfully updated!'));
         }
         
@@ -926,6 +930,8 @@ class LclController extends Controller
                 'title' => 'LCL Report Stock'
             ]
         ];        
+        
+        $data['sor'] = \App\Models\SorYor::where('type', 'sor')->first();
         
         return view('import.lcl.report-inout')->with($data);
     }
