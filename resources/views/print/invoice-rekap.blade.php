@@ -31,7 +31,7 @@
             <td style="text-align: center;">Biaya Penumpukan Barang LCL ({{ $invoices['0']->INVOICE }}) Gudang Primanata</td>
         </tr>
         <tr>
-            <td style="text-align: center;">Tanggal : {{ date('d F Y', strtotime($invoices['0']->created_at)) }}</td>
+            <td style="text-align: center;">Tanggal : {{ date('d F Y', strtotime($invoices['0']->tglrelease)) }}</td>
         </tr>
     </table>
     

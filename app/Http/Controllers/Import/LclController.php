@@ -1399,12 +1399,15 @@ class LclController extends Controller
                 // Update Invoice Number
                 $array_bulan = array(1=>"I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
                 $bulan = $array_bulan[date('n')];
-                $no_invoice = str_pad($invoice_import->id, 4, '0', STR_PAD_LEFT).'/Gud/'.$bulan.'/'.date('Y').'-PJP';
+                $no_invoice = $request->no_invoice.'/Gud/'.$bulan.'/'.date('Y').'-PJP';
+//                $no_invoice = str_pad($invoice_import->id, 4, '0', STR_PAD_LEFT).'/Gud/'.$bulan.'/'.date('Y').'-PJP';
                 \App\Models\Invoice::where('id', $invoice_import->id)->update(['no_invoice' => $no_invoice]);
                 
-                return json_encode(array('success' => true, 'message' => 'No. HBL '.$manifest->NOHBL.', invoice berhasih dibuat.'));
+                return back()->with('success', 'No. HBL '.$manifest->NOHBL.', invoice berhasih dibuat.');
+//                return json_encode(array('success' => true, 'message' => 'No. HBL '.$manifest->NOHBL.', invoice berhasih dibuat.'));
             }else{
-                return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+                return back()->with('error', 'Something went wrong, please try again later.');
+//                return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
             }
 //            return json_encode(array('hari' => $hari, 'weight' => $weight, 'meas' => $meas, 'cbm' => $maxcbm));
 //            return json_encode(array('success' => true, 'message' => 'No. Tally '.$manifest->NOTALLY.', invoice berhasih dibuat.'));

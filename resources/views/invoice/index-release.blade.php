@@ -11,48 +11,24 @@
     function onSelectRowEvent()
     {
         $('#btn-group-4').enableButtonGroup();
+        
+        rowid = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
+        rowdata = $('#lclReleaseGrid').getRowData(rowid);
+
+        $("#manifest_id").val(rowdata.TMANIFEST_PK);
     }
     
     $(document).ready(function()
     {
         $('#release-form').disabledFormGroup();
         $('#btn-toolbar').disabledButtonGroup();
-//        $('#btn-group-3').enableButtonGroup();
         
-//        $('#btn-edit').click(function() {
-//            //Gets the selected row id.
-//            rowid = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
-//            rowdata = $('#lclReleaseGrid').getRowData(rowid);
-//
-//            populateFormFields(rowdata, '');
-//            $('#TMANIFEST_PK').val(rowid);
-//            $('#NO_BC11').val(rowdata.NO_BC11);
-//            $('#TGL_BC11').val(rowdata.TGL_BC11);
-//            $('#NO_POS_BC11').val(rowdata.NO_POS_BC11);
-//            $('#NO_SPJM').val(rowdata.NO_SPJM);
-//            $('#TGL_SPJM').val(rowdata.TGL_SPJM);
-//            $('#NPWP_CONSIGNEE').val(rowdata.NPWP_CONSIGNEE);
-//            $('#NO_SPPB').val(rowdata.NO_SPPB);
-//            $('#TGL_SPPB').val(rowdata.TGL_SPPB);
-//            $('#NOPOL_RELEASE').val(rowdata.NOPOL_RELEASE);
-//            $('#PENAGIHAN').val(rowdata.PENAGIHAN).trigger("change");
-//            $('#LOKASI_TUJUAN').val(rowdata.LOKASI_TUJUAN).trigger("change");
-//            $('#REF_NUMBER_OUT').val(rowdata.REF_NUMBER_OUT);
-//            $('#UIDRELEASE').val(rowdata.UIDRELEASE);
-//                        
-//            if(!rowdata.tglrelease && !rowdata.jamrelease) {
-//                $('#btn-group-2').enableButtonGroup();
-//                $('#release-form').enableFormGroup();
-//            }else{
-//                $('#btn-group-4').enableButtonGroup();
-//                $('#btn-group-5').enableButtonGroup();
-//                $('#btn-group-2').disabledButtonGroup();
-//                $('#release-form').disabledFormGroup();
-//            }
-//
-//        });
         
-        $('#btn-invoice').click(function() {
+        $('#btn-invoice').on("click", function(){
+            $('#create-invoice-modal').modal('show');
+        });
+        
+        $('#create-invoice-form').on("submit", function(){
             if(!confirm('Apakah anda yakin?')){return false;}
             
             //Gets the selected row id.
@@ -63,54 +39,30 @@
                 alert('Please Select Type of Invoice');
                 return false;
             }
-            
-            var manifestId = rowdata.TMANIFEST_PK;
-            var url = '{{ route("lcl-delivery-release-invoice") }}';
-            
-            $.ajax({
-                type: 'POST',
-                data: 
-                {
-                    'id' : manifestId,
-                    '_token' : '{{ csrf_token() }}'
-                },
-                dataType : 'json',
-                url: url,
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Something went wrong, please try again later.');
-                },
-                beforeSend:function()
-                {
-
-                },
-                success:function(json)
-                {
-                    console.log(json);
-
-                    if(json.success) {
-                      $('#alert-message').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
-                    } else {
-                      $('#alert-message').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
-                    }
-
-                    //Triggers the "Close" button funcionality.
-                    $('#btn-refresh').click();
-                }
-            });
-            
         });
-
-//        $('#btn-save').click(function() {
-//            
+        
+//        $('#btn-invoice').click(function() {
 //            if(!confirm('Apakah anda yakin?')){return false;}
 //            
-//            var manifestId = $('#TMANIFEST_PK').val();
-//            var url = "{{route('lcl-delivery-release-update','')}}/"+manifestId;
-//
+//            //Gets the selected row id.
+//            rowid = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
+//            rowdata = $('#lclReleaseGrid').getRowData(rowid);
+//            
+//            if(rowdata.INVOICE == ''){
+//                alert('Please Select Type of Invoice');
+//                return false;
+//            }
+//            
+//            var manifestId = rowdata.TMANIFEST_PK;
+//            var url = '{{ route("lcl-delivery-release-invoice") }}';
+//            
 //            $.ajax({
 //                type: 'POST',
-//                data: JSON.stringify($('#release-form').formToObject('')),
+//                data: 
+//                {
+//                    'id' : manifestId,
+//                    '_token' : '{{ csrf_token() }}'
+//                },
 //                dataType : 'json',
 //                url: url,
 //                error: function (jqXHR, textStatus, errorThrown)
@@ -124,31 +76,18 @@
 //                success:function(json)
 //                {
 //                    console.log(json);
+//
 //                    if(json.success) {
-//                      $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+//                      $('#alert-message').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
 //                    } else {
-//                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+//                      $('#alert-message').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
 //                    }
 //
 //                    //Triggers the "Close" button funcionality.
 //                    $('#btn-refresh').click();
 //                }
 //            });
-//        });
-        
-//        $('#btn-cancel').click(function() {
-//            $('#btn-refresh').click();
-//        });
-//        
-//        $('#btn-refresh').click(function() {
-//            $('#lclReleaseGrid').jqGrid().trigger("reloadGrid");
-//            $('#release-form').disabledFormGroup();
-//            $('#btn-toolbar').disabledButtonGroup();
-//            $('#btn-group-3').enableButtonGroup();
 //            
-//            $('#release-form')[0].reset();
-//            $('.select2').val(null).trigger("change");
-//            $('#TMANIFEST_PK').val("");
 //        });
         
     });
@@ -242,199 +181,56 @@
                     ->addColumn(array('label'=>'Ref Number','index'=>'REF_NUMBER_OUT', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. Fiat Muat','index'=>'tglfiat', 'width'=>120,'hidden'=>true))
                     ->addColumn(array('label'=>'Jam. Fiat Muat','index'=>'jamfiat', 'width'=>70,'hidden'=>true))
-                    ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120,'align'=>'center','hidden'=>true))
                     ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. Masuk','index'=>'tglmasuk', 'width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Jam. Masuk','index'=>'jammasuk', 'width'=>100,'align'=>'center'))
                     ->addColumn(array('label'=>'Tgl. Release','index'=>'tglrelease', 'width'=>120,'align'=>'center'))
-                    ->addColumn(array('label'=>'Jam. Release','index'=>'jamrelease', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Jam. Release','index'=>'jamrelease', 'width'=>100,'align'=>'center'))
                     ->addColumn(array('label'=>'Lokasi Tujuan','index'=>'LOKASI_TUJUAN', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
                     ->renderGrid()
                 }}
                 
                 <div id="btn-toolbar" class="section-header btn-toolbar" role="toolbar" style="margin: 10px 0;">
-<!--                    <div id="btn-group-3" class="btn-group">
-                        <button class="btn btn-default" id="btn-refresh"><i class="fa fa-refresh"></i> Refresh</button>
-                    </div>
-                    <div id="btn-group-1" class="btn-group">
-                        <button class="btn btn-default" id="btn-edit"><i class="fa fa-edit"></i> Edit</button>
-                    </div>
-                    <div id="btn-group-2" class="btn-group toolbar-block">
-                        <button class="btn btn-default" id="btn-save"><i class="fa fa-save"></i> Save</button>
-                        <button class="btn btn-default" id="btn-cancel"><i class="fa fa-close"></i> Cancel</button>
-                    </div>  -->
-<!--                    <div id="btn-group-4" class="btn-group pull-right">
-                        <button class="btn btn-info" id="btn-invoice"><i class="fa fa-print"></i> Create Invoice</button>
-                    </div>-->
+
                 </div>
             </div>
             
         </div>
-<!--        <form class="form-horizontal" id="release-form" action="{{ route('lcl-delivery-release-index') }}" method="POST">
-            <div class="row">
-                <div class="col-md-6">
-                    
-                    <input name="_token" type="hidden" value="{{ csrf_token() }}">
-                    <input id="TMANIFEST_PK" name="TMANIFEST_PK" type="hidden">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">No. HBL</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="NOHBL" name="NOHBL" class="form-control" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">No. SPK</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="NOJOBORDER" name="NOJOBORDER" class="form-control" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">No. Container</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="NOCONTAINER" name="NOCONTAINER" class="form-control" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">No. Tally</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="NOTALLY" name="NOTALLY" class="form-control" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Tgl.Surat Jalan</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="TGLSURATJALAN" name="TGLSURATJALAN" class="form-control" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Jam Surat Jalan</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="JAMSURATJALAN" name="JAMSURATJALAN" class="form-control" readonly>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">No.BC11</label>
-                        <div class="col-sm-3">
-                            <input type="text" id="NO_BC11" name="NO_BC11" class="form-control" readonly>
-                        </div>
-                        <label class="col-sm-2 control-label">Tgl.BC11</label>
-                        <div class="col-sm-3">
-                            <input type="text" id="TGL_BC11" name="TGL_BC11" class="form-control" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">No. POS BC11</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="NO_POS_BC11" name="NO_POS_BC11" class="form-control" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">No.SPJM</label>
-                        <div class="col-sm-3">
-                            <input type="text" id="NO_SPJM" name="NO_SPJM" class="form-control" readonly>
-                        </div>
-                        <label class="col-sm-2 control-label">Tgl.SPJM</label>
-                        <div class="col-sm-3">
-                            <input type="text" id="TGL_SPJM" name="TGL_SPJM" class="form-control" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Consolidator</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="NAMACONSOLIDATOR" name="NAMACONSOLIDATOR" class="form-control" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Consignee</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="CONSIGNEE" name="CONSIGNEE" class="form-control" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">NPWP Consignee</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="NPWP_CONSIGNEE" name="NPWP_CONSIGNEE" class="form-control" readonly>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr />
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">No.SPPB/BC.23</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="NO_SPPB" name="NO_SPPB" class="form-control" required readonly>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Tgl.SPPB/BC.23</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="TGL_SPPB" name="TGL_SPPB" class="form-control" required readonly>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Ref. Number</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="REF_NUMBER_OUT" name="REF_NUMBER_OUT" class="form-control" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6"> 
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Penagihan</label>
-                        <div class="col-sm-8">
-                            <select class="form-control select2" id="PENAGIHAN" name="PENAGIHAN" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                                <option value="kredit">Kredit</option>
-                                <option value="tunai">Tunai</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Tgl.Release</label>
-                        <div class="col-sm-8">
-                            <div class="input-group date">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" id="tglrelease" name="tglrelease" class="form-control pull-right datepicker" required value="{{ date('Y-m-d') }}">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bootstrap-timepicker">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Jam Release</label>
-                            <div class="col-sm-8">
-                                <div class="input-group">
-                                    <input type="text" id="jamrelease" name="jamrelease" class="form-control timepicker" value="{{ date('H:i:s') }}" required>
-                                    <div class="input-group-addon">
-                                          <i class="fa fa-clock-o"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Petugas</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="UIDRELEASE" name="UIDRELEASE" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">No. POL</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="NOPOL_RELEASE" name="NOPOL_RELEASE" class="form-control" required>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>  -->
     </div>
 </div>
+
+<div id="create-invoice-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Please Insert Invoice Number</h4>
+            </div>
+            <form id="create-invoice-form" class="form-horizontal" action="{{ route("lcl-delivery-release-invoice") }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}" />
+                            <input name="id" type="hidden" id="manifest_id" />
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">No. Invoice</label>
+                                <div class="col-sm-5">
+                                    <input type="number" class="form-control" name="no_invoice" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
+                  <button type="submit" class="btn btn-primary">Create Invoice</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 @endsection
 
@@ -447,26 +243,5 @@
 @endsection
 
 @section('custom_js')
-
-<!--<script src="{{ asset("/bower_components/AdminLTE/plugins/datepicker/bootstrap-datepicker.js") }}"></script>
-<script src="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.js") }}"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
-<script type="text/javascript">
-    $('.select2').select2();
-    $('.datepicker').datepicker({
-        autoclose: true,
-        todayHighlight: true,
-        format: 'yyyy-mm-dd' 
-    });
-    $('.timepicker').timepicker({ 
-        showMeridian: false,
-        showInputs: false,
-        showSeconds: true,
-        minuteStep: 1,
-        secondStep: 1
-    });
-    $("#JAMSURATJALAN").mask("99:99:99");
-    $("#jamrelease").mask("99:99:99");
-</script>-->
 
 @endsection

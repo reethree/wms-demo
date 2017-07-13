@@ -124,8 +124,9 @@ class InvoiceController extends Controller
         $data['invoices'] = \App\Models\Invoice::select('*')
                 ->join('tmanifest','invoice_import.manifest_id','=','tmanifest.TMANIFEST_PK')
                 ->where('tmanifest.TCONSOLIDATOR_FK', $consolidator_id)
-                ->where('invoice_import.created_at','>=',$start)
-                ->where('invoice_import.created_at','<',$end)
+                ->where('tmanifest.tglrelease',$request->tanggal)
+//                ->where('invoice_import.created_at','>=',$start)
+//                ->where('invoice_import.created_at','<',$end)
                 ->where('tmanifest.INVOICE', $type)
                 ->get();
         
