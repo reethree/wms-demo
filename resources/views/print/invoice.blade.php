@@ -6,9 +6,9 @@
 
 @section('content')
     <div id="details" class="clearfix">
-        <div class="row invoice-info">
+        <div class="row invoice-info" style="border: 1px solid;padding: 0 10px;">
         <div class="col-xs-12 text-center margin-bottom">
-            <h2><b>INVOICE</b></h2>
+            <h2><b>KWITANSI</b></h2>
         </div>
       <div class="col-sm-4 invoice-col">
           <table border="0" cellspacing="0" cellpadding="0">
@@ -88,7 +88,7 @@
             @if($invoice->storage > 0)
             <tr>
               <td>&nbsp;</td>
-              <td>Biaya Penumpukan</td>
+              <td style="height: 30px;">Biaya Penumpukan</td>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
