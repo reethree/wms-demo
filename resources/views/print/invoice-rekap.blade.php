@@ -60,12 +60,14 @@
             <td style="border-top:1px solid;">Rp.</td>
             <td style="text-align: right;border-top:1px solid;">{{ number_format($sub_total) }}</td>
         </tr>
+        @if($ppn > 0)
         <tr>
             <td colspan="2"></td>
             <td style="text-align: center;border-right: 1px solid;border-left: 1px solid;">PPn 10%</td>
             <td>Rp.</td>
             <td style="text-align: right;border-right: 1px solid;">{{ number_format($ppn) }}</td>
         </tr>
+        @endif
         <tr>
             <td colspan="2"></td>
             <td style="text-align: center;border-right: 1px solid;border-left: 1px solid;">Materai</td>

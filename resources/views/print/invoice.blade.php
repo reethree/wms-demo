@@ -8,62 +8,65 @@
     <div id="details" class="clearfix">
         <div class="row invoice-info" style="border: 1px solid;padding: 0 10px;">
         <div class="col-xs-12 text-center margin-bottom">
-            <h2><b>KWITANSI</b></h2>
+            <h2><b>INVOICE</b></h2>
         </div>
       <div class="col-sm-4 invoice-col">
           <table border="0" cellspacing="0" cellpadding="0">
               <tr>
                   <td><b>Kepada Yth.</b></td>
-                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;<b>{{ $manifest->NAMACONSOLIDATOR }}</b></td>
-                  <td>&nbsp;</td>
-                  <td>&nbsp;</td>
+                  <td colspan="3">:&nbsp;&nbsp;&nbsp;&nbsp;<b>{{ $manifest->NAMACONSOLIDATOR }}</b></td>
+<!--                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>-->
                   <td align="right">( {{ $manifest->INVOICE }} )</td>
               </tr>
               <tr>
                   <td><b>Consignee</b></td>
-                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->CONSIGNEE }}</td>
+                  <td colspan="4">:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->CONSIGNEE }}</td>
+<!--                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>-->
+              </tr>
+              <tr>
+                  <td><b>Ex. Kapal</b></td>
+                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->VESSEL }}</td>
                   <td>&nbsp;</td>
                   <td>&nbsp;</td>
                   <td>&nbsp;</td>
               </tr>
               <tr>
-                  <td><b>Ex. Kapal</b></td>
-                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->VESSEL }}</td>
+                  <td><b>No. B/L / D/O</b></td>
+                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->NOHBL }}</td>
                   <td><b>Tgl. Masuk</b></td>
                   <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
                   <td>{{ date('d-M-y', strtotime($manifest->tglmasuk)) }}</td>
               </tr>
               <tr>
-                  <td><b>No. B/L / D/O</b></td>
-                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->NOHBL }}</td>
+                  <td><b>Party</b></td>
+                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->WEIGHT }} KGS</td>
                   <td><b>Tgl. ETA</b></td>
                   <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
                   <td>{{ date('d-M-y', strtotime($manifest->ETA)) }}</td>
               </tr>
               <tr>
-                  <td><b>Party</b></td>
-                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->WEIGHT }} KGS</td>
+                  <td>&nbsp;</td>
+                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->MEAS }} CBM</td>
                   <td><b>Tgl. Keluar</b></td>
                   <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
                   <td>{{ date('d-M-y', strtotime($manifest->tglrelease)) }}</td>
               </tr>
               <tr>
-                  <td>&nbsp;</td>
-                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->MEAS }} CBM</td>
-                  <td>&nbsp;</td>
-                  <td>&nbsp;</td>
-                  <td>&nbsp;</td>
-              </tr>
-              <tr>
                   <td><b>Ex. Cont</b></td>
                   <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->NOCONTAINER }} / {{ $manifest->SIZE }}</td>
-                  <td><b>No. Invoice</b></td>
-                  <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
-                  <td>{{ $invoice->no_invoice }}</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
               </tr>
               <tr>
                   <td><b>Tempat Penumpukan</b></td>
                   <td>:&nbsp;&nbsp;&nbsp;&nbsp;Gudang PRIMANATA</td>
+                  <td><b>No. Invoice</b></td>
+                  <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
+                  <td>{{ $invoice->no_invoice }}</td>
               </tr>
           </table>
       </div>
@@ -88,7 +91,7 @@
             @if($invoice->storage > 0)
             <tr>
               <td>&nbsp;</td>
-              <td style="height: 30px;">Biaya Penumpukan</td>
+              <td style="height: 30px;"><b>Biaya Penumpukan</b></td>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
@@ -196,7 +199,7 @@
             </tr>
             <tr>
                 <td>&nbsp;</td>
-                <td colspan="2" class="dotted"><b>{{ $terbilang }}</b></td>
+                <td colspan="2" class="dotted"><b>{{ strtoupper($terbilang) }}</b></td>
                 <td>&nbsp;</td>
 <!--              <th align="right">PPN ({{ $tarif->ppn }}%)</th>
               <td align="right">Rp.</td>

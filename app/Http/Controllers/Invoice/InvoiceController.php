@@ -137,14 +137,18 @@ class InvoiceController extends Controller
             endforeach;
             
             $data['sub_total'] = array_sum($sum_total);
-            $data['ppn'] = $data['sub_total']*10/100;
+            if(isset($request->free_ppn)):
+                $data['ppn'] = 0;
+            else:
+                $data['ppn'] = $data['sub_total']*10/100;
+            endif;
             $data['materai'] = ($data['sub_total'] > 1000000) ? '6000' : '3000';
             $data['total'] = $data['sub_total'] + $data['ppn'] + $data['materai'];           
             $data['terbilang'] = ucwords($this->terbilang($data['total']))." Rupiah";
 
             $pdf = \PDF::loadView('print.invoice-rekap', $data);
 
-            return $pdf->stream('Rekap Invoice '.date('d-m-Y').'-'.$data['consolidator']->NAMACONSOLIDATOR.'.pdf');
+            return $pdf->setPaper('a4')->stream('Rekap Invoice '.date('d-m-Y').'-'.$data['consolidator']->NAMACONSOLIDATOR.'.pdf');
             
         endif;
         

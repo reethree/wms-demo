@@ -178,6 +178,15 @@ class TablesRepository extends EloquentRepositoryAbstract {
 //                        $Model = \DB::table('tmanifest')
 //                            ->whereNotNull('TGLSURATJALAN')
 //                            ->whereNotNull('JAMSURATJALAN');
+//                            ->where('VALIDASI', 'Y');
+                    break;
+                    case 'release-invoice':
+                        $Model = \DB::table('tmanifest')
+//                            ->select('tmanifest.*','tperusahaan.NPWP as NPWP_CONSIGNEE')
+//                            ->join('tperusahaan', 'tperusahaan.TPERUSAHAAN_PK', '=', 'tmanifest.TCONSIGNEE_FK');
+//                        $Model = \DB::table('tmanifest')
+                            ->whereNotNull('tglrelease')
+                            ->whereNotNull('jamrelease');
                     break;
                 }
                 

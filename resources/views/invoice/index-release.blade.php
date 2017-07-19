@@ -111,13 +111,13 @@
                     GridRender::setGridId("lclReleaseGrid")
                     ->enableFilterToolbar()
                     ->setGridOption('mtype', 'POST')
-                    ->setGridOption('url', URL::to('/lcl/manifest/grid-data?module=release&_token='.csrf_token()))
+                    ->setGridOption('url', URL::to('/lcl/manifest/grid-data?module=release-invoice&_token='.csrf_token()))
                     ->setGridOption('editurl',URL::to('/lcl/manifest/crud'))
                     ->setGridOption('rowNum', 20)
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TMANIFEST_PK')
                     ->setGridOption('rownumbers', true)
-                    ->setGridOption('height', '250')
+                    ->setGridOption('height', '350')
                     ->setGridOption('rowList',array(20,50,100))
                     ->setGridOption('useColSpanStyle', true)
                     ->setNavigatorOptions('navigator', array('viewtext'=>'view','edittext'=>'edit'))
@@ -220,6 +220,12 @@
                                     <input type="number" class="form-control" name="no_invoice" required />
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Free Surcharge</label>
+                                <div class="col-sm-5">
+                                    <input type="checkbox" name="free_surcharge" value="1" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -236,6 +242,9 @@
 
 @section('custom_css')
 
+<!-- Bootstrap Switch -->
+<link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/bootstrap-switch/bootstrap-switch.min.css") }}">
+
 <!--<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/datepicker/datepicker3.css") }}">
 <link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.css") }}">-->
@@ -243,5 +252,14 @@
 @endsection
 
 @section('custom_js')
+
+<script src="{{ asset("/bower_components/AdminLTE/plugins/bootstrap-switch/bootstrap-switch.min.js") }}"></script>
+<script type="text/javascript">
+//    $.fn.bootstrapSwitch.defaults.size = 'mini';
+    $.fn.bootstrapSwitch.defaults.onColor = 'danger';
+    $.fn.bootstrapSwitch.defaults.onText = 'Yes';
+    $.fn.bootstrapSwitch.defaults.offText = 'No';
+    $("input[type='checkbox']").bootstrapSwitch();
+</script>
 
 @endsection

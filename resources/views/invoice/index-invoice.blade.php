@@ -188,6 +188,12 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Free PPN</label>
+                                <div class="col-sm-5">
+                                    <input type="checkbox" name="free_ppn" value="1" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -205,12 +211,14 @@
 @section('custom_css')
 
 <link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/datepicker/datepicker3.css") }}">
+<link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/bootstrap-switch/bootstrap-switch.min.css") }}">
 
 @endsection
 
 @section('custom_js')
 
 <script src="{{ asset("/bower_components/AdminLTE/plugins/datepicker/bootstrap-datepicker.js") }}"></script>
+<script src="{{ asset("/bower_components/AdminLTE/plugins/bootstrap-switch/bootstrap-switch.min.js") }}"></script>
 <script type="text/javascript">
     $('.datepicker').datepicker({
         autoclose: true,
@@ -229,6 +237,11 @@
     $('#cetak-rekap').on('click', function(){
         $('#cetak-rekap-modal').modal('show');
     });
+    
+    $.fn.bootstrapSwitch.defaults.onColor = 'danger';
+    $.fn.bootstrapSwitch.defaults.onText = 'Yes';
+    $.fn.bootstrapSwitch.defaults.offText = 'No';
+    $("input[type='checkbox']").bootstrapSwitch();
 </script>
 
 @endsection

@@ -1370,22 +1370,26 @@ class LclController extends Controller
             );
             $sub_total = array_sum($array_total);
             
-            if($tarif->surcharge){
-                if($manifest->WEIGHT > 2500){
+            if(isset($request->free_surcharge)):
+                $invoice_import->weight_surcharge = 0;
+            else:           
+                if($tarif->surcharge){
+                    if($manifest->WEIGHT > 2500){
+                        if($tarif->surcharge_price > 100){
+                            $invoice_import->weight_surcharge = $tarif->surcharge_price;
+                        }else{
+                            $invoice_import->weight_surcharge = ceil(($tarif->surcharge_price * $sub_total) / 100);
+                        }                     
+                    }
+                }else{
                     if($tarif->surcharge_price > 100){
                         $invoice_import->weight_surcharge = $tarif->surcharge_price;
                     }else{
                         $invoice_import->weight_surcharge = ceil(($tarif->surcharge_price * $sub_total) / 100);
-                    }                     
+                    }  
                 }
-            }else{
-                if($tarif->surcharge_price > 100){
-                    $invoice_import->weight_surcharge = $tarif->surcharge_price;
-                }else{
-                    $invoice_import->weight_surcharge = ceil(($tarif->surcharge_price * $sub_total) / 100);
-                }  
-            }
-
+            endif;
+            
 //            $invoice_import->dg_surcharge = ceil(($tarif->dg_surcharge * $sub_total) / 100);
             $invoice_import->sub_total = $sub_total+$invoice_import->weight_surcharge;
 //            $invoice_import->ppn = ceil(($tarif->ppn * $sub_total) / 100);

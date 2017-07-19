@@ -3,11 +3,31 @@
         <title>@yield('title')</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <!--<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' media="all">-->
+        <!--<link href="https://fonts.googleapis.com/css?family=Raleway+Dots" rel="stylesheet">-->
         <link href="{{asset('print/style.css')}}" rel="stylesheet" type='text/css' media="all">
+        <style>
+            /* latin-ext */
+            @font-face {
+              font-family: 'Raleway Dots';
+              font-style: normal;
+              font-weight: 400;
+              src: local('Raleway Dots'), local('RalewayDots-Regular'), url(https://fonts.gstatic.com/s/ralewaydots/v4/lhLgmWCRcyz-QXo8LCzTfIjoYw3YTyktCCer_ilOlhE.woff2) format('woff2');
+              unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+            }
+            /* latin */
+            @font-face {
+              font-family: 'Raleway Dots';
+              font-style: normal;
+              font-weight: 400;
+              src: local('Raleway Dots'), local('RalewayDots-Regular'), url(https://fonts.gstatic.com/s/ralewaydots/v4/lhLgmWCRcyz-QXo8LCzTfBampu5_7CjHW5spxoeN3Vs.woff2) format('woff2');
+              unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+            }
+            html, body { font-family: 'Raleway Dots', cursive; }
+        </style>
     </head>
     <body>
         <div>
-            <div><br /><br /><br /><br /><br /><br />
+            <div><br /><br /><br /><br />
 <!--                <h2 class="name">PT. PRIMANATA JASA PERSADA</h2>
                 <div>Jl. Enggano No. 40 E Jakarta 14310 - Indonesia</div>
                 <div>Tel. (021) 43932076-77, (021) 43909872-73 &nbsp;Fax. (021) 43932087</div>
