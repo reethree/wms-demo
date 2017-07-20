@@ -629,7 +629,7 @@ class PengirimanController extends Controller
         $cont->addChild('NO_MASTER_BL_AWB', ($dataDetail->NO_MASTER_BL_AWB != '') ? $dataDetail->NO_MASTER_BL_AWB : '');
         $cont->addChild('TGL_MASTER_BL_AWB', ($dataDetail->TGL_MASTER_BL_AWB != '') ? $dataDetail->TGL_MASTER_BL_AWB : '');
         $cont->addChild('ID_CONSIGNEE', ($dataDetail->ID_CONSIGNEE != 000000000000000) ? $dataDetail->ID_CONSIGNEE : '');
-        $cont->addChild('CONSIGNEE', ($dataDetail->CONSIGNEE != '') ? $dataDetail->CONSIGNEE : '');
+        $cont->addChild('CONSIGNEE', ($dataDetail->CONSIGNEE != '') ? htmlspecialchars($dataDetail->CONSIGNEE) : '');
         $cont->addChild('BRUTO', ($dataDetail->BRUTO != '') ? $dataDetail->BRUTO : '');
         $cont->addChild('NO_BC11', ($dataDetail->NO_BC11 != '') ? $dataDetail->NO_BC11 : '');
         $cont->addChild('TGL_BC11', ($dataDetail->TGL_BC11 != '') ? $dataDetail->TGL_BC11 : '');        

@@ -209,9 +209,20 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Invoice <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="manu">
-                    <li><a href="{{route('invoice-tarif-index')}}">Data Tarif</a></li>
-                    <li><a href="{{route('invoice-release-index')}}">Data Release/Gate Out</a></li>
-                    <li><a href="{{route('invoice-index')}}">Data Invoice</a></li>
+                    <li class="dropdown-submenu">
+                        <a class="submenu" href="#">LCL <span class="caret"></span></a>
+                          <ul class="dropdown-menu">
+                                <li><a href="{{route('invoice-tarif-index')}}">Data Tarif</a></li>
+                                <li><a href="{{route('invoice-release-index')}}">Data Release/Gate Out</a></li>
+                                <li><a href="{{route('invoice-index')}}">Data Invoice</a></li>
+                          </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a class="submenu" href="#">FCL <span class="caret"></span></a>
+                          <ul class="dropdown-menu">
+                             <li><a href="#">Data Invoice</a></li>
+                          </ul>
+                    </li>
                 </ul>
             </li>
             
@@ -222,6 +233,9 @@
                     <li><a href="{{route('role-index')}}">Roles</a></li>
                     <li><a href="{{route('permission-index')}}">Permissions</a></li>
                 </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Settings</a>
             </li>
           </ul>
         </div>

@@ -230,3 +230,7 @@ table tfoot tr td:first-child {
   text-align: center;
 }
 
+@media print {
+    font-family: Arial, sans-serif;
+    display: block;
+}
