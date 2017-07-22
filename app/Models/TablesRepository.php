@@ -98,6 +98,11 @@ class TablesRepository extends EloquentRepositoryAbstract {
 //                            ->whereNotNull('JAMSURATJALAN')
                             ;
                     break;
+                    case 'release-invoice':
+                        $Model = \DB::table('tcontainercy')
+                            ->whereNotNull('TGLRELEASE')
+                            ->whereNotNull('JAMRELEASE');
+                    break;
                     case 'gatein':
                         $Model = \DB::table('tcontainercy')
                             ->whereNotNull('NO_BC11')

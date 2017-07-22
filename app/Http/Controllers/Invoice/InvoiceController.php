@@ -352,5 +352,48 @@ class InvoiceController extends Controller
         
         return back()->with('error', 'Something wrong, please try again.')->withInput();
     }
+    
+    
+//    FCL INVOICE
+    public function tarifNctIndex()
+    {
+        if ( !$this->access->can('show.tarifnct.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "Daftar Tarif NCT1";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'Daftar Tarif NCT1'
+            ]
+        ];        
+        
+        return view('invoice.index-tarif-nct')->with($data);
+    }
+    
+    public function releaseNctIndex()
+    {
+        if ( !$this->access->can('show.invoice.releasenct.index') ) {
+            return view('errors.no-access');
+        }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index Invoice Release NCT1', 'slug' => 'show.invoice.releasenct.index', 'description' => ''));
+        
+        $data['page_title'] = "Invoice Release FCL";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'Invoice Release FCL'
+            ]
+        ];        
+        
+//        $data['perusahaans'] = DBPerusahaan::select('TPERUSAHAAN_PK as id', 'NAMAPERUSAHAAN as name')->get();
+        
+        return view('invoice.index-release-fcl')->with($data);
+    }
 
 }
