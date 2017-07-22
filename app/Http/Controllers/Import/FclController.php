@@ -1154,20 +1154,20 @@ class FclController extends Controller
             $invoice_nct = new \App\Models\InvoiceNct;
 //            $invoice_nct->container_id
 //            $invoice_nct->no_container	
-            $invoice_nct->no_invoice = '';	
-            $invoice_nct->no_pajak = '';	
-            $invoice_nct->consignee = $consignee->NAMAPERUSAHAAN;	
-            $invoice_nct->npwp = $consignee->NPWP;
-            $invoice_nct->alamat = $consignee->ALAMAT;	
-            $invoice_nct->consignee_id = $consignee->TPERUSAHAAN_PK;	
+            $invoice_nct->no_invoice = $request->no_invoice;	
+            $invoice_nct->no_pajak = $request->no_pajak;	
+            $invoice_nct->consignee = $request->consignee;	
+            $invoice_nct->npwp = $request->npwp;
+            $invoice_nct->alamat = $request->alamat;	
+            $invoice_nct->consignee_id = $request->consignee_id;	
             $invoice_nct->vessel = $data['VESSEL'];	
             $invoice_nct->voy = $data['VOY'];	
-            $invoice_nct->no_do = '';	
-            $invoice_nct->no_bl = '';	
+            $invoice_nct->no_do = $request->no_do;	
+            $invoice_nct->no_bl = $request->no_bl;	
             $invoice_nct->eta = $data['ETA'];	
             $invoice_nct->gateout_terminal = $data['TGLKELUAR_TPK'];	
             $invoice_nct->gateout_tps = $data['TGLRELEASE'];	
-//            $invoice_nct->administrasi = 20000;	
+            $invoice_nct->uid = \Auth::getUser()->name;	
             
             if($invoice_nct->save()) {
                 
@@ -1378,19 +1378,33 @@ class FclController extends Controller
                 $invoice_gerakan->save();
             endforeach;
 //            
-//            
-//            
-//            $invoice_nct->total_non_ppn = '';	
-//            $invoice_nct->ppn = '';	
-//            $invoice_nct->materai = '';	
-//            $invoice_nct->total = '';		
-//            $invoice_nct->uid = '';
+            $update_nct = \App\Models\InvoiceNct::find($invoice_nct->id);
             
-            return json_encode(array('success' => true, 'message' => 'Invoice berhasih dibuat.'));
+            $total_penumpukan = \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $invoice_nct->id)->sum('total');
+            $total_gerakan = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $invoice_nct->id)->sum('total');
+            
+            $update_nct->administrasi = 20000;
+            $update_nct->total_non_ppn = $total_penumpukan + $total_gerakan;	
+            $update_nct->ppn = $update_nct->total_non_ppn * 10/100;	
+            if(($update_nct->total_non_ppn+$update_nct->ppn) >= 1000000){ 
+                $materai = 6000;
+            }elseif(($update_nct->total_non_ppn+$update_nct->ppn) < 300000) {
+                $materai = 0;
+            }else{
+                $materai = 3000;
+            }
+            $update_nct->materai = $materai;	
+            $update_nct->total = $update_nct->administrasi+$update_nct->total_non_ppn+$update_nct->ppn+$update_nct->materai;	
+            
+            $update_nct->save();
+            
+            return back()->with('success', 'Invoice berhasih dibuat.');
+//            return json_encode(array('success' => true, 'message' => 'Invoice berhasih dibuat.'));
             
         }
         
 //        return $container;
-        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+        return back()->with('error', 'Something went wrong, please try again later.');
+//        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
     }
 }

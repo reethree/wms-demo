@@ -355,6 +355,61 @@ class InvoiceController extends Controller
     
     
 //    FCL INVOICE
+    public function invoiceNctIndex()
+    {
+        if ( !$this->access->can('show.invoicenct.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "Invoice NCT1";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'Invoice NCT1'
+            ]
+        ];        
+
+        return view('invoice.index-invoice-nct')->with($data);
+    }
+    
+    public function invoiceNctEdit($id)
+    {
+        if ( !$this->access->can('edit.invoiceNct.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "Edit Invoice NCT1";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => route('invoice-nct-index'),
+                'title' => 'Invoice NCT1'
+            ],
+            [
+                'action' => '',
+                'title' => 'Edit'
+            ]
+        ];
+        
+        $data['invoice'] = \App\Models\InvoiceNct::find($id);
+        $data['penumpukan'] = \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $data['invoice']->id)->get();
+        $data['gerakan'] = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $data['invoice']->id)->orderBy('lokasi_sandar', 'ASC')->get();
+        $data['tarif'] = \App\Models\InvoiceTarifNct::get();
+        $data['terbilang'] = ucwords($this->terbilang($data['invoice']->total))." Rupiah";
+        
+        return view('invoice.edit-invoice-nct')->with($data);
+    }
+    
+    public function invoiceNctDestroy($id)
+    {
+        \App\Models\InvoiceNct::where('id', $id)->delete();
+        \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $id)->delete();
+        \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $id)->delete();
+        
+        return back()->with('success', 'Invoice has been deleted.'); 
+    }
+
     public function tarifNctIndex()
     {
         if ( !$this->access->can('show.tarifnct.index') ) {

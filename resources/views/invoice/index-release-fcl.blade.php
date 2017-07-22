@@ -10,12 +10,12 @@
     
     function onSelectRowEvent()
     {
-        $('#btn-group-4').enableButtonGroup();
-        
-        rowid = $('#fclReleaseGrid').jqGrid('getGridParam', 'selrow');
-        rowdata = $('#fclReleaseGrid').getRowData(rowid);
-
-        $("#manifest_id").val(rowdata.TMANIFEST_PK);
+//        $('#btn-group-4').enableButtonGroup();
+//        
+//        rowid = $('#fclReleaseGrid').jqGrid('getGridParam', 'selrow');
+//        rowdata = $('#fclReleaseGrid').getRowData(rowid);
+//
+//        $("#manifest_id").val(rowdata.TMANIFEST_PK);
     }
     
     $(document).ready(function()
@@ -24,85 +24,85 @@
 //        $('#btn-toolbar').disabledButtonGroup();
         
         
-//        $('#btn-invoice').on("click", function(){
-////            $('#create-invoice-modal').modal('show');
-//            
-//            var $grid = $("#fclReleaseGrid"), selIds = $grid.jqGrid("getGridParam", "selarrrow"), i, n,
-//                cellValues = [];
-//            for (i = 0, n = selIds.length; i < n; i++) {
-//                cellValues.push($grid.jqGrid("getCell", selIds[i], "TCONTAINER_PK"));
-//            }
-//            console.log(cellValues.join(","));
-//            
-//        });
-        
-//        $('#create-invoice-form').on("submit", function(){
-//            if(!confirm('Apakah anda yakin?')){return false;}
-//            
-//            //Gets the selected row id.
-//            rowid = $('#fclReleaseGrid').jqGrid('getGridParam', 'selrow');
-//            rowdata = $('#fclReleaseGrid').getRowData(rowid);
-//            
-//            if(rowdata.INVOICE == ''){
-//                alert('Please Select Type of Invoice');
-//                return false;
-//            }
-//        });
-        
-        $('#btn-invoice').click(function() {
+        $('#btn-invoice').on("click", function(){
+            
             
             var $grid = $("#fclReleaseGrid"), selIds = $grid.jqGrid("getGridParam", "selarrrow"), i, n,
                 cellValues = [];
             for (i = 0, n = selIds.length; i < n; i++) {
                 cellValues.push($grid.jqGrid("getCell", selIds[i], "TCONTAINER_PK"));
             }
-//            console.log(cellValues.join(","));
             
             var containerId = cellValues.join(",");
-            
             if(!containerId) {alert('Please Select Row');return false;}
             
-            if(!confirm('Apakah anda yakin?')){return false;}
+            $('#create-invoice-modal').modal('show');
             
-            //Gets the selected row id.
-//            rowid = $('#fclReleaseGrid').jqGrid('getGridParam', 'selrow');
-//            rowdata = $('#fclReleaseGrid').getRowData(rowid);
-            
-            var url = '{{ route("fcl-delivery-release-invoice-nct") }}';
-
-            $.ajax({
-                type: 'POST',
-                data: 
-                {
-                    'id' : containerId,
-                    '_token' : '{{ csrf_token() }}'
-                },
-                dataType : 'json',
-                url: url,
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Something went wrong, please try again later.');
-                },
-                beforeSend:function()
-                {
-
-                },
-                success:function(json)
-                {
-                    console.log(json);
-
-                    if(json.success) {
-                      $('#alert-message').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
-                    } else {
-                      $('#alert-message').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
-                    }
-
-                    //Triggers the "Close" button funcionality.
-                    $('#btn-refresh').click();
-                }
-            });
+            $('#consignee_id').val($grid.jqGrid("getCell", selIds[0], "TCONSIGNEE_FK"));
+            $('#consignee').val($grid.jqGrid("getCell", selIds[0], "CONSIGNEE"));
+            $('#npwp').val($grid.jqGrid("getCell", selIds[0], "ID_CONSIGNEE"));
+            $('#container_id_selected').val(containerId);
             
         });
+        
+        $('#create-invoice-form').on("submit", function(){
+            if(!confirm('Apakah anda yakin?')){return false;}
+        });
+        
+//        $('#btn-invoice').click(function() {
+//            
+//            var $grid = $("#fclReleaseGrid"), selIds = $grid.jqGrid("getGridParam", "selarrrow"), i, n,
+//                cellValues = [];
+//            for (i = 0, n = selIds.length; i < n; i++) {
+//                cellValues.push($grid.jqGrid("getCell", selIds[i], "TCONTAINER_PK"));
+//            }
+////            console.log(cellValues.join(","));
+//            
+//            var containerId = cellValues.join(",");
+//            
+//            if(!containerId) {alert('Please Select Row');return false;}
+//            
+//            if(!confirm('Apakah anda yakin?')){return false;}
+//            
+//            //Gets the selected row id.
+////            rowid = $('#fclReleaseGrid').jqGrid('getGridParam', 'selrow');
+////            rowdata = $('#fclReleaseGrid').getRowData(rowid);
+//            
+//            var url = '{{ route("fcl-delivery-release-invoice-nct") }}';
+//
+//            $.ajax({
+//                type: 'POST',
+//                data: 
+//                {
+//                    'id' : containerId,
+//                    '_token' : '{{ csrf_token() }}'
+//                },
+//                dataType : 'json',
+//                url: url,
+//                error: function (jqXHR, textStatus, errorThrown)
+//                {
+//                    alert('Something went wrong, please try again later.');
+//                },
+//                beforeSend:function()
+//                {
+//
+//                },
+//                success:function(json)
+//                {
+//                    console.log(json);
+//
+//                    if(json.success) {
+//                      $('#alert-message').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+//                    } else {
+//                      $('#alert-message').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+//                    }
+//
+//                    //Triggers the "Close" button funcionality.
+//                    $('#btn-refresh').click();
+//                }
+//            });
+//            
+//        });
         
     });
     
@@ -144,6 +144,7 @@
                     ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>160,'editable' => true, 'editrules' => array('required' => true)))
                     ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>80,'align'=>'center','editable' => true, 'editrules' => array('required' => true,'number'=>true),'edittype'=>'select','editoptions'=>array('value'=>"20:20;40:40")))
                     ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>80,'align'=>'center','editable' => false))
+                    ->addColumn(array('index'=>'TCONSIGNEE_FK','hidden'=>true))
                     ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>300))
                     ->addColumn(array('label'=>'No. SPK','index'=>'NoJob','width'=>160))
                     ->addColumn(array('label'=>'No. MBL','index'=>'NOMBL','width'=>160,'hidden'=>true))
@@ -172,6 +173,7 @@
                     ->addColumn(array('label'=>'NPWP Consignee','index'=>'ID_CONSIGNEE','width'=>160,'hidden'=>true))
                     ->addColumn(array('label'=>'Importir','index'=>'NAMA_IMP','width'=>160,'hidden'=>true))
                     ->addColumn(array('label'=>'NPWP Importir','index'=>'NPWP_IMP','width'=>160,'hidden'=>true))
+                    ->addColumn(array('label'=>'Alamat Importir','index'=>'ALAMAT_IMP','width'=>160,'hidden'=>true))
                     ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'No. Seal','index'=>'NOSEGEL', 'width'=>120,'editable' => true, 'align'=>'right'))
                     ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('required' => true)))
@@ -199,7 +201,73 @@
     </div>
 </div>
 
-
+<div id="create-invoice-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Please Insert All Field</h4>
+            </div>
+            <form id="create-invoice-form" class="form-horizontal" action="{{ route("fcl-delivery-release-invoice-nct") }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}" />
+                            <input name="id" type="hidden" id="container_id_selected" />
+                            <input name="consignee_id" type="hidden" id="consignee_id" />
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">No. Invoice</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="no_invoice" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">No. Pajak</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="no_pajak" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">No. DO</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="no_do" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">No. B/L</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="no_bl" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Consignee</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="consignee" id="consignee" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">NPWP Consignee</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="npwp" id="npwp" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Alamat</label>
+                                <div class="col-sm-6">
+                                    <textarea class="form-control" name="alamat" id="alamat"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
+                  <button type="submit" class="btn btn-primary">Create Invoice</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 @endsection
 
@@ -216,13 +284,16 @@
 
 @section('custom_js')
 
-<!--<script src="{{ asset("/bower_components/AdminLTE/plugins/bootstrap-switch/bootstrap-switch.min.js") }}"></script>
+<!--<script src="{{ asset("/bower_components/AdminLTE/plugins/bootstrap-switch/bootstrap-switch.min.js") }}"></script>-->
 <script type="text/javascript">
 //    $.fn.bootstrapSwitch.defaults.size = 'mini';
-    $.fn.bootstrapSwitch.defaults.onColor = 'danger';
-    $.fn.bootstrapSwitch.defaults.onText = 'Yes';
-    $.fn.bootstrapSwitch.defaults.offText = 'No';
-    $("input[type='checkbox']").bootstrapSwitch();
-</script>-->
+//    $.fn.bootstrapSwitch.defaults.onColor = 'danger';
+//    $.fn.bootstrapSwitch.defaults.onText = 'Yes';
+//    $.fn.bootstrapSwitch.defaults.offText = 'No';
+//    $("input[type='checkbox']").bootstrapSwitch();
+
+    $("#npwp").mask("99.999.999.9-999.999");
+
+</script>
 
 @endsection

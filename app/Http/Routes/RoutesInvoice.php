@@ -86,6 +86,27 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
     
     // FCL NCT1
     Route::group(['prefix' => 'fcl'], function(){
+        
+        Route::get('/', [
+            'as' => 'invoice-nct-index',
+            'uses' => 'InvoiceController@invoiceNctIndex'
+        ]);
+        
+        Route::get('/grid-data', function()
+        {
+            GridEncoder::encodeRequestedData(new \App\Models\InvoiceTablesRepository('invoice_nct',Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
+        }); 
+        
+        Route::get('/edit/{id}', [
+            'as' => 'invoice-nct-edit',
+            'uses' => 'InvoiceController@invoiceNctEdit'
+        ]);
+        
+        Route::get('/delete/{id}', [
+            'as' => 'invoice-nct-delete',
+            'uses' => 'InvoiceController@invoiceNctDestroy'
+        ]);
+        
         // TARIF
         Route::get('/tarif', [
             'as' => 'invoice-tarif-nct-index',
@@ -102,6 +123,7 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
             'as' => 'invoice-release-nct-index',
             'uses' => 'InvoiceController@releaseNctIndex'
         ]);
+
     });
     
     
