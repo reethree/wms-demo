@@ -210,6 +210,13 @@
         </div>
     </div>
     
+    <!-- this row will not appear when printing -->
+    <div class="row no-print">
+      <div class="col-xs-12">
+          <button id="print-invoice-btn" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
+      </div>
+    </div>
+    
   </section>
 
 @endsection
@@ -222,7 +229,7 @@
 
 <script type="text/javascript">
     $('#print-invoice-btn').click(function() {
-        window.open("{{ route('invoice-print',$invoice->id) }}","preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");
+        window.open("{{ route('invoice-nct-print',$invoice->id) }}","preview FCL Invoice","width=600,height=600,menubar=no,status=no,scrollbars=yes");
     });
 </script>
 

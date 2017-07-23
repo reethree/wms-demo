@@ -284,7 +284,7 @@
 
 <script type="text/javascript">
     $('#print-invoice-btn').click(function() {
-        window.open("{{ route('invoice-print',$invoice->id) }}","preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");
+        window.open("{{ route('invoice-nct-print',$invoice->id) }}","preview invoice ","width=600,height=600,menubar=no,status=no,scrollbars=yes");
     });
 </script>
 
