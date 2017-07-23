@@ -148,7 +148,7 @@
                     ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>300))
                     ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'Tgl. Keluar TPK','index'=>'TGLKELUAR_TPK', 'width'=>150,'align'=>'center'))
-                    ->addColumn(array('label'=>'Jam Keluar TPK','index'=>'TGLKELUAR_TPK', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'Jam Keluar TPK','index'=>'JAMKELUAR_TPK', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'No. SPK','index'=>'NoJob','width'=>160))
                     ->addColumn(array('label'=>'No. MBL','index'=>'NOMBL','width'=>160,'hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. MBL','index'=>'TGLMBL','width'=>150,'align'=>'center','hidden'=>true))
