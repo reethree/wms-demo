@@ -655,7 +655,9 @@ class FclController extends Controller
     {
         $data = $request->json()->all(); 
         unset($data['TCONTAINER_PK'], $data['_token']);
-
+        
+        $data['BEHANDLE'] = 'Y';
+        
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
         
@@ -1201,7 +1203,7 @@ class FclController extends Controller
 
                             // PENUMPUKAN
                             $date1 = date_create($data['ETA']);
-                            $date2 = date_create($data['TGLKELUAR_TPK']);
+                            $date2 = date_create(date('Y-m-d',strtotime($data['TGLKELUAR_TPK']. '+1 days')));
                             $diff = date_diff($date1, $date2);
                             $hari = $diff->format("%a");
                             
@@ -1209,12 +1211,12 @@ class FclController extends Controller
                             $invoice_penumpukan->enddate = $data['TGLKELUAR_TPK'];
                             $invoice_penumpukan->lama_timbun = $hari;
                             
-                            $invoice_penumpukan->hari_masa1 = 0;
-                            $invoice_penumpukan->hari_masa2 = ($hari > 0) ? 1 : 0;
-                            $invoice_penumpukan->hari_masa3 = ($hari > 1) ? 1 : 0;
-                            $invoice_penumpukan->hari_masa4 = ($hari > 2) ? $hari - 2 : 0;
+                            $invoice_penumpukan->hari_masa1 = ($hari > 0) ? 1 : 0;;
+                            $invoice_penumpukan->hari_masa2 = ($hari > 1) ? 1 : 0;
+                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? 1 : 0;
+                            $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
                             
-                            $invoice_penumpukan->masa1 = $t20->masa1;
+                            $invoice_penumpukan->masa1 = $invoice_penumpukan->hari_masa2 * $t20->masa1;
                             $invoice_penumpukan->masa2 = $invoice_penumpukan->hari_masa2 * $t20->masa2 * 3;
                             $invoice_penumpukan->masa3 = $invoice_penumpukan->hari_masa3 * $t20->masa3 * 6;
                             $invoice_penumpukan->masa4 = $invoice_penumpukan->hari_masa4 * $t20->masa4 * 9;
@@ -1222,7 +1224,12 @@ class FclController extends Controller
                         } else {
                             
                             // GERAKAN
-                            $jenis = array('Lift On/Off' => $t20->lift_off,'Paket PLP' => $t20->paket_plp,'Behandle' => $t20->behandle);
+                            if($data['BEHANDLE'] == 'Y') {
+                                $jenis = array('Lift On/Off' => $t20->lift_off,'Paket PLP' => $t20->paket_plp,'Behandle' => $t20->behandle);
+                            }else{
+                                $jenis = array('Lift On/Off' => $t20->lift_off,'Paket PLP' => $t20->paket_plp);
+                            }
+                            
                             
                             foreach ($jenis as $key=>$value):
                                 $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
@@ -1240,7 +1247,7 @@ class FclController extends Controller
                             
                             // PENUMPUKAN
                             $date1 = date_create($data['TGLMASUK']);
-                            $date2 = date_create($data['TGLRELEASE']);
+                            $date2 = date_create(date('Y-m-d',strtotime($data['TGLRELEASE']. '+1 days')));
                             $diff = date_diff($date1, $date2);
                             $hari = $diff->format("%a");
                             
@@ -1295,7 +1302,7 @@ class FclController extends Controller
 
                             // PENUMPUKAN
                             $date1 = date_create($data['ETA']);
-                            $date2 = date_create($data['TGLKELUAR_TPK']);
+                            $date2 = date_create(date('Y-m-d',strtotime($data['TGLKELUAR_TPK']. '+1 days')));
                             $diff = date_diff($date1, $date2);
                             $hari = $diff->format("%a");
                             
@@ -1303,19 +1310,23 @@ class FclController extends Controller
                             $invoice_penumpukan->enddate = $data['TGLKELUAR_TPK'];
                             $invoice_penumpukan->lama_timbun = $hari;
                             
-                            $invoice_penumpukan->hari_masa1 = 0;
-                            $invoice_penumpukan->hari_masa2 = ($hari > 0) ? 1 : 0;
-                            $invoice_penumpukan->hari_masa3 = ($hari > 1) ? 1 : 0;
-                            $invoice_penumpukan->hari_masa4 = ($hari > 2) ? $hari - 2 : 0;
+                            $invoice_penumpukan->hari_masa1 = ($hari > 0) ? 1 : 0;;
+                            $invoice_penumpukan->hari_masa2 = ($hari > 1) ? 1 : 0;
+                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? 1 : 0;
+                            $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
                             
-                            $invoice_penumpukan->masa1 = $t40->masa1;
+                            $invoice_penumpukan->masa1 = $invoice_penumpukan->hari_masa1 * $t40->masa1;
                             $invoice_penumpukan->masa2 = $invoice_penumpukan->hari_masa2 * $t40->masa2 * 3;
                             $invoice_penumpukan->masa3 = $invoice_penumpukan->hari_masa3 * $t40->masa3 * 6;
                             $invoice_penumpukan->masa4 = $invoice_penumpukan->hari_masa4 * $t40->masa4 * 9;
                             
                         } else {
                             // GERAKAN
-                            $jenis = array('Lift On/Off' => $t40->lift_off,'Paket PLP' => $t40->paket_plp,'Behandle' => $t40->behandle);
+                            if($data['BEHANDLE'] == 'Y') {
+                                $jenis = array('Lift On/Off' => $t40->lift_off,'Paket PLP' => $t40->paket_plp,'Behandle' => $t40->behandle);
+                            }else{
+                                $jenis = array('Lift On/Off' => $t40->lift_off,'Paket PLP' => $t40->paket_plp);
+                            }
                             
                             foreach ($jenis as $key=>$value):
                                 $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
@@ -1333,7 +1344,7 @@ class FclController extends Controller
                             
                             // PENUMPUKAN
                             $date1 = date_create($data['TGLMASUK']);
-                            $date2 = date_create($data['TGLRELEASE']);
+                            $date2 = date_create(date('Y-m-d',strtotime($data['TGLRELEASE']. '+1 days')));
                             $diff = date_diff($date1, $date2);
                             $hari = $diff->format("%a");
                             
@@ -1383,7 +1394,7 @@ class FclController extends Controller
             $total_penumpukan = \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $invoice_nct->id)->sum('total');
             $total_gerakan = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $invoice_nct->id)->sum('total');
             
-            $update_nct->administrasi = 20000;
+            $update_nct->administrasi = (count($container20)+count($container40)) * 100000;
             $update_nct->total_non_ppn = $total_penumpukan + $total_gerakan;	
             $update_nct->ppn = $update_nct->total_non_ppn * 10/100;	
             if(($update_nct->total_non_ppn+$update_nct->ppn) >= 1000000){ 
