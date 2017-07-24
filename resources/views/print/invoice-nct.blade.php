@@ -5,7 +5,7 @@
 @stop
 
 @section('content')
-    
+<br/><br/><br/>    
 <div id="details" class="clearfix">
     <div class="row invoice-info">
         <div class="col-xs-12 margin-bottom">
@@ -224,7 +224,7 @@
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
-                    <td style="text-align: center;">YADI</td>
+                    <td style="text-align: center;"><br /><br /><br />YADI</td>
                 </tr>
             </table>
         </div>
