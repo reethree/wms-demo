@@ -109,6 +109,7 @@
                         <th>SIZE</th>
                         <th>LAMA TIMBUN</th>
                         <th>JUMLAH</th>
+                        <th>TARIF DASAR</th>
                         <th>MASA I</th>
                         <th>MASA II</th>
                         <th>MASA III</th>
@@ -124,6 +125,7 @@
                         <td>{{ $p->size }}</td>
                         <td>({{ date("d/m/Y", strtotime($p->startdate)).' - '.date("d/m/Y", strtotime($p->enddate)) }}) {{ $p->lama_timbun }} hari</td>
                         <td>{{ $p->qty }}</td>
+                        <td>{{ (($p->size == 20) ? number_format(27200) : number_format(54400)) }}</td>
                         <td>{{ number_format($p->masa1) }}</td>
                         <td>{{ number_format($p->masa2) }}</td>
                         <td>{{ number_format($p->masa3) }}</td>

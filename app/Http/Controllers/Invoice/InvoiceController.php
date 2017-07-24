@@ -420,7 +420,7 @@ class InvoiceController extends Controller
 //        return view('print.invoice-nct')->with($data);
         $pdf = \PDF::loadView('print.invoice-nct', $data);
         
-        return $pdf->setPaper('a4')->stream($data['invoice']->no_invoice.'.pdf');
+        return $pdf->setPaper('legal')->stream($data['invoice']->no_invoice.'.pdf');
     }
     
     public function tarifNctIndex()

@@ -1,4 +1,4 @@
-@extends('print-with-header')
+@extends('print')
 
 @section('title')
     {{ 'Invoice '.$invoice->no_invoice }}
@@ -75,6 +75,7 @@
                         <th>SIZE</th>
                         <th>LAMA TIMBUN</th>
                         <th>JUMLAH</th>
+                        <th>TARIF DASAR</th>
                         <th>MASA I</th>
                         <th>MASA II</th>
                         <th>MASA III</th>
@@ -90,6 +91,7 @@
                         <td style="text-align: center;">{{ $p->size }}</td>
                         <td>({{ date("d/m/Y", strtotime($p->startdate)).' - '.date("d/m/Y", strtotime($p->enddate)) }}) {{ $p->lama_timbun }} hari</td>
                         <td style="text-align: center;">{{ $p->qty }}</td>
+                        <td style="text-align: center;">{{ (($p->size == 20) ? number_format(27200) : number_format(54400)) }}</td>
                         <td style="text-align: right;">{{ number_format($p->masa1) }}</td>
                         <td style="text-align: right;">{{ number_format($p->masa2) }}</td>
                         <td style="text-align: right;">{{ number_format($p->masa3) }}</td>
@@ -99,10 +101,10 @@
                     </tr>
                     @endforeach
                     <tr>
-                        <td colspan="9"><div style="border-top:1px dashed !important;width: 100%;height: 1px;">&nbsp;</div></td>
+                        <td colspan="10"><div style="border-top:1px dashed !important;width: 100%;height: 1px;">&nbsp;</div></td>
                     </tr>
                     <tr>
-                        <th style="text-align: left;" colspan="7">PENUMPUKAN</th>
+                        <th style="text-align: left;" colspan="8">PENUMPUKAN</th>
                         <th style="text-align: right;"><b>Rp.</b></th>
                         <th style="text-align: right;"><b>{{ number_format($grand_total_p) }}</b></th>
                     </tr>
