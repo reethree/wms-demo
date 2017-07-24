@@ -224,7 +224,7 @@
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
-                    <td style="text-align: center;"><br/><br/><br/><br/><br/>YADI</td>
+                    <td style="text-align: center;"><br/><br/><br/><br/>YADI</td>
                 </tr>
             </table>
         </div>
