@@ -1167,7 +1167,7 @@ class FclController extends Controller
             $invoice_nct->no_do = $request->no_do;	
             $invoice_nct->no_bl = $request->no_bl;	
             $invoice_nct->eta = $data['ETA'];	
-            $invoice_nct->gateout_terminal = $data['TGLKELUAR_TPK'];	
+            $invoice_nct->gateout_terminal = $data['TGLMASUK'];	
             $invoice_nct->gateout_tps = $data['TGLRELEASE'];	
             $invoice_nct->uid = \Auth::getUser()->name;	
             
@@ -1203,12 +1203,12 @@ class FclController extends Controller
 
                             // PENUMPUKAN
                             $date1 = date_create($data['ETA']);
-                            $date2 = date_create(date('Y-m-d',strtotime($data['TGLKELUAR_TPK']. '+1 days')));
+                            $date2 = date_create(date('Y-m-d',strtotime($data['TGLMASUK']. '+1 days')));
                             $diff = date_diff($date1, $date2);
                             $hari = $diff->format("%a");
                             
                             $invoice_penumpukan->startdate = $data['ETA'];
-                            $invoice_penumpukan->enddate = $data['TGLKELUAR_TPK'];
+                            $invoice_penumpukan->enddate = $data['TGLMASUK'];
                             $invoice_penumpukan->lama_timbun = $hari;
                             
                             $invoice_penumpukan->hari_masa1 = ($hari > 0) ? 1 : 0;;
@@ -1216,10 +1216,10 @@ class FclController extends Controller
                             $invoice_penumpukan->hari_masa3 = ($hari > 2) ? 1 : 0;
                             $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
                             
-                            $invoice_penumpukan->masa1 = $invoice_penumpukan->hari_masa2 * $t20->masa1;
-                            $invoice_penumpukan->masa2 = $invoice_penumpukan->hari_masa2 * $t20->masa2 * 3;
-                            $invoice_penumpukan->masa3 = $invoice_penumpukan->hari_masa3 * $t20->masa3 * 6;
-                            $invoice_penumpukan->masa4 = $invoice_penumpukan->hari_masa4 * $t20->masa4 * 9;
+                            $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa2 * $t20->masa1) * count($container20);
+                            $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa2 * $t20->masa2 * 3) * count($container20);
+                            $invoice_penumpukan->masa3 = ($invoice_penumpukan->hari_masa3 * $t20->masa3 * 6) * count($container20);
+                            $invoice_penumpukan->masa4 = ($invoice_penumpukan->hari_masa4 * $t20->masa4 * 9) * count($container20);
                             
                         } else {
                             
@@ -1260,10 +1260,10 @@ class FclController extends Controller
                             $invoice_penumpukan->hari_masa3 = 0;
                             $invoice_penumpukan->hari_masa4 = 0;
                             
-                            $invoice_penumpukan->masa1 = $invoice_penumpukan->hari_masa1 * $t20->masa1 * 2;
-                            $invoice_penumpukan->masa2 = $invoice_penumpukan->hari_masa2 * $t20->masa2 * 3;
-                            $invoice_penumpukan->masa3 = $t20->masa3;
-                            $invoice_penumpukan->masa4 = $t20->masa4;
+                            $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa1 * $t20->masa1 * 2) * count($container20);
+                            $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa2 * $t20->masa2 * 3) * count($container20);
+                            $invoice_penumpukan->masa3 = ($invoice_penumpukan->hari_masa3 * $t20->masa3) * count($container20);
+                            $invoice_penumpukan->masa4 = ($invoice_penumpukan->hari_masa4 * $t20->masa4) * count($container20);
                         }
  
                         $invoice_penumpukan->total = array_sum(array($invoice_penumpukan->masa1,$invoice_penumpukan->masa2,$invoice_penumpukan->masa3,$invoice_penumpukan->masa4)); 
@@ -1302,12 +1302,12 @@ class FclController extends Controller
 
                             // PENUMPUKAN
                             $date1 = date_create($data['ETA']);
-                            $date2 = date_create(date('Y-m-d',strtotime($data['TGLKELUAR_TPK']. '+1 days')));
+                            $date2 = date_create(date('Y-m-d',strtotime($data['TGLMASUK']. '+1 days')));
                             $diff = date_diff($date1, $date2);
                             $hari = $diff->format("%a");
                             
                             $invoice_penumpukan->startdate = $data['ETA'];
-                            $invoice_penumpukan->enddate = $data['TGLKELUAR_TPK'];
+                            $invoice_penumpukan->enddate = $data['TGLMASUK'];
                             $invoice_penumpukan->lama_timbun = $hari;
                             
                             $invoice_penumpukan->hari_masa1 = ($hari > 0) ? 1 : 0;;
@@ -1315,10 +1315,10 @@ class FclController extends Controller
                             $invoice_penumpukan->hari_masa3 = ($hari > 2) ? 1 : 0;
                             $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
                             
-                            $invoice_penumpukan->masa1 = $invoice_penumpukan->hari_masa1 * $t40->masa1;
-                            $invoice_penumpukan->masa2 = $invoice_penumpukan->hari_masa2 * $t40->masa2 * 3;
-                            $invoice_penumpukan->masa3 = $invoice_penumpukan->hari_masa3 * $t40->masa3 * 6;
-                            $invoice_penumpukan->masa4 = $invoice_penumpukan->hari_masa4 * $t40->masa4 * 9;
+                            $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa1 * $t40->masa1) * count($container40);
+                            $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa2 * $t40->masa2 * 3) * count($container40);
+                            $invoice_penumpukan->masa3 = ($invoice_penumpukan->hari_masa3 * $t40->masa3 * 6) * count($container40);
+                            $invoice_penumpukan->masa4 = ($invoice_penumpukan->hari_masa4 * $t40->masa4 * 9) * count($container40);
                             
                         } else {
                             // GERAKAN
@@ -1357,10 +1357,10 @@ class FclController extends Controller
                             $invoice_penumpukan->hari_masa3 = 0;
                             $invoice_penumpukan->hari_masa4 = 0;
                             
-                            $invoice_penumpukan->masa1 = $invoice_penumpukan->hari_masa1 * $t40->masa1 * 2;
-                            $invoice_penumpukan->masa2 = $invoice_penumpukan->hari_masa2 * $t40->masa2 * 3;
-                            $invoice_penumpukan->masa3 = $t40->masa3;
-                            $invoice_penumpukan->masa4 = $t40->masa4;
+                            $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa1 * $t40->masa1 * 2) * count($container40);
+                            $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa2 * $t40->masa2 * 3) * count($container40);
+                            $invoice_penumpukan->masa3 = ($invoice_penumpukan->hari_masa3 * $t40->masa3) * count($container40);
+                            $invoice_penumpukan->masa4 = ($invoice_penumpukan->hari_masa4 * $t40->masa4) * count($container40);
                         }
 
                         $invoice_penumpukan->total = array_sum(array($invoice_penumpukan->masa1,$invoice_penumpukan->masa2,$invoice_penumpukan->masa3,$invoice_penumpukan->masa4)); 
@@ -1381,10 +1381,10 @@ class FclController extends Controller
                 $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
                 $invoice_gerakan->lokasi_sandar = 'NCT1';
                 $invoice_gerakan->size = 0;
-                $invoice_gerakan->qty = 1; 
+                $invoice_gerakan->qty = count($container20)+count($container40); 
                 $invoice_gerakan->jenis_gerakan = $key;
                 $invoice_gerakan->tarif_dasar = $value;
-                $invoice_gerakan->total = $value;
+                $invoice_gerakan->total = (count($container20)+count($container40)) * $value;
 
                 $invoice_gerakan->save();
             endforeach;
@@ -1395,7 +1395,7 @@ class FclController extends Controller
             $total_gerakan = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $invoice_nct->id)->sum('total');
             
             $update_nct->administrasi = (count($container20)+count($container40)) * 100000;
-            $update_nct->total_non_ppn = $total_penumpukan + $total_gerakan;	
+            $update_nct->total_non_ppn = $total_penumpukan + $total_gerakan + $update_nct->administrasi;	
             $update_nct->ppn = $update_nct->total_non_ppn * 10/100;	
             if(($update_nct->total_non_ppn+$update_nct->ppn) >= 1000000){ 
                 $materai = 6000;
@@ -1405,7 +1405,7 @@ class FclController extends Controller
                 $materai = 3000;
             }
             $update_nct->materai = $materai;	
-            $update_nct->total = $update_nct->administrasi+$update_nct->total_non_ppn+$update_nct->ppn+$update_nct->materai;	
+            $update_nct->total = $update_nct->total_non_ppn+$update_nct->ppn+$update_nct->materai;	
             
             $update_nct->save();
             
