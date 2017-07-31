@@ -233,4 +233,7 @@ table tfoot tr td:first-child {
 @media print {
     font-family: Arial, sans-serif;
     display: block;
+    .print-btn {
+        display: none;
+    }
 }

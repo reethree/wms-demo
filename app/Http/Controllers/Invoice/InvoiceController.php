@@ -107,7 +107,7 @@ class InvoiceController extends Controller
 //                $pdf = \PDF::loadView('print.surat-jalan', $data);
 //                break;
 //        }
-//        return view('print.invoice')->with($data);
+        return view('print.invoice')->with($data);
         $pdf = \PDF::loadView('print.invoice', $data)->setPaper('a4');
         
         return $pdf->stream($data['invoice']->no_invoice.'-'.date('dmy').'.pdf');
