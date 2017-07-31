@@ -108,9 +108,9 @@ class InvoiceController extends Controller
 //                break;
 //        }
 //        return view('print.invoice')->with($data);
-        $pdf = \PDF::loadView('print.invoice', $data);
+        $pdf = \PDF::loadView('print.invoice', $data)->setPaper('a4');
         
-        return $pdf->setPaper('a4')->stream($data['invoice']->no_invoice.'-'.date('dmy').'.pdf');
+        return $pdf->stream($data['invoice']->no_invoice.'-'.date('dmy').'.pdf');
     }
     
     public function invoicePrintRekap(Request $request)
@@ -146,9 +146,9 @@ class InvoiceController extends Controller
             $data['total'] = $data['sub_total'] + $data['ppn'] + $data['materai'];           
             $data['terbilang'] = ucwords($this->terbilang($data['total']))." Rupiah";
 
-            $pdf = \PDF::loadView('print.invoice-rekap', $data);
+            $pdf = \PDF::loadView('print.invoice-rekap', $data)->setPaper('a4');
 
-            return $pdf->setPaper('a4')->stream('Rekap Invoice '.date('d-m-Y').'-'.$data['consolidator']->NAMACONSOLIDATOR.'.pdf');
+            return $pdf->stream('Rekap Invoice '.date('d-m-Y').'-'.$data['consolidator']->NAMACONSOLIDATOR.'.pdf');
             
         endif;
         
@@ -418,9 +418,9 @@ class InvoiceController extends Controller
         $data['tarif'] = \App\Models\InvoiceTarifNct::get();
         $data['terbilang'] = ucwords($this->terbilang($data['invoice']->total))." Rupiah";
 //        return view('print.invoice-nct')->with($data);
-        $pdf = \PDF::loadView('print.invoice-nct', $data);
+        $pdf = \PDF::loadView('print.invoice-nct', $data)->setPaper('legal');
         
-        return $pdf->setPaper('legal')->stream($data['invoice']->no_invoice.'.pdf');
+        return $pdf->stream($data['invoice']->no_invoice.'.pdf');
     }
     
     public function tarifNctIndex()
