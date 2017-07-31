@@ -1347,7 +1347,7 @@ class LclController extends Controller
             $invoice_import->hari_masa2 = (isset($hari_masa2)) ? $hari_masa2 : 0 ;
             $invoice_import->hari_masa3 = (isset($hari_masa3)) ? $hari_masa3 : 0 ;
             
-            $invoice_import->behandle = (isset($request->behandle)) ? 1 : 0;
+            $invoice_import->behandle = (isset($request->behandle)) ? $maxcbm : 0;
             if(isset($request->behandle)){
                 if($tarif->cbm){
                     $harga_behandle = $tarif->behandle * $maxcbm;
