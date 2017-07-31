@@ -36,7 +36,7 @@ body {
   margin: 0 auto; 
   color: #555555;
   background: #FFFFFF; 
-  font-family: Arial, sans-serif; 
+  font-family: Tahoma, Geneva, sans-serif; 
   font-size: 14px; 
 }
 
@@ -230,10 +230,20 @@ table tfoot tr td:first-child {
   text-align: center;
 }
 
-@media print {
+a {
+    display: none;
+}
+
+/*@media print {
     font-family: Arial, sans-serif;
     display: block;
     .print-btn {
         display: none;
     }
 }
+
+@page 
+{
+    size:  auto;    auto is the initial value 
+    margin: 0mm;   this affects the margin in the printer settings 
+}*/

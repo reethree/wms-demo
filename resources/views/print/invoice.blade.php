@@ -5,7 +5,17 @@
 @stop
 
 @section('content')
-<div id="details" class="clearfix" style="font-weight: 900;font-family: 'Arial Black', Gadget, sans-serif;display: block;">
+
+<style type="text/css">
+@media print{
+  body{ background-color:#FFFFFF; background-image:none; color:#000000 }
+  #ad{ display:none;}
+  #leftbar{ display:none;}
+  #contentarea{ width:100%;}
+}
+</style>
+
+<div id="details" class="clearfix" style="font-weight: 900;font-family: Tahoma, Geneva, sans-serif;display: block;">
         <div class="row invoice-info" style="border: 1px solid;padding: 0 10px;">
         <div class="col-xs-12 text-center margin-bottom">
             <h2><b>INVOICE</b></h2>
@@ -243,5 +253,5 @@
         </tr>
     </table>
     </div>
-<button class="print-btn" type="button" onclick="window.print();">PRINT</button>
+    <a href="#" class="print-btn" type="button" onclick="window.print();">PRINT</a>
 @stop
