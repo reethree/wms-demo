@@ -15,7 +15,7 @@
 }
 </style>
 
-<div id="details" class="clearfix" style="font-weight: 900;font-family: Tahoma, Geneva, sans-serif;display: block;letter-spacing: 2px;">
+<div id="details" class="clearfix" style="font-weight: 900;font-family: Tahoma, Geneva, sans-serif;display: block;letter-spacing: 4px;">
         <div class="row invoice-info" style="border: 1px solid;padding: 0 10px;">
         <div class="col-xs-12 text-center margin-bottom">
             <h2><b>INVOICE</b></h2>
