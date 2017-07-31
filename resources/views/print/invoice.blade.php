@@ -21,7 +21,7 @@
 <div id="details" class="clearfix" style="font-weight: 900;font-family: Tahoma, Geneva, sans-serif;display: block;letter-spacing: 4px;">
         <div class="row invoice-info" style="border: 1px solid;padding: 0 10px;">
         <div class="col-xs-12 text-center margin-bottom">
-            <h2><b>INVOICE</b></h2>
+            <h2 style="letter-spacing: 8px;"><b>INVOICE</b></h2>
         </div>
       <div class="col-sm-4 invoice-col">
           <table border="0" cellspacing="0" cellpadding="0">
