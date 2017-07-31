@@ -5,14 +5,12 @@
 @stop
 
 @section('content')
-
-<style type="text/css">
-@media print{
-  body{ background-color:#FFFFFF; background-image:none; color:#000000 }
-  #ad{ display:none;}
-  #leftbar{ display:none;}
-  #contentarea{ width:100%;}
-}
+<style>
+    @media print {
+        .print-btn {
+            display: none;
+        }
+    }
 </style>
 
 <div id="details" class="clearfix" style="font-weight: 900;font-family: Tahoma, Geneva, sans-serif;display: block;letter-spacing: 4px;">
