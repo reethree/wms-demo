@@ -135,7 +135,7 @@
                     </tr>
                     @endforeach
                     <tr>
-                        <th colspan="7">PENUMPUKAN</th>
+                        <th colspan="8">PENUMPUKAN</th>
                         <td align="right"><b>Rp.</b></td>
                         <td align="right"><b>{{ number_format($grand_total_p) }}</b></td>
                     </tr>
