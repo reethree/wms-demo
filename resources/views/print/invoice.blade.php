@@ -1,4 +1,4 @@
-@extends('print')
+@extends('print-with-noheader')
 
 @section('title')
     {{ 'Invoice '.$invoice->no_invoice }}
