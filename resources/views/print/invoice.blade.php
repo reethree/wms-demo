@@ -7,6 +7,11 @@
 @section('content')
 <style>
     @media print {
+        @page {
+            size: auto;   /* auto is the initial value */
+            margin-top: 0;
+            margin-bottom: 0;/* this affects the margin in the printer settings */
+        }
         .print-btn {
             display: none;
         }
