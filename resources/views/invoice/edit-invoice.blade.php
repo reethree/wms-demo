@@ -184,7 +184,7 @@
           <tr>
             <td>2</td>
             <td>RDM</td>
-            <td>{{ number_format($invoice->cbm, 2, '.', ',') }} Cbm</td>
+            <td>{{ number_format($invoice->cbm, 3, '.', ',') }} Cbm</td>
             <td align="right">Rp.</td>
             <td align="right">{{ number_format($tarif->rdm) }}</td>
             <td align="right">Rp.</td>
@@ -193,7 +193,7 @@
           <tr>
             <td>3</td>
             <td>Behandle</td>
-            <td>{{ number_format($invoice->behandle) }}</td>
+            <td>{{ number_format($invoice->behandle, 3, '.', ',') }} Cbm</td>
             <td align="right">Rp.</td>
             <td align="right">{{ number_format($tarif->behandle) }}</td>
             <td align="right">Rp.</td>
