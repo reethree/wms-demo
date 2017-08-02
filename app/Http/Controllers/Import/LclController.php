@@ -1397,16 +1397,18 @@ class LclController extends Controller
 //            $invoice_import->materai = ($sub_total >= 1000000) ? 6000 : 3000;
             $invoice_import->uid = \Auth::getUser()->name;
             $invoice_import->tgl_cetak = $request->tgl_cetak;
+            $invoice_import->no_invoice = $request->no_invoice;
 //            return $invoice_import;
             
             if($invoice_import->save()){
                 
                 // Update Invoice Number
-                $array_bulan = array(1=>"I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
-                $bulan = $array_bulan[date('n')];
-                $no_invoice = $request->no_invoice.'/Gud/'.$bulan.'/'.date('Y').'-PJP';
+//                $array_bulan = array(1=>"I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
+//                $bulan = $array_bulan[date('n')];
+//                $no_invoice = $request->no_invoice;
+//                $no_invoice = $request->no_invoice.'/Gud/'.$bulan.'/'.date('Y').'-PJP';
 //                $no_invoice = str_pad($invoice_import->id, 4, '0', STR_PAD_LEFT).'/Gud/'.$bulan.'/'.date('Y').'-PJP';
-                \App\Models\Invoice::where('id', $invoice_import->id)->update(['no_invoice' => $no_invoice]);
+//                \App\Models\Invoice::where('id', $invoice_import->id)->update(['no_invoice' => $no_invoice]);
                 
                 return back()->with('success', 'No. HBL '.$manifest->NOHBL.', invoice berhasih dibuat.');
 //                return json_encode(array('success' => true, 'message' => 'No. HBL '.$manifest->NOHBL.', invoice berhasih dibuat.'));

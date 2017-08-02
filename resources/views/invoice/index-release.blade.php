@@ -217,7 +217,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">No. Invoice</label>
                                 <div class="col-sm-5">
-                                    <input type="number" class="form-control" name="no_invoice" required />
+                                    <input type="text" class="form-control" name="no_invoice" required />
                                 </div>
                             </div>
                             <div class="form-group">
