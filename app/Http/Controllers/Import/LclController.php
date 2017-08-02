@@ -1349,11 +1349,11 @@ class LclController extends Controller
             
             $invoice_import->behandle = (isset($request->behandle)) ? $maxcbm : 0;
             if(isset($request->behandle)){
-                if($tarif->cbm){
+//                if($tarif->cbm){
                     $harga_behandle = $tarif->behandle * $maxcbm;
-                }else{
-                    $harga_behandle = $tarif->behandle;
-                }
+//                }else{
+//                    $harga_behandle = $tarif->behandle;
+//                }
             }           
             $invoice_import->harga_behandle = (isset($request->behandle)) ? $harga_behandle : 0;
             $invoice_import->adm = $tarif->adm;
@@ -1396,7 +1396,7 @@ class LclController extends Controller
 //            $invoice_import->ppn = ceil(($tarif->ppn * $sub_total) / 100);
 //            $invoice_import->materai = ($sub_total >= 1000000) ? 6000 : 3000;
             $invoice_import->uid = \Auth::getUser()->name;
-                    
+            $invoice_import->tgl_cetak = $request->tgl_cetak;
 //            return $invoice_import;
             
             if($invoice_import->save()){

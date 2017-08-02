@@ -157,7 +157,7 @@
             <tr>
               <td>2</td>
               <td>RDM</td>
-              <td>{{ number_format($invoice->cbm * 1000, 0, ',', '.') }} Cbm</td>
+              <td>{{ number_format($invoice->cbm * 1000, 2, ',', '.') }} Cbm</td>
               <td align="right">Rp.</td>
               <td align="right">{{ number_format($tarif->rdm) }}</td>
               <td align="right">Rp.</td>
@@ -166,7 +166,7 @@
             <tr>
               <td>3</td>
               <td>Behandle</td>
-              <td>{{ number_format($invoice->behandle) }}</td>
+              <td>{{ number_format($invoice->behandle, 2, '.', ',') }} Cbm</td>
               <td align="right">Rp.</td>
               <td align="right">{{ number_format($tarif->behandle) }}</td>
               <td align="right">Rp.</td>
@@ -239,7 +239,7 @@
         <tr><td height="30" style="font-size: 30px;line-height: 0;">&nbsp;</td></tr>
         <tr>
             <td>Catatan :</td>
-            <td class="text-center">Jakarta, {{ date('d F Y') }}</td>
+            <td class="text-center">Jakarta, {{ $invoice->tgl_cetak }}</td>
         </tr>
         <tr>
             <td width='60%'>
