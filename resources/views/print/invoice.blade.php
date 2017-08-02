@@ -239,7 +239,7 @@
         <tr><td height="30" style="font-size: 30px;line-height: 0;">&nbsp;</td></tr>
         <tr>
             <td>Catatan :</td>
-            <td class="text-center">Jakarta, {{ $invoice->tgl_cetak }}</td>
+            <td class="text-center">Jakarta, {{ ($invoice->tgl_cetak != "") ? date("d F Y", strtotime($invoice->tgl_cetak)) : date("d F Y") }}</td>
         </tr>
         <tr>
             <td width='60%'>
