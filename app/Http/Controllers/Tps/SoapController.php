@@ -70,8 +70,7 @@ class SoapController extends DefaultController {
                 ->options([
                     'UserName' => $this->user, 
                     'Password' => $this->password,
-                    'Kd_asp' => $this->kode,
-                    'soap_version'=> SOAP_1_2
+                    'Kd_asp' => $this->kode
                 ]);                                                    
         });
         
@@ -102,8 +101,7 @@ class SoapController extends DefaultController {
                 ->options([
                     'UserName' => $this->user, 
                     'Password' => $this->password,
-                    'Kd_asp' => $this->kode,
-                    'soap_version'=> SOAP_1_2
+                    'Kd_asp' => $this->kode
                 ]);                                                    
         });
         
@@ -556,7 +554,7 @@ class SoapController extends DefaultController {
     {
         SoapWrapper::add(function ($service) {
             $service
-                ->name('GetDokumenManual')
+                ->name('TpsOnline')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -575,7 +573,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetDokumenManual', function ($service) use ($data) {        
+        SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
             $this->response = $service->call('GetDokumenManual', [$data])->GetDokumenManualResult;      
         });
         
