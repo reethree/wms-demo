@@ -1255,7 +1255,7 @@ class FclController extends Controller
                             $invoice_penumpukan->enddate = $data['TGLRELEASE'];
                             $invoice_penumpukan->lama_timbun = $hari;
                             
-                            $invoice_penumpukan->hari_masa1 = ($hari > 0) ? $hari : 0;
+                            $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
                             $invoice_penumpukan->hari_masa2 = ($hari > 2) ? $hari-2 : 0;
                             $invoice_penumpukan->hari_masa3 = 0;
                             $invoice_penumpukan->hari_masa4 = 0;
@@ -1352,7 +1352,7 @@ class FclController extends Controller
                             $invoice_penumpukan->enddate = $data['TGLRELEASE'];
                             $invoice_penumpukan->lama_timbun = $hari;
                             
-                            $invoice_penumpukan->hari_masa1 = ($hari > 0) ? $hari : 0;
+                            $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
                             $invoice_penumpukan->hari_masa2 = ($hari > 2) ? $hari-2 : 0;
                             $invoice_penumpukan->hari_masa3 = 0;
                             $invoice_penumpukan->hari_masa4 = 0;
