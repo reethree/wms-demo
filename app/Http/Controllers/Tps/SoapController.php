@@ -102,7 +102,8 @@ class SoapController extends DefaultController {
                 ->options([
                     'UserName' => $this->user, 
                     'Password' => $this->password,
-                    'Kd_asp' => $this->kode
+                    'Kd_asp' => $this->kode,
+                    'soap_version'=> SOAP_1_2
                 ]);                                                    
         });
         
