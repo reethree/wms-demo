@@ -93,7 +93,7 @@ class SoapController extends DefaultController {
     {
         SoapWrapper::add(function ($service) {
             $service
-                ->name('TpsOnline')
+                ->name('TpsOnlineGetResponPLP_Tujuan')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -112,7 +112,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
+        SoapWrapper::service('TpsOnlineGetResponPLP_Tujuan', function ($service) use ($data) {        
             $this->response = $service->call('GetResponPLP_Tujuan', [$data])->GetResponPLP_TujuanResult;      
         });
         
