@@ -453,7 +453,7 @@ class PengirimanController extends Controller
         SoapWrapper::add(function ($service) {
             $service
 //                ->name('CoCoCont_Tes')
-                ->name('CoarriCodeco_Container')
+                ->name('TpsOnline')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -473,7 +473,7 @@ class PengirimanController extends Controller
         ];
         
         // Using the added service
-        SoapWrapper::service('CoarriCodeco_Container', function ($service) use ($datas) {        
+        SoapWrapper::service('TpsOnline', function ($service) use ($datas) {        
             $this->response = $service->call('CoarriCodeco_Container', [$datas])->CoarriCodeco_ContainerResult;      
         });
         
@@ -563,7 +563,7 @@ class PengirimanController extends Controller
         SoapWrapper::add(function ($service) {
             $service
 //                ->name('CoCoKms_Tes')
-                ->name('CoarriCodeco_Kemasan')
+                ->name('TpsOnline')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -583,7 +583,7 @@ class PengirimanController extends Controller
         ];
         
         // Using the added service
-        SoapWrapper::service('CoarriCodeco_Kemasan', function ($service) use ($data) {        
+        SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
             $this->response = $service->call('CoarriCodeco_Kemasan', [$data])->CoarriCodeco_KemasanResult;      
         });
         
@@ -669,7 +669,7 @@ class PengirimanController extends Controller
         SoapWrapper::add(function ($service) {
             $service
 //                ->name('CoCoCont_Tes')
-                ->name('CoarriCodeco_Container')
+                ->name('TpsOnline')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -695,7 +695,7 @@ class PengirimanController extends Controller
         ];
         
         // Using the added service
-        SoapWrapper::service('CoarriCodeco_Container', function ($service) use ($datas) {        
+        SoapWrapper::service('TpsOnline', function ($service) use ($datas) {        
             $this->response = $service->call('CoarriCodeco_Container', [$datas])->CoarriCodeco_ContainerResult;      
         });
         
@@ -788,7 +788,7 @@ class PengirimanController extends Controller
         SoapWrapper::add(function ($service) {
             $service
 //                ->name('CoCoKms_Tes')
-                ->name('CoarriCodeco_Kemasan')
+                ->name('TpsOnline')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -811,7 +811,7 @@ class PengirimanController extends Controller
 //        return;
         
         // Using the added service
-        SoapWrapper::service('CoarriCodeco_Kemasan', function ($service) use ($data) {        
+        SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
             $this->response = $service->call('CoarriCodeco_Kemasan', [$data])->CoarriCodeco_KemasanResult;      
         });
         

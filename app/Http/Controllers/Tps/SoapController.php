@@ -62,7 +62,7 @@ class SoapController extends DefaultController {
     {
         SoapWrapper::add(function ($service) {
             $service
-                ->name('GetResponPLP')
+                ->name('TpsOnline')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -81,7 +81,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetResponPLP', function ($service) use ($data) {        
+        SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
             $this->response = $service->call('GetResponPLP', [$data])->GetResponPLPResult;      
         });
         
@@ -93,7 +93,7 @@ class SoapController extends DefaultController {
     {
         SoapWrapper::add(function ($service) {
             $service
-                ->name('GetResponPLP_Tujuan')
+                ->name('TpsOnline')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -112,7 +112,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetResponPLP_Tujuan', function ($service) use ($data) {        
+        SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
             $this->response = $service->call('GetResponPLP_Tujuan', [$data])->GetResponPLP_TujuanResult;      
         });
         
@@ -165,7 +165,7 @@ class SoapController extends DefaultController {
     {
         SoapWrapper::add(function ($service) {
             $service
-                ->name('GetDataOB')
+                ->name('TpsOnline')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -184,7 +184,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetDataOB', function ($service) use ($data) {        
+        SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
             $this->response = $service->call('GetDataOB', [$data])->GetDataOBResult;      
         });
         
@@ -221,7 +221,7 @@ class SoapController extends DefaultController {
     {
         SoapWrapper::add(function ($service) {
             $service
-                ->name('GetSPJM')
+                ->name('TpsOnline')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate(url('cert/cacert.pem'))                                                 
@@ -245,7 +245,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetSPJM', function ($service) use ($data) {        
+        SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
             $this->response = $service->call('GetSPJM', [$data])->GetSPJMResult;      
         });
         
@@ -334,7 +334,7 @@ class SoapController extends DefaultController {
     {
         SoapWrapper::add(function ($service) {
             $service
-                ->name('GetImporPermit')
+                ->name('TpsOnline')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -353,7 +353,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetImporPermit', function ($service) use ($data) {        
+        SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
             $this->response = $service->call('GetImporPermit', [$data])->GetImporPermitResult;      
         });
         
@@ -407,7 +407,7 @@ class SoapController extends DefaultController {
 //        return $request->all();
         SoapWrapper::add(function ($service) {
             $service
-                ->name('GetImpor_Sppb')
+                ->name('TpsOnline')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -429,7 +429,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetImpor_Sppb', function ($service) use ($data) {        
+        SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
             $this->response = $service->call('GetImpor_Sppb', [$data])->GetImpor_SppbResult;      
         });
         
@@ -481,7 +481,7 @@ class SoapController extends DefaultController {
     {
         SoapWrapper::add(function ($service) {
             $service
-                ->name('GetBC23Permit')
+                ->name('TpsOnline')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -500,7 +500,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetBC23Permit', function ($service) use ($data) {        
+        SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
             $this->response = $service->call('GetBC23Permit', [$data])->GetBC23PermitResult;      
         });
         
@@ -585,7 +585,7 @@ class SoapController extends DefaultController {
     {
         SoapWrapper::add(function ($service) {
             $service
-                ->name('GetRejectData')
+                ->name('TpsOnline')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -604,7 +604,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetRejectData', function ($service) use ($data) {        
+        SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
             $this->response = $service->call('GetRejectData', [$data])->GetRejectDataResult;      
         });
         
@@ -616,7 +616,7 @@ class SoapController extends DefaultController {
     {
         SoapWrapper::add(function ($service) {
             $service
-                ->name('CekDataGagalKirim')
+                ->name('TpsOnline')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -637,7 +637,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('CekDataGagalKirim', function ($service) use ($data) {        
+        SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
             $this->response = $service->call('CekDataGagalKirim', [$data])->CekDataGagalKirimResult;      
         });
         
@@ -649,7 +649,7 @@ class SoapController extends DefaultController {
     {
         SoapWrapper::add(function ($service) {
             $service
-                ->name('CekDataTerkirim')
+                ->name('TpsOnline')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -670,7 +670,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('CekDataTerkirim', function ($service) use ($data) {        
+        SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
             $this->response = $service->call('CekDataTerkirim', [$data])->CekDataTerkirimResult;      
         });
         
