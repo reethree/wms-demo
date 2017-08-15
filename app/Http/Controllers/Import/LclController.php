@@ -1380,7 +1380,7 @@ class LclController extends Controller
                 $invoice_import->weight_surcharge = 0;
             else:           
                 if($tarif->surcharge){
-                    if($maxcbm >= 2500){
+                    if($maxcbm*1000 >= 2500){
                         if($tarif->surcharge_price > 100){
                             $invoice_import->weight_surcharge = $tarif->surcharge_price;
                         }else{
