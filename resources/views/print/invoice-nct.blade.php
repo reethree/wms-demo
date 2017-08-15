@@ -122,8 +122,10 @@
                     <th>JENIS GERAKAN</th>
                     <th>JUMLAH</th>
                     <th>TARIF DASAR</th>
-                    <th>JML SHIFT</th>
-                    <th>START/STOP PLUGGING</th>
+<!--                    <th>JML SHIFT</th>
+                    <th>START/STOP PLUGGING</th>-->
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
                     <th>BIAYA</th>
                 </tr>
                 <?php $grand_total_g = 0;?>
@@ -134,8 +136,10 @@
                     <td>{{ $g->jenis_gerakan }}</td>
                     <td style="text-align: center;">{{ $g->qty }}</td>
                     <td style="text-align: right;">{{ number_format($g->tarif_dasar) }}</td>
-                    <td style="text-align: center;">{{ number_format($g->jumlah_shift) }}</td>
-                    <td style="text-align: center;">{{ number_format($g->start_stop_plugging) }}</td>
+<!--                    <td style="text-align: center;">{{ number_format($g->jumlah_shift) }}</td>
+                    <td style="text-align: center;">{{ number_format($g->start_stop_plugging) }}</td>-->
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
                     <td style="text-align: right;">{{ number_format($g->total) }}</td>
                 </tr>
                 <?php $grand_total_g += $g->total;?>

@@ -704,7 +704,10 @@ class FclController extends Controller
         unset($data['TCONTAINER_PK'], $data['_token']);
         
         $teus = DBContainer::select('TEUS')->where('TCONTAINER_PK', $id)->first();
-        
+        $kd_dok = \App\Models\KodeDok::find($data['KD_DOK_INOUT']);
+        if($kd_dok):
+            $data['KODE_DOKUMEN'] = $kd_dok->name;
+        endif;
         $data['TGLFIAT'] = $data['TGLRELEASE'];
         $data['JAMFIAT'] = $data['JAMRELEASE'];
         $data['TGLSURATJALAN'] = $data['TGLRELEASE'];
