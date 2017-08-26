@@ -36,6 +36,15 @@
         $('#btn-toolbar').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
+        $("#KD_DOK_INOUT").on("change", function(){
+            var $this = $(this).val();
+            if($this == 9){
+                $(".select-bcf-consignee").show();
+            }else{
+                $(".select-bcf-consignee").hide();
+            }
+        });
+        
         $('#btn-edit').click(function() {
             //Gets the selected row id.
             rowid = $('#fclReleaseGrid').jqGrid('getGridParam', 'selrow');
@@ -60,6 +69,7 @@
             $('#REF_NUMBER_OUT').val(rowdata.REF_NUMBER_OUT);
             $('#ID_CONSIGNEE').val(rowdata.ID_CONSIGNEE);
             $('#KD_DOK_INOUT').val(rowdata.KD_DOK_INOUT).trigger('change');
+            $('#bcf_consignee').val(rowdata.bcf_consignee).trigger('change');
 
 //            if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
                 $('#btn-group-2').enableButtonGroup();
@@ -249,6 +259,7 @@
                     ->addColumn(array('label'=>'Measurment','index'=>'MEAS', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('required' => true)))
                     ->addColumn(array('label'=>'Layout','index'=>'layout', 'width'=>80,'editable' => true,'align'=>'center','editoptions'=>array('defaultValue'=>"C-1")))
                     ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
+                    ->addColumn(array('label'=>'BCF Consignee','index'=>'bcf_consignee', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Nama EMKL','index'=>'NAMAEMKL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'Telp. EMKL','index'=>'TELPEMKL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'No. Truck','index'=>'NOPOL', 'width'=>150,'hidden'=>true)) 
@@ -397,6 +408,18 @@
                                 @foreach($kode_doks as $kode)
                                     <option value="{{ $kode->kode }}">({{$kode->kode}}) {{ $kode->name }}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group select-bcf-consignee" style="display:none;">
+                        <label class="col-sm-3 control-label">BCF 1.5 Consignee</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" id="bcf_consignee" name="bcf_consignee" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <option value="">Choose Consignee</option>
+                                <option value="PT. LAYANAN LANCAR LINTAS LOGISTINDO">PT. LAYANAN LANCAR LINTAS LOGISTINDO</option>
+                                <option value="PT. MULTI SEJAHTERA ABADI">PT. MULTI SEJAHTERA ABADI</option>
+                                <option value="PT. TRANSCON INDONESIA">PT. TRANSCON INDONESIA</option>
+                                <option value="PT. TRI PANDU PELITA">PT. TRI PANDU PELITA</option>
                             </select>
                         </div>
                     </div>

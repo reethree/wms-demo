@@ -36,6 +36,15 @@
         $('#btn-toolbar').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
+        $("#KD_DOK_INOUT").on("change", function(){
+            var $this = $(this).val();
+            if($this == 9){
+                $(".select-bcf-consignee").show();
+            }else{
+                $(".select-bcf-consignee").hide();
+            }
+        });
+        
         $('#btn-edit').click(function() {
             //Gets the selected row id.
             rowid = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
@@ -57,6 +66,7 @@
             $('#REF_NUMBER_OUT').val(rowdata.REF_NUMBER_OUT);
             $('#UIDRELEASE').val(rowdata.UIDRELEASE);
             $('#KD_DOK_INOUT').val(rowdata.KD_DOK_INOUT).trigger('change');
+            $('#bcf_consignee').val(rowdata.bcf_consignee).trigger('change');
                         
 //            if(!rowdata.tglrelease && !rowdata.jamrelease) {
 //                $('#btn-group-4').disabledButtonGroup();
@@ -307,6 +317,7 @@
                     ->addColumn(array('label'=>'Petugas Surat Jalan','index'=>'UIDSURATJALAN', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Petugas Release','index'=>'UIDRELEASE', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Penagihan','index'=>'PENAGIHAN', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'BCF Consignee','index'=>'bcf_consignee', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Ref Number','index'=>'REF_NUMBER_OUT', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. Fiat Muat','index'=>'tglfiat', 'width'=>120,'hidden'=>true))
                     ->addColumn(array('label'=>'Jam. Fiat Muat','index'=>'jamfiat', 'width'=>70,'hidden'=>true))
@@ -460,6 +471,18 @@
                                 @foreach($kode_doks as $kode)
                                     <option value="{{ $kode->kode }}">({{$kode->kode}}) {{ $kode->name }}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group select-bcf-consignee" style="display:none;">
+                        <label class="col-sm-3 control-label">BCF 1.5 Consignee</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" id="bcf_consignee" name="bcf_consignee" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <option value="">Choose Consignee</option>
+                                <option value="PT. LAYANAN LANCAR LINTAS LOGISTINDO">PT. LAYANAN LANCAR LINTAS LOGISTINDO</option>
+                                <option value="PT. MULTI SEJAHTERA ABADI">PT. MULTI SEJAHTERA ABADI</option>
+                                <option value="PT. TRANSCON INDONESIA">PT. TRANSCON INDONESIA</option>
+                                <option value="PT. TRI PANDU PELITA">PT. TRI PANDU PELITA</option>
                             </select>
                         </div>
                     </div>
