@@ -44,7 +44,7 @@
     Route::group(['middleware' => ['auth']/*, 'prefix' => 'wms', 'domain' => 'wms.prjp.co.id'*/], function(){
         
         // Dashboard Routes
-        Route::get('/dashboard', [
+        Route::get('/', [
             'as' => 'index',
             'uses' => 'DashboardController@index'
         ]);
