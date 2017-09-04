@@ -12,8 +12,21 @@
 */
 
 //Route::group(['middleware' => ['web']], function(){
-    // EasyGo Routes
+
+    Route::group(['middleware' => ['web']], function(){
+        
+        // EasyGo Routes
         require_once 'Routes/RoutesEasyGo.php';
+        
+        Route::group(['namespace' => 'Web', 'prefix' => 'website'], function(){
+        
+            // Website Routes
+            require_once 'Routes/RoutesWebsite.php';
+        
+        });
+
+    });
+
     Route::group(['middleware' => ['guest'], 'namespace' => 'Auth'], function(){
         
         // Login Routes
@@ -28,10 +41,10 @@
         
     });
     
-    Route::group(['middleware' => ['auth']], function(){
+    Route::group(['middleware' => ['auth']/*, 'prefix' => 'wms', 'domain' => 'wms.prjp.co.id'*/], function(){
         
         // Dashboard Routes
-        Route::get('/', [
+        Route::get('/dashboard', [
             'as' => 'index',
             'uses' => 'DashboardController@index'
         ]);
