@@ -1,27 +1,22 @@
-@extends('layout')
+@extends('web-layout')
 
 @section('content')
-<div id="wrap-body">
-    
-    <div class="container margin-top-90">
-
-        <div class="content" style='height:auto; min-height:auto;'>
-            <div class='wrap-requirement'>
-
-                <div class="box-requirement page-other">
-                
-                    <div class='text-center'>
-                        <h1>404</h1>
-                        <p>{{trans('message.PAGE_NOT_FOUND')}}</p>
-                        <a href='{{route('index')}}' class='btn btn-danger btn-sm margin-top-30'>{{trans('message.BACK')}}</a>
+<section id="section"> 
+    <!--Section box starts Here -->
+    <div class="section">
+        <div class="container">
+            <div class="row" style="margin-top: 50px;">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="heading"> <span>404</span>
+                        <h2 class="h3"> Page Not Found </h2>
                     </div>
-                    
-                </div>
-                
+                </div>             
             </div>
         </div>
     </div>
-</div>
+    
+    <!--Section box ends Here --> 
+  </section>
 @stop
 
 @section('header')
