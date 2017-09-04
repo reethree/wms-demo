@@ -6,10 +6,6 @@
         <title>PT. Primanata Jasa Persada</title>
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.ico') }}">
         
-        {!! SEOMeta::generate() !!}
-	{!! OpenGraph::generate() !!}
-	{!! Twitter::generate() !!}
-        
         <!-- Google Font -->
         <link href='http://fonts.googleapis.com/css?family=Raleway:400,500,600,700,800,900' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Karla:400,700italic,700,400italic' rel='stylesheet' type='text/css'>
