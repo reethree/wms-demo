@@ -8,7 +8,7 @@
             <!-- THE BOXSLIDE EFFECT EXAMPLES  WITH LINK ON THE MAIN SLIDE EXAMPLE -->
 
             <li data-transition="random" data-slotamount="1">
-                <img src="{{ asset('assets/images/banner-plane.jpg') }}" alt="" />
+                <img src="{{ asset('assets/images/slider/slider1.jpg') }}" alt="" />
                 <div class="banner-text">
                     <div class="caption sft big_white" data-x="0" data-y="100" data-speed="center" data-start="1700" data-easing="Power4.easeInOut">
                         <a href="#" class="shipping">ground shipping</a>
@@ -24,7 +24,7 @@
                 </div>
             </li>
             <li data-transition="random" data-slotamount="1">
-                <img src="{{ asset('assets/images/banner-train.jpg') }}" alt="" />
+                <img src="{{ asset('assets/images/slider/slider2.jpg') }}" alt="" />
                 <div class="banner-text">
                     <div class="caption sft big_white" data-x="0" data-y="100" data-speed="700" data-start="1700" data-easing="Power4.easeInOut">
                         <a href="#" class="shipping">ground shipping</a>
@@ -40,7 +40,7 @@
                 </div>
             </li>
             <li data-transition="random" data-slotamount="1">
-                <img src="{{ asset('assets/images/banner-truck.jpg') }}" alt="" />
+                <img src="{{ asset('assets/images/slider/slider3.jpg') }}" alt="" />
                 <div class="banner-text">
                     <div class="caption sft big_white" data-x="0" data-y="100" data-speed="700" data-start="1700" data-easing="Power4.easeInOut">
                         <a href="#" class="shipping">ground shipping</a>
@@ -96,8 +96,8 @@
                     <div class="heading">
                         <span>AMAZING FEATURES</span>
                         <h3>WE OFFER QUICK &amp;
-                        POWERFUL SOLUTION
-                        FOR TRANSPORT</h3>
+                        SMART SOLUTION
+                        FOR YOUR LOGISTICS SERVICE</h3>
                     </div>
 
                     <p>

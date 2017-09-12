@@ -2,7 +2,7 @@
 	(function($) {
 	"use strict";
 	$('.banner').revolution({
-         delay:3000,
+         delay:5000,
          startwidth:960,
          startheight:500,
          startWithSlide:0,
@@ -75,7 +75,7 @@
          forceFullWidth:"on",
          fullScreen:"on",
          fullScreenOffsetContainer:"#topheader-to-offset",
-         fullScreenOffset:"0px",
+         fullScreenOffset:"30%",
  
          panZoomDisableOnMobile:"off",
  
