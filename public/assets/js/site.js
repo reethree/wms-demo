@@ -251,22 +251,22 @@
 			if ($(window).width() >= 1200) {
 				map.setOptions({
 
-					center : new google.maps.LatLng(33.656651, -83.710679),
+					center : new google.maps.LatLng(-6.1100173,106.8748512),
 				});
 			} else if ($(window).width() >= 992) {
 				map.setOptions({
 
-					center : new google.maps.LatLng(33.656651, -83.710679),
+					center : new google.maps.LatLng(-6.1100173,106.8748512),
 				});
 			} else if ($(window).width() >= 768) {
 				map.setOptions({
 
-					center : new google.maps.LatLng(33.656651, -83.710679),
+					center : new google.maps.LatLng(-6.1100173,106.8748512),
 				});
 			} else {
 				map.setOptions({
 
-					center : new google.maps.LatLng(33.656651, -83.710679),
+					center : new google.maps.LatLng(-6.1100173,106.8748512),
 				});
 			}
 		}

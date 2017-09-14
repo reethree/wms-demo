@@ -27,7 +27,7 @@
               <div class="heading">
                 <h2 class="h3"> {{ $page->name }} </h2>
               </div>
-              <div class="air-fright-img-part"> <img src="assets/images/shape-one.jpg" alt="" />
+              <div class="air-fright-img-part">
                   <p>
                         Manajemen perusahaan selalu berusaha agar PT. Primanata Jasa Persada berkembang menjadi perusahaan yang dapat dipercaya serta mampu menangani kegiatan jasa di pelabuhan mulai dari Bongkar Muat Kapal, Pergudangan, Penyelesaian Dokumen Barang dan Inland Transportation. 
                   </p>

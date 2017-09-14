@@ -114,9 +114,6 @@
                                         <li>
                                             <a href="{{ route('web-fasilitas-lapangan') }}">Lapangan</a>
                                         </li>
-                                        <li>
-                                            <a href="{{ route('web-fasilitas-alat') }}">Alat</a>
-                                        </li>
                                     </ul>
                                 </li>
                                 

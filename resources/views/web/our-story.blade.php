@@ -27,7 +27,7 @@
               <div class="heading">
                 <h2 class="h3"> {{ $page->name }} </h2>
               </div>
-              <div class="air-fright-img-part"> <img src="assets/images/shape-one.jpg" alt="" />
+              <div class="air-fright-img-part">
                     <p>
                         <b>PT. Primanata Jasa Persada</b> memulai aktivitas usaha sejak September 1996 dengan nama PT. Primanata Jasa Sentosa. Kemudian karena sesuatu kebutuhan pengembangan usaha, maka sejak awal tahun 1997, tepatnya tanggal 08 April 1997 disamping sebagai perusahaan Ekspedisi Muatan Kapal Laut juga mengembangkan jasa-jasa lainnya dengan nama    	PT. Primanata Jasa Persada.
                     </p>

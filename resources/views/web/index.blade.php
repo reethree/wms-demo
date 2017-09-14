@@ -9,7 +9,7 @@
 
             <li data-transition="random" data-slotamount="1">
                 <img src="{{ asset('assets/images/slider/slider1.jpg') }}" alt="" />
-                <div class="banner-text">
+<!--                <div class="banner-text">
                     <div class="caption sft big_white" data-x="0" data-y="100" data-speed="center" data-start="1700" data-easing="Power4.easeInOut">
                         <a href="#" class="shipping">ground shipping</a>
                     </div>
@@ -21,11 +21,11 @@
                     <div class="caption lfr medium_grey"  data-x="left" data-y="center" data-speed="300" data-start="2000">
                         <a href="#" class="services-link">our services</a>
                     </div>
-                </div>
+                </div>-->
             </li>
             <li data-transition="random" data-slotamount="1">
                 <img src="{{ asset('assets/images/slider/slider2.jpg') }}" alt="" />
-                <div class="banner-text">
+<!--                <div class="banner-text">
                     <div class="caption sft big_white" data-x="0" data-y="100" data-speed="700" data-start="1700" data-easing="Power4.easeInOut">
                         <a href="#" class="shipping">ground shipping</a>
                     </div>
@@ -37,11 +37,11 @@
                     <div class="caption lfr medium_grey" data-x="left" data-y="center" data-speed="300" data-start="2000">
                         <a href="#" class="services-link">our services</a>
                     </div>
-                </div>
+                </div>-->
             </li>
             <li data-transition="random" data-slotamount="1">
                 <img src="{{ asset('assets/images/slider/slider3.jpg') }}" alt="" />
-                <div class="banner-text">
+<!--                <div class="banner-text">
                     <div class="caption sft big_white" data-x="0" data-y="100" data-speed="700" data-start="1700" data-easing="Power4.easeInOut">
                         <a href="#" class="shipping">ground shipping</a>
                     </div>
@@ -53,7 +53,7 @@
                     <div class="caption lfr medium_grey"  data-x="left" data-y="center" data-speed="300" data-start="2000">
                         <a href="#" class="services-link">our services</a>
                     </div>
-                </div>
+                </div>-->
             </li>
 
         </ul>
@@ -94,7 +94,7 @@
             <div class="col-xs-12 col-sm-4">
                 <div class="features-text">
                     <div class="heading">
-                        <span>AMAZING FEATURES</span>
+                        <!--<span>AMAZING FEATURES</span>-->
                         <h3>WE OFFER QUICK &amp;
                         SMART SOLUTION
                         FOR YOUR LOGISTICS SERVICE</h3>
@@ -110,7 +110,7 @@
 
                     <i class="icon-ship"></i>
                     <div class="tab-text">
-                        <h5>QUICKEST CARGO</h5>
+                        <h5>PROSES OB FCL</h5>
                         <p>
                             Lorem ipsum dolor sit amet, cons
                             ctetur adipiscing elit. Aenean in

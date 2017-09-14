@@ -27,7 +27,7 @@
               <div class="heading">
                 <h2 class="h3"> {{ $page->title }} </h2>
               </div>
-              <div class="air-fright-img-part"> <img src="assets/images/shape-one.jpg" alt="" />
+              <div class="air-fright-img-part">
                   <p>
                   Penggunaan jasa dapat mengurus sendiri overbrengen CY atau menyerahkan pengurusannya kepada kami, pengguna cukup mengurus delivery atas containernya. PT. Primanata Jasa Persada bertanggung jawab atas barang-barang selama dalam penyimpanan. Dalam hal-hal tertentu, terbuka kemungkinan pengguna menyewa untuk kurun waktu tertentu
                   </p>

@@ -27,7 +27,7 @@
               <div class="heading">
                 <h2 class="h3"> {{ $page->name }} </h2>
               </div>
-                <table class="table table-bordered" style="font-size: 14px;">
+                <table class="table table-bordered" style="color: #60707d;font-size: 14px;">
                     <tr>
                         <th style="width: 30%;">Nama Perusahaan</th>
                         <td align="center">:</td>

@@ -27,7 +27,7 @@
               <div class="heading">
                 <h2 class="h3"> {{ $page->title }} </h2>
               </div>
-              <div class="air-fright-img-part"> <img src="assets/images/shape-one.jpg" alt="" />
+              <div class="air-fright-img-part">
                   <p>
                     Banyak bentuk kerjasama penggunaan gudang/ lapangan, namun pada prinsipnya, kerjasama dimaksud harus menguntungkan kedua pihak dengan memperhatikan suasana ekonomi Nasional pada umumnya maupun lalu lintas barang di Pelabuhan Tanjung Priok pada khususnya.
                   </p>

@@ -59,5 +59,5 @@
 
 @section('custom_js')
 <script src="http://maps.google.com/maps/api/js?sensor=true"></script> 
-<script type="text/javascript" src="assets/js/gmap.js"></script> 
+<script type="text/javascript" src="{{asset('assets/js/gmap.js')}}"></script> 
 @endsection
