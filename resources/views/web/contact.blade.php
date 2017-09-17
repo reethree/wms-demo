@@ -3,7 +3,7 @@
 @section('content')
 <!--banner Section starts Here -->
 <div class="banner service-banner spacetop">
-    <div class="banner-image-plane parallax"> </div>
+    <div class="banner-image-plane parallax" style="background: url('{{ asset('assets/images/header/IMG_5512_resize.jpg') }}') no-repeat;background-attachment: fixed;background-size: cover;"> </div>
     <div class="banner-text">
       <div class="container">
         <div class="row">
@@ -25,18 +25,16 @@
               <div class="heading ">
                 <h3>contact form</h3>
               </div>
-              <div class="contact-form-box " ng-controller="FormController">
-                <form ng-submit="submitForm()" name="contactForm" method="post"  novalidate id="contact">
-                  <div ng-class="{'successMessage' : successsubmission}" ng-bind="successsubmissionMessage" id="success"></div>
+              <div class="contact-form-box ">
+                <form name="contactForm" method="post" id="contact" action="#">
                   <div class="row">
-                    <input id="name" class="contact-name" type="text" placeholder="Name*" ng-model="formData.name" ng-class="{'error' : errorName}"/>
-                    <input id="email" class="contact-mail" type="text" placeholder="Email*" ng-model="formData.email" ng-class="{'error' : errorEmail}"/>
-                    <input id="sub" class="contact-subject" type="text" placeholder="Subject*" ng-class="{'error' : errorSubject}" ng-model="formData.subject"/>
-                    <textarea placeholder="Comment*" id="message" ng-model="formData.message" ng-class="{'error' : errorTextarea}"></textarea>
-                    <!--<input id="submit" class="comment-submit qoute-sub" type="button"  value="submit">-->
-                    <button type="submit" class="comment-submit qoute-sub" ng-disabled="submitButtonDisabled">Submit</button>
+                        <input type="hidden" name="_token" value="{{csrf_token()}}"/>
+                        <input id="name" class="contact-name" name="name" type="text" placeholder="Name*" required="required" />
+                        <input id="email" class="contact-mail" name="email" type="email" placeholder="Email*" required="required" />
+                        <input id="phone" class="contact-phone" name="phone" type="tel" placeholder="Phone*" required="required" />
+                        <textarea placeholder="Message*" name="message" id="message" required="required"></textarea>
+                        <button type="submit" class="comment-submit qoute-sub">Submit</button>
                   </div>
-                  <div ng-class="{'submissionMessage' : submission}" ng-bind="submissionMessage" style="float:right; color: red;"></div>
                 </form>
               </div>
             </div>

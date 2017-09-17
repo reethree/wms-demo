@@ -4,7 +4,7 @@
 
 <!--banner Section starts Here -->
   <div class="banner spacetop">
-    <div class="banner-image-plane parallax"> </div>
+    <div class="banner-image-plane parallax" style="background: url('{{ asset('assets/images/header/IMG_5526_resize.jpg') }}') no-repeat;background-attachment: fixed;background-size: cover;"> </div>
     <div class="banner-text">
       <div class="container">
         <div class="row">
