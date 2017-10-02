@@ -7,7 +7,7 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
         'as' => 'tps-coariCont-index',
         'uses' => 'PengirimanController@coariContIndex'
     ]);
-    Route::get('/coari-cont/grid-data', function()
+    Route::post('/coari-cont/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsCoariCont(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
@@ -29,7 +29,7 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
     ]);
     
     // COARI KMS
-    Route::get('/coari-kms', [
+    Route::post('/coari-kms', [
         'as' => 'tps-coariKms-index',
         'uses' => 'PengirimanController@coariKmsIndex'
     ]);

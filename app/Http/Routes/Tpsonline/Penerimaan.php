@@ -21,11 +21,11 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-responPlp-update',
         'uses' => 'PenerimaanController@responPlpUpdate'
     ]);
-    Route::get('/respon-plp/grid-data', function()
+    Route::post('/respon-plp/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsResponPlp(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
-    Route::get('/respon-plp-detail/grid-data', function()
+    Route::post('/respon-plp-detail/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsResponPlpDetail(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
@@ -45,7 +45,7 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-obLcl-index',
         'uses' => 'PenerimaanController@obLclIndex'
     ]);
-    Route::get('/ob-lcl/grid-data', function()
+    Route::post('/ob-lcl/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsOb(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
@@ -59,7 +59,7 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-obFcl-index',
         'uses' => 'PenerimaanController@obFclIndex'
     ]);
-    Route::get('/ob-fcl/grid-data', function()
+    Route::post('/ob-fcl/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsOb(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
@@ -109,7 +109,7 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-sppbPib-index',
         'uses' => 'PenerimaanController@sppbPibIndex'
     ]);
-    Route::get('/sppb-pib/grid-data', function()
+    Route::post('/sppb-pib/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsSppbPib(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
@@ -137,7 +137,7 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-sppbBc-index',
         'uses' => 'PenerimaanController@sppbBcIndex'
     ]);
-    Route::get('/sppb-bc/grid-data', function()
+    Route::post('/sppb-bc/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsSppbBc(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
