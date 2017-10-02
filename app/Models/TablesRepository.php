@@ -96,13 +96,18 @@ class TablesRepository extends EloquentRepositoryAbstract {
 //                        $Model = \DB::table('tcontainercy')
 //                            ->whereNotNull('TGLSURATJALAN')
 //                            ->whereNotNull('JAMSURATJALAN')
-                            ;
+//                            ;
                     break;
                     case 'release-invoice':
                         $Model = \DB::table('tcontainercy')
                             ->where('KD_TPS_ASAL', 'NCT1')
                             ->whereNotNull('TGLRELEASE')
                             ->whereNotNull('JAMRELEASE');
+                    break;
+                    case 'longstay':
+                        $Model = \DB::table('tcontainercy')
+                            ->whereRaw('tcontainercy.TGLMASUK >= DATE_SUB(now(), INTERVAL 1 MONTH)')
+                            ->whereNull('TGLRELEASE');
                     break;
                     case 'gatein':
                         $Model = \DB::table('tcontainercy')
@@ -185,6 +190,11 @@ class TablesRepository extends EloquentRepositoryAbstract {
 //                            ->whereNotNull('TGLSURATJALAN')
 //                            ->whereNotNull('JAMSURATJALAN');
 //                            ->where('VALIDASI', 'Y');
+                    break;
+                    case 'longstay':
+                        $Model = \DB::table('tmanifest')
+                            ->whereRaw('tmanifest.tglmasuk >= DATE_SUB(now(), INTERVAL 1 MONTH)')
+                            ->whereNull('tglrelease');
                     break;
                     case 'release-invoice':
                         $Model = \DB::table('tmanifest')

@@ -934,6 +934,27 @@ class FclController extends Controller
         
     }
     
+    public function reportLongstay()
+    {
+        if ( !$this->access->can('show.fcl.report.longstay') ) {
+            return view('errors.no-access');
+        }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Report Longstay Stock', 'slug' => 'show.fcl.report.longstay', 'description' => ''));
+        
+        $data['page_title'] = "FCL Longstay Stock";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'FCL Longstay Stock'
+            ]
+        ]; 
+        
+        return view('import.fcl.report-longstay')->with($data);
+    }
+    
     // TPS ONLINE
     public function gateinUpload(Request $request)
     {

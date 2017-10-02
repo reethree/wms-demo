@@ -1058,6 +1058,27 @@ class LclController extends Controller
         
     }
     
+    public function reportLongstay()
+    {
+        if ( !$this->access->can('show.lcl.report.longstay') ) {
+            return view('errors.no-access');
+        }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Report Longstay Stock', 'slug' => 'show.lcl.report.longstay', 'description' => ''));
+        
+        $data['page_title'] = "LCL Longstay Stock";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Longstay Stock'
+            ]
+        ];  
+        
+        return view('import.lcl.report-longstay')->with($data);
+    }
+
     // TPS ONLINE    
     public function gateinUpload(Request $request)
     {

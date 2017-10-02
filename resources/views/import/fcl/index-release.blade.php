@@ -64,6 +64,10 @@
             $('#NPWP_IMP').val(rowdata.NPWP_IMP);
             $('#NO_SPPB').val(rowdata.NO_SPPB);
             $('#TGL_SPPB').val(rowdata.TGL_SPPB);
+            $('#NO_BL_AWB').val(rowdata.NO_BL_AWB);
+            $('#TGL_BL_AWB').val(rowdata.TGL_BL_AWB);
+            $('#NO_DAFTAR_PABEAN').val(rowdata.NO_DAFTAR_PABEAN);
+            $('#TGL_DAFTAR_PABEAN').val(rowdata.TGL_DAFTAR_PABEAN);
             $('#TGLSURATJALAN').val(rowdata.TGLSURATJALAN+' '+rowdata.JAMSURATJALAN);
             $('#NOPOL_OUT').val(rowdata.NOPOL_OUT);
             $('#REF_NUMBER_OUT').val(rowdata.REF_NUMBER_OUT);
@@ -244,11 +248,15 @@
                     ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150))
                     ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>150))
                     ->addColumn(array('label'=>'Tgl. SPPB','index'=>'TGL_SPPB', 'width'=>150))
-                    ->addColumn(array('label'=>'Nama Dokumen','index'=>'KODE_DOKUMEN','align'=>'center', 'width'=>100,'hidden'=>false))
-                    ->addColumn(array('label'=>'Kode Dokumen','index'=>'KD_DOK_INOUT','align'=>'center', 'width'=>100,'hidden'=>false))
+                    ->addColumn(array('label'=>'Nama Dokumen','index'=>'KODE_DOKUMEN','align'=>'center', 'width'=>120,'hidden'=>false))
+                    ->addColumn(array('label'=>'Kode Dokumen','index'=>'KD_DOK_INOUT','align'=>'center', 'width'=>120,'hidden'=>false))
                     ->addColumn(array('label'=>'Kode Kuitansi','index'=>'NO_KUITANSI', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))
                     ->addColumn(array('label'=>'NPWP Consignee','index'=>'ID_CONSIGNEE','width'=>160))
+                    ->addColumn(array('label'=>'No. BL/AWB','index'=>'NO_BL_AWB', 'width'=>150))
+                    ->addColumn(array('label'=>'Tgl. BL/AWB','index'=>'TGL_BL_AWB', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'No. D.Pabean','index'=>'NO_DAFTAR_PABEAN', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. D.Pabean','index'=>'TGL_DAFTAR_PABEAN', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'Importir','index'=>'NAMA_IMP','width'=>160,'hidden'=>true))
                     ->addColumn(array('label'=>'NPWP Importir','index'=>'NPWP_IMP','width'=>160,'hidden'=>true))
                     ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))

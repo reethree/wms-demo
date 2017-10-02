@@ -75,4 +75,8 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-report-stock',
         'uses' => 'LclController@reportStock'
     ]);
+    Route::get('/report/longstay', [
+        'as' => 'lcl-report-longstay',
+        'uses' => 'LclController@reportLongstay'
+    ]);
 });
