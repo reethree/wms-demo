@@ -233,7 +233,8 @@
                     {{
                         GridRender::setGridId("tpsSppbPibContGrid")
                         ->enableFilterToolbar()
-                        ->setGridOption('url', URL::to('/tpsonline/penerimaan/sppb-pib/grid-data?type=cont&sppbid='.$sppb->TPS_SPPBXML_PK))
+                        ->setGridOption('mtype', 'POST')
+                        ->setGridOption('url', URL::to('/tpsonline/penerimaan/sppb-pib/grid-data?type=cont&sppbid='.$sppb->TPS_SPPBXML_PK.'&_token='.csrf_token()))
                         ->setGridOption('rowNum', 10)
                         ->setGridOption('shrinkToFit', true)
                         ->setGridOption('sortname','TPS_SPPBCONTXML_PK')
@@ -277,7 +278,8 @@
                     {{
                         GridRender::setGridId("tpstpsSppbPibKmsGrid")
                         ->enableFilterToolbar()
-                        ->setGridOption('url', URL::to('/tpsonline/penerimaan/sppb-pib/grid-data?type=kms&sppbid='.$sppb->TPS_SPPBXML_PK))
+                        ->setGridOption('mtype', 'POST')
+                        ->setGridOption('url', URL::to('/tpsonline/penerimaan/sppb-pib/grid-data?type=kms&sppbid='.$sppb->TPS_SPPBXML_PK.'&_token='.csrf_token()))
                         ->setGridOption('rowNum', 10)
                         ->setGridOption('shrinkToFit', true)
                         ->setGridOption('sortname','TPS_SPPBKMSXML_PK')

@@ -239,7 +239,8 @@
                     {{
                         GridRender::setGridId("tpstpsSppbBcContGrid")
                         ->enableFilterToolbar()
-                        ->setGridOption('url', URL::to('/tpsonline/penerimaan/sppb-bc/grid-data?type=cont&sppbid='.$sppb->TPS_SPPBXML_PK))
+                        ->setGridOption('mtype', 'POST')
+                        ->setGridOption('url', URL::to('/tpsonline/penerimaan/sppb-bc/grid-data?type=cont&sppbid='.$sppb->TPS_SPPBXML_PK.'&_token='.csrf_token()))
                         ->setGridOption('rowNum', 10)
                         ->setGridOption('shrinkToFit', true)
                         ->setGridOption('sortname','TPS_SPPBCONTXML_PK')
@@ -283,7 +284,8 @@
                     {{
                         GridRender::setGridId("tpsSppbBcKmsGrid")
                         ->enableFilterToolbar()
-                        ->setGridOption('url', URL::to('/tpsonline/penerimaan/sppb-bc/grid-data?type=kms&sppbid='.$sppb->TPS_SPPBXML_PK))
+                        ->setGridOption('mtype', 'POST')
+                        ->setGridOption('url', URL::to('/tpsonline/penerimaan/sppb-bc/grid-data?type=kms&sppbid='.$sppb->TPS_SPPBXML_PK.'&_token='.csrf_token()))
                         ->setGridOption('rowNum', 10)
                         ->setGridOption('shrinkToFit', true)
                         ->setGridOption('sortname','TPS_SPPBKMSXML_PK')

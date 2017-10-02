@@ -194,7 +194,8 @@
                     {{
                         GridRender::setGridId("tpsResponPlpDetailGrid")
                         ->enableFilterToolbar()
-                        ->setGridOption('url', URL::to('/tpsonline/penerimaan/respon-plp-detail/grid-data?responid='.$respon->tps_responplptujuanxml_pk))
+                        ->setGridOption('mtype', 'POST')
+                        ->setGridOption('url', URL::to('/tpsonline/penerimaan/respon-plp-detail/grid-data?responid='.$respon->tps_responplptujuanxml_pk.'&_token='.csrf_token()))
                         ->setGridOption('rowNum', 10)
                         ->setGridOption('shrinkToFit', true)
                         ->setGridOption('sortname','tps_responplptujuandetailxml_pk')

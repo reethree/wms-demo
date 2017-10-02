@@ -65,7 +65,8 @@
         {{
             GridRender::setGridId("tpsCoariKmsGrid")
             ->enableFilterToolbar()
-            ->setGridOption('url', URL::to('/tpsonline/pengiriman/coari-kms/grid-data'))
+            ->setGridOption('mtype', 'POST')
+            ->setGridOption('url', URL::to('/tpsonline/pengiriman/coari-kms/grid-data?_token='.csrf_token()))
             ->setGridOption('rowNum', 20)
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','TPSCOARIKMSXML_PK')

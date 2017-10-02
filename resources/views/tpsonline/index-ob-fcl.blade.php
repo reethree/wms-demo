@@ -71,7 +71,8 @@
         {{
             GridRender::setGridId("tpsobFclGrid")
             ->enableFilterToolbar()
-            ->setGridOption('url', URL::to('/tpsonline/penerimaan/ob-fcl/grid-data?jenis=F'))
+            ->setGridOption('mtype', 'POST')
+            ->setGridOption('url', URL::to('/tpsonline/penerimaan/ob-fcl/grid-data?jenis=F&_token='.csrf_token()))
             ->setGridOption('rowNum', 20)
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','TPSOBXML_PK')

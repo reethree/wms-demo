@@ -71,7 +71,8 @@
         {{
             GridRender::setGridId("tpsSppbBcGrid")
             ->enableFilterToolbar()
-            ->setGridOption('url', URL::to('/tpsonline/penerimaan/sppb-bc/grid-data'))
+            ->setGridOption('mtype', 'POST')
+            ->setGridOption('url', URL::to('/tpsonline/penerimaan/sppb-bc/grid-data?_token='.csrf_token()))
             ->setGridOption('rowNum', 20)
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','TPS_SPPBXML_PK')
