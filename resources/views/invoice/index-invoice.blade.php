@@ -87,7 +87,8 @@
         {{
             GridRender::setGridId("lclInvoicesGrid")
             ->enableFilterToolbar()
-            ->setGridOption('url', URL::to('/invoice/grid-data'))
+            ->setGridOption('mtype', 'POST')
+            ->setGridOption('url', URL::to('/invoice/grid-data?_token='.csrf_token()))
             ->setFileProperty('title', 'LCL Invoices') //Laravel Excel File Property
             ->setFileProperty('creator', 'Reza') //Laravel Excel File Property
             ->setSheetProperty('fitToPage', true) //Laravel Excel Sheet Property
