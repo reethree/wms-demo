@@ -57,6 +57,17 @@ class Controller extends BaseController
         return json_encode($data);
     }
     
+    public function getDataPerusahaan(Request $request) {
+        
+        $query = $request->q;
+        
+        $data['items'] = \App\Models\Perusahaan::select('TPERUSAHAAN_PK as id','NAMAPERUSAHAAN as text')
+                ->orWhere('NAMAPERUSAHAAN','LIKE','%'.$query.'%')
+                ->get();
+        
+        return json_encode($data);
+    }
+    
     public function insertRoleAccess($data = array())
     {
         if(count($data) > 0){

@@ -229,10 +229,17 @@
         $('#id').val(rowid);
         populateFormFields(rowdata, '');
            
-        $("#TSHIPPER_FK").val(rowdata.TSHIPPER_FK).trigger("change");
-        $("#TCONSIGNEE_FK").val(rowdata.TCONSIGNEE_FK).trigger("change");
+        $("#TSHIPPER_FK").append('<option value="'+rowdata.TSHIPPER_FK+'" selected="selected">'+rowdata.SHIPPER+'</option>');
+        $("#TSHIPPER_FK").trigger('change');
+        $("#TCONSIGNEE_FK").append('<option value="'+rowdata.TCONSIGNEE_FK+'" selected="selected">'+rowdata.CONSIGNEE+'</option>');
+        $("#TCONSIGNEE_FK").trigger('change');
+           
+//        $("#TSHIPPER_FK").val(rowdata.TSHIPPER_FK).trigger("change");
+//        $("#TCONSIGNEE_FK").val(rowdata.TCONSIGNEE_FK).trigger("change");
         if(rowdata.TNOTIFYPARTY_FK){
-            $("#TNOTIFYPARTY_FK").val(rowdata.TNOTIFYPARTY_FK).trigger("change");
+//            $("#TNOTIFYPARTY_FK").val(rowdata.TNOTIFYPARTY_FK).trigger("change");
+            $("#TNOTIFYPARTY_FK").append('<option value="'+rowdata.TNOTIFYPARTY_FK+'" selected="selected">'+rowdata.NOTIFYPARTY+'</option>');
+            $("#TNOTIFYPARTY_FK").trigger('change');
         }
         $("#TPACKING_FK").val(rowdata.TPACKING_FK).trigger("change");
         $("#DG_SURCHARGE").val(rowdata.DG_SURCHARGE).trigger("change");
@@ -540,9 +547,9 @@
                             <div class="col-sm-8">
                                 <select class="form-control select2" id="TSHIPPER_FK" name="TSHIPPER_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                     <option value="">Choose Shipper</option>
-                                    @foreach($perusahaans as $perusahaan)
+<!--                                    @foreach($perusahaans as $perusahaan)
                                         <option value="{{ $perusahaan->id }}">{{ $perusahaan->name }}</option>
-                                    @endforeach
+                                    @endforeach-->
                                 </select>
                             </div>
                         </div>
@@ -551,9 +558,9 @@
                             <div class="col-sm-6">
                                 <select class="form-control select2" id="TCONSIGNEE_FK" name="TCONSIGNEE_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                     <option value="">Choose Consignee</option>
-                                    @foreach($perusahaans as $perusahaan)
+<!--                                    @foreach($perusahaans as $perusahaan)
                                         <option value="{{ $perusahaan->id }}">{{ $perusahaan->name }}</option>
-                                    @endforeach
+                                    @endforeach-->
                                 </select>
                             </div>
                             <div class="col-sm-2">
@@ -565,9 +572,9 @@
                             <div class="col-sm-8">
                                 <select class="form-control select2" id="TNOTIFYPARTY_FK" name="TNOTIFYPARTY_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                     <option value="Same of Consignee">Same of Consignee</option>
-                                    @foreach($perusahaans as $perusahaan)
+<!--                                    @foreach($perusahaans as $perusahaan)
                                         <option value="{{ $perusahaan->id }}">{{ $perusahaan->name }}</option>
-                                    @endforeach
+                                    @endforeach-->
                                 </select>
                             </div>
                         </div>
@@ -804,6 +811,41 @@
         
         return false;
     });
+    
+    $("#TSHIPPER_FK,#TCONSIGNEE_FK,#TNOTIFYPARTY_FK").select2({
+        ajax: {
+          url: "{{ route('getDataPerusahaan') }}",
+          dataType: 'json',
+          delay: 250,
+          data: function (params) {
+            return {
+              q: params.term, // search term
+//              page: params.page
+            };
+          },
+          processResults: function (data, params) {
+//              console.log(data);
+            // parse the results into the format expected by Select2
+            // since we are using custom formatting functions we do not need to
+            // alter the remote JSON data, except to indicate that infinite
+            // scrolling can be used
+            params.page = params.page || 1;
+
+            return {
+              results: data.items,
+//              pagination: {
+//                more: (params.page * 30) < data.total_count
+//              }
+            };
+          },
+          cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+        minimumInputLength: 3,
+//        templateResult: formatRepo, // omitted for brevity, see the source of this page
+//        templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+    });
+    
 </script>
 
 @endsection

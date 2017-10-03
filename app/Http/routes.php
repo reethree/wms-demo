@@ -80,7 +80,10 @@
             'as' => 'getDataCodePelabuhan',
             'uses' => 'Controller@getDataCodePelabuhan'
         ]);
-        
+        Route::get('/getDataPerusahaan', [
+            'as' => 'getDataPerusahaan',
+            'uses' => 'Controller@getDataPerusahaan'
+        ]);
         
     });
     
