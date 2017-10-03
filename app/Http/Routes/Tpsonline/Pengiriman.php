@@ -29,11 +29,11 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
     ]);
     
     // COARI KMS
-    Route::post('/coari-kms', [
+    Route::get('/coari-kms', [
         'as' => 'tps-coariKms-index',
         'uses' => 'PengirimanController@coariKmsIndex'
     ]);
-    Route::get('/coari-kms/grid-data', function()
+    Route::post('/coari-kms/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsCoariKms(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
@@ -111,7 +111,7 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
         'as' => 'tps-codecoKms-index',
         'uses' => 'PengirimanController@codecoKmsIndex'
     ]);
-        Route::get('/codeco-kms/grid-data', function()
+    Route::post('/codeco-kms/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsCodecoKms(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
