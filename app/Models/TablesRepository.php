@@ -106,8 +106,10 @@ class TablesRepository extends EloquentRepositoryAbstract {
                     break;
                     case 'longstay':
                         $Model = \DB::table('tcontainercy')
-                            ->whereRaw('tcontainercy.TGLMASUK < DATE_SUB(now(), INTERVAL 1 MONTH)')
-                            ->whereNull('TGLRELEASE');
+//                            ->whereRaw('tcontainercy.TGLMASUK < DATE_SUB(now(), INTERVAL 1 MONTH)')
+                            ->whereNotNull('TGLMASUK')
+                            ->whereNull('TGLRELEASE')
+                            ->orWhere('TGLRELEASE','0000-00-00');
                     break;
                     case 'gatein':
                         $Model = \DB::table('tcontainercy')
@@ -193,8 +195,10 @@ class TablesRepository extends EloquentRepositoryAbstract {
                     break;
                     case 'longstay':
                         $Model = \DB::table('tmanifest')
-                            ->whereRaw('tmanifest.tglmasuk < DATE_SUB(now(), INTERVAL 1 MONTH)')
-                            ->whereNull('tglrelease');
+//                            ->whereRaw('tmanifest.tglmasuk < DATE_SUB(now(), INTERVAL 1 MONTH)')
+                            ->whereNotNull('tglmasuk')
+                            ->whereNull('tglrelease')
+                            ->orWhere('tglrelease','0000-00-00');
                     break;
                     case 'release-invoice':
                         $Model = \DB::table('tmanifest')
