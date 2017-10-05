@@ -1067,12 +1067,12 @@ class LclController extends Controller
         // Create Roles Access
         $this->insertRoleAccess(array('name' => 'Report Longstay Stock', 'slug' => 'show.lcl.report.longstay', 'description' => ''));
         
-        $data['page_title'] = "LCL Longstay Stock";
+        $data['page_title'] = "LCL Inventory Stock";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
             [
                 'action' => '',
-                'title' => 'LCL Longstay Stock'
+                'title' => 'LCL Inventory Stock'
             ]
         ];  
         

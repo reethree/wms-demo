@@ -943,12 +943,12 @@ class FclController extends Controller
         // Create Roles Access
         $this->insertRoleAccess(array('name' => 'Report Longstay Stock', 'slug' => 'show.fcl.report.longstay', 'description' => ''));
         
-        $data['page_title'] = "FCL Longstay Stock";
+        $data['page_title'] = "FCL Inventory Stock";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
             [
                 'action' => '',
-                'title' => 'FCL Longstay Stock'
+                'title' => 'FCL Inventory Stock'
             ]
         ]; 
         

@@ -8,7 +8,7 @@
 </style>
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">Report Container FCL</h3>
+        <h3 class="box-title">FCL Inventory</h3>
     </div>
     <div class="box-body table-responsive">
         <div class="row" style="margin-bottom: 30px;margin-right: 0;">
