@@ -91,11 +91,11 @@ class EasygoController extends Controller
         curl_close($ch);
         
         $results = json_decode($dataResults);
-        
+        $wkt_dis = date('Y-m-d H:i:s');
 //        if($results->ResponseStatus == 'OK'){        
             $dispatche->STATUS_DISPATCHE = 'Y';
-            $dispatche->TGL_DISPATCHE = date('Y-m-d');
-            $dispatche->JAM_DISPATCHE = date('H:i:s');
+            $dispatche->TGL_DISPATCHE = date('Y-m-d', strtotime($wkt_dis));
+            $dispatche->JAM_DISPATCHE = date('H:i:s', strtotime($wkt_dis));
 //        }
         $dispatche->DO_ID = $results->DO_ID;
         $dispatche->RESPONSE_DISPATCHE = $results->ResponseStatus;
@@ -103,7 +103,7 @@ class EasygoController extends Controller
         $dispatche->url_reply = $this->url_reply;
         
         if($dispatche->save()){
-            $updateOB = \App\Models\TpsOb::where('TPSOBXML_PK', $request->ob_id)->update(['STATUS_DISPATCHE' => 'Y','DO_ID' => $results->DO_ID,'RESPONSE_DISPATCHE' => $results->ResponseStatus,'KODE_DISPATCHE' => $results->ResponseCode]);
+            $updateOB = \App\Models\TpsOb::where('TPSOBXML_PK', $request->ob_id)->update(['STATUS_DISPATCHE' => 'Y','DO_ID' => $results->DO_ID,'RESPONSE_DISPATCHE' => $results->ResponseStatus,'KODE_DISPATCHE' => $results->ResponseCode,'WAKTU_DISPATCHE' => $wkt_dis]);
             
             return json_encode(array('success' => true, 'message' => 'Dispatche successfully updated!'));
         }

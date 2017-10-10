@@ -46,24 +46,37 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                 }
                 
                 if(isset($request['group'])){
-                    $Model = TpsOb::where($request['by'], '>=', $start_date)
+                    $Model = TpsOb::
+//                        select('tpsobxml.*', 'easygo_inputdo.TGL_DISPATCHE', 'easygo_inputdo.JAM_DISPATCHE')
+//                        ->leftjoin('easygo_inputdo','tpsobxml.TPSOBXML_PK','=','easygo_inputdo.OB_ID')
+                        where($request['by'], '>=', $start_date)
                         ->where($request['by'], '<=', $end_date)
-                        ->where('JNS_CONT', $request['jenis'])
+                        ->where('tpsobxml.', $request['jenis'])
 //                        ->groupBy('NO_CONT')
                         ;
                 }else{
-                    $Model = TpsOb::where($request['by'], '>=', $start_date)
+                    $Model = TpsOb::
+//                        select('tpsobxml.*', 'easygo_inputdo.TGL_DISPATCHE', 'easygo_inputdo.JAM_DISPATCHE') 
+//                        ->leftjoin('easygo_inputdo','tpsobxml.TPSOBXML_PK','=','easygo_inputdo.OB_ID')
+                        where($request['by'], '>=', $start_date)
                         ->where($request['by'], '<=', $end_date)
-                        ->where('JNS_CONT', $request['jenis']);
+                        ->where('tpsobxml.JNS_CONT', $request['jenis']);
                 }
 
             }else{
                 if(isset($request['group'])){
-                    $Model = TpsOb::where('JNS_CONT', $request['jenis'])
+                    $Model = TpsOb::
+//                        select('tpsobxml.*', 'easygo_inputdo.TGL_DISPATCHE', 'easygo_inputdo.JAM_DISPATCHE')                        
+//                        ->leftjoin('easygo_inputdo','tpsobxml.TPSOBXML_PK','=','easygo_inputdo.OB_ID')
+                        where('tpsobxml.JNS_CONT', $request['jenis'])
 //                        ->groupBy('NO_CONT')
                         ;
                 }else{
-                    $Model = TpsOb::where('JNS_CONT', $request['jenis']);
+                    $Model = TpsOb::
+//                        select('tpsobxml.*', 'easygo_inputdo.TGL_DISPATCHE', 'easygo_inputdo.JAM_DISPATCHE') 
+//                        ->leftjoin('easygo_inputdo','tpsobxml.TPSOBXML_PK','=','easygo_inputdo.OB_ID')
+                        where('tpsobxml.JNS_CONT', $request['jenis'])
+                            ;
                 }
  
             }
