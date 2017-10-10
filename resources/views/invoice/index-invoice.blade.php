@@ -117,6 +117,7 @@
 //            ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
 //            ->addColumn(array('label'=>'ETD','index'=>'ETD', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'No. Invoice','index'=>'no_invoice','width'=>200))
+            ->addColumn(array('label'=>'Type','index'=>'INVOICE','width'=>80,'align'=>'center'))
             ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
             ->addColumn(array('label'=>'Vessel','index'=>'VESSEL', 'width'=>150))
             ->addColumn(array('label'=>'Voy','index'=>'VOY','width'=>80,'align'=>'center'))
