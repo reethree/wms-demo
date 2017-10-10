@@ -302,6 +302,8 @@
                     ->addColumn(array('index'=>'STATUS_DISPATCHE','width'=>160,'hidden'=>true))
                     ->addColumn(array('index'=>'KODE_DISPATCHE','width'=>160,'hidden'=>false))
                     ->addColumn(array('index'=>'RESPONSE_DISPATCHE','width'=>160,'hidden'=>false))
+                    ->addColumn(array('label'=>'Tgl. Dispatch','index'=>'TGL_DISPATCHE','width'=>160,'align'=>'center'))
+                    ->addColumn(array('label'=>'Jam Dispatch','index'=>'Jam_DISPATCHE','width'=>160,'align'=>'center'))
                     ->addColumn(array('index'=>'ID_CONSIGNEE','width'=>160,'hidden'=>true))		
                     ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>350))
                     ->addColumn(array('label'=>'Ref Number','index'=>'REF_NUMBER','width'=>160,'hidden'=>true))			
