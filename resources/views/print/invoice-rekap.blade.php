@@ -5,7 +5,7 @@
 @stop
 
 @section('content')
-
+<br /><br />
 <div id="details" class="clearfix">
     <table border="0" cellspacing="0" cellpadding="0" width="40%">
         <tr>

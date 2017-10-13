@@ -1397,6 +1397,10 @@ class LclController extends Controller
             );
             $sub_total = array_sum($array_total);
             
+            if($tarif->consolidator_id == 24):
+                $sub_total = $sub_total+20000;
+            endif;
+            
             if(isset($request->free_surcharge)):
                 $invoice_import->weight_surcharge = 0;
             else:           
