@@ -201,4 +201,48 @@ class Controller extends BaseController
 
     }
     
+    public function ago($date) {
+        
+        $time = $this->_mysql2date('U', $date, false);
+        
+//        if($this->languageManager->getLocale() == 'en'){
+//            $periods = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
+//        }else{
+            $periods = array("detik", "menit", "jam", "hari", "minggu", "bulan", "tahun", "dekade");
+//        }
+        $lengths = array("60", "60", "24", "7", "4.35", "12", "10");
+
+        $now = time();
+
+        $difference = $now - $time;
+//        if($this->languageManager->getLocale() == 'en'){
+//            $tense = "ago";
+//        }else{
+            $tense = "yang lalu";
+//        }
+
+        for ($j = 0; $difference >= $lengths[$j] && $j < count($lengths) - 1; $j++) {
+            $difference /= $lengths[$j];
+        }
+        
+        $difference = round($difference);
+        
+//        if($this->languageManager->getLocale() == 'en'){ 
+//            if ($difference != 1) {
+//                $periods[$j].= "s";
+//            }
+//        }
+
+        if ($difference == 0) {
+//            if($this->languageManager->getLocale() == 'en'){
+//                return "Just now ";
+//            }else{
+                return "Baru saja ";
+//            }
+        } else {
+//            return "$difference $periods[$j] $tense ";
+            return "$difference $periods[$j]";
+        }
+    }
+    
 }

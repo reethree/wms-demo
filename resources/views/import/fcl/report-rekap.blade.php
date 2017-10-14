@@ -6,6 +6,30 @@
         z-index: 100 !important;
     }
 </style>
+<script>
+    
+    function gridCompleteEvent()
+    {
+        var ids = jQuery("#fclContainerReportGrid").jqGrid('getDataIDs'),
+            lt = '';   
+            
+        for(var i=0;i < ids.length;i++){ 
+            var cl = ids[i];
+            
+            rowdata = $('#fclContainerReportGrid').getRowData(cl);
+            
+            if(rowdata.TGLMASUK && rowdata.TGLRELEASE == ''){
+                lt = jQuery.timeago(rowdata.TGLMASUK+' '+rowdata.JAMMASUK);
+            }else if(rowdata.TGLMASUK == ''){
+                lt = 'Belum GateIn';
+            }else{
+                lt = 'Sudah Release';
+            }
+            jQuery("#fclContainerReportGrid").jqGrid('setRowData',ids[i],{lamaTimbun:lt}); 
+        } 
+    }
+    
+</script>
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">Report Container FCL</h3>
@@ -63,6 +87,7 @@
             ->setNavigatorOptions('view',array('closeOnEscape'=>false))
             ->setFilterToolbarOptions(array('autosearch'=>true))
 //            ->setGridEvent('onSelectRow', 'onSelectRowEvent')
+            ->setGridEvent('gridComplete', 'gridCompleteEvent')
             ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
 //            ->addColumn(array('label'=>'Status','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
             ->addColumn(array('label'=>'No. Joborder','index'=>'NoJob', 'width'=>150))
@@ -123,6 +148,7 @@
 //            ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
 //            ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
 //            ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
+            ->addColumn(array('label'=>'Lama Timbun','index'=>'lamaTimbun', 'width'=>150, 'search'=>false, 'align'=>'center'))
             ->renderGrid()
         }}
     </div>
@@ -263,6 +289,8 @@
 @section('custom_js')
 
 <script src="{{ asset("/bower_components/AdminLTE/plugins/datepicker/bootstrap-datepicker.js") }}"></script>
+<script src="{{ asset("/assets/js/jquery.timeago.js") }}"></script>
+<script src="{{ asset("/assets/js/jquery.timeago.id.js") }}"></script>
 <script type="text/javascript">
     $('.datepicker').datepicker({
         autoclose: true,
