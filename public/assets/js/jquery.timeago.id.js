@@ -13,16 +13,16 @@
     prefixFromNow: null,
     suffixAgo: "",
     suffixFromNow: "dari sekarang",
-    seconds: "kurang dari semenit",
-    minute: "sekitar satu menit",
+    seconds: "Kurang dari 1 menit",
+    minute: "Sekitar 1 menit",
     minutes: "%d menit",
-    hour: "sekitar sejam",
-    hours: "sekitar %d jam",
-    day: "sehari",
+    hour: "Sekitar 1 jam",
+    hours: "Sekitar %d jam",
+    day: "1 hari",
     days: "%d hari",
-    month: "sekitar sebulan",
+    month: "Sekitar 1 bulan",
     months: "%d bulan",
-    year: "sekitar setahun",
+    year: "Sekitar 1 tahun",
     years: "%d tahun"
   };
 }));
