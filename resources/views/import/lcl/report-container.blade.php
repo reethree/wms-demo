@@ -133,24 +133,24 @@
             <div class="row">
                 <div class="col-md-2">
                     <select class="form-control select2" id="by" name="month" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                        <option value="01" @if($month == 01) {{ 'selected' }} @endif>Januari</option>
-                        <option value="02" @if($month == 02) {{ 'selected' }} @endif>Februari</option>
-                        <option value="03" @if($month == 03) {{ 'selected' }} @endif>Maret</option>
-                        <option value="04" @if($month == 04) {{ 'selected' }} @endif>April</option>
-                        <option value="05" @if($month == 05) {{ 'selected' }} @endif>Mei</option>
-                        <option value="06" @if($month == 06) {{ 'selected' }} @endif>Juni</option>
-                        <option value="07" @if($month == 07) {{ 'selected' }} @endif>Juli</option>
-                        <option value="08" @if($month == 08) {{ 'selected' }} @endif>Agustus</option>
-                        <option value="09" @if($month == 09) {{ 'selected' }} @endif>September</option>
-                        <option value="10" @if($month == 10) {{ 'selected' }} @endif>Oktober</option>
-                        <option value="11" @if($month == 11) {{ 'selected' }} @endif>November</option>
-                        <option value="12" @if($month == 12) {{ 'selected' }} @endif>Desember</option>
+                        <option value="01" @if($month == '01') {{ 'selected' }} @endif>Januari</option>
+                        <option value="02" @if($month == '02') {{ 'selected' }} @endif>Februari</option>
+                        <option value="03" @if($month == '03') {{ 'selected' }} @endif>Maret</option>
+                        <option value="04" @if($month == '04') {{ 'selected' }} @endif>April</option>
+                        <option value="05" @if($month == '05') {{ 'selected' }} @endif>Mei</option>
+                        <option value="06" @if($month == '06') {{ 'selected' }} @endif>Juni</option>
+                        <option value="07" @if($month == '07') {{ 'selected' }} @endif>Juli</option>
+                        <option value="08" @if($month == '08') {{ 'selected' }} @endif>Agustus</option>
+                        <option value="09" @if($month == '09') {{ 'selected' }} @endif>September</option>
+                        <option value="10" @if($month == '10') {{ 'selected' }} @endif>Oktober</option>
+                        <option value="11" @if($month == '11') {{ 'selected' }} @endif>November</option>
+                        <option value="12" @if($month == '12') {{ 'selected' }} @endif>Desember</option>
                     </select>
                 </div>
                 <div class="col-md-2">
                     <select class="form-control select2" id="by" name="year" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                        <option value="2016" @if($year == 2016) {{ 'selected' }} @endif>2016</option>
-                        <option value="2017" @if($year == 2017) {{ 'selected' }} @endif>2017</option>                      
+                        <option value="2016" @if($year == '2016') {{ 'selected' }} @endif>2016</option>
+                        <option value="2017" @if($year == '2017') {{ 'selected' }} @endif>2017</option>                      
                     </select>
                 </div>
                 <div class="col-md-2">
