@@ -147,7 +147,7 @@
 //            ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
 //            ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
 //            ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
-            ->addColumn(array('label'=>'Lama Timbun','index'=>'lamaTimbun', 'width'=>150, 'search'=>false, 'align'=>'center'))
+//            ->addColumn(array('label'=>'Lama Timbun','index'=>'lamaTimbun', 'width'=>150, 'search'=>false, 'editable'=>false,'align'=>'center'))
             ->renderGrid()
         }}
     </div>
