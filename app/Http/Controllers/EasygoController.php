@@ -91,21 +91,25 @@ class EasygoController extends Controller
         curl_close($ch);
         
         $results = json_decode($dataResults);
-        $wkt_dis = date('Y-m-d H:i:s');
-//        if($results->ResponseStatus == 'OK'){        
-            $dispatche->STATUS_DISPATCHE = 'Y';
-            $dispatche->TGL_DISPATCHE = date('Y-m-d', strtotime($wkt_dis));
-            $dispatche->JAM_DISPATCHE = date('H:i:s', strtotime($wkt_dis));
-//        }
-        $dispatche->DO_ID = $results->DO_ID;
-        $dispatche->RESPONSE_DISPATCHE = $results->ResponseStatus;
-        $dispatche->KODE_DISPATCHE = $results->ResponseCode;
-        $dispatche->url_reply = $this->url_reply;
-        
-        if($dispatche->save()){
-            $updateOB = \App\Models\TpsOb::where('TPSOBXML_PK', $request->ob_id)->update(['STATUS_DISPATCHE' => 'Y','DO_ID' => $results->DO_ID,'RESPONSE_DISPATCHE' => $results->ResponseStatus,'KODE_DISPATCHE' => $results->ResponseCode,'WAKTU_DISPATCHE' => $wkt_dis]);
-            
-            return json_encode(array('success' => true, 'message' => 'Dispatche successfully updated!'));
+        if(count($results) > 0){
+            $wkt_dis = date('Y-m-d H:i:s');
+    //        if($results->ResponseStatus == 'OK'){        
+                $dispatche->STATUS_DISPATCHE = 'Y';
+                $dispatche->TGL_DISPATCHE = date('Y-m-d', strtotime($wkt_dis));
+                $dispatche->JAM_DISPATCHE = date('H:i:s', strtotime($wkt_dis));
+    //        }
+            $dispatche->DO_ID = $results->DO_ID;
+            $dispatche->RESPONSE_DISPATCHE = $results->ResponseStatus;
+            $dispatche->KODE_DISPATCHE = $results->ResponseCode;
+            $dispatche->url_reply = $this->url_reply;
+
+            if($dispatche->save()){
+                $updateOB = \App\Models\TpsOb::where('TPSOBXML_PK', $request->ob_id)->update(['STATUS_DISPATCHE' => 'Y','DO_ID' => $results->DO_ID,'RESPONSE_DISPATCHE' => $results->ResponseStatus,'KODE_DISPATCHE' => $results->ResponseCode,'WAKTU_DISPATCHE' => $wkt_dis]);
+
+                return json_encode(array('success' => true, 'message' => 'Dispatche successfully updated!'));
+            }
+        }else{
+            return json_encode(array('success' => false, 'message' => $dataResults));
         }
         
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
