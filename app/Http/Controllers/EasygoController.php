@@ -109,7 +109,7 @@ class EasygoController extends Controller
                 return json_encode(array('success' => true, 'message' => 'Dispatche successfully updated!'));
             }
         }else{
-            return json_encode(array('success' => false, 'message' => $dataResults));
+            return json_encode(array('success' => false, 'message' => $results->ResponseCode));
         }
         
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
