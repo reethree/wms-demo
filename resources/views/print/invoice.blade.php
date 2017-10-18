@@ -190,7 +190,7 @@
               <td align="right">Rp.</td>
               <td align="right">{{ number_format($invoice->adm) }}</td>
             </tr>
-            @if($tarif->consolidator_id == 24)
+<!--            @if($tarif->consolidator_id == 24)
             <tr>
               <td>6</td>
               <td>Surveyor</td>
@@ -209,7 +209,7 @@
               <td align="right">Rp.</td>
               <td align="right">{{ number_format(10000) }}</td>
             </tr>
-            @endif    
+            @endif    -->
             <tr>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
