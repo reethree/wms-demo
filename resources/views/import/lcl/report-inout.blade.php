@@ -80,7 +80,7 @@
             GridRender::setGridId("lclInoutReportGrid")
             ->enableFilterToolbar()
             ->setGridOption('mtype', 'POST')
-            ->setGridOption('url', URL::to('/lcl/manifest/grid-data?_token='.csrf_token()))
+            ->setGridOption('url', URL::to('/lcl/manifest/grid-data?report=1&_token='.csrf_token()))
             ->setGridOption('rowNum', 20)
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','TMANIFEST_PK')
@@ -148,6 +148,7 @@
 //            ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
 //            ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
 //            ->addColumn(array('label'=>'Lama Timbun','index'=>'lamaTimbun', 'width'=>150, 'search'=>false, 'editable'=>false,'align'=>'center'))
+            ->addColumn(array('label'=>'Lama Timbun (Hari)','index'=>'timeSinceUpdate', 'width'=>150, 'search'=>false, 'align'=>'center'))
             ->renderGrid()
         }}
     </div>

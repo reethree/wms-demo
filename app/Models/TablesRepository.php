@@ -62,6 +62,7 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereNotNull('JAMSTRIPPING');
                     break;
                 }
+                
             }else{
                 $Model = \DB::table('tcontainer')
                         ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK');
@@ -120,6 +121,9 @@ class TablesRepository extends EloquentRepositoryAbstract {
                     break;
                 }
                 
+            }elseif(isset($request['report'])){
+                $Model = \DB::table('tcontainercy')
+                        ->select(\DB::raw('*, timestampdiff(DAY, now(), TGLMASUK) as timeSinceUpdate'));
             }else{
                 
             }
@@ -232,6 +236,9 @@ class TablesRepository extends EloquentRepositoryAbstract {
                         ->where($request['by'], '>=',$start_date)
                         ->where($request['by'], '<=',$end_date);
                 
+            }elseif(isset($request['report'])){
+                $Model = \DB::table('tmanifest')
+                        ->select(\DB::raw('*, timestampdiff(DAY, now(), tglmasuk) as timeSinceUpdate'));   
             }else{
                 
             }

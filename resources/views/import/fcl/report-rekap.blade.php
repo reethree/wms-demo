@@ -75,7 +75,7 @@
             GridRender::setGridId("fclContainerReportGrid")
             ->enableFilterToolbar()
             ->setGridOption('mtype', 'POST')
-            ->setGridOption('url', URL::to('/container/grid-data-cy?_token='.csrf_token()))
+            ->setGridOption('url', URL::to('/container/grid-data-cy?report=1&_token='.csrf_token()))
             ->setGridOption('rowNum', 20)
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','TCONTAINER_PK')
@@ -148,7 +148,8 @@
 //            ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
 //            ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
 //            ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
-            ->addColumn(array('label'=>'Lama Timbun','index'=>'lamaTimbun', 'width'=>150, 'search'=>false, 'align'=>'center'))
+            ->addColumn(array('label'=>'Lama Timbun (Hari)','index'=>'timeSinceUpdate', 'width'=>150, 'search'=>false, 'align'=>'center'))
+//            ->addColumn(array('label'=>'Lama Timbun','index'=>'lamaTimbun', 'width'=>150, 'search'=>false, 'align'=>'center'))
             ->renderGrid()
         }}
     </div>

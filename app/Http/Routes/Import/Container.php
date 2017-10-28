@@ -28,6 +28,7 @@ Route::group(['prefix' => 'container', 'namespace' => 'Import'], function(){
     {
         GridEncoder::encodeRequestedData(new \App\Models\TablesRepository(new App\Models\Containercy(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
+    
     Route::post('/crud-cy/{id}', function($joborder_id)
     {
         $Eloquent = new \App\Models\Eloquent\EloquentContainercy();
