@@ -6,7 +6,7 @@
 
 @section('content')
 <br /><br />
-<div id="details" class="clearfix">
+<div id="details" class="clearfix" style="font-weight: bold;">
     <table border="0" cellspacing="0" cellpadding="0" width="40%">
         <tr>
             <td>Kapada Yth.</td>
@@ -52,6 +52,9 @@
             <td style="width: 30px;">Rp.</td>
             <td style="text-align: right;width: 150px;">{{ number_format($invoice->sub_total) }}</td>
         </tr>
+        @if($i == 30)
+            <div style="page-break-after: always;"><br /><br /><br /><br /><br /><br /></div>
+        @endif
         <?php $i++;?>
         @endforeach
         <tr>
