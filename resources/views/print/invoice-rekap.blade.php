@@ -45,16 +45,18 @@
         </tr>
         <?php $i=1; ?>
         @foreach($invoices as $invoice)
-        <tr>
-            <td style="text-align: center;border-right: 1px solid;border-left: 1px solid;">{{ $i }}</td>
-            <td style="border-right: 1px solid;">{{ $invoice->CONSIGNEE }}</td>
-            <td style="text-align: center;border-right: 1px solid;">{{ $invoice->no_invoice }}</td>
-            <td style="width: 30px;">Rp.</td>
-            <td style="text-align: right;width: 150px;">{{ number_format($invoice->sub_total) }}</td>
-        </tr>
-        @if($i == 30)
-            <div style="page-break-after: always;"><br /><br /><br /><br /><br /><br /></div>
-        @endif
+            <tr>
+                <td style="text-align: center;border-right: 1px solid;border-left: 1px solid;">{{ $i }}</td>
+                <td style="border-right: 1px solid;">{{ $invoice->CONSIGNEE }}</td>
+                <td style="text-align: center;border-right: 1px solid;">{{ $invoice->no_invoice }}</td>
+                <td style="width: 30px;">Rp.</td>
+                <td style="text-align: right;width: 150px;">{{ number_format($invoice->sub_total) }}</td>
+            </tr>
+            @if($i == 30)
+                <tr><td colspan="5">Next Page</td></tr>
+                <br /><br /><br /><br />
+                <div style="page-break-after: auto;"></div>
+            @endif
         <?php $i++;?>
         @endforeach
         <tr>
