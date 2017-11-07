@@ -43,6 +43,7 @@
             <th style="text-align: center;width: 80px;border: 1px solid;">NO<br />INVOICE</th>
             <th style="text-align: center;border: 1px solid;" colspan="2">JUMLAH</th>
         </tr>
+        
         <?php $i=1; ?>
         @foreach($invoices as $invoice)
             <tr>
@@ -52,13 +53,9 @@
                 <td style="width: 30px;">Rp.</td>
                 <td style="text-align: right;width: 150px;">{{ number_format($invoice->sub_total) }}</td>
             </tr>
-            @if($i == 30)
-                <tr><td colspan="5">Next Page</td></tr>
-                <br /><br /><br /><br />
-                <div style="page-break-after: always;"></div>
-            @endif
         <?php $i++;?>
         @endforeach
+        
         <tr>
             <td colspan="2" style="border-top:1px solid;"></td>
             <td style="text-align: center;border-top:1px solid;border-right: 1px solid;border-left: 1px solid;">Sub Total</td>
