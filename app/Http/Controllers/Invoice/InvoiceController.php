@@ -146,7 +146,7 @@ class InvoiceController extends Controller
             $data['total'] = $data['sub_total'] + $data['ppn'] + $data['materai'];           
             $data['terbilang'] = ucwords($this->terbilang($data['total']))." Rupiah";
 
-            $pdf = \PDF::loadView('print.invoice-rekap', $data)->setPaper('a4');
+            $pdf = \PDF::loadView('print.invoice-rekap', $data)->setPaper('legal');
 
             return $pdf->stream('Rekap Invoice '.date('d-m-Y').'-'.$data['consolidator']->NAMACONSOLIDATOR.'.pdf');
             
