@@ -55,7 +55,7 @@
             @if($i == 30)
                 <tr><td colspan="5">Next Page</td></tr>
                 <br /><br /><br /><br />
-                <div style="page-break-after: auto;"></div>
+                <div style="page-break-after: always;"></div>
             @endif
         <?php $i++;?>
         @endforeach
