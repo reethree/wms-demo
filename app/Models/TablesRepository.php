@@ -106,11 +106,26 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereNotNull('JAMRELEASE');
                     break;
                     case 'longstay':
-                        $Model = \DB::table('tcontainercy')
-//                            ->whereRaw('tcontainercy.TGLMASUK < DATE_SUB(now(), INTERVAL 1 MONTH)')
-                            ->whereNotNull('TGLMASUK')
-                            ->whereNull('TGLRELEASE');
-//                            ->orWhere('TGLRELEASE','0000-00-00');
+                        if(isset($request['startdate']) || isset($request['enddate'])){
+                            $start_date = date('Y-m-d',strtotime($request['startdate']));
+                            $end_date = date('Y-m-d',strtotime($request['enddate']));  
+                            
+                            $Model = \DB::table('tcontainercy')
+                                ->select(\DB::raw('*, timestampdiff(DAY, now(), TGLMASUK) as timeSinceUpdate'))
+    //                            ->whereRaw('tmanifest.tglmasuk < DATE_SUB(now(), INTERVAL 1 MONTH)')
+                                ->whereNotNull('TGLMASUK')
+                                ->whereNull('TGLRELEASE')
+    //                            ->orWhere('tglrelease','0000-00-00')
+                                ->where($request['by'], '>=',$start_date)
+                                ->where($request['by'], '<=',$end_date);
+                        }else{
+                            $Model = \DB::table('tcontainercy')
+                                ->select(\DB::raw('*, timestampdiff(DAY, now(), TGLMASUK) as timeSinceUpdate'))
+    //                            ->whereRaw('tcontainercy.TGLMASUK < DATE_SUB(now(), INTERVAL 1 MONTH)')
+                                ->whereNotNull('TGLMASUK')
+                                ->whereNull('TGLRELEASE');
+    //                            ->orWhere('TGLRELEASE','0000-00-00');
+                        }
                     break;
                     case 'gatein':
                         $Model = \DB::table('tcontainercy')
@@ -203,6 +218,7 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             $end_date = date('Y-m-d',strtotime($request['enddate']));  
                             
                             $Model = \DB::table('tmanifest')
+                            ->select(\DB::raw('*, timestampdiff(DAY, now(), tglmasuk) as timeSinceUpdate'))
 //                            ->whereRaw('tmanifest.tglmasuk < DATE_SUB(now(), INTERVAL 1 MONTH)')
                             ->whereNotNull('tglmasuk')
                             ->whereNull('tglrelease')
@@ -210,11 +226,12 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->where($request['by'], '>=',$start_date)
                             ->where($request['by'], '<=',$end_date);
                         }else{
-                        $Model = \DB::table('tmanifest')
-//                            ->whereRaw('tmanifest.tglmasuk < DATE_SUB(now(), INTERVAL 1 MONTH)')
-                            ->whereNotNull('tglmasuk')
-                            ->whereNull('tglrelease');
-//                            ->orWhere('tglrelease','0000-00-00')
+                            $Model = \DB::table('tmanifest')
+                                ->select(\DB::raw('*, timestampdiff(DAY, now(), tglmasuk) as timeSinceUpdate'))
+    //                            ->whereRaw('tmanifest.tglmasuk < DATE_SUB(now(), INTERVAL 1 MONTH)')
+                                ->whereNotNull('tglmasuk')
+                                ->whereNull('tglrelease');
+    //                            ->orWhere('tglrelease','0000-00-00')
                         }
                     break;
                     case 'release-invoice':

@@ -50,7 +50,7 @@
             GridRender::setGridId("fcllongstayGrid")
             ->enableFilterToolbar()
             ->setGridOption('mtype', 'POST')
-            ->setGridOption('url', URL::to('/container/grid-data-cy?module=longstay&_token='.csrf_token()))
+            ->setGridOption('url', URL::to('/container/grid-data-cy?module=longstay&report=1&_token='.csrf_token()))
             ->setGridOption('rowNum', 20)
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','TCONTAINER_PK')
@@ -79,6 +79,7 @@
             ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Tgl. Gate In','index'=>'TGLMASUK', 'width'=>120,'align'=>'center'))
             ->addColumn(array('label'=>'Jam. Gate In','index'=>'JAMMASUK', 'width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'Lama Timbun (Hari)','index'=>'timeSinceUpdate', 'width'=>150, 'search'=>false, 'align'=>'center'))
             ->renderGrid()
         }}
     </div>
