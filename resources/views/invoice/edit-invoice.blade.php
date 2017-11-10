@@ -201,7 +201,7 @@
           </tr>
           <tr>
             <td>4</td>
-            <td>Surharge > 2.5 Ton</td>
+            <td>Surcharge > 2.5 Ton</td>
             <td>-</td>
             <td align="right">{{ ($tarif->surcharge_price > 100) ? 'Rp.' : '%' }}</td>
             <td align="right">{{ number_format($tarif->surcharge_price) }}</td>
@@ -217,17 +217,17 @@
             <td align="right">Rp.</td>
             <td align="right">{{ number_format($invoice->adm) }}</td>
           </tr>
-<!--          @if($tarif->consolidator_id == 24)
+          @if($tarif->consolidator_id == 24 && $manifest->INVOICE == 'BB')
           <tr>
             <td>6</td>
-            <td>Surveyor</td>
+            <td>Surcharge</td>
             <td>-</td>
             <td align="right">Rp.</td>
-            <td align="right">{{ number_format(10000) }}</td>
+            <td align="right">{{ number_format(300000) }}</td>
             <td align="right">Rp.</td>
-            <td align="right">{{ number_format(10000) }}</td>
+            <td align="right">{{ number_format(300000) }}</td>
           </tr>
-          <tr>
+<!--          <tr>
             <td>7</td>
             <td>Sticker</td>
             <td>-</td>
@@ -235,8 +235,8 @@
             <td align="right">{{ number_format(10000) }}</td>
             <td align="right">Rp.</td>
             <td align="right">{{ number_format(10000) }}</td>
-          </tr>
-          @endif-->
+          </tr>-->
+          @endif
           </tbody>
         </table>
       </div>
