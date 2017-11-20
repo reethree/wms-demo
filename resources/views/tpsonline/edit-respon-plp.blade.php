@@ -4,6 +4,30 @@
 
 @include('partials.form-alert')
 
+<script>
+ 
+    function gridCompleteEvent()
+    {
+        var ids = jQuery("#tpsResponPlpDetailGrid").jqGrid('getDataIDs'),
+            edt = '',
+            del = ''; 
+        for(var i=0;i < ids.length;i++){ 
+            var cl = ids[i];
+            
+            rowdata = $('#tpsResponPlpDetailGrid').getRowData(cl);
+            if(rowdata.JNS_CONT == 'F') {
+//                $("#" + cl).find("td").css("color", "#666");
+                $("#btn-group-4").show();
+            } 
+            
+//            edt = '<a href="{{ route("tps-responPlp-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
+//            del = '<a href="{{ route("lcl-register-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
+//            jQuery("#tpsResponPlpDetailGrid").jqGrid('setRowData',ids[i],{action:edt}); 
+        } 
+    }
+    
+</script>
+
 <div class="box box-default">
     <div class="box-header with-border">
       <h3 class="box-title">TPS Respon PLP</h3>
@@ -190,7 +214,9 @@
     <div class="form-horizontal">
         <div class="box-body">            
             <div class="row">
+                
                 <div class="col-md-12">
+                    <div id="btn-toolbar" class="section-header btn-toolbar" role="toolbar" style="margin: 10px 0;"></div>
                     {{
                         GridRender::setGridId("tpsResponPlpDetailGrid")
                         ->enableFilterToolbar()
@@ -213,6 +239,7 @@
                         ->setNavigatorEvent('del', 'afterSubmit', 'afterSubmitEvent')
                         ->setFilterToolbarOptions(array('autosearch'=>true))
                         ->setGridEvent('onSelectRow', 'onSelectRowEvent')
+                        ->setGridEvent('gridComplete', 'gridCompleteEvent')
                         ->addColumn(array('key'=>true,'index'=>'tps_responplptujuandetailxml_pk','hidden'=>true))
                         ->addColumn(array('label'=>'No. Container','index'=>'NO_CONT','width'=>250,'editable' => true, 'editrules' => array('' => true)))
                         ->addColumn(array('label'=>'Ukuran','index'=>'UK_CONT', 'width'=>80,'align'=>'center','editable' => true, 'editrules' => array('' => true,'number'=>true),'edittype'=>'select','editoptions'=>array('value'=>"20:20;40:40")))
@@ -227,8 +254,9 @@
                         ->renderGrid()
                     }}
                 </div>
+                
                 <div class="col-md-12">
-                    <div id="btn-group-1" class="col-sm-3" style="margin-top: 10px;margin-bottom: 10px;">
+<!--                    <div id="btn-group-1" class="col-sm-3" style="margin-top: 10px;margin-bottom: 10px;">
                         <button id="cetak-permohonan" type="button" disabled class="btn btn-block btn-default">Cetak Respon PLP</button>
                     </div>
                     <div id="btn-group-2" class="col-sm-3" style="margin: 10px 0;">
@@ -236,6 +264,9 @@
                     </div>
                     <div id="btn-group-3" class="col-sm-3" style="margin: 10px 0;">
                         <button type="button" disabled class="btn btn-block btn-default">Cetak Respon PLP Tujuan</button>
+                    </div>-->
+                    <div id="btn-group-4" class="col-sm-2 pull-right" style="margin: 10px 0;display: none;">
+                        <button type="button" id="createJoborderBtn" class="btn btn-block btn-info">Create Job Order</button>
                     </div>
                 </div>
             </div>
@@ -293,11 +324,12 @@
                 
         $('#alasan').val(alasan);
     });
+    
     $('#cetak-permohonan').click(function()
     {
         //Gets the selected row id.
-        var rowid = $('#containerGrid').jqGrid('getGridParam', 'selrow'),
-            rowdata = $('#containerGrid').getRowData(rowid);
+        var rowid = $('#tpsResponPlpDetailGrid').jqGrid('getGridParam', 'selrow'),
+            rowdata = $('#tpsResponPlpDetailGrid').getRowData(rowid);
         
         if(rowid){
             $('#cetak-permohonan-modal').modal('show');
@@ -305,6 +337,47 @@
         }else{
             alert('Please Select Container.');
         }
+    });
+    
+    $('#createJoborderBtn').click(function()
+    {
+        if(!confirm('Apakah anda yakin akan membuat Job Order?')){return false;}
+        
+        var responPlpId = '{{$respon->tps_responplptujuanxml_pk}}';
+        var url = '{{ route("tps-responPlp-create-joborder", $respon->tps_responplptujuanxml_pk) }}';
+
+        $.ajax({
+            type: 'POST',
+            data: 
+            {
+                'id' : responPlpId,
+                '_token' : '{{ csrf_token() }}'
+            },
+            dataType : 'json',
+            url: url,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+
+            },
+            success:function(json)
+            {
+                console.log(json);
+
+                if(json.success) {
+                  $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                } else {
+                  $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                }
+
+                //Triggers the "Close" button funcionality.
+//                $('#btn-refresh').click();
+            }
+        });
+        
     });
 </script>
 

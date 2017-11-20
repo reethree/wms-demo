@@ -21,6 +21,10 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-responPlp-update',
         'uses' => 'PenerimaanController@responPlpUpdate'
     ]);
+    Route::post('/respon-plp/create-joborder/{id}', [
+        'as' => 'tps-responPlp-create-joborder',
+        'uses' => 'PenerimaanController@responPlpCreateJoborder'
+    ]);
     Route::post('/respon-plp/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsResponPlp(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
