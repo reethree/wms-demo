@@ -610,7 +610,7 @@ class PenerimaanController extends Controller
             foreach($plpDetail as $detail):
                 
                 $nopos = substr($detail->NO_POS_BC11,0,4);
-                $checkJoborder = \App\Models\Jobordercy::where('NO_POS_BC11', $nopos)->count();
+                $checkJoborder = \App\Models\Jobordercy::where('TNO_PLP', $plp->NO_PLP)->count();
                 
                 if($checkJoborder == 0){
                 
