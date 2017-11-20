@@ -610,9 +610,9 @@ class PenerimaanController extends Controller
             foreach($plpDetail as $detail):
                 
                 $nopos = substr($detail->NO_POS_BC11,0,4);
-                $checkJoborder = \App\Models\Jobordercy::where('TNO_PLP', $plp->NO_PLP)->count();
-                
-                if($checkJoborder == 0){
+//                $checkJoborder = \App\Models\Jobordercy::where('TNO_PLP', $plp->NO_PLP)->count();
+//                
+//                if($checkJoborder == 0){
                 
                     $data = array();
                     $spk_last_id = \App\Models\Jobordercy::select('TJOBORDER_PK as id')->orderBy('TJOBORDER_PK', 'DESC')->first(); 
@@ -657,52 +657,54 @@ class PenerimaanController extends Controller
                     if($insert_id){
                         $plpDetailByPos = \App\Models\TpsResponPlpDetail::where(array('tps_responplptujuanxml_fk' => $plpId, 'NO_POS_BC11' => $detail->NO_POS_BC11))->get();
                         foreach($plpDetailByPos as $detailByPost):
+                            
+                            $checkCont = \App\Models\Containercy::where('NOCONTAINER', $detailByPost->NO_CONT)->count();
+                            if($checkJoborder == 0){
+                                // COPY JOBORDER
+                                $joborder = \App\Models\Jobordercy::findOrFail($insert_id);
 
-                            // COPY JOBORDER
-                            $joborder = \App\Models\Jobordercy::findOrFail($insert_id);
+                                $data = array();
 
-                            $data = array();
+                                $data['NO_BL_AWB'] = $detailByPost->NO_BL_AWB;
+                                $data['TGL_BL_AWB'] = $detailByPost->TGL_BL_AWB;
+                                $data['NOCONTAINER'] = $detailByPost->NO_CONT;
+                                $data['SIZE'] = $detailByPost->UK_CONT;
+                                $data['TEUS'] = $detailByPost->UK_CONT / 20;
+                                $data['TJOBORDER_FK'] = $joborder->TJOBORDER_PK;
+                                $data['NoJob'] = $joborder->NOJOBORDER;
+                                $data['NOMBL'] = $joborder->NOMBL;
+                                $data['TGLMBL'] = $joborder->TGLMBL;
+                                $data['NO_BC11'] = $joborder->NO_BC11;
+                                $data['TGL_BC11'] = $joborder->TGL_BC11;
+                                $data['NO_POS_BC11'] = $joborder->NO_POS_BC11;
+                                $data['NO_PLP'] = $joborder->TNO_PLP;
+                                $data['TGL_PLP'] = $joborder->TTGL_PLP;
+                                $data['TCONSOLIDATOR_FK'] = $joborder->TCONSOLIDATOR_FK;
+                                $data['NAMACONSOLIDATOR'] = $joborder->NAMACONSOLIDATOR;
+                                $data['TCONSIGNEE_FK'] = $joborder->TCONSIGNEE_FK;
+                                $data['CONSIGNEE'] = $joborder->CONSIGNEE;
+                                $data['ID_CONSIGNEE'] = $joborder->ID_CONSIGNEE;
+                        //        $data['TLOKASISANDAR_FK'] = $joborder->TLOKASISANDAR_FK;
+                                $data['ETA'] = $joborder->ETA;
+                                $data['ETD'] = $joborder->ETD;
+                                $data['VESSEL'] = $joborder->VESSEL;
+                                $data['VOY'] = $joborder->VOY;
+                        //        $data['TPELABUHAN_FK'] = $joborder->TPELABUHAN_FK;
+                        //        $data['NAMAPELABUHAN'] = $joborder->NAMAPELABUHAN;
+                                $data['PEL_MUAT'] = $joborder->PEL_MUAT;
+                                $data['PEL_BONGKAR'] = $joborder->PEL_BONGKAR;
+                                $data['PEL_TRANSIT'] = $joborder->PEL_TRANSIT;
+                                $data['KD_TPS_ASAL'] = $joborder->KD_TPS_ASAL;
+                                $data['GUDANG_TUJUAN'] = $joborder->GUDANG_TUJUAN;
+                                $data['CALLSIGN'] = $joborder->CALLSIGN;
+                                $data['UID'] = \Auth::getUser()->name;
 
-                            $data['NO_BL_AWB'] = $detailByPost->NO_BL_AWB;
-                            $data['TGL_BL_AWB'] = $detailByPost->TGL_BL_AWB;
-                            $data['NOCONTAINER'] = $detailByPost->NO_CONT;
-                            $data['SIZE'] = $detailByPost->UK_CONT;
-                            $data['TEUS'] = $detailByPost->UK_CONT / 20;
-                            $data['TJOBORDER_FK'] = $joborder->TJOBORDER_PK;
-                            $data['NoJob'] = $joborder->NOJOBORDER;
-                            $data['NOMBL'] = $joborder->NOMBL;
-                            $data['TGLMBL'] = $joborder->TGLMBL;
-                            $data['NO_BC11'] = $joborder->NO_BC11;
-                            $data['TGL_BC11'] = $joborder->TGL_BC11;
-                            $data['NO_POS_BC11'] = $joborder->NO_POS_BC11;
-                            $data['NO_PLP'] = $joborder->TNO_PLP;
-                            $data['TGL_PLP'] = $joborder->TTGL_PLP;
-                            $data['TCONSOLIDATOR_FK'] = $joborder->TCONSOLIDATOR_FK;
-                            $data['NAMACONSOLIDATOR'] = $joborder->NAMACONSOLIDATOR;
-                            $data['TCONSIGNEE_FK'] = $joborder->TCONSIGNEE_FK;
-                            $data['CONSIGNEE'] = $joborder->CONSIGNEE;
-                            $data['ID_CONSIGNEE'] = $joborder->ID_CONSIGNEE;
-                    //        $data['TLOKASISANDAR_FK'] = $joborder->TLOKASISANDAR_FK;
-                            $data['ETA'] = $joborder->ETA;
-                            $data['ETD'] = $joborder->ETD;
-                            $data['VESSEL'] = $joborder->VESSEL;
-                            $data['VOY'] = $joborder->VOY;
-                    //        $data['TPELABUHAN_FK'] = $joborder->TPELABUHAN_FK;
-                    //        $data['NAMAPELABUHAN'] = $joborder->NAMAPELABUHAN;
-                            $data['PEL_MUAT'] = $joborder->PEL_MUAT;
-                            $data['PEL_BONGKAR'] = $joborder->PEL_BONGKAR;
-                            $data['PEL_TRANSIT'] = $joborder->PEL_TRANSIT;
-                            $data['KD_TPS_ASAL'] = $joborder->KD_TPS_ASAL;
-                            $data['GUDANG_TUJUAN'] = $joborder->GUDANG_TUJUAN;
-                            $data['CALLSIGN'] = $joborder->CALLSIGN;
-                            $data['UID'] = \Auth::getUser()->name;
-
-                            $container_insert_id = \App\Models\Containercy::insertGetId($data);
-
+                                $container_insert_id = \App\Models\Containercy::insertGetId($data);
+                            }
                         endforeach;
                     }
                 
-                }
+//                }
 
             endforeach;
             
