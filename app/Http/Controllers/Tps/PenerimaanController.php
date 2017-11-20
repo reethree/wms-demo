@@ -659,7 +659,7 @@ class PenerimaanController extends Controller
                         foreach($plpDetailByPos as $detailByPost):
                             
                             $checkCont = \App\Models\Containercy::where('NOCONTAINER', $detailByPost->NO_CONT)->count();
-                            if($checkJoborder == 0){
+                            if($checkCont == 0){
                                 // COPY JOBORDER
                                 $joborder = \App\Models\Jobordercy::findOrFail($insert_id);
 
