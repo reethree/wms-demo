@@ -59,9 +59,12 @@
                         <div class="col-sm-6">
                             <select class="form-control select2" id="TCONSIGNEE_FK" name="TCONSIGNEE_FK" style="width: 100%;" tabindex="-1" aria-hidden="true" >
                                 <option value="">Choose Consignee</option>
-                                @foreach($perusahaans as $perusahaan)
+                                @if($joborder->TCONSIGNEE_FK)
+                                    <option value="{{$joborder->TCONSIGNEE_FK}}" selected="selected">{{$joborder->CONSIGNEE}}</option>
+                                @endif
+<!--                                @foreach($perusahaans as $perusahaan)
                                     <option value="{{ $perusahaan->id }}" @if($perusahaan->id == $joborder->TCONSIGNEE_FK){{ "selected" }}@endif>{{ $perusahaan->name }}</option><option value="{{ $perusahaan->id }}">{{ $perusahaan->name }}</option>
-                                @endforeach
+                                @endforeach-->
                             </select>
                         </div>
                         <div class="col-sm-2">
@@ -591,6 +594,39 @@
     $("#TPELABUHAN_FK").select2({
         ajax: {
           url: "{{ route('getDataPelabuhan') }}",
+          dataType: 'json',
+          delay: 250,
+          data: function (params) {
+            return {
+              q: params.term, // search term
+//              page: params.page
+            };
+          },
+          processResults: function (data, params) {
+//              console.log(data);
+            // parse the results into the format expected by Select2
+            // since we are using custom formatting functions we do not need to
+            // alter the remote JSON data, except to indicate that infinite
+            // scrolling can be used
+            params.page = params.page || 1;
+
+            return {
+              results: data.items,
+//              pagination: {
+//                more: (params.page * 30) < data.total_count
+//              }
+            };
+          },
+          cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+        minimumInputLength: 3,
+//        templateResult: formatRepo, // omitted for brevity, see the source of this page
+//        templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+    });
+        $("#TCONSIGNEE_FK").select2({
+        ajax: {
+          url: "{{ route('getDataPerusahaan') }}",
           dataType: 'json',
           delay: 250,
           data: function (params) {
