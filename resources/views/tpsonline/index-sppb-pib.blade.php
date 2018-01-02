@@ -169,10 +169,16 @@
                             <input name="_token" type="hidden" value="{{ csrf_token() }}">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">NO. SPPB</label>
-                                <div class="col-sm-5">
+                                <div class="col-sm-4">
                                     <input type="number" class="form-control" name="no_sppb" />
                                 </div>
-                                <div class="col-sm-3"><input type="text" class="form-control" disabled="disabled" readonly="readonly" value="/KPU.01/{{ date('Y') }}" /></div>
+                                <label class="col-sm-2 control-label">Tahun</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control select2" id="TCONSIGNEE_FK" name="thn_sppb" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                        <option value="2017">2017</option>
+                                        <option value="2018" selected>2018</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Tgl. SPPB</label>
