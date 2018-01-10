@@ -1,6 +1,26 @@
 @extends('layout')
 
 @section('content')
+<script>
+ 
+    function gridCompleteEvent()
+    {
+        
+        var $grid = jQuery('#lcllongstayGrid');
+        var colweightSum = $grid.jqGrid('getCol', 'WEIGHT', false, 'sum');
+        var colmeasSum = $grid.jqGrid('getCol', 'MEAS', false, 'sum');
+        
+        $grid.jqGrid('footerData', 'set', { WEIGHT: precisionRound(colweightSum, 4) });
+        $grid.jqGrid('footerData', 'set', { MEAS: precisionRound(colmeasSum, 4) });
+    
+    }
+    
+    function precisionRound(number, precision) {
+        var factor = Math.pow(10, precision);
+        return Math.round(number * factor) / factor;
+    }
+    
+</script>
 <style>
     .datepicker.dropdown-menu {
         z-index: 100 !important;
@@ -62,9 +82,11 @@
             ->setGridOption('height', '320')
             ->setGridOption('rowList',array(20,50,100))
             ->setGridOption('useColSpanStyle', true)
+            ->setGridOption('footerrow', true)
             ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
             ->setNavigatorOptions('view',array('closeOnEscape'=>false))
             ->setFilterToolbarOptions(array('autosearch'=>true))
+            ->setGridEvent('gridComplete', 'gridCompleteEvent')
 //            ->setGridEvent('onSelectRow', 'onSelectRowEvent')
             ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
             ->addColumn(array('label'=>'No. Joborder','index'=>'NOJOBORDER', 'width'=>150))
@@ -73,6 +95,8 @@
             ->addColumn(array('label'=>'VOY','index'=>'VOY','width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>100,'align'=>'center'))
 //            ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>100,'align'=>'center','hidden'=>true))
             ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>120,'align'=>'center'))
 //            ->addColumn(array('label'=>'TPS Asal','index'=>'KD_TPS_ASAL', 'width'=>100,'align'=>'center'))
