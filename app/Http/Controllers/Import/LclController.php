@@ -950,6 +950,10 @@ class LclController extends Controller
         $data['month'] = $month;
         $data['year'] = $year;
         
+        $meas_count = DBManifest::whereNotNull('tglmasuk')
+                                ->whereNull('tglrelease')
+                                ->sum('MEAS');
+        $data['meas'] = $meas_count;
         $data['sor'] = \App\Models\SorYor::where('type', 'sor')->first();
         
         return view('import.lcl.report-inout')->with($data);

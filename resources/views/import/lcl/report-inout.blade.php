@@ -234,6 +234,10 @@
                             <th>SOR (%)</th>
                             <td align="right">{{ number_format($sor->total,'2','.',',') }} %</td>
                         </tr>
+                        <tr>
+                            <th>SUM MEAS</th>
+                            <td align="right">{{ number_format($meas,'4','.',',') }}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
