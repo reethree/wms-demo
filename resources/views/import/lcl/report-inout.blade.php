@@ -178,7 +178,8 @@
                 <div class="col-md-2">
                     <select class="form-control select2" id="by" name="year" style="width: 100%;" tabindex="-1" aria-hidden="true">
                         <option value="2016" @if($year == '2016') {{ 'selected' }} @endif>2016</option>
-                        <option value="2017" @if($year == '2017') {{ 'selected' }} @endif>2017</option>                      
+                        <option value="2017" @if($year == '2017') {{ 'selected' }} @endif>2017</option>  
+                        <option value="2018" @if($year == '2018') {{ 'selected' }} @endif>2018</option>
                     </select>
                 </div>
                 <div class="col-md-2">
