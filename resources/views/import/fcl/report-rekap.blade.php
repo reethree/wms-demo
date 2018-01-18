@@ -101,7 +101,8 @@
             ->addColumn(array('label'=>'TPS Asal','index'=>'KD_TPS_ASAL', 'width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250,'hidden'=>true))
             ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>250))
-
+            ->addColumn(array('index'=>'TSHIPPINGLINE_FK','width'=>200,'hidden'=>true))
+            ->addColumn(array('label'=>'Shippingline','index'=>'SHIPPINGLINE','width'=>200))
 //            ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
 //            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>250))
 //            ->addColumn(array('label'=>'Quantity','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))
