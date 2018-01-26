@@ -17,6 +17,7 @@ use App\Models\Shippingline as DBShippingline;
 use App\Models\Lokasisandar as DBLokasisandar;
 use App\Models\Containercy as DBContainer;
 use App\Models\Eseal as DBEseal;
+use App\Models\ReportGateoutFcl as DBReportGateoutFcl;
 
 class FclController extends Controller
 {
@@ -939,6 +940,52 @@ class FclController extends Controller
         $data['yor'] = \App\Models\SorYor::where('type', 'yor')->first();
         
         return view('import.fcl.report-rekap')->with($data);
+    }
+    
+    public function reportRekapSend(Request $request)
+    {
+        $selected_id = $request->get('id');
+        $shippingline_id = $request->get('shippingline_id');
+        $subject = $request->get('subject');
+        $tgl_laporan = $request->get('tgl_laporan');
+        
+        $shippingline = DBShippingline::find($shippingline_id);
+        
+        if($shippingline){
+            $cont_id = explode(',', $selected_id);
+            $containers = DBContainer::whereIn('TCONTAINER_PK',$cont_id)->get();
+
+            $dataGateOut = new DBReportGateoutFcl;
+            $dataGateOut->container_id = @serialize($cont_id);
+            $dataGateOut->shippingline_id = $shippingline->tshippingline_pk;
+            $dataGateOut->shippingline = $shippingline->shippingline;
+            $dataGateOut->email = $shippingline->email;
+            $dataGateOut->subject = $subject;
+            $dataGateOut->tgl_laporan = $tgl_laporan;
+            $dataGateOut->uid = \Auth::getUser()->name;
+            
+//            return \View('emails.report-gateout-fcl', array('containers' => $containers, 'data' => $dataGateOut));
+            
+            if($dataGateOut->save()){
+                $send_email = \Mail::send('emails.report-gateout-fcl', array('containers' => $containers, 'data' => $dataGateOut), function($message) use($subject, $dataGateOut) {
+                    $message->from('info@prjp.co.id', 'Primanata Jasa Persada');
+                    $message->sender('info@prjp.co.id');
+                    $message->subject($subject);
+                    $message->to($dataGateOut->email, $dataGateOut->shippingline);
+    //                $message->cc('busdev@jict.co.id');
+                });
+                
+                if($send_email){
+                    return back()->with('success', 'Report has been success sent to '.$dataGateOut->email);
+                }else{
+                    return back()->with('error', 'Cannot send email, please try again later.');
+                }
+
+            }
+
+        }
+        
+        return back()->with('error', 'Something went wrong, please try again later.');
     }
     
     public function reportStock()
