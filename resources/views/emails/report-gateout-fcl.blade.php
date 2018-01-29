@@ -42,8 +42,8 @@
                         <th>Shipping Line</th>
                         <th>Consignee</th>
                         <th>ETA</th>
-                        <th>Gate IN</th>
-                        <th>Gate OUT</th>
+                        <th colspan="2">Gate IN</th>
+                        <th colspan="2">Gate OUT</th>
                     </tr>
                     @foreach($containers as $container)
                     <tr>
@@ -56,7 +56,9 @@
                         <td>{{$container->CONSIGNEE}}</td>
                         <td>{{date('d-m-y', strtotime($container->ETA))}}</td>
                         <td>{{date('d-m-y', strtotime($container->TGLMASUK))}}</td>
+                        <td>{{$container->JAMMASUK}}</td>
                         <td>{{date('d-m-y', strtotime($container->TGLRELEASE))}}</td>
+                        <td>{{$container->JAMRELEASE}}</td>
                     </tr>
                     @endforeach
                 </table>

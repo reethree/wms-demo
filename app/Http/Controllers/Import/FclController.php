@@ -964,7 +964,7 @@ class FclController extends Controller
             $dataGateOut->tgl_laporan = $tgl_laporan;
             $dataGateOut->uid = \Auth::getUser()->name;
             
-//            return \View('emails.report-gateout-fcl', array('containers' => $containers, 'data' => $dataGateOut));
+            return \View('emails.report-gateout-fcl', array('containers' => $containers, 'data' => $dataGateOut));
             
             if($dataGateOut->save()){
                 $send_email = \Mail::send('emails.report-gateout-fcl', array('containers' => $containers, 'data' => $dataGateOut), function($message) use($subject, $dataGateOut) {
@@ -972,7 +972,7 @@ class FclController extends Controller
                     $message->sender('info@prjp.co.id');
                     $message->subject($subject);
                     $message->to($dataGateOut->email, $dataGateOut->shippingline);
-    //                $message->cc('busdev@jict.co.id');
+                    $message->cc('busdev@jict.co.id');
                 });
                 
                 if($send_email){
