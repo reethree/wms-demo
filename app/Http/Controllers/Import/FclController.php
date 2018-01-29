@@ -964,7 +964,7 @@ class FclController extends Controller
             $dataGateOut->tgl_laporan = $tgl_laporan;
             $dataGateOut->uid = \Auth::getUser()->name;
             
-            return \View('emails.report-gateout-fcl', array('containers' => $containers, 'data' => $dataGateOut));
+//            return \View('emails.report-gateout-fcl', array('containers' => $containers, 'data' => $dataGateOut));
             
             if($dataGateOut->save()){
                 $send_email = \Mail::send('emails.report-gateout-fcl', array('containers' => $containers, 'data' => $dataGateOut), function($message) use($subject, $dataGateOut) {
