@@ -131,7 +131,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        \SoapWrapper::service('TpsOnlinePlpTujuan', function ($service) use ($data) {        
+        \SoapWrapper::service('TpsOnlineSoap', function ($service) use ($data) {        
             $this->response = $service->call('GetResponPLP_Tujuan', [$data])->GetResponPLP_TujuanResult;      
         });
         
