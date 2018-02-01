@@ -118,11 +118,10 @@ class SoapController extends DefaultController {
             $this->response = $service->call('GetResponPLP_Tujuan', [$data])->GetResponPLP_TujuanResult;      
         });
         
+        var_dump($this->response);
+        
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($this->response);
-        
-        return $xml;
-        
         if(!$xml  || !$xml->children()){
            return back()->with('error', $this->response);
         }
