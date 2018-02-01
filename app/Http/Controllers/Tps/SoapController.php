@@ -155,7 +155,7 @@ class SoapController extends DefaultController {
 //            $this->response = $service->call('GetResponPLP_Tujuan', [$data])->GetResponPLP_TujuanResult;      
 //        });
         
-        $client = new \SoapClient($this->wsdl);
+        $client = new \SoapClient($this->wsdl, array('soap_version' => SOAP_1_2));
 
         /* Set your parameters for the request */
         $params = [
