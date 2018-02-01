@@ -130,35 +130,48 @@ class SoapController extends DefaultController {
     public function GetResponPLP_Tujuan()
     {
 
-        \SoapWrapper::add(function ($service) {
-            $service
-                ->name('TpsOnlinePlpTujuan')
-                ->wsdl($this->wsdl)
-                ->trace(true)                                                                                                  
-//                ->certificate()                                                 
-                ->cache(WSDL_CACHE_NONE)                                        
-                ->options([
-                    'UserName' => $this->user, 
-                    'Password' => $this->password,
-                    'Kd_asp' => $this->kode
-                ]);                                                    
-        });
+//        \SoapWrapper::add(function ($service) {
+//            $service
+//                ->name('TpsOnlinePlpTujuan')
+//                ->wsdl($this->wsdl)
+//                ->trace(true)                                                                                                  
+////                ->certificate()                                                 
+//                ->cache(WSDL_CACHE_NONE)                                        
+//                ->options([
+//                    'UserName' => $this->user, 
+//                    'Password' => $this->password,
+//                    'Kd_asp' => $this->kode
+//                ]);                                                    
+//        });
+//        
+//        $data = [
+//            'UserName' => $this->user, 
+//            'Password' => $this->password,
+//            'Kd_asp' => $this->kode
+//        ];
+//        
+//        // Using the added service
+//        \SoapWrapper::service('TpsOnlineSoap', function ($service) use ($data) {        
+//            $this->response = $service->call('GetResponPLP_Tujuan', [$data])->GetResponPLP_TujuanResult;      
+//        });
         
-        $data = [
+        $client = new \SoapClient($this->wsdl);
+
+        /* Set your parameters for the request */
+        $params = [
             'UserName' => $this->user, 
             'Password' => $this->password,
             'Kd_asp' => $this->kode
         ];
-        
-        // Using the added service
-        \SoapWrapper::service('TpsOnlineSoap', function ($service) use ($data) {        
-            $this->response = $service->call('GetResponPLP_Tujuan', [$data])->GetResponPLP_TujuanResult;      
-        });
+
+        $response = $client->__soapCall("GetResponPLP_Tujuan", array($params));
+
+//        var_dump($response);
         
         libxml_use_internal_errors(true);
-        $xml = simplexml_load_string($this->response);
+        $xml = simplexml_load_string($response);
         if(!$xml  || !$xml->children()){
-           return back()->with('error', $this->response);
+           return back()->with('error', $response);
         }
         
         $header = array();
