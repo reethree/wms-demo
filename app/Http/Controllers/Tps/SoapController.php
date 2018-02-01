@@ -29,7 +29,7 @@ class SoapController extends DefaultController {
     {
         
         // Add a new service to the wrapper
-        $services = \SoapWrapper::add(function ($service) {
+        \SoapWrapper::add(function ($service) {
             $service
                 ->name('currency')
                 ->wsdl('http://currencyconverter.kowabunga.net/converter.asmx?WSDL')
@@ -43,7 +43,7 @@ class SoapController extends DefaultController {
                 ->options(['login' => 'username', 'password' => 'password']);   // Optional: Set some extra options
         });
         
-        return $services;
+        
         
         $data = [
             'CurrencyFrom' => 'USD',
@@ -51,7 +51,9 @@ class SoapController extends DefaultController {
             'RateDate'     => '2014-06-05',
             'Amount'       => '1000'
         ];
-
+        
+        return json_encode($data);
+        
         // Using the added service
         SoapWrapper::service('currency', function ($service) use ($data) {
 //            var_dump($service->getFunctions());
