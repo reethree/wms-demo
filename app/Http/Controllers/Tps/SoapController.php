@@ -113,10 +113,13 @@ class SoapController extends DefaultController {
             'Kd_asp' => $this->kode
         ];
         
+        
         // Using the added service
         \SoapWrapper::service('GetResponPLP_Tujuan', function ($service) use ($data) {        
             $this->response = $service->call('GetResponPLP_Tujuan', [$data])->GetResponPLP_TujuanResult;      
         });
+        
+        return $this->response;
         
         var_dump($this->response);
         
