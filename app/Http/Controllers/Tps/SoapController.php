@@ -97,9 +97,9 @@ class SoapController extends DefaultController {
             $service
                 ->name('GetResponPLP_Tujuan')
                 ->wsdl($this->wsdl)
-                ->trace(true)                                                                                                  
+//                ->trace(true)                                                                                                  
 //                ->certificate()                                                 
-                ->cache(WSDL_CACHE_NONE)                                        
+//                ->cache(WSDL_CACHE_NONE)                                        
                 ->options([
                     'UserName' => $this->user, 
                     'Password' => $this->password,
@@ -113,6 +113,7 @@ class SoapController extends DefaultController {
             'Kd_asp' => $this->kode
         ];
         
+        return json_encode($data);
         
         // Using the added service
         \SoapWrapper::service('GetResponPLP_Tujuan', function ($service) use ($data) {        
