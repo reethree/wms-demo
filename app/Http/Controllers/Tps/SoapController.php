@@ -93,21 +93,22 @@ class SoapController extends DefaultController {
     
     public function GetResponPLP_Tujuan()
     {
-        return 'getXml GetResponPLP_Tujuan';
-        
-        \SoapWrapper::add(function ($service) {
+
+        SoapWrapper::add(function ($service) {
             $service
                 ->name('GetResponPLP_Tujuan')
                 ->wsdl($this->wsdl)
-//                ->trace(true)                                                                                                  
+                ->trace(true)                                                                                                  
 //                ->certificate()                                                 
-//                ->cache(WSDL_CACHE_NONE)                                        
+                ->cache(WSDL_CACHE_NONE)                                        
                 ->options([
                     'UserName' => $this->user, 
                     'Password' => $this->password,
                     'Kd_asp' => $this->kode
                 ]);                                                    
         });
+        
+        return 'getXml GetResponPLP_Tujuan';
         
         $data = [
             'UserName' => $this->user, 
