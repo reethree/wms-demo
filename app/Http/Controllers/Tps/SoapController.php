@@ -62,7 +62,7 @@ class SoapController extends DefaultController {
     
     public function GetResponPLP()
     {
-        SoapWrapper::add(function ($service) {
+        \SoapWrapper::add(function ($service) {
             $service
                 ->name('GetResponPLP')
                 ->wsdl($this->wsdl)
@@ -83,7 +83,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetResponPLP', function ($service) use ($data) {        
+        \SoapWrapper::service('GetResponPLP', function ($service) use ($data) {        
             $this->response = $service->call('GetResponPLP', [$data])->GetResponPLPResult;      
         });
         
@@ -118,54 +118,52 @@ class SoapController extends DefaultController {
             $this->response = $service->call('GetResponPLP_Tujuan', [$data])->GetResponPLP_TujuanResult;      
         });
         
-        var_dump($this->response);
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($this->response);
+        if(!$xml  || !$xml->children()){
+           return back()->with('error', $this->response);
+        }
         
-//        libxml_use_internal_errors(true);
-//        $xml = simplexml_load_string($this->response);
-//        if(!$xml  || !$xml->children()){
-//           return back()->with('error', $this->response);
-//        }
-//        
-//        $header = array();
-//        $details = [];
-//        foreach($xml->children() as $child) {
-//            foreach($child as $key => $value) {
-//                if($key == 'header' || $key == 'HEADER'){
-//                    $header[] = $value;
-//                }else{
-//                    foreach ($value as $detail):
-//                        $details[] = $detail;
-//                    endforeach;
-//                }
-//            }
-//        }
-//        
-//        // INSERT DATA
-//        $respon = new \App\Models\TpsResponPlp;
-//        foreach ($header[0] as $key=>$value):
-//            $respon->$key = $value;
-//        endforeach;
-//        $respon->TGL_UPLOAD = date('Y-m-d H:i:s');
-//        $respon->save();
-//        
-//        $plp_id = $respon->tps_responplptujuanxml_pk;
-//
-//        foreach ($details as $detail):     
-//            $respon_detail = new \App\Models\TpsResponPlpDetail;
-//            $respon_detail->tps_responplptujuanxml_fk = $plp_id;
-//            foreach($detail as $key=>$value):
-//                $respon_detail->$key = $value;
-//            endforeach;
-//            $respon_detail->save();
-//        endforeach;
-//        
-//        return back()->with('success', 'Get Respon PLP has been success.');
+        $header = array();
+        $details = [];
+        foreach($xml->children() as $child) {
+            foreach($child as $key => $value) {
+                if($key == 'header' || $key == 'HEADER'){
+                    $header[] = $value;
+                }else{
+                    foreach ($value as $detail):
+                        $details[] = $detail;
+                    endforeach;
+                }
+            }
+        }
+        
+        // INSERT DATA
+        $respon = new \App\Models\TpsResponPlp;
+        foreach ($header[0] as $key=>$value):
+            $respon->$key = $value;
+        endforeach;
+        $respon->TGL_UPLOAD = date('Y-m-d H:i:s');
+        $respon->save();
+        
+        $plp_id = $respon->tps_responplptujuanxml_pk;
+
+        foreach ($details as $detail):     
+            $respon_detail = new \App\Models\TpsResponPlpDetail;
+            $respon_detail->tps_responplptujuanxml_fk = $plp_id;
+            foreach($detail as $key=>$value):
+                $respon_detail->$key = $value;
+            endforeach;
+            $respon_detail->save();
+        endforeach;
+        
+        return back()->with('success', 'Get Respon PLP has been success.');
         
     }
     
     public function GetOB()
     {
-        SoapWrapper::add(function ($service) {
+        \SoapWrapper::add(function ($service) {
             $service
                 ->name('GetDataOB')
                 ->wsdl($this->wsdl)
@@ -186,7 +184,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetDataOB', function ($service) use ($data) {        
+        \SoapWrapper::service('GetDataOB', function ($service) use ($data) {        
             $this->response = $service->call('GetDataOB', [$data])->GetDataOBResult;      
         });
         
@@ -221,7 +219,7 @@ class SoapController extends DefaultController {
     
     public function GetSPJM()
     {
-        SoapWrapper::add(function ($service) {
+        \SoapWrapper::add(function ($service) {
             $service
                 ->name('GetSPJM')
                 ->wsdl($this->wsdl)
@@ -247,7 +245,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetSPJM', function ($service) use ($data) {        
+        \SoapWrapper::service('GetSPJM', function ($service) use ($data) {        
             $this->response = $service->call('GetSPJM', [$data])->GetSPJMResult;      
         });
         
@@ -334,7 +332,7 @@ class SoapController extends DefaultController {
     
     public function GetImporPermit()
     {
-        SoapWrapper::add(function ($service) {
+        \SoapWrapper::add(function ($service) {
             $service
                 ->name('GetImporPermit')
                 ->wsdl($this->wsdl)
@@ -355,7 +353,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetImporPermit', function ($service) use ($data) {        
+        \SoapWrapper::service('GetImporPermit', function ($service) use ($data) {        
             $this->response = $service->call('GetImporPermit', [$data])->GetImporPermitResult;      
         });
         
@@ -407,7 +405,7 @@ class SoapController extends DefaultController {
     public function GetImpor_SPPB(Request $request)
     {
 //        return $request->all();
-        SoapWrapper::add(function ($service) {
+        \SoapWrapper::add(function ($service) {
             $service
                 ->name('GetImpor_Sppb')
                 ->wsdl($this->wsdl)
@@ -431,7 +429,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetImpor_Sppb', function ($service) use ($data) {        
+        \SoapWrapper::service('GetImpor_Sppb', function ($service) use ($data) {        
             $this->response = $service->call('GetImpor_Sppb', [$data])->GetImpor_SppbResult;      
         });
         
@@ -481,7 +479,7 @@ class SoapController extends DefaultController {
     
     public function GetBC23Permit()
     {
-        SoapWrapper::add(function ($service) {
+        \SoapWrapper::add(function ($service) {
             $service
                 ->name('GetBC23Permit')
                 ->wsdl($this->wsdl)
@@ -502,7 +500,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetBC23Permit', function ($service) use ($data) {        
+        \SoapWrapper::service('GetBC23Permit', function ($service) use ($data) {        
             $this->response = $service->call('GetBC23Permit', [$data])->GetBC23PermitResult;      
         });
         
@@ -554,7 +552,7 @@ class SoapController extends DefaultController {
 
     public function GetDokumenManual()
     {
-        SoapWrapper::add(function ($service) {
+        \SoapWrapper::add(function ($service) {
             $service
                 ->name('GetDokumenManual')
                 ->wsdl($this->wsdl)
@@ -575,7 +573,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetDokumenManual', function ($service) use ($data) {        
+        \SoapWrapper::service('GetDokumenManual', function ($service) use ($data) {        
             $this->response = $service->call('GetDokumenManual', [$data])->GetDokumenManualResult;      
         });
         
@@ -585,7 +583,7 @@ class SoapController extends DefaultController {
     
     public function GetRejectData()
     {
-        SoapWrapper::add(function ($service) {
+        \SoapWrapper::add(function ($service) {
             $service
                 ->name('GetRejectData')
                 ->wsdl($this->wsdl)
@@ -606,7 +604,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetRejectData', function ($service) use ($data) {        
+        \SoapWrapper::service('GetRejectData', function ($service) use ($data) {        
             $this->response = $service->call('GetRejectData', [$data])->GetRejectDataResult;      
         });
         
@@ -616,7 +614,7 @@ class SoapController extends DefaultController {
     
     public function CekDataGagalKirim(Request $request)
     {
-        SoapWrapper::add(function ($service) {
+        \SoapWrapper::add(function ($service) {
             $service
                 ->name('CekDataGagalKirim')
                 ->wsdl($this->wsdl)
@@ -639,7 +637,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('CekDataGagalKirim', function ($service) use ($data) {        
+        \SoapWrapper::service('CekDataGagalKirim', function ($service) use ($data) {        
             $this->response = $service->call('CekDataGagalKirim', [$data])->CekDataGagalKirimResult;      
         });
         
@@ -649,7 +647,7 @@ class SoapController extends DefaultController {
     
     public function CekDataTerkirim(Request $request)
     {
-        SoapWrapper::add(function ($service) {
+        \SoapWrapper::add(function ($service) {
             $service
                 ->name('CekDataTerkirim')
                 ->wsdl($this->wsdl)
@@ -672,7 +670,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('CekDataTerkirim', function ($service) use ($data) {        
+        \SoapWrapper::service('CekDataTerkirim', function ($service) use ($data) {        
             $this->response = $service->call('CekDataTerkirim', [$data])->CekDataTerkirimResult;      
         });
         
@@ -682,7 +680,7 @@ class SoapController extends DefaultController {
     
     public function postCoCoCont_Tes()
     {
-        SoapWrapper::add(function ($service) {
+        \SoapWrapper::add(function ($service) {
             $service
                 ->name('CoCoCont_Tes')
                 ->wsdl($this->wsdl)
@@ -703,7 +701,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('CoCoCont_Tes', function ($service) use ($data) {        
+        \SoapWrapper::service('CoCoCont_Tes', function ($service) use ($data) {        
             $this->response = $service->call('CoCoCont_Tes', [$data])->CoCoCont_TesResult;      
         });
         
@@ -712,7 +710,7 @@ class SoapController extends DefaultController {
     
     public function postCoCoKms_Tes()
     {
-        SoapWrapper::add(function ($service) {
+        \SoapWrapper::add(function ($service) {
             $service
                 ->name('CoCoKms_Tes')
                 ->wsdl($this->wsdl)
@@ -733,7 +731,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('CoCoKms_Tes', function ($service) use ($data) {        
+        \SoapWrapper::service('CoCoKms_Tes', function ($service) use ($data) {        
             $this->response = $service->call('CoCoKms_Tes', [$data])->CoCoKms_TesResult;      
         });
         
