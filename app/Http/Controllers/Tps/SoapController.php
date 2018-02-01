@@ -55,8 +55,16 @@ class SoapController extends DefaultController {
         // Using the added service
         \SoapWrapper::service('currency', function ($service) use ($data) {
 //            var_dump($service->getFunctions());
-            var_dump($service->call('GetConversionAmount', [$data])->GetConversionAmountResult);
+            $this->response = $service->call('GetConversionAmount', [$data])->GetConversionAmountResult;
         });
+        
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($this->response);
+        if(!$xml  || !$xml->children()){
+           return back()->with('error', $this->response);
+        }
+        
+        return back()->with('success', $this->response);
         
     }
     
@@ -94,9 +102,9 @@ class SoapController extends DefaultController {
     public function GetResponPLP_Tujuan()
     {
 
-        SoapWrapper::add(function ($service) {
+        \SoapWrapper::add(function ($service) {
             $service
-                ->name('GetResponPLP_Tujuan')
+                ->name('TpsOnline')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -108,24 +116,16 @@ class SoapController extends DefaultController {
                 ]);                                                    
         });
         
-        return 'getXml GetResponPLP_Tujuan';
-        
         $data = [
             'UserName' => $this->user, 
             'Password' => $this->password,
             'Kd_asp' => $this->kode
         ];
         
-        return json_encode($data);
-        
         // Using the added service
-        \SoapWrapper::service('GetResponPLP_Tujuan', function ($service) use ($data) {        
+        \SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
             $this->response = $service->call('GetResponPLP_Tujuan', [$data])->GetResponPLP_TujuanResult;      
         });
-        
-        return $this->response;
-        
-        var_dump($this->response);
         
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($this->response);
