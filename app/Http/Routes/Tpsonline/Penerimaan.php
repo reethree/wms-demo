@@ -105,8 +105,8 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
     Route::get('/dok-manual/get-xml', [
         'as' => 'tps-dokManual-get',
 //        'uses' => 'PenerimaanController@sppbPibGetXml'
-//        'uses' => 'SoapController@GetDokumenManual'
-        'uses' => 'SoapController@demo'
+        'uses' => 'SoapController@GetDokumenManual'
+//        'uses' => 'SoapController@demo'
     ]);
     
     //SPPB PIB
