@@ -116,48 +116,48 @@ class SoapController extends DefaultController {
             $this->response = $service->call('GetResponPLP_Tujuan', [$data])->GetResponPLP_TujuanResult;      
         });
         
-//        var_dump($this->response);
+        var_dump($this->response);
         
-        libxml_use_internal_errors(true);
-        $xml = simplexml_load_string($this->response);
-        if(!$xml  || !$xml->children()){
-           return back()->with('error', $this->response);
-        }
-        
-        $header = array();
-        $details = [];
-        foreach($xml->children() as $child) {
-            foreach($child as $key => $value) {
-                if($key == 'header' || $key == 'HEADER'){
-                    $header[] = $value;
-                }else{
-                    foreach ($value as $detail):
-                        $details[] = $detail;
-                    endforeach;
-                }
-            }
-        }
-        
-        // INSERT DATA
-        $respon = new \App\Models\TpsResponPlp;
-        foreach ($header[0] as $key=>$value):
-            $respon->$key = $value;
-        endforeach;
-        $respon->TGL_UPLOAD = date('Y-m-d H:i:s');
-        $respon->save();
-        
-        $plp_id = $respon->tps_responplptujuanxml_pk;
-
-        foreach ($details as $detail):     
-            $respon_detail = new \App\Models\TpsResponPlpDetail;
-            $respon_detail->tps_responplptujuanxml_fk = $plp_id;
-            foreach($detail as $key=>$value):
-                $respon_detail->$key = $value;
-            endforeach;
-            $respon_detail->save();
-        endforeach;
-        
-        return back()->with('success', 'Get Respon PLP has been success.');
+//        libxml_use_internal_errors(true);
+//        $xml = simplexml_load_string($this->response);
+//        if(!$xml  || !$xml->children()){
+//           return back()->with('error', $this->response);
+//        }
+//        
+//        $header = array();
+//        $details = [];
+//        foreach($xml->children() as $child) {
+//            foreach($child as $key => $value) {
+//                if($key == 'header' || $key == 'HEADER'){
+//                    $header[] = $value;
+//                }else{
+//                    foreach ($value as $detail):
+//                        $details[] = $detail;
+//                    endforeach;
+//                }
+//            }
+//        }
+//        
+//        // INSERT DATA
+//        $respon = new \App\Models\TpsResponPlp;
+//        foreach ($header[0] as $key=>$value):
+//            $respon->$key = $value;
+//        endforeach;
+//        $respon->TGL_UPLOAD = date('Y-m-d H:i:s');
+//        $respon->save();
+//        
+//        $plp_id = $respon->tps_responplptujuanxml_pk;
+//
+//        foreach ($details as $detail):     
+//            $respon_detail = new \App\Models\TpsResponPlpDetail;
+//            $respon_detail->tps_responplptujuanxml_fk = $plp_id;
+//            foreach($detail as $key=>$value):
+//                $respon_detail->$key = $value;
+//            endforeach;
+//            $respon_detail->save();
+//        endforeach;
+//        
+//        return back()->with('success', 'Get Respon PLP has been success.');
         
     }
     
