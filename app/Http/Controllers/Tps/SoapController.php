@@ -43,8 +43,6 @@ class SoapController extends DefaultController {
                 ->options(['login' => 'username', 'password' => 'password']);   // Optional: Set some extra options
         });
         
-        
-        
         $data = [
             'CurrencyFrom' => 'USD',
             'CurrencyTo'   => 'EUR',
@@ -52,10 +50,10 @@ class SoapController extends DefaultController {
             'Amount'       => '1000'
         ];
         
-        return json_encode($data);
+//        return json_encode($data);
         
         // Using the added service
-        SoapWrapper::service('currency', function ($service) use ($data) {
+        \SoapWrapper::service('currency', function ($service) use ($data) {
 //            var_dump($service->getFunctions());
             var_dump($service->call('GetConversionAmount', [$data])->GetConversionAmountResult);
         });
