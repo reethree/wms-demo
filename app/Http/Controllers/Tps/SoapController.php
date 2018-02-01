@@ -36,7 +36,7 @@ class SoapController extends DefaultController {
     public function getXmlDemo()
     {
         /* Initialize webservice with your WSDL */
-        $client = new SoapClient("http://currencyconverter.kowabunga.net/converter.asmx?WSDL");
+        $client = new \SoapClient("http://currencyconverter.kowabunga.net/converter.asmx?WSDL");
 
         /* Set your parameters for the request */
         $params = [
