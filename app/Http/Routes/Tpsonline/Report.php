@@ -2,6 +2,10 @@
 
 Route::group(['prefix' => 'tpsonline/report', 'namespace' => 'Tps'], function(){
     
+    Route::get('/demo/get-xml', [
+        'as' => 'tps-demo-get',
+        'uses' => 'SoapController@getXmlDemo'
+    ]);
     Route::get('/reject', [
         'as' => 'tps-reject-index',
         'uses' => 'TpsOnlineController@rejectIndex'
