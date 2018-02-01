@@ -93,6 +93,8 @@ class SoapController extends DefaultController {
     
     public function GetResponPLP_Tujuan()
     {
+        return 'getXml GetResponPLP_Tujuan';
+        
         \SoapWrapper::add(function ($service) {
             $service
                 ->name('GetResponPLP_Tujuan')
