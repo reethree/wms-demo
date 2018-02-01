@@ -27,7 +27,7 @@ class SoapController extends DefaultController {
     
     public function demo()
     {
-        
+        return 'OK';
         // Add a new service to the wrapper
         SoapWrapper::add(function ($service) {
             $service
