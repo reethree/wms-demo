@@ -93,7 +93,7 @@ class SoapController extends DefaultController {
     
     public function GetResponPLP_Tujuan()
     {
-        SoapWrapper::add(function ($service) {
+        \SoapWrapper::add(function ($service) {
             $service
                 ->name('GetResponPLP_Tujuan')
                 ->wsdl($this->wsdl)
@@ -114,7 +114,7 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        SoapWrapper::service('GetResponPLP_Tujuan', function ($service) use ($data) {        
+        \SoapWrapper::service('GetResponPLP_Tujuan', function ($service) use ($data) {        
             $this->response = $service->call('GetResponPLP_Tujuan', [$data])->GetResponPLP_TujuanResult;      
         });
         
