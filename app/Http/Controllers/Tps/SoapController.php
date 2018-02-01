@@ -24,13 +24,13 @@ class SoapController extends DefaultController {
         $this->password = 'PRIMANATA';
         $this->kode = 'PRJP';
         
-        \SoapWrapper::add(function ($service) {
-            $service
-                ->name('TpsOnlineSoap')
-                ->wsdl('https://tpsonline.beacukai.go.id/tps/service.asmx?WSDL')
-                ->trace(true)                                                                                                                                                  
-                ->cache(WSDL_CACHE_NONE);                                                    
-        });
+//        \SoapWrapper::add(function ($service) {
+//            $service
+//                ->name('TpsOnlineSoap')
+//                ->wsdl('https://tpsonline.beacukai.go.id/tps/service.asmx?WSDL')
+//                ->trace(true)                                                                                                                                                  
+//                ->cache(WSDL_CACHE_NONE);                                                    
+//        });
     }
     
     public function getXmlDemo()
@@ -130,19 +130,19 @@ class SoapController extends DefaultController {
     public function GetResponPLP_Tujuan()
     {
 
-//        \SoapWrapper::add(function ($service) {
-//            $service
-//                ->name('TpsOnlinePlpTujuan')
-//                ->wsdl($this->wsdl)
-//                ->trace(true)                                                                                                  
-////                ->certificate()                                                 
-//                ->cache(WSDL_CACHE_NONE)                                        
-//                ->options([
-//                    'UserName' => $this->user, 
-//                    'Password' => $this->password,
-//                    'Kd_asp' => $this->kode
-//                ]);                                                    
-//        });
+        \SoapWrapper::add(function ($service) {
+            $service
+                ->name('TpsOnlinePlpTujuan')
+                ->wsdl($this->wsdl)
+                ->trace(true)                                                                                                  
+//                ->certificate()                                                 
+                ->cache(WSDL_CACHE_NONE)                                        
+                ->options([
+                    'UserName' => $this->user, 
+                    'Password' => $this->password,
+                    'Kd_asp' => $this->kode
+                ]);                                                    
+        });
         
         $data = [
             'UserName' => $this->user, 
