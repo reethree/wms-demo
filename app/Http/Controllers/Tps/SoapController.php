@@ -134,7 +134,8 @@ class SoapController extends DefaultController {
             $service
                 ->name('TpsOnlineSoap')
                 ->wsdl($this->wsdl)
-                ->trace(true)                                                                                                  
+                ->trace(true)   
+                ->exceptions(0)
 //                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)  
                 ->options([
@@ -148,6 +149,7 @@ class SoapController extends DefaultController {
                         'curl_verify_ssl_peer'  => false,
                         'curl_verify_ssl_host'  => false
                     ),
+                    'exceptions' => 0
                 ]);                                                    
         });
         
