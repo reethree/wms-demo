@@ -135,7 +135,6 @@ class SoapController extends DefaultController {
                 ->name('TpsOnlineSoap')
                 ->wsdl($this->wsdl)
                 ->trace(true)   
-                ->exceptions(0)
 //                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)  
                 ->options([
