@@ -157,10 +157,16 @@ class SoapController extends DefaultController {
             'Kd_asp' => $this->kode
         ];
         
+        try{
+            \SoapWrapper::service('TpsOnlineSoap', function ($service) use ($data) {        
+                $this->response = $service->call('GetResponPLP_Tujuan', [$data])->GetResponPLP_TujuanResult;      
+            });
+        }catch (\SoapFault $exception){
+            var_dump($exception);
+        }
+        
         // Using the added service
-        \SoapWrapper::service('TpsOnlineSoap', function ($service) use ($data) {        
-            $this->response = $service->call('GetResponPLP_Tujuan', [$data])->GetResponPLP_TujuanResult;      
-        });
+
         
 //        $client = new \SoapClient($this->wsdl, array('soap_version' => SOAP_1_2));
 //
