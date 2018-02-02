@@ -136,11 +136,18 @@ class SoapController extends DefaultController {
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
-                ->cache(WSDL_CACHE_NONE)                                        
+                ->cache(WSDL_CACHE_NONE)  
                 ->options([
-                    'UserName' => $this->user, 
-                    'Password' => $this->password,
-                    'Kd_asp' => $this->kode
+                    'soap_version' => SOAP_1_2,
+                    'ssl'           => array(
+                        'ciphers'=> "SHA1",
+                        'verify_peer' => false, 
+                        'allow_self_signed' => true
+                    ),
+                    'https' => array(
+                        'curl_verify_ssl_peer'  => false,
+                        'curl_verify_ssl_host'  => false
+                    ),
                 ]);                                                    
         });
         
