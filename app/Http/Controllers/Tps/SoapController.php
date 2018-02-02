@@ -132,7 +132,7 @@ class SoapController extends DefaultController {
 
         \SoapWrapper::add(function ($service) {
             $service
-                ->name('TpsOnlinePlpTujuan')
+                ->name('TpsOnlineSoap')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
