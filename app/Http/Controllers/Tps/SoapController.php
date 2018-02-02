@@ -246,10 +246,14 @@ class SoapController extends DefaultController {
             'Kd_ASP' => $this->kode
         ];
         
-        // Using the added service
-        \SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
-            $this->response = $service->call('GetDataOB', [$data])->GetDataOBResult;      
-        });
+        
+        try{
+            \SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
+                $this->response = $service->call('GetDataOB', [$data])->GetDataOBResult;      
+            });
+        }catch (\SoapFault $exception){
+            var_dump($exception);
+        }
         
 //        var_dump($this->response);
 //        
