@@ -182,9 +182,9 @@ class SoapController extends DefaultController {
 //        var_dump($response);
         
         libxml_use_internal_errors(true);
-        $xml = simplexml_load_string($response);
+        $xml = simplexml_load_string($this->response);
         if(!$xml  || !$xml->children()){
-           return back()->with('error', $response);
+           return back()->with('error', $this->response);
         }
         
         $header = array();
