@@ -209,6 +209,7 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                         ->leftjoin('tpscoarikmsdetailxml', 'tpscoarikmsxml.TPSCOARIKMSXML_PK', '=', 'tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
                         ->where('tpscoarikmsxml.'.$request['by'], '>=', $start_date)
                         ->where('tpscoarikmsxml.'.$request['by'], '<=', $end_date)
+                        ->whereYear('tpscoarikmsxml.TGL_ENTRY', '=', date('Y'))
 //                        ->groupBy('tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
                         ;
             }elseif(isset($request['coarikms_id'])){
@@ -216,6 +217,7 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
             }else{
                 $Model = TpsCoariKms::select('tpscoarikmsxml.*','tpscoarikmsdetailxml.RESPONSE','tpscoarikmsdetailxml.STATUS_TPS')
                         ->leftJoin('tpscoarikmsdetailxml', 'tpscoarikmsxml.TPSCOARIKMSXML_PK', '=', 'tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
+                        ->whereYear('tpscoarikmsxml.TGL_ENTRY', '=', date('Y'))
 //                        ->groupBy('tpscoarikmsdetailxml.TPSCOARIKMSXML_FK')
                         ;
             }
