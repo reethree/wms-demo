@@ -274,12 +274,16 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                 $Model = TpsCodecoKms::select('*')
                         ->leftjoin('tpscodecokmsdetailxml', 'tpscodecokmsxml.TPSCODECOKMSXML_PK', '=', 'tpscodecokmsdetailxml.TPSCODECOKMSXML_FK')
                         ->where('tpscodecokmsxml.'.$request['by'], '>=', $start_date)
-                        ->where('tpscodecokmsxml.'.$request['by'], '<=', $end_date);
+                        ->where('tpscodecokmsxml.'.$request['by'], '<=', $end_date)
+                        ->whereYear('tpscodecokmsxml.TGL_ENTRY', '=', date('Y'))
+                        ;
             }elseif(isset($request['codecokms_id'])){
                 $Model = TpsCodecoKmsDetail::where('TPSCODECOKMSXML_FK', $request['codecokms_id']);
             }else{
                 $Model = TpsCodecoKms::select('*')
-                        ->leftjoin('tpscodecokmsdetailxml', 'tpscodecokmsxml.TPSCODECOKMSXML_PK', '=', 'tpscodecokmsdetailxml.TPSCODECOKMSXML_FK');
+                        ->leftjoin('tpscodecokmsdetailxml', 'tpscodecokmsxml.TPSCODECOKMSXML_PK', '=', 'tpscodecokmsdetailxml.TPSCODECOKMSXML_FK')
+                        ->whereYear('tpscodecokmsxml.TGL_ENTRY', '=', date('Y'))
+                        ;
             }
             
         }elseif($Model->getMorphClass() == 'App\Models\TpsDataKirim'){ 
