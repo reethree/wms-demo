@@ -14,6 +14,7 @@ class EloquentContainer {
     public function __construct()
     {
         $this->Container = new \App\Models\Container();
+        $this->Manifest = new \App\Models\Manifest();
     }
  
      /**
@@ -107,6 +108,9 @@ class EloquentContainer {
         $sum_meas = $this->Container->select('MEAS')->where('TJOBORDER_FK', $joborder_id)->sum('MEAS');         
         \App\Models\Joborder::where('TJOBORDER_PK', $joborder_id)
                 ->update(['MEASUREMENT' => $sum_meas, 'GROSSWEIGHT' => $sum_weight]);
+        
+        // Update Manifest if exist
+        $manifest = $this->Manifest->where('TCONSIGNEE_FK', $Container->TCONTAINER_PK)->update(['NOCONTAINER' => $Container->NOCONTAINER, 'SIZE' => $Container->SIZE]);
       }
       catch (Exception $e)
       {
