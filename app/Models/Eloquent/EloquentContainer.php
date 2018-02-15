@@ -110,7 +110,7 @@ class EloquentContainer {
                 ->update(['MEASUREMENT' => $sum_meas, 'GROSSWEIGHT' => $sum_weight]);
         
         // Update Manifest if exist
-        $manifest = $this->Manifest->where('TCONSIGNEE_FK', $Container->TCONTAINER_PK)->update(['NOCONTAINER' => $Container->NOCONTAINER, 'SIZE' => $Container->SIZE]);
+        $manifest = $this->Manifest->where('TCONTAINER_FK', $Container->TCONTAINER_PK)->update(['NOCONTAINER' => $Container->NOCONTAINER, 'SIZE' => $Container->SIZE]);
       }
       catch (Exception $e)
       {
