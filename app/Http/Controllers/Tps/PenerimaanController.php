@@ -658,8 +658,8 @@ class PenerimaanController extends Controller
                         $plpDetailByPos = \App\Models\TpsResponPlpDetail::where(array('tps_responplptujuanxml_fk' => $plpId, 'NO_POS_BC11' => $detail->NO_POS_BC11))->get();
                         foreach($plpDetailByPos as $detailByPost):
                             
-                            $checkCont = \App\Models\Containercy::where('NOCONTAINER', $detailByPost->NO_CONT)->count();
-                            if($checkCont == 0){
+//                            $checkCont = \App\Models\Containercy::where('NOCONTAINER', $detailByPost->NO_CONT)->count();
+//                            if($checkCont == 0){
                                 // COPY JOBORDER
                                 $joborder = \App\Models\Jobordercy::findOrFail($insert_id);
 
@@ -700,7 +700,7 @@ class PenerimaanController extends Controller
                                 $data['UID'] = \Auth::getUser()->name;
 
                                 $container_insert_id = \App\Models\Containercy::insertGetId($data);
-                            }
+//                            }
                         endforeach;
                     }
                 
