@@ -34,7 +34,7 @@ class PaymentController extends Controller
                 'title' => 'BNI E-Collection'
             ]
         ];        
-        
+
         return view('payment.index-bni')->with($data);
     }
     
@@ -67,7 +67,7 @@ class PaymentController extends Controller
             'client_id' => $this->client_id,
             'trx_id' => $request->get('trx_id'),
             'trx_amount' => $request->get('trx_amount'),
-            'type' => 'createbilling',
+            'type' => 'createBilling',
             'billing_type' => 'c',
             'datetime_expired' => date('c', time() + $request->get('expired') * 86400), // billing will be expired in days
             'virtual_account' => $va_number,
@@ -123,7 +123,7 @@ class PaymentController extends Controller
         }
         
         $data_req = array(
-            'type' => 'inquirybilling',
+            'type' => 'inquiryBilling',
             'client_id' => $this->client_id,
             'trx_id' => $request->get('trx_id'),
         );
@@ -236,7 +236,7 @@ class PaymentController extends Controller
 	curl_setopt($ch, CURLOPT_AUTOREFERER, true);
 	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
 
-	curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36");
+//	curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36");
 
 	if ($post)
 	{
