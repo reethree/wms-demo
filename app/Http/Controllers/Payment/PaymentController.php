@@ -185,7 +185,7 @@ class PaymentController extends Controller
             'data' => $hashed_string,
         );
         
-        $response = $this->request_get_content($this->url, json_encode($data));
+        $response = $this->request_get_content($this->url, $data);
         $response_json = json_decode($response, true);
 
         if ($response_json['status'] !== '000') {
@@ -231,12 +231,12 @@ class PaymentController extends Controller
 	curl_setopt($ch, CURLOPT_VERBOSE, false);
 	// curl_setopt($ch, CURLOPT_NOBODY, true);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-//	curl_setopt($ch, CURLOPT_ENCODING, true);
-//	curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-//	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($ch, CURLOPT_ENCODING, true);
+	curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
 
-//	curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36");
+	curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36");
 
 	if ($post)
 	{
