@@ -83,9 +83,9 @@ class PaymentController extends Controller
             'data' => $hashed_string,
         );
         
-//        return $data;
+//        return json_encode($data);
         
-        $response = $this->request_get_content($this->url, json_encode($data));
+        $response = $this->request_get_content($this->url, $data);
         $response_json = json_decode($response, true);
 
         if ($response_json['status'] !== '000') {
@@ -213,7 +213,7 @@ class PaymentController extends Controller
         }
     }
     
-    public function request_get_content($url, $post = '') 
+    public function request_get_content($url, $post) 
     {
 //	$usecookie = __DIR__ . "/cookie.txt";
 	$header[] = 'Content-Type: application/json';
