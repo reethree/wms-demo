@@ -92,16 +92,6 @@
     
 //});
 
-// NEXMO
-Route::get('/voice/callback', [
-    'uses' => 'DefaultController@voiceCallback',
-    'as' => 'call-voice-callback'
-]);
-Route::get('/voice/callback/response/{cid}', [
-    'uses' => 'DefaultController@voiceCallbackResponse',
-    'as' => 'call-voice-callback-response'
-]);
-
 // FlatFIle
 Route::get('/flat', [
     'uses' => 'DefaultController@getFlatFile',
