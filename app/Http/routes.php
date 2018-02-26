@@ -69,7 +69,8 @@
         // Invoice Routes
         require_once 'Routes/RoutesInvoice.php';
         
-        
+        // Payment Routes
+        require_once 'Routes/RoutesPayment.php';
         
         // GLOBAL Routes
         Route::get('/getDataPelabuhan', [

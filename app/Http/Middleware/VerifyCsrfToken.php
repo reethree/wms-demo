@@ -12,6 +12,7 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-        'easygo/inputdo/callback'
+        'easygo/inputdo/callback',
+        'payment/bni/notification'
     ];
 }
