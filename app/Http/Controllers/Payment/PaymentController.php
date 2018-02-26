@@ -61,7 +61,7 @@ class PaymentController extends Controller
                 ->orderBy('id', 'DESC')
                 ->first();
         $regID = str_pad(intval((isset($last_id->id) ? $last_id->id : 0)+1), 6, '0', STR_PAD_LEFT);
-        $va_number = 8+$this->client_id+date('ymd')+$regID;
+        $va_number = '8'.$this->client_id.date('ymd').$regID;
         
         $data_req = array(
             'client_id' => $this->client_id,
@@ -75,7 +75,9 @@ class PaymentController extends Controller
             'customer_email' => $request->get('customer_email'),
             'customer_phone' => $request->get('customer_phone')
         );
-
+        
+//        return $data_req;
+        
         $hashed_string = BniEnc::encrypt($data_req);
 
         $data = array(
