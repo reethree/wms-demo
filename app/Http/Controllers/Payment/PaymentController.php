@@ -76,8 +76,6 @@ class PaymentController extends Controller
             'customer_phone' => $request->get('customer_phone')
         );
         
-//        return $data_req;
-        
         $hashed_string = BniEnc::encrypt($data_req);
 
         $data = array(
@@ -85,13 +83,15 @@ class PaymentController extends Controller
             'data' => $hashed_string,
         );
         
+//        return $data;
+        
         $response = $this->request_get_content($this->url, json_encode($data));
         $response_json = json_decode($response, true);
 
         if ($response_json['status'] !== '000') {
             // handling jika gagal
 //                var_dump($response_json);
-            return back()->with('error', $response_json['message'])->withInput();
+            return back()->with('error', 'Status:'.$response_json['status'].' | '.$response_json['message'])->withInput();
         } else {
             $data_response = BniEnc::decrypt($response_json['data']);
             // $data_response will contains something like this: 
