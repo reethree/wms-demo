@@ -85,7 +85,7 @@ class PaymentController extends Controller
         
 //        return $data;
         
-        $response = $this->request_get_content($this->url, json_encode($data));
+        $response = $this->request_get_content($this->url, $data);
         $response_json = json_decode($response, true);
 
         if ($response_json['status'] !== '000') {
@@ -185,7 +185,7 @@ class PaymentController extends Controller
             'data' => $hashed_string,
         );
         
-        $response = $this->request_get_content($this->url, $data);
+        $response = $this->request_get_content($this->url, json_encode($data));
         $response_json = json_decode($response, true);
 
         if ($response_json['status'] !== '000') {
