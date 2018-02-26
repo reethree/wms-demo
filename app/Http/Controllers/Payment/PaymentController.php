@@ -85,7 +85,7 @@ class PaymentController extends Controller
         
 //        return json_encode($data);
         
-        $response = $this->request_get_content($this->url, $data);
+        $response = $this->request_get_content($this->url, json_encode($data));
         $response_json = json_decode($response, true);
 
         if ($response_json['status'] !== '000') {
@@ -217,7 +217,7 @@ class PaymentController extends Controller
     {
 //	$usecookie = __DIR__ . "/cookie.txt";
 	$header[] = 'Content-Type: application/json';
-	$header[] = "Accept-Encoding: gzip, deflate";
+//	$header[] = "Accept-Encoding: gzip, deflate";
 	$header[] = "Cache-Control: max-age=0";
 	$header[] = "Connection: keep-alive";
 	$header[] = "Accept-Language: en-US,en;q=0.8,id;q=0.6";
