@@ -85,7 +85,7 @@ class PaymentController extends Controller
         
 //        return $data;
         
-        $response = $this->request_get_content($this->url, $data);
+        $response = $this->request_get_content($this->url, json_encode($data));
         $response_json = json_decode($response, true);
 
         if ($response_json['status'] !== '000') {
@@ -224,7 +224,7 @@ class PaymentController extends Controller
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
-//	curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 	curl_setopt($ch, CURLOPT_HEADER, false);
