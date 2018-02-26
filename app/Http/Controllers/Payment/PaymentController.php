@@ -231,10 +231,10 @@ class PaymentController extends Controller
 	curl_setopt($ch, CURLOPT_VERBOSE, false);
 	// curl_setopt($ch, CURLOPT_NOBODY, true);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-	curl_setopt($ch, CURLOPT_ENCODING, true);
-	curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+//	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+//	curl_setopt($ch, CURLOPT_ENCODING, true);
+//	curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+//	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
 
 //	curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36");
 
