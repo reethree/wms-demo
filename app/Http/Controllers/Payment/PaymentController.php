@@ -125,14 +125,14 @@ class PaymentController extends Controller
         
         $data_req = array(
             'type' => 'inquiryBilling',
-            'client_id' => $this->client_id,
-            'trx_id' => $request->get('trx_id'),
+            'client_id' => (string)$this->client_id,
+            'trx_id' => (string)$request->get('trx_id'),
         );
         
         $hashed_string = BniEnc::encrypt($data_req);
         
         $data = array(
-            'client_id' => $this->client_id,
+            'client_id' => (string)$this->client_id,
             'data' => $hashed_string,
         );
         
@@ -169,9 +169,9 @@ class PaymentController extends Controller
         }
         
         $data_req = array(
-            'client_id' => $this->client_id,
-            'trx_id' => $request->get('trx_id'),
-            'trx_amount' => $request->get('trx_amount'),
+            'client_id' => (string)$this->client_id,
+            'trx_id' => (string)$request->get('trx_id'),
+            'trx_amount' => (string)$request->get('trx_amount'),
             'type' => 'updateBilling',
             'datetime_expired' => date('c', time() + $request->get('expired') * 86400), // billing will be expired in days
             'customer_name' => $request->get('customer_name'),
@@ -182,7 +182,7 @@ class PaymentController extends Controller
         $hashed_string = BniEnc::encrypt($data_req);
 
         $data = array(
-            'client_id' => '"'.$this->client_id.'"',
+            'client_id' => (string)$this->client_id,
             'data' => $hashed_string,
         );
         
