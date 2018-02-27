@@ -118,7 +118,7 @@
             ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
             ->addColumn(array('label'=>'No. HBL','index'=>'NOHBL','width'=>160))
             ->addColumn(array('label'=>'Tgl. HBL','index'=>'TGL_HBL', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
+//            ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
             ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>250))
             ->addColumn(array('label'=>'Quantity','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))
             ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>120,'align'=>'center'))
