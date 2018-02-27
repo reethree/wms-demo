@@ -103,6 +103,7 @@ class PaymentController extends Controller
 
 //            var_dump($data_response);
             $data_req['uid'] = \Auth::getUser()->name;
+            $data_req['created'] = date('Y-m-d H:i:s');
             $insert = \App\Models\PaymentBni::insert($data_req);
             
             if($insert){
