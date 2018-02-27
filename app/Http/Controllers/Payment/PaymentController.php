@@ -64,22 +64,22 @@ class PaymentController extends Controller
         $va_number = '8'.$this->client_id.date('ymd').$regID;
         
         $data_req = array(
-            'client_id' => $this->client_id,
-            'trx_id' => $request->get('trx_id'),
-            'trx_amount' => $request->get('trx_amount'),
+            'client_id' => (string)$this->client_id,
+            'trx_id' => (string)$request->get('trx_id'),
+            'trx_amount' => (string)$request->get('trx_amount'),
             'type' => 'createBilling',
             'billing_type' => 'c',
             'datetime_expired' => date('c', time() + $request->get('expired') * 86400), // billing will be expired in days
-            'virtual_account' => $va_number,
+            'virtual_account' => (string)$va_number,
             'customer_name' => $request->get('customer_name'),
             'customer_email' => $request->get('customer_email'),
             'customer_phone' => $request->get('customer_phone')
         );
-        
+
         $hashed_string = BniEnc::encrypt($data_req);
 
         $data = array(
-            'client_id' => $this->client_id,
+            'client_id' => (string)$this->client_id,
             'data' => $hashed_string,
         );
         
@@ -105,7 +105,7 @@ class PaymentController extends Controller
             $insert = \App\Models\PaymentBni::insert($data_req);
             
             if($insert){
-                return back()->with('success', $response_json['message'])->withInput();
+                return back()->with('success', 'Transaction ID '.$data_response['trx_id'].', billing has been created.')->withInput();
             }
                 
             return back()->with('error', 'Cannot insert data to database.')->withInput();
@@ -181,7 +181,7 @@ class PaymentController extends Controller
         $hashed_string = BniEnc::encrypt($data_req);
 
         $data = array(
-            'client_id' => $this->client_id,
+            'client_id' => '"'.$this->client_id.'"',
             'data' => $hashed_string,
         );
         
@@ -228,7 +228,7 @@ class PaymentController extends Controller
 //	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 //	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 //	curl_setopt($ch, CURLOPT_HEADER, false);
-//	curl_setopt($ch, CURLOPT_VERBOSE, false);
+	curl_setopt($ch, CURLOPT_VERBOSE, true);
 	// curl_setopt($ch, CURLOPT_NOBODY, true);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 //	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -245,7 +245,7 @@ class PaymentController extends Controller
 	}
 
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
+             
 	$rs = curl_exec($ch);
 
 	if(empty($rs)){
