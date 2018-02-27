@@ -73,7 +73,8 @@ class PaymentController extends Controller
             'virtual_account' => (string)$va_number,
             'customer_name' => $request->get('customer_name'),
             'customer_email' => $request->get('customer_email'),
-            'customer_phone' => $request->get('customer_phone')
+            'customer_phone' => $request->get('customer_phone'),
+            'description' => $request->get('description')
         );
         
         $hashed_string = BniEnc::encrypt($data_req);
