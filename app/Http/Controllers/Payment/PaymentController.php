@@ -75,7 +75,7 @@ class PaymentController extends Controller
             'customer_email' => $request->get('customer_email'),
             'customer_phone' => $request->get('customer_phone')
         );
-
+        
         $hashed_string = BniEnc::encrypt($data_req);
 
         $data = array(
@@ -83,9 +83,7 @@ class PaymentController extends Controller
             'data' => $hashed_string,
         );
         
-//        return json_encode($data);
-        
-        $response = $this->request_get_content($this->url, json_encode($data));
+        $response = $this->request_get_content($this->url, $data);
         $response_json = json_decode($response, true);
 
         if ($response_json['status'] !== '000') {
@@ -241,7 +239,7 @@ class PaymentController extends Controller
 	if ($post)
 	{
             curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post));
 	}
 
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
