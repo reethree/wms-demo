@@ -146,13 +146,18 @@ class PaymentController extends Controller
             return back()->with('error', $response_json['message'])->withInput();
         } else {
             $data_response = BniEnc::decrypt($response_json['data']);
-            // $data_response will contains something like this: 
-            // array(
-            // 	'virtual_account' => 'xxxxx',
-            // 	'trx_id' => 'xxx',
-            // );
 
-            var_dump($data_response);
+//            var_dump($data_response);
+
+            $data_response['uid'] = \Auth::getUser()->name;
+            $data_response['updated_at'] = date('Y-m-d H:i:s');
+            $update = \App\Models\PaymentBni::where('trx_id', $data_response['trx_id'])->update($data_response);
+            
+            if($update){
+                return back()->with('success', 'Transaction ID '.$data_response['trx_id'].', billing has been updated.')->withInput();
+            }
+                
+            return back()->with('error', 'Cannot update data to database.')->withInput();
         }
     }
     
