@@ -291,9 +291,11 @@ class PaymentController extends Controller
                         return json_encode(array('status' => 000, 'message' => 'Notification Success.'));
                     }
                     
-                    return json_encode(array('status' => 999, 'message' => 'Cannot update database or trx_id not found.'));
+                    return json_encode(array('status' => 999, 'message' => 'Cannot update database.'));
                     
                 }
+            }else{
+                return json_encode(array('status' => 999, 'message' => 'Trx_id not found.'));
             }
         }
     }
