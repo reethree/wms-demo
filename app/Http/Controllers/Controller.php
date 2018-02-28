@@ -156,6 +156,26 @@ class Controller extends BaseController
         return preg_replace('!\s+!', ' ', $string);
     }
     
+    public function updateSorByMeas()
+    {
+        $meas_count = \App\Models\Manifest::whereNotNull('tglmasuk')
+                                ->whereNull('tglrelease')
+                                ->sum('MEAS');
+        
+        $sor = \App\Models\SorYor::where('type', 'sor')->first();
+        
+        $k_trisi = $meas_count*1000;
+        $k_kosong = ($sor->kapasitas_default*1000) - $k_trisi;       
+        $tot_sor = ($k_trisi / ($sor->kapasitas_default*1000)) * 100;
+        
+        $sor->kapasitas_terisi = (float)($k_trisi/1000);
+        $sor->kapasitas_kosong = (float)($k_kosong/1000);
+        $sor->total = $tot_sor;
+        $sor->save();
+        
+        return true;
+    }
+    
     public function updateSor($type, $value)
     {
      

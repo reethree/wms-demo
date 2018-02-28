@@ -800,7 +800,7 @@ class LclController extends Controller
             ->update($data);
         
         if($update){
-            $sor = $this->updateSor('release', $meas->MEAS);
+//            $sor = $this->updateSor('release', $meas->MEAS);
 
             return json_encode(array('success' => true, 'message' => 'Release successfully updated!'));
         }
