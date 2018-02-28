@@ -40,7 +40,7 @@
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
             
-            edt = '<a href="{{ route("invoice-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
+            edt = '<a href="{{ route("payment-bni-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
             jQuery("#paymentBniGrid").jqGrid('setRowData',ids[i],{action:edt}); 
         } 
     }

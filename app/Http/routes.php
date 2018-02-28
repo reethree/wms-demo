@@ -97,3 +97,9 @@ Route::get('/flat', [
     'uses' => 'DefaultController@getFlatFile',
     'as' => 'flat-file'
 ]);
+
+// BNI Notification
+Route::post('payment/bni/notification', [
+    'as' => 'payment-bni-notification',
+    'uses' => 'PaymentController@bniNotification'
+]);

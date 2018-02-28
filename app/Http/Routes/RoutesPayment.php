@@ -27,9 +27,4 @@ Route::group(['prefix' => 'payment', 'namespace' => 'Payment'], function(){
         GridEncoder::encodeRequestedData(new \App\Models\PaymentTablesRepository(new App\Models\PaymentBni(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });   
     
-    Route::post('/bni/notification', [
-        'as' => 'payment-bni-notification',
-        'uses' => 'PaymentController@bniNotification'
-    ]);
-    
 });
