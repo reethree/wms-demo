@@ -38,8 +38,26 @@ class PaymentController extends Controller
         return view('payment.index-bni')->with($data);
     }
     
-    public function edit($id){
-        return;
+    public function edit()
+    {
+        if ( !$this->access->can('show.payment.edit') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "Edit Billing";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => route('payment-bni-index'),
+                'title' => 'BNI E-Collection'
+            ],
+            [
+                'action' => '',
+                'title' => 'Edit Billing'
+            ]
+        ];        
+        
+        return view('payment.edit-bni')->with($data);
     }
     
     public function createBilling(Request $request)
@@ -103,7 +121,7 @@ class PaymentController extends Controller
 
 //            var_dump($data_response);
             $data_req['uid'] = \Auth::getUser()->name;
-            $data_req['created'] = date('Y-m-d H:i:s');
+            $data_req['datetime_created'] = date('Y-m-d H:i:s');
             $insert = \App\Models\PaymentBni::insert($data_req);
             
             if($insert){
