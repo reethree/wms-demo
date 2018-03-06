@@ -38,7 +38,7 @@ class PaymentController extends Controller
         return view('payment.index-bni')->with($data);
     }
     
-    public function edit()
+    public function edit($id)
     {
         if ( !$this->access->can('show.payment.edit') ) {
             return view('errors.no-access');
@@ -56,6 +56,8 @@ class PaymentController extends Controller
                 'title' => 'Edit Billing'
             ]
         ];        
+        
+        $data['payment'] = \App\Models\PaymentBni::find($id);
         
         return view('payment.edit-bni')->with($data);
     }
@@ -184,7 +186,6 @@ class PaymentController extends Controller
         $validator = \Validator::make($request->all(), [
             'trx_id' => 'required',
             'trx_amount' => 'required',
-            'expired' => 'required',
             'customer_name' => 'required'
         ]);
 
@@ -197,11 +198,15 @@ class PaymentController extends Controller
             'trx_id' => (string)$request->get('trx_id'),
             'trx_amount' => (string)$request->get('trx_amount'),
             'type' => 'updateBilling',
-            'datetime_expired' => date('c', time() + $request->get('expired') * 86400), // billing will be expired in days
             'customer_name' => $request->get('customer_name'),
             'customer_email' => $request->get('customer_email'),
-            'customer_phone' => $request->get('customer_phone')
+            'customer_phone' => $request->get('customer_phone'),
+            'description' => $request->get('description')
         );
+        
+        if($request->get('expired')){
+            $data_req['datetime_expired'] = date('c', time() + $request->get('expired') * 86400);
+        }
         
         $hashed_string = BniEnc::encrypt($data_req);
 
@@ -231,7 +236,7 @@ class PaymentController extends Controller
             $update = \App\Models\PaymentBni::where('trx_id', $data_response['trx_id'])->update($data_req);
             
             if($update){
-                return back()->with('success', $response_json['message'])->withInput();
+                return back()->with('success', 'Transaction ID '.$data_response['trx_id'].', billing has been updated.')->withInput();
             }
                 
             return back()->with('error', 'Cannot update database or trx_id not found.')->withInput();

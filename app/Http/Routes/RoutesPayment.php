@@ -17,6 +17,11 @@ Route::group(['prefix' => 'payment', 'namespace' => 'Payment'], function(){
         'uses' => 'PaymentController@createBilling'
     ]);
     
+    Route::post('/update-billing', [
+        'as' => 'payment-bni-update-billing',
+        'uses' => 'PaymentController@updateBilling'
+    ]);
+    
     Route::post('/inquiry', [
         'as' => 'payment-bni-inquiry',
         'uses' => 'PaymentController@inquiryBilling'
