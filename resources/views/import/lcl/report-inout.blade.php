@@ -148,7 +148,7 @@
 //            ->addColumn(array('label'=>'Notify Party','index'=>'NOTIFYPARTY','width'=>160))            
 //            ->addColumn(array('label'=>'NPWP Consignee','index'=>'NPWP_CONSIGNEE', 'width'=>150))
 //            ->addColumn(array('label'=>'Marking','index'=>'MARKING', 'width'=>150)) 
-            ->addColumn(array('label'=>'Desc of Goods','index'=>'DESCOFGOODS', 'width'=>250))              
+//            ->addColumn(array('label'=>'Desc of Goods','index'=>'DESCOFGOODS', 'width'=>250))              
 //            ->addColumn(array('label'=>'Tgl.Behandle','index'=>'tglbehandle', 'width'=>150)) 
 //            ->addColumn(array('label'=>'Surcharge (DG)','index'=>'DG_SURCHARGE', 'width'=>150))
 //            ->addColumn(array('label'=>'Surcharge (Weight)','index'=>'WEIGHT_SURCHARGE', 'width'=>150)) 
