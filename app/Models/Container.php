@@ -38,8 +38,8 @@ class Container extends Model
             $data['NoJob'] = $joborder->NOJOBORDER;
             $data['NO_BC11'] = $joborder->TNO_BC11;
             $data['TGL_BC11'] = $joborder->TTGL_BC11;
-            $data['NO_PLP'] = $joborder->NO_PLP;
-            $data['TGL_PLP'] = $joborder->TGL_PLP;
+            $data['NO_PLP'] = $joborder->TNO_PLP;
+            $data['TGL_PLP'] = $joborder->TTGL_PLP;
             $data['TCONSOLIDATOR_FK'] = $joborder->TCONSOLIDATOR_FK;
             $data['NAMACONSOLIDATOR'] = $joborder->NAMACONSOLIDATOR;
             $data['TLOKASISANDAR_FK'] = $joborder->TLOKASISANDAR_FK;
