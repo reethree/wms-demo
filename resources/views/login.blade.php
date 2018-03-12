@@ -30,7 +30,7 @@
 <body class="hold-transition login-page skin-black-light">
 <div class="login-box">
   <div class="login-logo">
-    <a href="#"><b>PRIMANATA</b>WMH</a>
+    <a href="#"><b>PRIMANATA</b>WMS</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
