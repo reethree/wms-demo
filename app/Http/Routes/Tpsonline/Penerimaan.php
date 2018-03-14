@@ -161,15 +161,15 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
     ]);
     
     //INFO NOMOR BC11
-    Route::get('/infomomor-bc', [
+    Route::get('/infonomor-bc', [
         'as' => 'tps-infoNomorBc-index',
         'uses' => 'PenerimaanController@infoNomorBcIndex'
     ]);
-    Route::post('/infomomor-bc/grid-data', function()
+    Route::post('/infonomor-bc/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsGetInfoNomorBc(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
-    Route::post('/infomomor-bc/get-xml', [
+    Route::post('/infonomor-bc/get-xml', [
         'as' => 'tps-infoNomorBc-get',
 //        'uses' => 'PenerimaanController@sppbBcGetXml'
         'uses' => 'SoapController@GetInfoNomorBc'
