@@ -85,7 +85,7 @@
             ->addColumn(array('label'=>'Nama Angkut','index'=>'NM_ANGKUT','width'=>160))
             ->addColumn(array('label'=>'No. VOY Flight','index'=>'NO_VOY_FLIGHT','width'=>160,'align'=>'center'))
             ->addColumn(array('label'=>'Tgl. Tiba','index'=>'TGL_TIBA','width'=>160,'align'=>'center'))
-            ->addColumn(array('label'=>'Tgl. Upload','index'=>'TGL_UPLOAD','width'=>160,'align'=>'center'))
+            ->addColumn(array('label'=>'Tgl. Upload','index'=>'created_at','width'=>160,'align'=>'center'))
             ->renderGrid()
         }}
     </div>
