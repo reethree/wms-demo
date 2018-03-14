@@ -127,6 +127,48 @@ class SoapController extends DefaultController {
         
     }
     
+    public function GetResponPLP_onDemand(Request $request)
+    {
+        \SoapWrapper::add(function ($service) {
+            $service
+                ->name('TpsOnlineSoap')
+                ->wsdl($this->wsdl)
+                ->trace(true)   
+//                ->certificate()                                                 
+                ->cache(WSDL_CACHE_NONE)  
+                ->options([
+                    'soap_version' => SOAP_1_2,
+                    'ssl'           => array(
+                        'ciphers'=> "SHA1",
+                        'verify_peer' => false, 
+                        'allow_self_signed' => true
+                    ),
+                    'https' => array(
+                        'curl_verify_ssl_peer'  => false,
+                        'curl_verify_ssl_host'  => false
+                    ),
+                    'exceptions' => 0
+                ]);                                                    
+        });
+        
+        $data = [
+            'UserName' => $this->user, 
+            'Password' => $this->password,
+            'KdGudang' => $this->kode,
+            'No_plp' => $request->no_plp,
+            'Tgl_plp' => $request->tgl_plp,
+            'RefNumber' => $request->refnumber
+        ];
+        
+        try{
+            \SoapWrapper::service('TpsOnlineSoap', function ($service) use ($data) {        
+                $this->response = $service->call('GetResponPLP_onDemand', [$data])->GetResponPLP_onDemandResult;      
+            });
+        }catch (\SoapFault $exception){
+            var_dump($exception);
+        }
+    }
+    
     public function GetResponPLP_Tujuan()
     {
 
@@ -617,6 +659,52 @@ class SoapController extends DefaultController {
         return back()->with('success', 'Get SPPB BC23 has been success.');
         
     }
+    
+    public function GetInfoNomorBc(Request $request)
+    {
+//        return $request->all();
+        
+        \SoapWrapper::add(function ($service) {
+            $service
+                ->name('TpsOnline_GetInfoNomorBC11')
+                ->wsdl($this->wsdl)
+                ->trace(true)                                                                                                                                                 
+                ->cache(WSDL_CACHE_NONE);                                                    
+        });
+        
+        $data = [
+            'Username' => $this->user, 
+            'Password' => $this->password,
+            'TglTibaAwal' => $request->TglTibaAwal,
+            'TglTibaAkhir' => $request->TglTibaAkhir
+        ];
+        
+        // Using the added service
+        \SoapWrapper::service('TpsOnline_GetInfoNomorBC11', function ($service) use ($data) {        
+            $this->response = $service->call('GetInfoNomorBC11', [$data])->GetInfoNomorBC11Result;      
+        });
+        
+//        var_dump($this->response);
+        
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($this->response);
+        if(!$xml || !$xml->children()){
+           return back()->with('error', $this->response);
+        }
+        
+        foreach ($xml->children() as $data):  
+            foreach ($data as $key=>$value):          
+                $info = new \App\Models\TpsGetInfoNomorBc;
+                foreach ($value as $keyk=>$valuek):
+                    $info->$keyk = $valuek;
+                endforeach;
+                $info->save();
+            endforeach;
+        endforeach;
+        
+        return back()->with('success', 'Get Info Nomor BC11 has been success.');
+    }
+
 
     public function GetDokumenManual()
     {

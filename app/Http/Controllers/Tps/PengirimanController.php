@@ -825,6 +825,71 @@ class PengirimanController extends Controller
         var_dump($this->response);
     }
     
+    public function totalRealiasiBongkarMuat()
+    {
+        $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><DOCUMENT></DOCUMENT>');       
+        
+        $xml->addAttribute('xmlns', 'realisasibongkarmuat.xsd');
+        
+        $data = $xml->addchild('REALISASI');
+        $data->addchild('REF_NUMBER', '');
+        $data->addchild('KD_TPS', '');
+        $data->addchild('KD_GUDANG', '');
+        $data->addchild('TGL_TIBA', '');
+        $data->addchild('NM_ANGKUT', '');
+        $data->addchild('NO_VOY_FLIGHT', '');
+        $data->addchild('CALL_SIGN', '');
+        $data->addchild('NO_BC11', '');
+        $data->addchild('TGL_BC11', '');
+        $data->addchild('JML_BONGKAR_CONTAINER', '');
+        $data->addchild('JML_BONGKAR_KEMASAN', '');
+        $data->addchild('JML_MUAT_CONTAINER', '');
+        $data->addchild('JML_MUAT_KEMASAN', '');
+        $data->addchild('WK_AKTUAL_KEDATANGAN', '');
+        $data->addchild('WK_AKTUAL_KEBERANGKATAN', '');
+        $data->addchild('FL_BATAL', '');
+        
+        $response = \Response::make($xml->asXML(), 200);
+
+        $response->header('Cache-Control', 'public');
+        $response->header('Content-Description', 'File Transfer');
+        $response->header('Content-Disposition', 'attachment; filename=xml/CodecoKemasan'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+        $response->header('Content-Transfer-Encoding', 'binary');
+        $response->header('Content-Type', 'text/xml');
+        
+        \SoapWrapper::add(function ($service) {
+            $service
+                ->name('TpsOnline_TotalRealiasiBongkarMuat')
+                ->wsdl($this->wsdl)
+                ->trace(true)                                                                                                                                               
+                ->cache(WSDL_CACHE_NONE);                                                    
+        });
+        
+        $options = [
+            'Username' => $this->user, 
+            'Password' => $this->password,
+            'fStream' => $xml->asXML()
+        ];
+        
+//        var_dump($this->response);
+//        return;
+        
+        // Using the added service
+        \SoapWrapper::service('TotalRealiasiBongkarMuat', function ($service) use ($options) {        
+            $this->response = $service->call('TotalRealiasiBongkarMuat', [$options])->TotalRealiasiBongkarMuatResult;      
+        });
+        
+//        $update = \App\Models\TpsCodecoKmsDetail::where('TPSCODECOKMSXML_FK', $dataHeader->TPSCODECOKMSXML_PK)->update(['STATUS_TPS' => 2, 'RESPONSE' => $this->response]);       
+        
+        if ($update){
+//            return $response;
+            return back()->with('success', 'Codeco Kemasan XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dikirim.');
+        }
+        
+        var_dump($this->response);
+
+    }
+    
     public function coariContGetXml()
     {     
         $xml = simplexml_load_file(url('xml/CoariContainer20161108015043.xml'));

@@ -188,6 +188,26 @@ class PenerimaanController extends Controller
         return view('tpsonline.index-sppb-bc')->with($data);
     }
     
+    public function infoNomorBcIndex()
+    {
+        if ( !$this->access->can('show.tps.infoNomorBc.index') ) {
+            return view('errors.no-access');
+        }
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index TPS Info Nomor BC11', 'slug' => 'show.tps.infoNomorBc.index', 'description' => ''));
+        
+        $data['page_title'] = "TPS Info Nomor BC11";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'TPS Info Nomor BC11'
+            ]
+        ];        
+        
+        return view('tpsonline.index-infonomor-bc')->with($data);
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
