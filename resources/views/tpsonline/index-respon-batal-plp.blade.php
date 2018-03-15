@@ -18,23 +18,21 @@
         padding-bottom: 3px
     }
 </style>
-<!--<script>
+<script>
  
     function gridCompleteEvent()
     {
         var ids = jQuery("#tpsResponBatalPlpGrid").jqGrid('getDataIDs'),
-            edt = '',
-            del = ''; 
+            edt = '' 
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
             
-            edt = '<a href="{{ route("tps-responPlp-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i> Details</a> ';
-            del = '<a href="{{ route("lcl-register-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
-            jQuery("#tpsResponBatalPlpGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
+            edt = '<a href="{{ route("tps-responBatalPlp-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
+            jQuery("#tpsResponBatalPlpGrid").jqGrid('setRowData',ids[i],{action:edt}); 
         } 
     }
     
-</script>-->
+</script>
 
 <div class="box">
     <div class="box-header with-border">
@@ -51,9 +49,8 @@
                 <div class="col-xs-3">
                     <select class="form-control select2" id="by" name="by" style="width: 100%;" tabindex="-1" aria-hidden="true">
                         <option value="TGL_UPLOAD">Tgl. Upload</option>
-                        <option value="TGL_PLP">Tgl. PLP</option>
-                        <option value="TGL_BC11">Tgl. BC11</option>
-                        <option value="TGL_TIBA">Tgl. Tiba</option>                       
+                        <option value="TGL_PLP">Tgl. PLP</option>  
+                        <option value="TGL_BATAL_PLP">Tgl. Batal PLP</option>
                     </select>
                 </div>
                 <div class="col-xs-3">
@@ -94,8 +91,8 @@
             ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
             ->setNavigatorOptions('view',array('closeOnEscape'=>false))
             ->setFilterToolbarOptions(array('autosearch'=>true))
-//            ->setGridEvent('gridComplete', 'gridCompleteEvent')
-//            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+            ->setGridEvent('gridComplete', 'gridCompleteEvent')
+            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('key'=>true,'index'=>'tps_responplpbataltujuanxml_pk','hidden'=>true))
             ->addColumn(array('label'=>'Ref. Number','index'=>'REF_NUMBER','width'=>160))
             ->addColumn(array('label'=>'Kode Kantor','index'=>'KD_KANTOR','width'=>160))

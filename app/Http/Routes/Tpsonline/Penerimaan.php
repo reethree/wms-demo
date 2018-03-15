@@ -47,6 +47,14 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-responBatalPlp-get',
         'uses' => 'SoapController@GetResponBatalPLP_Tujuan'
     ]);
+    Route::get('/respon-batal-plp/edit/{id}', [
+        'as' => 'tps-responBatalPlp-edit',
+        'uses' => 'PenerimaanController@responBatalPlpEdit'
+    ]);
+    Route::post('/respon-batal-plp/edit/{id}', [
+        'as' => 'tps-responBatalPlp-update',
+        'uses' => 'PenerimaanController@responBatalPlpUpdate'
+    ]);
        
     // OB LCL
     Route::get('/ob-lcl', [

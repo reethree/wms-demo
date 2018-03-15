@@ -278,6 +278,33 @@ class PenerimaanController extends Controller
         return view('tpsonline.edit-respon-plp')->with($data);
     }
     
+    public function responBatalPlpEdit($id)
+    {
+        if ( !$this->access->can('show.tps.responBatalPlp.edit') ) {
+            return view('errors.no-access');
+        }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Edit TPS Respon Batal PLP', 'slug' => 'show.tps.responBatalPlp.edit', 'description' => ''));
+        
+        $data['page_title'] = "Edit TPS Respon Batal PLP";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => route('tps-responBatalPlp-index'),
+                'title' => 'Edit TPS Respon Batal PLP'
+            ],
+            [
+                'action' => '',
+                'title' => 'Edit'
+            ]
+        ];
+        
+        $data['respon'] = \App\Models\TpsResponBatalPlp::find($id);
+        
+        return view('tpsonline.edit-respon-batal-plp')->with($data);
+    }
+    
     public function obEdit($id)
     {
         if ( !$this->access->can('show.tps.ob.edit') ) {
@@ -372,6 +399,11 @@ class PenerimaanController extends Controller
     }
     
     public function responPlpUpdate(Request $request, $id)
+    {
+        
+    }
+    
+    public function responBatalPlpUpdate(Request $request, $id)
     {
         
     }
