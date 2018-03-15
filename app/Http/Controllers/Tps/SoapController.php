@@ -171,7 +171,6 @@ class SoapController extends DefaultController {
     
     public function GetResponPLP_Tujuan()
     {
-
         \SoapWrapper::add(function ($service) {
             $service
                 ->name('TpsOnlineSoap')
@@ -265,6 +264,90 @@ class SoapController extends DefaultController {
         
         return back()->with('success', 'Get Respon PLP has been success.');
         
+    }
+    
+    public function GetResponBatalPLP_Tujuan()
+    {
+        \SoapWrapper::add(function ($service) {
+            $service
+                ->name('TpsOnline_GetResponBatalPLPTujuan')
+                ->wsdl($this->wsdl)
+                ->trace(true)   
+//                ->certificate()                                                 
+                ->cache(WSDL_CACHE_NONE)  
+                ->options([
+                    'soap_version' => SOAP_1_2,
+                    'ssl'           => array(
+                        'ciphers'=> "SHA1",
+                        'verify_peer' => false, 
+                        'allow_self_signed' => true
+                    ),
+                    'https' => array(
+                        'curl_verify_ssl_peer'  => false,
+                        'curl_verify_ssl_host'  => false
+                    ),
+                    'exceptions' => 0
+                ]);                                                    
+        });
+        
+        $data = [
+            'Username' => $this->user, 
+            'Password' => $this->password,
+            'Kd_asp' => $this->kode
+        ];
+        
+        try{
+            \SoapWrapper::service('TpsOnline_GetResponBatalPLPTujuan', function ($service) use ($data) {        
+                $this->response = $service->call('GetResponBatalPLPTujuan', [$data])->GetResponBatalPLPTujuanResult;      
+            });
+        }catch (\SoapFault $exception){
+            var_dump($exception);
+        }
+        
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($this->response);
+        if(!$xml  || !$xml->children()){
+           return back()->with('error', $this->response);
+        }
+        
+        $header = array();
+        $details = [];
+        foreach($xml->children() as $child) {
+            foreach($child as $key => $value) {
+                if($key == 'header' || $key == 'HEADER'){
+                    $header[] = $value;
+                }else{
+                    foreach ($value as $detail):
+                        $details[] = $detail;
+                    endforeach;
+                }
+            }
+        }
+        
+        // INSERT DATA
+        $respon = new \App\Models\TpsResponBatalPlp;
+        foreach ($header[0] as $key=>$value):
+            $respon->$key = $value;
+        endforeach;
+        $respon->LASTUPDATE = date('Y-m-d H:i:s');
+        $respon->save();
+        
+        $plp_id = $respon->tps_responplpbataltujuanxml_pk;
+
+        foreach ($details as $detail):     
+            $respon_detail = new \App\Models\TpsResponBatalPlpDetail;
+            $respon_detail->tps_responplpbataltujuanxml_fk = $plp_id;
+            $respon_detail->NO_PLP = $respon->NO_PLP;
+            $respon_detail->TGL_PLP = $respon->TGL_PLP;
+            $respon_detail->NO_BATAL_PLP = $respon->NO_BATAL_PLP;
+            $respon_detail->TGL_BATAL_PLP = $respon->TGL_BATAL_PLP;
+            foreach($detail as $key=>$value):
+                $respon_detail->$key = $value;
+            endforeach;
+            $respon_detail->save();
+        endforeach;
+        
+        return back()->with('success', 'Get Respon Batal PLP has been success.');
     }
     
     public function GetOB()

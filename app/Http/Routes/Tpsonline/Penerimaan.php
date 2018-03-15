@@ -43,6 +43,10 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsResponBatalPlp(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
+    Route::get('/respon-batal-plp/get-xml', [
+        'as' => 'tps-responBatalPlp-get',
+        'uses' => 'SoapController@GetResponBatalPLP_Tujuan'
+    ]);
        
     // OB LCL
     Route::get('/ob-lcl', [

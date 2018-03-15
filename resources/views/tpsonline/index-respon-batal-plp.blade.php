@@ -5,6 +5,18 @@
     .datepicker.dropdown-menu {
         z-index: 100 !important;
     }
+    .ui-jqgrid tr.jqgrow td {
+        word-wrap: break-word; /* IE 5.5+ and CSS3 */
+        white-space: pre-wrap; /* CSS3 */
+        white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        overflow: hidden;
+        height: auto;
+        vertical-align: middle;
+        padding-top: 3px;
+        padding-bottom: 3px
+    }
 </style>
 <!--<script>
  
@@ -27,6 +39,9 @@
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">TPS Respon Batal PLP</h3>
+        <div class="box-tools">
+            <a href="{{ route('tps-responBatalPlp-get') }}" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Get Data</a>
+        </div>
     </div>
     <div class="box-body table-responsive">
         <div class="row" style="margin-bottom: 30px;margin-right: 0;">
@@ -82,29 +97,30 @@
 //            ->setGridEvent('gridComplete', 'gridCompleteEvent')
 //            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('key'=>true,'index'=>'tps_responplpbataltujuanxml_pk','hidden'=>true))
-            ->addColumn(array('label'=>'Tgl. Upload','index'=>'TGL_UPLOAD','width'=>160,'align'=>'center'))
-//            ->addColumn(array('label'=>'Tgl. Upload','index'=>'UPLOAD_DATE','width'=>160,'align'=>'center','hidden'=>true))	
-//            ->addColumn(array('label'=>'Jam Upload','index'=>'UPLOAD_TIME','width'=>160,'align'=>'center','hidden'=>true))	
+            ->addColumn(array('label'=>'Ref. Number','index'=>'REF_NUMBER','width'=>160))
             ->addColumn(array('label'=>'Kode Kantor','index'=>'KD_KANTOR','width'=>160))
-            ->addColumn(array('label'=>'Kode TPS','index'=>'KD_TPS','width'=>160))
+            ->addColumn(array('label'=>'Kode TPS','index'=>'KD_TPS_TUJUAN','width'=>160,'align'=>'center'))
             ->addColumn(array('label'=>'TPS Asal','index'=>'KD_TPS_ASAL','width'=>160,'align'=>'center'))
-//            ->addColumn(array('label'=>'Gudang Tujuan','index'=>'GUDANG_TUJUAN','width'=>160,'hidden'=>true))
+            ->addColumn(array('label'=>'Gudang Tujuan','index'=>'GUDANG_TUJUAN','width'=>160,'align'=>'center'))
+            ->addColumn(array('label'=>'Gudang Asal','index'=>'GUDANG_ASAL','width'=>160,'align'=>'center'))
+            ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','width'=>160))
+            ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','width'=>160,'align'=>'center'))
             ->addColumn(array('label'=>'No. Batal PLP','index'=>'NO_BATAL_PLP','width'=>160))
             ->addColumn(array('label'=>'Tgl. Batal PLP','index'=>'TGL_BATAL_PLP','width'=>160,'align'=>'center'))
 //            ->addColumn(array('label'=>'Call Sign','index'=>'CALL_SIGN','width'=>160,'hidden'=>true))
 //            ->addColumn(array('label'=>'Nama Angkut','index'=>'NM_ANGKUT','width'=>160))
 //            ->addColumn(array('label'=>'No. Voy Flight','index'=>'NO_VOY_FLIGHT','width'=>160))
 //            ->addColumn(array('label'=>'Tgl. Tiba','index'=>'TGL_TIBA','width'=>160,'align'=>'center'))	
-            ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','width'=>160))
-            ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','width'=>160))
+            
 //            ->addColumn(array('label'=>'No. BC11','index'=>'NO_BC11','width'=>160))
 //            ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','width'=>160,'align'=>'center'))
 //            ->addColumn(array('label'=>'Jenis','index'=>'JNS_CONT','width'=>100,'align'=>'center'))
-            ->addColumn(array('label'=>'Updated','index'=>'LASTUPDATE','width'=>160,'align'=>'center'))
-            ->addColumn(array('label'=>'UID','index'=>'UID','width'=>160,'align'=>'center'))
+            ->addColumn(array('label'=>'Alasan','index'=>'ALASAN_BATAL','width'=>250))
+            ->addColumn(array('label'=>'Tgl. Upload','index'=>'TGL_UPLOAD','width'=>160,'align'=>'center'))
+//            ->addColumn(array('label'=>'UID','index'=>'UID','width'=>160,'align'=>'center'))
 //            ->addColumn(array('label'=>'YOR TPS Asal','index'=>'YOR_TPS_ASAL','width'=>160,'hidden'=>true))
 //            ->addColumn(array('label'=>'YOR TPS Tujuan','index'=>'YOR_TPS_TUJUAN','width'=>160,'hidden'=>true))
-//            ->addColumn(array('label'=>'Alasan','index'=>'ALASAN','width'=>160,'hidden'=>true))
+            
 //            ->addColumn(array('label'=>'Lampiran','index'=>'LAMPIRAN','width'=>160,'hidden'=>true))          
 //            ->addColumn(array('label'=>'Flag SPK','index'=>'FLAG_SPK','width'=>160,'hidden'=>true))
 //            ->addColumn(array('index'=>'TCONSOLIDATOR_FK','width'=>160,'hidden'=>true))
