@@ -15,9 +15,9 @@ class PaymentController extends Controller
 
     public function __construct() {
 //        parent::__construct();
-        $this->url = 'https://apibeta.bni-ecollection.com/'; //Demo
-//        $this->url = 'https://api.bni-ecollection.com/'; //Real
-        $this->client_id = '585';
+//        $this->url = 'https://apibeta.bni-ecollection.com/'; //Demo
+        $this->url = 'https://api.bni-ecollection.com/'; //Real
+        $this->client_id = '586';
     }
     
     public function index()
@@ -74,7 +74,6 @@ class PaymentController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-        
         
         $last_id = \App\Models\PaymentBni::select('id')
 //                ->whereDate('created_at', date('Y-m-d'))
