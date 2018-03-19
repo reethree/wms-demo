@@ -14,7 +14,7 @@ class PaymentController extends Controller
     protected $url;
 
     public function __construct() {
-        parent::__construct();
+//        parent::__construct();
         $this->url = 'https://apibeta.bni-ecollection.com/'; //Demo
 //        $this->url = 'https://api.bni-ecollection.com/'; //Real
         $this->client_id = 585;
@@ -22,9 +22,9 @@ class PaymentController extends Controller
     
     public function index()
     {
-        if ( !$this->access->can('show.payment.index') ) {
-            return view('errors.no-access');
-        }
+//        if ( !$this->access->can('show.payment.index') ) {
+//            return view('errors.no-access');
+//        }
         
         $data['page_title'] = "BNI E-Collection";
         $data['page_description'] = "";
@@ -40,9 +40,9 @@ class PaymentController extends Controller
     
     public function edit($id)
     {
-        if ( !$this->access->can('show.payment.edit') ) {
-            return view('errors.no-access');
-        }
+//        if ( !$this->access->can('show.payment.edit') ) {
+//            return view('errors.no-access');
+//        }
         
         $data['page_title'] = "Edit Billing";
         $data['page_description'] = "";
