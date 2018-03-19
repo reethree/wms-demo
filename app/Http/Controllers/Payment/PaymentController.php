@@ -17,7 +17,7 @@ class PaymentController extends Controller
 //        parent::__construct();
         $this->url = 'https://apibeta.bni-ecollection.com/'; //Demo
 //        $this->url = 'https://api.bni-ecollection.com/'; //Real
-        $this->client_id = 585;
+        $this->client_id = '585';
     }
     
     public function index()
@@ -298,16 +298,14 @@ class PaymentController extends Controller
                 // handling orang iseng
             return json_encode(array('status' => 999, 'message' => 'Oopss... Something wrong!!!'));
 //                echo '{"status":"999","message":"Oopss... Something wrong!!!"}';
-        }
-        else {
+        } else {
             if ($data_json['client_id'] === $this->client_id) {
                 $data_callback = BniEnc::decrypt($data_json['data']);
                 if (!$data_callback) {
                     // handling jika waktu server salah/tdk sesuai atau secret key salah
                     return json_encode(array('status' => 999, 'message' => 'Waktu server tidak sesuai NTP atau secret key salah.'));
 //                                echo '{"status":"999","message":"waktu server tidak sesuai NTP atau secret key salah."}';
-                }
-                else {
+                } else {
                     // Update Billing
                     $update = \App\Models\PaymentBni::where('trx_id', $data_callback['trx_id'])->update($data_callback);
                     if($update) {
@@ -318,7 +316,7 @@ class PaymentController extends Controller
                     
                 }
             }else{
-                return json_encode(array('status' => 999, 'message' => 'Trx_id not found.'));
+                return json_encode(array('status' => 999, 'message' => 'Invalid Client ID.'));
             }
         }
     }
