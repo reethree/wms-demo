@@ -307,9 +307,10 @@ class PaymentController extends Controller
 //                                echo '{"status":"999","message":"waktu server tidak sesuai NTP atau secret key salah."}';
                 } else {
                     // Update Billing
+                    $data_callback['va_status'] = 2;
                     $update = \App\Models\PaymentBni::where('trx_id', $data_callback['trx_id'])->update($data_callback);
                     if($update) {
-                        return json_encode(array('status' => 000, 'message' => 'Notification Success.'));
+                        return json_encode(array('status' => 000));
                     }
                     
                     return json_encode(array('status' => 999, 'message' => 'Cannot update database.'));
