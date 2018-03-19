@@ -296,28 +296,28 @@ class PaymentController extends Controller
 
         if (!$data_json) {
                 // handling orang iseng
-            return json_encode(array('status' => 999, 'message' => 'Oopss... Something wrong!!!'));
+            return json_encode(array('status' => '999', 'message' => 'Oopss... Something wrong!!!'));
 //                echo '{"status":"999","message":"Oopss... Something wrong!!!"}';
         } else {
             if ($data_json['client_id'] === $this->client_id) {
                 $data_callback = BniEnc::decrypt($data_json['data']);
                 if (!$data_callback) {
                     // handling jika waktu server salah/tdk sesuai atau secret key salah
-                    return json_encode(array('status' => 999, 'message' => 'Waktu server tidak sesuai NTP atau secret key salah.'));
+                    return json_encode(array('status' => '999', 'message' => 'Waktu server tidak sesuai NTP atau secret key salah.'));
 //                                echo '{"status":"999","message":"waktu server tidak sesuai NTP atau secret key salah."}';
                 } else {
                     // Update Billing
                     $data_callback['va_status'] = 2;
                     $update = \App\Models\PaymentBni::where('trx_id', $data_callback['trx_id'])->update($data_callback);
                     if($update) {
-                        return json_encode(array('status' => 000));
+                        return json_encode(array('status' => '000'));
                     }
                     
-                    return json_encode(array('status' => 999, 'message' => 'Cannot update database.'));
+                    return json_encode(array('status' => '999', 'message' => 'Cannot update database.'));
                     
                 }
             }else{
-                return json_encode(array('status' => 999, 'message' => 'Invalid Client ID.'));
+                return json_encode(array('status' => '999', 'message' => 'Invalid Client ID.'));
             }
         }
     }
