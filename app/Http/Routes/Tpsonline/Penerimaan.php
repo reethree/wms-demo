@@ -13,6 +13,10 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
 //        'uses' => 'SoapController@GetResponPLP'
         'uses' => 'SoapController@GetResponPLP_Tujuan'
     ]);
+    Route::post('/respon-plp/on-demand', [
+        'as' => 'tps-responPlp-onDemand',
+        'uses' => 'SoapController@GetResponPLP_onDemand'
+    ]);
     Route::get('/respon-plp/edit/{id}', [
         'as' => 'tps-responPlp-edit',
         'uses' => 'PenerimaanController@responPlpEdit'
@@ -39,13 +43,17 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-responBatalPlp-index',
         'uses' => 'PenerimaanController@responBatalPlpIndex'
     ]);
-    Route::get('/respon-batal-plp/grid-data', function()
+    Route::post('/respon-batal-plp/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsResponBatalPlp(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
     Route::get('/respon-batal-plp/get-xml', [
         'as' => 'tps-responBatalPlp-get',
         'uses' => 'SoapController@GetResponBatalPLP_Tujuan'
+    ]);
+    Route::post('/respon-batal-plp/on-demand', [
+        'as' => 'tps-responBatalPlp-onDemand',
+        'uses' => 'SoapController@GetResponBatalPLP_onDemand'
     ]);
     Route::get('/respon-batal-plp/edit/{id}', [
         'as' => 'tps-responBatalPlp-edit',
@@ -95,7 +103,7 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-spjm-index',
         'uses' => 'PenerimaanController@spjmIndex'
     ]);
-    Route::get('/spjm/grid-data', function()
+    Route::post('/spjm/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsSpjm(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
@@ -110,7 +118,7 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-dokManual-index',
         'uses' => 'PenerimaanController@dokManualIndex'
     ]);
-    Route::get('/dok-manual/grid-data', function()
+    Route::post('/dok-manual/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsDokManual(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });

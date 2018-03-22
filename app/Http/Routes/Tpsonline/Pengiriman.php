@@ -135,5 +135,33 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
         'as' => 'tps-codecoKms-upload',
         'uses' => 'PengirimanController@codecoKmsCreateXml'
     ]);
+    
+    // REALISASI BONGKAR MUAT
+    Route::get('/realisasi-bongkar-muat', [
+        'as' => 'tps-realisasiBongkarMuat-index',
+        'uses' => 'PengirimanController@realisasiBongkarMuatIndex'
+    ]);
+    Route::post('/realisasi-bongkar-muat/grid-data', function()
+    {
+        GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsTotalRealisasiBongkarMuat(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
+    });
+    
+    // LAPORAN YOR
+    Route::get('/laporan-yor', [
+        'as' => 'tps-laporanYor-index',
+        'uses' => 'PengirimanController@laporanYorIndex'
+    ]);
+    Route::post('/laporan-yor/grid-data', function()
+    {
+        GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsLaporanYor(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
+    });
+    Route::get('/laporan-yor/edit/{id}', [
+        'as' => 'tps-laporanYor-edit',
+        'uses' => 'PengirimanController@laporanYorEdit'
+    ]);
+    Route::get('/laporan-yor/create-xml/{id}', [
+        'as' => 'tps-laporanYor-upload',
+        'uses' => 'PengirimanController@laporanYorCreateXml'
+    ]);
 });
 
