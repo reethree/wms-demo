@@ -14,7 +14,7 @@
     <nav class="navbar navbar-static-top">
       <div class="container">
         <div class="navbar-header">
-          <a href="{{ route('index') }}" class="navbar-brand"><b>PRIMANATA</b></a>
+          <a href="{{ route('index') }}" class="navbar-brand"><b>WMS</b></a>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
             <i class="fa fa-bars"></i>
           </button>
@@ -197,12 +197,14 @@
                                                   <li><a href="{{ route('tps-codecoKms-index') }}">Codeco KMS</a></li>
                                               </ul>
                                         </li>
+                                        <li><a href="{{ route('tps-realisasiBongkarMuat-index') }}">Realisasi Bongkar Muat</a></li>
+                                        <li><a href="{{ route('tps-laporanYor-index') }}">Laporan YOR</a></li>
                                   </ul>
                             </li>
                             <li><a href="{{ route('tps-reject-index') }}">Coari Codeco Reject</a></li>
                             <li><a href="{{ route('tps-terkirim-index') }}">Coari Codeco Terkirim</a></li>
                             <li><a href="{{ route('tps-gagal-index') }}">Coari Codeco Gagal</a></li>
-                            <li><a href="#">TPS Log Sevice</a></li>
+<!--                            <li><a href="#">TPS Log Sevice</a></li>-->
                             
                         </ul>
                   </li>
