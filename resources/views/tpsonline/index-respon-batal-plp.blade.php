@@ -3,7 +3,7 @@
 @section('content')
 <style>
     .datepicker.dropdown-menu {
-        z-index: 100 !important;
+        /*z-index: 100 !important;*/
     }
     .ui-jqgrid tr.jqgrow td {
         word-wrap: break-word; /* IE 5.5+ and CSS3 */
@@ -80,7 +80,8 @@
         {{
             GridRender::setGridId("tpsResponBatalPlpGrid")
             ->enableFilterToolbar()
-            ->setGridOption('url', URL::to('/tpsonline/penerimaan/respon-batal-plp/grid-data'))
+            ->setGridOption('mtype', 'POST')
+            ->setGridOption('url', URL::to('/tpsonline/penerimaan/respon-batal-plp/grid-data?_token='.csrf_token()))
             ->setGridOption('rowNum', 20)
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','tps_responplpbataltujuanxml_pk')
@@ -104,29 +105,62 @@
             ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','width'=>160,'align'=>'center'))
             ->addColumn(array('label'=>'No. Batal PLP','index'=>'NO_BATAL_PLP','width'=>160))
             ->addColumn(array('label'=>'Tgl. Batal PLP','index'=>'TGL_BATAL_PLP','width'=>160,'align'=>'center'))
-//            ->addColumn(array('label'=>'Call Sign','index'=>'CALL_SIGN','width'=>160,'hidden'=>true))
-//            ->addColumn(array('label'=>'Nama Angkut','index'=>'NM_ANGKUT','width'=>160))
-//            ->addColumn(array('label'=>'No. Voy Flight','index'=>'NO_VOY_FLIGHT','width'=>160))
-//            ->addColumn(array('label'=>'Tgl. Tiba','index'=>'TGL_TIBA','width'=>160,'align'=>'center'))	
-            
-//            ->addColumn(array('label'=>'No. BC11','index'=>'NO_BC11','width'=>160))
-//            ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','width'=>160,'align'=>'center'))
-//            ->addColumn(array('label'=>'Jenis','index'=>'JNS_CONT','width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Alasan','index'=>'ALASAN_BATAL','width'=>250))
             ->addColumn(array('label'=>'Tgl. Upload','index'=>'TGL_UPLOAD','width'=>160,'align'=>'center'))
-//            ->addColumn(array('label'=>'UID','index'=>'UID','width'=>160,'align'=>'center'))
-//            ->addColumn(array('label'=>'YOR TPS Asal','index'=>'YOR_TPS_ASAL','width'=>160,'hidden'=>true))
-//            ->addColumn(array('label'=>'YOR TPS Tujuan','index'=>'YOR_TPS_TUJUAN','width'=>160,'hidden'=>true))
-            
-//            ->addColumn(array('label'=>'Lampiran','index'=>'LAMPIRAN','width'=>160,'hidden'=>true))          
-//            ->addColumn(array('label'=>'Flag SPK','index'=>'FLAG_SPK','width'=>160,'hidden'=>true))
-//            ->addColumn(array('index'=>'TCONSOLIDATOR_FK','width'=>160,'hidden'=>true))
-//            ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>160,'hidden'=>true))
-//            ->addColumn(array('label'=>'Alasan Pindah','index'=>'APL','width'=>160,'hidden'=>true))
             ->renderGrid()
         }}
+        <div class="row" style="margin: 30px 0 0;">
+            <button class="btn btn-info" id="upload-plpbatal-btn"><i class="fa fa-upload"></i> On Demand</button>
+        </div>
     </div>
 </div>
+
+<div id="upload-plpbatal-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Get Respon Batal PLP On Demand</h4>
+            </div>
+            <form class="form-horizontal" action="{{ route('tps-responBatalPlp-onDemand') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">NO. Batal PLP</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="no_batalplp" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tgl. Batal PLP</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" name="tgl_batalplp" class="form-control pull-right datepicker" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Ref Number</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="refnumber" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
+                  <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 @endsection
 
@@ -156,6 +190,10 @@
         var enddate = $("#enddate").val();
         jQuery("#tpsResponBatalPlpGrid").jqGrid('setGridParam',{url:"{{URL::to('/tpsonline/penerimaan/respon-batal-plp/grid-data')}}?startdate="+startdate+"&enddate="+enddate+"&by="+by}).trigger("reloadGrid");
         return false;
+    });
+    
+    $('#upload-plpbatal-btn').on("click", function(){
+        $('#upload-plpbatal-modal').modal('show');
     });
 </script>
 

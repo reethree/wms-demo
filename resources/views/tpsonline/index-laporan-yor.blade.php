@@ -3,33 +3,30 @@
 @section('content')
 <style>
     .datepicker.dropdown-menu {
-        z-index: 100 !important;
+        /*z-index: 100 !important;*/
     }
 </style>
-<!--<script>
- 
+<script>
+    
     function gridCompleteEvent()
     {
-        var ids = jQuery("#tpsDokManualGrid").jqGrid('getDataIDs'),
+        var ids = jQuery("#tpsLaporanYorGrid").jqGrid('getDataIDs'),
             edt = '',
-            del = ''; 
+            upl = ''; 
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
             
-            edt = '<a href="{{ route("tps-responPlp-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i> Details</a> ';
-            del = '<a href="{{ route("lcl-register-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
-            jQuery("#tpsDokManualGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
+            edt = '<a href="{{ route("tps-laporanYor-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
+            upl = '<a href="{{ route("tps-laporanYor-upload",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>';
+            jQuery("#tpsLaporanYorGrid").jqGrid('setRowData',ids[i],{action:edt+' |  '+upl}); 
         } 
     }
     
-</script>-->
+</script>
 
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">TPS Dokumen Manual</h3>
-        <div class="box-tools">
-            <a href="{{ route('tps-dokManual-get') }}" type="button" class="btn btn-block btn-info btn-sm"><i class="fa fa-plus"></i> Get Data</a>
-        </div>
+        <h3 class="box-title">TPS Laporan YOR</h3>
     </div>
     <div class="box-body table-responsive">
         <div class="row" style="margin-bottom: 30px;margin-right: 0;">
@@ -38,10 +35,7 @@
                 <div class="col-xs-12">&nbsp;</div>
                 <div class="col-xs-3">
                     <select class="form-control select2" id="by" name="by" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                        <option value="TGL_UPLOAD">Tgl. Upload</option>
-                        <option value="TGL_DOK_INOUT">Tgl. Dok. In/Out</option>
-                        <option value="TGL_BC11">Tgl. BC11</option>    
-                        <option value="TGL_BL_AWB">Tgl. BL AWB</option>
+                        <option value="TGL_LAPORAN">Tgl. Laporan</option>                        
                     </select>
                 </div>
                 <div class="col-xs-3">
@@ -69,13 +63,13 @@
             </div>
         </div>
         {{
-            GridRender::setGridId("tpsDokManualGrid")
+            GridRender::setGridId("tpsLaporanYorGrid")
             ->enableFilterToolbar()
             ->setGridOption('mtype', 'POST')
-            ->setGridOption('url', URL::to('/tpsonline/penerimaan/dok-manual/grid-data?_token='.csrf_token()))
+            ->setGridOption('url', URL::to('/tpsonline/pengiriman/laporan-yor/grid-data?_token='.csrf_token()))
             ->setGridOption('rowNum', 20)
             ->setGridOption('shrinkToFit', true)
-            ->setGridOption('sortname','TPS_DOKMANUALXML_PK')
+            ->setGridOption('sortname','id')
             ->setGridOption('rownumbers', true)
             ->setGridOption('height', '295')
             ->setGridOption('rowList',array(20,50,100))
@@ -83,31 +77,15 @@
             ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
             ->setNavigatorOptions('view',array('closeOnEscape'=>false))
             ->setFilterToolbarOptions(array('autosearch'=>true))
-//            ->setGridEvent('gridComplete', 'gridCompleteEvent')
-//            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
-            ->addColumn(array('key'=>true,'index'=>'TPS_DOKMANUALXML_PK','hidden'=>true))
-
-            ->addColumn(array('label'=>'Kode Kantor','index'=>'KD_KANTOR','width'=>160))
-            ->addColumn(array('label'=>'Kode Dok. In/out','index'=>'KD_DOK_INOUT','width'=>160))
-            ->addColumn(array('label'=>'No. Dok. In/out','index'=>'NO_DOK_INOUT','width'=>160))
-            ->addColumn(array('label'=>'Tgl. Dok. In/out','index'=>'TGL_DOK_INOUT','width'=>160))
-            ->addColumn(array('index'=>'ID_CONSIGNEE','width'=>160,'hidden'=>true))
-            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))
-            ->addColumn(array('label'=>'NPWP PPJK','index'=>'NPWP_PPJK','width'=>160))
-            ->addColumn(array('label'=>'Nama PPJK','index'=>'NAMA_PPJK','width'=>160))
-            ->addColumn(array('label'=>'Nama Angkut','index'=>'NM_ANGKUT','width'=>160))
-            ->addColumn(array('label'=>'No. VOY Flight','index'=>'NO_VOY_FLIGHT','width'=>160))
+            ->setGridEvent('gridComplete', 'gridCompleteEvent')
+            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+            ->addColumn(array('key'=>true,'index'=>'id','hidden'=>true))
+            ->addColumn(array('label'=>'Response','index'=>'RESPONSE','width'=>160,'align'=>'center'))
+            ->addColumn(array('label'=>'Ref. Number','index'=>'REF_NUMBER','width'=>160,'align'=>'center'))
+            ->addColumn(array('label'=>'Kode TPS','index'=>'KD_TPS','width'=>160,'align'=>'center'))
             ->addColumn(array('label'=>'Kode Gudang','index'=>'KD_GUDANG','width'=>160))
-            ->addColumn(array('label'=>'Jumlah Cont.','index'=>'JML_CONT','width'=>160))
-            ->addColumn(array('label'=>'No. BC11','index'=>'NO_BC11','width'=>160))
-            ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','width'=>160))
-            ->addColumn(array('label'=>'Tgl. POS BC11','index'=>'NO_POS_BC11','width'=>160))
-            ->addColumn(array('label'=>'No. BL AWB','index'=>'NO_BL_AWB','width'=>160))
-            ->addColumn(array('label'=>'Tgl. BL AWB','index'=>'TGL_BL_AWB','width'=>160))
-            ->addColumn(array('label'=>'FL Segel','index'=>'FL_SEGEL','width'=>160))
-            ->addColumn(array('label'=>'Tgl. Upload','index'=>'TGL_UPLOAD','width'=>160))
-            ->addColumn(array('label'=>'Jam. Upload','index'=>'JAM_UPLOAD','width'=>160))
-
+            ->addColumn(array('label'=>'Tgl. Laporan','index'=>'TGL_LAPORAN','width'=>160,'align'=>'center'))
+            ->addColumn(array('label'=>'UID','index'=>'uid','width'=>160,'align'=>'center'))
             ->renderGrid()
         }}
     </div>
@@ -139,9 +117,10 @@
         var by = $("#by").val();
         var startdate = $("#startdate").val();
         var enddate = $("#enddate").val();
-        jQuery("#tpsDokManualGrid").jqGrid('setGridParam',{url:"{{URL::to('/tpsonline/penerimaan/dok-manual/grid-data')}}?startdate="+startdate+"&enddate="+enddate+"&by="+by}).trigger("reloadGrid");
+        jQuery("#tpsLaporanYorGrid").jqGrid('setGridParam',{url:"{{URL::to('/tpsonline/pengiriman/laporan-yor/grid-data')}}?startdate="+startdate+"&enddate="+enddate+"&by="+by}).trigger("reloadGrid");
         return false;
     });
+    
 </script>
 
 @endsection

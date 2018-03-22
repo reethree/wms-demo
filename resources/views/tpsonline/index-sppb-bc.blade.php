@@ -5,6 +5,18 @@
     .datepicker.dropdown-menu {
         z-index: 100 !important;
     }
+    .ui-jqgrid tr.jqgrow td {
+        word-wrap: break-word; /* IE 5.5+ and CSS3 */
+        white-space: pre-wrap; /* CSS3 */
+        white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        overflow: hidden;
+        height: auto;
+        vertical-align: middle;
+        padding-top: 3px;
+        padding-bottom: 3px
+    }
 </style>
 <script>
  
@@ -88,7 +100,7 @@
             ->addColumn(array('key'=>true,'index'=>'TPS_SPPBXML_PK','hidden'=>true))
 
             ->addColumn(array('label'=>'CAR','index'=>'CAR','width'=>300))    
-            ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB','width'=>1600,'align'=>'center'))
+            ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB','width'=>250,'align'=>'center'))
             ->addColumn(array('label'=>'Tgl. SPPB','index'=>'TGL_SPPB','width'=>160,'align'=>'center'))
             ->addColumn(array('label'=>'No. SPK','index'=>'NOJOBORDER','width'=>160))
             ->addColumn(array('label'=>'Kode Pengawas','index'=>'KD_KANTOR_PENGAWAS','width'=>160,'align'=>'center'))

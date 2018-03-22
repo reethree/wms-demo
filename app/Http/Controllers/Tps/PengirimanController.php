@@ -19,6 +19,8 @@ class PengirimanController extends Controller
 
     public function __construct() {
         
+        parent::__construct();
+        
         $this->wsdl = 'https://tpsonline.beacukai.go.id/tps/service.asmx?WSDL';
         $this->user = 'PRJP';
         $this->password = 'PRIMANATA';
@@ -36,9 +38,9 @@ class PengirimanController extends Controller
    
     public function coariContIndex()
     {
-//        if ( !$this->access->can('show.tps.coariCont.index') ) {
-//            return view('errors.no-access');
-//        }
+        if ( !$this->access->can('show.tps.coariCont.index') ) {
+            return view('errors.no-access');
+        }
         
         $data['page_title'] = "TPS Coari Container";
         $data['page_description'] = "";
@@ -54,9 +56,9 @@ class PengirimanController extends Controller
     
     public function coariKmsIndex()
     {
-//        if ( !$this->access->can('show.tps.coariKms.index') ) {
-//            return view('errors.no-access');
-//        }
+        if ( !$this->access->can('show.tps.coariKms.index') ) {
+            return view('errors.no-access');
+        }
         
         $data['page_title'] = "TPS Coari Kemasan";
         $data['page_description'] = "";
@@ -72,9 +74,9 @@ class PengirimanController extends Controller
 
     public function codecoContFclIndex()
     {
-//        if ( !$this->access->can('show.tps.codecoContFcl.index') ) {
-//            return view('errors.no-access');
-//        }
+        if ( !$this->access->can('show.tps.codecoContFcl.index') ) {
+            return view('errors.no-access');
+        }
         
         $data['page_title'] = "TPS Codeco Cont FCL";
         $data['page_description'] = "";
@@ -90,9 +92,9 @@ class PengirimanController extends Controller
     
     public function codecoContBuangMtyIndex()
     {
-//        if ( !$this->access->can('show.tps.codecoContBuangMty.index') ) {
-//            return view('errors.no-access');
-//        }
+        if ( !$this->access->can('show.tps.codecoContBuangMty.index') ) {
+            return view('errors.no-access');
+        }
         
         $data['page_title'] = "TPS Codeco Cont Buang MTY";
         $data['page_description'] = "";
@@ -108,9 +110,9 @@ class PengirimanController extends Controller
     
     public function codecoKmsIndex()
     {
-//        if ( !$this->access->can('show.tps.codecoKms.index') ) {
-//            return view('errors.no-access');
-//        }
+        if ( !$this->access->can('show.tps.codecoKms.index') ) {
+            return view('errors.no-access');
+        }
         
         $data['page_title'] = "TPS Codeco Kemasan";
         $data['page_description'] = "";
@@ -122,6 +124,42 @@ class PengirimanController extends Controller
         ];        
         
         return view('tpsonline.index-codeco-kms')->with($data);
+    }
+    
+    public function realisasiBongkarMuatIndex()
+    {
+        if ( !$this->access->can('show.tps.realisasiBongkarMuat.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "TPS Total Realisasi Bongkar Muat";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'TPS Realisasi Bongkar Muat'
+            ]
+        ];        
+        
+        return view('tpsonline.index-realisasi-bongkar-muat')->with($data);
+    }
+    
+    public function laporanYorIndex()
+    {
+        if ( !$this->access->can('show.tps.laporanYor.index') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "TPS Laporan YOR";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'TPS Laporan YOR'
+            ]
+        ];        
+        
+        return view('tpsonline.index-laporan-yor')->with($data);
     }
     
     /**
@@ -169,9 +207,9 @@ class PengirimanController extends Controller
     
     public function coariContEdit($id)
     {
-//        if ( !$this->access->can('show.tps.coariCont.edit') ) {
-//            return view('errors.no-access');
-//        }
+        if ( !$this->access->can('show.tps.coariCont.edit') ) {
+            return view('errors.no-access');
+        }
         
         $data['page_title'] = "Edit TPS COARI CONT";
         $data['page_description'] = "";
@@ -194,9 +232,9 @@ class PengirimanController extends Controller
     
     public function coariKmsEdit($id)
     {
-//        if ( !$this->access->can('show.tps.coariKms.edit') ) {
-//            return view('errors.no-access');
-//        }
+        if ( !$this->access->can('show.tps.coariKms.edit') ) {
+            return view('errors.no-access');
+        }
         
         $data['page_title'] = "Edit TPS COARI Kemasan";
         $data['page_description'] = "";
@@ -219,9 +257,9 @@ class PengirimanController extends Controller
     
     public function codecoContFclEdit($id)
     {
-//        if ( !$this->access->can('show.tps.codecoCont.edit') ) {
-//            return view('errors.no-access');
-//        }
+        if ( !$this->access->can('show.tps.codecoCont.edit') ) {
+            return view('errors.no-access');
+        }
         
         $data['page_title'] = "Edit TPS CODECO CONT";
         $data['page_description'] = "";
@@ -244,9 +282,9 @@ class PengirimanController extends Controller
     
     public function codecoContBuangMtyEdit($id)
     {
-//        if ( !$this->access->can('show.tps.codecoContBuangMty.edit') ) {
-//            return view('errors.no-access');
-//        }
+        if ( !$this->access->can('show.tps.codecoContBuangMty.edit') ) {
+            return view('errors.no-access');
+        }
         
         $data['page_title'] = "Edit TPS CODECO Buang MTY";
         $data['page_description'] = "";
@@ -269,9 +307,9 @@ class PengirimanController extends Controller
     
     public function codecoKmsEdit($id)
     {
-//        if ( !$this->access->can('show.tps.codecoKms.edit') ) {
-//            return view('errors.no-access');
-//        }
+        if ( !$this->access->can('show.tps.codecoKms.edit') ) {
+            return view('errors.no-access');
+        }
         
         $data['page_title'] = "Edit TPS CODECO Kemasan";
         $data['page_description'] = "";
@@ -290,6 +328,30 @@ class PengirimanController extends Controller
 //        $data['detail'] = \App\Models\TpsCoariKmsDetail::where('TPSCOARIKMSXML_FK', $id)->first();
         
         return view('tpsonline.edit-codeco-kms')->with($data);
+    }
+    
+    public function laporanYorEdit($id)
+    {
+        if ( !$this->access->can('show.tps.laporanYor.edit') ) {
+            return view('errors.no-access');
+        }
+        
+        $data['page_title'] = "Edit TPS Laporan Yor";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => route('tps-laporanYor-index'),
+                'title' => 'TPS Laporan YOR'
+            ],
+            [
+                'action' => '',
+                'title' => 'Edit'
+            ]
+        ];
+        
+        $data['header'] = \App\Models\TpsLaporanYor::find($id);
+
+        return view('tpsonline.edit-laporan-yor')->with($data);
     }
     
     /**
@@ -825,6 +887,87 @@ class PengirimanController extends Controller
         var_dump($this->response);
     }
     
+    public function laporanYorCreateXml($id)
+    {
+        if(!$id){ return false; }
+        
+        $dataHeader = \App\Models\TpsLaporanYor::find($id);
+        $dataDetailImport = \App\Models\TpsLaporanYorDetail::where(array('tpslaporanyor_id' => $id, 'TYPE' => 'import'))->get();
+        $dataDetailExport = \App\Models\TpsLaporanYorDetail::where(array('tpslaporanyor_id' => $id, 'TYPE' => 'export'))->get();
+        
+        $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><DOCUMENT></DOCUMENT>');       
+        
+        $xmldata = $xml->addAttribute('xmlns', 'laporanyor.xsd');
+        $xmldata = $xml->addchild('LAPORAN');
+        
+        $xmldata->addChild('REF_NUMBER', $dataHeader->REF_NUMBER);
+        $xmldata->addChild('KD_TPS', $dataHeader->KD_TPS);
+        $xmldata->addChild('KD_GUDANG', $dataHeader->KD_GUDANG);
+        $xmldata->addChild('TGL_LAPORAN', $dataHeader->TGL_LAPORAN);
+        
+        $import = $xmldata->addChild('IMPOR');
+        $import->addChild('YOR', $dataDetailImport->YOR);
+        $import->addChild('KAPASITAS_LAPANGAN', $dataDetailImport->KAPASITAS_LAPANGAN);
+        $import->addChild('KAPASITAS_GUDANG', $dataDetailImport->KAPASITAS_GUDANG);
+        $import->addChild('TOTAL_CONT', $dataDetailImport->TOTAL_CONT);
+        $import->addChild('TOTAL_KMS', $dataDetailImport->TOTAL_KMS);
+        $import->addChild('JML_CONT20F', $dataDetailImport->JML_CONT20F);
+        $import->addChild('JML_CONT40F', $dataDetailImport->JML_CONT40F);
+        $import->addChild('JML_CONT45F', $dataDetailImport->JML_CONT45F);
+        
+        $export = $xmldata->addChild('EKSPOR');
+        $export->addChild('YOR', $dataDetailExport->YOR);
+        $export->addChild('KAPASITAS_LAPANGAN', $dataDetailExport->KAPASITAS_LAPANGAN);
+        $export->addChild('KAPASITAS_GUDANG', $dataDetailExport->KAPASITAS_GUDANG);
+        $export->addChild('TOTAL_CONT', $dataDetailExport->TOTAL_CONT);
+        $export->addChild('TOTAL_KMS', $dataDetailExport->TOTAL_KMS);
+        $export->addChild('JML_CONT20F', $dataDetailExport->JML_CONT20F);
+        $export->addChild('JML_CONT40F', $dataDetailExport->JML_CONT40F);
+        $export->addChild('JML_CONT45F', $dataDetailExport->JML_CONT45F);
+
+        $response = \Response::make($xml->asXML(), 200);
+        
+//        return $response;
+        
+        $response->header('Cache-Control', 'public');
+        $response->header('Content-Description', 'File Transfer');
+        $response->header('Content-Disposition', 'attachment; filename=xml/CodecoKemasan'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+        $response->header('Content-Transfer-Encoding', 'binary');
+        $response->header('Content-Type', 'text/xml');
+        
+        \SoapWrapper::add(function ($service) {
+            $service
+                ->name('TpsOnline_LaporanYor')
+                ->wsdl($this->wsdl)
+                ->trace(true)                                                                                                                                                 
+                ->cache(WSDL_CACHE_NONE);                                                    
+        });
+        
+        $data = [
+            'Username' => $this->user, 
+            'Password' => $this->password,
+            'fStream' => $xml->asXML()
+        ];
+        
+//        var_dump($this->response);
+//        return;
+        
+        // Using the added service
+        \SoapWrapper::service('TpsOnline_LaporanYor', function ($service) use ($data) {        
+            $this->response = $service->call('kirimLaporanYor', [$data])->kirimLaporanYorResult;      
+        });
+        
+        $update = \App\Models\TpsLaporanYor::where('id', $dataHeader->id)->update(['RESPONSE' => $this->response]);       
+        
+        if ($update){
+//            return $response;
+            return back()->with('success', 'Laporan YOR XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dikirim.');
+        }
+        
+        var_dump($this->response);
+        
+    }
+    
     public function totalRealiasiBongkarMuat()
     {
         $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><DOCUMENT></DOCUMENT>');       
@@ -881,12 +1024,25 @@ class PengirimanController extends Controller
         
 //        $update = \App\Models\TpsCodecoKmsDetail::where('TPSCODECOKMSXML_FK', $dataHeader->TPSCODECOKMSXML_PK)->update(['STATUS_TPS' => 2, 'RESPONSE' => $this->response]);       
         
-        if ($update){
-//            return $response;
-            return back()->with('success', 'Codeco Kemasan XML REF Number: '.$dataHeader->REF_NUMBER.' berhasil dikirim.');
+        libxml_use_internal_errors(true);
+        $xmlres = simplexml_load_string($this->response);
+        if(!$xmlres || !$xmlres->children()){
+           return back()->with('error', $this->response);
         }
         
-        var_dump($this->response);
+        foreach ($xmlres->children() as $data):  
+            foreach ($data as $key=>$value):          
+                $info = new \App\Models\TpsTotalRealisasiBongkarMuat;
+                foreach ($value as $keyk=>$valuek):
+                    $info->$keyk = $valuek;
+                endforeach;
+                $info->save();
+            endforeach;
+        endforeach;
+        
+        return back()->with('success', 'Total Realisasi Bongkar Muat berhasil dikirim.');
+        
+//        var_dump($this->response);
 
     }
     
