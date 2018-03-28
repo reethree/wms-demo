@@ -1670,7 +1670,7 @@ class LclController extends Controller
                             $dataval['TGL_HBL'] = $ex_header[6];                           
                             $berat = $ex_header[7];
                             $dataval['weight'] = substr($berat, 10, 4);
-                            $dataval['meas'] = (substr($berat, 31, 5)/1000);
+                            $dataval['meas'] = (substr($berat, 30, 5)/1000);
                             $dataval['qty'] = substr($berat, 48, 1);
                             $dataval['pack'] = substr($berat, 75, 2);
                         endif;
@@ -1680,7 +1680,7 @@ class LclController extends Controller
                     $dataFinals[] = $dataval;              
                 endforeach;
                 
-//                return $dataFinals;
+//                return json_encode($dataFinals);
                 
                 // INSERT FILE TO DATABASE
                 foreach ($dataFinals as $df):
@@ -1760,6 +1760,7 @@ class LclController extends Controller
                             $packing = \App\Models\Packing::where('KODEPACKING', $df['pack'])->first();
                             $data['TPACKING_FK'] = $packing->TPACKING_PK;
                             $data['NAMAPACKING'] = $packing->NAMAPACKING;
+                            $data['KODE_KEMAS'] = $packing->KODEPACKING;
                         }
                         
                         $data['tglmasuk'] = $container->TGL_PLP;
@@ -1767,15 +1768,31 @@ class LclController extends Controller
                         
                         $data['tglentry'] = date('Y-m-d');
                         $data['jamentry'] = date('H:i:s');
-                        $data['UID'] = $data['UID'] = \Auth::getUser()->name;
+                        $data['UID'] = \Auth::getUser()->name;
                                                                      
                         $insert_id = DBManifest::insertGetId($data);
                         
                         if($insert_id){
                             // Update Jumlah BL
                             $countbl = DBManifest::where('TCONTAINER_FK', $data['TCONTAINER_FK'])->count();
+
+                            // Update Meas Wight           
+                            $sum_weight_manifest = DBManifest::select('WEIGHT')->where('TCONTAINER_FK', $data['TCONTAINER_FK'])->sum('WEIGHT');
+                            $sum_meas_marnifest = DBManifest::select('MEAS')->where('TCONTAINER_FK', $data['TCONTAINER_FK'])->sum('MEAS');         
+                            $container->MEAS = $sum_meas_marnifest;
+                            $container->WEIGHT = $sum_weight_manifest;
                             $container->jumlah_bl = $countbl;
-                            $container->save();
+                            $container->UID = \Auth::getUser()->name;
+
+                            if($container->save()){
+
+                                $sum_weight = DBContainer::select('WEIGHT')->where('TJOBORDER_FK', $container->TJOBORDER_FK)->sum('WEIGHT');
+                                $sum_meas = DBContainer::select('MEAS')->where('TJOBORDER_FK', $container->TJOBORDER_FK)->sum('MEAS');         
+                                \App\Models\Joborder::where('TJOBORDER_PK', $container->TJOBORDER_FK)
+                                        ->update(['MEASUREMENT' => $sum_meas, 'GROSSWEIGHT' => $sum_weight]);
+
+                            }
+                            
                         }
                     }
                 endforeach;
