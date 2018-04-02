@@ -897,23 +897,23 @@ class SoapController extends DefaultController {
         
         var_dump($this->response);
         
-        libxml_use_internal_errors(true);
-        $xml = simplexml_load_string($this->response);
-        if(!$xml || !$xml->children()){
-           return back()->with('error', $this->response);
-        }
-        
-        foreach ($xml->children() as $data):  
-            foreach ($data as $key=>$value):          
-                $info = new \App\Models\TpsGetInfoNomorBc;
-                foreach ($value as $keyk=>$valuek):
-                    $info->$keyk = $valuek;
-                endforeach;
-                $info->save();
-            endforeach;
-        endforeach;
-        
-        return back()->with('success', 'Get Info Nomor BC11 has been success.');
+//        libxml_use_internal_errors(true);
+//        $xml = simplexml_load_string($this->response);
+//        if(!$xml || !$xml->children()){
+//           return back()->with('error', $this->response);
+//        }
+//        
+//        foreach ($xml->children() as $data):  
+//            foreach ($data as $key=>$value):          
+//                $info = new \App\Models\TpsGetInfoNomorBc;
+//                foreach ($value as $keyk=>$valuek):
+//                    $info->$keyk = $valuek;
+//                endforeach;
+//                $info->save();
+//            endforeach;
+//        endforeach;
+//        
+//        return back()->with('success', 'Get Info Nomor BC11 has been success.');
     }
 
 
