@@ -895,7 +895,7 @@ class SoapController extends DefaultController {
             $this->response = $service->call('GetInfoNomorBC11', [$data])->GetInfoNomorBC11Result;      
         });
         
-//        var_dump($this->response);
+        var_dump($this->response);
         
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($this->response);
