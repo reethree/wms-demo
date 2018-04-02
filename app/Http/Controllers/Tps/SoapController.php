@@ -886,8 +886,8 @@ class SoapController extends DefaultController {
         $data = [
             'Username' => $this->user, 
             'Password' => $this->password,
-            'TglTibaAwal' => $request->TglTibaAwal,
-            'TglTibaAkhir' => $request->TglTibaAkhir
+            'TglTibaAwal' => date('dmY', strtotime($request->TglTibaAwal)),
+            'TglTibaAkhir' => date('dmY', strtotime($request->TglTibaAkhir))
         ];
         
         // Using the added service
