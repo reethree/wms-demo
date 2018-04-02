@@ -903,7 +903,7 @@ class SoapController extends DefaultController {
            return back()->with('error', $this->response);
         }
         
-        return $xml->children();
+        return $xml;
         
 //        foreach ($xml->children() as $data):  
 //            foreach ($data as $key=>$value):          
