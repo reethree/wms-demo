@@ -895,14 +895,16 @@ class SoapController extends DefaultController {
             $this->response = $service->call('GetInfoNomorBC11', [$data])->GetInfoNomorBC11Result;      
         });
         
-        var_dump($this->response);
+//        var_dump($this->response);
         
-//        libxml_use_internal_errors(true);
-//        $xml = simplexml_load_string($this->response);
-//        if(!$xml || !$xml->children()){
-//           return back()->with('error', $this->response);
-//        }
-//        
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($this->response);
+        if(!$xml || !$xml->children()){
+           return back()->with('error', $this->response);
+        }
+        
+        return $xml->children();
+        
 //        foreach ($xml->children() as $data):  
 //            foreach ($data as $key=>$value):          
 //                $info = new \App\Models\TpsGetInfoNomorBc;
