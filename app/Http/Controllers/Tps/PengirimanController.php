@@ -180,9 +180,44 @@ class PengirimanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 
     }
 
+    public function laporanYorStore(Request $request)
+    {
+        $lapYor = new \App\Models\TpsLaporanYor;
+        
+        $reff_number = $this->getReffNumber();
+        
+        $lapYor->REF_NUMBER = $reff_number;
+        $lapYor->KD_TPS = 'PRJP';
+        $lapYor->KD_GUDANG = 'PRJP';
+        $lapYor->TGL_LAPORAN = date('Ymd', strtotime($request->TGL_LAPORAN));
+        $lapYor->RESPONSE = 'Belum Upload';
+        $lapYor->uid = \Auth::getUser()->name;
+        
+        if($lapYor->save()){
+            $lapYorDetail = new \App\Models\TpsLaporanYorDetail;
+            
+            $lapYorDetail->tpslaporanyor_id = $lapYor->id;
+            $lapYorDetail->TYPE = 'IMPOR';
+            $lapYorDetail->YOR = $request->YOR ;
+            $lapYorDetail->KAPASITAS_LAPANGAN = $request->KAPASITAS_LAPANGAN;
+            $lapYorDetail->KAPASITAS_GUDANG = $request->KAPASITAS_GUDANG;
+            $lapYorDetail->TOTAL_CONT = $request->TOTAL_CONT;
+            $lapYorDetail->TOTAL_KMS = $request->TOTAL_KMS;
+            $lapYorDetail->JML_CONT20F = $request->JML_CONT20F;
+            $lapYorDetail->JML_CONT40F = $request->JML_CONT40F;
+            $lapYorDetail->JML_CONT45F = $request->JML_CONT45F;
+            
+            if($lapYorDetail->save()){
+                return back()->with('success', 'Laporan YOR Refnumber '.$reff_number.', invoice berhasih dibuat.');
+            }  
+        }
+        
+        return back()->with('error', 'Something went wrong, please try again later.');
+    }
+    
     /**
      * Display the specified resource.
      *
@@ -350,6 +385,7 @@ class PengirimanController extends Controller
         ];
         
         $data['header'] = \App\Models\TpsLaporanYor::find($id);
+        $data['details'] = \App\Models\TpsLaporanYorDetail::where('tpslaporanyor_id', $id)->get();
 
         return view('tpsonline.edit-laporan-yor')->with($data);
     }

@@ -151,6 +151,10 @@ Route::group(['prefix' => 'tpsonline/pengiriman', 'namespace' => 'Tps'], functio
         'as' => 'tps-laporanYor-index',
         'uses' => 'PengirimanController@laporanYorIndex'
     ]);
+    Route::post('/laporan-yor/create', [
+        'as' => 'tps-laporanYor-store',
+        'uses' => 'PengirimanController@laporanYorStore'
+    ]);
     Route::post('/laporan-yor/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsLaporanYor(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());

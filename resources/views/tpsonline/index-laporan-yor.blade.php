@@ -27,6 +27,9 @@
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">TPS Laporan YOR</h3>
+        <div class="box-tools">
+            <button class="btn btn-info btn-sm" id="create-new-btn"><i class="fa fa-plus"></i> Create New Report</button>
+        </div>
     </div>
     <div class="box-body table-responsive">
         <div class="row" style="margin-bottom: 30px;margin-right: 0;">
@@ -83,13 +86,96 @@
             ->addColumn(array('label'=>'Response','index'=>'RESPONSE','width'=>160,'align'=>'center'))
             ->addColumn(array('label'=>'Ref. Number','index'=>'REF_NUMBER','width'=>160,'align'=>'center'))
             ->addColumn(array('label'=>'Kode TPS','index'=>'KD_TPS','width'=>160,'align'=>'center'))
-            ->addColumn(array('label'=>'Kode Gudang','index'=>'KD_GUDANG','width'=>160))
+            ->addColumn(array('label'=>'Kode Gudang','index'=>'KD_GUDANG','width'=>160,'align'=>'center'))
             ->addColumn(array('label'=>'Tgl. Laporan','index'=>'TGL_LAPORAN','width'=>160,'align'=>'center'))
             ->addColumn(array('label'=>'UID','index'=>'uid','width'=>160,'align'=>'center'))
             ->renderGrid()
         }}
     </div>
 </div>
+
+<div id="create-new-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Create YOR Report (IMPORT)</h4>
+            </div>
+            <form class="form-horizontal" action="{{ route('tps-laporanYor-store') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Tgl. Laporan</label>
+                                <div class="col-sm-7">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" name="TGL_LAPORAN" class="form-control pull-right datepicker" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">YOR</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" name="YOR" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Kapasitas Gudang</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" name="KAPASITAS_GUDANG" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Kapasitas Lapangan</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" name="KAPASITAS_LAPANGAN" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Total Kontainer</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" name="TOTAL_CONT" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Total Kemasan</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" name="TOTAL_KMS" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Jumlah Kontainer 20F</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" name="JML_CONT20F" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Jumlah Kontainer 40F</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" name="JML_CONT40F" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Jumlah Kontainer 45F</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" name="JML_CONT45F" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 @endsection
 
@@ -119,6 +205,10 @@
         var enddate = $("#enddate").val();
         jQuery("#tpsLaporanYorGrid").jqGrid('setGridParam',{url:"{{URL::to('/tpsonline/pengiriman/laporan-yor/grid-data')}}?startdate="+startdate+"&enddate="+enddate+"&by="+by}).trigger("reloadGrid");
         return false;
+    });
+    
+    $('#create-new-btn').on("click", function(){
+        $('#create-new-modal').modal('show');
     });
     
 </script>

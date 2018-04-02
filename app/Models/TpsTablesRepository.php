@@ -345,7 +345,21 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                         break;
                 }
             }
-            
+        }elseif($Model->getMorphClass() == 'App\Models\TpsLaporanYor'){   
+            if(isset($request['startdate']) && isset($request['enddate'])){
+                if($request['by'] == 'TGL_LAPORAN') {
+                    $start_date = date('Ymd',strtotime($request['startdate']));
+                    $end_date = date('Ymd',strtotime($request['enddate']));           
+                }else{
+                    $start_date = date('Y-m-d 00:00:00', strtotime($request['startdate']));
+                    $end_date = date('Y-m-d 23:59:59', strtotime($request['enddate']));   
+                }
+                $Model = TpsLaporanYor::where($request['by'], '>=', $start_date)
+                        ->where($request['by'], '<=', $end_date);
+            }else{
+                
+            }
+               
         }else{
                         
         }

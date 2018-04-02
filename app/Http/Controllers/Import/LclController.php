@@ -1671,7 +1671,7 @@ class LclController extends Controller
                             $berat = $ex_header[7];
                             $dataval['weight'] = substr($berat, 10, 4);
                             $dataval['meas'] = (substr($berat, 30, 5)/1000);
-                            $dataval['qty'] = substr($berat, 48, 1);
+                            $dataval['qty'] = substr($berat, 47, 2);
                             $dataval['pack'] = substr($berat, 75, 2);
                         endif;
 
