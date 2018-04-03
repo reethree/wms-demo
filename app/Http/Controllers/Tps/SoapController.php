@@ -905,18 +905,21 @@ class SoapController extends DefaultController {
            return back()->with('error', $this->response);
         }
         
-        var_dump($xml->children());
+//        var_dump($xml->children());
         
-//        foreach ($xml->children() as $data):  
-//            foreach ($data as $key=>$value):          
+        foreach ($xml->children() as $data):  
+            foreach ($data as $key=>$value):  
+            
+                echo $key.' => '.$value;
+            
 //                $info = new \App\Models\TpsGetInfoNomorBc;
 //                foreach ($value as $keyk=>$valuek):
 //                    $info->$keyk = $valuek;
 //                endforeach;
 //                $info->save();
-//            endforeach;
-//        endforeach;
-//        
+            endforeach;
+        endforeach;
+        
 //        return back()->with('success', 'Get Info Nomor BC11 has been success.');
     }
 
