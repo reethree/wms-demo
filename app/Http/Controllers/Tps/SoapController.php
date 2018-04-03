@@ -908,19 +908,14 @@ class SoapController extends DefaultController {
 //        var_dump($xml->children());
         
         foreach ($xml->children() as $data):  
+            $info = new \App\Models\TpsGetInfoNomorBc;
             foreach ($data as $key=>$value):  
-            
-                echo $key.' => '.$value;
-            
-//                $info = new \App\Models\TpsGetInfoNomorBc;
-//                foreach ($value as $keyk=>$valuek):
-//                    $info->$keyk = $valuek;
-//                endforeach;
-//                $info->save();
+                $info->$key = $value;
+                $info->save();
             endforeach;
         endforeach;
         
-//        return back()->with('success', 'Get Info Nomor BC11 has been success.');
+        return back()->with('success', 'Get Info Nomor BC11 has been success.');
     }
 
 
