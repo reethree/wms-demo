@@ -895,15 +895,17 @@ class SoapController extends DefaultController {
             $this->response = $service->call('GetInfoNomorBC11', [$data])->GetInfoNomorBC11Result;      
         });
         
-        var_dump($this->response);
+//        var_dump($this->response);
         
-//        libxml_use_internal_errors(true);
-//        $xml = simplexml_load_string($this->response);
-//        if(!$xml || !$xml->children()){
-//           return back()->with('error', $this->response);
-//        }
-//        
-//        return $xml->children();
+//        00056520180203CMA CGM IVANHOE20180205175TUE00048220180130TB. TRUST 8120180205-00048320180130BG. TRUST MEGA 77720180205-00056820180204CTP DELTA20180205205E00056320180203KMTC CHENNAI201802051801S00057520180205SUMBER JAYA 2518 TK.20180205J004S00056020180203CAPE MAHON2018020518001S00058020180205TRUCK20180205OG093A00057420180205SABANG 57 TB.20180205J004S00058220180205LAGOA MAS KM201802051100056120180203MV.ORIENTAL PACIFIC201802050300056620180204UNI FORTUNA20180205180300056720180204TURANDOT20180205FW80100055620180203BOMAR SPRING201802050044-002S
+        
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($this->response);
+        if(!$xml || !$xml->children()){
+           return back()->with('error', $this->response);
+        }
+        
+        var_dump($xml->children());
         
 //        foreach ($xml->children() as $data):  
 //            foreach ($data as $key=>$value):          
