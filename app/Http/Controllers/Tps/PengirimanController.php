@@ -928,8 +928,8 @@ class PengirimanController extends Controller
         if(!$id){ return false; }
         
         $dataHeader = \App\Models\TpsLaporanYor::find($id);
-        $dataDetailImport = \App\Models\TpsLaporanYorDetail::where(array('tpslaporanyor_id' => $id, 'TYPE' => 'import'))->get();
-        $dataDetailExport = \App\Models\TpsLaporanYorDetail::where(array('tpslaporanyor_id' => $id, 'TYPE' => 'export'))->get();
+        $dataDetailImport = \App\Models\TpsLaporanYorDetail::where(array('tpslaporanyor_id' => $id, 'TYPE' => 'IMPOR'))->get();
+        $dataDetailExport = \App\Models\TpsLaporanYorDetail::where(array('tpslaporanyor_id' => $id, 'TYPE' => 'EKSPOR'))->get();
         
         $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><DOCUMENT></DOCUMENT>');       
         
