@@ -1420,7 +1420,7 @@ class LclController extends Controller
             );
             $sub_total = array_sum($array_total);
             
-            if($tarif->consolidator_id == 24 && $manifest->INVOICE == 'BB'):
+            if(in_array($tarif->consolidator_id, array(24,29)) && $manifest->INVOICE == 'BB'):
                 $sub_total = $sub_total+300000;
             endif;
             
