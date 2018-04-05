@@ -928,8 +928,8 @@ class PengirimanController extends Controller
         if(!$id){ return false; }
         
         $dataHeader = \App\Models\TpsLaporanYor::find($id);
-        $dataDetailImport = \App\Models\TpsLaporanYorDetail::where(array('tpslaporanyor_id' => $id, 'TYPE' => 'IMPOR'))->get();
-        $dataDetailExport = \App\Models\TpsLaporanYorDetail::where(array('tpslaporanyor_id' => $id, 'TYPE' => 'EKSPOR'))->get();
+        $dataDetailImport = \App\Models\TpsLaporanYorDetail::where(array('tpslaporanyor_id' => $id, 'TYPE' => 'IMPOR'))->first();
+        $dataDetailExport = \App\Models\TpsLaporanYorDetail::where(array('tpslaporanyor_id' => $id, 'TYPE' => 'EKSPOR'))->first();
         
         $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><DOCUMENT></DOCUMENT>');       
         
@@ -941,33 +941,41 @@ class PengirimanController extends Controller
         $xmldata->addChild('KD_GUDANG', $dataHeader->KD_GUDANG);
         $xmldata->addChild('TGL_LAPORAN', $dataHeader->TGL_LAPORAN);
         
-        $import = $xmldata->addChild('IMPOR');
-        $import->addChild('YOR', $dataDetailImport->YOR);
-        $import->addChild('KAPASITAS_LAPANGAN', $dataDetailImport->KAPASITAS_LAPANGAN);
-        $import->addChild('KAPASITAS_GUDANG', $dataDetailImport->KAPASITAS_GUDANG);
-        $import->addChild('TOTAL_CONT', $dataDetailImport->TOTAL_CONT);
-        $import->addChild('TOTAL_KMS', $dataDetailImport->TOTAL_KMS);
-        $import->addChild('JML_CONT20F', $dataDetailImport->JML_CONT20F);
-        $import->addChild('JML_CONT40F', $dataDetailImport->JML_CONT40F);
-        $import->addChild('JML_CONT45F', $dataDetailImport->JML_CONT45F);
+        if($dataDetailImport){
         
-        $export = $xmldata->addChild('EKSPOR');
-        $export->addChild('YOR', $dataDetailExport->YOR);
-        $export->addChild('KAPASITAS_LAPANGAN', $dataDetailExport->KAPASITAS_LAPANGAN);
-        $export->addChild('KAPASITAS_GUDANG', $dataDetailExport->KAPASITAS_GUDANG);
-        $export->addChild('TOTAL_CONT', $dataDetailExport->TOTAL_CONT);
-        $export->addChild('TOTAL_KMS', $dataDetailExport->TOTAL_KMS);
-        $export->addChild('JML_CONT20F', $dataDetailExport->JML_CONT20F);
-        $export->addChild('JML_CONT40F', $dataDetailExport->JML_CONT40F);
-        $export->addChild('JML_CONT45F', $dataDetailExport->JML_CONT45F);
+            $import = $xmldata->addChild('IMPOR');
+            $import->addChild('YOR', $dataDetailImport->YOR);
+            $import->addChild('KAPASITAS_LAPANGAN', $dataDetailImport->KAPASITAS_LAPANGAN);
+            $import->addChild('KAPASITAS_GUDANG', $dataDetailImport->KAPASITAS_GUDANG);
+            $import->addChild('TOTAL_CONT', $dataDetailImport->TOTAL_CONT);
+            $import->addChild('TOTAL_KMS', $dataDetailImport->TOTAL_KMS);
+            $import->addChild('JML_CONT20F', $dataDetailImport->JML_CONT20F);
+            $import->addChild('JML_CONT40F', $dataDetailImport->JML_CONT40F);
+            $import->addChild('JML_CONT45F', $dataDetailImport->JML_CONT45F);
+        
+        }
+        
+        if($dataDetailExport){
+            
+            $export = $xmldata->addChild('EKSPOR');
+            $export->addChild('YOR', $dataDetailExport->YOR);
+            $export->addChild('KAPASITAS_LAPANGAN', $dataDetailExport->KAPASITAS_LAPANGAN);
+            $export->addChild('KAPASITAS_GUDANG', $dataDetailExport->KAPASITAS_GUDANG);
+            $export->addChild('TOTAL_CONT', $dataDetailExport->TOTAL_CONT);
+            $export->addChild('TOTAL_KMS', $dataDetailExport->TOTAL_KMS);
+            $export->addChild('JML_CONT20F', $dataDetailExport->JML_CONT20F);
+            $export->addChild('JML_CONT40F', $dataDetailExport->JML_CONT40F);
+            $export->addChild('JML_CONT45F', $dataDetailExport->JML_CONT45F);
 
+        }
+        
         $response = \Response::make($xml->asXML(), 200);
         
 //        return $response;
         
         $response->header('Cache-Control', 'public');
         $response->header('Content-Description', 'File Transfer');
-        $response->header('Content-Disposition', 'attachment; filename=xml/CodecoKemasan'. date('ymd'). $dataDetail->NO_DOK_INOUT .'.xml');
+        $response->header('Content-Disposition', 'attachment; filename=xml/LaporanYor'. date('ymd'). $dataHeader->REF_NUMBER .'.xml');
         $response->header('Content-Transfer-Encoding', 'binary');
         $response->header('Content-Type', 'text/xml');
         
