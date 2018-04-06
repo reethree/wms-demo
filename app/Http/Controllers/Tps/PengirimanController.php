@@ -998,7 +998,7 @@ class PengirimanController extends Controller
         
         // Using the added service
         \SoapWrapper::service('TpsOnline_LaporanYor', function ($service) use ($data) {        
-            $this->response = $service->call('kirimLaporanYor', [$data])->kirimLaporanYorResult;      
+            $this->response = $service->call('KirimLaporanYor', [$data])->KirimLaporanYorResult;      
         });
         
         $update = \App\Models\TpsLaporanYor::where('id', $dataHeader->id)->update(['RESPONSE' => $this->response]);       
