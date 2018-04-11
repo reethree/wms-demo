@@ -217,7 +217,7 @@
             <td align="right">Rp.</td>
             <td align="right">{{ number_format($invoice->adm) }}</td>
           </tr>
-          @if(in_array($tarif->consolidator_id, array(24,29,13,16)) && $manifest->INVOICE == 'BB')
+          @if(in_array($tarif->consolidator_id, array(24,29)) && $manifest->INVOICE == 'BB')
           <tr>
             <td>6</td>
             <td>Surcharge</td>
