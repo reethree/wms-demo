@@ -30,7 +30,8 @@
 <body class="hold-transition login-page skin-black-light">
 <div class="login-box">
   <div class="login-logo">
-    <a href="#">WMS Login</a>
+      <a href="#">WMS Login</a>
+      <img src="{{url('assets/images/logo/logo.jpeg')}}" style="width:100%;" />
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
