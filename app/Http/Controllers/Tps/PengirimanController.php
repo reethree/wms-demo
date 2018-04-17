@@ -556,12 +556,15 @@ class PengirimanController extends Controller
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-//                ->options([
-//                    'Username' => $this->user, 
-//                    'Password' => $this->password,
-//                    'fStream' => $xml->asXML()
-//                ])
-                ;                                                    
+                ->options([
+                    'stream_context' => stream_context_create([
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    ])
+                ]);                                                    
         });
         
         $datas = [
@@ -666,12 +669,15 @@ class PengirimanController extends Controller
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-//                ->options([
-//                    'Username' => $this->user, 
-//                    'Password' => $this->password,
-//                    'fStream' => ''
-//                ])
-                    ;                                                    
+                ->options([
+                    'stream_context' => stream_context_create([
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    ])
+                ]);                                                    
         });
         
         $data = [
@@ -772,18 +778,15 @@ class PengirimanController extends Controller
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-//                ->options([
-//                    'ssl' => [
-//                        // set some SSL/TLS specific options
-//                        'verify_peer' => false,
-//                        'verify_peer_name' => false,
-//                        'allow_self_signed' => true
-//                    ]
-////                    'Username' => $this->user, 
-////                    'Password' => $this->password,
-////                    'fStream' => $xml->asXML()
-//                ])
-                ;                                                    
+                ->options([
+                    'stream_context' => stream_context_create([
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    ])
+                ]);                                                    
         });
         
         $datas = [
@@ -891,12 +894,15 @@ class PengirimanController extends Controller
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
                 ->cache(WSDL_CACHE_NONE)                                        
-//                ->options([
-//                    'Username' => $this->user, 
-//                    'Password' => $this->password,
-//                    'fStream' => ''
-//                ])
-                    ;                                                    
+                ->options([
+                    'stream_context' => stream_context_create([
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    ])
+                ]);                                                    
         });
         
         $data = [
@@ -984,7 +990,16 @@ class PengirimanController extends Controller
                 ->name('TpsOnline_LaporanYor')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                                                                 
-                ->cache(WSDL_CACHE_NONE);                                                    
+                ->cache(WSDL_CACHE_NONE)
+                ->options([
+                    'stream_context' => stream_context_create([
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    ])
+                ]);     
         });
         
         $data = [
@@ -1049,7 +1064,16 @@ class PengirimanController extends Controller
                 ->name('TpsOnline_TotalRealiasiBongkarMuat')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                                                               
-                ->cache(WSDL_CACHE_NONE);                                                    
+                ->cache(WSDL_CACHE_NONE)
+                ->options([
+                    'stream_context' => stream_context_create([
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    ])
+                ]); 
         });
         
         $options = [
