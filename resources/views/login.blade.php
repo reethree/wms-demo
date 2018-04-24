@@ -31,7 +31,7 @@
 <div class="login-box">
   <div class="login-logo">
       <a href="#">WMS Login</a>
-      <img src="{{url('assets/images/logo/logo.jpeg')}}" style="width:100%;" />
+      <!--<img src="{{url('assets/images/logo/logo.jpeg')}}" style="width:100%;" />-->
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
