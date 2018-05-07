@@ -296,7 +296,8 @@
 //    $("input[type='checkbox']").bootstrapSwitch();
 
     $("#npwp").mask("99.999.999.9-999.999");
-
+    $(".timepicker").mask("99:99:99");
+    $(".datepicker").mask("9999-99-99");
 </script>
 
 @endsection

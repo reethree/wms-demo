@@ -286,6 +286,9 @@
     $.fn.bootstrapSwitch.defaults.onText = 'Yes';
     $.fn.bootstrapSwitch.defaults.offText = 'No';
     $("input[type='checkbox']").bootstrapSwitch();
+    
+    $(".timepicker").mask("99:99:99");
+    $(".datepicker").mask("9999-99-99");
 </script>
 
 @endsection

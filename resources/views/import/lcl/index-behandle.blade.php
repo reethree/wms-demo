@@ -339,6 +339,7 @@
 //        secondStep: 1
 //    });
     $("#jambehandle").mask("99:99:99");
+    $(".datepicker").mask("9999-99-99");
 </script>
 
 @endsection

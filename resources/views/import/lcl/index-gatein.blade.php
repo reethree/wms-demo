@@ -454,6 +454,7 @@
     });
     $("#JAMMASUK").mask("99:99:99");
     $("#JAMKELUAR_TPK").mask("99:99:99");
+    $(".datepicker").mask("9999-99-99");
 </script>
 
 @endsection

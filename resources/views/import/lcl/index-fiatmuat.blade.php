@@ -432,6 +432,7 @@
         secondStep: 1
     });
     $("#jamfiat").mask("99:99:99");
+    $(".datepicker").mask("9999-99-99");
 </script>
 
 @endsection

@@ -431,6 +431,7 @@
     $("JAMENDSTRIPPING").mask("99:99:99");
     $("mulai_tunda").mask("99:99:99");
     $("#selesai_tunda").mask("99:99:99");
+    $(".datepicker").mask("9999-99-99");
 </script>
 
 @endsection

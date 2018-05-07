@@ -595,6 +595,7 @@
     });
     $("#JAMSURATJALAN").mask("99:99:99");
     $("#jamrelease").mask("99:99:99");
+    $(".datepicker").mask("9999-99-99");
     $("#ID_CONSIGNEE").mask("99.999.999.9-999.999");
 </script>
 

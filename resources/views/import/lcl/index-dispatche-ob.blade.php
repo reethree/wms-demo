@@ -672,6 +672,8 @@
         minuteStep: 1,
         secondStep: 1
     });
+    $(".timepicker").mask("99:99:99");
+    $(".datepicker").mask("9999-99-99");
 </script>
 
 @endsection

@@ -457,6 +457,9 @@
         minuteStep: 1,
         secondStep: 1
     });
+    $(".timepicker").mask("99:99:99");
+    $(".datepicker").mask("9999-99-99");
+    
     $('#TGLMASUK').on("change", function (e) { 
         var actualDate = new Date($(this).val());
         var newDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate()+3);

@@ -406,6 +406,7 @@
         secondStep: 1
     });
     $("JAMSURATJALAN").mask("99:99:99");
+    $(".datepicker").mask("9999-99-99");
 </script>
 
 @endsection
