@@ -954,6 +954,7 @@ class LclController extends Controller
                                 ->whereNull('tglrelease')
                                 ->sum('MEAS');
         $data['meas'] = $meas_count;
+        $this->updateSorByMeas();
         $data['sor'] = \App\Models\SorYor::where('type', 'sor')->first();
         
         return view('import.lcl.report-inout')->with($data);
