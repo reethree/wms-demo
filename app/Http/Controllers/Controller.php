@@ -159,6 +159,7 @@ class Controller extends BaseController
     public function updateSorByMeas()
     {
         $meas_count = \App\Models\Manifest::whereNotNull('tglmasuk')
+                                ->whereNotNull('tglstripping')
                                 ->whereNull('tglrelease')
                                 ->sum('MEAS');
         

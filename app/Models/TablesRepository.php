@@ -221,6 +221,7 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->select(\DB::raw('*, timestampdiff(DAY, now(), tglmasuk) as timeSinceUpdate'))
 //                            ->whereRaw('tmanifest.tglmasuk < DATE_SUB(now(), INTERVAL 1 MONTH)')
                             ->whereNotNull('tglmasuk')
+                            ->whereNotNull('tglstripping')
                             ->whereNull('tglrelease')
 //                            ->orWhere('tglrelease','0000-00-00')
                             ->where($request['by'], '>=',$start_date)
@@ -230,6 +231,7 @@ class TablesRepository extends EloquentRepositoryAbstract {
                                 ->select(\DB::raw('*, timestampdiff(DAY, now(), tglmasuk) as timeSinceUpdate'))
     //                            ->whereRaw('tmanifest.tglmasuk < DATE_SUB(now(), INTERVAL 1 MONTH)')
                                 ->whereNotNull('tglmasuk')
+                                ->whereNotNull('tglstripping')
                                 ->whereNull('tglrelease');
     //                            ->orWhere('tglrelease','0000-00-00')
                         }
