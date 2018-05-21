@@ -951,7 +951,8 @@ class LclController extends Controller
         $data['year'] = $year;
         
         $meas_count = DBManifest::whereNotNull('tglmasuk')
-                                ->whereNull('tglrelease')
+                                ->whereNotNull('tglstripping')
+                                ->whereNull('tglrelease')                                
                                 ->sum('MEAS');
         $data['meas'] = $meas_count;
         $this->updateSorByMeas();
