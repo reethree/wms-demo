@@ -1679,17 +1679,24 @@ class LclController extends Controller
 //                            $dataval['EX_HEADER'] = $ex_header;
 //                            return count($ex_header);
                             if(count($ex_header) == 8):
-                                $ex_header_nohbl = $ex_header[3];
-                                $ex_header_tglhbl = $ex_header[5];
-                                $ex_header_berat = $ex_header[6];
+                                $ex_header_nohbl = isset($ex_header[3]) ? $ex_header[3] : null;
+                                $ex_header_tglhbl = isset($ex_header[5]) ? $ex_header[5] : null;
+                                $ex_header_berat = isset($ex_header[6]) ? $ex_header[6] : null;
+                            elseif(count($ex_header) == 9):
+                                $ex_header_nohbl = isset($ex_header[4]) ? $ex_header[4] : null;
+                                $ex_header_tglhbl = isset($ex_header[6]) ? $ex_header[6] : null;
+                                $ex_header_berat = isset($ex_header[7]) ? $ex_header[7] : null;
                             elseif(count($ex_header) == 10):
-                                $ex_header_nohbl = $ex_header[5];
-                                $ex_header_tglhbl = $ex_header[7];
-                                $ex_header_berat = $ex_header[8];
+                                $ex_header_nohbl = isset($ex_header[5]) ? $ex_header[5] : null;
+                                $ex_header_tglhbl = isset($ex_header[7]) ? $ex_header[7] : null;
+                                $ex_header_berat = isset($ex_header[8]) ? $ex_header[8] : null;
+                            elseif(count($ex_header) == 11):
+                                $ex_header_nohbl = isset($ex_header[6]) ? $ex_header[6] : null;
+                                $ex_header_tglhbl = isset($ex_header[8]) ? $ex_header[8] : null;
+                                $ex_header_berat = isset($ex_header[9]) ? $ex_header[9] : null;
                             else:
-                                $ex_header_nohbl = $ex_header[4];
-                                $ex_header_tglhbl = $ex_header[6];
-                                $ex_header_berat = $ex_header[7];
+//                                return $ex_header[4];
+                                return back()->with('error', 'Cannot upload TXT file, new flat file detected.')->withInput();
                             endif;
                             
                             $dataval['NOHBL'] = $ex_header_nohbl;
