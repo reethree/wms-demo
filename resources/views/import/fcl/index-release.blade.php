@@ -27,7 +27,7 @@
     
     function onSelectRowEvent()
     {
-        $('#btn-group-1').enableButtonGroup();
+        $('#btn-group-1,#btn-group-6').enableButtonGroup();
     }
     
     $(document).ready(function()
@@ -49,7 +49,9 @@
             //Gets the selected row id.
             rowid = $('#fclReleaseGrid').jqGrid('getGridParam', 'selrow');
             rowdata = $('#fclReleaseGrid').getRowData(rowid);
-
+            
+            if(!rowid) {alert('Please Select Row');return false;} 
+            
             populateFormFields(rowdata, '');
             $('#TCONTAINER_PK').val(rowid);
             $('#NOJOBORDER').val(rowdata.NoJob);
@@ -148,6 +150,23 @@
             $('#TCONTAINER_PK').val("");
         });
         
+        $('#btn-print-barcode').click(function() {
+
+            var $grid = $("#fclReleaseGrid"), selIds = $grid.jqGrid("getGridParam", "selarrrow"), i, n,
+                cellValues = [];
+            for (i = 0, n = selIds.length; i < n; i++) {
+                cellValues.push($grid.jqGrid("getCell", selIds[i], "TCONTAINER_PK"));
+            }
+            
+            var manifestId = cellValues.join(",");
+            
+            if(!manifestId) {alert('Please Select Row');return false;}               
+//            if(!confirm('Apakah anda yakin?')){return false;}    
+            
+            console.log(manifestId);
+            window.open("{{ route('cetak-barcode', array('','')) }}/"+manifestId+"/fcl_release","preview barcode","width=600,height=600,menubar=no,status=no,scrollbars=yes");
+        });
+        
         $('#btn-upload').click(function() {
             
             if(!confirm('Apakah anda yakin?')){return false;}
@@ -216,6 +235,7 @@
                     ->setGridOption('url', URL::to('/container/grid-data-cy?module=release&_token='.csrf_token()))
                     ->setGridOption('rowNum', 20)
                     ->setGridOption('shrinkToFit', true)
+                    ->setGridOption('multiselect', true)
                     ->setGridOption('sortname','TCONTAINER_PK')
                     ->setGridOption('rownumbers', true)
                     ->setGridOption('height', '295')
@@ -295,8 +315,11 @@
                         <button class="btn btn-default" id="btn-print-wo"><i class="fa fa-print"></i> Cetak WO</button>
                         <button class="btn btn-default" id="btn-print-sj"><i class="fa fa-print"></i> Cetak Surat Jalan</button>
                     </div>
+                    <div id="btn-group-6" class="btn-group">
+                        <button class="btn btn-danger" id="btn-print-barcode"><i class="fa fa-print"></i> Print Barcode</button>
+                    </div>
                     <div id="btn-group-5" class="btn-group pull-right">
-                        <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
+                        <button class="btn btn-warning" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
                     </div>
                 </div>
             </div>

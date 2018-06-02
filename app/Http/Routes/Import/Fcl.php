@@ -64,5 +64,9 @@ Route::group(['prefix' => 'fcl', 'namespace' => 'Import'], function(){
         'as' => 'fcl-report-rekap-sendemail',
         'uses' => 'FclController@reportRekapSend'
     ]);
+    Route::post('/report/rekap/sendebilling', [
+        'as' => 'fcl-report-rekap-sendbilling',
+        'uses' => 'FclController@reportRekapSendBilling'
+    ]);
 });
 

@@ -988,6 +988,35 @@ class FclController extends Controller
         return back()->with('error', 'Something went wrong, please try again later.');
     }
     
+    public function reportRekapSendBilling(Request $request)
+    {
+        $selected_id = $request->get('id');
+        $subject = $request->get('subject');
+        $tgl_laporan = $request->get('tgl_laporan');
+        $amount = $request->get('amount');
+        
+        $cont_id = explode(',', $selected_id);
+        $containers = DBContainer::whereIn('TCONTAINER_PK',$cont_id)->get();
+        
+        $data = array('tgl_laporan' => $tgl_laporan, 'amount' => $amount);
+        
+        $send_email = \Mail::send('emails.report-billing-fcl', array('containers' => $containers, 'data' => $data), function($message) use($subject) {
+            $message->from('info@prjp.co.id', 'Primanata Jasa Persada');
+            $message->sender('info@prjp.co.id');
+            $message->subject($subject);
+            $message->to('andikabayuprjp@gmail.com');
+        });
+
+        if($send_email){
+            return back()->with('success', 'Report has been success sent.');
+        }else{
+            return back()->with('error', 'Cannot send email, please try again later.');
+        }
+
+        
+        return back()->with('error', 'Something went wrong, please try again later.');
+    }
+    
     public function reportStock()
     {
         
