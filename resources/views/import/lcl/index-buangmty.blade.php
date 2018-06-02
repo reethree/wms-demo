@@ -24,8 +24,7 @@
     
     function onSelectRowEvent()
     {
-        $('#btn-group-1').enableButtonGroup();
-        $('#btn-group-4').enableButtonGroup();
+        $('#btn-group-1, #btn-group-4, #btn-group-6').enableButtonGroup();
         rowid = $('#lclBuangmtyGrid').jqGrid('getGridParam', 'selrow');
         $('#TCONTAINER_PK').val(rowid);
     }
@@ -61,6 +60,17 @@
             var id = $('#TCONTAINER_PK').val();
             var type = $(this).data('type');
             window.open("{{ route('lcl-buangmty-cetak', array('id'=>'','type'=>'')) }}/"+id+"/"+type,"preview bon muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");
+        });
+        
+        $('#btn-print-barcode').click(function() {
+            
+            var id = $('#lclBuangmtyGrid').jqGrid('getGridParam', 'selrow');
+            
+            if(!id) {alert('Please Select Row');return false;}               
+            if(!confirm('Apakah anda yakin?')){return false;}    
+            
+            console.log(id);
+            window.open("{{ route('cetak-barcode', array('','')) }}/"+id+"/lcl_buangmty","preview barcode","width=305,height=600,menubar=no,status=no,scrollbars=yes");
         });
         
         $('#btn-save').click(function() {
@@ -235,14 +245,18 @@
                     <div id="btn-group-2" class="btn-group toolbar-block">
                         <button class="btn btn-default" id="btn-save"><i class="fa fa-save"></i> Save</button>
                         <button class="btn btn-default" id="btn-cancel"><i class="fa fa-close"></i> Cancel</button>
-                    </div>              
+                    </div>   
+                    <div id="btn-group-6" class="btn-group">
+                        <button class="btn btn-danger" id="btn-print-barcode"><i class="fa fa-print"></i> Print Barcode</button>
+                    </div>
+                    <div id="btn-group-5" class="btn-group pull-right">
+                        <button class="btn btn-warning" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
+                    </div>
                     <div id="btn-group-4" class="btn-group pull-right">
                         <button class="btn btn-default btn-print" id="btn-print-bon" data-type="bon-muat"><i class="fa fa-print"></i> Cetak BON Muat</button>
                         <button class="btn btn-default btn-print" id="btn-print-cir" data-type="surat-jalan"><i class="fa fa-print"></i> Cetak Surat Jalan (CIR)</button>
                     </div>
-                    <div id="btn-group-5" class="btn-group pull-right">
-                        <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
-                    </div>
+                    
                 </div>
             </div>
             

@@ -72,6 +72,9 @@
         // Payment Routes
         require_once 'Routes/RoutesPayment.php';
         
+        // Payment Routes
+        require_once 'Routes/RoutesBarcode.php';
+        
         // GLOBAL Routes
         Route::get('/getDataPelabuhan', [
             'as' => 'getDataPelabuhan',
@@ -85,6 +88,10 @@
             'as' => 'getDataPerusahaan',
             'uses' => 'Controller@getDataPerusahaan'
         ]);
+        Route::get('/print/barcode/{id}/{type}', [
+            'as' => 'cetak-barcode',
+            'uses' => 'Controller@printBarcodePreview'
+        ]);
         
     });
     
@@ -96,6 +103,12 @@
 Route::get('/flat', [
     'uses' => 'DefaultController@getFlatFile',
     'as' => 'flat-file'
+]);
+
+// Auto Gate
+Route::post('/autogate/tpsonline', [
+    'uses' => 'Controller@autogateTpsOnline',
+    'as' => 'autogate-tpsonline'
 ]);
 
 Route::group(['namespace' => 'Payment'], function(){

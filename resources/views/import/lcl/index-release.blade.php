@@ -27,7 +27,7 @@
     
     function onSelectRowEvent()
     {
-        $('#btn-group-1').enableButtonGroup();
+        $('#btn-group-1,#btn-group-6').enableButtonGroup();
     }
     
     $(document).ready(function()
@@ -49,7 +49,9 @@
             //Gets the selected row id.
             rowid = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
             rowdata = $('#lclReleaseGrid').getRowData(rowid);
-
+            
+            if(!rowid) {alert('Please Select Row');return false;} 
+            
             populateFormFields(rowdata, '');
             $('#TMANIFEST_PK').val(rowid);
             $('#NO_BC11').val(rowdata.NO_BC11);
@@ -189,6 +191,23 @@
             window.open("{{ route('lcl-delivery-fiatmuat-cetak', '') }}/"+id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");   
         });
         
+        $('#btn-print-barcode').click(function() {
+
+            var $grid = $("#lclReleaseGrid"), selIds = $grid.jqGrid("getGridParam", "selarrrow"), i, n,
+                cellValues = [];
+            for (i = 0, n = selIds.length; i < n; i++) {
+                cellValues.push($grid.jqGrid("getCell", selIds[i], "TMANIFEST_PK"));
+            }
+            
+            var manifestId = cellValues.join(",");
+            
+            if(!manifestId) {alert('Please Select Row');return false;}               
+//            if(!confirm('Apakah anda yakin?')){return false;}    
+            
+            console.log(manifestId);
+            window.open("{{ route('cetak-barcode', array('','')) }}/"+manifestId+"/lcl_release","preview barcode","width=600,height=600,menubar=no,status=no,scrollbars=yes");
+        });
+        
         $('#btn-upload').click(function() {
             
             if(!confirm('Apakah anda yakin?')){return false;}
@@ -257,6 +276,7 @@
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TMANIFEST_PK')
                     ->setGridOption('rownumbers', true)
+                    ->setGridOption('multiselect', true)
                     ->setGridOption('height', '250')
                     ->setGridOption('rowList',array(20,50,100))
                     ->setGridOption('useColSpanStyle', true)
@@ -345,8 +365,11 @@
                         <button class="btn btn-default" id="btn-print-wo"><i class="fa fa-print"></i> Cetak WO</button>
                         <button class="btn btn-default" id="btn-print-sj"><i class="fa fa-print"></i> Cetak Surat Jalan</button>
                     </div>
+                    <div id="btn-group-6" class="btn-group">
+                        <button class="btn btn-danger" id="btn-print-barcode"><i class="fa fa-print"></i> Print Barcode</button>
+                    </div>
                     <div id="btn-group-5" class="btn-group pull-right">
-                        <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
+                        <button class="btn btn-warning" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
                     </div>
                 </div>
             </div>

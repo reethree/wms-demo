@@ -266,4 +266,35 @@ class Controller extends BaseController
         }
     }
     
+    public function printBarcodePreview($id, $type)
+    { 
+        $ids = explode(',', $id);
+        if(is_array($ids)){
+            foreach ($ids as $ref_id):
+                
+            endforeach;
+        }else{
+            
+        }
+        
+        $barcode = new \App\Models\Barcode();
+        $barcode->ref_id = $id;
+        $barcode->ref_type = $type;
+        $barcode->barcode = '';
+        $barcode->barcode = '';
+        $barcode->barcode = '';
+        
+        //Create Barcode If not exist
+        
+        $data['barcode'] = array('id' => $id, 'type' => $type);
+        return view('print.barcode', $data);
+//        $pdf = \PDF::loadView('print.barcode', $data); 
+//        return $pdf->stream('Delivery-Release-Barcode-'.$mainfest->NOHBL.'-'.date('dmy').'.pdf');
+    }
+    
+    public function autogateTpsOnline(Request $request)
+    {
+//        app('App\Http\Controllers\PrintReportController')->getPrintReport();
+    }
+    
 }

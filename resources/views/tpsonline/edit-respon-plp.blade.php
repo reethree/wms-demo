@@ -201,6 +201,37 @@
     {
         $('#cetak-permohonan').prop("disabled",false);
     }
+    
+    $(document).ready(function(){
+
+        $('#barcodePrintSelected').on("click", function(){
+
+            var $grid = $("#tpsResponPlpDetailGrid"), selIds = $grid.jqGrid("getGridParam", "selarrrow"), i, n,
+                cellValues = [];
+            for (i = 0, n = selIds.length; i < n; i++) {
+                cellValues.push($grid.jqGrid("getCell", selIds[i], "tps_responplptujuandetailxml_pk"));
+            }
+            
+            var containerId = cellValues.join(",");
+            
+            if(!containerId) {alert('Please Select Row');return false;}               
+            if(!confirm('Apakah anda yakin?')){return false;}    
+            
+            console.log(containerId);
+            window.open("{{ route('cetak-barcode', array('','')) }}/"+containerId+"/respon_plp_select","preview barcode","width=600,height=600,menubar=no,status=no,scrollbars=yes");    
+        });
+        
+        $('#barcodePrintAll').on("click", function(){
+            if(!confirm('Apakah anda yakin?')){return false;} 
+            
+            var responPlpId = {{$respon->tps_responplptujuanxml_pk}};
+            
+            console.log(responPlpId);
+            window.open("{{ route('cetak-barcode', array('','')) }}/"+responPlpId+"/respon_plp_all","preview barcode","width=600,height=600,menubar=no,status=no,scrollbars=yes");
+        });
+        
+    });
+    
 </script>
 
 <div class="box box-default">
@@ -222,12 +253,13 @@
                         ->enableFilterToolbar()
                         ->setGridOption('mtype', 'POST')
                         ->setGridOption('url', URL::to('/tpsonline/penerimaan/respon-plp-detail/grid-data?responid='.$respon->tps_responplptujuanxml_pk.'&_token='.csrf_token()))
-                        ->setGridOption('rowNum', 10)
+                        ->setGridOption('rowNum', 25)
                         ->setGridOption('shrinkToFit', true)
                         ->setGridOption('sortname','tps_responplptujuandetailxml_pk')
                         ->setGridOption('rownumbers', true)
-                        ->setGridOption('height', '150')
-                        ->setGridOption('rowList',array(10,20,50))
+                        ->setGridOption('height', '230')
+                        ->setGridOption('multiselect', true)
+                        ->setGridOption('rowList',array(25,50,100,200))
                         ->setGridOption('useColSpanStyle', true)
                         ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
                         ->setNavigatorOptions('view',array('closeOnEscape'=>false))
@@ -267,6 +299,12 @@
                     </div>-->
                     <div id="btn-group-4" class="col-sm-2 pull-right" style="margin: 10px 0;display: none;">
                         <button type="button" id="createJoborderBtn" class="btn btn-block btn-info">Create Job Order</button>
+                    </div>
+                    <div id="btn-group-5" class="col-sm-3" style="margin: 10px 0;">
+                        <button type="button" id="barcodePrintSelected" class="btn btn-block btn-warning"><i class="fa fa-print"></i> Print Barcode by Selected</button>
+                    </div>
+                    <div id="btn-group-5" class="col-sm-2" style="margin: 10px 0;">
+                        <button type="button" id="barcodePrintAll" class="btn btn-block btn-danger"><i class="fa fa-print"></i> Print All Barcode</button>
                     </div>
                 </div>
             </div>
