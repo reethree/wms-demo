@@ -280,13 +280,14 @@ class Controller extends BaseController
         $barcode = new \App\Models\Barcode();
         $barcode->ref_id = $id;
         $barcode->ref_type = $type;
-        $barcode->barcode = '';
-        $barcode->barcode = '';
-        $barcode->barcode = '';
+        $barcode->barcode = str_random(20);
+        $barcode->status = 'active';
+        $barcode->uid = \Auth::getUser()->name;
+        $barcode->save();
         
         //Create Barcode If not exist
         
-        $data['barcode'] = array('id' => $id, 'type' => $type);
+        $data['barcode'] = $barcode;
         return view('print.barcode', $data);
 //        $pdf = \PDF::loadView('print.barcode', $data); 
 //        return $pdf->stream('Delivery-Release-Barcode-'.$mainfest->NOHBL.'-'.date('dmy').'.pdf');

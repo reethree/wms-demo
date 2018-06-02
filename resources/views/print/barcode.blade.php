@@ -1,7 +1,7 @@
 <div>
-{{ $barcode['id'] }}
-{{ $barcode['type'] }}
+{{ $barcode['ref_id'] }}
+{{ $barcode['ref_type'] }}
 </div>
 <div>
-{!!QrCode::margin(0)->size(150)->generate('My First QR code')!!}
+{!!QrCode::margin(0)->size(150)->generate($barcode['barcode'])!!}
 </div>

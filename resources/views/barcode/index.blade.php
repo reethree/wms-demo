@@ -79,7 +79,7 @@
             ->addColumn(array('key'=>true,'index'=>'id','hidden'=>true))
             ->addColumn(array('label'=>'QR Code','index'=>'barcode','width'=>200,'align'=>'center'))
             ->addColumn(array('label'=>'Ref ID','index'=>'ref_id','width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'Ref Type','index'=>'ref_id','width'=>150,'align'=>'center'))
+            ->addColumn(array('label'=>'Ref Type','index'=>'ref_type','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Date In','index'=>'time_in','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Date Out','index'=>'time_out','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Created','index'=>'created_at','width'=>150,'align'=>'center'))
