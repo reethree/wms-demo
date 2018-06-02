@@ -202,7 +202,7 @@
             var manifestId = cellValues.join(",");
             
             if(!manifestId) {alert('Please Select Row');return false;}               
-//            if(!confirm('Apakah anda yakin?')){return false;}    
+            if(!confirm('Apakah anda yakin?')){return false;}    
             
             console.log(manifestId);
             window.open("{{ route('cetak-barcode', array('','')) }}/"+manifestId+"/lcl_release","preview barcode","width=600,height=600,menubar=no,status=no,scrollbars=yes");
