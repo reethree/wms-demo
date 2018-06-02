@@ -36,12 +36,14 @@
     function gridCompleteEvent()
     {
         var ids = jQuery("#barcodeGrid").jqGrid('getDataIDs'),
+            del = '',
             edt = '';
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
             
-            edt = '<a href="{{ route("payment-bni-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
-            jQuery("#barcodeGrid").jqGrid('setRowData',ids[i],{action:edt}); 
+            edt = '<a href=""><i class="fa fa-print"></i></a> ';
+            del = '<a href=""><i class="fa fa-close"></i></a> ';
+            jQuery("#barcodeGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
         } 
     }
     
@@ -83,7 +85,7 @@
             ->addColumn(array('label'=>'Date In','index'=>'time_in','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Date Out','index'=>'time_out','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Created','index'=>'created_at','width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'Expired','index'=>'expired_at','width'=>150,'align'=>'center'))
+            ->addColumn(array('label'=>'Expired','index'=>'expired','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Status','index'=>'status','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'UID','index'=>'uid','width'=>150,'align'=>'center'))
         

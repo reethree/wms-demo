@@ -106,9 +106,9 @@ Route::get('/flat', [
 ]);
 
 // Auto Gate
-Route::post('/autogate/tpsonline', [
-    'uses' => 'Controller@autogateTpsOnline',
-    'as' => 'autogate-tpsonline'
+Route::get('/autogate/notification/{barcode}', [
+    'uses' => 'Controller@autogateNotification',
+    'as' => 'autogate-notification'
 ]);
 
 Route::group(['namespace' => 'Payment'], function(){

@@ -268,6 +268,9 @@ class Controller extends BaseController
     
     public function printBarcodePreview($id, $type)
     { 
+        if($type == 'respon_plp_all'){
+            
+        }
         $ids = explode(',', $id);
         if(is_array($ids)){
             foreach ($ids as $ref_id):
@@ -293,8 +296,9 @@ class Controller extends BaseController
 //        return $pdf->stream('Delivery-Release-Barcode-'.$mainfest->NOHBL.'-'.date('dmy').'.pdf');
     }
     
-    public function autogateTpsOnline(Request $request)
+    public function autogateNotification(Request $request, $barcode)
     {
+        return $barcode;
 //        app('App\Http\Controllers\PrintReportController')->getPrintReport();
     }
     
