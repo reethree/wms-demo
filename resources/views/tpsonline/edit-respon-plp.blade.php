@@ -258,7 +258,7 @@
                         ->setGridOption('sortname','tps_responplptujuandetailxml_pk')
                         ->setGridOption('rownumbers', true)
                         ->setGridOption('height', '230')
-                        ->setGridOption('multiselect', true)
+//                        ->setGridOption('multiselect', true)
                         ->setGridOption('rowList',array(25,50,100,200))
                         ->setGridOption('useColSpanStyle', true)
                         ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
@@ -300,12 +300,12 @@
                     <div id="btn-group-4" class="col-sm-2 pull-right" style="margin: 10px 0;display: none;">
                         <button type="button" id="createJoborderBtn" class="btn btn-block btn-info">Create Job Order</button>
                     </div>
-                    <div id="btn-group-5" class="col-sm-3" style="margin: 10px 0;">
+<!--                    <div id="btn-group-5" class="col-sm-3" style="margin: 10px 0;">
                         <button type="button" id="barcodePrintSelected" class="btn btn-block btn-warning"><i class="fa fa-print"></i> Print Barcode by Selected</button>
                     </div>
                     <div id="btn-group-5" class="col-sm-2" style="margin: 10px 0;">
                         <button type="button" id="barcodePrintAll" class="btn btn-block btn-danger"><i class="fa fa-print"></i> Print All Barcode</button>
-                    </div>
+                    </div>-->
                 </div>
             </div>
                 

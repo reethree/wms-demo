@@ -22,6 +22,26 @@
         } 
     }
     
+    $(document).ready(function(){
+
+        $('#print-barcode-btn').on("click", function(){
+
+            var $grid = $("#lclRegisterGrid"), selIds = $grid.jqGrid("getGridParam", "selarrrow"), i, n,
+                cellValues = [];
+            for (i = 0, n = selIds.length; i < n; i++) {
+                cellValues.push($grid.jqGrid("getCell", selIds[i], "TCONTAINER_PK"));
+            }
+            
+            var containerId = cellValues.join(",");
+            
+            if(!containerId) {alert('Silahkan pilih kontainer terlebih dahulu!');return false;}               
+            if(!confirm('Apakah anda yakin akan melakukan print barcode? Anda telah memilih '+cellValues.length+' kontainer!')){return false;}    
+            
+//            console.log(containerId);
+            window.open("{{ route('cetak-barcode', array('','')) }}/"+containerId+"/lcl","preview barcode","width=305,height=600,menubar=no,status=no,scrollbars=yes");    
+        });
+    });
+    
 </script>
 
 <div class="box">
@@ -68,12 +88,13 @@
             ->setFileProperty('creator', 'Reza') //Laravel Excel File Property
             ->setSheetProperty('fitToPage', true) //Laravel Excel Sheet Property
             ->setSheetProperty('fitToHeight', true)
-            ->setGridOption('rowNum', 20)
+            ->setGridOption('rowNum', 50)
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','NOJOBORDER')
             ->setGridOption('rownumbers', true)
             ->setGridOption('height', '295')
-            ->setGridOption('rowList',array(20,50,100))
+            ->setGridOption('multiselect', true)
+            ->setGridOption('rowList',array(50,100,200,500))
             ->setGridOption('useColSpanStyle', true)
             ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
             ->setNavigatorOptions('view',array('closeOnEscape'=>false))
@@ -105,6 +126,7 @@
             ->renderGrid()
         }}
     </div>
+    <button type="button" id="print-barcode-btn" class="btn btn-danger" style="margin: 10px;"><i class="fa fa-print"></i> Print Barcode</button>
 </div>
 
 @endsection

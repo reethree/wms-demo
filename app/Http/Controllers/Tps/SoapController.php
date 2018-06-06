@@ -951,6 +951,24 @@ class SoapController extends DefaultController {
         
         var_dump($this->response);
         
+//        libxml_use_internal_errors(true);
+//        $xml = simplexml_load_string($this->response);
+//        if(!$xml || !$xml->children()){
+//           return back()->with('error', $this->response);
+//        }
+//        
+////        var_dump($xml->children());
+//        
+//        foreach ($xml->children() as $data):  
+//            $info = new \App\Models\TpsDokManual;
+//            foreach ($data as $key=>$value):  
+//                $info->$key = $value;
+//                $info->save();
+//            endforeach;
+//        endforeach;
+//        
+//        return back()->with('success', 'Get Info Nomor BC11 has been success.');
+        
     }
     
     public function GetRejectData()
