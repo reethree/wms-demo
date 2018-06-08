@@ -8,4 +8,4 @@
 </div>
 
 @endforeach
-<div style="break-after: always;"></div>
+<div style="display:block; page-break-before:always;"></div>
