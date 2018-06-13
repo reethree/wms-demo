@@ -54,6 +54,7 @@ class BarcodeController extends Controller
                     $barcode->ref_id = $ref_id;
                     $barcode->ref_type = ucwords($type);
                     $barcode->barcode = str_random(20);
+                    $barcode->expired = date('Y-m-d', strtotime('+1 day'));
                     $barcode->status = 'active';
                     $barcode->uid = \Auth::getUser()->name;
                     $barcode->save();
