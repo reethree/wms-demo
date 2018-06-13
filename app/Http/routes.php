@@ -88,10 +88,6 @@
             'as' => 'getDataPerusahaan',
             'uses' => 'Controller@getDataPerusahaan'
         ]);
-        Route::get('/print/barcode/{id}/{type}', [
-            'as' => 'cetak-barcode',
-            'uses' => 'Controller@printBarcodePreview'
-        ]);
         
     });
     
@@ -107,7 +103,7 @@ Route::get('/flat', [
 
 // Auto Gate
 Route::get('/autogate/notification/{barcode}', [
-    'uses' => 'Controller@autogateNotification',
+    'uses' => 'BarcodeController@autogateNotification',
     'as' => 'autogate-notification'
 ]);
 
