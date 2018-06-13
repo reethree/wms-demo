@@ -6,6 +6,6 @@
     {!!QrCode::margin(0)->size(150)->generate($barcode->barcode)!!}
     <p>{{$barcode->NOCONTAINER}}</p>
 </div>
+<div style="display:block; page-break-before:always;"></div>
 
 @endforeach
-<div style="display:block; page-break-before:always;"></div>
