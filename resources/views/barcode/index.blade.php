@@ -37,13 +37,15 @@
     {
         var ids = jQuery("#barcodeGrid").jqGrid('getDataIDs'),
             del = '',
+            prn = '',
             edt = '';
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
             
-            edt = '<a href=""><i class="fa fa-print"></i></a> ';
+            edt = '<a href=""><i class="fa fa-pencil"></i></a> ';
+            prn = '<a href=""><i class="fa fa-print"></i></a> ';
             del = '<a href=""><i class="fa fa-close"></i></a> ';
-            jQuery("#barcodeGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
+            jQuery("#barcodeGrid").jqGrid('setRowData',ids[i],{action:prn+'  '+edt+'    '+del}); 
         } 
     }
     
@@ -77,7 +79,7 @@
             ->setNavigatorOptions('view',array('closeOnEscape'=>false))
             ->setFilterToolbarOptions(array('autosearch'=>true))
             ->setGridEvent('gridComplete', 'gridCompleteEvent')
-            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('key'=>true,'index'=>'id','hidden'=>true))
             ->addColumn(array('label'=>'QR Code','index'=>'barcode','width'=>200,'align'=>'center'))
             ->addColumn(array('label'=>'Ref ID','index'=>'ref_id','width'=>100,'align'=>'center'))
