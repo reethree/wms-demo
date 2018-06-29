@@ -38,7 +38,7 @@
             if(!confirm('Apakah anda yakin akan melakukan print barcode? Anda telah memilih '+cellValues.length+' kontainer!')){return false;}    
             
 //            console.log(containerId);
-            window.open("{{ route('cetak-barcode', array('','')) }}/"+containerId+"/lcl","preview barcode","width=305,height=600,menubar=no,status=no,scrollbars=yes");    
+            window.open("{{ route('cetak-barcode', array('','','')) }}/"+containerId+"/lcl/get","preview barcode","width=305,height=600,menubar=no,status=no,scrollbars=yes");    
         });
     });
     

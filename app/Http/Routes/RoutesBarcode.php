@@ -12,7 +12,7 @@ Route::group(['prefix' => 'barcode'], function(){
         GridEncoder::encodeRequestedData(new \App\Models\TablesRepository(new App\Models\Barcode(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });   
     
-    Route::get('/print/{id}/{type}', [
+    Route::get('/print/{id}/{type}/{action}', [
         'as' => 'cetak-barcode',
         'uses' => 'BarcodeController@printBarcodePreview'
     ]);

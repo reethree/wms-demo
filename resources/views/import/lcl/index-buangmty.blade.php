@@ -64,13 +64,26 @@
         
         $('#btn-print-barcode').click(function() {
             
-            var id = $('#lclBuangmtyGrid').jqGrid('getGridParam', 'selrow');
+//            var id = $('#lclBuangmtyGrid').jqGrid('getGridParam', 'selrow');
+//            
+//            if(!id) {alert('Please Select Row');return false;}               
+//            if(!confirm('Apakah anda yakin?')){return false;}    
+//            
+//            console.log(id);
+//            window.open("{{ route('cetak-barcode', array('','','')) }}/"+id+"/lcl/empty","preview barcode","width=305,height=600,menubar=no,status=no,scrollbars=yes");
+//            
+            var $grid = $("#lclBuangmtyGrid"), selIds = $grid.jqGrid("getGridParam", "selarrrow"), i, n,
+                cellValues = [];
+            for (i = 0, n = selIds.length; i < n; i++) {
+                cellValues.push($grid.jqGrid("getCell", selIds[i], "TCONTAINER_PK"));
+            }
             
-            if(!id) {alert('Please Select Row');return false;}               
-            if(!confirm('Apakah anda yakin?')){return false;}    
+            var containerId = cellValues.join(",");
             
-            console.log(id);
-            window.open("{{ route('cetak-barcode', array('','')) }}/"+id+"/lcl_buangmty","preview barcode","width=305,height=600,menubar=no,status=no,scrollbars=yes");
+            if(!containerId) {alert('Silahkan pilih kontainer terlebih dahulu!');return false;}               
+            if(!confirm('Apakah anda yakin akan melakukan print barcode? Anda telah memilih '+cellValues.length+' kontainer!')){return false;}    
+            
+            window.open("{{ route('cetak-barcode', array('','','')) }}/"+containerId+"/lcl/empty","preview barcode","width=305,height=600,menubar=no,status=no,scrollbars=yes");   
         });
         
         $('#btn-save').click(function() {
@@ -197,7 +210,8 @@
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TCONTAINER_PK')
                     ->setGridOption('rownumbers', true)
-                    ->setGridOption('height', '250')
+                    ->setGridOption('height', '295')
+                    ->setGridOption('multiselect', true)
                     ->setGridOption('rowList',array(20,50,100))
                     ->setGridOption('useColSpanStyle', true)
                     ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
