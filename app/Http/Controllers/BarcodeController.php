@@ -92,10 +92,11 @@ class BarcodeController extends Controller
     
     public function autogateNotification(Request $request, $barcode)
     {
+        
         $data_barcode = \App\Models\Barcode::where('barcode', $barcode)->first();
         
         if($data_barcode){
-            
+//            return $barcode;
             switch ($data_barcode->ref_type) {
                 case 'Fcl':
                     $model = \App\Models\Containercy::find($data_barcode->ref_id);
@@ -110,24 +111,46 @@ class BarcodeController extends Controller
             
             if($model){
                 
-                if($barcode->ref_action == 'get'){
-                    // GATEIN
-                    $model->TGLMASUK = date('Y-m-d', strtotime($data_barcode->time_in));
-                    $model->JAMMASUK = date('H:i:s', strtotime($data_barcode->time_in));
-                    $model->UIDMASUK = 'Autogate';
-                    $model->save();
-                }elseif(in_array ($barcode->ref_action, array('release', 'empty'))){
-                    // RELEASE
-                    if($data_barcode->ref_type == 'manifest'){
-                        $model->tglrelease = date('Y-m-d', strtotime($data_barcode->time_out));
-                        $model->jamrelease = date('H:i:s', strtotime($data_barcode->time_out));
-                        $model->UIDRELEASE = 'Autogate';
-                        $model->save();
+                if($data_barcode->ref_action == 'get'){
+                    if($data_barcode->time_in != NULL && $data_barcode->time_out == NULL){
+                        // GATEIN
+                        $model->TGLMASUK = date('Y-m-d', strtotime($data_barcode->time_in));
+                        $model->JAMMASUK = date('H:i:s', strtotime($data_barcode->time_in));
+                        $model->UIDMASUK = 'Autogate';
+
+                        if($model->save()){
+                            return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+                        }else{
+                            return 'Somthing wrong!!!';
+                        }
                     }else{
-                        $model->TGLKELUAR = date('Y-m-d', strtotime($data_barcode->time_out));
-                        $model->JAMKELUAR = date('H:i:s', strtotime($data_barcode->time_out));
-                        $model->UIDKELUAR = 'Autogate';
-                        $model->save();
+                        return 'Time In is NULL';
+                    }
+                }elseif(in_array ($barcode->ref_action, array('release', 'empty'))){
+                    if($data_barcode->time_in != NULL && $data_barcode->time_out != NULL){
+                        // RELEASE
+                        if($data_barcode->ref_type == 'manifest'){
+                            $model->tglrelease = date('Y-m-d', strtotime($data_barcode->time_out));
+                            $model->jamrelease = date('H:i:s', strtotime($data_barcode->time_out));
+                            $model->UIDRELEASE = 'Autogate';
+                            if($model->save()){
+                                return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+                            }else{
+                                return 'Somthing wrong!!!';
+                            }
+                        }else{
+                            $model->TGLKELUAR = date('Y-m-d', strtotime($data_barcode->time_out));
+                            $model->JAMKELUAR = date('H:i:s', strtotime($data_barcode->time_out));
+                            $model->UIDKELUAR = 'Autogate';
+
+                            if($model->save()){
+                                return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+                            }else{
+                                return 'Somthing wrong!!!';
+                            }
+                        }
+                    }else{
+                        return 'Time Out is NULL';
                     }
                     
                 }
@@ -147,10 +170,12 @@ class BarcodeController extends Controller
 //                    return false;
 //                }
             }else{
-                return false;
+                return 'Somthing wrong in Model!!!';
             }
+        }else{
+            return 'Barcode not found!!';
         }
-        
+//        return $barcode;
 //        app('App\Http\Controllers\PrintReportController')->getPrintReport();
     }
     
