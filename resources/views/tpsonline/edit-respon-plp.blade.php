@@ -218,7 +218,7 @@
             if(!confirm('Apakah anda yakin?')){return false;}    
             
             console.log(containerId);
-            window.open("{{ route('cetak-barcode', array('','')) }}/"+containerId+"/respon_plp_select","preview barcode","width=600,height=600,menubar=no,status=no,scrollbars=yes");    
+            window.open("{{ route('cetak-barcode', array('','','')) }}/"+containerId+"/respon_plp_select/ob","preview barcode","width=600,height=600,menubar=no,status=no,scrollbars=yes");    
         });
         
         $('#barcodePrintAll').on("click", function(){
@@ -227,7 +227,7 @@
             var responPlpId = {{$respon->tps_responplptujuanxml_pk}};
             
             console.log(responPlpId);
-            window.open("{{ route('cetak-barcode', array('','')) }}/"+responPlpId+"/respon_plp_all","preview barcode","width=600,height=600,menubar=no,status=no,scrollbars=yes");
+            window.open("{{ route('cetak-barcode', array('','','')) }}/"+responPlpId+"/respon_plp_all/ob","preview barcode","width=600,height=600,menubar=no,status=no,scrollbars=yes");
         });
         
     });
