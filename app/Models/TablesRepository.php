@@ -115,7 +115,7 @@ class TablesRepository extends EloquentRepositoryAbstract {
     //                            ->whereRaw('tmanifest.tglmasuk < DATE_SUB(now(), INTERVAL 1 MONTH)')
                                 ->whereNotNull('TGLMASUK')
                                 ->whereNull('TGLRELEASE')
-    //                            ->orWhere('tglrelease','0000-00-00')
+//                                ->orWhere('tglrelease','0000-00-00')
                                 ->where($request['by'], '>=',$start_date)
                                 ->where($request['by'], '<=',$end_date);
                         }else{
@@ -124,7 +124,7 @@ class TablesRepository extends EloquentRepositoryAbstract {
     //                            ->whereRaw('tcontainercy.TGLMASUK < DATE_SUB(now(), INTERVAL 1 MONTH)')
                                 ->whereNotNull('TGLMASUK')
                                 ->whereNull('TGLRELEASE');
-    //                            ->orWhere('TGLRELEASE','0000-00-00');
+//                                ->orWhere('TGLRELEASE','0000-00-00');
                         }
                     break;
                     case 'gatein':

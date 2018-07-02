@@ -505,7 +505,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" id="TGLRELEASE" name="TGLRELEASE" class="form-control pull-right datepicker" required value="{{ date('Y-m-d') }}">
+                                <input type="text" id="TGLRELEASE" name="TGLRELEASE" class="form-control pull-right datepicker">
                             </div>
                         </div>
                     </div>
@@ -515,7 +515,7 @@
                             <label class="col-sm-3 control-label">Jam Release</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input type="text" id="JAMRELEASE" name="JAMRELEASE" class="form-control timepicker" value="{{ date('H:i:s') }}" required>
+                                    <input type="text" id="JAMRELEASE" name="JAMRELEASE" class="form-control timepicker">
                                     <div class="input-group-addon">
                                           <i class="fa fa-clock-o"></i>
                                     </div>
