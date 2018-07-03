@@ -713,6 +713,11 @@ class FclController extends Controller
         if($kd_dok):
             $data['KODE_DOKUMEN'] = $kd_dok->name;
         endif;
+        
+        if(empty($data['TGLRELEASE'])){
+            $data['TGLRELEASE'] = NULL;
+        }
+        
         $data['TGLFIAT'] = $data['TGLRELEASE'];
         $data['JAMFIAT'] = $data['JAMRELEASE'];
         $data['TGLSURATJALAN'] = $data['TGLRELEASE'];
