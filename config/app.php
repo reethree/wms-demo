@@ -164,6 +164,8 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Orchestra\Parser\XmlServiceProvider::class,
         Artisaninweb\SoapWrapper\ServiceProvider::class,
+        Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
 
     ],
 
@@ -215,7 +217,12 @@ return [
         'Shinobi' => Caffeinated\Shinobi\Facades\Shinobi::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'XmlParser' => Orchestra\Parser\Xml\Facade::class,
-        'SoapWrapper' => Artisaninweb\SoapWrapper\Facades\SoapWrapper::class
+        'SoapWrapper' => Artisaninweb\SoapWrapper\Facades\SoapWrapper::class,
+        'SEOMeta'   => Artesaos\SEOTools\Facades\SEOMeta::class,
+        'OpenGraph' => Artesaos\SEOTools\Facades\OpenGraph::class,
+        'Twitter'   => Artesaos\SEOTools\Facades\TwitterCard::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

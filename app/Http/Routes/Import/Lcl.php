@@ -45,6 +45,11 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'uses' => 'LclController@uploadTxtFile'
     ]); 
     
+    Route::post('/register/upload-xls-file', [
+        'as' => 'lcl-register-upload-xls-file',
+        'uses' => 'LclController@uploadXlsFile'
+    ]); 
+    
     Route::get('/dispatche', [
         'as' => 'lcl-dispatche-index',
         'uses' => 'LclController@dispatcheIndex'
