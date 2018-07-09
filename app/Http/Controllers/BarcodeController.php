@@ -112,7 +112,7 @@ class BarcodeController extends Controller
             if($model){
                 
                 if($data_barcode->ref_action == 'get'){
-                    if($data_barcode->time_in != NULL && $data_barcode->time_out == NULL){
+                    if($data_barcode->time_in != NULL){
                         // GATEIN
                         $model->TGLMASUK = date('Y-m-d', strtotime($data_barcode->time_in));
                         $model->JAMMASUK = date('H:i:s', strtotime($data_barcode->time_in));
@@ -127,7 +127,7 @@ class BarcodeController extends Controller
                         return 'Time In is NULL';
                     }
                 }elseif(in_array ($barcode->ref_action, array('release', 'empty'))){
-                    if($data_barcode->time_in != NULL && $data_barcode->time_out != NULL){
+                    if($data_barcode->time_out != NULL){
                         // RELEASE
                         if($data_barcode->ref_type == 'manifest'){
                             $model->tglrelease = date('Y-m-d', strtotime($data_barcode->time_out));
