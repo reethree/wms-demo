@@ -43,11 +43,22 @@ class BarcodeController extends Controller
                 $model = 'tmanifest';
                 break;
         }
-        
         //Create Barcode If not exist
         if(is_array($ids)){
             foreach ($ids as $ref_id):
                 // Check data
+                $ref_number = '';
+                if($type == 'manifest'){
+                    $refdata = \App\Models\Manifest::find($ref_id);
+                    $ref_number = $refdata->NOHBL;
+                }elseif($type == 'lcl'){
+                    $refdata = \App\Models\Containercy::find($ref_id);
+                    $ref_number = $refdata->NOCONTAINER;
+                }elseif($type == 'fcl'){
+                    $refdata = \App\Models\Container::find($ref_id);
+                    $ref_number = $refdata->NOCONTAINER;
+                }
+
                 $check = \App\Models\Barcode::where(array('ref_id'=>$ref_id, 'ref_type'=>ucwords($type), 'ref_action'=>$action))->count();               
                 if($check > 0){
                     continue;
@@ -56,6 +67,7 @@ class BarcodeController extends Controller
                     $barcode->ref_id = $ref_id;
                     $barcode->ref_type = ucwords($type);
                     $barcode->ref_action = $action;
+                    $barcode->ref_number = $ref_number;
                     $barcode->barcode = str_random(20);
                     $barcode->expired = date('Y-m-d', strtotime('+1 day'));
                     $barcode->status = 'active';
@@ -82,7 +94,7 @@ class BarcodeController extends Controller
         }
         
 //        return json_encode($data_barcode);
-        
+
         $data['barcodes'] = $data_barcode;
 //        $data['ref'] = $ref;
         return view('print.barcode', $data);

@@ -82,7 +82,7 @@
             ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('key'=>true,'index'=>'id','hidden'=>true))
             ->addColumn(array('label'=>'QR Code','index'=>'barcode','width'=>200,'align'=>'center'))
-            ->addColumn(array('label'=>'Ref ID','index'=>'ref_id','width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'Ref Number','index'=>'ref_number','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Ref Type','index'=>'ref_type','width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Action','index'=>'ref_action','width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Date In','index'=>'time_in','width'=>150,'align'=>'center'))
