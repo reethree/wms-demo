@@ -138,7 +138,7 @@ class BarcodeController extends Controller
                     }else{
                         return 'Time In is NULL';
                     }
-                }elseif(in_array ($barcode->ref_action, array('release', 'empty'))){
+                }elseif($barcode->ref_action = 'release'){
                     if($data_barcode->time_out != NULL){
                         // RELEASE
                         if($data_barcode->ref_type == 'manifest'){
@@ -161,8 +161,17 @@ class BarcodeController extends Controller
                                 return 'Somthing wrong!!!';
                             }
                         }
+                    }elseif($barcode->ref_action == 'empty'){
+                        $model->TGLBUANGMTY = date('Y-m-d', strtotime($data_barcode->time_out));
+                        $model->JAMBUANGMTY = date('H:i:s', strtotime($data_barcode->time_out));
+                        $model->UIDMTY = 'Autogate';
+                        if($model->save()){
+                            return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+                        }else{
+                            return 'Somthing wrong!!!';
+                        }
                     }else{
-                        return 'Time Out is NULL';
+                        return 'Error';
                     }
                     
                 }
