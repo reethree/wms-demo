@@ -52,10 +52,10 @@ class BarcodeController extends Controller
                     $refdata = \App\Models\Manifest::find($ref_id);
                     $ref_number = $refdata->NOHBL;
                 }elseif($type == 'lcl'){
-                    $refdata = \App\Models\Containercy::find($ref_id);
+                    $refdata = \App\Models\Container::find($ref_id);
                     $ref_number = $refdata->NOCONTAINER;
                 }elseif($type == 'fcl'){
-                    $refdata = \App\Models\Container::find($ref_id);
+                    $refdata = \App\Models\Containercy::find($ref_id);
                     $ref_number = $refdata->NOCONTAINER;
                 }
 
