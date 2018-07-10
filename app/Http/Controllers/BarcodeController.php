@@ -124,7 +124,7 @@ class BarcodeController extends Controller
             if($model){
                 
                 if($data_barcode->ref_action == 'get'){
-                    if($data_barcode->time_in != NULL){
+//                    if($data_barcode->time_in != NULL){
                         // GATEIN
                         $model->TGLMASUK = date('Y-m-d', strtotime($data_barcode->time_in));
                         $model->JAMMASUK = date('H:i:s', strtotime($data_barcode->time_in));
@@ -135,11 +135,11 @@ class BarcodeController extends Controller
                         }else{
                             return 'Somthing wrong!!!';
                         }
-                    }else{
-                        return 'Time In is NULL';
-                    }
+//                    }else{
+//                        return 'Time In is NULL';
+//                    }
                 }elseif($barcode->ref_action = 'release'){
-                    if($data_barcode->time_out != NULL){
+//                    if($data_barcode->time_out != NULL){
                         // RELEASE
                         if($data_barcode->ref_type == 'manifest'){
                             $model->tglrelease = date('Y-m-d', strtotime($data_barcode->time_out));
@@ -161,7 +161,12 @@ class BarcodeController extends Controller
                                 return 'Somthing wrong!!!';
                             }
                         }
-                    }elseif($barcode->ref_action == 'empty'){
+//                    }else{
+//                        return 'Error';
+//                    }
+                    
+                }elseif($barcode->ref_action == 'empty'){
+//                    if($data_barcode->time_out != NULL){
                         $model->TGLBUANGMTY = date('Y-m-d', strtotime($data_barcode->time_out));
                         $model->JAMBUANGMTY = date('H:i:s', strtotime($data_barcode->time_out));
                         $model->UIDMTY = 'Autogate';
@@ -170,10 +175,9 @@ class BarcodeController extends Controller
                         }else{
                             return 'Somthing wrong!!!';
                         }
-                    }else{
-                        return 'Error';
-                    }
-                    
+//                    }else{
+//                        
+//                    }
                 }
                 
 //                if($data_barcode->time_in != NULL && $data_barcode->time_out == NULL){
