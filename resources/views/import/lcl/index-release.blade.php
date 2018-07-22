@@ -286,6 +286,8 @@
                     ->setGridEvent('gridComplete', 'gridCompleteEvent')
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                     ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
+                    ->addColumn(array('label'=>'Status BC','index'=>'status_bc','width'=>100, 'align'=>'center'))
+                    ->addColumn(array('label'=>'Flag','index'=>'flag_bc','width'=>80, 'align'=>'center'))
                     ->addColumn(array('label'=>'Validasi','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
                     ->addColumn(array('label'=>'No. SPK','index'=>'NOJOBORDER', 'width'=>150,'hidden'=>false))
                     ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER', 'width'=>150,'hidden'=>false))
@@ -316,8 +318,7 @@
                     ->addColumn(array('label'=>'Tgl. Release','index'=>'tglrelease', 'width'=>120, 'align'=>'center'))
                     ->addColumn(array('label'=>'Jam. Release','index'=>'jamrelease', 'width'=>120,'hidden'=>false, 'align'=>'center'))
                     ->addColumn(array('label'=>'No. POL','index'=>'NOPOL_RELEASE', 'width'=>100,'hidden'=>false, 'align'=>'center'))
-                    ->addColumn(array('label'=>'Status BC','index'=>'status_bc','width'=>120, 'align'=>'center'))
-                    ->addColumn(array('label'=>'Flag','index'=>'flag_bc','width'=>80, 'align'=>'center'))
+                    
             
                     ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150,'hidden'=>true))

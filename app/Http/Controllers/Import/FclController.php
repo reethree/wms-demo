@@ -708,7 +708,7 @@ class FclController extends Controller
         $data = $request->json()->all(); 
         unset($data['TCONTAINER_PK'], $data['_token']);
         
-        $teus = DBContainer::select('TEUS')->where('TCONTAINER_PK', $id)->first();
+        $container = DBContainer::find($id);
         $kd_dok = \App\Models\KodeDok::find($data['KD_DOK_INOUT']);
         if($kd_dok):
             $data['KODE_DOKUMEN'] = $kd_dok->name;
@@ -725,13 +725,25 @@ class FclController extends Controller
         $data['NAMAEMKL'] = '';
         $data['NOPOL'] = $data['NOPOL_OUT'];
         
+        $data['ID_CONSIGNEE'] = str_replace(array('.','-'), array('',''), $data['ID_CONSIGNEE']);
+        
+        if($data['KD_DOK_INOUT'] > 1){
+            $data['status_bc'] = 'HOLD';
+        }else{
+            if($container->flag_bc == 'Y'){
+                $data['status_bc'] = 'HOLD';
+            }else{
+                 $data['status_bc'] = 'RELEASE';
+            }
+        }
+        
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
         
         if($update){
             $cont = DBContainer::find($id);
             if($cont->yor_update == 1){
-                $yor = $this->updateYor('release', $teus->TEUS);
+                $yor = $this->updateYor('release', $container->TEUS);
                 $cont->yor_update = 2;
                 $cont->save();
             }

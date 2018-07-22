@@ -68,12 +68,12 @@
                             <button type="button" class="btn btn-info" id="add-consignee-btn">Add Consignee</button>
                         </div>
                     </div>
-                    <div class="form-group">
+<!--                    <div class="form-group">
                       <label for="PARTY" class="col-sm-3 control-label">Party</label>
                       <div class="col-sm-8">
                           <input type="text" name="PARTY" class="form-control"  value="{{ old('PARTY') }}"> 
                       </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Country</label>
                         <div class="col-sm-8">
@@ -143,7 +143,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
+<!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">Tgl. ETD</label>
                         <div class="col-sm-8">
                             <div class="input-group date">
@@ -153,7 +153,7 @@
                                 <input type="text" name="ETD" class="form-control pull-right datepicker"  value="{{ old('ETD') }}">
                             </div>
                         </div>
-                    </div>  
+                    </div>  -->
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Lokasi Sandar</label>
                         <div class="col-sm-8">
@@ -197,12 +197,12 @@
                             <input type="text" name="MEASUREMENT" class="form-control"  value="{{ old('MEASUREMENT') }}">
                         </div>
                     </div> 
-                    <div class="form-group">  
+<!--                    <div class="form-group">  
                         <label class="col-sm-3 control-label">ISO Code</label>
                         <div class="col-sm-8">
                             <input type="text" name="ISO_CODE" class="form-control"  value="{{ old('ISO_CODE') }}">
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                       <label class="col-sm-3 control-label">Description</label>
                       <div class="col-sm-8">

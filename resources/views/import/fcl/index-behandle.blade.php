@@ -37,13 +37,13 @@
             $('#NAMA_IMP').val(rowdata.NAMA_IMP);
             $('#NPWP_IMP').val(rowdata.NPWP_IMP);
 
-            if(!rowdata.TGLBEHANDLE && !rowdata.TGLBEHANDLE) {
+//            if(!rowdata.TGLBEHANDLE) {
                 $('#btn-group-2').enableButtonGroup();
                 $('#behandle-form').enableFormGroup();
-            }else{
-                $('#btn-group-2').disabledButtonGroup();
-                $('#behandle-form').disabledFormGroup();
-            }
+//            }else{
+//                $('#btn-group-2').disabledButtonGroup();
+//                $('#behandle-form').disabledFormGroup();
+//            }
 
         });
         
@@ -119,12 +119,12 @@
                     ->setGridOption('mtype', 'POST')
                     ->setGridOption('url', URL::to('/container/grid-data-cy?module=behandle&_token='.csrf_token()))
 //                    ->setGridOption('editurl',URL::to('/container/crud-cy/'))
-                    ->setGridOption('rowNum', 10)
+                    ->setGridOption('rowNum', 50)
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TCONTAINER_PK')
                     ->setGridOption('rownumbers', true)
-                    ->setGridOption('height', '150')
-                    ->setGridOption('rowList',array(10,20,50))
+                    ->setGridOption('height', '300')
+                    ->setGridOption('rowList',array(50,100,200))
                     ->setGridOption('useColSpanStyle', true)
                     ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
                     ->setNavigatorOptions('view',array('closeOnEscape'=>false))
@@ -137,34 +137,41 @@
                     ->setFilterToolbarOptions(array('autosearch'=>true))
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                     ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
-                    ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>160,'editable' => true, 'editrules' => array('required' => true)))
                     ->addColumn(array('label'=>'No. SPK','index'=>'NoJob','width'=>160))
-                    ->addColumn(array('label'=>'No. MBL','index'=>'NOMBL','width'=>160))
-                    ->addColumn(array('label'=>'Tgl. MBL','index'=>'TGLMBL','width'=>150,'align'=>'center'))
-                    ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
-                    ->addColumn(array('label'=>'Tgl. Behandle','index'=>'TGLBEHANDLE','width'=>150,'align'=>'center'))
-                    ->addColumn(array('label'=>'Jam. Behandle','index'=>'JAMBEHANDLE', 'width'=>150,'align'=>'center','hidden'=>true))
-                    ->addColumn(array('label'=>'No. BC11','index'=>'NO_BC11','width'=>150,'align'=>'right'))
-                    ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','width'=>150,'align'=>'center'))
-                    ->addColumn(array('label'=>'Tgl. POS BC11','index'=>'NO_POS_BC11','width'=>150,'align'=>'center'))
-                    ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','width'=>150,'align'=>'right'))
-                    ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','width'=>150,'align'=>'center'))
-                    ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150))
-                    ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150))
-                    ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))
-                    ->addColumn(array('label'=>'Importir','index'=>'NAMA_IMP','width'=>160))
-                    ->addColumn(array('label'=>'NPWP Importir','index'=>'NPWP_IMP','width'=>160))
-                    ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>160,'editable' => true, 'editrules' => array('required' => true)))
                     ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>80,'align'=>'center','editable' => true, 'editrules' => array('required' => true,'number'=>true),'edittype'=>'select','editoptions'=>array('value'=>"20:20;40:40")))
-                    ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>80,'align'=>'center','editable' => false))
-                    ->addColumn(array('label'=>'No. Seal','index'=>'NOSEGEL', 'width'=>120,'editable' => true, 'align'=>'right'))
-                    ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('required' => true)))
-                    ->addColumn(array('label'=>'Measurment','index'=>'MEAS', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('required' => true)))
-                    ->addColumn(array('label'=>'Layout','index'=>'layout', 'width'=>80,'editable' => true,'align'=>'center','editoptions'=>array('defaultValue'=>"C-1")))
-                    ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
+                    ->addColumn(array('label'=>'Vessel','index'=>'VESSEL', 'width'=>150))
+                    ->addColumn(array('label'=>'Callsign','index'=>'CALLSIGN', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'Voy','index'=>'VOY','width'=>80,'align'=>'center'))
+                    ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'TPS Asal','index'=>'KD_TPS_ASAL', 'width'=>80,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. Masuk','index'=>'TGLMASUK','width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Jam Masuk','index'=>'JAMMASUK','width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. Behandle','index'=>'TGLBEHANDLE','width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Jam. Behandle','index'=>'JAMBEHANDLE', 'width'=>120,'align'=>'center'))
+            
+                    ->addColumn(array('label'=>'No. MBL','index'=>'NOMBL','width'=>160,'hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. MBL','index'=>'TGLMBL','width'=>150,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250,'hidden'=>true))
+                    ->addColumn(array('label'=>'No. BC11','index'=>'NO_BC11','width'=>150,'align'=>'right','hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','width'=>150,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'No. POS BC11','index'=>'NO_POS_BC11','width'=>150,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','width'=>150,'align'=>'right','hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','width'=>150,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150,'hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150,'hidden'=>true))
+                    ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160,'hidden'=>true))
+                    ->addColumn(array('label'=>'Importir','index'=>'NAMA_IMP','width'=>160,'hidden'=>true))
+                    ->addColumn(array('label'=>'NPWP Importir','index'=>'NPWP_IMP','width'=>160,'hidden'=>true))
+                    ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>80,'align'=>'center','editable' => false,'hidden'=>true))
+                    ->addColumn(array('label'=>'No. Seal','index'=>'NOSEGEL', 'width'=>120,'editable' => true, 'align'=>'right','hidden'=>true))
+                    ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('required' => true),'hidden'=>true))
+                    ->addColumn(array('label'=>'Measurment','index'=>'MEAS', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('required' => true),'hidden'=>true))
+                    ->addColumn(array('label'=>'Layout','index'=>'layout', 'width'=>80,'editable' => true,'align'=>'center','editoptions'=>array('defaultValue'=>"C-1"),'hidden'=>true))
+                    ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150, 'search'=>false))
                     ->addColumn(array('label'=>'Jam. Entry','index'=>'JAMENTRY', 'width'=>150, 'search'=>false, 'hidden'=>true))
-                    ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
+                    ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
                     ->renderGrid()
                 }}
                 
@@ -199,7 +206,7 @@
                             <input type="text" id="NOJOBORDER" name="NOJOBORDER" class="form-control" readonly>
                         </div>
                     </div>
-                    <div class="form-group">
+<!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">No.MBL</label>
                         <div class="col-sm-8">
                             <input type="text" id="NOMBL" name="NOMBL" class="form-control" readonly>
@@ -210,7 +217,7 @@
                         <div class="col-sm-8">
                             <input type="text" id="TGLMBL" name="TGLMBL" class="form-control" readonly>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. Container</label>
                         <div class="col-sm-8">
@@ -251,12 +258,12 @@
                             <input type="text" id="TGL_PLP" name="TGL_PLP" class="form-control" readonly>
                         </div>
                     </div>
-                    <div class="form-group">
+<!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">Consolidator</label>
                         <div class="col-sm-8">
                             <input type="text" id="NAMACONSOLIDATOR" name="NAMACONSOLIDATOR" class="form-control" readonly>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Tgl/Jam Masuk</label>
                         <div class="col-sm-8">
@@ -267,7 +274,7 @@
             </div>
             <hr />
             <div class="row">
-                <div class="col-md-6">
+<!--                <div class="col-md-6">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. SPJM</label>
                         <div class="col-sm-8">
@@ -287,7 +294,7 @@
                     </div>
                     
                     
-                </div>
+                </div>-->
                 <div class="col-md-6"> 
                     
                     <div class="form-group">
@@ -315,7 +322,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+<!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">Importir</label>
                         <div class="col-sm-8">
                             <input type="text" id="NAMA_IMP" name="NAMA_IMP" class="form-control" required>
@@ -326,7 +333,7 @@
                         <div class="col-sm-8">
                             <input type="text" id="NPWP_IMP" name="NPWP_IMP" class="form-control" required>
                         </div>
-                    </div>
+                    </div>-->
                     
                 </div>
             </div>

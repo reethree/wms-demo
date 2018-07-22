@@ -30,6 +30,11 @@
             }else{
                 lt = 'Sudah Release';
             }
+            
+            if(rowdata.flag_bc == 'Y' || rowdata.status_bc == 'HOLD') {
+                $("#" + cl).find("td").css("color", "#FF0000");
+            } 
+            
             jQuery("#fclContainerReportGrid").jqGrid('setRowData',ids[i],{lamaTimbun:lt}); 
         } 
     }
@@ -125,6 +130,7 @@
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','TCONTAINER_PK')
             ->setGridOption('rownumbers', true)
+            ->setGridOption('rownumWidth', 50)
             ->setGridOption('height', '400')
             ->setGridOption('multiselect', true)
             ->setGridOption('rowList',array(20,50,100))
@@ -136,18 +142,21 @@
             ->setGridEvent('gridComplete', 'gridCompleteEvent')
             ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
 //            ->addColumn(array('label'=>'Status','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
-            ->addColumn(array('label'=>'No. Joborder','index'=>'NoJob', 'width'=>150))
-            ->addColumn(array('label'=>'Nama Angkut','index'=>'VESSEL','width'=>160))  
+            ->addColumn(array('label'=>'Status BC','index'=>'status_bc','width'=>100, 'align'=>'center'))
+            ->addColumn(array('label'=>'Flag','index'=>'flag_bc','width'=>80, 'align'=>'center'))
+            ->addColumn(array('label'=>'No. SPK','index'=>'NoJob', 'width'=>150))
             ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'Shipping Line','index'=>'SHIPPINGLINE','width'=>150,'align'=>'center'))
+            ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'Nama Angkut','index'=>'VESSEL','width'=>160))  
             ->addColumn(array('label'=>'VOY','index'=>'VOY','width'=>100,'align'=>'center','hidden'=>false))
             ->addColumn(array('label'=>'Call Sign','index'=>'CALLSIGN','width'=>100,'align'=>'center','hidden'=>false))
-            ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>100,'align'=>'center'))
-            ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>100,'align'=>'center','hidden'=>true))
+            ->addColumn(array('label'=>'Shipping Line','index'=>'SHIPPINGLINE','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>120,'align'=>'center','hidden'=>true))
             ->addColumn(array('label'=>'TPS Asal','index'=>'KD_TPS_ASAL', 'width'=>100,'align'=>'center'))
-            ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250,'hidden'=>true))
             ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>250))
+    
+            ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>100,'align'=>'center','hidden'=>true))
+            ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250,'hidden'=>true))
             ->addColumn(array('index'=>'TSHIPPINGLINE_FK','width'=>200,'hidden'=>true))            
 //            ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
 //            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>250))
@@ -156,11 +165,11 @@
 //            ->addColumn(array('label'=>'Kode Kemas','index'=>'KODE_KEMAS', 'width'=>100,'align'=>'center'))        
 //            ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120,'align'=>'center'))               
 //            ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>120,'align'=>'center'))
-            ->addColumn(array('label'=>'No.PLP','index'=>'NO_PLP', 'width'=>150,'align'=>'center'))                
-            ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'No.BC 1.1','index'=>'NO_BC11', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'Tgl.BC 1.1','index'=>'TGL_BC11', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>150,'align'=>'center'))
+            ->addColumn(array('label'=>'No.PLP','index'=>'NO_PLP', 'width'=>120,'align'=>'center'))                
+            ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'No.BC 1.1','index'=>'NO_BC11', 'width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'Tgl.BC 1.1','index'=>'TGL_BC11', 'width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>120,'align'=>'center'))
             ->addColumn(array('label'=>'Tgl. Gate In','index'=>'TGLMASUK', 'width'=>120,'align'=>'center'))
             ->addColumn(array('label'=>'Jam. Gate In','index'=>'JAMMASUK', 'width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'No.POL IN','index'=>'NOPOL', 'width'=>100,'align'=>'center'))
@@ -171,13 +180,14 @@
 //            ->addColumn(array('label'=>'Tujuan MTY','index'=>'NAMADEPOMTY', 'width'=>200,'align'=>'left'))
             ->addColumn(array('label'=>'Tgl. Release','index'=>'TGLRELEASE', 'width'=>120,'align'=>'center'))
             ->addColumn(array('label'=>'Jam. Release','index'=>'JAMRELEASE', 'width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'No.POL OUT','index'=>'NOPOL_OUT', 'width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Kode Dokumen','index'=>'KD_DOK_INOUT', 'width'=>120,'align'=>'center'))
             ->addColumn(array('label'=>'Nama Dokumen','index'=>'KODE_DOKUMEN', 'width'=>120))
-            ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>150,'align'=>'center'))
+            ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>160,'align'=>'center'))
             ->addColumn(array('label'=>'Tgl. SPPB','index'=>'TGL_SPPB', 'width'=>120,'align'=>'center'))
-//            ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150))
-//            ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150))
-            ->addColumn(array('label'=>'No.POL OUT','index'=>'NOPOL_OUT', 'width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'No. Pabean','index'=>'NO_DAFTAR_PABEAN', 'width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'Tgl. Pabean','index'=>'TGL_DAFTAR_PABEAN', 'width'=>120,'align'=>'center'))
+            
 //            ->addColumn(array('label'=>'Kode Dokumen','index'=>'KODE_DOKUMEN', 'width'=>150))
 //            ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>160))
 //            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))

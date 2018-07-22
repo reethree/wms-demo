@@ -42,6 +42,9 @@
             $('#TCONTAINER_PK').val(rowid);
             $('#NO_BC11').val(rowdata.NO_BC11);
             $('#TGL_BC11').val(rowdata.TGL_BC11);
+            $('#NO_PLP').val(rowdata.NO_PLP);
+            $('#TGL_PLP').val(rowdata.TGL_PLP);
+            $('#KD_TPS_ASAL').val(rowdata.KD_TPS_ASAL);
             $("#P_TGLKELUAR").datepicker('setDate', rowdata.P_TGLKELUAR);
             $('#NO_SP2').val(rowdata.NO_SP2);
             $("#TGL_SP2").datepicker('setDate', rowdata.TGL_SP2);
@@ -202,7 +205,8 @@
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TCONTAINER_PK')
                     ->setGridOption('rownumbers', true)
-                    ->setGridOption('height', '250')
+                    ->setGridOption('rownumWidth', 50)
+                    ->setGridOption('height', '300')
                     ->setGridOption('rowList',array(20,50,100))
                     ->setGridOption('useColSpanStyle', true)
                     ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
@@ -212,32 +216,37 @@
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
         //            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                     ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
+                    ->addColumn(array('label'=>'No. SPK','index'=>'NoJob','width'=>150))
                     ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>150))
-                    ->addColumn(array('label'=>'No. Joborder','index'=>'NoJob','width'=>150))
-                    ->addColumn(array('label'=>'Tgl. ETA','index'=>'ETA','width'=>120))
-                    ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
-                    ->addColumn(array('label'=>'No. BC11','index'=>'NO_BC11','width'=>120))
-                    ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','width'=>120,'hidden'=>true))
-                    ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','width'=>120))
-                    ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','width'=>120,'hidden'=>true))
                     ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>80,'align'=>'center'))
+                    ->addColumn(array('label'=>'Vessel','index'=>'VESSEL', 'width'=>150))
+                    ->addColumn(array('label'=>'Callsign','index'=>'CALLSIGN', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'Voy','index'=>'VOY','width'=>80,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. ETA','index'=>'ETA','width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'TPS Asal','index'=>'KD_TPS_ASAL', 'width'=>80,'align'=>'center'))
+                    ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250,'hidden'=>true))
+                    ->addColumn(array('label'=>'No. BC11','index'=>'NO_BC11','width'=>120,'hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','width'=>120,'hidden'=>true))
+                    ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','width'=>120,'hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','width'=>120,'hidden'=>true))
+                    
         //            ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>80,'align'=>'center'))
-                    ->addColumn(array('label'=>'No. Seal','index'=>'NO_SEAL', 'width'=>120,'align'=>'right'))
-                    ->addColumn(array('label'=>'Tgl. Masuk','index'=>'TGLMASUK','width'=>120))
-                    ->addColumn(array('label'=>'Jam Masuk','index'=>'JAMMASUK','width'=>120))
-                    ->addColumn(array('label'=>'Tgl. Keluar TPK','index'=>'TGLKELUAR_TPK','hidden'=>true))
-                    ->addColumn(array('label'=>'Jam Keluar TPK','index'=>'JAMKELUAR_TPK','hidden'=>true))
+                    ->addColumn(array('label'=>'No. Seal','index'=>'NO_SEAL', 'width'=>120,'align'=>'right','hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. Masuk','index'=>'TGLMASUK','width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Jam Masuk','index'=>'JAMMASUK','width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. Keluar TPK','index'=>'TGLKELUAR_TPK','hidden'=>false,'align'=>'center'))
+                    ->addColumn(array('label'=>'Jam Keluar TPK','index'=>'JAMKELUAR_TPK','hidden'=>false,'align'=>'center'))
                     ->addColumn(array('label'=>'Perkiraan Keluar','index'=>'P_TGLKELUAR','hidden'=>true))
                     ->addColumn(array('label'=>'Petugas','index'=>'UIDMASUK','hidden'=>true))
-                    ->addColumn(array('label'=>'No. POL','index'=>'NOPOL','hidden'=>true))
+                    ->addColumn(array('label'=>'No. POL','index'=>'NOPOL','hidden'=>false,'align'=>'center'))
                     ->addColumn(array('label'=>'No. SP2','index'=>'NO_SP2','width'=>120,'hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. SP2','index'=>'TGL_SP2','hidden'=>true))
                     ->addColumn(array('label'=>'E-Seal','index'=>'ESEALCODE','hidden'=>true))
                     ->addColumn(array('label'=>'Flag','index'=>'flag_bc','width'=>80, 'align'=>'center'))
         //            ->addColumn(array('label'=>'Layout','index'=>'layout','width'=>80,'align'=>'center','hidden'=>true))
         //            ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
-                    ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150))
-                    ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
+                    ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150,'align'=>'center'))
+//                    ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
         //            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                     ->renderGrid()
                 }}
@@ -282,6 +291,16 @@
                             <input type="text" id="NOCONTAINER" name="NOCONTAINER" class="form-control" readonly>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Size</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="SIZE" name="SIZE" class="form-control" readonly>
+                        </div>
+                        <label class="col-sm-2 control-label">TPS Asal</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="KD_TPS_ASAL" name="KD_TPS_ASAL" class="form-control" readonly>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
@@ -295,11 +314,16 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Consolidator</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="NAMACONSOLIDATOR" name="NAMACONSOLIDATOR" class="form-control" readonly>
+                        <label class="col-sm-3 control-label">No.PLP</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="NO_PLP" name="NO_PLP" class="form-control" readonly>
+                        </div>
+                        <label class="col-sm-2 control-label">Tgl.PLP</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="TGL_PLP" name="TGL_PLP" class="form-control" readonly>
                         </div>
                     </div>
+
                 </div>
             </div>
             <hr />
