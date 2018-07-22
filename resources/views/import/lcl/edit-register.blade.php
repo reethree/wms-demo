@@ -51,12 +51,12 @@
                             </select>
                         </div>
                     </div>            
-                    <div class="form-group">
+<!--                    <div class="form-group">
                       <label for="PARTY" class="col-sm-3 control-label">Party</label>
                       <div class="col-sm-8">
                           <input type="text" name="PARTY" class="form-control"  value="{{ $joborder->PARTY }}"> 
                       </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Country</label>
                         <div class="col-sm-8">
@@ -126,7 +126,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
+<!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">Tgl. ETD</label>
                         <div class="col-sm-8">
                             <div class="input-group date">
@@ -136,7 +136,7 @@
                                 <input type="text" name="ETD" class="form-control pull-right datepicker"  value="{{ $joborder->ETD }}">
                             </div>
                         </div>
-                    </div>  
+                    </div>  -->
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Lokasi Sandar</label>
                         <div class="col-sm-8">
@@ -171,21 +171,22 @@
                         <div class="col-sm-3">
                             <input type="text" name="GROSSWEIGHT" class="form-control"  value="{{ $joborder->GROSSWEIGHT }}">
                         </div>
+                        <label class="col-sm-2 control-label">Measurment</label>
+                        <div class="col-sm-3">
+                            <input type="text" name="MEASUREMENT" class="form-control"  value="{{ $joborder->MEASUREMENT }}">
+                        </div>
+                        
+                    </div> 
+<!--                    <div class="form-group">
                         <label class="col-sm-2 control-label">Total HBL</label>
                         <div class="col-sm-3">
                             <input type="number" name="JUMLAHHBL" class="form-control"  value="{{ $joborder->JUMLAHHBL }}">
-                        </div>
-                    </div> 
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Measurment</label>
-                        <div class="col-sm-3">
-                            <input type="text" name="MEASUREMENT" class="form-control"  value="{{ $joborder->MEASUREMENT }}">
                         </div>
                         <label class="col-sm-2 control-label">ISO Code</label>
                         <div class="col-sm-3">
                             <input type="text" name="ISO_CODE" class="form-control"  value="{{ $joborder->ISO_CODE }}">
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                       <label class="col-sm-3 control-label">Description</label>
                       <div class="col-sm-8">
