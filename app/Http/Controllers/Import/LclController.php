@@ -788,6 +788,26 @@ class LclController extends Controller
         if($kode_dok){
             $data['KODE_DOKUMEN'] = $kode_dok->name;
         }
+        
+        if(empty($data['tglrelease'])){
+            $data['tglrelease'] = NULL;
+            $data['jamrelease'] = NULL;
+        }
+        
+        if($data['KD_DOK_INOUT'] > 1){
+            $data['status_bc'] = 'HOLD';
+            $data['tglrelease'] = NULL;
+            $data['jamrelease'] = NULL;
+        }else{
+            if($manifest->flag_bc == 'Y'){
+                $data['status_bc'] = 'HOLD';
+                $data['tglrelease'] = NULL;
+                $data['jamrelease'] = NULL;
+            }else{
+                 $data['status_bc'] = 'RELEASE';
+            }
+        }
+        
         $data['TGLSURATJALAN'] = $data['tglrelease'];
         $data['JAMSURATJALAN'] = $data['jamrelease'];
         $data['tglfiat'] = $data['tglrelease'];
@@ -795,17 +815,7 @@ class LclController extends Controller
         $data['NAMAEMKL'] = $data['UIDRELEASE'];
         $data['UIDSURATJALAN'] = $data['UIDRELEASE'];
         $data['NOPOL'] = $data['NOPOL_RELEASE'];
-        
-        if($data['KD_DOK_INOUT'] > 1){
-            $data['status_bc'] = 'HOLD';
-        }else{
-            if($manifest->flag_bc == 'Y'){
-                $data['status_bc'] = 'HOLD';
-            }else{
-                 $data['status_bc'] = 'RELEASE';
-            }
-        }
-        
+         
         $update = DBManifest::where('TMANIFEST_PK', $id)
             ->update($data);
         
@@ -2011,6 +2021,20 @@ class LclController extends Controller
         }
         
         return back()->with('error', 'Please upload EXCEL file format.')->withInput();
+    }
+    
+    public function changeStatusBc($id)
+    {
+    
+        $manifest = DBManifest::find($id);
+        $manifest->status_bc = 'RELEASE';
+              
+        if($manifest->save()){
+
+            return json_encode(array('success' => true, 'message' => 'Status has been Change!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
     }
     
 }

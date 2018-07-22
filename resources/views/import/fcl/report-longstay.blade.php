@@ -11,18 +11,53 @@
     function gridCompleteEvent()
     {
         var ids = jQuery("#fcllongstayGrid").jqGrid('getDataIDs'),
-            lt = '';   
+            apv = '';   
             
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
             
             rowdata = $('#fcllongstayGrid').getRowData(cl); 
             
+            if(rowdata.status_bc == 'HOLD') {
+                apv = '<button style="margin:5px;" class="btn btn-danger btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Are You Sure to change status HOLD to RELEASE ?\')){ changeStatus('+cl+'); }else{return false;};"><i class="fa fa-check"></i> RELEASE</button>';
+            }
+            
             if(rowdata.flag_bc == 'Y' || rowdata.status_bc == 'HOLD') {
                 $("#" + cl).find("td").css("color", "#FF0000");
             } 
-
+            
+            jQuery("#fcllongstayGrid").jqGrid('setRowData',ids[i],{action:apv});
+            
         } 
+    }
+    
+    function changeStatus($id)
+    {
+        $.ajax({
+            type: 'GET',
+            dataType : 'json',
+            url: "{{ route('fcl-change-status','') }}/"+$id,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+
+            },
+            success:function(json)
+            {
+                if(json.success) {
+                    $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    $('#fcllongstayGrid').jqGrid().trigger("reloadGrid");
+                } else {
+                    $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                }
+
+                //Triggers the "Refresh" button funcionality.
+                $('#btn-refresh').click();
+            }
+        });
     }
 </script>
 <div class="box">
@@ -65,6 +100,7 @@
                 </div>
             </div>
         </div>
+        <div id="btn-toolbar" class="section-header btn-toolbar" role="toolbar" style="margin: 10px 0;"></div>
         {{
             GridRender::setGridId("fcllongstayGrid")
             ->enableFilterToolbar()
@@ -84,6 +120,7 @@
 //            ->setGridEvent('onSelectRow', 'onSelectRowEvent')
             ->setGridEvent('gridComplete', 'gridCompleteEvent')
             ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
+            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>100, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('label'=>'Status BC','index'=>'status_bc','width'=>100, 'align'=>'center'))
             ->addColumn(array('label'=>'Flag','index'=>'flag_bc','width'=>80, 'align'=>'center'))
             ->addColumn(array('label'=>'No. SPK','index'=>'NoJob', 'width'=>150))

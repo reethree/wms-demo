@@ -716,6 +716,21 @@ class FclController extends Controller
         
         if(empty($data['TGLRELEASE'])){
             $data['TGLRELEASE'] = NULL;
+            $data['JAMRELEASE'] = NULL;
+        }
+        
+        if($data['KD_DOK_INOUT'] > 1){
+            $data['status_bc'] = 'HOLD';
+            $data['TGLRELEASE'] = NULL;
+            $data['JAMRELEASE'] = NULL;
+        }else{
+            if($container->flag_bc == 'Y'){
+                $data['status_bc'] = 'HOLD';
+                $data['TGLRELEASE'] = NULL;
+                $data['JAMRELEASE'] = NULL;
+            }else{
+                 $data['status_bc'] = 'RELEASE';
+            }
         }
         
         $data['TGLFIAT'] = $data['TGLRELEASE'];
@@ -726,17 +741,7 @@ class FclController extends Controller
         $data['NOPOL'] = $data['NOPOL_OUT'];
         
         $data['ID_CONSIGNEE'] = str_replace(array('.','-'), array('',''), $data['ID_CONSIGNEE']);
-        
-        if($data['KD_DOK_INOUT'] > 1){
-            $data['status_bc'] = 'HOLD';
-        }else{
-            if($container->flag_bc == 'Y'){
-                $data['status_bc'] = 'HOLD';
-            }else{
-                 $data['status_bc'] = 'RELEASE';
-            }
-        }
-        
+
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
         
@@ -1546,5 +1551,19 @@ class FclController extends Controller
 //        return $container;
         return back()->with('error', 'Something went wrong, please try again later.');
 //        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+    
+    public function changeStatusBc($id)
+    {
+    
+        $container = DBContainer::find($id);
+        $container->status_bc = 'RELEASE';
+              
+        if($container->save()){
+
+            return json_encode(array('success' => true, 'message' => 'Status has been Change!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
     }
 }

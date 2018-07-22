@@ -14,7 +14,7 @@
 //        $grid.jqGrid('footerData', 'set', { MEAS: precisionRound(colmeasSum, 4) });
         
         var ids = jQuery("#lcllongstayGrid").jqGrid('getDataIDs'),
-            lt = '';   
+            apv = '';   
             
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
@@ -29,13 +29,46 @@
 //                lt = 'Sudah Release';
 //            }
             
+            if(rowdata.status_bc == 'HOLD') {
+                apv = '<button style="margin:5px;" class="btn btn-danger btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Are You Sure to change status HOLD to RELEASE ?\')){ changeStatus('+cl+'); }else{return false;};"><i class="fa fa-check"></i> RELEASE</button>';
+            }
+            
             if(rowdata.flag_bc == 'Y' || rowdata.status_bc == 'HOLD') {
                 $("#" + cl).find("td").css("color", "#FF0000");
             }
             
-//            jQuery("#lcllongstayGrid").jqGrid('setRowData',ids[i],{lamaTimbun:lt}); 
+            jQuery("#lcllongstayGrid").jqGrid('setRowData',ids[i],{action:apv}); 
         } 
     
+    }
+    
+    function changeStatus($id)
+    {
+        $.ajax({
+            type: 'GET',
+            dataType : 'json',
+            url: "{{ route('lcl-change-status','') }}/"+$id,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+
+            },
+            success:function(json)
+            {
+                if(json.success) {
+                    $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    $('#fcllongstayGrid').jqGrid().trigger("reloadGrid");
+                } else {
+                    $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                }
+
+                //Triggers the "Refresh" button funcionality.
+                $('#btn-refresh').click();
+            }
+        });
     }
     
     function precisionRound(number, precision) {
@@ -105,6 +138,7 @@
                 </div>
             </div>
         </div>
+        <div id="btn-toolbar" class="section-header btn-toolbar" role="toolbar" style="margin: 10px 0;"></div>
         {{
             GridRender::setGridId("lcllongstayGrid")
             ->enableFilterToolbar()
@@ -125,6 +159,7 @@
             ->setGridEvent('gridComplete', 'gridCompleteEvent')
 //            ->setGridEvent('onSelectRow', 'onSelectRowEvent')
             ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
+            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>100, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('label'=>'Status BC','index'=>'status_bc', 'width'=>80,'align'=>'center'))
             ->addColumn(array('label'=>'Flag','index'=>'flag_bc', 'width'=>80,'align'=>'center'))
             ->addColumn(array('label'=>'No. SPK','index'=>'NOJOBORDER', 'width'=>150))
