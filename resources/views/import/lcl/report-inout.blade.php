@@ -19,7 +19,7 @@
     }
 </style>
 <script>
-    
+
     function gridCompleteEvent()
     {
         var ids = jQuery("#lclInoutReportGrid").jqGrid('getDataIDs'),
@@ -37,6 +37,11 @@
             }else{
                 lt = 'Sudah Release';
             }
+            
+            if(rowdata.flag_bc == 'Y' || rowdata.status_bc == 'HOLD') {
+                $("#" + cl).find("td").css("color", "#FF0000");
+            }
+            
             jQuery("#lclInoutReportGrid").jqGrid('setRowData',ids[i],{lamaTimbun:lt}); 
         } 
     }
@@ -97,7 +102,8 @@
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','TMANIFEST_PK')
             ->setGridOption('rownumbers', true)
-            ->setGridOption('height', '320')
+            ->setGridOption('rownumWidth', 50)
+            ->setGridOption('height', '350')
             ->setGridOption('rowList',array(20,50,100))
             ->setGridOption('useColSpanStyle', true)
             ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
@@ -107,24 +113,35 @@
             ->setGridEvent('gridComplete', 'gridCompleteEvent')
             ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
 //            ->addColumn(array('label'=>'Status','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
-            ->addColumn(array('label'=>'No. Joborder','index'=>'NOJOBORDER', 'width'=>150))
-            ->addColumn(array('label'=>'Nama Angkut','index'=>'VESSEL','width'=>160))
-            ->addColumn(array('label'=>'VOY','index'=>'VOY','width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'Status BC','index'=>'status_bc', 'width'=>80,'align'=>'center'))
+            ->addColumn(array('label'=>'Flag','index'=>'flag_bc', 'width'=>80,'align'=>'center'))
+            ->addColumn(array('label'=>'No. HBL','index'=>'NOHBL','width'=>160))
+            ->addColumn(array('label'=>'Tgl. HBL','index'=>'TGL_HBL', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'Nama Angkut','index'=>'VESSEL','width'=>160))
+            ->addColumn(array('label'=>'VOY','index'=>'VOY','width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'Call Sign','index'=>'CALL_SIGN','width'=>100,'align'=>'center'))
+            
+            ->addColumn(array('label'=>'No. SPK','index'=>'NOJOBORDER', 'width'=>150,'hidden'=>true))
+
             ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>100,'align'=>'center','hidden'=>true))
             ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>120,'align'=>'center'))
             ->addColumn(array('label'=>'TPS Asal','index'=>'KD_TPS_ASAL', 'width'=>100,'align'=>'center'))
-            ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
-            ->addColumn(array('label'=>'No. HBL','index'=>'NOHBL','width'=>160))
-            ->addColumn(array('label'=>'Tgl. HBL','index'=>'TGL_HBL', 'width'=>150,'align'=>'center'))
-//            ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
-            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>250))
-            ->addColumn(array('label'=>'Quantity','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))
+            ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>300))
+            ->addColumn(array('label'=>'No. MBL','index'=>'NOMBL','width'=>160))
+            ->addColumn(array('label'=>'Tgl. MBL','index'=>'TGL_MASTER_BL', 'width'=>150,'hidden'=>false, 'align'=>'center'))
+            ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>160))
+            ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160,'hidden'=>true))
+            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>300))
+            ->addColumn(array('label'=>'Desc of Goods','index'=>'DESCOFGOODS', 'width'=>300))
+    
+            ->addColumn(array('label'=>'QTY','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))
             ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>120,'align'=>'center'))
             ->addColumn(array('label'=>'Kode Kemas','index'=>'KODE_KEMAS', 'width'=>100,'align'=>'center'))        
             ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120,'align'=>'center'))               
             ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>120,'align'=>'center'))
+    
             ->addColumn(array('label'=>'No.PLP','index'=>'NO_PLP', 'width'=>150,'align'=>'center'))                
             ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'No.BC 1.1','index'=>'NO_BC11', 'width'=>150,'align'=>'center'))
@@ -139,16 +156,15 @@
             ->addColumn(array('label'=>'Kode Dokumen','index'=>'KODE_DOKUMEN', 'width'=>150))
             ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Tgl. SPPB','index'=>'TGL_SPPB', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150,'align'=>'center'))
+//            ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150,'align'=>'center'))
+//            ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150,'align'=>'center'))
 //            ->addColumn(array('label'=>'No. POL','index'=>'NOPOL', 'width'=>120,'align'=>'center'))
 //            ->addColumn(array('label'=>'Kode Dokumen','index'=>'KODE_DOKUMEN', 'width'=>150))
 //            ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>160))
 //            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))
 //            ->addColumn(array('label'=>'Notify Party','index'=>'NOTIFYPARTY','width'=>160))            
 //            ->addColumn(array('label'=>'NPWP Consignee','index'=>'NPWP_CONSIGNEE', 'width'=>150))
-//            ->addColumn(array('label'=>'Marking','index'=>'MARKING', 'width'=>150)) 
-//            ->addColumn(array('label'=>'Desc of Goods','index'=>'DESCOFGOODS', 'width'=>250))              
+//            ->addColumn(array('label'=>'Marking','index'=>'MARKING', 'width'=>150))               
 //            ->addColumn(array('label'=>'Tgl.Behandle','index'=>'tglbehandle', 'width'=>150)) 
 //            ->addColumn(array('label'=>'Surcharge (DG)','index'=>'DG_SURCHARGE', 'width'=>150))
 //            ->addColumn(array('label'=>'Surcharge (Weight)','index'=>'WEIGHT_SURCHARGE', 'width'=>150)) 

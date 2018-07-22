@@ -775,7 +775,7 @@ class LclController extends Controller
         $data = $request->json()->all(); 
         unset($data['TMANIFEST_PK'], $data['_token']);
         
-        $meas = DBManifest::select('MEAS')->where('TMANIFEST_PK', $id)->first();
+        $manifest = DBManifest::find($id);
         
         if(empty($data['NOTALLY'])) {
             $manifestID = DBManifest::select('NOTALLY')->where('NOTALLY', NULL)->count();
@@ -795,6 +795,16 @@ class LclController extends Controller
         $data['NAMAEMKL'] = $data['UIDRELEASE'];
         $data['UIDSURATJALAN'] = $data['UIDRELEASE'];
         $data['NOPOL'] = $data['NOPOL_RELEASE'];
+        
+        if($data['KD_DOK_INOUT'] > 1){
+            $data['status_bc'] = 'HOLD';
+        }else{
+            if($manifest->flag_bc == 'Y'){
+                $data['status_bc'] = 'HOLD';
+            }else{
+                 $data['status_bc'] = 'RELEASE';
+            }
+        }
         
         $update = DBManifest::where('TMANIFEST_PK', $id)
             ->update($data);

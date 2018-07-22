@@ -10,8 +10,31 @@
         var colweightSum = $grid.jqGrid('getCol', 'WEIGHT', false, 'sum');
         var colmeasSum = $grid.jqGrid('getCol', 'MEAS', false, 'sum');
         
-        $grid.jqGrid('footerData', 'set', { WEIGHT: precisionRound(colweightSum, 4) });
-        $grid.jqGrid('footerData', 'set', { MEAS: precisionRound(colmeasSum, 4) });
+//        $grid.jqGrid('footerData', 'set', { WEIGHT: precisionRound(colweightSum, 4) });
+//        $grid.jqGrid('footerData', 'set', { MEAS: precisionRound(colmeasSum, 4) });
+        
+        var ids = jQuery("#lcllongstayGrid").jqGrid('getDataIDs'),
+            lt = '';   
+            
+        for(var i=0;i < ids.length;i++){ 
+            var cl = ids[i];
+            
+            rowdata = $('#lcllongstayGrid').getRowData(cl);
+            
+//            if(rowdata.tglmasuk && rowdata.tglrelease == ''){
+//                lt = jQuery.timeago(rowdata.tglmasuk+' '+rowdata.jammasuk);
+//            }else if(rowdata.tglmasuk == ''){
+//                lt = 'Belum GateIn';
+//            }else{
+//                lt = 'Sudah Release';
+//            }
+            
+            if(rowdata.flag_bc == 'Y' || rowdata.status_bc == 'HOLD') {
+                $("#" + cl).find("td").css("color", "#FF0000");
+            }
+            
+//            jQuery("#lcllongstayGrid").jqGrid('setRowData',ids[i],{lamaTimbun:lt}); 
+        } 
     
     }
     
@@ -91,40 +114,46 @@
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','TMANIFEST_PK')
             ->setGridOption('rownumbers', true)
+            ->setGridOption('rownumWidth', 50)
             ->setGridOption('height', '320')
             ->setGridOption('rowList',array(50,100,200,500))
             ->setGridOption('useColSpanStyle', true)
-            ->setGridOption('footerrow', true)
+//            ->setGridOption('footerrow', true)
             ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
             ->setNavigatorOptions('view',array('closeOnEscape'=>false))
             ->setFilterToolbarOptions(array('autosearch'=>true))
             ->setGridEvent('gridComplete', 'gridCompleteEvent')
 //            ->setGridEvent('onSelectRow', 'onSelectRowEvent')
             ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
-            ->addColumn(array('label'=>'No. Joborder','index'=>'NOJOBORDER', 'width'=>150))
+            ->addColumn(array('label'=>'Status BC','index'=>'status_bc', 'width'=>80,'align'=>'center'))
+            ->addColumn(array('label'=>'Flag','index'=>'flag_bc', 'width'=>80,'align'=>'center'))
+            ->addColumn(array('label'=>'No. SPK','index'=>'NOJOBORDER', 'width'=>150))
+            ->addColumn(array('label'=>'No. HBL','index'=>'NOHBL','width'=>160))
+            ->addColumn(array('label'=>'Tgl. HBL','index'=>'TGL_HBL', 'width'=>150,'align'=>'center'))
+            ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER', 'width'=>150,'align'=>'center'))
+            ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Nama Angkut','index'=>'VESSEL','width'=>160))
             ->addColumn(array('label'=>'Call Sign','index'=>'CALL_SIGN','width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'VOY','index'=>'VOY','width'=>100,'align'=>'center'))
-            ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>100,'align'=>'center'))
-            ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>100,'align'=>'center'))
-            ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>100,'align'=>'center'))
-//            ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>100,'align'=>'center','hidden'=>true))
             ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>120,'align'=>'center'))
-//            ->addColumn(array('label'=>'TPS Asal','index'=>'KD_TPS_ASAL', 'width'=>100,'align'=>'center'))
-            ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
-            ->addColumn(array('label'=>'No. HBL','index'=>'NOHBL','width'=>160))
-            ->addColumn(array('label'=>'Tgl. HBL','index'=>'TGL_HBL', 'width'=>150,'align'=>'center'))
+            ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>300))
+            ->addColumn(array('label'=>'No. MBL','index'=>'NOMBL','width'=>160))
+            ->addColumn(array('label'=>'Tgl. MBL','index'=>'TGL_MASTER_BL', 'width'=>150,'hidden'=>false, 'align'=>'center'))
+            ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>160))
+            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>300))
+            ->addColumn(array('label'=>'Desc of Goods','index'=>'DESCOFGOODS', 'width'=>300))
             ->addColumn(array('label'=>'Qty','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))
             ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>120))
             ->addColumn(array('label'=>'Kode Kemas','index'=>'KODE_KEMAS', 'width'=>100,'align'=>'center'))
-            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>250))
+            ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'No.BC 1.1','index'=>'NO_BC11', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Tgl.BC 1.1','index'=>'TGL_BC11', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Tgl. Gate In','index'=>'tglmasuk', 'width'=>120,'align'=>'center'))
             ->addColumn(array('label'=>'Jam. Gate In','index'=>'jammasuk', 'width'=>100,'align'=>'center'))
-            ->addColumn(array('label'=>'Desc of Goods','index'=>'DESCOFGOODS', 'width'=>250))
+            ->addColumn(array('label'=>'Tgl. Stripping','index'=>'tglstripping', 'width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'Jam. Stripping','index'=>'jamstripping', 'width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Lama Timbun (Hari)','index'=>'timeSinceUpdate', 'width'=>150, 'search'=>false, 'align'=>'center'))
             ->renderGrid()
         }}

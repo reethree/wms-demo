@@ -44,6 +44,11 @@
             $('#TCONTAINER_PK').val(rowid);
             $('#NOPOL_MTY').val(rowdata.NOPOL_MTY);
             $('#TUJUAN_MTY').val(rowdata.TUJUAN_MTY).trigger('change');
+            $('#NO_BC11').val(rowdata.NO_BC11);
+            $('#TGL_BC11').val(rowdata.TGL_BC11);
+            $('#NO_PLP').val(rowdata.NO_PLP);
+            $('#TGL_PLP').val(rowdata.TGL_PLP);
+            $('#KD_TPS_ASAL').val(rowdata.KD_TPS_ASAL);
             if(rowdata.STARTSTRIPPING && rowdata.STARTSTRIPPING) {
                 $('#btn-group-2').enableButtonGroup();
                 $('#buangmty-form').enableFormGroup();
@@ -210,7 +215,7 @@
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TCONTAINER_PK')
                     ->setGridOption('rownumbers', true)
-                    ->setGridOption('height', '295')
+                    ->setGridOption('height', '300')
                     ->setGridOption('multiselect', true)
                     ->setGridOption('rowList',array(20,50,100))
                     ->setGridOption('useColSpanStyle', true)
@@ -223,23 +228,28 @@
                     ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
                     ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>150))
                     ->addColumn(array('label'=>'No. Joborder','index'=>'NoJob','width'=>150))
-                    ->addColumn(array('label'=>'Tgl. ETA','index'=>'ETA','align'=>'center','width'=>120))
-                    ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
-                    ->addColumn(array('label'=>'No. BC11','index'=>'NO_BC11','align'=>'center','width'=>120))
-                    ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','align'=>'center','width'=>120,'hidden'=>true))
-                    ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','align'=>'center','width'=>120))
-                    ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','align'=>'center','width'=>120,'hidden'=>true))
                     ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>80,'align'=>'center'))
-                    ->addColumn(array('label'=>'No. Seal','index'=>'NO_SEAL', 'width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>80,'align'=>'center'))
+                    ->addColumn(array('label'=>'Vessel','index'=>'VESSEL','width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. ETA','index'=>'ETA','align'=>'center','width'=>120))
+                    ->addColumn(array('label'=>'TPS Asal','index'=>'KD_TPS_ASAL','width'=>80,'align'=>'center'))
                     ->addColumn(array('label'=>'Tgl. Masuk','index'=>'TGLMASUK','align'=>'center','width'=>120))
                     ->addColumn(array('label'=>'Jam Masuk','index'=>'JAMMASUK','align'=>'center','width'=>120))
                     ->addColumn(array('label'=>'Start Stripping','index'=>'STARTSTRIPPING','align'=>'center','width'=>150,'hidden'=>false))
                     ->addColumn(array('label'=>'End Stripping','index'=>'ENDSTRIPPING','align'=>'center','width'=>150,'hidden'=>false))
                     ->addColumn(array('label'=>'Tgl. Buang MTY','index'=>'TGLBUANGMTY','align'=>'center','width'=>120,'hidden'=>false))
                     ->addColumn(array('label'=>'Jam Buang MTY','index'=>'JAMBUANGMTY','align'=>'center','width'=>120,'hidden'=>false))
-                    ->addColumn(array('label'=>'No. POL MTY','index'=>'NOPOL_MTY','hidden'=>false))
+            
+                    ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250,'hidden'=>true))
+                    ->addColumn(array('label'=>'No. BC11','index'=>'NO_BC11','align'=>'center','width'=>120,'hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','align'=>'center','width'=>120,'hidden'=>true))
+                    ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','align'=>'center','width'=>120,'hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','align'=>'center','width'=>120,'hidden'=>true))
+                    ->addColumn(array('label'=>'No. Seal','index'=>'NO_SEAL', 'width'=>120,'align'=>'center','hidden'=>true))
+                    
+                    ->addColumn(array('label'=>'No. POL MTY','index'=>'NOPOL_MTY','width'=>120,'align'=>'center','hidden'=>false))
                     ->addColumn(array('index'=>'TUJUAN_MTY','hidden'=>true))
-                    ->addColumn(array('label'=>'Tujuan MTY','index'=>'NAMADEPOMTY','hidden'=>false))
+                    ->addColumn(array('label'=>'Tujuan MTY','index'=>'NAMADEPOMTY','width'=>160,'align'=>'left','hidden'=>false))
         //            ->addColumn(array('label'=>'Layout','index'=>'layout','width'=>80,'align'=>'center','hidden'=>true))
         //            ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
                     ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY','align'=>'center', 'width'=>150))
@@ -294,12 +304,36 @@
                             <input type="text" id="NOCONTAINER" name="NOCONTAINER" class="form-control" readonly>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Size</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="SIZE" name="SIZE" class="form-control" readonly>
+                        </div>
+                        <label class="col-sm-2 control-label">TPS Asal</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="KD_TPS_ASAL" name="KD_TPS_ASAL" class="form-control" readonly>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Consolidator</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="NAMACONSOLIDATOR" name="NAMACONSOLIDATOR" class="form-control" readonly>
+                        <label class="col-sm-3 control-label">No.BC11</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="NO_BC11" name="NO_BC11" class="form-control" readonly>
+                        </div>
+                        <label class="col-sm-2 control-label">Tgl.BC11</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="TGL_BC11" name="TGL_BC11" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">No.PLP</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="NO_PLP" name="NO_PLP" class="form-control" readonly>
+                        </div>
+                        <label class="col-sm-2 control-label">Tgl.PLP</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="TGL_PLP" name="TGL_PLP" class="form-control" readonly>
                         </div>
                     </div>
                 </div>
