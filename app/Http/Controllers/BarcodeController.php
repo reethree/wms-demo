@@ -141,20 +141,29 @@ class BarcodeController extends Controller
                 }elseif($barcode->ref_action = 'release'){
 //                    if($data_barcode->time_out != NULL){
                         // RELEASE
-                        if($data_barcode->ref_type == 'manifest'){
+                        if($data_barcode->ref_type == 'Manifest'){
                             $model->tglrelease = date('Y-m-d', strtotime($data_barcode->time_out));
                             $model->jamrelease = date('H:i:s', strtotime($data_barcode->time_out));
                             $model->UIDRELEASE = 'Autogate';
+                            $model->TGLSURATJALAN = date('Y-m-d', strtotime($data_barcode->time_out));
+                            $model->JAMSURATJALAN = date('H:i:s', strtotime($data_barcode->time_out));
+                            $model->tglfiat = date('Y-m-d', strtotime($data_barcode->time_out));
+                            $model->jamfiat = date('H:i:s', strtotime($data_barcode->time_out));
+                            $model->NAMAEMKL = 'Autogate';
+                            $model->UIDSURATJALAN = 'Autogate';
                             if($model->save()){
                                 return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                             }else{
                                 return 'Somthing wrong!!!';
                             }
                         }else{
-                            $model->TGLKELUAR = date('Y-m-d', strtotime($data_barcode->time_out));
-                            $model->JAMKELUAR = date('H:i:s', strtotime($data_barcode->time_out));
+                            $model->TGLRELEASE = date('Y-m-d', strtotime($data_barcode->time_out));
+                            $model->JAMRELEASE = date('H:i:s', strtotime($data_barcode->time_out));
                             $model->UIDKELUAR = 'Autogate';
-
+                            $model->TGLFIAT = date('Y-m-d', strtotime($data_barcode->time_out));
+                            $model->JAMFIAT = date('H:i:s', strtotime($data_barcode->time_out));
+                            $model->TGLSURATJALAN = date('Y-m-d', strtotime($data_barcode->time_out));
+                            $model->JAMSURATJALAN = date('H:i:s', strtotime($data_barcode->time_out));
                             if($model->save()){
                                 return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                             }else{
