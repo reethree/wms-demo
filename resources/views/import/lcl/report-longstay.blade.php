@@ -31,6 +31,8 @@
             
             if(rowdata.status_bc == 'HOLD') {
                 apv = '<button style="margin:5px;" class="btn btn-danger btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Are You Sure to change status HOLD to RELEASE ?\')){ changeStatus('+cl+'); }else{return false;};"><i class="fa fa-check"></i> RELEASE</button>';
+            }else{
+                apv = '';
             }
             
             if(rowdata.flag_bc == 'Y' || rowdata.status_bc == 'HOLD') {

@@ -794,17 +794,21 @@ class LclController extends Controller
             $data['jamrelease'] = NULL;
         }
         
-        if($data['KD_DOK_INOUT'] > 1){
-            $data['status_bc'] = 'HOLD';
-            $data['tglrelease'] = NULL;
-            $data['jamrelease'] = NULL;
+        if($manifest->release_bc == 'Y'){
+            $data['status_bc'] = 'RELEASE';
         }else{
-            if($manifest->flag_bc == 'Y'){
+            if($data['KD_DOK_INOUT'] > 1){
                 $data['status_bc'] = 'HOLD';
                 $data['tglrelease'] = NULL;
                 $data['jamrelease'] = NULL;
             }else{
-                 $data['status_bc'] = 'RELEASE';
+                if($manifest->flag_bc == 'Y'){
+                    $data['status_bc'] = 'HOLD';
+                    $data['tglrelease'] = NULL;
+                    $data['jamrelease'] = NULL;
+                }else{
+                    $data['status_bc'] = 'RELEASE';
+                }
             }
         }
         
@@ -2028,7 +2032,9 @@ class LclController extends Controller
     
         $manifest = DBManifest::find($id);
         $manifest->status_bc = 'RELEASE';
-              
+        $manifest->release_bc = 'Y';
+        $manifest->release_bc_date = date('Y-m-d H:i:s');
+        
         if($manifest->save()){
 
             return json_encode(array('success' => true, 'message' => 'Status has been Change!'));

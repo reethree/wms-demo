@@ -719,20 +719,24 @@ class FclController extends Controller
             $data['JAMRELEASE'] = NULL;
         }
         
-        if($data['KD_DOK_INOUT'] > 1){
-            $data['status_bc'] = 'HOLD';
-            $data['TGLRELEASE'] = NULL;
-            $data['JAMRELEASE'] = NULL;
+        if($container->release_bc == 'Y'){
+            $data['status_bc'] = 'RELEASE';
         }else{
-            if($container->flag_bc == 'Y'){
+            if($data['KD_DOK_INOUT'] > 1){
                 $data['status_bc'] = 'HOLD';
                 $data['TGLRELEASE'] = NULL;
                 $data['JAMRELEASE'] = NULL;
             }else{
-                 $data['status_bc'] = 'RELEASE';
+                if($container->flag_bc == 'Y'){
+                    $data['status_bc'] = 'HOLD';
+                    $data['TGLRELEASE'] = NULL;
+                    $data['JAMRELEASE'] = NULL;
+                }else{
+                    $data['status_bc'] = 'RELEASE';
+                }
             }
         }
-        
+
         $data['TGLFIAT'] = $data['TGLRELEASE'];
         $data['JAMFIAT'] = $data['JAMRELEASE'];
         $data['TGLSURATJALAN'] = $data['TGLRELEASE'];
@@ -1558,6 +1562,8 @@ class FclController extends Controller
     
         $container = DBContainer::find($id);
         $container->status_bc = 'RELEASE';
+        $container->release_bc = 'Y';
+        $container->release_bc_date = date('Y-m-d H:i:s');
               
         if($container->save()){
 
