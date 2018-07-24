@@ -138,7 +138,7 @@ class BarcodeController extends Controller
 //                    }else{
 //                        return 'Time In is NULL';
 //                    }
-                }elseif($barcode->ref_action = 'release'){
+                }elseif($data_barcode->ref_action = 'release'){
 //                    if($data_barcode->time_out != NULL){
                         // RELEASE
                         if($data_barcode->ref_type == 'Manifest'){
@@ -174,7 +174,7 @@ class BarcodeController extends Controller
 //                        return 'Error';
 //                    }
                     
-                }elseif($barcode->ref_action == 'empty'){
+                }elseif($data_barcode->ref_action == 'empty'){
 //                    if($data_barcode->time_out != NULL){
                         $model->TGLBUANGMTY = date('Y-m-d', strtotime($data_barcode->time_out));
                         $model->JAMBUANGMTY = date('H:i:s', strtotime($data_barcode->time_out));
