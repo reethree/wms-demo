@@ -545,6 +545,11 @@ class FclController extends Controller
         $data = $request->json()->all(); 
         unset($data['TCONTAINER_PK'], $data['_token']);
         
+        if(empty($data['TGLMASUK']) || $data['TGLMASUK'] == '0000-00-00'){
+            $data['TGLMASUK'] = NULL;
+            $data['JAMMASUK'] = NULL;
+        }
+        
         $teus = DBContainer::select('TEUS')->where('TCONTAINER_PK', $id)->first();
 
         $update = DBContainer::where('TCONTAINER_PK', $id)
@@ -714,7 +719,7 @@ class FclController extends Controller
             $data['KODE_DOKUMEN'] = $kd_dok->name;
         endif;
         
-        if(empty($data['TGLRELEASE'])){
+        if(empty($data['TGLRELEASE']) || $data['TGLRELEASE'] == '0000-00-00'){
             $data['TGLRELEASE'] = NULL;
             $data['JAMRELEASE'] = NULL;
         }

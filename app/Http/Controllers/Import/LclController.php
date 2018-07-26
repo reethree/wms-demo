@@ -597,6 +597,11 @@ class LclController extends Controller
         $data = $request->json()->all(); 
         unset($data['TCONTAINER_PK'], $data['_token']);
         
+        if(empty($data['TGLMASUK']) || $data['TGLMASUK'] == '0000-00-00'){
+            $data['TGLMASUK'] = NULL;
+            $data['JAMMASUK'] = NULL;
+        }
+        
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
         
@@ -789,7 +794,7 @@ class LclController extends Controller
             $data['KODE_DOKUMEN'] = $kode_dok->name;
         }
         
-        if(empty($data['tglrelease'])){
+        if(empty($data['tglrelease']) || $data['tglrelease'] == '0000-00-00'){
             $data['tglrelease'] = NULL;
             $data['jamrelease'] = NULL;
         }
