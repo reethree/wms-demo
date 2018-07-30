@@ -31,9 +31,12 @@
                 lt = 'Sudah Release';
             }
             
-            if(rowdata.flag_bc == 'Y' || rowdata.status_bc == 'HOLD') {
+            if(rowdata.status_bc == 'HOLD') {
+                $("#" + cl).find("td").css("background-color", "#ffe500");
+            }
+            if(rowdata.flag_bc == 'Y') {
                 $("#" + cl).find("td").css("color", "#FF0000");
-            } 
+            }   
             
             jQuery("#fclContainerReportGrid").jqGrid('setRowData',ids[i],{lamaTimbun:lt}); 
         } 

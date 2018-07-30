@@ -138,9 +138,12 @@
                 apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-manifest-btn" data-id="'+cl+'" disabled><i class="fa fa-check"></i> Approve</button>';
                 $("#" + cl).find("td").css("color", "#999999");
             }
+            if(rowdata.status_bc == 'HOLD') {
+                $("#" + cl).find("td").css("background-color", "#ffe500");
+            }
             if(rowdata.flag_bc == 'Y') {
                 $("#" + cl).find("td").css("color", "#FF0000");
-            }
+            }  
             jQuery("#lclManifestGrid").jqGrid('setRowData',ids[i],{action:apv}); 
         } 
     }
