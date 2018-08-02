@@ -61,7 +61,12 @@ class BarcodeController extends Controller
 
                 $check = \App\Models\Barcode::where(array('ref_id'=>$ref_id, 'ref_type'=>ucwords($type), 'ref_action'=>$action))->count();               
                 if($check > 0){
-                    continue;
+//                    continue;
+                    $barcode = \App\Models\Barcode::find($ref_id);
+                    $barcode->expired = date('Y-m-d', strtotime('+1 day'));
+                    $barcode->status = 'active';
+                    $barcode->uid = \Auth::getUser()->name;
+                    $barcode->save();
                 }else{
                     $barcode = new \App\Models\Barcode();
                     $barcode->ref_id = $ref_id;
@@ -211,6 +216,26 @@ class BarcodeController extends Controller
         }
 //        return $barcode;
 //        app('App\Http\Controllers\PrintReportController')->getPrintReport();
+    }
+    
+    public function uploadTpsOnlineCoariCont()
+    {
+        
+    }
+    
+    public function uploadTpsOnlineCoariKms()
+    {
+        
+    }
+    
+    public function uploadTpsOnlineCodecoCont()
+    {
+        
+    }
+    
+    public function uploadTpsOnlineCodecoKms()
+    {
+        
     }
     
 }
