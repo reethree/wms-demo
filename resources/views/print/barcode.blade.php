@@ -3,7 +3,7 @@
     @if($barcode->ref_type == 'Manifest')
         <div style="margin: 20px 0">
             <div style="text-align: center;margin: 0 auto;">
-                <span style="font-size:10px;">{{strtoupper($barcode->ref_action).' - '.date('d/m/Y H:i', strtotime($barcode->created_at))}}</span>
+                <span style="font-size:10px;">{{strtoupper($barcode->ref_action).' - '.date('d/m/Y H:i')}}</span>
                 <h3 style="margin: 10px;">GATE PASS</h3>
                 <h5 style="margin: 10px;">TPS PRIMANATA JASA PERSADA</h5>
                 {!!QrCode::margin(0)->size(100)->generate($barcode->barcode)!!}
@@ -23,7 +23,7 @@
     @else
         <div style="margin: 20px 0">
             <div style="text-align: center;margin: 0 auto;">
-                <span style="font-size:10px;">{{strtoupper($barcode->ref_action).' - '.date('d/m/Y H:i', strtotime($barcode->created_at))}}</span>
+                <span style="font-size:10px;">{{strtoupper($barcode->ref_action).' - '.date('d/m/Y H:i')}}</span>
                 <h3 style="margin: 10px;">GATE PASS</h3>
                 <h5 style="margin: 10px;">TPS PRIMANATA JASA PERSADA</h5>
                 {!!QrCode::margin(0)->size(100)->generate($barcode->barcode)!!}
