@@ -59,10 +59,10 @@ class BarcodeController extends Controller
                     $ref_number = $refdata->NOCONTAINER;
                 }
 
-                $check = \App\Models\Barcode::where(array('ref_id'=>$ref_id, 'ref_type'=>ucwords($type), 'ref_action'=>$action))->count();               
-                if($check > 0){
+                $check = \App\Models\Barcode::where(array('ref_id'=>$ref_id, 'ref_type'=>ucwords($type), 'ref_action'=>$action))->first();               
+                if(count($check) > 0){
 //                    continue;
-                    $barcode = \App\Models\Barcode::find($ref_id);
+                    $barcode = \App\Models\Barcode::find($check->id);
                     $barcode->expired = date('Y-m-d', strtotime('+1 day'));
                     $barcode->status = 'active';
                     $barcode->uid = \Auth::getUser()->name;
