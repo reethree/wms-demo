@@ -7,6 +7,11 @@ Route::group(['prefix' => 'barcode'], function(){
         'uses' => 'BarcodeController@index'
     ]);
     
+    Route::get('/view/{id}', [
+        'as' => 'barcode-view',
+        'uses' => 'BarcodeController@view'
+    ]);
+    
     Route::post('/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TablesRepository(new App\Models\Barcode(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());

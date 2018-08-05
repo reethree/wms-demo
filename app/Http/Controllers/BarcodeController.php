@@ -27,6 +27,57 @@ class BarcodeController extends Controller
         return view('barcode.index')->with($data);
     }
 
+    public function view($id)
+    {
+        $data['page_title'] = "View Data";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => route('barcode-index'),
+                'title' => 'QR Code (Auto Gate)'
+            ],
+            [
+                'action' => '',
+                'title' => 'View'
+            ]
+        ];        
+        
+        $barcode = \App\Models\Barcode::find($id);
+        $model = '';
+        
+        switch ($barcode->ref_type) {
+            case 'Fcl':
+                $model = 'tcontainercy';
+                break;
+            case 'Lcl':
+                $model = 'tcontainer';
+                break;
+            case 'Manifest':
+                $model = 'tmanifest';
+                break;
+        }
+        
+        if($barcode->ref_type == 'Manifest'){
+            $data_barcode = \App\Models\Barcode::select('*')
+                ->join($model, 'barcode_autogate.ref_id', '=', $model.'.TMANIFEST_PK')
+                ->where(array('ref_type' => ucwords($barcode->ref_type), 'ref_action'=>$barcode->ref_action))
+                ->where($model.'.TMANIFEST_PK', $barcode->ref_id)
+                ->first();
+        }else{
+            $data_barcode = \App\Models\Barcode::select('*')
+                ->join($model, 'barcode_autogate.ref_id', '=', $model.'.TCONTAINER_PK')
+                ->where(array('ref_type' => ucwords($barcode->ref_type), 'ref_action'=>$barcode->ref_action))
+                ->where($model.'.TCONTAINER_PK', $barcode->ref_id)
+                ->first();
+        }
+        
+//        return json_encode($data_barcode);
+
+        $data['barcode'] = $data_barcode;
+        
+        return view('barcode.view')->with($data);
+    }
+    
     public function printBarcodePreview($id, $type, $action)
     { 
         $ids = explode(',', $id);
