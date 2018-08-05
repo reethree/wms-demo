@@ -380,6 +380,7 @@
     $('#createJoborderBtn').click(function()
     {
         if(!confirm('Apakah anda yakin akan membuat Job Order?')){return false;}
+        $(this).text('Please Wait...').attr("disabled", true);
         
         var responPlpId = '{{$respon->tps_responplptujuanxml_pk}}';
         var url = '{{ route("tps-responPlp-create-joborder", $respon->tps_responplptujuanxml_pk) }}';
