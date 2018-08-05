@@ -1756,105 +1756,114 @@ class LclController extends Controller
                     $container = DBContainer::insertOrGet($no_cont, $size_cont, $noseal, $jobid);
 
                     if($container){
-                        $data = array();
-                        $manifestID = DBManifest::select('NOTALLY')->where('TJOBORDER_FK',$container->TJOBORDER_FK)->count();
                         
-                        $regID = str_pad(intval(($manifestID > 0 ? $manifestID : 0)+1), 3, '0', STR_PAD_LEFT);
+                        // Check Manifest
+                        $checkAvail = DBManifest::where(array('NOHBL'=>$df['NOHBL'],'TGL_HBL'=>$df['TGL_HBL']))->count();
+                        
+                        if($checkAvail > 0){
+                            continue;
+                        }else{
 
-                        // Copy Container
-                        $data['NOTALLY'] = $container->NoJob.'.'.$regID; 
-                        $data['TJOBORDER_FK'] = $container->TJOBORDER_FK;
-                        $data['NOJOBORDER'] = $container->NoJob;
-                        $data['TCONTAINER_FK'] = $container->TCONTAINER_PK;
-                        $data['NOCONTAINER'] = $container->NOCONTAINER;
-                        $data['TCONSOLIDATOR_FK'] = $container->TCONSOLIDATOR_FK;
-                        $data['NAMACONSOLIDATOR'] = $container->NAMACONSOLIDATOR;
-                        $data['TLOKASISANDAR_FK'] = $container->TLOKASISANDAR_FK;
-                        $data['KD_TPS_ASAL'] = $container->KD_TPS_ASAL;
-                        $data['KD_TPS_TUJUAN'] = $container->KD_TPS_TUJUAN;
-                        $data['SIZE'] = $container->SIZE;
-                        $data['ETA'] = $container->ETA;
-                        $data['ETD'] = $container->ETD;
-                        $data['VESSEL'] = $container->VESSEL;
-                        $data['VOY'] = $container->VOY;
-                        $data['CALL_SIGN'] = $container->CALL_SIGN;
-                        $data['TPELABUHAN_FK'] = $container->TPELABUHAN_FK;     
-                        $data['NAMAPELABUHAN'] = $container->NAMAPELABUHAN;
-                        $data['PEL_MUAT'] = $container->PEL_MUAT;
-                        $data['PEL_BONGKAR'] = $container->PEL_BONGKAR;
-                        $data['PEL_TRANSIT'] = $container->PEL_TRANSIT;
-                        $data['NOMBL'] = $container->NOMBL;  
-                        $data['TGL_MASTER_BL'] = $container->TGL_MASTER_BL;
-                        $data['LOKASI_GUDANG'] = $container->LOKASI_GUDANG;
-                        $data['NO_BC11'] = $container->NO_BC11;
-                        $data['TGL_BC11'] = $container->TGL_BC11;
-                        $data['NO_PLP'] = $container->NO_PLP;
-                        $data['TGL_PLP'] = $container->TGL_PLP;
-                        $data['VALIDASI'] = 'N';
-                        
-                        // Get Perusahaan
-                        $notifyparty = DBPerusahaan::insertOrGet($df['NOTIFYPARTY'], $df['NOTIFYPARTY_ADDRESS']);
-                        $shipper = DBPerusahaan::insertOrGet($df['SHIPPER'], $df['SHIPPER_ADDRESS']);
-                        $consignee = DBPerusahaan::insertOrGet($df['CONSIGNEE'], $df['CONSIGNEE_ADDRESS']);
+                            $data = array();
+                            $manifestID = DBManifest::select('NOTALLY')->where('TJOBORDER_FK',$container->TJOBORDER_FK)->count();
 
-                        $data['TNOTIFYPARTY_FK'] = $notifyparty['TPERUSAHAAN_PK'];
-                        $data['NOTIFYPARTY'] = $notifyparty['NAMAPERUSAHAAN'];
-                        $data['TSHIPPER_FK'] = $shipper['TPERUSAHAAN_PK'];
-                        $data['SHIPPER'] = $shipper['NAMAPERUSAHAAN'];
-                        $data['TCONSIGNEE_FK'] = $consignee['TPERUSAHAAN_PK'];
-                        $data['CONSIGNEE'] = $consignee['NAMAPERUSAHAAN'];
-                        $data['ID_CONSIGNEE'] = $consignee['NPWP'];
-                        
-                        if(isset($df['MARKING'])){
-                            $data['MARKING'] = $df['MARKING'];
-                        }
-                        if(isset($df['DESCOFGOODS'])){
-                            $data['DESCOFGOODS'] = $df['DESCOFGOODS'];
-                        }
-                        $data['NOHBL'] = $df['NOHBL'];
-                        $data['TGL_HBL'] = $df['TGL_HBL'];
-                        $data['WEIGHT'] = $df['weight'];
-                        $data['MEAS'] = $df['meas'];
-                        $data['QUANTITY'] = $df['qty'];
-                        
-                        // Get Packing
-                        if($df['pack']) {
-                            $packing = \App\Models\Packing::where('KODEPACKING', $df['pack'])->first();
-                            $data['TPACKING_FK'] = $packing->TPACKING_PK;
-                            $data['NAMAPACKING'] = $packing->NAMAPACKING;
-                            $data['KODE_KEMAS'] = $packing->KODEPACKING;
-                        }
-                        
-                        $data['tglmasuk'] = $container->TGL_PLP;
-                        $data['jammasuk'] = $container->JAMMASUK;
-                        
-                        $data['tglentry'] = date('Y-m-d');
-                        $data['jamentry'] = date('H:i:s');
-                        $data['UID'] = \Auth::getUser()->name;
-                                                                     
-                        $insert_id = DBManifest::insertGetId($data);
-                        
-                        if($insert_id){
-                            // Update Jumlah BL
-                            $countbl = DBManifest::where('TCONTAINER_FK', $data['TCONTAINER_FK'])->count();
+                            $regID = str_pad(intval(($manifestID > 0 ? $manifestID : 0)+1), 3, '0', STR_PAD_LEFT);
 
-                            // Update Meas Wight           
-                            $sum_weight_manifest = DBManifest::select('WEIGHT')->where('TCONTAINER_FK', $data['TCONTAINER_FK'])->sum('WEIGHT');
-                            $sum_meas_marnifest = DBManifest::select('MEAS')->where('TCONTAINER_FK', $data['TCONTAINER_FK'])->sum('MEAS');         
-                            $container->MEAS = $sum_meas_marnifest;
-                            $container->WEIGHT = $sum_weight_manifest;
-                            $container->jumlah_bl = $countbl;
-                            $container->UID = \Auth::getUser()->name;
+                            // Copy Container
+                            $data['NOTALLY'] = $container->NoJob.'.'.$regID; 
+                            $data['TJOBORDER_FK'] = $container->TJOBORDER_FK;
+                            $data['NOJOBORDER'] = $container->NoJob;
+                            $data['TCONTAINER_FK'] = $container->TCONTAINER_PK;
+                            $data['NOCONTAINER'] = $container->NOCONTAINER;
+                            $data['TCONSOLIDATOR_FK'] = $container->TCONSOLIDATOR_FK;
+                            $data['NAMACONSOLIDATOR'] = $container->NAMACONSOLIDATOR;
+                            $data['TLOKASISANDAR_FK'] = $container->TLOKASISANDAR_FK;
+                            $data['KD_TPS_ASAL'] = $container->KD_TPS_ASAL;
+                            $data['KD_TPS_TUJUAN'] = $container->KD_TPS_TUJUAN;
+                            $data['SIZE'] = $container->SIZE;
+                            $data['ETA'] = $container->ETA;
+                            $data['ETD'] = $container->ETD;
+                            $data['VESSEL'] = $container->VESSEL;
+                            $data['VOY'] = $container->VOY;
+                            $data['CALL_SIGN'] = $container->CALL_SIGN;
+                            $data['TPELABUHAN_FK'] = $container->TPELABUHAN_FK;     
+                            $data['NAMAPELABUHAN'] = $container->NAMAPELABUHAN;
+                            $data['PEL_MUAT'] = $container->PEL_MUAT;
+                            $data['PEL_BONGKAR'] = $container->PEL_BONGKAR;
+                            $data['PEL_TRANSIT'] = $container->PEL_TRANSIT;
+                            $data['NOMBL'] = $container->NOMBL;  
+                            $data['TGL_MASTER_BL'] = $container->TGL_MASTER_BL;
+                            $data['LOKASI_GUDANG'] = $container->LOKASI_GUDANG;
+                            $data['NO_BC11'] = $container->NO_BC11;
+                            $data['TGL_BC11'] = $container->TGL_BC11;
+                            $data['NO_PLP'] = $container->NO_PLP;
+                            $data['TGL_PLP'] = $container->TGL_PLP;
+                            $data['VALIDASI'] = 'N';
 
-                            if($container->save()){
+                            // Get Perusahaan
+                            $notifyparty = DBPerusahaan::insertOrGet($df['NOTIFYPARTY'], $df['NOTIFYPARTY_ADDRESS']);
+                            $shipper = DBPerusahaan::insertOrGet($df['SHIPPER'], $df['SHIPPER_ADDRESS']);
+                            $consignee = DBPerusahaan::insertOrGet($df['CONSIGNEE'], $df['CONSIGNEE_ADDRESS']);
 
-                                $sum_weight = DBContainer::select('WEIGHT')->where('TJOBORDER_FK', $container->TJOBORDER_FK)->sum('WEIGHT');
-                                $sum_meas = DBContainer::select('MEAS')->where('TJOBORDER_FK', $container->TJOBORDER_FK)->sum('MEAS');         
-                                \App\Models\Joborder::where('TJOBORDER_PK', $container->TJOBORDER_FK)
-                                        ->update(['MEASUREMENT' => $sum_meas, 'GROSSWEIGHT' => $sum_weight]);
+                            $data['TNOTIFYPARTY_FK'] = $notifyparty['TPERUSAHAAN_PK'];
+                            $data['NOTIFYPARTY'] = $notifyparty['NAMAPERUSAHAAN'];
+                            $data['TSHIPPER_FK'] = $shipper['TPERUSAHAAN_PK'];
+                            $data['SHIPPER'] = $shipper['NAMAPERUSAHAAN'];
+                            $data['TCONSIGNEE_FK'] = $consignee['TPERUSAHAAN_PK'];
+                            $data['CONSIGNEE'] = $consignee['NAMAPERUSAHAAN'];
+                            $data['ID_CONSIGNEE'] = $consignee['NPWP'];
+
+                            if(isset($df['MARKING'])){
+                                $data['MARKING'] = $df['MARKING'];
+                            }
+                            if(isset($df['DESCOFGOODS'])){
+                                $data['DESCOFGOODS'] = $df['DESCOFGOODS'];
+                            }
+                            $data['NOHBL'] = $df['NOHBL'];
+                            $data['TGL_HBL'] = $df['TGL_HBL'];
+                            $data['WEIGHT'] = $df['weight'];
+                            $data['MEAS'] = $df['meas'];
+                            $data['QUANTITY'] = $df['qty'];
+
+                            // Get Packing
+                            if($df['pack']) {
+                                $packing = \App\Models\Packing::where('KODEPACKING', $df['pack'])->first();
+                                $data['TPACKING_FK'] = $packing->TPACKING_PK;
+                                $data['NAMAPACKING'] = $packing->NAMAPACKING;
+                                $data['KODE_KEMAS'] = $packing->KODEPACKING;
+                            }
+
+                            $data['tglmasuk'] = $container->TGL_PLP;
+                            $data['jammasuk'] = $container->JAMMASUK;
+
+                            $data['tglentry'] = date('Y-m-d');
+                            $data['jamentry'] = date('H:i:s');
+                            $data['UID'] = \Auth::getUser()->name;
+
+                            $insert_id = DBManifest::insertGetId($data);
+
+                            if($insert_id){
+                                // Update Jumlah BL
+                                $countbl = DBManifest::where('TCONTAINER_FK', $data['TCONTAINER_FK'])->count();
+
+                                // Update Meas Wight           
+                                $sum_weight_manifest = DBManifest::select('WEIGHT')->where('TCONTAINER_FK', $data['TCONTAINER_FK'])->sum('WEIGHT');
+                                $sum_meas_marnifest = DBManifest::select('MEAS')->where('TCONTAINER_FK', $data['TCONTAINER_FK'])->sum('MEAS');         
+                                $container->MEAS = $sum_meas_marnifest;
+                                $container->WEIGHT = $sum_weight_manifest;
+                                $container->jumlah_bl = $countbl;
+                                $container->UID = \Auth::getUser()->name;
+
+                                if($container->save()){
+
+                                    $sum_weight = DBContainer::select('WEIGHT')->where('TJOBORDER_FK', $container->TJOBORDER_FK)->sum('WEIGHT');
+                                    $sum_meas = DBContainer::select('MEAS')->where('TJOBORDER_FK', $container->TJOBORDER_FK)->sum('MEAS');         
+                                    \App\Models\Joborder::where('TJOBORDER_PK', $container->TJOBORDER_FK)
+                                            ->update(['MEASUREMENT' => $sum_meas, 'GROSSWEIGHT' => $sum_weight]);
+
+                                }
 
                             }
-                            
                         }
                     }
                 endforeach;
@@ -2039,6 +2048,7 @@ class LclController extends Controller
         $manifest->status_bc = 'RELEASE';
         $manifest->release_bc = 'Y';
         $manifest->release_bc_date = date('Y-m-d H:i:s');
+//        $manifest->release_bc_uid = \Auth::getUser()->name;
         
         if($manifest->save()){
 
