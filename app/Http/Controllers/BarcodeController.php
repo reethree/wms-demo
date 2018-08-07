@@ -189,7 +189,7 @@ class BarcodeController extends Controller
                         if($model->save()){
                             return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                         }else{
-                            return 'Somthing wrong!!!';
+                            return 'Something wrong!!!';
                         }
 //                    }else{
 //                        return 'Time In is NULL';
@@ -210,7 +210,7 @@ class BarcodeController extends Controller
                             if($model->save()){
                                 return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                             }else{
-                                return 'Somthing wrong!!!';
+                                return 'Something wrong!!!';
                             }
                         }else{
                             $model->TGLRELEASE = date('Y-m-d', strtotime($data_barcode->time_out));
@@ -223,7 +223,7 @@ class BarcodeController extends Controller
                             if($model->save()){
                                 return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                             }else{
-                                return 'Somthing wrong!!!';
+                                return 'Something wrong!!!';
                             }
                         }
 //                    }else{
@@ -238,7 +238,7 @@ class BarcodeController extends Controller
                         if($model->save()){
                             return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                         }else{
-                            return 'Somthing wrong!!!';
+                            return 'Something wrong!!!';
                         }
 //                    }else{
 //                        
@@ -260,7 +260,7 @@ class BarcodeController extends Controller
 //                    return false;
 //                }
             }else{
-                return 'Somthing wrong in Model!!!';
+                return 'Something wrong in Model!!!';
             }
         }else{
             return 'Barcode not found!!';

@@ -876,7 +876,11 @@ class LclController extends Controller
      */
     public function destroy($id)
     {
-        DBJoborder::destroy($id);
+        DBJoborder::where('TCONTAINER_FK', $id)->delete();
+        // Delete Container
+        DBContainer::where('TCONTAINER_PK', $id)->delete();
+        // Delete Manifest
+        DBManifest::where('TCONTAINER_FK', $id)->delete();
         return back()->with('success', 'LCL Register has been deleted.'); 
     }
     
@@ -1724,6 +1728,10 @@ class LclController extends Controller
                                 $ex_header_nohbl = isset($ex_header[6]) ? $ex_header[6] : null;
                                 $ex_header_tglhbl = isset($ex_header[8]) ? $ex_header[8] : null;
                                 $ex_header_berat = isset($ex_header[9]) ? $ex_header[9] : null;
+                            elseif(count($ex_header) == 12):
+                                $ex_header_nohbl = isset($ex_header[7]) ? $ex_header[7] : null;
+                                $ex_header_tglhbl = isset($ex_header[9]) ? $ex_header[9] : null;
+                                $ex_header_berat = isset($ex_header[10]) ? $ex_header[10] : null;
                             else:
 //                                return $ex_header[4];
                                 return back()->with('error', 'Cannot upload TXT file, new flat file detected.')->withInput();
