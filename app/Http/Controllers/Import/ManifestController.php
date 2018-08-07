@@ -65,12 +65,14 @@ class ManifestController extends Controller
         $packing = DBPacking::find($data['TPACKING_FK']);
         
 //        $num = 0; 
-        $manifestID = DBManifest::select('NOTALLY')->where('TJOBORDER_FK',$container->TJOBORDER_FK)->count();
+//        $manifestID = DBManifest::select('NOTALLY')->where('TJOBORDER_FK',$container->TJOBORDER_FK)->count();
+        $manifestID = DBManifest::select('NOTALLY')->where('TJOBORDER_FK',$container->TJOBORDER_FK)->orderBy('TMANIFEST_PK', 'DESC')->first();
 //        if(count($manifestID) > 0){
-//            $tally = explode('.', $manifestID->NOTALLY);
-//            $num = intval($tally[1]);    
+            $tally = explode('.', $manifestID->NOTALLY);
+            $num = intval($tally[1]);    
 //        }
-        $regID = str_pad(intval(($manifestID > 0 ? $manifestID : 0)+1), 3, '0', STR_PAD_LEFT);
+//        $regID = str_pad(intval(($manifestID > 0 ? $manifestID : 0)+1), 3, '0', STR_PAD_LEFT);
+        $regID = str_pad(intval(($num > 0 ? $num : 0)+1), 3, '0', STR_PAD_LEFT);
  
         $data['NOTALLY'] = $container->NoJob.'.'.$regID; 
         $data['TJOBORDER_FK'] = $container->TJOBORDER_FK;
