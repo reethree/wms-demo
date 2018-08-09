@@ -64,7 +64,7 @@ class ManifestController extends Controller
         $container = DBContainer::find($data['TCONTAINER_FK']);  
         $packing = DBPacking::find($data['TPACKING_FK']);
         
-//        $num = 0; 
+        $num = 0; 
 //        $manifestID = DBManifest::select('NOTALLY')->where('TJOBORDER_FK',$container->TJOBORDER_FK)->count();
         $manifestID = DBManifest::select('NOTALLY')->where('TJOBORDER_FK',$container->TJOBORDER_FK)->orderBy('TMANIFEST_PK', 'DESC')->first();
         if($manifestID){
