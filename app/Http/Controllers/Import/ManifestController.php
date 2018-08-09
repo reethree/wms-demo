@@ -106,9 +106,13 @@ class ManifestController extends Controller
         $data['TGL_BC11'] = $container->TGL_BC11;
         $data['NO_PLP'] = $container->NO_PLP;
         $data['TGL_PLP'] = $container->TGL_PLP;
-        $data['SHIPPER'] = DBPerusahaan::getNameById($data['TSHIPPER_FK']);
-        $data['CONSIGNEE'] = DBPerusahaan::getNameById($data['TCONSIGNEE_FK']);
-        $data['ID_CONSIGNEE'] = DBPerusahaan::getNpwpById($data['TCONSIGNEE_FK']);
+        if($data['TSHIPPER_FK']){
+            $data['SHIPPER'] = DBPerusahaan::getNameById($data['TSHIPPER_FK']);
+        }
+        if($data['TCONSIGNEE_FK']){
+            $data['CONSIGNEE'] = DBPerusahaan::getNameById($data['TCONSIGNEE_FK']);
+            $data['ID_CONSIGNEE'] = DBPerusahaan::getNpwpById($data['TCONSIGNEE_FK']);
+        }        
         $data['VALIDASI'] = 'N';
         if(is_numeric($data['TNOTIFYPARTY_FK'])) {
             $data['NOTIFYPARTY'] = DBPerusahaan::getNameById($data['TNOTIFYPARTY_FK']);
