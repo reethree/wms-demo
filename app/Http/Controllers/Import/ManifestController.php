@@ -62,7 +62,7 @@ class ManifestController extends Controller
         unset($data['id'], $data['_token']);
         
         $container = DBContainer::find($data['TCONTAINER_FK']);  
-        $packing = DBPacking::find($data['TPACKING_FK']);
+        
         
         $num = 0; 
 //        $manifestID = DBManifest::select('NOTALLY')->where('TJOBORDER_FK',$container->TJOBORDER_FK)->count();
@@ -76,8 +76,11 @@ class ManifestController extends Controller
  
         $data['NOTALLY'] = $container->NoJob.'.'.$regID; 
         $data['TJOBORDER_FK'] = $container->TJOBORDER_FK;
-        $data['KODE_KEMAS'] = $packing->KODEPACKING;
-        $data['NAMAPACKING'] = $packing->NAMAPACKING;
+        $packing = DBPacking::find($data['TPACKING_FK']);
+        if($packing){
+            $data['KODE_KEMAS'] = $packing->KODEPACKING;
+            $data['NAMAPACKING'] = $packing->NAMAPACKING;
+        }
         $data['NOJOBORDER'] = $container->NoJob;
         $data['NOCONTAINER'] = $container->NOCONTAINER;
         $data['TCONSOLIDATOR_FK'] = $container->TCONSOLIDATOR_FK;
