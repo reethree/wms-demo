@@ -12,6 +12,11 @@ Route::group(['prefix' => 'barcode'], function(){
         'uses' => 'BarcodeController@view'
     ]);
     
+    Route::get('/delete/{id}', [
+        'as' => 'barcode-delete',
+        'uses' => 'BarcodeController@delete'
+    ]);
+    
     Route::post('/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TablesRepository(new App\Models\Barcode(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());

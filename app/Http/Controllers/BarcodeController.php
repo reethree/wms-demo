@@ -78,6 +78,12 @@ class BarcodeController extends Controller
         return view('barcode.view')->with($data);
     }
     
+    public function delete($id)
+    {
+        \App\Models\Barcode::where('id', $id)->delete();
+        return back()->with('success', 'QR Code has been deleted.'); 
+    }
+    
     public function printBarcodePreview($id, $type, $action)
     { 
         $ids = explode(',', $id);
