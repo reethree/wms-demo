@@ -44,7 +44,7 @@
 
             edt = '<a href="{{ route("barcode-view",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
             prn = '<a href="#" onclick="rePrint('+cl+')"><i class="fa fa-print"></i></a> ';
-            del = '<a href=""><i class="fa fa-close"></i></a> ';
+            del = '<a href="{{ route("barcode-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure want to Delete this data ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a> ';
             jQuery("#barcodeGrid").jqGrid('setRowData',ids[i],{action:prn+'  '+edt+'    '+del}); 
         } 
     }
