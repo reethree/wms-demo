@@ -1603,6 +1603,34 @@ class LclController extends Controller
 
     }
     
+    public function releaseGetDataSppb(Request $request)
+    {
+        $manifest_id = $request->id;   
+        $kd_dok = $request->kd_dok;
+        $manifest = DBManifest::find($manifest_id);
+   
+        $sppb = '';
+        
+        if($kd_dok == 1){
+            $sppb = \App\Models\TpsSppbBc::where(array('NO_BL_AWB' => $manifest->NOHBL, 'NO_BC11' => $manifest->NO_BC11))->first();
+        }else{
+            $sppb = \App\Models\TpsSppbPib::where(array('NO_BL_AWB' => $manifest->NOHBL, 'NO_BC11' => $manifest->NO_BC11))->first();
+        }
+        
+        if($sppb){
+            $datasppb = array(
+                'NO_SPPB' => $sppb->NO_SPPB,
+                'TGL_SPPB' => date('Y-m-d', strtotime($sppb->TGL_SPPB)),
+                'NPWP' => $sppb->NPWP_IMP
+            );
+            return json_encode(array('success' => true, 'message' => 'Get Data SPPB has been success.', 'data' => $datasppb));
+        }else{
+            return json_encode(array('success' => false, 'message' => 'Data SPPB Tidak ditemukan.'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+    
     public function uploadTxtFile(Request $request)
     {
         if ($request->hasFile('filetxt')) {

@@ -65,4 +65,10 @@ Route::group(['prefix' => 'fcl/delivery', 'namespace' => 'Import'], function(){
         'uses' => 'FclController@releaseUpload'
     ]);
     
+    // GET DATA SPPB
+    Route::post('/release/getdatasppb', [
+        'as' => 'fcl-delivery-release-getdatasppb',
+        'uses' => 'FclController@releaseGetDataSppb'
+    ]);
+    
 });

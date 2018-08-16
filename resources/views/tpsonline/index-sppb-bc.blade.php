@@ -89,6 +89,7 @@
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','TPS_SPPBXML_PK')
             ->setGridOption('rownumbers', true)
+            ->setGridOption('rownumWidth', 50)
             ->setGridOption('height', '295')
             ->setGridOption('rowList',array(20,50,100))
             ->setGridOption('useColSpanStyle', true)

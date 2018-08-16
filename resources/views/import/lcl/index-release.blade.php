@@ -36,7 +36,7 @@
     $(document).ready(function()
     {
         $('#release-form').disabledFormGroup();
-        $('#btn-toolbar').disabledButtonGroup();
+        $('#btn-toolbar,#btn-sppb').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
         $("#KD_DOK_INOUT").on("change", function(){
@@ -46,6 +46,62 @@
             }else{
                 $(".select-bcf-consignee").hide();
             }
+        });
+        
+        $('#get-sppb-btn').click(function(){
+            
+            if(!confirm('Apakah anda yakin?')){return false;}
+            
+            var kd_dok = $("#KD_DOK_INOUT").val();
+            if(kd_dok == ''){
+                alert('Kode Dokumen masih kosong!!!');
+                return false;
+            }
+            
+            $this = $(this);
+            $this.html('<i class="fa fa-spin fa-spinner"></i> Please wait...');
+            $this.attr('disabled','disabled');
+
+            var url = '{{ route("lcl-delivery-release-getdatasppb") }}';
+
+            $.ajax({
+                type: 'POST',
+                data: 
+                {
+                    'id' : $('#TMANIFEST_PK').val(),
+                    'kd_dok' : kd_dok,
+                    '_token' : '{{ csrf_token() }}'
+                },
+                dataType : 'json',
+                url: url,
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                },
+                beforeSend:function()
+                {
+
+                },
+                success:function(json)
+                {
+                    console.log(json);
+
+                    if(json.success) {
+                        $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                        
+                        var datasppb = json.data; 
+                        $('#NO_SPPB').val(datasppb.NO_SPPB);
+                        $('#TGL_SPPB').val(datasppb.TGL_SPPB);
+                        $('#ID_CONSIGNEE').val(datasppb.NPWP);
+                    } else {
+                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    }
+                    
+                    $this.html('<i class="fa fa-download"></i> Get Data');
+                    $this.removeAttr('disabled');
+
+                }
+            });
         });
         
         $('#btn-edit').click(function() {
@@ -76,7 +132,7 @@
 //            if(!rowdata.tglrelease && !rowdata.jamrelease) {
 //                $('#btn-group-4').disabledButtonGroup();
 //                $('#btn-group-5').disabledButtonGroup();
-                $('#btn-group-2').enableButtonGroup();
+                $('#btn-group-2,#btn-sppb').enableButtonGroup();
                 $('#release-form').enableFormGroup();
 //            }else{
                 $('#btn-group-4').enableButtonGroup();
@@ -279,6 +335,7 @@
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TMANIFEST_PK')
                     ->setGridOption('rownumbers', true)
+                    ->setGridOption('rownumWidth', 50)
                     ->setGridOption('multiselect', true)
                     ->setGridOption('height', '300')
                     ->setGridOption('rowList',array(20,50,100))
@@ -512,6 +569,11 @@
                                     <option value="{{ $kode->kode }}">({{$kode->kode}}) {{ $kode->name }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-11" id="btn-sppb">
+                            <button type="button" class="btn btn-info pull-right" id="get-sppb-btn"><i class="fa fa-download"></i> Get Data</button>
                         </div>
                     </div>
 <!--                    <div class="form-group">

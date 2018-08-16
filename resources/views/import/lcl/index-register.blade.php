@@ -92,6 +92,7 @@
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','NOJOBORDER')
             ->setGridOption('rownumbers', true)
+            ->setGridOption('rownumWidth', 50)
             ->setGridOption('height', '295')
             ->setGridOption('multiselect', true)
             ->setGridOption('rowList',array(50,100,200,500))
