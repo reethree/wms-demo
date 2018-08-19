@@ -1580,14 +1580,15 @@ class FclController extends Controller
         $sppb = '';
         
         if($kd_dok == 1){
-            $sppb = \App\Models\TpsSppbBc::where(array('NO_BL_AWB' => $container->NO_BL_AWB, 'NO_BC11' => $container->NO_BC11))->first();
-        }else{
             $sppb = \App\Models\TpsSppbPib::where(array('NO_BL_AWB' => $container->NO_BL_AWB, 'NO_BC11' => $container->NO_BC11))->first();
+        }else{
+            $sppb = \App\Models\TpsSppbBc::where(array('NO_BL_AWB' => $container->NO_BL_AWB, 'NO_BC11' => $container->NO_BC11))->first();
         }
 
         if($sppb){
+            $arraysppb = explode('/', $sppb->NO_SPPB);
             $datasppb = array(
-                'NO_SPPB' => $sppb->NO_SPPB,
+                'NO_SPPB' => $arraysppb[0],
                 'TGL_SPPB' => date('Y-m-d', strtotime($sppb->TGL_SPPB)),
                 'NPWP' => $sppb->NPWP_IMP
             );
