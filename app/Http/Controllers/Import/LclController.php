@@ -1619,9 +1619,9 @@ class LclController extends Controller
         $sppb = '';
         
         if($kd_dok == 1){
-            $sppb = \App\Models\TpsSppbBc::where(array('NO_BL_AWB' => $manifest->NOHBL, 'NO_BC11' => $manifest->NO_BC11))->first();
-        }else{
             $sppb = \App\Models\TpsSppbPib::where(array('NO_BL_AWB' => $manifest->NOHBL, 'NO_BC11' => $manifest->NO_BC11))->first();
+        }else{
+            $sppb = \App\Models\TpsSppbBc::where(array('NO_BL_AWB' => $manifest->NOHBL, 'NO_BC11' => $manifest->NO_BC11))->first();
         }
         
         if($sppb){
