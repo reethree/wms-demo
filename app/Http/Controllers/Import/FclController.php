@@ -806,10 +806,17 @@ class FclController extends Controller
      */
     public function destroy($id)
     {
-        DBJoborder::where('TCONTAINER_FK', $id)->delete();
-        // Delete Container
-        DBContainer::where('TCONTAINER_PK', $id)->delete();
-        return back()->with('success', 'FCL Register has been deleted.'); 
+        $container = DBContainer::find($id);
+        if($container){
+            // Delete Container
+            DBContainer::where('TJOBORDER_FK', $container->TJOBORDER_FK)->delete();
+            // Delete Joborder
+            DBJoborder::where('TJOBORDER_PK', $container->TJOBORDER_FK)->delete();
+            
+            return back()->with('success', 'FCL Register has been deleted.'); 
+        }
+        
+        return back()->with('error', 'Error delete FCL register, please try again.'); 
     }
     
     public function registerPrintPermohonan(Request $request)

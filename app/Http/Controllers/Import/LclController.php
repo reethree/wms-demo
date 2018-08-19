@@ -876,12 +876,19 @@ class LclController extends Controller
      */
     public function destroy($id)
     {
-        DBJoborder::where('TCONTAINER_FK', $id)->delete();
-        // Delete Container
-        DBContainer::where('TCONTAINER_PK', $id)->delete();
-        // Delete Manifest
-        DBManifest::where('TCONTAINER_FK', $id)->delete();
-        return back()->with('success', 'LCL Register has been deleted.'); 
+        $container = DBContainer::find($id);
+        if($container){
+            // Delete Manifest
+            DBManifest::where('TJOBORDER_FK', $container->TJOBORDER_FK)->delete();
+            // Delete Container
+            DBContainer::where('TJOBORDER_FK', $container->TJOBORDER_FK)->delete();
+            // Delete Joborder
+            DBJoborder::where('TJOBORDER_PK', $container->TJOBORDER_FK)->delete();
+            
+            return back()->with('success', 'LCL Register has been deleted.'); 
+        }
+        
+        return back()->with('error', 'Error delete LCL register, please try again.'); 
     }
     
     public function registerPrintPermohonan(Request $request)
