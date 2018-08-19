@@ -335,6 +335,7 @@
                     ->addColumn(array('label'=>'Jam Masuk','index'=>'JAMMASUK','width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'Tgl. Release','index'=>'TGLRELEASE','width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'Jam. Release','index'=>'JAMRELEASE', 'width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center'))
                     
                     ->addColumn(array('label'=>'No. MBL','index'=>'NOMBL','width'=>160,'hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. MBL','index'=>'TGLMBL','width'=>150,'align'=>'center','hidden'=>true))

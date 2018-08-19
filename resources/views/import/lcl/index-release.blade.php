@@ -419,6 +419,8 @@
                     ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120, 'align'=>'center'))
                     ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>120,'hidden'=>false, 'align'=>'center'))
                     
+                    ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center'))
+                    
                     ->addColumn(array('label'=>'Lokasi Tujuan','index'=>'LOKASI_TUJUAN', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
                     ->renderGrid()

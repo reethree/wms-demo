@@ -36,6 +36,15 @@
         $('#btn-toolbar').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
+        $("#flag_bc").on("change", function(){
+            var $this = $(this).val();
+            if($this == 'Y'){
+                $(".select-alasan").show();
+            }else{
+                $(".select-alasan").hide();
+            }
+        });
+        
         $('#btn-edit').click(function() {
             //Gets the selected row id.
             rowid = $('#fclGateinGrid').jqGrid('getGridParam', 'selrow');
@@ -55,6 +64,7 @@
             $('#TGLKELUAR_TPK').val(rowdata.TGLKELUAR_TPK);
             $('#JAMKELUAR_TPK').val(rowdata.JAMKELUAR_TPK);
             $("#flag_bc").val(rowdata.flag_bc).trigger("change");
+            $("#alasan_segel").val(rowdata.alasan_segel).trigger("change");
             
 //            if(!rowdata.TGLMASUK && !rowdata.JAMMASUK) {
                 $('#btn-group-2').enableButtonGroup();
@@ -246,7 +256,7 @@
                     ->addColumn(array('label'=>'Tgl. SP2','index'=>'TGL_SP2','hidden'=>true))
                     ->addColumn(array('label'=>'E-Seal','index'=>'ESEALCODE','hidden'=>true))
                     ->addColumn(array('label'=>'Flag','index'=>'flag_bc','width'=>80, 'align'=>'center'))
-        //            ->addColumn(array('label'=>'Layout','index'=>'layout','width'=>80,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center'))
         //            ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
                     ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150,'align'=>'center'))
 //                    ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
@@ -448,7 +458,18 @@
                             </select>
                         </div>
                     </div>
-                    
+                    <div class="form-group select-alasan" style="display:none;">
+                        <label class="col-sm-3 control-label">Alasan Segel</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" id="alasan_segel" name="alasan_segel" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <option value="Nota Hasil Intelijen (NHI)" selected>Nota Hasil Intelijen (NHI)</option>
+                                <option value="Surveilance">Surveilance</option>
+                                <option value="SPBL">SPBL</option>
+                                <option value="IKP / Temuan Lapangan">IKP / Temuan Lapangan</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>  

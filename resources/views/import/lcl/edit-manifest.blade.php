@@ -189,6 +189,15 @@
         $('#btn-group-1').enableButtonGroup();
         $('#btn-group-6').enableButtonGroup();
 
+        $("#flag_bc").on("change", function(){
+            var $this = $(this).val();
+            if($this == 'Y'){
+                $(".select-alasan").show();
+            }else{
+                $(".select-alasan").hide();
+            }
+        });
+        
       //Binds onClick event to the "Refresh" button.
       $('#btn-refresh').click(function()
       {
@@ -248,6 +257,7 @@
         $("#DG_SURCHARGE").val(rowdata.DG_SURCHARGE).trigger("change");
         $("#WEIGHT_SURCHARGE").val(rowdata.WEIGHT_SURCHARGE).trigger("change");
         $("#flag_bc").val(rowdata.flag_bc).trigger("change");
+        $("#alasan_segel").val(rowdata.alasan_segel).trigger("change");
         
         $("#TGL_HBL").datepicker('setDate', rowdata.TGL_HBL);
         $("#TGL_BC11").val(rowdata.TGL_BC11);
@@ -492,6 +502,7 @@
                         ->addColumn(array('label'=>'Surcharge (DG)','index'=>'DG_SURCHARGE', 'width'=>150,'hidden'=>true))
                         ->addColumn(array('label'=>'Surcharge (Weight)','index'=>'WEIGHT_SURCHARGE', 'width'=>150,'hidden'=>true))      
                         ->addColumn(array('label'=>'Flag','index'=>'flag_bc','width'=>80, 'align'=>'center'))
+                        ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center'))
                         ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
                         ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
                         ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
@@ -675,6 +686,18 @@
                                 <select class="form-control select2" id="flag_bc" name="flag_bc" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                     <option value="N">N</option>
                                     <option value="Y">Y</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group select-alasan" style="display:none;">
+                            <label class="col-sm-3 control-label">Alasan Segel</label>
+                            <div class="col-sm-8">
+                                <select class="form-control select2" id="alasan_segel" name="alasan_segel" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                    <option value="Nota Hasil Intelijen (NHI)" selected>Nota Hasil Intelijen (NHI)</option>
+                                    <option value="Surveilance">Surveilance</option>
+                                    <option value="SPBL">SPBL</option>
+                                    <option value="IKP / Temuan Lapangan">IKP / Temuan Lapangan</option>
+                                    <option value="Lainnya">Lainnya</option>
                                 </select>
                             </div>
                         </div>

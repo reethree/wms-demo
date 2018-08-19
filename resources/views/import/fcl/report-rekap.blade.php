@@ -191,6 +191,8 @@
             ->addColumn(array('label'=>'No. Pabean','index'=>'NO_DAFTAR_PABEAN', 'width'=>120,'align'=>'center'))
             ->addColumn(array('label'=>'Tgl. Pabean','index'=>'TGL_DAFTAR_PABEAN', 'width'=>120,'align'=>'center'))
             
+            ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center'))
+            
 //            ->addColumn(array('label'=>'Kode Dokumen','index'=>'KODE_DOKUMEN', 'width'=>150))
 //            ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>160))
 //            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))
