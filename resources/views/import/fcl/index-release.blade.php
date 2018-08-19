@@ -62,7 +62,7 @@
             $this.html('<i class="fa fa-spin fa-spinner"></i> Please wait...');
             $this.attr('disabled','disabled');
             
-            var url = '{{ route("lcl-delivery-release-getdatasppb") }}';
+            var url = '{{ route("fcl-delivery-release-getdatasppb") }}';
 
             $.ajax({
                 type: 'POST',
