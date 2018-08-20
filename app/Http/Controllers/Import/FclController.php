@@ -1328,7 +1328,7 @@ class FclController extends Controller
                 // Insert Invoice Detail
                 if(count($container20) > 0) {
 
-                    $tarif20 = \App\Models\InvoiceTarifNct::where('size', 20)->get();
+                    $tarif20 = \App\Models\InvoiceTarifNct::where('size', 20)->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
                     
                     foreach ($tarif20 as $t20) :
                         
@@ -1339,7 +1339,7 @@ class FclController extends Controller
                         $invoice_penumpukan->size = 20;
                         $invoice_penumpukan->qty = count($container20);
                         
-                        if($t20->lokasi_sandar == 'NCT1') {
+                        if($t20->lokasi_sandar == 'NCT1' || $t20->lokasi_sandar == 'JICT') {
                             
                             // GERAKAN
                             $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
@@ -1428,8 +1428,8 @@ class FclController extends Controller
                 
                 if(count($container40) > 0) {
 
-                    $tarif40 = \App\Models\InvoiceTarifNct::where('size', 40)->get();
-                    
+                    $tarif40 = \App\Models\InvoiceTarifNct::where('size', 40)->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
+//                    return $tarif40;
                     foreach ($tarif40 as $t40) :
                         
                         $invoice_penumpukan = new \App\Models\InvoiceNctPenumpukan;
@@ -1439,7 +1439,7 @@ class FclController extends Controller
                         $invoice_penumpukan->size = 40;
                         $invoice_penumpukan->qty = count($container40);
                         
-                        if($t40->lokasi_sandar == 'NCT1') {
+                        if($t40->lokasi_sandar == 'NCT1' || $t40->lokasi_sandar == 'JICT') {
                             // GERAKAN
                             $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
                         
@@ -1525,21 +1525,35 @@ class FclController extends Controller
                 
             }
             
-            $nct_gerakan = array('Pas Truck' => 9100, 'Gate Pass Admin' => 20000, 'Cost Rec/Surcarge' => 75000);
-            
-            foreach($nct_gerakan as $key=>$value):
-                $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
-                        
-                $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
-                $invoice_gerakan->lokasi_sandar = 'NCT1';
-                $invoice_gerakan->size = 0;
-                $invoice_gerakan->qty = count($container20)+count($container40); 
-                $invoice_gerakan->jenis_gerakan = $key;
-                $invoice_gerakan->tarif_dasar = $value;
-                $invoice_gerakan->total = (count($container20)+count($container40)) * $value;
+            if($data['KD_TPS_ASAL'] == 'NCT1'){           
+                $nct_gerakan = array('Pas Truck' => 9100, 'Gate Pass Admin' => 20000, 'Cost Rec/Surcarge' => 75000);
 
-                $invoice_gerakan->save();
-            endforeach;
+                foreach($nct_gerakan as $key=>$value):
+                    $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
+
+                    $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
+                    $invoice_gerakan->lokasi_sandar = 'NCT1';
+                    $invoice_gerakan->size = 0;
+                    $invoice_gerakan->qty = count($container20)+count($container40); 
+                    $invoice_gerakan->jenis_gerakan = $key;
+                    $invoice_gerakan->tarif_dasar = $value;
+                    $invoice_gerakan->total = (count($container20)+count($container40)) * $value;
+
+                    $invoice_gerakan->save();
+                endforeach;
+            }else{
+                    $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
+
+                    $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
+                    $invoice_gerakan->lokasi_sandar = 'JICT';
+                    $invoice_gerakan->size = 0;
+                    $invoice_gerakan->qty = count($container20)+count($container40); 
+                    $invoice_gerakan->jenis_gerakan = 'Cost Rec/Surcarge';
+                    $invoice_gerakan->tarif_dasar = 75000;
+                    $invoice_gerakan->total = (count($container20)+count($container40)) * 75000;
+
+                    $invoice_gerakan->save();
+            }
 //            
             $update_nct = \App\Models\InvoiceNct::find($invoice_nct->id);
             
