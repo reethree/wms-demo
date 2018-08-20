@@ -139,6 +139,7 @@
                     ->setFilterToolbarOptions(array('autosearch'=>true))
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                     ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
+                    ->addColumn(array('label'=>'TPS Asal','index'=>'KD_TPS_ASAL','width'=>100,'align'=>'center'))
                     ->addColumn(array('label'=>'Vessel','index'=>'VESSEL','width'=>160))
                     ->addColumn(array('label'=>'VOY','index'=>'VOY','width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>160,'editable' => true, 'editrules' => array('required' => true)))
