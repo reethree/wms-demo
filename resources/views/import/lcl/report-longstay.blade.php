@@ -35,12 +35,12 @@
                 apv = '';
             }
             
+            if(rowdata.flag_bc == 'Y') {
+                $("#" + cl).find("td").css("background-color", "#FF0000");
+            }
             if(rowdata.status_bc == 'HOLD') {
                 $("#" + cl).find("td").css("background-color", "#ffe500");
-            }
-            if(rowdata.flag_bc == 'Y') {
-                $("#" + cl).find("td").css("color", "#FF0000");
-            }  
+            } 
             
             jQuery("#lcllongstayGrid").jqGrid('setRowData',ids[i],{action:apv}); 
         } 
@@ -166,7 +166,7 @@
             ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
             ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>100, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('label'=>'Status BC','index'=>'status_bc', 'width'=>80,'align'=>'center'))
-            ->addColumn(array('label'=>'Flag','index'=>'flag_bc', 'width'=>80,'align'=>'center'))
+            ->addColumn(array('label'=>'Segel Merah','index'=>'flag_bc', 'width'=>80,'align'=>'center'))
             ->addColumn(array('label'=>'No. SPK','index'=>'NOJOBORDER', 'width'=>150))
             ->addColumn(array('label'=>'No. HBL','index'=>'NOHBL','width'=>160))
             ->addColumn(array('label'=>'Tgl. HBL','index'=>'TGL_HBL', 'width'=>150,'align'=>'center'))
