@@ -14,7 +14,7 @@
 //        $grid.jqGrid('footerData', 'set', { MEAS: precisionRound(colmeasSum, 4) });
         
         var ids = jQuery("#lcllongstayGrid").jqGrid('getDataIDs'),
-            apv = '';   
+            apv = '', sgl = '';   
             
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
@@ -36,13 +36,19 @@
             }
             
             if(rowdata.flag_bc == 'Y') {
+                sgl = '<button style="margin:5px;" class="btn btn-info btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Are You Sure to change Flag status to N ?\')){ changeStatusFlag('+cl+'); }else{return false;};"><i class="fa fa-unlock"></i> OPEN FLAG</button>';
+            }else{
+                sgl = '';
+            }
+            
+            if(rowdata.flag_bc == 'Y') {
                 $("#" + cl).find("td").css("background-color", "#FF0000");
             }
             if(rowdata.status_bc == 'HOLD') {
                 $("#" + cl).find("td").css("background-color", "#ffe500");
             } 
             
-            jQuery("#lcllongstayGrid").jqGrid('setRowData',ids[i],{action:apv}); 
+            jQuery("#lcllongstayGrid").jqGrid('setRowData',ids[i],{action:apv+' '+sgl}); 
         } 
     
     }
@@ -65,7 +71,36 @@
             {
                 if(json.success) {
                     $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
-                    $('#fcllongstayGrid').jqGrid().trigger("reloadGrid");
+                    $('#lcllongstayGrid').jqGrid().trigger("reloadGrid");
+                } else {
+                    $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                }
+
+                //Triggers the "Refresh" button funcionality.
+                $('#btn-refresh').click();
+            }
+        });
+    }
+    
+    function changeStatusFlag($id)
+    {
+        $.ajax({
+            type: 'GET',
+            dataType : 'json',
+            url: "{{ route('lcl-change-status-flag','') }}/"+$id,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+
+            },
+            success:function(json)
+            {
+                if(json.success) {
+                    $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    $('#lcllongstayGrid').jqGrid().trigger("reloadGrid");
                 } else {
                     $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
                 }
@@ -164,9 +199,9 @@
             ->setGridEvent('gridComplete', 'gridCompleteEvent')
 //            ->setGridEvent('onSelectRow', 'onSelectRowEvent')
             ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
-            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>100, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('label'=>'Status BC','index'=>'status_bc', 'width'=>80,'align'=>'center'))
-            ->addColumn(array('label'=>'Segel Merah','index'=>'flag_bc', 'width'=>80,'align'=>'center'))
+            ->addColumn(array('label'=>'Segel Merah','index'=>'flag_bc', 'width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'No. SPK','index'=>'NOJOBORDER', 'width'=>150))
             ->addColumn(array('label'=>'No. HBL','index'=>'NOHBL','width'=>160))
             ->addColumn(array('label'=>'Tgl. HBL','index'=>'TGL_HBL', 'width'=>150,'align'=>'center'))

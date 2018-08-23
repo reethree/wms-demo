@@ -1646,12 +1646,24 @@ class FclController extends Controller
     }
     
     public function changeStatusBc($id)
-    {
-    
+    { 
         $container = DBContainer::find($id);
         $container->status_bc = 'RELEASE';
         $container->release_bc = 'Y';
         $container->release_bc_date = date('Y-m-d H:i:s');
+              
+        if($container->save()){
+
+            return json_encode(array('success' => true, 'message' => 'Status has been Change!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+    
+    public function changeStatusFlag($id)
+    {
+        $container = DBContainer::find($id);
+        $container->flag_bc = 'N';
               
         if($container->save()){
 

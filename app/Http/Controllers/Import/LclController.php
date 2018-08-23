@@ -2099,12 +2099,24 @@ class LclController extends Controller
     
     public function changeStatusBc($id)
     {
-    
         $manifest = DBManifest::find($id);
         $manifest->status_bc = 'RELEASE';
         $manifest->release_bc = 'Y';
         $manifest->release_bc_date = date('Y-m-d H:i:s');
 //        $manifest->release_bc_uid = \Auth::getUser()->name;
+        
+        if($manifest->save()){
+
+            return json_encode(array('success' => true, 'message' => 'Status has been Change!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+    
+    public function changeStatusFlag($id)
+    {
+        $manifest = DBManifest::find($id);
+        $manifest->flag_bc = 'N';
         
         if($manifest->save()){
 
