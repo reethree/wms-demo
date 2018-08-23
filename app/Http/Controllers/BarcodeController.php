@@ -120,7 +120,7 @@ class BarcodeController extends Controller
                 if(count($check) > 0){
 //                    continue;
                     $barcode = \App\Models\Barcode::find($check->id);
-                    $barcode->expired = date('Y-m-d', strtotime('+1 day'));
+                    $barcode->expired = date('Y-m-d', strtotime('+3 day'));
                     $barcode->status = 'active';
                     $barcode->uid = \Auth::getUser()->name;
                     $barcode->save();
@@ -131,7 +131,7 @@ class BarcodeController extends Controller
                     $barcode->ref_action = $action;
                     $barcode->ref_number = $ref_number;
                     $barcode->barcode = str_random(20);
-                    $barcode->expired = date('Y-m-d', strtotime('+1 day'));
+                    $barcode->expired = date('Y-m-d', strtotime('+3 day'));
                     $barcode->status = 'active';
                     $barcode->uid = \Auth::getUser()->name;
                     $barcode->save();
