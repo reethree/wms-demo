@@ -90,6 +90,8 @@ class EasygoController extends Controller
         $dataResults = curl_exec($ch);
         curl_close($ch);
         
+        print_r($dataResults);
+        
         $results = json_decode($dataResults);
         if(count($results) > 0){
             $wkt_dis = date('Y-m-d H:i:s');
