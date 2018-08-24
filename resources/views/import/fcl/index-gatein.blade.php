@@ -36,14 +36,14 @@
         $('#btn-toolbar').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
-        $("#flag_bc").on("change", function(){
-            var $this = $(this).val();
-            if($this == 'Y'){
-                $(".select-alasan").show();
-            }else{
-                $(".select-alasan").hide();
-            }
-        });
+//        $("#flag_bc").on("change", function(){
+//            var $this = $(this).val();
+//            if($this == 'Y'){
+//                $(".select-alasan").show();
+//            }else{
+//                $(".select-alasan").hide();
+//            }
+//        });
         
         $('#btn-edit').click(function() {
             //Gets the selected row id.
@@ -63,8 +63,8 @@
             $('#ESEALCODE').val(rowdata.ESEALCODE).trigger('change');
             $('#TGLKELUAR_TPK').val(rowdata.TGLKELUAR_TPK);
             $('#JAMKELUAR_TPK').val(rowdata.JAMKELUAR_TPK);
-            $("#flag_bc").val(rowdata.flag_bc).trigger("change");
-            $("#alasan_segel").val(rowdata.alasan_segel).trigger("change");
+//            $("#flag_bc").val(rowdata.flag_bc).trigger("change");
+//            $("#alasan_segel").val(rowdata.alasan_segel).trigger("change");
             
 //            if(!rowdata.TGLMASUK && !rowdata.JAMMASUK) {
                 $('#btn-group-2').enableButtonGroup();
@@ -395,7 +395,7 @@
                         </div>
                     </div>
                     
-                    <div class="form-group">
+<!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">Perkiraan Tgl.Kaluar</label>
                         <div class="col-sm-8">
                             <div class="input-group date">
@@ -405,7 +405,7 @@
                                 <input type="text" id="P_TGLKELUAR" name="P_TGLKELUAR" class="form-control pull-right datepicker" required value="{{ date('Y-m-d',strtotime('+3Days')) }}">
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="col-md-6"> 
                     <div class="form-group">
@@ -508,11 +508,11 @@
     $(".timepicker").mask("99:99:99");
     $(".datepicker").mask("9999-99-99");
     
-    $('#TGLMASUK').on("change", function (e) { 
-        var actualDate = new Date($(this).val());
-        var newDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate()+3);
-        $('#P_TGLKELUAR').datepicker('setDate', newDate );
-    });
+//    $('#TGLMASUK').on("change", function (e) { 
+//        var actualDate = new Date($(this).val());
+//        var newDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate()+3);
+//        $('#P_TGLKELUAR').datepicker('setDate', newDate );
+//    });
 </script>
 
 @endsection

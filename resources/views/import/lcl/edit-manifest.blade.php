@@ -190,14 +190,14 @@
         $('#btn-group-1').enableButtonGroup();
         $('#btn-group-6').enableButtonGroup();
 
-        $("#flag_bc").on("change", function(){
-            var $this = $(this).val();
-            if($this == 'Y'){
-                $(".select-alasan").show();
-            }else{
-                $(".select-alasan").hide();
-            }
-        });
+//        $("#flag_bc").on("change", function(){
+//            var $this = $(this).val();
+//            if($this == 'Y'){
+//                $(".select-alasan").show();
+//            }else{
+//                $(".select-alasan").hide();
+//            }
+//        });
         
       //Binds onClick event to the "Refresh" button.
       $('#btn-refresh').click(function()
@@ -257,8 +257,8 @@
         $("#TPACKING_FK").val(rowdata.TPACKING_FK).trigger("change");
         $("#DG_SURCHARGE").val(rowdata.DG_SURCHARGE).trigger("change");
         $("#WEIGHT_SURCHARGE").val(rowdata.WEIGHT_SURCHARGE).trigger("change");
-        $("#flag_bc").val(rowdata.flag_bc).trigger("change");
-        $("#alasan_segel").val(rowdata.alasan_segel).trigger("change");
+//        $("#flag_bc").val(rowdata.flag_bc).trigger("change");
+//        $("#alasan_segel").val(rowdata.alasan_segel).trigger("change");
         
         $("#TGL_HBL").datepicker('setDate', rowdata.TGL_HBL);
         $("#TGL_BC11").val(rowdata.TGL_BC11);
