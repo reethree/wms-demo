@@ -1677,17 +1677,19 @@ class FclController extends Controller
     {
         $container_id = $request->id;
         $alasan = $request->alasan_segel;
-        $lainnya = $request->alasan_lainnya;
+//        $lainnya = $request->alasan_lainnya;
         
 //        return $request->all();
         
         $container = DBContainer::find($container_id);
         $container->flag_bc = 'Y';
-        if($alasan == 'Lainnya' && !empty($lainnya)){
-            $container->alasan_segel = $lainnya;
-        }else{
+        $container->no_flag_bc = $request->no_flag_bc;
+        $container->description_flag_bc = $request->description_flag_bc;
+//        if($alasan == 'Lainnya' && !empty($lainnya)){
+//            $container->alasan_segel = $lainnya;
+//        }else{
             $container->alasan_segel = $alasan;
-        }
+//        }
         
         if($container->save()){
             return back()->with('success', 'Flag has been update.')->withInput();

@@ -2130,17 +2130,19 @@ class LclController extends Controller
     {
         $manifest_id = $request->id;
         $alasan = $request->alasan_segel;
-        $lainnya = $request->alasan_lainnya;
+//        $lainnya = $request->alasan_lainnya;
         
 //        return $request->all();
         
         $manifest = DBManifest::find($manifest_id);
         $manifest->flag_bc = 'Y';
-        if($alasan == 'Lainnya' && !empty($lainnya)){
-            $manifest->alasan_segel = $lainnya;
-        }else{
+        $manifest->no_flag_bc = $request->no_flag_bc;
+        $manifest->description_flag_bc = $request->description_flag_bc;
+//        if($alasan == 'Lainnya' && !empty($lainnya)){
+//            $manifest->alasan_segel = $lainnya;
+//        }else{
             $manifest->alasan_segel = $alasan;
-        }
+//        }
         
         if($manifest->save()){
             return back()->with('success', 'Flag has been update.')->withInput();

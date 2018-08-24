@@ -256,6 +256,12 @@
                             <input name="_token" type="hidden" value="{{ csrf_token() }}" />
                             <input name="id" type="hidden" id="manifest_id" />
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">No. Segel</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="no_flag_bc" name="no_flag_bc" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">Alasan Segel</label>
                                 <div class="col-sm-8">
                                     <select class="form-control select2" id="alasan_segel" name="alasan_segel" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
@@ -267,10 +273,10 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group" id="alasan_lainnya" style="display:none;">
-                                <label class="col-sm-3 control-label">Alasan</label>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Keterangan</label>
                                 <div class="col-sm-8">
-                                    <textarea class="form-control" name="alasan_lainnya"></textarea>
+                                    <textarea class="form-control" name="description_flag_bc"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -304,17 +310,17 @@
         zIndex: 99
     });
     
-    $('#alasan_segel').on("change", function(){
-        var val = $(this).val();
-        console.log($(this).val());
-        if(val == 'Lainnya'){
-            $("#alasan_lainnya").show();
-            $("textarea[name='alasan_lainnya']").attr("required", "required");
-        }else{
-            $("#alasan_lainnya").hide();
-            $("textarea[name='alasan_lainnya']").removeAttr("required");
-        }
-    });
+//    $('#alasan_segel').on("change", function(){
+//        var val = $(this).val();
+//        console.log($(this).val());
+//        if(val == 'Lainnya'){
+//            $("#alasan_lainnya").show();
+//            $("textarea[name='alasan_lainnya']").attr("required", "required");
+//        }else{
+//            $("#alasan_lainnya").hide();
+//            $("textarea[name='alasan_lainnya']").removeAttr("required");
+//        }
+//    });
     
     $('#searchByDateBtn').on("click", function(){
         var by = $("#by").val();
