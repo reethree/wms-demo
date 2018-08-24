@@ -681,7 +681,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display:none;">
                             <label class="col-sm-3 control-label">Segel Merah</label>
                             <div class="col-sm-2">
                                 <select class="form-control select2" id="flag_bc" name="flag_bc" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
