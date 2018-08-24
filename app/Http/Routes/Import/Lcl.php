@@ -92,4 +92,8 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-change-status-flag',
         'uses' => 'LclController@changeStatusFlag'
     ]);
+    Route::post('/report/longstay/lock-flag', [
+        'as' => 'lcl-lock-flag',
+        'uses' => 'LclController@lockFlag'
+    ]);
 });

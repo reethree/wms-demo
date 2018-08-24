@@ -1672,4 +1672,27 @@ class FclController extends Controller
         
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
     }
+    
+    public function lockFlag(Request $request)
+    {
+        $container_id = $request->id;
+        $alasan = $request->alasan_segel;
+        $lainnya = $request->alasan_lainnya;
+        
+//        return $request->all();
+        
+        $container = DBContainer::find($container_id);
+        $container->flag_bc = 'Y';
+        if($alasan == 'Lainnya' && !empty($lainnya)){
+            $container->alasan_segel = $lainnya;
+        }else{
+            $container->alasan_segel = $alasan;
+        }
+        
+        if($container->save()){
+            return back()->with('success', 'Flag has been update.')->withInput();
+        }
+        
+        return back()->with('error', 'Something wrong, please try again.')->withInput();
+    }
 }

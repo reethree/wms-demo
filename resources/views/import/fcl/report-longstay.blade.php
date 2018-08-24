@@ -25,9 +25,9 @@
             }
             
             if(rowdata.flag_bc == 'Y') {
-                sgl = '<button style="margin:5px;" class="btn btn-info btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Are You Sure to change Flag status to N ?\')){ changeStatusFlag('+cl+'); }else{return false;};"><i class="fa fa-unlock"></i> OPEN FLAG</button>';
+                sgl = '<button style="margin:5px;" class="btn btn-info btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin ingin membuka Segel Merah ?\')){ changeStatusFlag('+cl+',\'unlock\'); }else{return false;};"><i class="fa fa-unlock"></i> UNLOCK</button>';
             }else{
-                sgl = '';
+                sgl = '<button style="margin:5px;" class="btn btn-info btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin ingin mengunci Segel Merah ?\')){ changeStatusFlag('+cl+',\'lock\'); }else{return false;};"><i class="fa fa-lock"></i> LOCK</button>';
             }
             
             if(rowdata.flag_bc == 'Y') {
@@ -71,33 +71,38 @@
         });
     }
     
-    function changeStatusFlag($id)
+    function changeStatusFlag($id,$action)
     {
-        $.ajax({
-            type: 'GET',
-            dataType : 'json',
-            url: "{{ route('fcl-change-status-flag','') }}/"+$id,
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Something went wrong, please try again later.');
-            },
-            beforeSend:function()
-            {
+        if($action == 'lock'){
+            $("#container_id").val($id);
+            $('#lock-flag-modal').modal('show');
+        }else{
+            $.ajax({
+                type: 'GET',
+                dataType : 'json',
+                url: "{{ route('fcl-change-status-flag','') }}/"+$id,
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                },
+                beforeSend:function()
+                {
 
-            },
-            success:function(json)
-            {
-                if(json.success) {
-                    $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
-                    $('#fcllongstayGrid').jqGrid().trigger("reloadGrid");
-                } else {
-                    $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                },
+                success:function(json)
+                {
+                    if(json.success) {
+                        $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                        $('#fcllongstayGrid').jqGrid().trigger("reloadGrid");
+                    } else {
+                        $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    }
+
+                    //Triggers the "Refresh" button funcionality.
+                    $('#btn-refresh').click();
                 }
-
-                //Triggers the "Refresh" button funcionality.
-                $('#btn-refresh').click();
-            }
-        });
+            });
+        }
     }
     
 </script>
@@ -152,7 +157,7 @@
             ->setGridOption('sortname','TCONTAINER_PK')
             ->setGridOption('rownumbers', true)
             ->setGridOption('rownumWidth', 50)
-            ->setGridOption('height', '320')
+            ->setGridOption('height', '395')
             ->setGridOption('rowList',array(20,50,100))
             ->setGridOption('useColSpanStyle', true)
             ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
@@ -189,6 +194,49 @@
     </div>
 </div>
 
+<div id="lock-flag-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Silahkan pilih alasan segel</h4>
+            </div>
+            <form id="create-invoice-form" class="form-horizontal" action="{{ route('fcl-lock-flag') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}" />
+                            <input name="id" type="hidden" id="container_id" />
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Alasan Segel</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control select2" id="alasan_segel" name="alasan_segel" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                        <option value="Nota Hasil Intelijen (NHI)" selected>Nota Hasil Intelijen (NHI)</option>
+                                        <option value="Surveilance">Surveilance</option>
+                                        <option value="SPBL">SPBL</option>
+                                        <option value="IKP / Temuan Lapangan">IKP / Temuan Lapangan</option>
+                                        <option value="Lainnya">Lainnya</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" id="alasan_lainnya" style="display:none;">
+                                <label class="col-sm-3 control-label">Alasan</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" name="alasan_lainnya"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Lock</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @endsection
 
 @section('custom_css')
@@ -206,6 +254,18 @@
         todayHighlight: true,
         format: 'yyyy-mm-dd',
         zIndex: 99
+    });
+    
+    $('#alasan_segel').on("change", function(){
+        var val = $(this).val();
+        console.log($(this).val());
+        if(val == 'Lainnya'){
+            $("#alasan_lainnya").show();
+            $("textarea[name='alasan_lainnya']").attr("required", "required");
+        }else{
+            $("#alasan_lainnya").hide();
+            $("textarea[name='alasan_lainnya']").removeAttr("required");
+        }
     });
     
     $('#searchByDateBtn').on("click", function(){
