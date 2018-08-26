@@ -23,7 +23,7 @@ class PelabuhanController extends Controller
         }
         
         // Create Roles Access
-        $this->insertRoleAccess(array('name' => 'Index Pelabuhan', 'slug' => 'show.pelabuhan.index', 'description' => ''));
+        $this->insertRoleAccess(array('name' => 'Index Pelabuhan', 'slug' => 'show.pelabuhan.index', 'description' => 'Menu master data Pelabuhan'));
         
         $data['page_title'] = "Pelabuhan";
         $data['page_description'] = "";

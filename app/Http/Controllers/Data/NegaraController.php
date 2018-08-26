@@ -21,7 +21,7 @@ class NegaraController extends Controller
         }
         
         // Create Roles Access
-        $this->insertRoleAccess(array('name' => 'Index Negara', 'slug' => 'show.negara.index', 'description' => ''));
+        $this->insertRoleAccess(array('name' => 'Index Negara', 'slug' => 'show.negara.index', 'description' => 'Menu master data Negara'));
         
         $data['page_title'] = "Negara";
         $data['page_description'] = "";

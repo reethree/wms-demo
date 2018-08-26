@@ -21,7 +21,7 @@ class PackingController extends Controller
         }
         
         // Create Roles Access
-        $this->insertRoleAccess(array('name' => 'Index Packing', 'slug' => 'show.packing.index', 'description' => ''));
+        $this->insertRoleAccess(array('name' => 'Index Packing', 'slug' => 'show.packing.index', 'description' => 'Menu master data Packing'));
         
         $data['page_title'] = "Packing";
         $data['page_description'] = "";

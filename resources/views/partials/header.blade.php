@@ -21,25 +21,62 @@
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
+        
+        @role('p2')
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Import<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="dropdown-submenu">
+                          <a class="submenu" tabindex="-1" href="#">Import LCL <span class="caret"></span></a>
+                          <ul class="dropdown-menu">
+                            
+                            <li class="dropdown-submenu">
+                              <a class="submenu" href="#">Report <span class="caret"></span></a>
+                              <ul class="dropdown-menu">  
+                                  <li><a href="{{ route('lcl-report-longstay') }}">Inventory</a></li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                          <a class="submenu" tabindex="-1" href="#">Import FCL <span class="caret"></span></a>
+                          <ul class="dropdown-menu">
+                            
+                            <li class="dropdown-submenu">
+                              <a class="submenu" href="#">Report <span class="caret"></span></a>
+                              <ul class="dropdown-menu">
+                                  <li><a href="{{ route('fcl-report-longstay') }}">Inventory</a></li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                    </ul>
+                  </li>
+            </ul>
+        </div>
+        @else
         <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
           <ul class="nav navbar-nav">
 <!--            <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Data <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="{{ route('consolidator-index') }}">Consolidator</a></li>
-                <li><a href="{{ route('depomty-index') }}">Depo MTY</a></li>
-                <li><a href="{{ route('lokasisandar-index') }}">Lokasi Sandar</a></li>
-                <li><a href="{{ route('negara-index') }}">Negara</a></li>
-                <li><a href="{{ route('packing-index') }}">Packing</a></li>
-                <li><a href="{{ route('pelabuhan-index') }}">Pelabuhan</a></li>
-                <li><a href="{{ route('perusahaan-index') }}">Perusahaan</a></li>
-                <li><a href="{{ route('tpp-index') }}">TPP</a></li>
-                <li><a href="{{ route('shippingline-index') }}">Shipping Line</a></li>
-                <li><a href="{{ route('eseal-index') }}">E-Seal</a></li>
-                <li><a href="{{ route('vessel-index') }}">Vessel</a></li>
-              </ul>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Data <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="{{ route('consolidator-index') }}">Consolidator</a></li>
+                    <li><a href="{{ route('depomty-index') }}">Depo MTY</a></li>
+                  <li><a href="{{ route('lokasisandar-index') }}">Lokasi Sandar</a></li>
+                  <li><a href="{{ route('negara-index') }}">Negara</a></li>
+                  <li><a href="{{ route('packing-index') }}">Packing</a></li>
+                  <li><a href="{{ route('pelabuhan-index') }}">Pelabuhan</a></li>
+                  <li><a href="{{ route('perusahaan-index') }}">Perusahaan</a></li>
+                  <li><a href="{{ route('tpp-index') }}">TPP</a></li>
+                  <li><a href="{{ route('shippingline-index') }}">Shipping Line</a></li>
+                  <li><a href="{{ route('eseal-index') }}">E-Seal</a></li>
+                  <li><a href="{{ route('vessel-index') }}">Vessel</a></li>
+                </ul>
             </li>
+            
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Import<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
@@ -255,6 +292,8 @@
             </li>
           </ul>
         </div>
+        @endrole
+        
         <!-- /.navbar-collapse -->
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
@@ -279,7 +318,7 @@
                   </p>
                 </li>-->
                 <!-- Menu Body -->
-                <li class="user-body">
+<!--                <li class="user-body">
                   <div class="row">
                     <div class="col-xs-4 text-center">
                       <a href="#">Followers</a>
@@ -291,8 +330,8 @@
                       <a href="#">Friends</a>
                     </div>
                   </div>
-                  <!-- /.row -->
-                </li>
+                   /.row 
+                </li>-->
                 <!-- Menu Footer-->
                 <li class="user-footer">
                   <div class="pull-left">

@@ -21,7 +21,7 @@ class LokasisandarController extends Controller
         }
         
         // Create Roles Access
-        $this->insertRoleAccess(array('name' => 'Index Lokasisandar', 'slug' => 'show.lokasisandar.index', 'description' => ''));
+        $this->insertRoleAccess(array('name' => 'Index Lokasisandar', 'slug' => 'show.lokasisandar.index', 'description' => 'Menu master data Lokasi Sandar'));
         
         $data['page_title'] = "Lokasi Sandar";
         $data['page_description'] = "";

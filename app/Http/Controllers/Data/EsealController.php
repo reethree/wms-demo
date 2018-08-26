@@ -21,7 +21,7 @@ class EsealController extends Controller
         }
         
         // Create Roles Access
-        $this->insertRoleAccess(array('name' => 'Index ESeal', 'slug' => 'show.eseal.index', 'description' => ''));
+        $this->insertRoleAccess(array('name' => 'Index ESeal', 'slug' => 'show.eseal.index', 'description' => 'Menu master data E-Seal'));
         
         $data['page_title'] = "E-Seal";
         $data['page_description'] = "";

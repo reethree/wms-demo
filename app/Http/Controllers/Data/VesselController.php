@@ -24,7 +24,7 @@ class VesselController extends Controller
         }
         
         // Create Roles Access
-        $this->insertRoleAccess(array('name' => 'Index Vessel', 'slug' => 'show.vessel.index', 'description' => ''));
+        $this->insertRoleAccess(array('name' => 'Index Vessel', 'slug' => 'show.vessel.index', 'description' => 'Menu master data Vessel'));
         
         $data['page_title'] = "Vessel";
         $data['page_description'] = "";

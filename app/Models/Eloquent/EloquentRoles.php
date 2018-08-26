@@ -13,7 +13,7 @@ class EloquentRoles {
  
     public function __construct()
     {
-        $this->Roles = new Roles();
+        $this->Roles = new \App\Models\Roles();
     }
  
      /**

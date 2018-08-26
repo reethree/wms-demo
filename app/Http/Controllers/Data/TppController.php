@@ -21,7 +21,7 @@ class TppController extends Controller
         }
         
         // Create Roles Access
-        $this->insertRoleAccess(array('name' => 'Index TPP', 'slug' => 'show.tpp.index', 'description' => ''));
+        $this->insertRoleAccess(array('name' => 'Index TPP', 'slug' => 'show.tpp.index', 'description' => 'Menu master data TPP'));
         
         $data['page_title'] = "TPP";
         $data['page_description'] = "";

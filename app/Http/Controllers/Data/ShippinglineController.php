@@ -21,7 +21,7 @@ class ShippinglineController extends Controller
         }
         
         // Create Roles Access
-        $this->insertRoleAccess(array('name' => 'Index Shippingline', 'slug' => 'show.shipingline.index', 'description' => ''));
+        $this->insertRoleAccess(array('name' => 'Index Shippingline', 'slug' => 'show.shipingline.index', 'description' => 'Menu master data Shipping Line'));
         
         $data['page_title'] = "Shipping Line";
         $data['page_description'] = "";

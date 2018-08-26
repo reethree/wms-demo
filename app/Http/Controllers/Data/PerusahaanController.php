@@ -23,7 +23,7 @@ class PerusahaanController extends Controller
         }
         
         // Create Roles Access
-        $this->insertRoleAccess(array('name' => 'Index Perusahaan', 'slug' => 'show.perusahaan.index', 'description' => ''));
+        $this->insertRoleAccess(array('name' => 'Index Perusahaan', 'slug' => 'show.perusahaan.index', 'description' => 'Menu master data Perusahaan'));
         
         $data['page_title'] = "Perusahaan";
         $data['page_description'] = "";

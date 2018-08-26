@@ -22,6 +22,9 @@ class UserController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index User', 'slug' => 'show.user.index', 'description' => 'Menu User'));
+        
         $data['page_title'] = "Users";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -39,6 +42,9 @@ class UserController extends Controller
         if ( !$this->access->can('show.user.create') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Create User', 'slug' => 'show.user.create', 'description' => 'Form Create User'));
         
         $data['page_title'] = "Add New User";
         $data['page_description'] = "";
@@ -60,7 +66,7 @@ class UserController extends Controller
     
     public function store(Request $request)
     {       
-        if ( !$this->access->can('show.user.store') ) {
+        if ( !$this->access->can('show.user.create') ) {
             return view('errors.no-access');
         }
         
@@ -118,6 +124,10 @@ class UserController extends Controller
         if ( !$this->access->can('show.user.view') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'View User', 'slug' => 'show.user.view', 'description' => 'Lihat Detil User'));
+        
         $data['page_title'] = "User Detail";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -148,6 +158,9 @@ class UserController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Edit User', 'slug' => 'show.user.edit', 'description' => 'Form Edit User'));
+        
         $data['page_title'] = "Edit User";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
@@ -177,6 +190,7 @@ class UserController extends Controller
         if ( !$this->access->can('show.user.edit') ) {
             return view('errors.no-access');
         }
+        
         $validator = \Validator::make($request->all(), [
             'name' => 'required',
             'username' => 'required',
@@ -236,6 +250,9 @@ class UserController extends Controller
         if ( !$this->access->can('show.user.delete') ) {
             return view('errors.no-access');
         }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Delete User', 'slug' => 'show.user.delete', 'description' => 'Delete User'));
         
         $user = DBUser::find($id);
         

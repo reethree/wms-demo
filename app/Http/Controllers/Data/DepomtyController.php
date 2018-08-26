@@ -21,7 +21,7 @@ class DepomtyController extends Controller
         }
         
         // Create Roles Access
-        $this->insertRoleAccess(array('name' => 'Index Depo MTY', 'slug' => 'show.depomty.index', 'description' => ''));
+        $this->insertRoleAccess(array('name' => 'Index Depo MTY', 'slug' => 'show.depomty.index', 'description' => 'Menu master data Depo Empty'));
         
         $data['page_title'] = "Depo MTY";
         $data['page_description'] = "";

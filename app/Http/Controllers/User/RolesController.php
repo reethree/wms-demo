@@ -22,6 +22,8 @@ class RolesController extends Controller
             return view('errors.no-access');
         }
         
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index Roles', 'slug' => 'show.role.index', 'description' => 'Menu User Roles'));
         
         $data['page_title'] = "User Roles Data";
         $data['page_description'] = "";

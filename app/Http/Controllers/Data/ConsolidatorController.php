@@ -26,7 +26,7 @@ class ConsolidatorController extends Controller
         }
         
         // Create Roles Access
-        $this->insertRoleAccess(array('name' => 'Index Consolidator', 'slug' => 'show.consolidator.index', 'description' => ''));
+        $this->insertRoleAccess(array('name' => 'Index Consolidator', 'slug' => 'show.consolidator.index', 'description' => 'Menu master data Consolidator'));
         
         $data['page_title'] = "Consolidator";
         $data['page_description'] = "";
