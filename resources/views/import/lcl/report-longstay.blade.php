@@ -34,13 +34,13 @@
             }else{
                 apv = '';
             }
-            
+            @role('p2')
             if(rowdata.flag_bc == 'Y') {
                 sgl = '<button style="margin:5px;" class="btn btn-info btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin ingin membuka Segel Merah ?\')){ changeStatusFlag('+cl+',\'unlock\'); }else{return false;};"><i class="fa fa-unlock"></i> UNLOCK</button>';
             }else{
                 sgl = '<button style="margin:5px;" class="btn btn-info btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin ingin mengunci Segel Merah ?\')){ changeStatusFlag('+cl+',\'lock\'); }else{return false;};"><i class="fa fa-lock"></i> LOCK</button>';
             }
-            
+            @endrole
             if(rowdata.flag_bc == 'Y') {
                 $("#" + cl).find("td").css("background-color", "#FF0000");
             }
