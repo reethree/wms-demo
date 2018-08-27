@@ -35,7 +35,9 @@
                             <li class="dropdown-submenu">
                               <a class="submenu" href="#">Report <span class="caret"></span></a>
                               <ul class="dropdown-menu">  
-                                  <li><a href="{{ route('lcl-report-longstay') }}">Inventory</a></li>
+                                    <li><a href="{{ route('lcl-report-container') }}">Report Container</a></li>
+                                    <li><a href="{{ route('lcl-report-inout') }}">Report Stock</a></li>    
+                                    <li><a href="{{ route('lcl-report-longstay') }}">Inventory</a></li>
                               </ul>
                             </li>
                           </ul>
@@ -47,7 +49,8 @@
                             <li class="dropdown-submenu">
                               <a class="submenu" href="#">Report <span class="caret"></span></a>
                               <ul class="dropdown-menu">
-                                  <li><a href="{{ route('fcl-report-longstay') }}">Inventory</a></li>
+                                    <li><a href="{{ route('fcl-report-rekap') }}">Report Container</a></li>
+                                    <li><a href="{{ route('fcl-report-longstay') }}">Inventory</a></li>
                               </ul>
                             </li>
                           </ul>
