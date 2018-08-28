@@ -88,6 +88,7 @@ class BarcodeController extends Controller
     { 
         $ids = explode(',', $id);
         $model = '';
+        $expired = date('Y-m-d', strtotime('+1 day'));
         
         switch ($type) {
             case 'fcl':
@@ -114,13 +115,16 @@ class BarcodeController extends Controller
                 }elseif($type == 'fcl'){
                     $refdata = \App\Models\Containercy::find($ref_id);
                     $ref_number = $refdata->NOCONTAINER;
+                    if($action == 'get'){
+                        $expired = date('Y-m-d', strtotime('+3 day'));
+                    }
                 }
 
                 $check = \App\Models\Barcode::where(array('ref_id'=>$ref_id, 'ref_type'=>ucwords($type), 'ref_action'=>$action))->first();               
                 if(count($check) > 0){
 //                    continue;
                     $barcode = \App\Models\Barcode::find($check->id);
-                    $barcode->expired = date('Y-m-d', strtotime('+3 day'));
+                    $barcode->expired = $expired;
                     $barcode->status = 'active';
                     $barcode->uid = \Auth::getUser()->name;
                     $barcode->save();
@@ -131,7 +135,7 @@ class BarcodeController extends Controller
                     $barcode->ref_action = $action;
                     $barcode->ref_number = $ref_number;
                     $barcode->barcode = str_random(20);
-                    $barcode->expired = date('Y-m-d', strtotime('+3 day'));
+                    $barcode->expired = $expired;
                     $barcode->status = 'active';
                     $barcode->uid = \Auth::getUser()->name;
                     $barcode->save();
