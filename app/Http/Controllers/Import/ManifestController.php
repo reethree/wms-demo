@@ -251,6 +251,10 @@ class ManifestController extends Controller
         $data['tglmasuk'] = $container->TGLMASUK;
         $data['jammasuk'] = $container->JAMMASUK;
         
+        if(empty($data['perubahan_hbl']) || $data['perubahan_hbl'] == 'N'){
+            $data['alasan_perubahan'] = '';
+        }
+        
         $update = DBManifest::where('TMANIFEST_PK', $id)
             ->update($data);
         

@@ -190,14 +190,15 @@
         $('#btn-group-1').enableButtonGroup();
         $('#btn-group-6').enableButtonGroup();
 
-//        $("#flag_bc").on("change", function(){
-//            var $this = $(this).val();
-//            if($this == 'Y'){
-//                $(".select-alasan").show();
-//            }else{
-//                $(".select-alasan").hide();
-//            }
-//        });
+        $("#perubahan_hbl").on("change", function(){
+            var $this = $(this).val();
+            console.log($this);
+            if($this == 'Y'){
+                $(".select-alasan").show();
+            }else{
+                $(".select-alasan").hide();
+            }
+        });
         
       //Binds onClick event to the "Refresh" button.
       $('#btn-refresh').click(function()
@@ -209,7 +210,7 @@
             $('#TNOTIFYPARTY_FK').val('Same of Consignee').trigger("change");
             $('#DG_SURCHARGE').val('N').trigger("change");
             $('#WEIGHT_SURCHARGE').val('N').trigger("change");
-            $('#flag_bc').val('N').trigger("change");
+            $('#perubahan_hbl').val('N').trigger("change");
             $('#id').val("");
             
             //Disables all buttons within the toolbar
@@ -257,8 +258,12 @@
         $("#TPACKING_FK").val(rowdata.TPACKING_FK).trigger("change");
         $("#DG_SURCHARGE").val(rowdata.DG_SURCHARGE).trigger("change");
         $("#WEIGHT_SURCHARGE").val(rowdata.WEIGHT_SURCHARGE).trigger("change");
-//        $("#flag_bc").val(rowdata.flag_bc).trigger("change");
-//        $("#alasan_segel").val(rowdata.alasan_segel).trigger("change");
+        if(rowdata.perubahan_hbl != ''){
+            $("#perubahan_hbl").val(rowdata.perubahan_hbl).trigger("change");
+        }
+        if(rowdata.alasan_perubahan != ''){
+            $("#alasan_perubahan").val(rowdata.alasan_perubahan).trigger("change");
+        }
         
         $("#TGL_HBL").datepicker('setDate', rowdata.TGL_HBL);
         $("#TGL_BC11").val(rowdata.TGL_BC11);
@@ -502,8 +507,10 @@
                         ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>150,'hidden'=>true))                
                         ->addColumn(array('label'=>'Surcharge (DG)','index'=>'DG_SURCHARGE', 'width'=>150,'hidden'=>true))
                         ->addColumn(array('label'=>'Surcharge (Weight)','index'=>'WEIGHT_SURCHARGE', 'width'=>150,'hidden'=>true))      
-                        ->addColumn(array('label'=>'Segel Merah','index'=>'flag_bc','width'=>80, 'align'=>'center'))
+                        ->addColumn(array('label'=>'Segel Merah','index'=>'flag_bc','width'=>100, 'align'=>'center'))
                         ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center'))
+                        ->addColumn(array('label'=>'Perubahan HBL','index'=>'perubahan_hbl','width'=>100, 'align'=>'center'))
+                        ->addColumn(array('label'=>'Alasan Perubahan','index'=>'alasan_perubahan','width'=>150,'align'=>'center'))
                         ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
                         ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
                         ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
@@ -665,7 +672,7 @@
                               <input type="text" id="NO_POS_BC11" name="NO_POS_BC11" class="form-control" required>
                           </div>
                         </div>
-                        <div class="form-group">
+<!--                        <div class="form-group">
                             <label class="col-sm-3 control-label">Surcharge(DG)</label>
                             <div class="col-sm-2">
                                 <select class="form-control select2" id="DG_SURCHARGE" name="DG_SURCHARGE" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
@@ -680,28 +687,27 @@
                                     <option value="Y">Y</option>
                                 </select>
                             </div>
-                        </div>
-<!--                        <div class="form-group" style="display:none;">
-                            <label class="col-sm-3 control-label">Segel Merah</label>
+                        </div>-->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Perubahan HBL</label>
                             <div class="col-sm-2">
-                                <select class="form-control select2" id="flag_bc" name="flag_bc" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <select class="form-control select2" id="perubahan_hbl" name="perubahan_hbl" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                     <option value="N">N</option>
                                     <option value="Y">Y</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group select-alasan" style="display:none;">
-                            <label class="col-sm-3 control-label">Alasan Segel</label>
+                            <label class="col-sm-3 control-label">Alasan Perubahan</label>
                             <div class="col-sm-8">
-                                <select class="form-control select2" id="alasan_segel" name="alasan_segel" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                                    <option value="Nota Hasil Intelijen (NHI)" selected>Nota Hasil Intelijen (NHI)</option>
-                                    <option value="Surveilance">Surveilance</option>
-                                    <option value="SPBL">SPBL</option>
-                                    <option value="IKP / Temuan Lapangan">IKP / Temuan Lapangan</option>
+                                <select class="form-control select2" id="alasan_perubahan" name="alasan_perubahan" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                    <option value="Perubahan Quantity" selected>Perubahan Quantity</option>
+                                    <option value="Perubahan kemasan">Perubahan kemasan</option>
+                                    <option value="Redress">Redress</option>
                                     <option value="Lainnya">Lainnya</option>
                                 </select>
                             </div>
-                        </div>-->
+                        </div>
                     </div>
                 </div>
             </form>
