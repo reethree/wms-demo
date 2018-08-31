@@ -1877,9 +1877,11 @@ class LclController extends Controller
                             // Get Packing
                             if($df['pack']) {
                                 $packing = \App\Models\Packing::where('KODEPACKING', $df['pack'])->first();
-                                $data['TPACKING_FK'] = $packing->TPACKING_PK;
-                                $data['NAMAPACKING'] = $packing->NAMAPACKING;
-                                $data['KODE_KEMAS'] = $packing->KODEPACKING;
+                                if($packing){
+                                    $data['TPACKING_FK'] = $packing->TPACKING_PK;
+                                    $data['NAMAPACKING'] = $packing->NAMAPACKING;
+                                    $data['KODE_KEMAS'] = $packing->KODEPACKING;
+                                }
                             }
 
                             $data['tglmasuk'] = $container->TGL_PLP;
