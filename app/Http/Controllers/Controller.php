@@ -84,7 +84,7 @@ class Controller extends BaseController
         return false;
     }
     
-    public function getReffNumber()
+    public function getReffNumber($uid = '')
     {
         $reff = \DB::table('tpsurutxml')->select('REF_NUMBER as id')
                 ->where('TGL_ENTRY', date('Y-m-d'))
@@ -100,7 +100,7 @@ class Controller extends BaseController
         $new_ref = 'PRJP'.date('ymd').str_pad(intval($reff_id+1), 4, '0', STR_PAD_LEFT);
         
         $insert = \DB::table('tpsurutxml')->insert(
-            ['REF_NUMBER' => $new_ref, 'TGL_ENTRY' => date('Y-m-d'), 'UID' => \Auth::getUser()->name, 'TAHUN' => date('Y')]
+            ['REF_NUMBER' => $new_ref, 'TGL_ENTRY' => date('Y-m-d'), 'UID' => (empty($uid) ? \Auth::getUser()->name : $uid), 'TAHUN' => date('Y')]
         );
         
         if($insert){

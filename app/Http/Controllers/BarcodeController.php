@@ -287,7 +287,7 @@ class BarcodeController extends Controller
         $container_id = $id; 
         
         // Reff Number
-        $reff_number = $this->getReffNumber(); 
+        $reff_number = $this->getReffNumber('Autogate'); 
         
         if($type == 'Fcl'){
             $container = \App\Models\Containercy::where('TCONTAINER_PK', $container_id)->first();
@@ -297,7 +297,7 @@ class BarcodeController extends Controller
                 $coaricont->REF_NUMBER = $reff_number;
                 $coaricont->TGL_ENTRY = date('Y-m-d');
                 $coaricont->JAM_ENTRY = date('H:i:s');
-                $coaricont->UID = \Auth::getUser()->name;
+                $coaricont->UID = 'Autogate';
 
                 if($coaricont->save()){
                     $coaricontdetail = new \App\Models\TpsCoariContDetail;
@@ -337,7 +337,7 @@ class BarcodeController extends Controller
                     $coaricontdetail->PEL_TRANSIT = $container->PEL_TRANSIT;
                     $coaricontdetail->PEL_BONGKAR = $container->PEL_BONGKAR;
                     $coaricontdetail->GUDANG_TUJUAN = 'PRJP';
-                    $coaricontdetail->UID = \Auth::getUser()->name;
+                    $coaricontdetail->UID = 'Autogate';
                     $coaricontdetail->NOURUT = 1;
                     $coaricontdetail->RESPONSE = '';
                     $coaricontdetail->STATUS_TPS = 1;
@@ -384,7 +384,7 @@ class BarcodeController extends Controller
                 $coaricont->REF_NUMBER = $reff_number;
                 $coaricont->TGL_ENTRY = date('Y-m-d');
                 $coaricont->JAM_ENTRY = date('H:i:s');
-                $coaricont->UID = \Auth::getUser()->name;
+                $coaricont->UID = 'Autogate';
 
                 if($coaricont->save()){
                     $coaricontdetail = new \App\Models\TpsCoariContDetail;
@@ -424,7 +424,7 @@ class BarcodeController extends Controller
                     $coaricontdetail->PEL_TRANSIT = $container->PEL_TRANSIT;
                     $coaricontdetail->PEL_BONGKAR = $container->PEL_BONGKAR;
                     $coaricontdetail->GUDANG_TUJUAN = 'PRJP';
-                    $coaricontdetail->UID = \Auth::getUser()->name;
+                    $coaricontdetail->UID = 'Autogate';
                     $coaricontdetail->NOURUT = 1;
                     $coaricontdetail->RESPONSE = '';
                     $coaricontdetail->STATUS_TPS = 1;
