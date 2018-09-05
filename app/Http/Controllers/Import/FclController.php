@@ -1125,7 +1125,7 @@ class FclController extends Controller
                 $coaricontdetail->TGL_BL_AWB = (!empty($container->TGL_BL_AWB) ? date('Ymd', strtotime($container->TGL_BL_AWB)) : '');
                 $coaricontdetail->NO_MASTER_BL_AWB = $container->NOMBL;
                 $coaricontdetail->TGL_MASTER_BL_AWB = (!empty($container->TGL_MASTER_BL) ? date('Ymd', strtotime($container->TGL_MASTER_BL)) : '');
-                $coaricontdetail->ID_CONSIGNEE = $container->ID_CONSOLIDATOR;
+                $coaricontdetail->ID_CONSIGNEE = str_replace(array('.','-'), array(''), $container->ID_CONSOLIDATOR);
                 $coaricontdetail->CONSIGNEE = $container->NAMACONSOLIDATOR;
                 $coaricontdetail->BRUTO = (!empty($container->WEIGHT) ? $container->WEIGHT : 0);
                 $coaricontdetail->NO_BC11 = $container->NO_BC11;

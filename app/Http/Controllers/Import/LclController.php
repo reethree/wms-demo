@@ -1207,7 +1207,7 @@ class LclController extends Controller
                 $coaricontdetail->UID = \Auth::getUser()->name;
                 $coaricontdetail->NOURUT = 1;
                 $coaricontdetail->RESPONSE = '';
-                $coaricontdetail->STATUS_TPS = '';
+                $coaricontdetail->STATUS_TPS = 1;
                 $coaricontdetail->KODE_KANTOR = '040300';
                 $coaricontdetail->NO_DAFTAR_PABEAN = '';
                 $coaricontdetail->TGL_DAFTAR_PABEAN = '';
