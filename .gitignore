@@ -3,3 +3,4 @@
 /public/xml/
 /vendor/
 composer.lock
+.env
