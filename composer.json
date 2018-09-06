@@ -13,7 +13,9 @@
         "barryvdh/laravel-dompdf": "^0.7.0",
         "guzzlehttp/guzzle": "^6.2",
         "orchestra/parser": "~3.0",
-        "artisaninweb/laravel-soap": "0.2.*"
+        "artisaninweb/laravel-soap": "0.2.*",
+        "artesaos/seotools": "^0.10.0",
+        "simplesoftwareio/simple-qrcode": "~1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
