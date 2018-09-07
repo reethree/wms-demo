@@ -198,9 +198,9 @@ class BarcodeController extends Controller
 
                         if($model->save()){
                             // Upload Coari Container TPS Online
-                            $this->uploadTpsOnlineCoariCont($data_barcode->ref_type,$data_barcode->ref_id);
-                            
-                            return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+                            $coari_id = $this->uploadTpsOnlineCoariCont($data_barcode->ref_type,$data_barcode->ref_id);
+                            return redirect()->route('tps-coariCont-upload', $coari_id);
+//                            return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                         }else{
                             return 'Something wrong!!!';
                         }
@@ -368,7 +368,8 @@ class BarcodeController extends Controller
                         $container->save();
 
                         // Create XML & Send Tps Online
-                        return redirect()->route('tps-coariCont-upload', $coaricont->TPSCOARICONTXML_PK);
+                        return $coaricont->TPSCOARICONTXML_PK;
+//                        return redirect()->route('tps-coariCont-upload', $coaricont->TPSCOARICONTXML_PK);
 //                        return json_encode(array('insert_id' => $coaricont->TPSCOARICONTXML_PK, 'ref_number' => $reff_number, 'success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di simpan. Reff Number : '.$reff_number));
                     }
 
@@ -455,7 +456,8 @@ class BarcodeController extends Controller
                         $container->save();                    
                         
                         // Create XML & Send Tps Online
-                        return redirect()->route('tps-coariCont-upload', $coaricont->TPSCOARICONTXML_PK);
+                        return $coaricont->TPSCOARICONTXML_PK;
+//                        return redirect()->route('tps-coariCont-upload', $coaricont->TPSCOARICONTXML_PK);
 //                        return json_encode(array('insert_id' => $coaricont->TPSCOARICONTXML_PK, 'ref_number' => $reff_number, 'success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di simpan. Reff Number : '.$reff_number));
                     }
 
