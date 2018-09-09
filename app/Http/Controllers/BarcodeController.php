@@ -178,9 +178,11 @@ class BarcodeController extends Controller
             switch ($data_barcode->ref_type) {
                 case 'Fcl':
                     $model = \App\Models\Containercy::find($data_barcode->ref_id);
+                    $ref_number = $model->REF_NUMBER;
                     break;
                 case 'Lcl':
                     $model = \App\Models\Container::find($data_barcode->ref_id);
+                    $ref_number = $model->REF_NUMBER_IN;
                     break;
                 case 'Manifest':
                     $model = \App\Models\Manifest::find($data_barcode->ref_id);
@@ -198,9 +200,19 @@ class BarcodeController extends Controller
 
                         if($model->save()){
                             // Upload Coari Container TPS Online
-                            $coari_id = $this->uploadTpsOnlineCoariCont($data_barcode->ref_type,$data_barcode->ref_id);
-                            return redirect()->route('tps-coariCont-upload', $coari_id);
-//                            return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+                            // Check Coari Exist
+                            if($ref_number){
+                                return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+                            }else{
+                                // $check_coari = \App\Models\TpsCoariCont::where('REF_NUMBER', $ref_number)->count();
+                                // if($check_coari > 0){
+                                //     return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+                                // }else{
+                                    $coari_id = $this->uploadTpsOnlineCoariCont($data_barcode->ref_type,$data_barcode->ref_id);
+                                    return redirect()->route('tps-coariCont-upload', $coari_id);
+                                // }
+                            }
+  
                         }else{
                             return 'Something wrong!!!';
                         }
@@ -355,7 +367,7 @@ class BarcodeController extends Controller
                     $coaricontdetail->FLAG_REVISI = '';
                     $coaricontdetail->TGL_REVISI = '';
                     $coaricontdetail->TGL_REVISI_UPDATE = '';
-                    $coaricontdetail->KD_TPS_ASAL = '';
+                    $coaricontdetail->KD_TPS_ASAL = $container->KD_TPS_ASAL;
                     $coaricontdetail->FLAG_UPD = '';
                     $coaricontdetail->RESPONSE_MAL0 = '';
                     $coaricontdetail->STATUS_TPS_MAL0 = '';
@@ -443,7 +455,7 @@ class BarcodeController extends Controller
                     $coaricontdetail->FLAG_REVISI = '';
                     $coaricontdetail->TGL_REVISI = '';
                     $coaricontdetail->TGL_REVISI_UPDATE = '';
-                    $coaricontdetail->KD_TPS_ASAL = '';
+                    $coaricontdetail->KD_TPS_ASAL = $container->KD_TPS_ASAL;
                     $coaricontdetail->FLAG_UPD = '';
                     $coaricontdetail->RESPONSE_MAL0 = '';
                     $coaricontdetail->STATUS_TPS_MAL0 = '';

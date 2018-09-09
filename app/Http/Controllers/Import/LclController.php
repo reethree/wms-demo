@@ -1222,7 +1222,7 @@ class LclController extends Controller
                 $coaricontdetail->FLAG_REVISI = '';
                 $coaricontdetail->TGL_REVISI = '';
                 $coaricontdetail->TGL_REVISI_UPDATE = '';
-                $coaricontdetail->KD_TPS_ASAL = '';
+                $coaricontdetail->KD_TPS_ASAL = $container->KD_TPS_ASAL;
                 $coaricontdetail->FLAG_UPD = '';
                 $coaricontdetail->RESPONSE_MAL0 = '';
                 $coaricontdetail->STATUS_TPS_MAL0 = '';
