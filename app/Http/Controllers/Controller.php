@@ -200,6 +200,26 @@ class Controller extends BaseController
         return json_encode(array('value' => $value, 'default' => $sor->kapasitas_default,'awal' => $sor->kapasitas_awal,'terisi' => (float)($k_trisi/1000), 'sor' => $tot_sor));
     }
     
+    public function updateYorByTeus()
+    {
+        $teus_count = \App\Models\Containercy::whereNotNull('TGLMASUK')
+                                ->whereNull('TGLRELEASE')
+                                ->sum('TEUS');
+        
+        $yor = \App\Models\SorYor::where('type', 'yor')->first();
+        
+        $k_trisi = $teus_count*1000;
+        $k_kosong = ($yor->kapasitas_default*1000) - $k_trisi;       
+        $tot_sor = ($k_trisi / ($yor->kapasitas_default*1000)) * 100;
+        
+        $yor->kapasitas_terisi = (float)($k_trisi/1000);
+        $yor->kapasitas_kosong = (float)($k_kosong/1000);
+        $yor->total = $tot_sor;
+        $yor->save();
+        
+        return true;
+    }
+    
     public function updateYor($type, $value)
     {
         $yor = \App\Models\SorYor::where('type', 'yor')->first();

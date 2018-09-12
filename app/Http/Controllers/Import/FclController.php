@@ -977,6 +977,7 @@ class FclController extends Controller
         $data['month'] = $month;
         $data['year'] = $year;
         
+        $this->updateYorByTeus();
         $data['yor'] = \App\Models\SorYor::where('type', 'yor')->first();
         
         return view('import.fcl.report-rekap')->with($data);
