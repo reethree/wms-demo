@@ -794,6 +794,14 @@ class FclController extends Controller
             
             $updateOB = \App\Models\TpsOb::where('TPSOBXML_PK', $id)->update(['STATUS_DISPATCHE' => 'S']);
             
+            // Update Container
+            $container = DBContainer::where(array('NOCONTAINER' => $data['NO_CONT'], 'NO_PLP' => $data['NO_PLP']))->first(); 
+            if($container){
+                $container->NOPOL = $data['NOPOL'];
+                $container->ESEALCODE = $data['ESEALCODE'];
+                $container->save();
+            }
+            
             return json_encode(array('success' => true, 'message' => 'Container successfully updated.'));
         }
         
