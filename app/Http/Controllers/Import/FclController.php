@@ -558,7 +558,8 @@ class FclController extends Controller
         if($update){
             $cont = DBContainer::find($id);
             if($cont->yor_update == 0){
-                $yor = $this->updateYor('gatein', $teus->TEUS);
+//                $yor = $this->updateYor('gatein', $teus->TEUS);
+                $this->updateYorByTeus();
                 $cont->yor_update = 1;
                 $cont->save();
             }
@@ -757,7 +758,8 @@ class FclController extends Controller
         if($update){
             $cont = DBContainer::find($id);
             if($cont->yor_update == 1){
-                $yor = $this->updateYor('release', $container->TEUS);
+//                $yor = $this->updateYor('release', $container->TEUS);
+                $this->updateYorByTeus();
                 $cont->yor_update = 2;
                 $cont->save();
             }
