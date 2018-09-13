@@ -199,6 +199,11 @@ class BarcodeController extends Controller
                         $model->UIDMASUK = 'Autogate';
 
                         if($model->save()){
+                            // Update Manifest If LCL
+                            if($data_barcode->ref_type == 'Lcl'){
+                                \App\Models\Manifest::where('TCONTAINER_FK', $model->TCONTAINER_PK)->update(array('tglmasuk' => $model->TGLMASUK, 'jammasuk' => $model->JAMMASUK));
+                            }
+                            
                             // Upload Coari Container TPS Online
                             // Check Coari Exist
                             if($ref_number){
