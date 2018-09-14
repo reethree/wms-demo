@@ -145,16 +145,16 @@ class EasygoController extends Controller
 //        $insert->Lon = $request['Lon'];
 //        $insert->Lat = $request['Lat'];
         
-        $insert = \App\Models\Easygo::where('DO_ID', $request->DO_ID)->first();
+        $insert = \App\Models\Easygo::where('DO_ID', $request['DO_ID'])->first();
         if(count($insert) == 0){
             $insert = new \App\Models\Easygo;
+            $insert->DO_ID = $request['DO_ID'];
         }
-        
-        $insert->Status_DO = $request->Status_DO;
-        $insert->GPS_TIME = $request->GPS_TIME;
-        $insert->Address = $request->Address;
-        $insert->Lon = $request->Lon;
-        $insert->Lat = $request->Lat;
+        $insert->Status_DO = $request['Status_DO'];
+        $insert->GPS_TIME = $request['GPS_TIME'];
+        $insert->Address = $request['Address'];
+        $insert->Lon = $request['Lon'];
+        $insert->Lat = $request['Lat'];
         
         $insert->save();
         
