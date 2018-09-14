@@ -8,6 +8,22 @@
 </style>
 <script>
     
+    function gridCompleteEvent()
+    {
+        var ids = jQuery("#lclDispatcheGrid").jqGrid('getDataIDs'); 
+            
+        for(var i=0;i < ids.length;i++){ 
+            var cl = ids[i];
+            
+            rowdata = $('#lclDispatcheGrid').getRowData(cl);
+
+            if(rowdata.KODE_DISPATCHE == '0') {
+                $("#" + cl).find("td").css("background-color", "#3eef82");
+            }
+            
+        } 
+    }
+    
     function onSelectRowEvent()
     {
         $('#btn-group-1, #btn-group-4, #btn-group-5').enableButtonGroup();
@@ -34,6 +50,7 @@
             $('#STATUS_DISPATCHE').val(rowdata.STATUS_DISPATCHE);
             $('#KODE_DISPATCHE').val(rowdata.KODE_DISPATCHE);
             $('#DO_ID').val(rowdata.DO_ID);
+            $('#KD_TPS_ASAL').val(rowdata.KD_TPS_ASAL);
 
 //            if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
                 $('#btn-group-2').enableButtonGroup();
@@ -50,7 +67,7 @@
         });
         
         $('#btn-upload').click(function() {
-            if(!confirm('Apakah anda yakin?')){return false;}
+            if(!confirm('Apakah anda yakin akan malakukan Dispatche ?')){return false;}
             
             if($('#NO_PLP').val() == ''){
                 alert('No. PLP masih kosong!');
@@ -63,6 +80,9 @@
                 return false;
             }else if($('#NOPOL').val() == ''){
                 alert('No. POL masih kosong!');
+                return false;
+            }else if($('#KD_TPS_ASAL').val() == ''){
+                alert('TPS Asal masih kosong!');
                 return false;
             }
             
@@ -165,46 +185,22 @@
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TCONTAINER_PK')
                     ->setGridOption('rownumbers', true)
-                    ->setGridOption('height', '250')
+                    ->setGridOption('height', '350')
                     ->setGridOption('rowList',array(20,50,100))
                     ->setGridOption('useColSpanStyle', true)
                     ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
                     ->setNavigatorOptions('view',array('closeOnEscape'=>false))
                     ->setFilterToolbarOptions(array('autosearch'=>true))
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
+                    ->setGridEvent('gridComplete', 'gridCompleteEvent')
                     ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
-                    ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>160,'editable' => true, 'editrules' => array('required' => true)))
-                    ->addColumn(array('label'=>'No. SPK','index'=>'NoJob','width'=>160))
-                    ->addColumn(array('label'=>'No. MBL','index'=>'NOMBL','width'=>160))
-                    ->addColumn(array('label'=>'Tgl. MBL','index'=>'TGL_MASTER_BL','width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>140,'editable' => true, 'editrules' => array('required' => true)))
+                    ->addColumn(array('label'=>'No. SPK','index'=>'NoJob','width'=>160,'hidden'=>true))
+                    ->addColumn(array('label'=>'No. MBL','index'=>'NOMBL','width'=>160,'hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. MBL','index'=>'TGL_MASTER_BL','width'=>150,'align'=>'center','hidden'=>true))
                     ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
-                    ->addColumn(array('label'=>'Vessel','index'=>'VESSEL', 'width'=>100,'align'=>'center'))
+                    ->addColumn(array('label'=>'Vessel','index'=>'VESSEL', 'width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'Voy','index'=>'VOY', 'width'=>100,'align'=>'center'))
-//                    ->addColumn(array('label'=>'Tgl. Behandle','index'=>'TGLBEHANDLE','width'=>150,'align'=>'center'))
-//                    ->addColumn(array('label'=>'Jam. Behandle','index'=>'JAMBEHANDLE', 'width'=>150,'align'=>'center','hidden'=>true))
-//                    ->addColumn(array('label'=>'Tgl. Fiat','index'=>'TGLFIAT','width'=>150,'align'=>'center'))
-//                    ->addColumn(array('label'=>'Jam. Fiat','index'=>'JAMFIAT', 'width'=>150,'align'=>'center','hidden'=>true))
-//                    ->addColumn(array('label'=>'Tgl. Surat Jalan','index'=>'TGLSURATJALAN','width'=>150,'align'=>'center'))
-//                    ->addColumn(array('label'=>'Jam. Surat Jalan','index'=>'JAMSURATJALAN', 'width'=>150,'align'=>'center','hidden'=>true))
-//                    ->addColumn(array('label'=>'Tgl. Dispatche','index'=>'TGLRELEASE','width'=>150,'align'=>'center'))
-//                    ->addColumn(array('label'=>'Jam. Dispatche','index'=>'JAMRELEASE', 'width'=>150,'align'=>'center','hidden'=>true))
-                    ->addColumn(array('label'=>'No. BC11','index'=>'NO_BC11','width'=>130,'align'=>'right'))
-                    ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','width'=>130,'align'=>'center'))
-                    ->addColumn(array('label'=>'Tgl. POS BC11','index'=>'NO_POS_BC11','width'=>130,'align'=>'center'))
-                    ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','width'=>130,'align'=>'right'))
-                    ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','width'=>130,'align'=>'center'))
-                    ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>130))
-                    ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>130))
-                    ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>130))
-                    ->addColumn(array('label'=>'Tgl. SPPB','index'=>'TGL_SPPB', 'width'=>150))
-                    ->addColumn(array('label'=>'Tgl. Keluar TPK','index'=>'TGL_KELUAR_TPK_ESEAL', 'width'=>150,'hidden'=>true))
-                    ->addColumn(array('label'=>'Jam Keluar TPK','index'=>'JAM_KELUAR_TPK_ESEAL', 'width'=>150,'hidden'=>true))
-//                    ->addColumn(array('label'=>'Kode Dokumen','index'=>'KODE_DOKUMEN', 'width'=>150,'hidden'=>true))
-//                    ->addColumn(array('index'=>'KD_DOK_INOUT', 'width'=>150,'hidden'=>true))
-//                    ->addColumn(array('label'=>'Kode Kuitansi','index'=>'NO_KUITANSI', 'width'=>150,'hidden'=>true))
-//                    ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))
-//                    ->addColumn(array('label'=>'Importir','index'=>'NAMA_IMP','width'=>160))
-//                    ->addColumn(array('label'=>'NPWP Importir','index'=>'NPWP_IMP','width'=>160))
                     ->addColumn(array('label'=>'E-Seal','index'=>'ESEALCODE','width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'No. POL','index'=>'NOPOL','width'=>120,'align'=>'center'))  
                     ->addColumn(array('label'=>'DO ID','index'=>'DO_ID','width'=>120,'align'=>'center'))
@@ -213,6 +209,30 @@
                     ->addColumn(array('label'=>'Response','index'=>'RESPONSE_DISPATCHE','width'=>120,'align'=>'center','hidden'=>false))
                     ->addColumn(array('label'=>'Tgl. Dispatche','index'=>'TGL_DISPATCHE','width'=>130,'align'=>'center'))
                     ->addColumn(array('label'=>'Jam Dispatche','index'=>'JAM_DISPATCHE','width'=>130,'align'=>'center'))
+//                    ->addColumn(array('label'=>'Tgl. Behandle','index'=>'TGLBEHANDLE','width'=>150,'align'=>'center'))
+//                    ->addColumn(array('label'=>'Jam. Behandle','index'=>'JAMBEHANDLE', 'width'=>150,'align'=>'center','hidden'=>true))
+//                    ->addColumn(array('label'=>'Tgl. Fiat','index'=>'TGLFIAT','width'=>150,'align'=>'center'))
+//                    ->addColumn(array('label'=>'Jam. Fiat','index'=>'JAMFIAT', 'width'=>150,'align'=>'center','hidden'=>true))
+//                    ->addColumn(array('label'=>'Tgl. Surat Jalan','index'=>'TGLSURATJALAN','width'=>150,'align'=>'center'))
+//                    ->addColumn(array('label'=>'Jam. Surat Jalan','index'=>'JAMSURATJALAN', 'width'=>150,'align'=>'center','hidden'=>true))
+//                    ->addColumn(array('label'=>'Tgl. Dispatche','index'=>'TGLRELEASE','width'=>150,'align'=>'center'))
+//                    ->addColumn(array('label'=>'Jam. Dispatche','index'=>'JAMRELEASE', 'width'=>150,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'No. BC11','index'=>'NO_BC11','width'=>130,'align'=>'right','hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','width'=>130,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. POS BC11','index'=>'NO_POS_BC11','width'=>130,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','width'=>130,'align'=>'right'))
+                    ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','width'=>130,'align'=>'center'))
+                    ->addColumn(array('label'=>'Kode TPS Asal','index'=>'KD_TPS_ASAL','width'=>160,'align'=>'center'))
+                    ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>130,'hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. SPPB','index'=>'TGL_SPPB', 'width'=>150,'hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. Keluar TPK','index'=>'TGL_KELUAR_TPK_ESEAL', 'width'=>150,'hidden'=>true))
+                    ->addColumn(array('label'=>'Jam Keluar TPK','index'=>'JAM_KELUAR_TPK_ESEAL', 'width'=>150,'hidden'=>true))
+//                    ->addColumn(array('label'=>'Kode Dokumen','index'=>'KODE_DOKUMEN', 'width'=>150,'hidden'=>true))
+//                    ->addColumn(array('index'=>'KD_DOK_INOUT', 'width'=>150,'hidden'=>true))
+//                    ->addColumn(array('label'=>'Kode Kuitansi','index'=>'NO_KUITANSI', 'width'=>150,'hidden'=>true))
+//                    ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))
+//                    ->addColumn(array('label'=>'Importir','index'=>'NAMA_IMP','width'=>160))
+//                    ->addColumn(array('label'=>'NPWP Importir','index'=>'NPWP_IMP','width'=>160))
                     ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>80,'align'=>'center','editable' => true, 'editrules' => array('required' => true,'number'=>true),'edittype'=>'select','editoptions'=>array('value'=>"20:20;40:40")))
                     ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>80,'align'=>'center','editable' => false))
@@ -248,7 +268,7 @@
                         <button class="btn btn-default" id="btn-print"><i class="fa fa-print"></i> Cetak Surat Jalan</button>
                     </div>-->
                     <div id="btn-group-5" class="btn-group pull-right">
-                        <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload EasyGO</button>
+                        <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload to EasyGO</button>
                     </div>
                 </div>
             </div>
@@ -303,16 +323,12 @@
                             <input type="text" id="TGL_PLP" name="TGL_PLP" class="form-control" readonly>
                         </div>
                     </div>
-<!--                    <div class="form-group">
-                        <label class="col-sm-3 control-label">No.SPJM</label>
-                        <div class="col-sm-3">
-                            <input type="text" id="NO_SPJM" name="NO_SPJM" class="form-control" readonly>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">TPS Asal</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="KD_TPS_ASAL" name="KD_TPS_ASAL" class="form-control" readonly>
                         </div>
-                        <label class="col-sm-2 control-label">Tgl.SPJM</label>
-                        <div class="col-sm-3">
-                            <input type="text" id="TGL_SPJM" name="TGL_SPJM" class="form-control" readonly>
-                        </div>
-                    </div>-->
+                    </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">ETA</label>
                         <div class="col-sm-8">
@@ -350,22 +366,22 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Status Dispatche</label>
                         <div class="col-sm-2">
-                            <input type="text" id="STATUS_DISPATCHE" name="STATUS_DISPATCHE" class="form-control" required readonly>
+                            <input type="text" id="STATUS_DISPATCHE" class="form-control" required readonly>
                         </div>
                         <div class="col-sm-2">
-                            <input type="text" id="KODE_DISPATCHE" name="KODE_DISPATCHE" class="form-control" required readonly>
+                            <input type="text" id="KODE_DISPATCHE" class="form-control" required readonly>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Response Dispatche</label>
                         <div class="col-sm-8">
-                            <input type="text" id="RESPONSE_DISPATCHE" name="RESPONSE_DISPATCHE" class="form-control" required readonly>
+                            <input type="text" id="RESPONSE_DISPATCHE" class="form-control" required readonly>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">DO ID</label>
                         <div class="col-sm-8">
-                            <input type="text" id="DO_ID" name="DO_ID" class="form-control" required readonly>
+                            <input type="text" id="DO_ID" class="form-control" required readonly>
                         </div>
                     </div>
                 </div>
