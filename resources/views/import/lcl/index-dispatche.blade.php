@@ -17,8 +17,10 @@
             
             rowdata = $('#lclDispatcheGrid').getRowData(cl);
 
-            if(rowdata.KODE_DISPATCHE == '0') {
+            if(rowdata.KODE_DISPATCHE == '999') {
                 $("#" + cl).find("td").css("background-color", "#3eef82");
+            }else if(rowdata.KODE_DISPATCHE == '0'){
+                $("#" + cl).find("td").css("background-color", "#e5e5e5");
             }
             
         } 
