@@ -662,9 +662,9 @@ class PenerimaanController extends Controller
             foreach($plpDetail as $detail):
                 
                 $nopos = substr($detail->NO_POS_BC11,0,4);
-                $checkJoborder = \App\Models\Jobordercy::where('TNO_PLP', $plp->NO_PLP)->count();
-                
-                if($checkJoborder == 0){
+//                $checkJoborder = \App\Models\Jobordercy::where('TNO_PLP', $plp->NO_PLP)->count();
+//                
+//                if($checkJoborder == 0){
                 
                     $data = array();
                     $spk_last_id = \App\Models\Jobordercy::select('TJOBORDER_PK as id')->orderBy('TJOBORDER_PK', 'DESC')->first(); 
@@ -756,9 +756,9 @@ class PenerimaanController extends Controller
                         endforeach;
                     }
                 
-                }else{
-                    return json_encode(array('success' => true, 'message' => 'No. PLP '.$plp->NO_PLP.', sudah pernah dibuat.'));
-                }
+//                }else{
+//                    return json_encode(array('success' => true, 'message' => 'No. PLP '.$plp->NO_PLP.', sudah pernah dibuat.'));
+//                }
 
             endforeach;
             
