@@ -756,6 +756,8 @@ class PenerimaanController extends Controller
                         endforeach;
                     }
                 
+//                }else{
+//                    return json_encode(array('success' => true, 'message' => 'No. PLP '.$plp->NO_PLP.', sudah pernah dibuat.'));
 //                }
 
             endforeach;
