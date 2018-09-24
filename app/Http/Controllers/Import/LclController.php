@@ -1746,16 +1746,6 @@ class LclController extends Controller
                             }
 
                         else:
-//                            $dataval['HEADER'] = trim($val[0]);
-//                            $ex_header = explode(" ", $this->removeSpace($val[0]));
-////                            $dataval['EX_HEADER'] = $ex_header;
-//                            $dataval['NOHBL'] = $ex_header[4];
-//                            $dataval['TGL_HBL'] = $ex_header[6];                           
-//                            $berat = $ex_header[7];
-//                            $dataval['weight'] = substr($berat, 10, 4);
-//                            $dataval['meas'] = (substr($berat, 30, 5)/1000);
-//                            $dataval['qty'] = substr($berat, 47, 2);
-//                            $dataval['pack'] = substr($berat, 75, 2);
                             $dataval['HEADER'] = trim($val[0]);
                             $ex_header = explode(" ", $this->removeSpace($val[0]));
 //                            $dataval['EX_HEADER'] = $ex_header;
