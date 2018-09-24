@@ -138,7 +138,7 @@
                         <tr>
                             <td><b>Tgl. Masuk</b></td>
                             <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
-                            <td>{{ date('d F Y', strtotime($barcode->tglmasuk)) }}</td>
+                            <td>{{ (isset($barcode->tglmasuk)) ? date('d F Y', strtotime($barcode->tglmasuk)) : date('d F Y', strtotime($barcode->TGLMASUK)) }}</td>
                         </tr>
                         <tr>
                             <td><b>Tgl. ETA</b></td>
@@ -148,7 +148,7 @@
                         <tr>
                             <td><b>Tgl. Keluar</b></td>
                             <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
-                            <td>{{ date('d F Y', strtotime($barcode->tglrelease)) }}</td>
+                            <td>{{ (isset($barcode->tglrelease)) ? date('d F Y', strtotime($barcode->tglrelease)) : date('d F Y', strtotime($barcode->TGLRELEASE)) }}</td>
                         </tr>
                         <tr>
                             <td colspan="3">&nbsp;</td>
