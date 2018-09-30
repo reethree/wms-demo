@@ -60,13 +60,13 @@ class BarcodeController extends Controller
         if($barcode->ref_type == 'Manifest'){
             $data_barcode = \App\Models\Barcode::select('*')
                 ->join($model, 'barcode_autogate.ref_id', '=', $model.'.TMANIFEST_PK')
-                ->where(array('ref_type' => ucwords($barcode->ref_type), 'ref_action'=>$barcode->ref_action))
+                ->where(array('barcode_autogate.ref_type' => ucwords($barcode->ref_type), 'barcode_autogate.ref_action'=>$barcode->ref_action))
                 ->where($model.'.TMANIFEST_PK', $barcode->ref_id)
                 ->first();
         }else{
             $data_barcode = \App\Models\Barcode::select('*')
                 ->join($model, 'barcode_autogate.ref_id', '=', $model.'.TCONTAINER_PK')
-                ->where(array('ref_type' => ucwords($barcode->ref_type), 'ref_action'=>$barcode->ref_action))
+                ->where(array('barcode_autogate.ref_type' => ucwords($barcode->ref_type), 'barcode_autogate.ref_action'=>$barcode->ref_action))
                 ->where($model.'.TCONTAINER_PK', $barcode->ref_id)
                 ->first();
         }
