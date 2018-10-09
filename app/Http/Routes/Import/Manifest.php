@@ -61,4 +61,10 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-manifest-upload',
         'uses' => 'ManifestController@upload'
     ]);
+    
+    // UPLOAD PHOTO
+    Route::post('/manifest/upload/photo', [
+        'as' => 'lcl-manifest-upload-photo',
+        'uses' => 'ManifestController@uploadPhoto'
+    ]);
 });
