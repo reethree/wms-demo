@@ -285,6 +285,7 @@
         $('#no_hbl').val(rowdata.NOHBL);
         $('#id_hbl').val(rowdata.TMANIFEST_PK);
         $('#load_photos').html('');
+        $('#delete_photo').val('N');
         var photos = $.parseJSON(rowdata.photo_stripping);
         if(photos){
             var html = '';
@@ -567,6 +568,7 @@
                         <input name="_token" type="hidden" value="{{ csrf_token() }}">
                         <input name="TCONTAINER_FK" id="TCONTAINER_FK" type="hidden" value="{{ $container->TCONTAINER_PK }}">
                         <input name="id" id="id" type="hidden">
+                        <input name="delete_photo" id="delete_photo" value="N" type="hidden">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">No. HBL</label>
                             <div class="col-sm-8">
@@ -630,6 +632,7 @@
                           <label class="col-sm-3 control-label">Photo</label>
                           <div class="col-sm-8">
                               <button type="button" class="btn btn-warning" id="upload-photo-btn">Upload Photo</button>
+                              <button type="button" class="btn btn-danger" id="delete-photo-btn">Delete Photo</button>
                           </div>
                         </div>
                         <div class="form-group">
@@ -875,6 +878,13 @@
         e.preventDefault();
         $("#photo-modal").modal('show');
         return false;
+    });
+    
+    $("#delete-photo-btn").on("click", function(e){
+        if(!confirm('Apakah anda yakin akan menghapus photo?')){return false;}
+        
+        $('#load_photos').html('');
+        $('#delete_photo').val('Y');
     });
     
     $("#create-consignee-form").on("submit", function(){

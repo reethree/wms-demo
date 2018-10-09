@@ -225,7 +225,8 @@ class ManifestController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->json()->all(); 
-        unset($data['id'], $data['_token']);
+        $delete_photo = $data['delete_photo'];
+        unset($data['id'], $data['delete_photo'], $data['_token']);
         
         $container = DBContainer::find($data['TCONTAINER_FK']); 
         $packing = DBPacking::find($data['TPACKING_FK']);
@@ -253,6 +254,10 @@ class ManifestController extends Controller
         
         if(empty($data['perubahan_hbl']) || $data['perubahan_hbl'] == 'N'){
             $data['alasan_perubahan'] = '';
+        }
+        
+        if($delete_photo == 'Y'){
+            $data['photo_stripping'] = '';
         }
         
         $update = DBManifest::where('TMANIFEST_PK', $id)
