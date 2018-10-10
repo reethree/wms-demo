@@ -481,7 +481,7 @@ class ManifestController extends Controller
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
     }
     
-    public function uploadPhoto(Request $request)
+    public function uploadPhoto(Request $request, $ref)
     {
         $picture = array();
         if ($request->hasFile('photos')) {
@@ -499,7 +499,7 @@ class ManifestController extends Controller
             }
             // update to Database
             $manifest = DBManifest::find($request->id_hbl);
-            $manifest->photo_stripping = json_encode($picture);
+            $manifest->$ref = json_encode($picture);
             if($manifest->save()){
                 return back()->with('success', 'Photo for Manifest '. $request->no_hbl .' has been uploaded.');
             }else{

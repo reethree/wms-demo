@@ -778,7 +778,8 @@ class LclController extends Controller
     public function releaseUpdate(Request $request, $id)
     {
         $data = $request->json()->all(); 
-        unset($data['TMANIFEST_PK'], $data['_token']);
+        $delete_photo = $data['delete_photo'];
+        unset($data['TMANIFEST_PK'], $data['delete_photo'], $data['_token']);
         
         $manifest = DBManifest::find($id);
         
@@ -825,6 +826,10 @@ class LclController extends Controller
         $data['UIDSURATJALAN'] = $data['UIDRELEASE'];
         $data['NOPOL'] = $data['NOPOL_RELEASE'];
          
+        if($delete_photo == 'Y'){
+            $data['photo_release'] = '';
+        }
+        
         $update = DBManifest::where('TMANIFEST_PK', $id)
             ->update($data);
         

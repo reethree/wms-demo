@@ -188,7 +188,7 @@
     
     $(document).ready(function()
     {
-        $('#btn-toolbar').disabledButtonGroup();
+        $('#btn-toolbar, #btn-photo').disabledButtonGroup();
         $('#btn-group-4').enableButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         $('#btn-group-1').enableButtonGroup();
@@ -278,7 +278,7 @@
         
 //        console.log(rowdata);
         $('#btn-toolbar').disabledButtonGroup();
-        $('#btn-group-1').enableButtonGroup();
+        $('#btn-group-1, #btn-photo').enableButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
         $('#upload-title').html('Upload Photo for '+rowdata.NOHBL);
@@ -291,7 +291,7 @@
             var html = '';
             $.each(photos, function(i, item) {
                 /// do stuff
-                html += '<img src="{{url("uploads/photos/manifest")}}/'+item+'" style="width: 200px;padding:5px;" />'
+                html += '<img src="{{url("uploads/photos/manifest")}}/'+item+'" style="width: 200px;padding:5px;" />';
             });
             $('#load_photos').html(html);
         }
@@ -628,7 +628,7 @@
                               <textarea class="form-control" id="MARKING"  name="MARKING" rows="3"></textarea>
                           </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="btn-photo">
                           <label class="col-sm-3 control-label">Photo</label>
                           <div class="col-sm-8">
                               <button type="button" class="btn btn-warning" id="upload-photo-btn">Upload Photo</button>
@@ -815,7 +815,7 @@
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title" id="upload-title"></h4>
             </div>
-            <form class="form-horizontal" id="upload-photo-form" action="{{ route('lcl-manifest-upload-photo') }}" method="POST" enctype="multipart/form-data">
+            <form class="form-horizontal" id="upload-photo-form" action="{{ route('lcl-manifest-upload-photo','photo_stripping') }}" method="POST" enctype="multipart/form-data">
                 <div class="modal-body"> 
                     <div class="row">
                         <div class="col-md-12">
