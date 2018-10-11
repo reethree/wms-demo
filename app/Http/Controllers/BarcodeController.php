@@ -173,6 +173,16 @@ class BarcodeController extends Controller
         
         $data_barcode = \App\Models\Barcode::where('barcode', $barcode)->first();
         
+//        $destinationPath = base_path() . '/public/uploads/photos/autogate';
+//        
+//        if ($request->hasFile('kamere_in_1')) {
+//            $request->file('kamere_in_1')->move($destinationPath, 'in_1.jpg');
+//        }
+//        
+//        if ($request->hasFile('kamere_out_1')) {
+//            $request->file('kamere_out_1')->move($destinationPath, 'out_1.jpg');
+//        }
+//        
         if($data_barcode){
 //            return $barcode;
             switch ($data_barcode->ref_type) {
@@ -192,6 +202,7 @@ class BarcodeController extends Controller
             if($model){
                 
                 if($data_barcode->ref_action == 'get'){
+//                    return 'GET';
 //                    if($data_barcode->time_in != NULL){
                         // GATEIN
                         $model->TGLMASUK = date('Y-m-d', strtotime($data_barcode->time_in));
@@ -224,7 +235,8 @@ class BarcodeController extends Controller
 //                    }else{
 //                        return 'Time In is NULL';
 //                    }
-                }elseif($data_barcode->ref_action = 'release'){
+                }elseif($data_barcode->ref_action == 'release'){
+//                    return 'RELEASE';
 //                    if($data_barcode->time_out != NULL){
                         // RELEASE
                         if($data_barcode->ref_type == 'Manifest'){
@@ -261,6 +273,7 @@ class BarcodeController extends Controller
 //                    }
                     
                 }elseif($data_barcode->ref_action == 'empty'){
+//                    return 'EMPTY';
 //                    if($data_barcode->time_out != NULL){
                         $model->TGLBUANGMTY = date('Y-m-d', strtotime($data_barcode->time_out));
                         $model->JAMBUANGMTY = date('H:i:s', strtotime($data_barcode->time_out));
