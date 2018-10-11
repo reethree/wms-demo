@@ -184,11 +184,23 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><b>Photo</b></td>
+                        <td><b>Photo IN</b></td>
                     </tr>
                     <tr>
                         <td>
-                            <img src="http://3.bp.blogspot.com/-TioWLznDy8U/VarAN7nrIuI/AAAAAAAAFzY/BjQhq2P6REU/s1600/Transportasi%2BTruk%2BPeti%2BKemas%2B09.jpg" width="400" />
+                            @if($barcode->photo_in)
+                            <img src="{{url("uploads/photos/autogate/".$barcode->photo_in)}}" width="400" />
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Photo OUT</b></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @if($barcode->photo_out)
+                            <img src="{{url("uploads/photos/autogate/".$barcode->photo_out)}}" width="400" />
+                            @endif
                         </td>
                     </tr>
                 </table>

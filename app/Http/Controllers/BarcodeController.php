@@ -168,21 +168,32 @@ class BarcodeController extends Controller
 //        return $pdf->stream('Delivery-Release-Barcode-'.$mainfest->NOHBL.'-'.date('dmy').'.pdf');
     }
     
-    public function autogateNotification(Request $request, $barcode)
+    public function autogateNotification(Request $request)
     {
+        $barcode = $request->barcode;
+        $tipe = $request->tipe;
         
-        $data_barcode = \App\Models\Barcode::where('barcode', $barcode)->first();
+        $data_barcode = \App\Models\Barcode::where('barcode', $request->barcode)->first();
+//      
+        $filename = '';
+        if ($request->hasFile('fileKamera')) {
+            $file = $request->file('fileKamera');
+            $destinationPath = base_path() . '/public/uploads/photos/antogate';
+//            $i = 1;
+//            foreach($files as $file){
+//                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                
+                $filename = date('dmyHis').'_'.$barcode.'_'.ucwords($data_barcode->ref_type).'_'.ucwords($data_barcode->ref_action).'_'.ucwords($tipe).'.'.$extension;
+//                $picture[] = $filename;
+                $file->move($destinationPath, $filename);
+//                $i++;
+//            }
+                $data_barcode->photo_.$tipe = $filename;
+                $data_barcode->save();
+        }
         
-//        $destinationPath = base_path() . '/public/uploads/photos/autogate';
-//        
-//        if ($request->hasFile('kamere_in_1')) {
-//            $request->file('kamere_in_1')->move($destinationPath, 'in_1.jpg');
-//        }
-//        
-//        if ($request->hasFile('kamere_out_1')) {
-//            $request->file('kamere_out_1')->move($destinationPath, 'out_1.jpg');
-//        }
-//        
+        
         if($data_barcode){
 //            return $barcode;
             switch ($data_barcode->ref_type) {
@@ -207,6 +218,7 @@ class BarcodeController extends Controller
                         // GATEIN
                         $model->TGLMASUK = date('Y-m-d', strtotime($data_barcode->time_in));
                         $model->JAMMASUK = date('H:i:s', strtotime($data_barcode->time_in));
+                        $model->photo_get_.$tipe = $filename;
                         $model->UIDMASUK = 'Autogate';
 
                         if($model->save()){
@@ -249,6 +261,7 @@ class BarcodeController extends Controller
                             $model->jamfiat = date('H:i:s', strtotime($data_barcode->time_out));
                             $model->NAMAEMKL = 'Autogate';
                             $model->UIDSURATJALAN = 'Autogate';
+                            $model->photo_release_.$tipe = $filename;
                             if($model->save()){
                                 return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                             }else{
@@ -262,6 +275,7 @@ class BarcodeController extends Controller
                             $model->JAMFIAT = date('H:i:s', strtotime($data_barcode->time_out));
                             $model->TGLSURATJALAN = date('Y-m-d', strtotime($data_barcode->time_out));
                             $model->JAMSURATJALAN = date('H:i:s', strtotime($data_barcode->time_out));
+                            $model->photo_release_.$tipe = $filename;
                             if($model->save()){
                                 return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                             }else{
@@ -278,6 +292,7 @@ class BarcodeController extends Controller
                         $model->TGLBUANGMTY = date('Y-m-d', strtotime($data_barcode->time_out));
                         $model->JAMBUANGMTY = date('H:i:s', strtotime($data_barcode->time_out));
                         $model->UIDMTY = 'Autogate';
+                        $model->photo_empty_.$tipe = $filename;
                         if($model->save()){
                             return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                         }else{
@@ -288,20 +303,6 @@ class BarcodeController extends Controller
 //                    }
                 }
                 
-//                if($data_barcode->time_in != NULL && $data_barcode->time_out == NULL){
-//                    // GATEIN
-//                    $model->TGLMASUK = date('Y-m-d', strtotime($data_barcode->time_in));
-//                    $model->JAMMASUK = date('H:i:s', strtotime($data_barcode->time_in));
-//                    $model->UIDMASUK = 'Autogate';
-//                    $model->save();
-//                    
-//                    return $barcode;
-//                }elseif($data_barcode->time_in != NULL && $data_barcode->time_out != NULL){
-//                    // GATEOUT
-//                    return $barcode; 
-//                }else{
-//                    return false;
-//                }
             }else{
                 return 'Something wrong in Model!!!';
             }
