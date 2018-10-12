@@ -309,7 +309,12 @@ class BarcodeController extends Controller
                         $model->TGLBUANGMTY = date('Y-m-d', strtotime($data_barcode->time_out));
                         $model->JAMBUANGMTY = date('H:i:s', strtotime($data_barcode->time_out));
                         $model->UIDMTY = 'Autogate';
-                        $model->photo_empty_.$tipe = $filename;
+                        
+                        if($tipe == 'in'){
+                            $model->photo_empty_in = $filename;
+                        }else{
+                            $model->photo_empty_out = $filename;
+                        }
                         if($model->save()){
                             return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                         }else{
