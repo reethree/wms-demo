@@ -189,7 +189,12 @@ class BarcodeController extends Controller
                 $file->move($destinationPath, $filename);
 //                $i++;
 //            }
-                $data_barcode->photo_.$tipe = $filename;
+                if($tipe == 'in'){
+                    $data_barcode->photo_in = $filename;
+                }else{
+                    $data_barcode->photo_out = $filename;
+                }
+                
                 $data_barcode->save();
         }
         
@@ -218,7 +223,11 @@ class BarcodeController extends Controller
                         // GATEIN
                         $model->TGLMASUK = date('Y-m-d', strtotime($data_barcode->time_in));
                         $model->JAMMASUK = date('H:i:s', strtotime($data_barcode->time_in));
-                        $model->photo_get_.$tipe = $filename;
+                        if($tipe == 'in'){
+                            $model->photo_get_in = $filename;
+                        }else{
+                            $model->photo_get_out = $filename;
+                        }
                         $model->UIDMASUK = 'Autogate';
 
                         if($model->save()){
@@ -261,7 +270,11 @@ class BarcodeController extends Controller
                             $model->jamfiat = date('H:i:s', strtotime($data_barcode->time_out));
                             $model->NAMAEMKL = 'Autogate';
                             $model->UIDSURATJALAN = 'Autogate';
-                            $model->photo_release_.$tipe = $filename;
+                            if($tipe == 'in'){
+                                $model->photo_release_in = $filename;
+                            }else{
+                                $model->photo_release_out = $filename;
+                            }
                             if($model->save()){
                                 return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                             }else{
@@ -275,7 +288,11 @@ class BarcodeController extends Controller
                             $model->JAMFIAT = date('H:i:s', strtotime($data_barcode->time_out));
                             $model->TGLSURATJALAN = date('Y-m-d', strtotime($data_barcode->time_out));
                             $model->JAMSURATJALAN = date('H:i:s', strtotime($data_barcode->time_out));
-                            $model->photo_release_.$tipe = $filename;
+                            if($tipe == 'in'){
+                                $model->photo_release_in = $filename;
+                            }else{
+                                $model->photo_release_out = $filename;
+                            }
                             if($model->save()){
                                 return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                             }else{
