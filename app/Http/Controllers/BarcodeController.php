@@ -178,7 +178,7 @@ class BarcodeController extends Controller
         $filename = '';
         if ($request->hasFile('fileKamera')) {
             $file = $request->file('fileKamera');
-            $destinationPath = base_path() . '/public/uploads/photos/antogate';
+            $destinationPath = base_path() . '/public/uploads/photos/autogate';
 //            $i = 1;
 //            foreach($files as $file){
 //                $filename = $file->getClientOriginalName();
