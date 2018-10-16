@@ -59,7 +59,7 @@ class ManifestController extends Controller
     public function store(Request $request)
     {
         $data = $request->json()->all(); 
-        unset($data['id'], $data['_token']);
+        unset($data['id'], $data['delete_photo'], $data['_token']);
         
         $container = DBContainer::find($data['TCONTAINER_FK']);  
         
