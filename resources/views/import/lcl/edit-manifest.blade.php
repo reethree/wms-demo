@@ -138,6 +138,11 @@
                 apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-manifest-btn" data-id="'+cl+'" disabled><i class="fa fa-check"></i> Approve</button>';
                 $("#" + cl).find("td").css("color", "#999999");
             }
+            
+            @role('pbm')
+                apv = '';
+            @endrole
+            
             if(rowdata.perubahan_hbl == 'Y') {
                 $("#" + cl).find("td").css("background-color", "#3dc6f2");
             }
@@ -190,7 +195,13 @@
     {
         $('#btn-toolbar, #btn-photo').disabledButtonGroup();
         $('#btn-group-4').enableButtonGroup();
-        $('#btn-group-3').enableButtonGroup();
+        @role('pbm')
+            $('#manifest-form').disabledFormGroup();
+            $('#btn-group-3').disabledButtonGroup();
+        @else
+            $('#btn-group-3').enableButtonGroup();
+        @endrole
+        
         $('#btn-group-1').enableButtonGroup();
         $('#btn-group-6').enableButtonGroup();
 
@@ -218,9 +229,15 @@
             $('#id').val("");
             
             //Disables all buttons within the toolbar
-            $('#btn-toolbar').disabledButtonGroup();
+            @role('pbm')
+                $('#btn-toolbar, #btn-photo').disabledButtonGroup();
+                $('#manifest-form').disabledFormGroup();
+                $('#btn-group-3').disabledButtonGroup();
+            @else
+                $('#btn-toolbar').disabledButtonGroup();
+                $('#btn-group-3').enableButtonGroup();
+            @endrole
             $('#btn-group-4').enableButtonGroup();
-            $('#btn-group-3').enableButtonGroup();
             $('#btn-group-1').enableButtonGroup();
       });
 
@@ -286,8 +303,8 @@
         $('#id_hbl').val(rowdata.TMANIFEST_PK);
         $('#load_photos').html('');
         $('#delete_photo').val('N');
-        var photos = $.parseJSON(rowdata.photo_stripping);
-        if(photos){
+        if(rowdata.photo_stripping){
+            var photos = $.parseJSON(rowdata.photo_stripping);
             var html = '';
             $.each(photos, function(i, item) {
                 /// do stuff
@@ -536,7 +553,19 @@
                         ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
                         ->renderGrid()
                     }}
-                    
+                    @role('pbm')
+                    <div id="btn-toolbar" class="section-header btn-toolbar" role="toolbar" style="margin: 10px 0;">
+                        <div id="btn-group-1" class="btn-group">
+                            <button class="btn btn-default" id="btn-refresh"><i class="fa fa-refresh"></i> Refresh</button>
+                        </div>
+                        <div id="btn-group-2" class="btn-group">
+                            <button class="btn btn-default" id="btn-edit"><i class="fa fa-edit"></i> Edit</button>
+                        </div>
+                        <div id="btn-group-3" class="btn-group toolbar-block">
+                            <button class="btn btn-default" id="btn-save"><i class="fa fa-save"></i> Save</button>
+                        </div>
+                    </div>
+                    @else
                     <div id="btn-toolbar" class="section-header btn-toolbar" role="toolbar" style="margin: 10px 0;">
                         <div id="btn-group-1" class="btn-group">
                             <button class="btn btn-default" id="btn-refresh"><i class="fa fa-refresh"></i> New/Refresh</button>
@@ -559,6 +588,7 @@
                             <button class="btn btn-default" id="btn-approve-all"><i class="fa fa-check"></i> Approve All</button>
                         </div>
                     </div>
+                    @endrole
                 </div>
             </div>
             
@@ -607,9 +637,13 @@
                                     @endforeach-->
                                 </select>
                             </div>
-                            <div class="col-sm-2">
-                                <button type="button" class="btn btn-info" id="add-consignee-btn">Add Consignee</button>
-                            </div>
+                            @role('pbm')
+                            @else
+                                <div class="col-sm-2">
+                                    <button type="button" class="btn btn-info" id="add-consignee-btn">Add Consignee</button>
+                                </div>
+                            @endrole
+                            
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Notify Party</label>
