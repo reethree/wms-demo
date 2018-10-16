@@ -492,7 +492,7 @@ class ManifestController extends Controller
 //                $filename = $file->getClientOriginalName();
                 $extension = $file->getClientOriginalExtension();
                 
-                $filename = date('dmyHis').'_'.$request->no_hbl.'_'.$i.'.'.$extension;
+                $filename = date('dmyHis').'_'.str_slug($request->no_hbl).'_'.$i.'.'.$extension;
                 $picture[] = $filename;
                 $file->move($destinationPath, $filename);
                 $i++;
