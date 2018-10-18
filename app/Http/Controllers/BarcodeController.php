@@ -261,25 +261,29 @@ class BarcodeController extends Controller
 //                    if($data_barcode->time_out != NULL){
                         // RELEASE
                         if($data_barcode->ref_type == 'Manifest'){
-                            $model->tglrelease = date('Y-m-d', strtotime($data_barcode->time_out));
-                            $model->jamrelease = date('H:i:s', strtotime($data_barcode->time_out));
-                            $model->UIDRELEASE = 'Autogate';
-                            $model->TGLSURATJALAN = date('Y-m-d', strtotime($data_barcode->time_out));
-                            $model->JAMSURATJALAN = date('H:i:s', strtotime($data_barcode->time_out));
-                            $model->tglfiat = date('Y-m-d', strtotime($data_barcode->time_out));
-                            $model->jamfiat = date('H:i:s', strtotime($data_barcode->time_out));
-                            $model->NAMAEMKL = 'Autogate';
-                            $model->UIDSURATJALAN = 'Autogate';
-                            if($tipe == 'in'){
-                                $model->photo_release_in = $filename;
-                            }else{
-                                $model->photo_release_out = $filename;
-                            }
-                            if($model->save()){
-                                return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
-                            }else{
-                                return 'Something wrong!!!';
-                            }
+                            if($model->status_bc != 'HOLD'):
+                                $model->tglrelease = date('Y-m-d', strtotime($data_barcode->time_out));
+                                $model->jamrelease = date('H:i:s', strtotime($data_barcode->time_out));
+                                $model->UIDRELEASE = 'Autogate';
+                                $model->TGLSURATJALAN = date('Y-m-d', strtotime($data_barcode->time_out));
+                                $model->JAMSURATJALAN = date('H:i:s', strtotime($data_barcode->time_out));
+                                $model->tglfiat = date('Y-m-d', strtotime($data_barcode->time_out));
+                                $model->jamfiat = date('H:i:s', strtotime($data_barcode->time_out));
+                                $model->NAMAEMKL = 'Autogate';
+                                $model->UIDSURATJALAN = 'Autogate';
+                                if($tipe == 'in'){
+                                    $model->photo_release_in = $filename;
+                                }else{
+                                    $model->photo_release_out = $filename;
+                                }
+                                if($model->save()){
+                                    return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+                                }else{
+                                    return 'Something wrong!!!';
+                                }
+                            else:
+                                return 'Status BC Manifest is HOLD!!!';
+                            endif;
                         }else{
                             $model->TGLRELEASE = date('Y-m-d', strtotime($data_barcode->time_out));
                             $model->JAMRELEASE = date('H:i:s', strtotime($data_barcode->time_out));
