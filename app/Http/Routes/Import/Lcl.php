@@ -64,6 +64,10 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-report-inout',
         'uses' => 'LclController@reportInout'
     ]);
+    Route::get('/report/inout/view-photo/{id}', [
+        'as' => 'lcl-report-inout-view-photo',
+        'uses' => 'LclController@reportInoutViewPhoto'
+    ]);
     Route::get('/report/container', [
         'as' => 'lcl-report-container',
         'uses' => 'LclController@reportContainer'

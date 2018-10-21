@@ -1018,6 +1018,13 @@ class LclController extends Controller
         return view('import.lcl.report-inout')->with($data);
     }
     
+    public function reportInoutViewPhoto($manifestID)
+    {
+        $manifest = DBManifest::find($manifestID);
+        
+        return json_encode(array('success' => true, 'data' => $manifest));
+    }
+    
     public function reportContainer(Request $request)
     {
         if ( !$this->access->can('show.lcl.report.container') ) {
@@ -1351,6 +1358,9 @@ class LclController extends Controller
                 $codecocontdetail->JAM_ENTRY = date('H:i:s');
                 
                 if($codecocontdetail->save()){
+                    
+                    $container->REF_NUMBER_OUT = $reff_number;
+                    $container->save();
                     
                     return json_encode(array('insert_id' => $codecocont->TPSCODECOCONTXML_PK, 'ref_number' => $reff_number, 'success' => true, 'message' => 'No. Container '.$container->NOCONTAINER.' berhasil di simpan. Reff Number : '.$reff_number));
                 }

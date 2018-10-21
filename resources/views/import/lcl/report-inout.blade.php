@@ -23,7 +23,8 @@
     function gridCompleteEvent()
     {
         var ids = jQuery("#lclInoutReportGrid").jqGrid('getDataIDs'),
-            lt = '';   
+            lt = '',
+            vi = '';   
             
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
@@ -45,8 +46,62 @@
                 $("#" + cl).find("td").css("background-color", "#ffe500");
             }  
             
-            jQuery("#lclInoutReportGrid").jqGrid('setRowData',ids[i],{lamaTimbun:lt}); 
+            vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" data-id="'+cl+'" onclick="viewPhoto('+cl+')"><i class="fa fa-photo"></i> View Photo</button>';
+            
+            jQuery("#lclInoutReportGrid").jqGrid('setRowData',ids[i],{action:vi,lamaTimbun:lt}); 
         } 
+    }
+    
+    function viewPhoto(manifestID)
+    {
+//        alert(manifestID);
+        
+        $.ajax({
+            type: 'GET',
+            dataType : 'json',
+            url: '{{route("lcl-report-inout-view-photo","")}}/'+manifestID,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+                $('#gateinout-photo').html('');
+                $('#stripping-photo').html('');
+                $('#release-photo').html('');
+            },
+            success:function(json)
+            {
+                var html_gate = '';
+                if(json.data.photo_release_in){
+                    html_gate += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_release_in+'" style="width: 200px;padding:5px;" />';
+                }
+                if(json.data.photo_release_out){
+                    html_gate += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_release_out+'" style="width: 200px;padding:5px;" />';
+                }
+                $('#gateinout-photo').html(html_gate);
+                if(json.data.photo_stripping){
+                    var photos_stripping = $.parseJSON(json.data.photo_stripping);
+                    var html_stripping = '';
+                    $.each(photos_stripping, function(i, item) {
+                        /// do stuff
+                        html_stripping += '<img src="{{url("uploads/photos/manifest")}}/'+item+'" style="width: 200px;padding:5px;" />';
+                    });
+                    $('#stripping-photo').html(html_stripping);
+                }
+                if(json.data.photo_release){
+                    var photos_release = $.parseJSON(json.data.photo_release);
+                    var html_release = '';
+                    $.each(photos_release, function(i, item) {
+                        /// do stuff
+                        html_release += '<img src="{{url("uploads/photos/manifest")}}/'+item+'" style="width: 200px;padding:5px;" />';
+                    });
+                    $('#release-photo').html(html_release);
+                }
+            }
+        });
+        
+        $('#view-photo-modal').modal('show');
     }
     
 </script>
@@ -115,6 +170,7 @@
 //            ->setGridEvent('onSelectRow', 'onSelectRowEvent')
             ->setGridEvent('gridComplete', 'gridCompleteEvent')
             ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
+            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
 //            ->addColumn(array('label'=>'Status','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
             ->addColumn(array('label'=>'Status BC','index'=>'status_bc', 'width'=>80,'align'=>'center','hidden'=>true))
             ->addColumn(array('label'=>'Segel Merah','index'=>'flag_bc', 'width'=>80,'align'=>'center','hidden'=>true))
@@ -278,6 +334,29 @@
         </div>
     </div>
 </div>
+
+<div id="view-photo-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Photo</h4>
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>RELEASE IN / OUT</h3>
+                        <div id="gateinout-photo"></div>
+                        <h3>STRIPPING</h3>
+                        <div id="stripping-photo"></div>
+                        <h3>RELEASE</h3>
+                        <div id="release-photo"></div>
+                    </div>
+                </div>
+            </div>    
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 @endsection
 
