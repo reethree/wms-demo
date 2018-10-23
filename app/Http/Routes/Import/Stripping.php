@@ -10,4 +10,8 @@ Route::group(['prefix' => 'lcl/realisasi', 'namespace' => 'Import'], function(){
         'as' => 'lcl-realisasi-stripping-update',
         'uses' => 'LclController@strippingUpdate'
     ]);
+    Route::get('/stripping/update/{id}', [
+        'as' => 'lcl-realisasi-stripping-approve',
+        'uses' => 'LclController@strippingApprove'
+    ]);
 });

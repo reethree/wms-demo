@@ -630,7 +630,7 @@ class LclController extends Controller
         $data = $request->json()->all(); 
         $dataupdate = array();
 //        unset($data['TCONTAINER_PK'], $data['working_hours'], $data['_token']);
-        
+               
         $dataupdate['STARTSTRIPPING'] = $data['STARTSTRIPPING'].' '.$data['JAMSTARTSTRIPPING'];
         $dataupdate['ENDSTRIPPING'] = $data['ENDSTRIPPING'].' '.$data['JAMENDSTRIPPING'];
         $dataupdate['TGLSTRIPPING'] = $data['ENDSTRIPPING'];
@@ -671,6 +671,13 @@ class LclController extends Controller
         $working_hours = $interval->format("%H:%i");
         $dataupdate['working_hours'] = $working_hours;
         
+        if(empty($data['STARTSTRIPPING']) || $data['ENDSTRIPPING'] == '0000-00-00'){
+            $dataupdate['STARTSTRIPPING'] = NULL;
+            $dataupdate['ENDSTRIPPING'] = NULL;
+            $dataupdate['TGLSTRIPPING'] = NULL;
+            $dataupdate['JAMSTRIPPING'] = NULL;
+        }
+        
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($dataupdate);
         
@@ -693,6 +700,70 @@ class LclController extends Controller
         
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
         
+    }
+    
+    public function strippingApprove($id)
+    {
+        $dataupdate = array();
+               
+        $dataupdate['STARTSTRIPPING'] = date('Y-m-d H:i:s');
+        $dataupdate['ENDSTRIPPING'] = date('Y-m-d H:i:s', strtotime('+1 hour'));
+        $dataupdate['TGLSTRIPPING'] = date('Y-m-d');
+        $dataupdate['JAMSTRIPPING'] = date('H:i:s', strtotime('+1 hour'));
+        $dataupdate['UIDSTRIPPING'] = \Auth::getUser()->name;
+        $dataupdate['mulai_tunda'] = '00:00';
+        $dataupdate['selesai_tunda'] = '00:00';
+        
+        // Calculate Working Hours
+//        $date_start_stripping = strtotime($dataupdate['STARTSTRIPPING']);
+//        $date_end_stripping = strtotime($dataupdate['ENDSTRIPPING']);
+//        $stripping = abs($date_start_stripping - $date_end_stripping);
+        
+        $s_time1 = new \DateTime($dataupdate['STARTSTRIPPING']);
+        $s_time2 = new \DateTime($dataupdate['ENDSTRIPPING']);
+
+        $s_interval =  $s_time2->diff($s_time1);
+        
+//        $s_hours = $stripping / ( 60 * 60 );
+        
+//        $date_start_tunda = strtotime($dataupdate['mulai_tunda']);
+//        $date_end_tunda = strtotime($dataupdate['selesai_tunda']);
+//        $tunda = abs($date_start_tunda - $date_end_tunda);
+        
+        $t_time1 = new \DateTime($dataupdate['mulai_tunda']);
+        $t_time2 = new \DateTime($dataupdate['selesai_tunda']);
+
+        $t_interval =  $t_time2->diff($t_time1);
+        
+        $time1 = new \DateTime($s_interval->format("%H:%i:%s"));
+        $time2 = new \DateTime($t_interval->format("%H:%i:%s"));
+        
+        $interval = $time2->diff($time1);
+        
+        $working_hours = $interval->format("%H:%i");
+        $dataupdate['working_hours'] = $working_hours;
+        
+        $update = DBContainer::where('TCONTAINER_PK', $id)
+            ->update($dataupdate);
+        
+        if($update){
+            
+            $dataManifest['tglstripping'] = $dataupdate['TGLSTRIPPING'];
+            $dataManifest['jamstripping'] = $dataupdate['JAMSTRIPPING'];  
+            $dataManifest['STARTSTRIPPING'] = $dataupdate['STARTSTRIPPING'];
+            $dataManifest['ENDSTRIPPING'] = $dataupdate['ENDSTRIPPING'];
+            
+            $updateManifest = DBManifest::where('TCONTAINER_FK', $id)
+                    ->update($dataManifest);
+            
+            if($updateManifest){
+                return json_encode(array('success' => true, 'message' => 'Stripping successfully updated!'));
+            }
+            
+            return json_encode(array('success' => true, 'message' => 'Container successfully updated, but Manifest not updated!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
     }
     
     public function buangmtyUpdate(Request $request, $id)

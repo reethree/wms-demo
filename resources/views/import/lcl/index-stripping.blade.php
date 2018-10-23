@@ -11,15 +11,47 @@
     function gridCompleteEvent()
     {
         var ids = jQuery("#lclStrippingGrid").jqGrid('getDataIDs'),
-            edt = '',
-            del = ''; 
+            apv = ''; 
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
+            var rowdata = $('#lclStrippingGrid').getRowData(cl);
             
-            edt = '<a href="{{ route("lcl-manifest-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
-            del = '<a href="{{ route("lcl-manifest-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
-            jQuery("#lclStrippingGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
+            if(rowdata.STARTSTRIPPING !== ''){
+                apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-stripping-btn" disabled><i class="fa fa-close"></i> Stripping</button>';
+            }else{
+                apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-stripping-btn" data-id="'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){ approveStripping('+cl+'); }else{return false;};"><i class="fa fa-check"></i> Stripping</button>';
+            }
+            
+            jQuery("#lclStrippingGrid").jqGrid('setRowData',ids[i],{action:apv}); 
         } 
+    }
+    
+    function approveStripping($id)
+    {
+        $.ajax({
+            type: 'GET',
+            dataType : 'json',
+            url: '{{route("lcl-realisasi-stripping-approve","")}}/'+$id,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+
+            },
+            success:function(json)
+            {
+                if(json.success) {
+                    $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                } else {
+                    $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                }
+
+                //Triggers the "Refresh" button funcionality.
+                $('#btn-refresh').click();
+            }
+        });
     }
     
     function onSelectRowEvent()
@@ -162,7 +194,7 @@
                     ->setFilterToolbarOptions(array('autosearch'=>true))
                     ->setGridEvent('gridComplete', 'gridCompleteEvent')
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
-        //            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+                    ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>100, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                     ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
                     ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>150))
                     ->addColumn(array('label'=>'No. Joborder','index'=>'NoJob','width'=>150))
