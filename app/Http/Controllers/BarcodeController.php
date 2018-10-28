@@ -262,15 +262,17 @@ class BarcodeController extends Controller
                         // RELEASE
                         if($data_barcode->ref_type == 'Manifest'){
                             if($model->status_bc != 'HOLD'):
-                                $model->tglrelease = date('Y-m-d', strtotime($data_barcode->time_out));
-                                $model->jamrelease = date('H:i:s', strtotime($data_barcode->time_out));
-                                $model->UIDRELEASE = 'Autogate';
-                                $model->TGLSURATJALAN = date('Y-m-d', strtotime($data_barcode->time_out));
-                                $model->JAMSURATJALAN = date('H:i:s', strtotime($data_barcode->time_out));
-                                $model->tglfiat = date('Y-m-d', strtotime($data_barcode->time_out));
-                                $model->jamfiat = date('H:i:s', strtotime($data_barcode->time_out));
-                                $model->NAMAEMKL = 'Autogate';
-                                $model->UIDSURATJALAN = 'Autogate';
+                                if($data_barcode->time_out){
+                                    $model->tglrelease = date('Y-m-d', strtotime($data_barcode->time_out));
+                                    $model->jamrelease = date('H:i:s', strtotime($data_barcode->time_out));
+                                    $model->UIDRELEASE = 'Autogate';
+                                    $model->TGLSURATJALAN = date('Y-m-d', strtotime($data_barcode->time_out));
+                                    $model->JAMSURATJALAN = date('H:i:s', strtotime($data_barcode->time_out));
+                                    $model->tglfiat = date('Y-m-d', strtotime($data_barcode->time_out));
+                                    $model->jamfiat = date('H:i:s', strtotime($data_barcode->time_out));
+                                    $model->NAMAEMKL = 'Autogate';
+                                    $model->UIDSURATJALAN = 'Autogate';
+                                }
                                 if($tipe == 'in'){
                                     $model->photo_release_in = $filename;
                                 }else{
@@ -285,13 +287,15 @@ class BarcodeController extends Controller
                                 return 'Status BC Manifest is HOLD!!!';
                             endif;
                         }else{
-                            $model->TGLRELEASE = date('Y-m-d', strtotime($data_barcode->time_out));
-                            $model->JAMRELEASE = date('H:i:s', strtotime($data_barcode->time_out));
-                            $model->UIDKELUAR = 'Autogate';
-                            $model->TGLFIAT = date('Y-m-d', strtotime($data_barcode->time_out));
-                            $model->JAMFIAT = date('H:i:s', strtotime($data_barcode->time_out));
-                            $model->TGLSURATJALAN = date('Y-m-d', strtotime($data_barcode->time_out));
-                            $model->JAMSURATJALAN = date('H:i:s', strtotime($data_barcode->time_out));
+                            if($data_barcode->time_out){
+                                $model->TGLRELEASE = date('Y-m-d', strtotime($data_barcode->time_out));
+                                $model->JAMRELEASE = date('H:i:s', strtotime($data_barcode->time_out));
+                                $model->UIDKELUAR = 'Autogate';
+                                $model->TGLFIAT = date('Y-m-d', strtotime($data_barcode->time_out));
+                                $model->JAMFIAT = date('H:i:s', strtotime($data_barcode->time_out));
+                                $model->TGLSURATJALAN = date('Y-m-d', strtotime($data_barcode->time_out));
+                                $model->JAMSURATJALAN = date('H:i:s', strtotime($data_barcode->time_out));
+                            }
                             if($tipe == 'in'){
                                 $model->photo_release_in = $filename;
                             }else{
@@ -316,10 +320,11 @@ class BarcodeController extends Controller
                 }elseif($data_barcode->ref_action == 'empty'){
 //                    return 'EMPTY';
 //                    if($data_barcode->time_out != NULL){
-                        $model->TGLBUANGMTY = date('Y-m-d', strtotime($data_barcode->time_out));
-                        $model->JAMBUANGMTY = date('H:i:s', strtotime($data_barcode->time_out));
-                        $model->UIDMTY = 'Autogate';
-                        
+                        if($data_barcode->time_out){
+                            $model->TGLBUANGMTY = date('Y-m-d', strtotime($data_barcode->time_out));
+                            $model->JAMBUANGMTY = date('H:i:s', strtotime($data_barcode->time_out));
+                            $model->UIDMTY = 'Autogate';
+                        }
                         if($tipe == 'in'){
                             $model->photo_empty_in = $filename;
                         }else{
