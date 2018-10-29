@@ -150,6 +150,12 @@
 //                $('#release-form').disabledFormGroup();
 //            }
 
+            if(rowdata.flag_bc == 'Y'){
+                $('#btn-group-4').disabledButtonGroup();
+                $('#btn-group-5').disabledButtonGroup();
+                $('#btn-group-2,#btn-sppb').disabledButtonGroup();
+                $('#release-form').disabledFormGroup();
+            }
         });
         
         $('#btn-print-sj').click(function() {
