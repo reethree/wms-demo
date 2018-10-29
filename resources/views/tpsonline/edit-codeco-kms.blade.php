@@ -178,7 +178,8 @@
                     {{
                         GridRender::setGridId("tpsCodecoKmsGrid")
                         ->enableFilterToolbar()
-                        ->setGridOption('url', URL::to('/tpsonline/pengiriman/codeco-kms/grid-data?codecokms_id='.$header->TPSCODECOKMSXML_PK))
+                        >setGridOption('mtype', 'POST')
+                        ->setGridOption('url', URL::to('/tpsonline/pengiriman/codeco-kms/grid-data?codecokms_id='.$header->TPSCODECOKMSXML_PK.'&_token='.csrf_token()))
                         ->setGridOption('rowNum', 10)
                         ->setGridOption('shrinkToFit', true)
                         ->setGridOption('sortname','TPSCODECOKMSDETAILXML_PK')

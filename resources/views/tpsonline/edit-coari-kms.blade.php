@@ -178,7 +178,8 @@
                     {{
                         GridRender::setGridId("tpsCoariKmsGrid")
                         ->enableFilterToolbar()
-                        ->setGridOption('url', URL::to('/tpsonline/pengiriman/coari-kms/grid-data?coarikms_id='.$header->TPSCOARIKMSXML_PK))
+                        ->setGridOption('mtype', 'POST')
+                        ->setGridOption('url', URL::to('/tpsonline/pengiriman/coari-kms/grid-data?coarikms_id='.$header->TPSCOARIKMSXML_PK.'&_token='.csrf_token()))
                         ->setGridOption('rowNum', 10)
                         ->setGridOption('shrinkToFit', true)
                         ->setGridOption('sortname','TPSCOARIKMSDETAILXML_PK')

@@ -22,7 +22,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">REF Number</label>
                         <div class="col-sm-8">
-                            <input type="text" name="REF_NUMBER" class="form-control"  value="{{ $detail->REF_NUMBER }}" required readonly>
+                            <input type="text" name="REF_NUMBER" class="form-control"  value="{{ $detail->REF_NUMBER }}" readonly>
                         </div>
                     </div>
                     <div class="form-group">
@@ -32,7 +32,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_ENTRY" class="form-control pull-right datepicker" required value="{{ date('Y-m-d',strtotime($detail->TGL_ENTRY)) }}" readonly>
+                                <input type="text" name="TGL_ENTRY" class="form-control pull-right datepicker" value="{{ date('Y-m-d',strtotime($detail->TGL_ENTRY)) }}" readonly>
                             </div>
                         </div>
                     </div>     
@@ -42,31 +42,31 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Kode Dokumen</label>
                         <div class="col-sm-8">
-                            <input type="text" name="KD_DOK_INOUT" class="form-control"  value="{{ $detail->KD_DOK_INOUT }}" required>
+                            <input type="text" name="KD_DOK_INOUT" class="form-control"  value="{{ $detail->KD_DOK_INOUT }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Kode TPS</label>
                         <div class="col-sm-8">
-                            <input type="text" name="KD_TPS" class="form-control"  value="{{ $detail->KD_TPS }}" required>
+                            <input type="text" name="KD_TPS" class="form-control"  value="{{ $detail->KD_TPS }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Nama Angkut</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NM_ANGKUT" class="form-control"  value="{{ $detail->NM_ANGKUT }}" required>
+                            <input type="text" name="NM_ANGKUT" class="form-control"  value="{{ $detail->NM_ANGKUT }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. VOY Flight</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NO_VOY_FLIGHT" class="form-control"  value="{{ $detail->NO_VOY_FLIGHT }}" required>
+                            <input type="text" name="NO_VOY_FLIGHT" class="form-control"  value="{{ $detail->NO_VOY_FLIGHT }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Call Sign</label>
                         <div class="col-sm-8">
-                            <input type="text" name="CALL_SIGN" class="form-control"  value="{{ $detail->CALL_SIGN }}" required>
+                            <input type="text" name="CALL_SIGN" class="form-control"  value="{{ $detail->CALL_SIGN }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -76,45 +76,45 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_TIBA" class="form-control pull-right datepicker" required value="{{ $detail->TGL_TIBA }}">
+                                <input type="text" name="TGL_TIBA" class="form-control pull-right datepicker" value="{{ $detail->TGL_TIBA }}">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Kode Gudang</label>
                         <div class="col-sm-8">
-                            <input type="text" name="KD_GUDANG" class="form-control"  value="{{ $detail->KD_GUDANG }}" required>
+                            <input type="text" name="KD_GUDANG" class="form-control"  value="{{ $detail->KD_GUDANG }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. Container</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NO_CONT" class="form-control"  value="{{ $detail->NO_CONT }}" required>
+                            <input type="text" name="NO_CONT" class="form-control"  value="{{ $detail->NO_CONT }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Ukuran Container</label>
                         <div class="col-sm-8">
-                            <input type="text" name="UK_CONT" class="form-control"  value="{{ $detail->UK_CONT }}" required>
+                            <input type="text" name="UK_CONT" class="form-control"  value="{{ $detail->UK_CONT }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. Segel</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NO_SEGEL" class="form-control"  value="{{ $detail->NO_SEGEL }}" required>
+                            <input type="text" name="NO_SEGEL" class="form-control"  value="{{ $detail->NO_SEGEL }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Jenis Container</label>
                         <div class="col-sm-8">
-                            <input type="text" name="JNS_CONT" class="form-control"  value="{{ $detail->JNS_CONT }}" required>
+                            <input type="text" name="JNS_CONT" class="form-control"  value="{{ $detail->JNS_CONT }}">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. MBL AWB</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NO_MASTER_BL_AWB" class="form-control"  value="{{ $detail->NO_MASTER_BL_AWB }}" required>
+                            <input type="text" name="NO_MASTER_BL_AWB" class="form-control"  value="{{ $detail->NO_MASTER_BL_AWB }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -124,14 +124,14 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_MASTER_BL_AWB" class="form-control pull-right datepicker" required value="{{ $detail->TGL_MASTER_BL_AWB }}">
+                                <input type="text" name="TGL_MASTER_BL_AWB" class="form-control pull-right datepicker" value="{{ $detail->TGL_MASTER_BL_AWB }}">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. BL AWB</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NO_BL_AWB" class="form-control"  value="{{ $detail->NO_BL_AWB }}" required>
+                            <input type="text" name="NO_BL_AWB" class="form-control"  value="{{ $detail->NO_BL_AWB }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -141,26 +141,26 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_BL_AWB" class="form-control pull-right datepicker" required value="{{ $detail->TGL_BL_AWB }}">
+                                <input type="text" name="TGL_BL_AWB" class="form-control pull-right datepicker" value="{{ $detail->TGL_BL_AWB }}">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Consignee</label>
                         <div class="col-sm-8">
-                            <input type="text" name="CONSIGNEE" class="form-control"  value="{{ $detail->CONSIGNEE }}" required>
+                            <input type="text" name="CONSIGNEE" class="form-control"  value="{{ $detail->CONSIGNEE }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Bruto</label>
                         <div class="col-sm-8">
-                            <input type="text" name="BRUTO" class="form-control"  value="{{ $detail->BRUTO }}" required>
+                            <input type="text" name="BRUTO" class="form-control"  value="{{ $detail->BRUTO }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. BC11</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NO_BC11" class="form-control"  value="{{ $detail->NO_BC11 }}" required>
+                            <input type="text" name="NO_BC11" class="form-control"  value="{{ $detail->NO_BC11 }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -170,14 +170,14 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_BC11" class="form-control pull-right datepicker" required value="{{ $detail->TGL_BC11 }}">
+                                <input type="text" name="TGL_BC11" class="form-control pull-right datepicker" value="{{ $detail->TGL_BC11 }}">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. POS BC11</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NO_POS_BC11" class="form-control"  value="{{ $detail->NO_POS_BC11 }}" required>
+                            <input type="text" name="NO_POS_BC11" class="form-control"  value="{{ $detail->NO_POS_BC11 }}">
                         </div>
                     </div>
                     
@@ -186,19 +186,19 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Kode Timbun</label>
                         <div class="col-sm-8">
-                            <input type="text" name="KD_TIMBUN" class="form-control"  value="{{ $detail->KD_TIMBUN }}" required>
+                            <input type="text" name="KD_TIMBUN" class="form-control"  value="{{ $detail->KD_TIMBUN }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Kode DOK. INOUT</label>
                         <div class="col-sm-8">
-                            <input type="text" name="KD_DOK_INOUT" class="form-control"  value="{{ $detail->KD_DOK_INOUT }}" required>
+                            <input type="text" name="KD_DOK_INOUT" class="form-control"  value="{{ $detail->KD_DOK_INOUT }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. DOK. INOUT</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NO_DOK_INOUT" class="form-control"  value="{{ $detail->NO_DOK_INOUT }}" required>
+                            <input type="text" name="NO_DOK_INOUT" class="form-control"  value="{{ $detail->NO_DOK_INOUT }}">
                         </div>
                     </div>
                     
@@ -209,76 +209,76 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_DOK_INOUT" class="form-control pull-right datepicker" required value="{{ $detail->TGL_DOK_INOUT }}">
+                                <input type="text" name="TGL_DOK_INOUT" class="form-control pull-right datepicker" value="{{ $detail->TGL_DOK_INOUT }}">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Waktu DOK.INOUT</label>
                         <div class="col-sm-8">
-                            <input type="text" name="WK_INOUT" class="form-control"  value="{{ $detail->WK_INOUT }}" required>
+                            <input type="text" name="WK_INOUT" class="form-control"  value="{{ $detail->WK_INOUT }}">
                         </div>
                         
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Kode SAR Angkut INOUT</label>
                         <div class="col-sm-8">
-                            <input type="text" name="KD_SAR_ANGKUT_INOUT" class="form-control"  value="{{ $detail->KD_SAR_ANGKUT_INOUT }}" required>
+                            <input type="text" name="KD_SAR_ANGKUT_INOUT" class="form-control"  value="{{ $detail->KD_SAR_ANGKUT_INOUT }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. POL</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NO_POL" class="form-control"  value="{{ $detail->NO_POL }}" required>
+                            <input type="text" name="NO_POL" class="form-control"  value="{{ $detail->NO_POL }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">FL CONT</label>
                         <div class="col-sm-8">
-                            <input type="text" name="FL_CONT_KOSONG" class="form-control"  value="{{ $detail->FL_CONT_KOSONG }}" required>
+                            <input type="text" name="FL_CONT_KOSONG" class="form-control"  value="{{ $detail->FL_CONT_KOSONG }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">ISO Code</label>
                         <div class="col-sm-8">
-                            <input type="text" name="ISO_CODE" class="form-control"  value="{{ $detail->ISO_CODE }}" required>
+                            <input type="text" name="ISO_CODE" class="form-control"  value="{{ $detail->ISO_CODE }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Pel. Muat</label>
                         <div class="col-sm-8">
-                            <input type="text" name="PEL_MUAT" class="form-control"  value="{{ $detail->PEL_MUAT }}" required>
+                            <input type="text" name="PEL_MUAT" class="form-control"  value="{{ $detail->PEL_MUAT }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Pel. Transit</label>
                         <div class="col-sm-8">
-                            <input type="text" name="PEL_TRANSIT" class="form-control"  value="{{ $detail->PEL_TRANSIT }}" required>
+                            <input type="text" name="PEL_TRANSIT" class="form-control"  value="{{ $detail->PEL_TRANSIT }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Pel. Bongkar</label>
                         <div class="col-sm-8">
-                            <input type="text" name="PEL_BONGKAR" class="form-control"  value="{{ $detail->PEL_BONGKAR }}" required>
+                            <input type="text" name="PEL_BONGKAR" class="form-control"  value="{{ $detail->PEL_BONGKAR }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Gudang Tujuan</label>
                         <div class="col-sm-8">
-                            <input type="text" name="GUDANG_TUJUAN" class="form-control"  value="{{ $detail->GUDANG_TUJUAN }}" required>
+                            <input type="text" name="GUDANG_TUJUAN" class="form-control"  value="{{ $detail->GUDANG_TUJUAN }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Kode Kantor</label>
                         <div class="col-sm-8">
-                            <input type="text" name="KODE_KANTOR" class="form-control"  value="{{ $detail->KODE_KANTOR }}" required>
+                            <input type="text" name="KODE_KANTOR" class="form-control"  value="{{ $detail->KODE_KANTOR }}">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. Daftar Pabean</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NO_DAFTAR_PABEAN" class="form-control"  value="{{ $detail->NO_DAFTAR_PABEAN }}" required>
+                            <input type="text" name="NO_DAFTAR_PABEAN" class="form-control"  value="{{ $detail->NO_DAFTAR_PABEAN }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -288,14 +288,14 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_DAFTAR_PABEAN" class="form-control pull-right datepicker" required value="{{ $detail->TGL_DAFTAR_PABEAN }}">
+                                <input type="text" name="TGL_DAFTAR_PABEAN" class="form-control pull-right datepicker" value="{{ $detail->TGL_DAFTAR_PABEAN }}">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. Segel BC</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NO_SEGEL_BC" class="form-control"  value="{{ $detail->NO_SEGEL_BC }}" required>
+                            <input type="text" name="NO_SEGEL_BC" class="form-control"  value="{{ $detail->NO_SEGEL_BC }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -305,14 +305,14 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_SEGEL_BC" class="form-control pull-right datepicker" required value="{{ $detail->TGL_SEGEL_BC }}">
+                                <input type="text" name="TGL_SEGEL_BC" class="form-control pull-right datepicker" value="{{ $detail->TGL_SEGEL_BC }}">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. Ijin TPS</label>
                         <div class="col-sm-8">
-                            <input type="text" name="NO_IJIN_TPS" class="form-control"  value="{{ $detail->NO_IJIN_TPS }}" required>
+                            <input type="text" name="NO_IJIN_TPS" class="form-control"  value="{{ $detail->NO_IJIN_TPS }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -322,7 +322,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_IJIN_TPS" class="form-control pull-right datepicker" required value="{{ $detail->TGL_IJIN_TPS }}">
+                                <input type="text" name="TGL_IJIN_TPS" class="form-control pull-right datepicker" value="{{ $detail->TGL_IJIN_TPS }}">
                             </div>
                         </div>
                     </div>
