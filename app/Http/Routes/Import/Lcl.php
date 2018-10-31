@@ -100,4 +100,8 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-lock-flag',
         'uses' => 'LclController@lockFlag'
     ]);
+    Route::post('/report/longstay/unlock-flag', [
+        'as' => 'lcl-unlock-flag',
+        'uses' => 'LclController@unlockFlag'
+    ]);
 });

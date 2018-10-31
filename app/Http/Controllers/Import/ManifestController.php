@@ -316,8 +316,12 @@ class ManifestController extends Controller
     public function approve($id)
     {
         
-        $meas = DBManifest::select('MEAS')->where('TMANIFEST_PK', $id)->first();
-
+        $manifest = DBManifest::find($id);
+        
+        if(empty($manifest->tglstripping) || $manifest->tglstripping == '0000-00-00' || $manifest->tglstripping == '01-01-1970'){
+            return json_encode(array('success' => false, 'message' => 'HBL ini belum melakukan stripping!'));
+        }
+        
         $update = DBManifest::where('TMANIFEST_PK', $id)
             ->update(array('VALIDASI'=>'Y'));
         
@@ -339,6 +343,12 @@ class ManifestController extends Controller
     public function approveAll($container_id)
     {
         
+        $container = DBContainer::find($container_id)->first();
+        
+        if(empty($container->TGLSTRIPPING) || $container->TGLSTRIPPING == '0000-00-00' || $container->TGLSTRIPPING == '01-01-1970'){
+            return json_encode(array('success' => false, 'message' => 'Kontainer ini belum melakukan stripping!'));
+        }
+
         $update = DBManifest::where('TCONTAINER_FK', $container_id)
             ->update(array('VALIDASI'=>'Y'));
         

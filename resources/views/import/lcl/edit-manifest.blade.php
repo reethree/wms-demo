@@ -160,6 +160,12 @@
     
     function approveManifest($id)
     {
+        var rowdata = $('#lclManifestGrid').getRowData($id);
+        if(rowdata.tglstripping == '' || rowdata.tglstripping == '0000-00-00'){
+            alert('HBL ini belum melakukan stripping!');
+            return false;
+        }
+
         $.ajax({
             type: 'GET',
             dataType : 'json',
@@ -549,6 +555,8 @@
                         ->addColumn(array('label'=>'Alasan Perubahan','index'=>'alasan_perubahan','width'=>150,'align'=>'center'))
                         ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
                         ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
+                        ->addColumn(array('label'=>'Tgl. Stripping','index'=>'tglstripping', 'width'=>70,'hidden'=>true))
+                        ->addColumn(array('label'=>'Jam. Stripping','index'=>'jamstripping', 'width'=>70,'hidden'=>true))
                         ->addColumn(array('label'=>'Photo Stripping','index'=>'photo_stripping', 'width'=>70,'hidden'=>true))
                         ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
                         ->renderGrid()

@@ -80,5 +80,9 @@ Route::group(['prefix' => 'fcl', 'namespace' => 'Import'], function(){
         'as' => 'fcl-lock-flag',
         'uses' => 'FclController@lockFlag'
     ]);
+    Route::post('/report/longstay/unlock-flag', [
+        'as' => 'fcl-unlock-flag',
+        'uses' => 'FclController@unlockFlag'
+    ]);
 });
 

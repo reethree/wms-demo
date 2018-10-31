@@ -595,11 +595,16 @@ class LclController extends Controller
     public function gateinUpdate(Request $request, $id)
     {
         $data = $request->json()->all(); 
-        unset($data['TCONTAINER_PK'], $data['_token']);
+        $delete_photo = $data['delete_photo'];
+        unset($data['TCONTAINER_PK'], $data['delete_photo'], $data['_token']);
         
         if(empty($data['TGLMASUK']) || $data['TGLMASUK'] == '0000-00-00'){
             $data['TGLMASUK'] = NULL;
             $data['JAMMASUK'] = NULL;
+        }
+        
+        if($delete_photo == 'Y'){
+            $data['photo_gatein_extra'] = '';
         }
         
         $update = DBContainer::where('TCONTAINER_PK', $id)
@@ -610,7 +615,7 @@ class LclController extends Controller
             $dataManifest['tglmasuk'] = $data['TGLMASUK'];
             $dataManifest['Jammasuk'] = $data['JAMMASUK'];  
             $dataManifest['NOPOL_MASUK'] = $data['NOPOL']; 
-            
+
             $updateManifest = DBManifest::where('TCONTAINER_FK', $id)
                     ->update($dataManifest);
             
@@ -2191,6 +2196,36 @@ class LclController extends Controller
         return back()->with('error', 'Please upload EXCEL file format.')->withInput();
     }
     
+    public function gateinUploadPhoto(Request $request)
+    {
+        $picture = array();
+        if ($request->hasFile('photos')) {
+            $files = $request->file('photos');
+            $destinationPath = base_path() . '/public/uploads/photos/container/lcl/'.$request->no_cont;
+            $i = 1;
+            foreach($files as $file){
+//                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                
+                $filename = date('dmyHis').'_'.str_slug($request->no_cont).'_'.$i.'.'.$extension;
+                $picture[] = $filename;
+                $file->move($destinationPath, $filename);
+                $i++;
+            }
+            // update to Database
+            $container = DBContainer::find($request->id_cont);
+            $container->photo_gatein_extra = json_encode($picture);
+            if($container->save()){
+                return back()->with('success', 'Photo for Container '. $request->no_cont .' has been uploaded.');
+            }else{
+                return back()->with('error', 'Photo uploaded, but not save in Database.');
+            }
+            
+        } else {
+            return back()->with('error', 'Something wrong!!! Can\'t upload photo, please try again.');
+        }
+    }
+    
     public function changeStatusBc($id)
     {
         $manifest = DBManifest::find($id);
@@ -2239,7 +2274,23 @@ class LclController extends Controller
 //        }
         
         if($manifest->save()){
-            return back()->with('success', 'Flag has been update.')->withInput();
+            return back()->with('success', 'Flag has been locked.')->withInput();
+        }
+        
+        return back()->with('error', 'Something wrong, please try again.')->withInput();
+    }
+    
+    public function unlockFlag(Request $request)
+    {
+        $manifest_id = $request->id;
+        $alasan = $request->alasan_lepas_segel;
+        
+        $manifest = DBManifest::find($manifest_id);
+        $manifest->flag_bc = 'N';
+        $manifest->alasan_lepas_segel = $alasan;
+        
+        if($manifest->save()){
+            return back()->with('success', 'Flag has been unlocked.')->withInput();
         }
         
         return back()->with('error', 'Something wrong, please try again.')->withInput();

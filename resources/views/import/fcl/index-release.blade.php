@@ -38,6 +38,7 @@
         $('#release-form').disabledFormGroup();
         $('#btn-toolbar,#btn-sppb').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
+        $(".hide-kddoc").hide();
         
         $("#KD_DOK_INOUT").on("change", function(){
             var $this = $(this).val();
@@ -45,6 +46,11 @@
                 $(".select-bcf-consignee").show();
             }else{
                 $(".select-bcf-consignee").hide();
+            }
+            if($this){
+                $(".hide-kddoc").show();
+            }else{
+                $(".hide-kddoc").hide();
             }
         });
         
@@ -149,7 +155,17 @@
 //                $('#btn-group-2').disabledButtonGroup();
 //                $('#release-form').disabledFormGroup();
 //            }
-
+            
+            if(rowdata.status_bc == 'HOLD'){
+                $('#TGLRELEASE').attr('disabled','disabled');
+                $('#JAMRELEASE').attr('disabled','disabled');
+                $('#NOPOL_OUT').attr('disabled','disabled');
+            }else{
+                $('#TGLRELEASE').removeAttr('disabled');
+                $('#JAMRELEASE').removeAttr('disabled');
+                $('#NOPOL_OUT').removeAttr('disabled');
+            }
+            
             if(rowdata.flag_bc == 'Y'){
                 $('#btn-group-4').disabledButtonGroup();
                 $('#btn-group-5').disabledButtonGroup();
@@ -588,16 +604,21 @@
                             </div>
                         </div>
                     </div>
-                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Ref. Number</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="REF_NUMBER_OUT" name="REF_NUMBER_OUT" class="form-control" required>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
+                    <div class="form-group hide-kddoc">
                         <label class="col-sm-3 control-label">No. Pabean</label>
                         <div class="col-sm-8">
                             <input type="text" id="NO_DAFTAR_PABEAN" name="NO_DAFTAR_PABEAN" class="form-control" required>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group hide-kddoc">
                         <label class="col-sm-3 control-label">Tgl. Pabean</label>
                         <div class="col-sm-8">
                             <div class="input-group date">
@@ -609,7 +630,7 @@
                         </div>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="form-group hide-kddoc">
                         <label class="col-sm-3 control-label">Tgl. Release</label>
                         <div class="col-sm-8">
                             <div class="input-group date">
@@ -621,7 +642,7 @@
                         </div>
                     </div>
                     
-                    <div class="bootstrap-timepicker">
+                    <div class="bootstrap-timepicker hide-kddoc">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Jam Release</label>
                             <div class="col-sm-8">
@@ -635,18 +656,13 @@
                         </div>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="form-group hide-kddoc">
                         <label class="col-sm-3 control-label">No. POL</label>
                         <div class="col-sm-8">
                             <input type="text" id="NOPOL_OUT" name="NOPOL_OUT" class="form-control" required>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Ref. Number</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="REF_NUMBER_OUT" name="REF_NUMBER_OUT" class="form-control" required>
-                        </div>
-                    </div>
+                    
                     
                 </div>
                 <!--<div class="col-md-6">--> 

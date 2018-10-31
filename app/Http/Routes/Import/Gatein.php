@@ -17,6 +17,12 @@ Route::group(['prefix' => 'lcl/realisasi', 'namespace' => 'Import'], function(){
         'uses' => 'LclController@gateinUpload'
     ]);
     
+    // UPLOAD PHOTO
+    Route::post('/gatein/upload/photo', [
+        'as' => 'lcl-gatein-upload-photo',
+        'uses' => 'LclController@gateinUploadPhoto'
+    ]);
+    
 });
 
 Route::group(['prefix' => 'fcl/realisasi', 'namespace' => 'Import'], function(){
@@ -34,6 +40,12 @@ Route::group(['prefix' => 'fcl/realisasi', 'namespace' => 'Import'], function(){
     Route::post('/gatein/upload', [
         'as' => 'fcl-realisasi-gatein-upload',
         'uses' => 'FclController@gateinUpload'
+    ]);
+    
+        // UPLOAD PHOTO
+    Route::post('/gatein/upload/photo', [
+        'as' => 'fcl-gatein-upload-photo',
+        'uses' => 'FclController@gateinUploadPhoto'
     ]);
     
 });

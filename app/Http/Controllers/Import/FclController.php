@@ -543,14 +543,19 @@ class FclController extends Controller
     public function gateinUpdate(Request $request, $id)
     {
         $data = $request->json()->all(); 
-        unset($data['TCONTAINER_PK'], $data['_token']);
+        $delete_photo = $data['delete_photo'];
+        unset($data['TCONTAINER_PK'], $data['delete_photo'], $data['_token']);
         
         if(empty($data['TGLMASUK']) || $data['TGLMASUK'] == '0000-00-00'){
             $data['TGLMASUK'] = NULL;
             $data['JAMMASUK'] = NULL;
         }
         
-        $teus = DBContainer::select('TEUS')->where('TCONTAINER_PK', $id)->first();
+        if($delete_photo == 'Y'){
+            $data['photo_gatein_extra'] = '';
+        }
+        
+//        $teus = DBContainer::select('TEUS')->where('TCONTAINER_PK', $id)->first();
 
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
@@ -1656,6 +1661,36 @@ class FclController extends Controller
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
     }
     
+    public function gateinUploadPhoto(Request $request)
+    {
+        $picture = array();
+        if ($request->hasFile('photos')) {
+            $files = $request->file('photos');
+            $destinationPath = base_path() . '/public/uploads/photos/container/fcl/'.$request->no_cont;
+            $i = 1;
+            foreach($files as $file){
+//                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                
+                $filename = date('dmyHis').'_'.str_slug($request->no_cont).'_'.$i.'.'.$extension;
+                $picture[] = $filename;
+                $file->move($destinationPath, $filename);
+                $i++;
+            }
+            // update to Database
+            $container = DBContainer::find($request->id_cont);
+            $container->photo_gatein_extra = json_encode($picture);
+            if($container->save()){
+                return back()->with('success', 'Photo for Container '. $request->no_cont .' has been uploaded.');
+            }else{
+                return back()->with('error', 'Photo uploaded, but not save in Database.');
+            }
+            
+        } else {
+            return back()->with('error', 'Something wrong!!! Can\'t upload photo, please try again.');
+        }
+    }
+    
     public function changeStatusBc($id)
     { 
         $container = DBContainer::find($id);
@@ -1703,7 +1738,23 @@ class FclController extends Controller
 //        }
         
         if($container->save()){
-            return back()->with('success', 'Flag has been update.')->withInput();
+            return back()->with('success', 'Flag has been locked.')->withInput();
+        }
+        
+        return back()->with('error', 'Something wrong, please try again.')->withInput();
+    }
+    
+    public function unlockFlag(Request $request)
+    {
+        $container_id = $request->id;
+        $alasan = $request->alasan_lepas_segel;
+        
+        $container = DBContainer::find($container_id);
+        $container->flag_bc = 'N';
+        $container->alasan_lepas_segel = $alasan;
+        
+        if($container->save()){
+            return back()->with('success', 'Flag has been unlocked.')->withInput();
         }
         
         return back()->with('error', 'Something wrong, please try again.')->withInput();

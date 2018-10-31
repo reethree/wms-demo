@@ -42,6 +42,7 @@
         $('#release-form').disabledFormGroup();
         $('#btn-toolbar,#btn-sppb, #btn-photo').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
+        $(".hide-kddoc").hide();
         
         $("#KD_DOK_INOUT").on("change", function(){
             var $this = $(this).val();
@@ -49,6 +50,12 @@
                 $(".select-bcf-consignee").show();
             }else{
                 $(".select-bcf-consignee").hide();
+            }
+            
+            if($this){
+                $(".hide-kddoc").show();
+            }else{
+                $(".hide-kddoc").hide();
             }
         });
         
@@ -160,6 +167,16 @@
 //                $('#btn-group-2').disabledButtonGroup();
 //                $('#release-form').disabledFormGroup();
 //            }
+            
+            if(rowdata.status_bc == 'HOLD'){
+                $('#tglrelease').attr('disabled','disabled');
+                $('#jamrelease').attr('disabled','disabled');
+                $('#NOPOL_RELEASE').attr('disabled','disabled');
+            }else{
+                $('#tglrelease').removeAttr('disabled');
+                $('#jamrelease').removeAttr('disabled');
+                $('#NOPOL_RELEASE').removeAttr('disabled');
+            }
             
             if(rowdata.flag_bc == 'Y'){
                 $('#btn-group-4').disabledButtonGroup();
@@ -656,7 +673,7 @@
                             </select>
                         </div>
                     </div>-->
-                    <div class="form-group">
+                    <div class="form-group hide-kddoc">
                         <label class="col-sm-3 control-label">Tgl.Release</label>
                         <div class="col-sm-8">
                             <div class="input-group date">
@@ -668,7 +685,7 @@
                         </div>
                     </div>
                     
-                    <div class="bootstrap-timepicker">
+                    <div class="bootstrap-timepicker hide-kddoc">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Jam Release</label>
                             <div class="col-sm-8">
@@ -682,26 +699,26 @@
                         </div>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="form-group hide-kddoc">
                         <label class="col-sm-3 control-label">Petugas</label>
                         <div class="col-sm-8">
                             <input type="text" id="UIDRELEASE" name="UIDRELEASE" class="form-control" required>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group hide-kddoc">
                         <label class="col-sm-3 control-label">No. POL</label>
                         <div class="col-sm-8">
                             <input type="text" id="NOPOL_RELEASE" name="NOPOL_RELEASE" class="form-control" required>
                         </div>
                     </div>
-                    <div class="form-group" id="btn-photo">
+                    <div class="form-group hide-kddoc" id="btn-photo">
                         <label class="col-sm-3 control-label">Photo</label>
                         <div class="col-sm-8">
                             <button type="button" class="btn btn-warning" id="upload-photo-btn">Upload Photo</button>
                             <button type="button" class="btn btn-danger" id="delete-photo-btn">Delete Photo</button>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group hide-kddoc">
                         <div class="col-sm-12">
                             <div id="load_photos" style="text-align: center;"></div>
                         </div>
