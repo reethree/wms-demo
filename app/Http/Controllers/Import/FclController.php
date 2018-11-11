@@ -998,6 +998,13 @@ class FclController extends Controller
         return view('import.fcl.report-rekap')->with($data);
     }
     
+    public function reportRekapViewPhoto($containerID)
+    {
+        $container = DBContainer::find($containerID);
+        
+        return json_encode(array('success' => true, 'data' => $container));
+    }
+    
     public function reportRekapSend(Request $request)
     {
         $selected_id = $request->get('id');

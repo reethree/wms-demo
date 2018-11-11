@@ -12,13 +12,14 @@
     {
         var ids = jQuery("#lclGateinGrid").jqGrid('getDataIDs'),
             edt = '',
-            del = ''; 
+            del = '',
+            vi = ''; 
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
-            
-            edt = '<a href="{{ route("lcl-manifest-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
-            del = '<a href="{{ route("lcl-manifest-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
-            jQuery("#lclGateinGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
+            rowdata = $('#lclInoutReportGrid').getRowData(cl);
+//            edt = '<a href="{{ route("lcl-manifest-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
+//            del = '<a href="{{ route("lcl-manifest-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
+//            jQuery("#lclGateinGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
         } 
     }
     
@@ -252,6 +253,9 @@
                     
 //                    ->addColumn(array('label'=>'Perkiraan Keluar','index'=>'P_TGLKELUAR','hidden'=>true))
                     ->addColumn(array('label'=>'Petugas','index'=>'UIDMASUK','hidden'=>true))
+ 
+                    ->addColumn(array('label'=>'Photo Gate In','index'=>'photo_get_in', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Photo Gate Out','index'=>'photo_get_out', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Photo Extra','index'=>'photo_gatein_extra', 'width'=>70,'hidden'=>true))
 //                    ->addColumn(array('label'=>'No. SP2','index'=>'NO_SP2','width'=>120,'hidden'=>true))
 //                    ->addColumn(array('label'=>'Tgl. SP2','index'=>'TGL_SP2','hidden'=>true))

@@ -1176,6 +1176,13 @@ class LclController extends Controller
         return view('import.lcl.report-container')->with($data);
     }
     
+    public function reportContainerViewPhoto($containerID)
+    {
+        $container = DBContainer::find($containerID);
+        
+        return json_encode(array('success' => true, 'data' => $container));
+    }
+    
     public function reportHarian()
     {
         if ( !$this->access->can('show.lcl.report.harian') ) {
