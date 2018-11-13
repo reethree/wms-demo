@@ -238,20 +238,15 @@ class BarcodeController extends Controller
                             
                             // Upload Coari Container TPS Online
                             // Check Coari Exist
-                            if($ref_number){
+//                            if($ref_number){
                                 return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
-                            }else{
-                                // $check_coari = \App\Models\TpsCoariCont::where('REF_NUMBER', $ref_number)->count();
-                                // if($check_coari > 0){
-                                //     return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
-                                // }else{
-                                    $coari_id = $this->uploadTpsOnlineCoariCont($data_barcode->ref_type,$data_barcode->ref_id);
-                                    return redirect()->route('tps-coariCont-upload', $coari_id);
-                                // }
-                            }
+//                            }else{
+//                                    $coari_id = $this->uploadTpsOnlineCoariCont($data_barcode->ref_type,$data_barcode->ref_id);
+//                                    return redirect()->route('tps-coariCont-upload', $coari_id);
+//                            }
   
                         }else{
-                            return 'Something wrong!!!';
+                            return 'Something wrong!!! Cannot store to database';
                         }
 //                    }else{
 //                        return 'Time In is NULL';
@@ -281,7 +276,7 @@ class BarcodeController extends Controller
                                 if($model->save()){
                                     return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                                 }else{
-                                    return 'Something wrong!!!';
+                                    return 'Something wrong!!! Cannot store to database';
                                 }
                             else:
                                 return 'Status BC Manifest is HOLD!!!';
@@ -303,14 +298,14 @@ class BarcodeController extends Controller
                             }
                             if($model->save()){
                                 // Check Coari Exist
-                                if($ref_number){
+//                                if($ref_number){
                                     return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
-                                }else{
-                                    $codeco_id = $this->uploadTpsOnlineCodecoCont($data_barcode->ref_type,$data_barcode->ref_id);
-                                    return redirect()->route('tps-codecoCont-upload', $codeco_id);
-                                }
+//                                }else{
+//                                    $codeco_id = $this->uploadTpsOnlineCodecoCont($data_barcode->ref_type,$data_barcode->ref_id);
+//                                    return redirect()->route('tps-codecoCont-upload', $codeco_id);
+//                                }
                             }else{
-                                return 'Something wrong!!!';
+                                return 'Something wrong!!! Cannot store to database';
                             }
                         }
 //                    }else{
@@ -332,14 +327,14 @@ class BarcodeController extends Controller
                         }
                         if($model->save()){
                             // Check Coari Exist
-                            if($ref_number){
+//                            if($ref_number){
                                 return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
-                            }else{
-                                $codeco_id = $this->uploadTpsOnlineCodecoCont($data_barcode->ref_type,$data_barcode->ref_id);
-                                return redirect()->route('tps-codecoCont-upload', $codeco_id);
-                            }
+//                            }else{
+//                                $codeco_id = $this->uploadTpsOnlineCodecoCont($data_barcode->ref_type,$data_barcode->ref_id);
+//                                return redirect()->route('tps-codecoCont-upload', $codeco_id);
+//                            }
                         }else{
-                            return 'Something wrong!!!';
+                            return 'Something wrong!!! Cannot store to database';
                         }
 //                    }else{
 //                        
