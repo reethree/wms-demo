@@ -133,8 +133,8 @@
             $('#NO_BC11').val(rowdata.NO_BC11);
             $('#TGL_BC11').val(rowdata.TGL_BC11);
             $('#NO_POS_BC11').val(rowdata.NO_POS_BC11);
-            $('#NO_SPJM').val(rowdata.NO_SPJM);
-            $('#TGL_SPJM').val(rowdata.TGL_SPJM);
+            $('#no_pabean').val(rowdata.no_pabean);
+            $('#tgl_pabean').val(rowdata.tgl_pabean);
             $('#ID_CONSIGNEE').val(rowdata.ID_CONSIGNEE);
             $('#NO_SPPB').val(rowdata.NO_SPPB);
             $('#TGL_SPPB').val(rowdata.TGL_SPPB);
@@ -422,7 +422,8 @@
                     ->addColumn(array('label'=>'Jam. Release','index'=>'jamrelease', 'width'=>120,'hidden'=>false, 'align'=>'center'))
                     ->addColumn(array('label'=>'No. POL','index'=>'NOPOL_RELEASE', 'width'=>100,'hidden'=>false, 'align'=>'center'))
                     
-            
+                    ->addColumn(array('label'=>'No. Pabean','index'=>'no_pabean', 'width'=>150,'hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. Pabean','index'=>'tgl_pabean', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150,'hidden'=>true))
                     
