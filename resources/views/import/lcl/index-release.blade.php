@@ -52,6 +52,12 @@
                 $(".select-bcf-consignee").hide();
             }
             
+            if($this == 2){
+                $(".pabean-field").show();
+            }else{
+                $(".pabean-field").hide();
+            }
+            
             if($this){
                 $(".hide-kddoc").show();
             }else{
@@ -673,6 +679,23 @@
                             </select>
                         </div>
                     </div>-->
+                    <div class="form-group pabean-field" style="display:none;">
+                        <label class="col-sm-3 control-label">No. Pabean</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="no_pabean" name="no_pabean" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group pabean-field" style="display:none;">
+                        <label class="col-sm-3 control-label">Tgl. Pabean</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" id="tgl_pabean" name="tgl_pabean" class="form-control pull-right datepicker" required>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group hide-kddoc">
                         <label class="col-sm-3 control-label">Tgl.Release</label>
                         <div class="col-sm-8">
