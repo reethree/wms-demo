@@ -46,7 +46,12 @@
                 $("#" + cl).find("td").css("background-color", "#ffe500");
             }  
             
-            vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" data-id="'+cl+'" onclick="viewPhoto('+cl+')"><i class="fa fa-photo"></i> View Photo</button>';
+            if(rowdata.photo_release_in != '' || rowdata.photo_release_out != '' || rowdata.photo_release != '' || rowdata.photo_stripping != ''){
+                vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" data-id="'+cl+'" onclick="viewPhoto('+cl+')"><i class="fa fa-photo"></i> View Photo</button>';
+            }else{
+                vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" disabled><i class="fa fa-photo"></i> Not Found</button>';
+            }
+            
             
             jQuery("#lclInoutReportGrid").jqGrid('setRowData',ids[i],{action:vi,lamaTimbun:lt}); 
         } 
@@ -213,6 +218,10 @@
             ->addColumn(array('label'=>'Tgl. SPPB','index'=>'TGL_SPPB', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Alasan Lepas Segel','index'=>'alasan_lepas_segel','width'=>150,'align'=>'center'))
+            ->addColumn(array('label'=>'Photo Release In','index'=>'photo_release_in', 'width'=>70,'hidden'=>true))
+            ->addColumn(array('label'=>'Photo Release Out','index'=>'photo_release_out', 'width'=>70,'hidden'=>true))
+            ->addColumn(array('label'=>'Photo Release','index'=>'photo_release', 'width'=>70,'hidden'=>true))
+            ->addColumn(array('label'=>'Photo Stripping','index'=>'photo_stripping', 'width'=>70,'hidden'=>true))
 //            ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM', 'width'=>150,'align'=>'center'))
 //            ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150,'align'=>'center'))
 //            ->addColumn(array('label'=>'No. POL','index'=>'NOPOL', 'width'=>120,'align'=>'center'))
