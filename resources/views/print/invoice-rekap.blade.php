@@ -104,7 +104,7 @@
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td class="text-center">ARMUDIA<br />Direktur Komersil</td>
+            <td class="text-center">Haruchi Tyas Intani<br />FINANCE MANAGER</td>
         </tr>
     </table>
     
