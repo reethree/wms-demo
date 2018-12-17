@@ -185,6 +185,17 @@
                                 </div>
                             </div>   
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">Tgl. Cetak</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" name="tgl_cetak" class="form-control pull-right datepicker" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">Type</label>
                                 <div class="col-sm-8">
                                     <select class="form-control select2" name="type" style="width: 100%;" tabindex="-1" aria-hidden="true" required>

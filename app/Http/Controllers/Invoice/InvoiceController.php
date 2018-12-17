@@ -145,7 +145,10 @@ class InvoiceController extends Controller
             $data['materai'] = ($data['sub_total'] > 1000000) ? '6000' : '3000';
             $data['total'] = $data['sub_total'] + $data['ppn'] + $data['materai'];           
             $data['terbilang'] = ucwords($this->terbilang($data['total']))." Rupiah";
+            $data['tgl_cetak'] = $request->tgl_cetak;
 
+//            return \View('print.invoice-rekap', $data);
+            
             $pdf = \PDF::loadView('print.invoice-rekap', $data)->setPaper('legal');
 
             return $pdf->stream('Rekap Invoice '.date('d-m-Y').'-'.$data['consolidator']->NAMACONSOLIDATOR.'.pdf');

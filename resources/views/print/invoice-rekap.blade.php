@@ -89,7 +89,7 @@
         <tr><td height="50" style="font-size: 50px;line-height: 0;">&nbsp;</td></tr>
         <tr>
             <td>&nbsp;</td>
-            <td class="text-center">Jakarta, {{ date('d F Y') }}</td>
+            <td class="text-center">Jakarta, {{ date('d F Y', strtotime($tgl_cetak)) }}</td>
         </tr>
         <tr>
             <td width='60%'>
