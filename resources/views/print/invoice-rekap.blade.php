@@ -5,7 +5,27 @@
 @stop
 
 @section('content')
-<br /><br />
+<style>
+    @media print {
+        body {
+            color: #000;
+            background: #fff;
+        }
+        @page {
+            size: auto;   /* auto is the initial value */
+            margin-top: 114px;
+            margin-bottom: 90px;
+            margin-left: 38px;
+            margin-right: 75px;
+            font-weight: bold;
+        }
+        .print-btn {
+            display: none;
+        }
+    }
+</style>
+<!--<br /><br />-->
+<a href="#" class="print-btn" type="button" onclick="window.print();">PRINT</a>
 <div id="details" class="clearfix" style="font-weight: bold;">
     <table border="0" cellspacing="0" cellpadding="0" width="40%">
         <tr>
@@ -82,9 +102,9 @@
             <td style="border-bottom: 1px solid;border-top: 1px solid;"><b>Rp.</b></td>
             <td style="text-align: right;border-bottom: 1px solid;border-top: 1px solid;"><b>{{ number_format($total) }}</b></td>
         </tr>
-        <p><b><i># {{ $terbilang }} #</i></b></p>
+        
     </table>
-    
+    <p><b><i># {{ $terbilang }} #</i></b></p>
     <table border="0" cellspacing="0" cellpadding="0">
         <tr><td height="50" style="font-size: 50px;line-height: 0;">&nbsp;</td></tr>
         <tr>

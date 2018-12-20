@@ -147,7 +147,7 @@ class InvoiceController extends Controller
             $data['terbilang'] = ucwords($this->terbilang($data['total']))." Rupiah";
             $data['tgl_cetak'] = $request->tgl_cetak;
 
-//            return \View('print.invoice-rekap', $data);
+            return \View('print.invoice-rekap', $data);
             
             $pdf = \PDF::loadView('print.invoice-rekap', $data)->setPaper('legal');
 
