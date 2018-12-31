@@ -1734,6 +1734,22 @@ class FclController extends Controller
         
 //        return $request->all();
         
+        $picture = array();
+        if ($request->hasFile('photos_flag')) {
+            $files = $request->file('photos_flag');
+            $destinationPath = base_path() . '/public/uploads/photos/flag/fcl';
+            $i = 1;
+            foreach($files as $file){
+//                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                
+                $filename = date('dmyHis').'_'.str_slug($request->no_flag_bc).'_'.$i.'.'.$extension;
+                $picture[] = $filename;
+                $file->move($destinationPath, $filename);
+                $i++;
+            } 
+        }
+        
         $container = DBContainer::find($container_id);
         $container->flag_bc = 'Y';
         $container->no_flag_bc = $request->no_flag_bc;
@@ -1743,7 +1759,8 @@ class FclController extends Controller
 //        }else{
             $container->alasan_segel = $alasan;
 //        }
-        
+        $container->photo_lock = json_encode($picture);
+            
         if($container->save()){
             return back()->with('success', 'Flag has been locked.')->withInput();
         }
@@ -1756,9 +1773,28 @@ class FclController extends Controller
         $container_id = $request->id;
         $alasan = $request->alasan_lepas_segel;
         
+        $picture = array();
+        if ($request->hasFile('photos_unflag')) {
+            $files = $request->file('photos_unflag');
+            $destinationPath = base_path() . '/public/uploads/photos/unflag/fcl';
+            $i = 1;
+            foreach($files as $file){
+//                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                
+                $filename = date('dmyHis').'_'.str_slug($request->no_unflag_bc).'_'.$i.'.'.$extension;
+                $picture[] = $filename;
+                $file->move($destinationPath, $filename);
+                $i++;
+            } 
+        }
+        
         $container = DBContainer::find($container_id);
         $container->flag_bc = 'N';
+        $container->no_unflag_bc = $request->no_unflag_bc;
+        $container->description_unflag_bc = $request->description_unflag_bc;
         $container->alasan_lepas_segel = $alasan;
+        $container->photo_unlock = json_encode($picture);
         
         if($container->save()){
             return back()->with('success', 'Flag has been unlocked.')->withInput();

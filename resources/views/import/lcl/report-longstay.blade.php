@@ -297,6 +297,12 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">Photo</label>
+                                <div class="col-sm-8">
+                                    <input type="file" name="photos_flag[]" class="form-control" multiple="true">
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">Keterangan</label>
                                 <div class="col-sm-8">
                                     <textarea class="form-control" name="description_flag_bc"></textarea>
@@ -326,12 +332,12 @@
                         <div class="col-md-12">
                             <input name="_token" type="hidden" value="{{ csrf_token() }}" />
                             <input name="id" type="hidden" id="manifest_unlock_id" />
-<!--                            <div class="form-group">
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">No. Segel</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="no_flag_bc" name="no_flag_bc" class="form-control" required>
+                                    <input type="text" id="no_unflag_bc" name="no_unflag_bc" class="form-control" required>
                                 </div>
-                            </div>-->
+                            </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Alasan Lepas Segel</label>
                                 <div class="col-sm-8">
@@ -348,12 +354,18 @@
                                     </select>
                                 </div>
                             </div>
-<!--                            <div class="form-group">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Photo</label>
+                                <div class="col-sm-8">
+                                    <input type="file" name="photos_unflag[]" class="form-control" multiple="true">
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">Keterangan</label>
                                 <div class="col-sm-8">
-                                    <textarea class="form-control" name="description_flag_bc"></textarea>
+                                    <textarea class="form-control" name="description_unflag_bc"></textarea>
                                 </div>
-                            </div>-->
+                            </div>
                         </div>
                     </div>
                 </div>

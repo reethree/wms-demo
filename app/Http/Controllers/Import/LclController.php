@@ -2270,6 +2270,22 @@ class LclController extends Controller
         
 //        return $request->all();
         
+        $picture = array();
+        if ($request->hasFile('photos_flag')) {
+            $files = $request->file('photos_flag');
+            $destinationPath = base_path() . '/public/uploads/photos/flag/lcl';
+            $i = 1;
+            foreach($files as $file){
+//                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                
+                $filename = date('dmyHis').'_'.str_slug($request->no_flag_bc).'_'.$i.'.'.$extension;
+                $picture[] = $filename;
+                $file->move($destinationPath, $filename);
+                $i++;
+            } 
+        }
+        
         $manifest = DBManifest::find($manifest_id);
         $manifest->flag_bc = 'Y';
         $manifest->no_flag_bc = $request->no_flag_bc;
@@ -2279,7 +2295,8 @@ class LclController extends Controller
 //        }else{
             $manifest->alasan_segel = $alasan;
 //        }
-        
+        $manifest->photo_lock = json_encode($picture);
+            
         if($manifest->save()){
             return back()->with('success', 'Flag has been locked.')->withInput();
         }
@@ -2292,9 +2309,28 @@ class LclController extends Controller
         $manifest_id = $request->id;
         $alasan = $request->alasan_lepas_segel;
         
+        $picture = array();
+        if ($request->hasFile('photos_unflag')) {
+            $files = $request->file('photos_unflag');
+            $destinationPath = base_path() . '/public/uploads/photos/unflag/lcl';
+            $i = 1;
+            foreach($files as $file){
+//                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                
+                $filename = date('dmyHis').'_'.str_slug($request->no_unflag_bc).'_'.$i.'.'.$extension;
+                $picture[] = $filename;
+                $file->move($destinationPath, $filename);
+                $i++;
+            } 
+        }
+        
         $manifest = DBManifest::find($manifest_id);
         $manifest->flag_bc = 'N';
+        $manifest->no_unflag_bc = $request->no_unflag_bc;
+        $manifest->description_unflag_bc = $request->description_unflag_bc;
         $manifest->alasan_lepas_segel = $alasan;
+        $manifest->photo_unlock = json_encode($picture);
         
         if($manifest->save()){
             return back()->with('success', 'Flag has been unlocked.')->withInput();
