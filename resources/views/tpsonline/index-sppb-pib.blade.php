@@ -189,7 +189,8 @@
                                 <div class="col-sm-2">
                                     <select class="form-control select2" id="TCONSIGNEE_FK" name="thn_sppb" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                         <option value="2017">2017</option>
-                                        <option value="2018" selected>2018</option>
+                                        <option value="2018">2018</option>
+                                        <option value="2019" selected>2019</option>
                                     </select>
                                 </div>
                             </div>

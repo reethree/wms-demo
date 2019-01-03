@@ -188,6 +188,7 @@
                         <option value="2016" @if($year == '2016') {{ 'selected' }} @endif>2016</option>
                         <option value="2017" @if($year == '2017') {{ 'selected' }} @endif>2017</option>
                         <option value="2018" @if($year == '2018') {{ 'selected' }} @endif>2018</option>
+                        <option value="2019" @if($year == '2019') {{ 'selected' }} @endif>2019</option>
                     </select>
                 </div>
                 <div class="col-md-2">
