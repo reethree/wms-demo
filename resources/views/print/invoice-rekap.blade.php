@@ -113,12 +113,21 @@
         </tr>
         <tr>
             <td width='60%'>
+                @if(in_array($consolidator->TCONSOLIDATOR_PK,array(10,12)))
+                <p>
+                    Pembayaran dapat dilakukan melalui :<br />
+                    Rekening : REZA DARMAWAN<br />
+                    Bank BRI Syariah Cabang Enggano<br />
+                    a/c no : 100.2575.888
+                </p>
+                @else
                 <p>
                     Pembayaran dapat dilakukan melalui :<br />
                     Rekening : PT. PRIMANATA JASA PERSADA<br />
                     Bank Mandiri Cabang Enggano<br />
                     a/c no : 120.000.6122639
                 </p>
+                @endif
             </td>
             <td class="text-center">&nbsp;</td>
         </tr>
