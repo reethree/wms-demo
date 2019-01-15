@@ -255,33 +255,34 @@ class BarcodeController extends Controller
 //                    return 'RELEASE';
 //                    if($data_barcode->time_out != NULL){
                         // RELEASE
+                    if($model->status_bc == 'HOLD' || $model->flag_bc == 'Y'):
+                        return 'Status BC is HOLD or FLAGING, please unlock!!!';
+                    endif;
+                    
                         if($data_barcode->ref_type == 'Manifest'){
-                            if($model->status_bc != 'HOLD'):
-                                if($data_barcode->time_out){
-                                    $model->tglrelease = date('Y-m-d', strtotime($data_barcode->time_out));
-                                    $model->jamrelease = date('H:i:s', strtotime($data_barcode->time_out));
-                                    $model->UIDRELEASE = 'Autogate';
-                                    $model->TGLSURATJALAN = date('Y-m-d', strtotime($data_barcode->time_out));
-                                    $model->JAMSURATJALAN = date('H:i:s', strtotime($data_barcode->time_out));
-                                    $model->tglfiat = date('Y-m-d', strtotime($data_barcode->time_out));
-                                    $model->jamfiat = date('H:i:s', strtotime($data_barcode->time_out));
-                                    $model->NAMAEMKL = 'Autogate';
-                                    $model->UIDSURATJALAN = 'Autogate';
-                                }
-                                if($tipe == 'in'){
-                                    $model->photo_release_in = $filename;
-                                }else{
-                                    $model->photo_release_out = $filename;
-                                }
-                                if($model->save()){
-                                    return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
-                                }else{
-                                    return 'Something wrong!!! Cannot store to database';
-                                }
-                            else:
-                                return 'Status BC Manifest is HOLD!!!';
-                            endif;
+                            if($data_barcode->time_out){
+                                $model->tglrelease = date('Y-m-d', strtotime($data_barcode->time_out));
+                                $model->jamrelease = date('H:i:s', strtotime($data_barcode->time_out));
+                                $model->UIDRELEASE = 'Autogate';
+                                $model->TGLSURATJALAN = date('Y-m-d', strtotime($data_barcode->time_out));
+                                $model->JAMSURATJALAN = date('H:i:s', strtotime($data_barcode->time_out));
+                                $model->tglfiat = date('Y-m-d', strtotime($data_barcode->time_out));
+                                $model->jamfiat = date('H:i:s', strtotime($data_barcode->time_out));
+                                $model->NAMAEMKL = 'Autogate';
+                                $model->UIDSURATJALAN = 'Autogate';
+                            }
+                            if($tipe == 'in'){
+                                $model->photo_release_in = $filename;
+                            }else{
+                                $model->photo_release_out = $filename;
+                            }
+                            if($model->save()){
+                                return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+                            }else{
+                                return 'Something wrong!!! Cannot store to database';
+                            }
                         }else{
+                            
                             if($data_barcode->time_out){
                                 $model->TGLRELEASE = date('Y-m-d', strtotime($data_barcode->time_out));
                                 $model->JAMRELEASE = date('H:i:s', strtotime($data_barcode->time_out));
