@@ -5,52 +5,83 @@
 @stop
 
 @section('content')
-
+<style>
+    @media print {
+        body {
+            background: #FFF;
+        }
+        @page {
+            size: auto;   /* auto is the initial value */
+/*            margin-top: 114px;
+            margin-bottom: 90px;
+            margin-left: 38px;
+            margin-right: 75px;*/
+            font-weight: bold;
+        }
+        .print-btn {
+            display: none;
+        }
+    }
+</style>
+<a href="#" class="print-btn" type="button" onclick="window.print();">PRINT</a>
     <div id="details" class="clearfix">
-        <div id="title">SURAT JALAN</div>
-        <table border="0" cellspacing="0" cellpadding="0">
+        <div id="title" style="color: transparent;">SURAT JALAN</div>
+        <table border="0" cellspacing="0" cellpadding="0" style="margin-bottom: 0;">
             <tr>
-                <td>
-                    <table border="0" cellspacing="0" cellpadding="0" style="font-size: 12px;">
+                <td width='70%'>
+                    <table border="0" cellspacing="0" cellpadding="0" style="font-size: 12px;margin-bottom: 0;">
                         <tr>
-                            <td>Kepada Yth.</td>
-                            <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->NAMACONSOLIDATOR }}</td>
+                            <td style="color: transparent;">Kepada Yth.</td>
+                            <td class="padding-10 text-center" style="color: transparent;">:</td>
+                            <!--<td>{{ $manifest->NAMACONSOLIDATOR }}</td>-->
+                            <td>PT. PRIMANATA JASA PERSADA</td>
                         </tr>
                         <tr>
-                            <td>No. Surat Jalan </td>
-                            <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->NOTALLY }}</td>
+                            <td style="color: transparent;">Ex. Kapal/Voy</td>
+                            <td class="padding-10 text-center" style="color: transparent;">:</td>
+                            <td>{{ $manifest->VESSEL.' V.'.$manifest->VOY }}</td>
                         </tr>
                         <tr>
-                            <td>Ex. Kapal</td>
-                            <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->VESSEL }}</td>
+                            <td style="color: transparent;">Tanggal Tiba </td>
+                            <td class="padding-10 text-center" style="color: transparent;">:</td>
+                            <td>{{ date("d-m-Y", strtotime($manifest->ETA)) }}</td>
+                        </tr>
+                        
+                        <tr>
+                            <td style="color: transparent;">Truk No. Pol</td>
+                            <td class="padding-10 text-center" style="color: transparent;">:</td>
+                            <td>{{ $manifest->NOPOL }}</td>
                         </tr>
                         <tr>
-                            <td>Voy</td>
-                            <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->VOY }}</td>
+                            <td style="color: transparent;">No. DO</td>
+                            <td class="padding-10 text-center" style="color: transparent;">:</td>
+                            <td></td>
                         </tr>
                         <tr>
-                            <td>No. HBL </td>
-                            <td class="padding-10 text-center">:</td>
+                            <td style="color: transparent;">No. BL</td>
+                            <td class="padding-10 text-center" style="color: transparent;">:</td>
                             <td>{{ $manifest->NOHBL }}</td>
                         </tr>
                         <tr>
-                            <td>No. Truck</td>
-                            <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->NOPOL }}</td>
+                            <td style="color: transparent;">No. Container</td>
+                            <td class="padding-10 text-center" style="color: transparent;">:</td>
+                            <td>{{ $manifest->NOCONTAINER.' / '.$manifest->SIZE }}</td>
                         </tr>
 
                     </table>
                 </td>
                 <td style="vertical-align: top;">
-                    <table border="0" cellspacing="0" cellpadding="0" style="font-size: 12px;">
+                    <table border="0" cellspacing="0" cellpadding="0" style="font-size: 12px;margin-bottom: 0;">
                         <tr>
-                            <td>No. Bea Cukai</td>
-                            <td class="padding-10 text-center">:</td>
-                            <td>{{ $manifest->NO_SPPB }}</td>
+                            <td style="color: transparent;">No. Bea Cukai</td>
+                            <td class="padding-10 text-center" style="color: transparent;">:</td>
+                            <td style="color: transparent;">{{ $manifest->NO_SPPB }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ $manifest->CONSIGNEE }}</td>
                         </tr>
                     </table>
                 </td>
@@ -58,31 +89,35 @@
         </table>
         
         
-        <table border="1" cellspacing="0" cellpadding="0">
+        <table border="0" cellspacing="0" cellpadding="0">
             <thead>
                 <tr>
-                    <th rowspan="2">MERK</th>
-                    <th rowspan="2">JENIS BARANG</th>
-                    <th colspan="2">JUMLAH BARANG</th>
-                    <th rowspan="2">KETERANGAN</th>
+                    <th rowspan="3" style="color: transparent;">NO</th>
+                    <!--<th rowspan="3">MERK</th>-->
+                    <th rowspan="3" style="color: transparent;">JENIS BARANG</th>
+                    <th colspan="3" style="color: transparent;">JUMLAH BARANG</th>
+                    <th rowspan="3" style="color: transparent;">KETERANGAN</th>
                 </tr>
                 <tr>
-                    <th>QUANTITY</th>
-                    <th class="text-center">MT</th>
+                    <th style="color: transparent;">Colly</th>
+                    <th style="color: transparent;">Ton</th>
+                    <th style="color: transparent;">Cbm</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ $manifest->NAMACONSOLIDATOR }}</td>
-                    <td>{{ $manifest->MARKING }}</td>
+                    <td>&nbsp;</td>
+                    <!--<td>{{ $manifest->NAMACONSOLIDATOR }}</td>-->
+                    <td width='30%'>{{ $manifest->MARKING }}</td>
                     <td>{{ $manifest->QUANTITY }}/{{ $manifest->NAMAPACKING }}</td>
+                    <td>{{ $manifest->WEIGHT }}</td>
                     <td>{{ $manifest->MEAS }}</td>
-                    <td>{{ $manifest->DESCOFGOODS }}</td>
+                    <td width='30%'>{{ $manifest->DESCOFGOODS }}</td>
                 </tr>
             </tbody>
         </table>
         
-        <table border="0" cellspacing="0" cellpadding="0">
+<!--        <table border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td colspan="50"></td>
             </tr>
@@ -104,9 +139,9 @@
             <tr>
                 <td>Tanjung Priok, {{ date('d-m-Y H:i:s') }}</td>
             </tr>
-        </table>
+        </table>-->
         <!--<div style="page-break-after: always;"></div>-->
-        <table border="0" cellspacing="0" cellpadding="0">
+<!--        <table border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td>Penerima</td>
                 <td>Sopir Truck</td>
@@ -125,7 +160,7 @@
                 <td>(..................)</td>
                 <td>&nbsp;</td>
             </tr>
-        </table>
+        </table>-->
     </div>
         
 @stop
