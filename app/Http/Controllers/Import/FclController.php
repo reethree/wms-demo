@@ -1802,4 +1802,10 @@ class FclController extends Controller
         
         return back()->with('error', 'Something wrong, please try again.')->withInput();
     }
+    
+    public function viewFlagInfo($container_id)
+    {
+        $container = DBContainer::find($container_id);
+        return json_encode(array('success' => true, 'data' => $container));
+    }
 }

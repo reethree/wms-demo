@@ -2339,4 +2339,10 @@ class LclController extends Controller
         return back()->with('error', 'Something wrong, please try again.')->withInput();
     }
     
+    public function viewFlagInfo($manifest_id)
+    {
+        $manifest = DBManifest::find($manifest_id);
+        return json_encode(array('success' => true, 'data' => $manifest));
+    }
+    
 }

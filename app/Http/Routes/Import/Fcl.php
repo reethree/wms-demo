@@ -72,6 +72,10 @@ Route::group(['prefix' => 'fcl', 'namespace' => 'Import'], function(){
         'as' => 'fcl-report-rekap-sendbilling',
         'uses' => 'FclController@reportRekapSendBilling'
     ]);
+    Route::get('/report/longstay/view-flag-info/{id}', [
+        'as' => 'fcl-view-info-flag',
+        'uses' => 'FclController@viewFlagInfo'
+    ]);
     Route::get('/report/longstay/change-status/{id}', [
         'as' => 'fcl-change-status',
         'uses' => 'FclController@changeStatusBc'

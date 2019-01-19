@@ -14,7 +14,7 @@
 //        $grid.jqGrid('footerData', 'set', { MEAS: precisionRound(colmeasSum, 4) });
         
         var ids = jQuery("#lcllongstayGrid").jqGrid('getDataIDs'),
-            apv = '', sgl = '';   
+            apv = '', sgl = '', info = '';   
             
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
@@ -42,6 +42,13 @@
                 apv = '';
             }    
             @endrole
+            
+            if(rowdata.no_flag_bc != ''){
+                info = '<button style="margin:5px;" class="btn btn-default btn-xs info-segel-btn" data-id="'+cl+'" onclick="viewInfo('+cl+')"><i class="fa fa-info"></i> INFO</button>';
+            }else{
+                info = '';
+            }
+            
             if(rowdata.perubahan_hbl == 'Y') {
                 $("#" + cl).find("td").css("background-color", "#3dc6f2");
             }
@@ -52,7 +59,7 @@
                 $("#" + cl).find("td").css("background-color", "#ffe500");
             } 
             
-            jQuery("#lcllongstayGrid").jqGrid('setRowData',ids[i],{action:apv+' '+sgl}); 
+            jQuery("#lcllongstayGrid").jqGrid('setRowData',ids[i],{action:apv+' '+sgl+' '+info}); 
         } 
     
     }
@@ -123,6 +130,52 @@
 //            });
         }
 
+    }
+    
+    function viewInfo(manifestID)
+    {       
+        $.ajax({
+            type: 'GET',
+            dataType : 'json',
+            url: '{{route("lcl-view-info-flag","")}}/'+manifestID,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+                $('#lock-info').html('');
+                $('#unlock-info').html('');
+            },
+            success:function(json)
+            {
+                var html_lock = '<p>Nomor Segel : <b>'+json.data.no_flag_bc+'</b><br />Alasan Segel : <b>'+json.data.alasan_segel+'</b><br />Keterangan : <b>'+json.data.description_flag_bc+'</b></p>';
+                var html_unlock = '<p>Nomor Lepas Segel : <b>'+json.data.no_unflag_bc+'</b><br />Alasan Lepas Segel : <b>'+json.data.alasan_lepas_segel+'</b><br />Keterangan : <b>'+json.data.description_unflag_bc+'</b></p>';
+
+                if(json.data.photo_lock){
+                    var photos_container = $.parseJSON(json.data.photo_lock);
+                    $.each(photos_container, function(i, item) {
+                        /// do stuff
+                        html_lock += '<img src="{{url("uploads/photos/flag/lcl")}}/'+item+'" style="width: 200px;padding:5px;" />';
+
+                    });
+                }
+                if(json.data.photo_unlock){
+                    var photos_container = $.parseJSON(json.data.photo_unlock);
+                    $.each(photos_container, function(i, item) {
+                        /// do stuff
+                        html_unlock += '<img src="{{url("uploads/photos/unflag/lcl")}}/'+item+'" style="width: 200px;padding:5px;" />';
+
+                    });
+                }
+
+                $('#lock-info').html(html_lock);
+                $('#unlock-info').html(html_unlock);
+                $('#nobl_info').html(json.data.NOHBL);
+            }
+        });
+        
+        $('#view-info-modal').modal('show');
     }
     
     function precisionRound(number, precision) {
@@ -377,6 +430,29 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div id="view-info-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Informasi Segel (<span id='nobl_info'></span>)</h4>
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Segel (Lock)</h4>
+                        <div id="lock-info"></div>
+                        <hr />
+                        <h4>Lepas Segel (Unlock)</h4>
+                        <div id="unlock-info"></div>
+                    </div>
+                </div>
+            </div>    
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @endsection
 
 @section('custom_css')
