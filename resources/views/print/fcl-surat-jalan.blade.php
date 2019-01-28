@@ -117,7 +117,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td width='20%'>&nbsp;</td>
+                    <td width='250'>&nbsp;</td>
                     <!--<td>{{ $container->NAMACONSOLIDATOR }}</td>-->
                     <td width='30%'>{{ $container->NOCONTAINER }}</td>
                     <td style="text-align: center;">1</td>
