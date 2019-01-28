@@ -9,6 +9,12 @@
     @media print {
         body {
             background: #FFF;
+            font-weight: bold;
+            color: #000;
+        }
+        table {
+            font-weight: bold;
+            color: #000;
         }
         @page {
             size: auto;   /* auto is the initial value */
@@ -57,6 +63,7 @@
                             <td class="padding-10 text-center" style="color: transparent;">:</td>
                             <td></td>
                         </tr>
+                        <tr><td colspan="3">&nbsp;</td></tr>
                         <tr>
                             <td style="color: transparent;">No. DO</td>
                             <td class="padding-10 text-center" style="color: transparent;">:</td>
@@ -82,9 +89,9 @@
                             <td class="padding-10 text-center" style="color: transparent;">:</td>
                             <td style="color: transparent;">{{ $container->NO_SPPB }}</td>
                         </tr>
-                        <tr>
+<!--                        <tr>
                             <td colspan="3">&nbsp;</td>
-                        </tr>
+                        </tr>-->
                         <tr>
                             <td colspan="3">{{ $container->CONSIGNEE }}</td>
                         </tr>
@@ -92,8 +99,8 @@
                 </td>
             </tr>
         </table>
-        
-        
+        <br />
+        <br />
         <table border="0" cellspacing="0" cellpadding="0">
             <thead>
                 <tr>
@@ -113,7 +120,7 @@
                     <td>&nbsp;</td>
                     <!--<td>{{ $container->NAMACONSOLIDATOR }}</td>-->
                     <td width='30%'>{{ $container->NOCONTAINER }}</td>
-                    <td>1</td>
+                    <td style="text-align: center;">1</td>
                     <td>{{ $container->SIZE }}</td>
                     <td width='30%'></td>
                 </tr>
