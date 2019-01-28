@@ -63,7 +63,7 @@
                             <td class="padding-10 text-center" style="color: transparent;">:</td>
                             <td></td>
                         </tr>
-                        <tr><td colspan="3">&nbsp;</td></tr>
+                        <tr><td colspan="3"></td></tr>
                         <tr>
                             <td style="color: transparent;">No. DO</td>
                             <td class="padding-10 text-center" style="color: transparent;">:</td>
@@ -117,7 +117,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td width='250'>&nbsp;</td>
+                    <td width='100'>&nbsp;</td>
                     <!--<td>{{ $container->NAMACONSOLIDATOR }}</td>-->
                     <td width='30%'>{{ $container->NOCONTAINER }}</td>
                     <td style="text-align: center;">1</td>
