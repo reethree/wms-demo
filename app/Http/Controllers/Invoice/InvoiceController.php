@@ -142,7 +142,7 @@ class InvoiceController extends Controller
             else:
                 $data['ppn'] = $data['sub_total']*10/100;
             endif;
-            $data['materai'] = ($data['sub_total'] > 1000000) ? '6000' : '3000';
+            $data['materai'] = ($data['sub_total'] + $data['ppn'] > 1000000) ? '6000' : '3000';
             $data['total'] = round($data['sub_total'] + $data['ppn'] + $data['materai']);           
             $data['terbilang'] = ucwords($this->terbilang($data['total']))." Rupiah";
             $data['tgl_cetak'] = $request->tgl_cetak;
