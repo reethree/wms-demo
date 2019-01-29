@@ -90,7 +90,7 @@
             
             $.ajax({
                 type: 'POST',
-                data: JSON.stringify($('#dispatche-form').formToObject('')),
+                data: $('#dispatche-form').formToObject(''),
                 dataType : 'json',
                 url: '{{ route("easygo-inputdo") }}',
                 error: function (jqXHR, textStatus, errorThrown)
