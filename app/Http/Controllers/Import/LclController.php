@@ -2374,6 +2374,8 @@ class LclController extends Controller
         }else{
             $manifest->date_finish_behandle = date('Y-m-d H:i:s');
             $manifest->desc_finish_behandle = $desc;
+            $manifest->tglbehandle = date('Y-m-d');
+            $manifest->jambehandle = date('H:i:s');
         }
 
         if($manifest->save()){
