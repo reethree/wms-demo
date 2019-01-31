@@ -31,7 +31,7 @@
                         <li class="dropdown-submenu">
                           <a class="submenu" tabindex="-1" href="#">Import LCL <span class="caret"></span></a>
                           <ul class="dropdown-menu">
-                            
+                            <li><a tabindex="-1" href="{{ route('lcl-behandle-index') }}">Status Behandle</a></li>
                             <li class="dropdown-submenu">
                               <a class="submenu" href="#">Report <span class="caret"></span></a>
                               <ul class="dropdown-menu">  
@@ -45,7 +45,7 @@
                         <li class="dropdown-submenu">
                           <a class="submenu" tabindex="-1" href="#">Import FCL <span class="caret"></span></a>
                           <ul class="dropdown-menu">
-                            
+                            <li><a tabindex="-1" href="{{ route('fcl-behandle-index') }}">Status Behandle</a></li>
                             <li class="dropdown-submenu">
                               <a class="submenu" href="#">Report <span class="caret"></span></a>
                               <ul class="dropdown-menu">
@@ -109,6 +109,7 @@
                                 <li><a tabindex="-1" href="{{ route('lcl-register-index') }}">Register</a></li>
                                 <li><a tabindex="-1" href="{{ route('lcl-manifest-index') }}">Manifest</a></li>
                                 <li><a tabindex="-1" href="{{ route('lcl-dispatche-index') }}">Dispatche E-Seal</a></li>
+                                <li><a tabindex="-1" href="{{ route('lcl-behandle-index') }}">Status Behandle</a></li>
                                 <li class="dropdown-submenu">
                                   <a class="submenu" href="#">Realisasi <span class="caret"></span></a>
                                   <ul class="dropdown-menu">
@@ -162,6 +163,7 @@
                               <ul class="dropdown-menu">
                                 <li><a tabindex="-1" href="{{ route('fcl-register-index') }}">Register</a></li>
                                 <li><a tabindex="-1" href="{{ route('fcl-dispatche-index') }}">Dispatche E-Seal</a></li>
+                                <li><a tabindex="-1" href="{{ route('fcl-behandle-index') }}">Status Behandle</a></li>
                                 <!--<li><a tabindex="-1" href="#">Manifest</a></li>-->
                                 <li class="dropdown-submenu">
                                   <a class="submenu" href="#">Realisasi <span class="caret"></span></a>

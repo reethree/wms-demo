@@ -59,6 +59,15 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'uses' => 'LclController@dispatcheUpdate'
     ]);
     
+    Route::get('/status-behandle', [
+        'as' => 'lcl-behandle-index',
+        'uses' => 'LclController@statusBehandleIndex'
+    ]);
+    Route::post('/status-behandle/checking', [
+        'as' => 'lcl-change-status-behandle',
+        'uses' => 'LclController@changeStatusBehandle'
+    ]);
+    
     // REPORT
     Route::get('/report/inout', [
         'as' => 'lcl-report-inout',

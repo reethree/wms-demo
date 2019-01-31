@@ -75,6 +75,20 @@ class FclController extends Controller
         return view('import.fcl.index-gatein')->with($data);
     }
     
+    public function statusBehandleIndex()
+    {
+        $data['page_title'] = "FCL Status Behandle";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'FCL Status Behandle'
+            ]
+        ];        
+        
+        return view('import.fcl.index-status-behandle')->with($data);
+    }
+    
     public function behandleIndex()
     {
         if ( !$this->access->can('show.fcl.behandle.index') ) {
@@ -673,6 +687,7 @@ class FclController extends Controller
         unset($data['TCONTAINER_PK'], $data['_token']);
         
         $data['BEHANDLE'] = 'Y';
+        $data['date_ready_behandle'] = date('Y-m-d H:i:s');
         
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
@@ -1807,5 +1822,29 @@ class FclController extends Controller
     {
         $container = DBContainer::find($container_id);
         return json_encode(array('success' => true, 'data' => $container));
+    }
+    
+    public function changeStatusBehandle(Request $request)
+    {
+        $container_id = $request->id;
+        $desc = $request->desc;
+        $status = $request->status_behandle;
+        
+        $container = DBContainer::find($container_id);
+        $container->status_behandle = $status;
+        if($status == 'Checking'){
+            $container->date_check_behandle = date('Y-m-d H:i:s');
+            $container->desc_check_behandle = $desc;
+        }else{
+            $container->date_finish_behandle = date('Y-m-d H:i:s');
+            $container->desc_finish_behandle = $desc;
+        }
+
+        if($container->save()){
+            return back()->with('success', 'Status Behandle has been change.')->withInput();
+        }
+        
+        return back()->with('error', 'Something wrong, please try again.')->withInput();
+
     }
 }

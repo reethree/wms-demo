@@ -78,8 +78,14 @@ class TablesRepository extends EloquentRepositoryAbstract {
             }elseif(isset($request['module'])){
                 
                 switch ($request['module']) {
+                    case 'status_behandle':
+                        $Model = \DB::table('tcontainercy')
+                            ->whereNotNull('NO_SPJM')
+                            ->whereNotNull('TGL_SPJM')
+                            ->where('BEHANDLE', 'Y');
+                    break;
                     case 'behandle':
-                        
+
                     break;
                     case 'fiatmuat':
 //                        $Model = \DB::table('tcontainercy');
@@ -188,6 +194,12 @@ class TablesRepository extends EloquentRepositoryAbstract {
             }elseif(isset($request['module'])){
                 
                 switch ($request['module']) {
+                    case 'status_behandle':
+                        $Model = \DB::table('tmanifest')
+                            ->whereNotNull('NO_SPJM')
+                            ->whereNotNull('TGL_SPJM')
+                            ->where('BEHANDLE', 'Y');
+                    break;
                     case 'behandle':
                         
                     break;

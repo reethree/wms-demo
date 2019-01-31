@@ -122,6 +122,20 @@ class LclController extends Controller
         return view('import.lcl.index-buangmty')->with($data);
     }
     
+    public function statusBehandleIndex()
+    {
+        $data['page_title'] = "LCL Status Behandle";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Status Behandle'
+            ]
+        ];        
+        
+        return view('import.lcl.index-status-behandle')->with($data);
+    }
+    
     public function behandleIndex()
     {
         if ( !$this->access->can('show.lcl.behandle.index') ) {
@@ -804,6 +818,7 @@ class LclController extends Controller
         unset($data['TMANIFEST_PK'], $data['_token']);
         
         $data['BEHANDLE'] = 'Y';
+        $data['date_ready_behandle'] = date('Y-m-d H:i:s');
         
         $update = DBManifest::where('TMANIFEST_PK', $id)
             ->update($data);
@@ -2343,6 +2358,30 @@ class LclController extends Controller
     {
         $manifest = DBManifest::find($manifest_id);
         return json_encode(array('success' => true, 'data' => $manifest));
+    }
+    
+    public function changeStatusBehandle(Request $request)
+    {
+        $manifest_id = $request->id;
+        $desc = $request->desc;
+        $status = $request->status_behandle;
+        
+        $manifest = DBManifest::find($manifest_id);
+        $manifest->status_behandle = $status;
+        if($status == 'Checking'){
+            $manifest->date_check_behandle = date('Y-m-d H:i:s');
+            $manifest->desc_check_behandle = $desc;
+        }else{
+            $manifest->date_finish_behandle = date('Y-m-d H:i:s');
+            $manifest->desc_finish_behandle = $desc;
+        }
+
+        if($manifest->save()){
+            return back()->with('success', 'Status Behandle has been change.')->withInput();
+        }
+        
+        return back()->with('error', 'Something wrong, please try again.')->withInput();
+
     }
     
 }
