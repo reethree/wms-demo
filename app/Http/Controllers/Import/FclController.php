@@ -1838,8 +1838,8 @@ class FclController extends Controller
         }else{
             $container->date_finish_behandle = date('Y-m-d H:i:s');
             $container->desc_finish_behandle = $desc;
-            $manifest->TGLBEHANDLE = date('Y-m-d');
-            $manifest->JAMBEHANDLE = date('H:i:s');
+            $container->TGLBEHANDLE = date('Y-m-d');
+            $container->JAMBEHANDLE = date('H:i:s');
         }
 
         if($container->save()){
