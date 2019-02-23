@@ -464,6 +464,12 @@
                             <input type="text" id="NOPOL" name="NOPOL" class="form-control" required>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Weight</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="WEIGHT" name="WEIGHT" class="form-control">
+                        </div>
+                    </div>
 <!--                    <div class="form-group">
                         <label class="col-sm-4 control-label">Status Dispatche</label>
                         <div class="col-sm-2">
@@ -505,7 +511,7 @@
                                       <i class="fa fa-clock-o"></i>
                                 </div>
                             </div>
-                        </div>
+                        </div>                        
                     </div>
                     
                     <div class="bootstrap-timepicker">

@@ -352,7 +352,7 @@
             <div class="modal-body"> 
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>RELEASE IN / OUT</h3>
+                        <h3>AUTOGATE</h3>
                         <div id="gateinout-photo"></div>
                         <h3>STRIPPING</h3>
                         <div id="stripping-photo"></div>

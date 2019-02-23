@@ -14,6 +14,7 @@
             
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
+            var vi = '';
             
             rowdata = $('#fclReleaseGrid').getRowData(cl);
             if(rowdata.VALIDASI == 'Y') {
@@ -25,7 +26,49 @@
             if(rowdata.status_bc == 'HOLD') {
                 $("#" + cl).find("td").css("background-color", "#ffe500");
             }   
+            
+            if(rowdata.photo_release_extra != ''){
+                vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" data-id="'+cl+'" onclick="viewPhoto('+cl+')"><i class="fa fa-photo"></i> View Photo</button>';
+            }else{
+                vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" disabled><i class="fa fa-photo"></i> Not Found</button>';
+            }
+            
+            jQuery("#fclReleaseGrid").jqGrid('setRowData',ids[i],{action:vi}); 
         } 
+    }
+    
+    function viewPhoto(containerID)
+    {       
+        $.ajax({
+            type: 'GET',
+            dataType : 'json',
+            url: '{{route("fcl-report-rekap-view-photo","")}}/'+containerID,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+                $('#container-photo').html('');
+            },
+            success:function(json)
+            {
+                var html_container = '';
+                
+                if(json.data.photo_release_extra){
+                    var photos_container = $.parseJSON(json.data.photo_release_extra);
+                    var html_container = '';
+                    $.each(photos_container, function(i, item) {
+                        /// do stuff
+                        html_container += '<img src="{{url("uploads/photos/container/fcl")}}/'+json.data.NOCONTAINER+'/'+item+'" style="width: 200px;padding:5px;" />';
+
+                    });
+                    $('#container-photo').html(html_container);
+                }
+            }
+        });
+        
+        $('#view-photo-modal').modal('show');
     }
     
     function onSelectRowEvent()
@@ -36,7 +79,7 @@
     $(document).ready(function()
     {
         $('#release-form').disabledFormGroup();
-        $('#btn-toolbar,#btn-sppb').disabledButtonGroup();
+        $('#btn-toolbar,#btn-sppb,#btn-photo').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         $(".hide-kddoc").hide();
         
@@ -143,35 +186,52 @@
             $('#ID_CONSIGNEE').val(rowdata.ID_CONSIGNEE);
             $('#KD_DOK_INOUT').val(rowdata.KD_DOK_INOUT).trigger('change');
             $('#bcf_consignee').val(rowdata.bcf_consignee).trigger('change');
-            $('#KD_TPS_ASAL').val(rowdata.KD_TPS_ASAL);
+            $('#KD_TPS_ASAL').val(rowdata.KD_TPS_ASAL);                    
+            
+            $('#upload-title').html('Upload Photo for '+rowdata.NOCONTAINER);
+            $('#no_cont').val(rowdata.NOCONTAINER);
+            $('#id_cont').val(rowdata.TCONTAINER_PK);
+            $('#load_photos').html('');
+            $('#delete_photo').val('N');
+            
+            if(rowdata.photo_release_extra){
+                var html = '';
+                var photos = $.parseJSON(rowdata.photo_release_extra);
+                $.each(photos, function(i, item) {
+                    /// do stuff
+                    html += '<img src="{{url("uploads/photos/container/fcl/")}}/'+rowdata.NOCONTAINER+'/'+item+'" style="width: 200px;padding:5px;" />';
+                });
+                $('#load_photos').html(html);
+            }
+            
+            $('#btn-group-2,#btn-sppb,#btn-photo').enableButtonGroup();
+            $('#release-form').enableFormGroup();
+            $('#btn-group-4').enableButtonGroup();
+            $('#btn-group-5').enableButtonGroup();
+            if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
 
-//            if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
-                $('#btn-group-2,#btn-sppb').enableButtonGroup();
-                $('#release-form').enableFormGroup();
-//                $('#btn-group-5').disabledButtonGroup();
-//            }else{
-                $('#btn-group-4').enableButtonGroup();
-                $('#btn-group-5').enableButtonGroup();
-//                $('#btn-group-2').disabledButtonGroup();
-//                $('#release-form').disabledFormGroup();
-//            }
+            }else{
+                $('#TGLRELEASE').attr('disabled','disabled');
+                $('#JAMRELEASE').attr('disabled','disabled');
+            }
             
             if(rowdata.status_bc == 'HOLD'){
                 $('#TGLRELEASE').attr('disabled','disabled');
                 $('#JAMRELEASE').attr('disabled','disabled');
                 $('#NOPOL_OUT').attr('disabled','disabled');
             }else{
-                $('#TGLRELEASE').removeAttr('disabled');
-                $('#JAMRELEASE').removeAttr('disabled');
-                $('#NOPOL_OUT').removeAttr('disabled');
-            }
+//                $('#TGLRELEASE').removeAttr('disabled');
+//                $('#JAMRELEASE').removeAttr('disabled');
+//                $('#NOPOL_OUT').removeAttr('disabled');
+            } 
             
             if(rowdata.flag_bc == 'Y'){
                 $('#btn-group-4').disabledButtonGroup();
                 $('#btn-group-5').disabledButtonGroup();
-                $('#btn-group-2,#btn-sppb').disabledButtonGroup();
+                $('#btn-group-2,#btn-sppb,#btn-photo').disabledButtonGroup();
                 $('#release-form').disabledFormGroup();
             }
+            
         });
         
         $('#btn-print-sj').click(function() {
@@ -332,6 +392,7 @@
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                     ->setGridEvent('gridComplete', 'gridCompleteEvent')
                     ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
+                    ->addColumn(array('label'=>'Photo','index'=>'action', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                     ->addColumn(array('label'=>'Status BC','index'=>'status_bc','width'=>100, 'align'=>'center'))
                     ->addColumn(array('label'=>'Segel Merah','index'=>'flag_bc','width'=>80, 'align'=>'center'))
                     ->addColumn(array('label'=>'No. SPK','index'=>'NoJob','width'=>160))
@@ -384,6 +445,7 @@
                     ->addColumn(array('label'=>'No. Truck','index'=>'NOPOL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'No. POL','index'=>'NOPOLCIROUT', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'No. POL Out','index'=>'NOPOL_OUT', 'width'=>150,'hidden'=>true))
+                    ->addColumn(array('label'=>'Photo Extra','index'=>'photo_release_extra', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Ref. Number Out','index'=>'REF_NUMBER_OUT', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150, 'search'=>false,'align'=>'center'))
@@ -663,7 +725,18 @@
                         </div>
                     </div>
                     
-                    
+                    <div class="form-group hide-kddoc" id="btn-photo">
+                        <label class="col-sm-3 control-label">Photo</label>
+                        <div class="col-sm-8">
+                            <button type="button" class="btn btn-warning" id="upload-photo-btn">Upload Photo</button>
+                            <button type="button" class="btn btn-danger" id="delete-photo-btn">Delete Photo</button>
+                        </div>
+                    </div>
+                    <div class="form-group hide-kddoc">
+                        <div class="col-sm-12">
+                            <div id="load_photos" style="text-align: center;"></div>
+                        </div>
+                    </div>
                 </div>
                 <!--<div class="col-md-6">--> 
                                      
@@ -679,7 +752,57 @@
         </form>  
     </div>
 </div>
-
+<div id="photo-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="upload-title"></h4>
+            </div>
+            <form class="form-horizontal" id="upload-photo-form" action="{{ route('fcl-release-upload-photo') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <input type="hidden" id="id_cont" name="id_cont" required>   
+                            <input type="hidden" id="no_cont" name="no_cont" required>    
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Photo</label>
+                                <div class="col-sm-8">
+                                    <input type="file" name="photos[]" class="form-control" multiple="true" required>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div id="view-photo-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Photo</h4>
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>CONTAINER</h3>
+                        <div id="container-photo"></div>
+                    </div>
+                </div>
+            </div>    
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @endsection
 
 @section('custom_css')
@@ -698,6 +821,20 @@
 <script type="text/javascript">
     $('.select2').select2();
     $('#ID_CONSIGNEE').mask("99.999.999.9-999.999");
+    
+    $("#upload-photo-btn").on("click", function(e){
+        e.preventDefault();
+        $("#photo-modal").modal('show');
+        return false;
+    });
+    
+    $("#delete-photo-btn").on("click", function(e){
+        if(!confirm('Apakah anda yakin akan menghapus photo?')){return false;}
+        
+        $('#load_photos').html('');
+        $('#delete_photo').val('Y');
+    });
+    
     $('.datepicker').datepicker({
         autoclose: true,
         todayHighlight: true,

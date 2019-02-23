@@ -53,6 +53,7 @@
             $('#KODE_DISPATCHE').val(rowdata.KODE_DISPATCHE);
             $('#DO_ID').val(rowdata.DO_ID);
             $('#KD_TPS_ASAL').val(rowdata.KD_TPS_ASAL);
+            $('#WEIGHT').val(rowdata.WEIGHT);
 
 //            if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
                 $('#btn-group-2').enableButtonGroup();
@@ -203,6 +204,7 @@
                     ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
                     ->addColumn(array('label'=>'Vessel','index'=>'VESSEL', 'width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'Voy','index'=>'VOY', 'width'=>100,'align'=>'center'))
+                    ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>100,'align'=>'center'))
                     ->addColumn(array('label'=>'E-Seal','index'=>'ESEALCODE','width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'No. POL','index'=>'NOPOL','width'=>120,'align'=>'center'))  
                     ->addColumn(array('label'=>'DO ID','index'=>'DO_ID','width'=>120,'align'=>'center'))
@@ -313,6 +315,12 @@
                             <input type="text" id="VESSEL" name="VESSEL" class="form-control" readonly>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Voy</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="VOY" name="VOY" class="form-control" readonly>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
@@ -338,9 +346,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Voy</label>
+                        <label class="col-sm-3 control-label">Weight</label>
                         <div class="col-sm-8">
-                            <input type="text" id="VOY" name="VOY" class="form-control" readonly>
+                            <input type="text" id="WEIGHT" name="WEIGHT" class="form-control">
                         </div>
                     </div>
                 </div>

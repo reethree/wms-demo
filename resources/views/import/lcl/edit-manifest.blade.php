@@ -292,6 +292,8 @@
             $("#alasan_perubahan").val(rowdata.alasan_perubahan).trigger("change");
         }
         
+        $("#location_id").val(rowdata.location_id).trigger("change")
+        
         $("#TGL_HBL").datepicker('setDate', rowdata.TGL_HBL);
         $("#TGL_BC11").val(rowdata.TGL_BC11);
         $("#TGL_PLP").val(rowdata.TGL_PLP);
@@ -553,6 +555,8 @@
                         ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center'))
                         ->addColumn(array('label'=>'Perubahan HBL','index'=>'perubahan_hbl','width'=>100, 'align'=>'center'))
                         ->addColumn(array('label'=>'Alasan Perubahan','index'=>'alasan_perubahan','width'=>150,'align'=>'center'))
+                        ->addColumn(array('index'=>'location_id', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('label'=>'Location','index'=>'location_name','width'=>200, 'align'=>'center'))
                         ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
                         ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
                         ->addColumn(array('label'=>'Tgl. Stripping','index'=>'tglstripping', 'width'=>70,'hidden'=>true))
@@ -660,6 +664,17 @@
                           <div class="col-sm-8">
                               <textarea class="form-control" id="MARKING"  name="MARKING" rows="3"></textarea>
                           </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Location</label>
+                            <div class="col-sm-8">
+                                <select class="form-control select2" id="location_id" name="location_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                    <option value="">Choose Location</option>
+                                    @foreach($locations as $location)
+                                        <option value="{{ $location->id }}">{{ $location->name.' ('.$location->type.')' }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="form-group" id="btn-photo">
                           <label class="col-sm-3 control-label">Photo</label>

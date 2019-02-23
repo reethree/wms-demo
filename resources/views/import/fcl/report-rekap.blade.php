@@ -513,7 +513,7 @@
             <div class="modal-body"> 
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>IN / OUT</h3>
+                        <h3>AUTOGATE</h3>
                         <div id="gateinout-photo"></div>
                         <h3>CONTAINER</h3>
                         <div id="container-photo"></div>

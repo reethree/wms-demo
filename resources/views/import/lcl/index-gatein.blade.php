@@ -69,15 +69,15 @@
                 $('#load_photos').html(html);
             }
             
-//            if(!rowdata.TGLMASUK && !rowdata.JAMMASUK) {
-                $('#btn-group-2,#btn-photo').enableButtonGroup();
-                $('#btn-group-5').enableButtonGroup();
-                $('#gatein-form').enableFormGroup();
+            $('#btn-group-2,#btn-photo').enableButtonGroup();
+            $('#btn-group-5').enableButtonGroup();
+            $('#gatein-form').enableFormGroup();
+            if(!rowdata.TGLMASUK && !rowdata.JAMMASUK) {             
                 $('#UIDMASUK').val('{{ Auth::getUser()->name }}');
-//            }else{
-//                $('#btn-group-2').disabledButtonGroup();
-//                $('#gatein-form').disabledFormGroup();
-//            }
+            }else{
+                $("#TGLMASUK").attr('disabled','disabled');
+                $("#JAMMASUK").attr('disabled','disabled');  
+            }
 
         });
         

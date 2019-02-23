@@ -161,29 +161,27 @@
                 });
                 $('#load_photos').html(html);
             }
-            
-//            if(!rowdata.tglrelease && !rowdata.jamrelease) {
-//                $('#btn-group-4').disabledButtonGroup();
-//                $('#btn-group-5').disabledButtonGroup();
-                $('#btn-group-2,#btn-sppb,#btn-photo').enableButtonGroup();
-                $('#release-form').enableFormGroup();
-//            }else{
-                $('#btn-group-4').enableButtonGroup();
-                $('#btn-group-5').enableButtonGroup();
-//                $('#btn-group-2').disabledButtonGroup();
-//                $('#release-form').disabledFormGroup();
-//            }
-            
+            $('#btn-group-2,#btn-sppb,#btn-photo').enableButtonGroup();
+            $('#release-form').enableFormGroup();
+            $('#btn-group-4').enableButtonGroup();
+            $('#btn-group-5').enableButtonGroup();
+            if(!rowdata.tglrelease && !rowdata.jamrelease) {
+
+            }else{ 
+                $('#tglrelease').attr('disabled','disabled');
+                $('#jamrelease').attr('disabled','disabled');
+            }
+  
             if(rowdata.status_bc == 'HOLD'){
                 $('#tglrelease').attr('disabled','disabled');
                 $('#jamrelease').attr('disabled','disabled');
                 $('#NOPOL_RELEASE').attr('disabled','disabled');
             }else{
-                $('#tglrelease').removeAttr('disabled');
-                $('#jamrelease').removeAttr('disabled');
-                $('#NOPOL_RELEASE').removeAttr('disabled');
+//                $('#tglrelease').removeAttr('disabled');
+//                $('#jamrelease').removeAttr('disabled');
+//                $('#NOPOL_RELEASE').removeAttr('disabled');
             }
-            
+
             if(rowdata.flag_bc == 'Y'){
                 $('#btn-group-4').disabledButtonGroup();
                 $('#btn-group-5').disabledButtonGroup();

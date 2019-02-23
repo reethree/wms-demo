@@ -818,6 +818,7 @@ class FclController extends Controller
             $container = DBContainer::where(array('NOCONTAINER' => $data['NO_CONT'], 'NO_PLP' => $data['NO_PLP']))->first(); 
             if($container){
                 $container->NOPOL = $data['NOPOL'];
+                $container->WEIGHT = $data['WEIGHT'];
                 $container->ESEALCODE = $data['ESEALCODE'];
                 $container->save();
             }
@@ -1713,6 +1714,36 @@ class FclController extends Controller
         }
     }
     
+    public function releaseUploadPhoto(Request $request)
+    {
+        $picture = array();
+        if ($request->hasFile('photos')) {
+            $files = $request->file('photos');
+            $destinationPath = base_path() . '/public/uploads/photos/container/fcl/'.$request->no_cont;
+            $i = 1;
+            foreach($files as $file){
+//                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                
+                $filename = date('dmyHis').'_'.str_slug($request->no_cont).'_'.$i.'.'.$extension;
+                $picture[] = $filename;
+                $file->move($destinationPath, $filename);
+                $i++;
+            }
+            // update to Database
+            $container = DBContainer::find($request->id_cont);
+            $container->photo_release_extra = json_encode($picture);
+            if($container->save()){
+                return back()->with('success', 'Photo for Container '. $request->no_cont .' has been uploaded.');
+            }else{
+                return back()->with('error', 'Photo uploaded, but not save in Database.');
+            }
+            
+        } else {
+            return back()->with('error', 'Something wrong!!! Can\'t upload photo, please try again.');
+        }
+    }
+    
     public function changeStatusBc($id)
     { 
         $container = DBContainer::find($id);
@@ -1767,6 +1798,7 @@ class FclController extends Controller
         
         $container = DBContainer::find($container_id);
         $container->flag_bc = 'Y';
+        $container->status_bc = 'HOLD';
         $container->no_flag_bc = $request->no_flag_bc;
         $container->description_flag_bc = $request->description_flag_bc;
 //        if($alasan == 'Lainnya' && !empty($lainnya)){
@@ -1806,6 +1838,7 @@ class FclController extends Controller
         
         $container = DBContainer::find($container_id);
         $container->flag_bc = 'N';
+        $container->status_bc = 'RELEASE';
         $container->no_unflag_bc = $request->no_unflag_bc;
         $container->description_unflag_bc = $request->description_unflag_bc;
         $container->alasan_lepas_segel = $alasan;
