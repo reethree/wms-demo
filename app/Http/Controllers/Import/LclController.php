@@ -2388,4 +2388,32 @@ class LclController extends Controller
 
     }
     
+    public function holdIndex()
+    {
+        $data['page_title'] = "LCL Dokumen HOLD";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Dokumen HOLD'
+            ]
+        ];        
+        
+        return view('import.lcl.bc-hold')->with($data);
+    }
+    
+    public function segelIndex()
+    {
+        $data['page_title'] = "LCL Segel Merah";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Segel Merah'
+            ]
+        ];        
+        
+        return view('import.lcl.bc-segel')->with($data);
+    }
+    
 }

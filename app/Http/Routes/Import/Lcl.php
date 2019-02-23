@@ -121,4 +121,14 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-unlock-flag',
         'uses' => 'LclController@unlockFlag'
     ]);
+    
+    // Menu BC
+    Route::get('/hold', [
+        'as' => 'lcl-hold-index',
+        'uses' => 'LclController@holdIndex'
+    ]);
+    Route::get('/segel', [
+        'as' => 'lcl-segel-index',
+        'uses' => 'LclController@segelIndex'
+    ]);
 });

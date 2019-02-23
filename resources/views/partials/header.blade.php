@@ -163,7 +163,6 @@
                               <ul class="dropdown-menu">
                                 <li><a tabindex="-1" href="{{ route('fcl-register-index') }}">Register</a></li>
                                 <li><a tabindex="-1" href="{{ route('fcl-dispatche-index') }}">Dispatche E-Seal</a></li>
-                                <li><a tabindex="-1" href="{{ route('fcl-behandle-index') }}">Status Behandle</a></li>
                                 <!--<li><a tabindex="-1" href="#">Manifest</a></li>-->
                                 <li class="dropdown-submenu">
                                   <a class="submenu" href="#">Realisasi <span class="caret"></span></a>
@@ -302,7 +301,7 @@
                           </ul>
                       </li>
                       <li class="dropdown">
-                          <a href="{{route('barcode-index')}}">QR Code (Autogate)</a>
+                          <a href="{{route('barcode-index')}}">Autogate</a>
                       </li>
                       <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Users <span class="caret"></span></a>
@@ -312,6 +311,29 @@
                               <li><a href="{{route('permission-index')}}">Permissions</a></li>
                           </ul>
                       </li>
+                      
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bea Cukai <span class="caret"></span></a>
+                          <ul class="dropdown-menu" role="manu">
+                              <li class="dropdown-submenu">
+                                  <a class="submenu" href="#">LCL <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                          <li><a tabindex="-1" href="{{ route('lcl-behandle-index') }}">Status Behandle</a></li>
+                                          <li><a href="{{route('lcl-hold-index')}}">Dokumen HOLD</a></li>
+                                          <li><a href="{{route('lcl-segel-index')}}">Segel Merah</a></li>
+                                    </ul>
+                              </li>
+                              <li class="dropdown-submenu">
+                                  <a class="submenu" href="#">FCL <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a tabindex="-1" href="{{ route('fcl-behandle-index') }}">Status Behandle</a></li>
+                                        <li><a href="{{route('fcl-hold-index')}}">Dokumen HOLD</a></li>
+                                        <li><a href="{{route('fcl-segel-index')}}">Segel Merah</a></li>
+                                    </ul>
+                              </li>
+                          </ul>
+                      </li>
+                      
                       <li class="dropdown">
                           <a href="#">Settings</a>
                       </li>

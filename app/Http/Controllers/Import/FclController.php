@@ -1882,4 +1882,32 @@ class FclController extends Controller
         return back()->with('error', 'Something wrong, please try again.')->withInput();
 
     }
+    
+    public function holdIndex()
+    {
+        $data['page_title'] = "FCL Dokumen HOLD";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'FCL Dokumen HOLD'
+            ]
+        ];        
+        
+        return view('import.fcl.bc-hold')->with($data);
+    }
+    
+    public function segelIndex()
+    {
+        $data['page_title'] = "FCL Segel Merah";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'FCL Segel Merah'
+            ]
+        ];        
+        
+        return view('import.fcl.bc-segel')->with($data);
+    }
 }

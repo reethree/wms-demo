@@ -101,5 +101,15 @@ Route::group(['prefix' => 'fcl', 'namespace' => 'Import'], function(){
         'as' => 'fcl-unlock-flag',
         'uses' => 'FclController@unlockFlag'
     ]);
+    
+    // Menu BC
+    Route::get('/hold', [
+        'as' => 'fcl-hold-index',
+        'uses' => 'FclController@holdIndex'
+    ]);
+    Route::get('/segel', [
+        'as' => 'fcl-segel-index',
+        'uses' => 'FclController@segelIndex'
+    ]);
 });
 
