@@ -103,13 +103,21 @@ Route::group(['prefix' => 'fcl', 'namespace' => 'Import'], function(){
     ]);
     
     // Menu BC
-    Route::get('/hold', [
+    Route::get('/bc/hold', [
         'as' => 'fcl-hold-index',
         'uses' => 'FclController@holdIndex'
     ]);
-    Route::get('/segel', [
+    Route::get('/bc/segel', [
         'as' => 'fcl-segel-index',
         'uses' => 'FclController@segelIndex'
+    ]);
+    Route::get('/bc/report-container', [
+        'as' => 'fcl-bc-report-container',
+        'uses' => 'FclController@reportContainerIndex'
+    ]);
+    Route::get('/bc/inventory', [
+        'as' => 'fcl-bc-report-inventory',
+        'uses' => 'FclController@reportInventoryIndex'
     ]);
 });
 

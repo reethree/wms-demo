@@ -123,12 +123,24 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
     ]);
     
     // Menu BC
-    Route::get('/hold', [
+    Route::get('/bc/hold', [
         'as' => 'lcl-hold-index',
         'uses' => 'LclController@holdIndex'
     ]);
-    Route::get('/segel', [
+    Route::get('/bc/segel', [
         'as' => 'lcl-segel-index',
         'uses' => 'LclController@segelIndex'
+    ]);
+    Route::get('/bc/report-container', [
+        'as' => 'lcl-bc-report-container',
+        'uses' => 'LclController@reportContainerIndex'
+    ]);
+    Route::get('/bc/report-stock', [
+        'as' => 'lcl-bc-report-stock',
+        'uses' => 'LclController@reportStockIndex'
+    ]);
+    Route::get('/bc/inventory', [
+        'as' => 'lcl-bc-report-inventory',
+        'uses' => 'LclController@reportInventoryIndex'
     ]);
 });

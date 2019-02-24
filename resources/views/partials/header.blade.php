@@ -318,9 +318,17 @@
                               <li class="dropdown-submenu">
                                   <a class="submenu" href="#">LCL <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                          <li><a tabindex="-1" href="{{ route('lcl-behandle-index') }}">Status Behandle</a></li>
-                                          <li><a href="{{route('lcl-hold-index')}}">Dokumen HOLD</a></li>
-                                          <li><a href="{{route('lcl-segel-index')}}">Segel Merah</a></li>
+                                        <li><a tabindex="-1" href="{{ route('lcl-behandle-index') }}">Status Behandle</a></li>
+                                        <li><a href="{{route('lcl-hold-index')}}">Dokumen HOLD</a></li>
+                                        <li><a href="{{route('lcl-segel-index')}}">Segel Merah</a></li>
+                                        <li class="dropdown-submenu">
+                                            <a class="submenu" href="#">Report <span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="{{ route('lcl-bc-report-container') }}">Report Container</a></li>
+                                                <li><a href="{{ route('lcl-bc-report-stock') }}">Report Stock</a></li>
+                                                <li><a href="{{ route('lcl-bc-report-inventory') }}">Inventory</a></li>
+                                            </ul>
+                                        </li>
                                     </ul>
                               </li>
                               <li class="dropdown-submenu">
@@ -329,6 +337,13 @@
                                         <li><a tabindex="-1" href="{{ route('fcl-behandle-index') }}">Status Behandle</a></li>
                                         <li><a href="{{route('fcl-hold-index')}}">Dokumen HOLD</a></li>
                                         <li><a href="{{route('fcl-segel-index')}}">Segel Merah</a></li>
+                                        <li class="dropdown-submenu">
+                                            <a class="submenu" href="#">Report <span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="{{ route('fcl-bc-report-container') }}">Report Container</a></li>
+                                                <li><a href="{{ route('fcl-bc-report-inventory') }}">Inventory</a></li>
+                                            </ul>
+                                        </li>
                                     </ul>
                               </li>
                           </ul>
