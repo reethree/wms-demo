@@ -2489,7 +2489,7 @@ class LclController extends Controller
         return view('import.lcl.bc-report-container')->with($data);
     }
     
-    public function reportStockIndex()
+    public function reportStockIndex(Request $request)
     {
         $data['page_title'] = "LCL Report Stock";
         $data['page_description'] = "";
@@ -2499,6 +2499,33 @@ class LclController extends Controller
                 'title' => 'LCL Report Stock'
             ]
         ];        
+        
+        if($request->month && $request->year) {
+            $month = $request->month;
+            $year = $request->year;
+        } else {
+            $month = date('m');
+            $year = date('Y');
+        }
+        
+        $bc20 = DBManifest::where('KD_DOK_INOUT', 1)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+        $bc23 = DBManifest::where('KD_DOK_INOUT', 2)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+        $bc12 = DBManifest::where('KD_DOK_INOUT', 4)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+        $bc15 = DBManifest::where('KD_DOK_INOUT', 9)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+        $bc11 = DBManifest::where('KD_DOK_INOUT', 20)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+        $bcf26 = DBManifest::where('KD_DOK_INOUT', 5)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+        $data['countbydoc'] = array('BC 2.0' => $bc20, 'BC 2.3' => $bc23, 'BC 1.2' => $bc12, 'BC 1.5' => $bc15, 'BC 1.1' => $bc11, 'BCF 2.6' => $bcf26);
+        
+        $data['month'] = $month;
+        $data['year'] = $year;
+        
+        $meas_count = DBManifest::whereNotNull('tglmasuk')
+                                ->whereNotNull('tglstripping')
+                                ->whereNull('tglrelease')                                
+                                ->sum('MEAS');
+        $data['meas'] = $meas_count;
+        $this->updateSorByMeas();
+        $data['sor'] = \App\Models\SorYor::where('type', 'sor')->first();
         
         return view('import.lcl.bc-report-stock')->with($data);
     }
