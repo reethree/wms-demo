@@ -34,8 +34,12 @@
             if(rowdata.flag_bc == 'Y') {
                 $("#" + cl).find("td").css("background-color", "#d73925").css("color", "#FFF");
             } 
-  
-            jQuery("#fclSegelGrid").jqGrid('setRowData',ids[i],{action:sgl+' '+info});
+            
+            @if(Auth::getUser()->username == 'bcp2')  
+                jQuery("#fclSegelGrid").jqGrid('setRowData',ids[i],{action:sgl+' '+info});
+            @else
+                jQuery("#fclSegelGrid").jqGrid('setRowData',ids[i],{action:info});
+            @endif
             
         } 
     } 

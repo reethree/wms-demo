@@ -14,9 +14,9 @@ class DashboardController extends Controller
     }
     
     public function index()
-    {
+    {        
         $data['page_title'] = "Welcome to Dashboard";
-        $data['page_description'] = "This is Admin Page WMS!";
+        $data['page_description'] = "WMS PRIMANATA JASA PERSADA";
         
         $data['sor'] = \App\Models\SorYor::where('type', 'sor')->first();
         $data['yor'] = \App\Models\SorYor::where('type', 'yor')->first();

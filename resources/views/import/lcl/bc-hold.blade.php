@@ -33,8 +33,9 @@
             if(rowdata.status_bc == 'HOLD') {
                 $("#" + cl).find("td").css("background-color", "#ffe500");
             }
-            
-            jQuery("#lclHoldGrid").jqGrid('setRowData',ids[i],{hold: apv}); 
+            @if(Auth::getUser()->username == 'bcgaters') 
+                jQuery("#lclHoldGrid").jqGrid('setRowData',ids[i],{hold: apv}); 
+            @endif
         } 
     
     }

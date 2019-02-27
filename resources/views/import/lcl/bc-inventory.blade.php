@@ -149,7 +149,7 @@
             ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>300))
             ->addColumn(array('label'=>'No. MBL','index'=>'NOMBL','width'=>160))
             ->addColumn(array('label'=>'Tgl. MBL','index'=>'TGL_MASTER_BL', 'width'=>150,'hidden'=>false, 'align'=>'center'))
-            ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>160,'hidden'=>true))
+            ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>250,'hidden'=>false))
             ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>300))
             ->addColumn(array('label'=>'Desc of Goods','index'=>'DESCOFGOODS', 'width'=>300))
             ->addColumn(array('label'=>'Qty','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))

@@ -39,8 +39,8 @@
             </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
+<!--        <div class="col-lg-3 col-xs-6">
+             small box 
             <div class="small-box bg-yellow">
                 <div class="inner">
                     <h3>44</h3>
@@ -55,9 +55,9 @@
                 </a>
             </div>
         </div>
-        <!-- ./col -->
+         ./col 
         <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
+             small box 
             <div class="small-box bg-red">
                 <div class="inner">
                     <h3>65</h3>
@@ -71,14 +71,14 @@
                     More info <i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
-        </div>
+        </div>-->
         <!-- ./col -->
     </div>
     
-    <div class="row">
+<!--    <div class="row">
     
         <div class="col-md-6">
-            <!-- LINE CHART -->
+             LINE CHART 
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">Line Chart</h3>
@@ -94,7 +94,7 @@
                       <canvas id="lineChart" style="height:250px"></canvas>
                     </div>
                 </div>
-                <!-- /.box-body -->
+                 /.box-body 
             </div>
         </div>
         <div class="col-md-6">
@@ -113,10 +113,10 @@
                     <canvas id="barChart" style="height:250px"></canvas>
                   </div>
                 </div>
-                <!-- /.box-body -->
+                 /.box-body 
             </div>
         </div>
-    </div>
+    </div>-->
     
 @endsection
 

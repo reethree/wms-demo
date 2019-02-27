@@ -42,7 +42,9 @@
                 $("#" + cl).find("td").css("background-color", "#6acaf7");
             }
             
-            jQuery("#lclBehandleGrid").jqGrid('setRowData',ids[i],{action:apv+' '+chk});
+            @if(Auth::getUser()->username == 'bcppc3') 
+                jQuery("#lclBehandleGrid").jqGrid('setRowData',ids[i],{action:apv+' '+chk});
+            @endif
             
         } 
     }

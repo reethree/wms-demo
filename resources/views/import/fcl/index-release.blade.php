@@ -374,6 +374,92 @@
         <h3 class="box-title">FCL Delivery Release</h3>
     </div>
     <div class="box-body">
+        @role('bea-cukai')
+        <div class="row">
+            <div class="col-md-12"> 
+                {{
+                    GridRender::setGridId("fclReleaseGrid")
+                    ->enableFilterToolbar()
+                    ->setGridOption('mtype', 'POST')
+                    ->setGridOption('url', URL::to('/container/grid-data-cy?module=release&_token='.csrf_token()))
+                    ->setGridOption('rowNum', 20)
+                    ->setGridOption('shrinkToFit', true)
+                    ->setGridOption('sortname','TCONTAINER_PK')
+                    ->setGridOption('rownumbers', true)
+                    ->setGridOption('rownumWidth', 50)
+                    ->setGridOption('height', '395')
+                    ->setGridOption('rowList',array(20,50,100))
+                    ->setGridOption('useColSpanStyle', true)
+                    ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
+                    ->setNavigatorOptions('view',array('closeOnEscape'=>false))
+                    ->setFilterToolbarOptions(array('autosearch'=>true))
+                    ->setGridEvent('onSelectRow', 'onSelectRowEvent')
+                    ->setGridEvent('gridComplete', 'gridCompleteEvent')
+                    ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
+                    ->addColumn(array('label'=>'Photo','index'=>'action', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+                    ->addColumn(array('label'=>'Status BC','index'=>'status_bc','width'=>100, 'align'=>'center'))
+                    ->addColumn(array('label'=>'Segel Merah','index'=>'flag_bc','width'=>80, 'align'=>'center'))
+                    ->addColumn(array('label'=>'No. SPK','index'=>'NoJob','width'=>160))
+                    ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>160,'editable' => true, 'editrules' => array('required' => true)))
+                    ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>80,'align'=>'center','editable' => true, 'editrules' => array('required' => true,'number'=>true),'edittype'=>'select','editoptions'=>array('value'=>"20:20;40:40")))
+                    ->addColumn(array('label'=>'Vessel','index'=>'VESSEL','width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'TPS Asal','index'=>'KD_TPS_ASAL','width'=>80,'align'=>'center'))
+                    ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>250))
+                    ->addColumn(array('label'=>'NPWP Consignee','index'=>'ID_CONSIGNEE','width'=>160,'align'=>'center'))
+                    ->addColumn(array('label'=>'No. BC11','index'=>'NO_BC11','width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. POS BC11','index'=>'NO_POS_BC11','width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'No. Pabean','index'=>'NO_DAFTAR_PABEAN', 'width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. Pabean','index'=>'TGL_DAFTAR_PABEAN', 'width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>120,'hidden'=>false,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. SPPB','index'=>'TGL_SPPB', 'width'=>120,'hidden'=>false,'align'=>'center'))
+                    ->addColumn(array('label'=>'Kode Dokumen','index'=>'KD_DOK_INOUT','align'=>'center', 'width'=>100,'hidden'=>false))
+                    ->addColumn(array('label'=>'Nama Dokumen','index'=>'KODE_DOKUMEN','align'=>'center', 'width'=>120,'hidden'=>false))                   
+                    ->addColumn(array('label'=>'Tgl. Masuk','index'=>'TGLMASUK','width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Jam Masuk','index'=>'JAMMASUK','width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. Release','index'=>'TGLRELEASE','width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Jam. Release','index'=>'JAMRELEASE', 'width'=>120,'align'=>'center'))
+                    ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center'))
+                    
+                    ->addColumn(array('label'=>'No. MBL','index'=>'NOMBL','width'=>160,'hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. MBL','index'=>'TGLMBL','width'=>150,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. Behandle','index'=>'TGLBEHANDLE','width'=>150,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'Jam. Behandle','index'=>'JAMBEHANDLE', 'width'=>150,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. Fiat','index'=>'TGLFIAT','width'=>150,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'Jam. Fiat','index'=>'JAMFIAT', 'width'=>150,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. Surat Jalan','index'=>'TGLSURATJALAN','width'=>150,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'Jam. Surat Jalan','index'=>'JAMSURATJALAN', 'width'=>150,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'Kode Kuitansi','index'=>'NO_KUITANSI', 'width'=>150,'hidden'=>true))
+                    ->addColumn(array('label'=>'No. BL/AWB','index'=>'NO_BL_AWB', 'width'=>150,'hidden'=>true))
+                    ->addColumn(array('label'=>'Tgl. BL/AWB','index'=>'TGL_BL_AWB', 'width'=>150,'align'=>'center','hidden'=>true))
+                    ->addColumn(array('label'=>'Importir','index'=>'NAMA_IMP','width'=>160,'hidden'=>true))
+                    ->addColumn(array('label'=>'NPWP Importir','index'=>'NPWP_IMP','width'=>160,'hidden'=>true))
+                    ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>80,'align'=>'center','editable' => false,'hidden'=>true))
+                    ->addColumn(array('label'=>'No. Seal','index'=>'NOSEGEL', 'width'=>120,'editable' => true, 'align'=>'right','hidden'=>true))
+                    ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('required' => true),'hidden'=>true))
+                    ->addColumn(array('label'=>'Measurment','index'=>'MEAS', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('required' => true),'hidden'=>true))
+                    ->addColumn(array('label'=>'Layout','index'=>'layout', 'width'=>80,'editable' => true,'align'=>'center','editoptions'=>array('defaultValue'=>"C-1"),'hidden'=>true))
+                    ->addColumn(array('label'=>'BCF Consignee','index'=>'bcf_consignee', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Nama EMKL','index'=>'NAMAEMKL', 'width'=>150,'hidden'=>true)) 
+                    ->addColumn(array('label'=>'Telp. EMKL','index'=>'TELPEMKL', 'width'=>150,'hidden'=>true)) 
+                    ->addColumn(array('label'=>'No. Truck','index'=>'NOPOL', 'width'=>150,'hidden'=>true)) 
+                    ->addColumn(array('label'=>'No. POL','index'=>'NOPOLCIROUT', 'width'=>150,'hidden'=>true))
+                    ->addColumn(array('label'=>'No. POL Out','index'=>'NOPOL_OUT', 'width'=>150,'hidden'=>true))
+                    ->addColumn(array('label'=>'Photo Extra','index'=>'photo_release_extra', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Ref. Number Out','index'=>'REF_NUMBER_OUT', 'width'=>150,'hidden'=>true))
+                    ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150, 'search'=>false,'align'=>'center'))
+                    ->addColumn(array('label'=>'Jam. Entry','index'=>'JAMENTRY', 'width'=>150, 'search'=>false, 'hidden'=>true))
+                    ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
+                    ->renderGrid()
+                }}
+            </div>
+        </div>
+        @else
         <div class="row" style="margin-bottom: 30px;">
             <div class="col-md-12"> 
                 {{
@@ -754,6 +840,7 @@
                 <!--</div>-->
             </div>
         </form>  
+        @endrole
     </div>
 </div>
 <div id="photo-modal" class="modal fade" tabindex="-1" role="dialog">

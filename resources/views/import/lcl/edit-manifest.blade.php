@@ -503,7 +503,71 @@
     </div>
     <!-- /.box-header -->
     <div class="form-horizontal">
-        <div class="box-body">            
+        <div class="box-body">     
+            @role('bea-cukai')
+            <div class="row">
+                <div class="col-md-12">         
+                    {{
+                        GridRender::setGridId("lclManifestGrid")
+                        ->enableFilterToolbar()
+                        ->setGridOption('mtype', 'POST')
+                        ->setGridOption('url', URL::to('/lcl/manifest/grid-data?containerid='.$container->TCONTAINER_PK.'&_token='.csrf_token()))
+                        ->setGridOption('rowNum', 10)
+                        ->setGridOption('shrinkToFit', true)
+                        ->setGridOption('sortname','TMANIFEST_PK')
+                        ->setGridOption('rownumbers', true)
+                        ->setGridOption('height', '295')
+                        ->setGridOption('rowList',array(10,20,50))
+                        ->setGridOption('useColSpanStyle', true)
+                        ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
+                        ->setNavigatorOptions('view',array('closeOnEscape'=>false))
+                        ->setFilterToolbarOptions(array('autosearch'=>true))
+                        ->setGridEvent('gridComplete', 'gridCompleteEvent')
+                        ->setGridEvent('onSelectRow', 'onSelectRowEvent')
+                        ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
+                        ->addColumn(array('label'=>'Validasi','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
+                        ->addColumn(array('label'=>'No.HBL','index'=>'NOHBL', 'width'=>160, 'align'=>'center'))
+                        ->addColumn(array('label'=>'Tgl.HBL','index'=>'TGL_HBL', 'width'=>160, 'align'=>'center'))
+                        ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
+                        ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>230))
+                        ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>250))
+                        ->addColumn(array('label'=>'Notify Party','index'=>'NOTIFYPARTY','width'=>160))
+                        ->addColumn(array('label'=>'Qty','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))
+                        ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>120))
+                        ->addColumn(array('label'=>'Kode Kemas','index'=>'KODE_KEMAS', 'width'=>100,'align'=>'center'))
+                        ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('index'=>'TSHIPPER_FK', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('index'=>'TCONSIGNEE_FK', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('index'=>'TNOTIFYPARTY_FK', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('index'=>'TPACKING_FK', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('label'=>'Marking','index'=>'MARKING', 'width'=>150,'hidden'=>true)) 
+                        ->addColumn(array('label'=>'Desc of Goods','index'=>'DESCOFGOODS', 'width'=>150,'hidden'=>false))              
+                        ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120,'hidden'=>false, 'align'=>'right'))               
+                        ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>120,'hidden'=>false, 'align'=>'right'))
+                        ->addColumn(array('label'=>'No.BC11','index'=>'NO_BC11', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('label'=>'Tgl.BC11','index'=>'TGL_BC11', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('label'=>'No.POS BC11','index'=>'NO_POS_BC11', 'width'=>150, 'align'=>'center'))
+                        ->addColumn(array('label'=>'No.PLP','index'=>'NO_PLP', 'width'=>150,'hidden'=>true))                
+                        ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>150,'hidden'=>true))                
+                        ->addColumn(array('label'=>'Surcharge (DG)','index'=>'DG_SURCHARGE', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('label'=>'Surcharge (Weight)','index'=>'WEIGHT_SURCHARGE', 'width'=>150,'hidden'=>true))      
+                        ->addColumn(array('label'=>'Segel Merah','index'=>'flag_bc','width'=>100, 'align'=>'center'))
+                        ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center'))
+                        ->addColumn(array('label'=>'Perubahan HBL','index'=>'perubahan_hbl','width'=>100, 'align'=>'center'))
+                        ->addColumn(array('label'=>'Alasan Perubahan','index'=>'alasan_perubahan','width'=>150,'align'=>'center'))
+                        ->addColumn(array('index'=>'location_id', 'width'=>150,'hidden'=>true))
+                        ->addColumn(array('label'=>'Location','index'=>'location_name','width'=>200, 'align'=>'center'))
+                        ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
+                        ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
+                        ->addColumn(array('label'=>'Tgl. Stripping','index'=>'tglstripping', 'width'=>70,'hidden'=>true))
+                        ->addColumn(array('label'=>'Jam. Stripping','index'=>'jamstripping', 'width'=>70,'hidden'=>true))
+                        ->addColumn(array('label'=>'Photo Stripping','index'=>'photo_stripping', 'width'=>70,'hidden'=>true))
+                        ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
+                        ->renderGrid()
+                    }}
+                </div>
+            </div>
+            @else
             <div class="row" style="margin-bottom: 30px;">
                 <div class="col-md-12">         
                     {{
@@ -565,6 +629,7 @@
                         ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
                         ->renderGrid()
                     }}
+                    
                     @role('pbm')
                     <div id="btn-toolbar" class="section-header btn-toolbar" role="toolbar" style="margin: 10px 0;">
                         <div id="btn-group-1" class="btn-group">
@@ -792,6 +857,7 @@
                     </div>
                 </div>
             </form>
+            @endrole
         </div>
     </div>
 </div>

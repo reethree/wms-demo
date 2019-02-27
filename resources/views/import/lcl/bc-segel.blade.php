@@ -42,7 +42,11 @@
                 $("#" + cl).find("td").css("background-color", "#d73925").css("color", "#FFF");
             } 
             
-            jQuery("#lclSegelGrid").jqGrid('setRowData',ids[i],{action:sgl+' '+info}); 
+            @if(Auth::getUser()->username == 'bcp2')  
+                jQuery("#lclSegelGrid").jqGrid('setRowData',ids[i],{action:sgl+' '+info});        
+            @else
+                jQuery("#lclSegelGrid").jqGrid('setRowData',ids[i],{action:info}); 
+            @endif
         } 
     
     }

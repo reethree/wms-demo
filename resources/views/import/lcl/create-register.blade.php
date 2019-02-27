@@ -101,7 +101,7 @@
                         </div>
                         <label class="col-sm-2 control-label">Callsign</label>
                         <div class="col-sm-3">
-                            <input type="text" name="CALLSIGN" class="form-control"  readonly value="{{ old('CALLSIGN') }}">
+                            <input type="text" name="CALLSIGN" class="form-control" value="{{ old('CALLSIGN') }}">
                         </div>
                     </div>             
                     <div class="form-group">

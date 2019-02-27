@@ -114,11 +114,11 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Voy</label>
                         <div class="col-sm-3">
-                            <input type="text" name="VOY" class="form-control"  value="{{ old('VOY') }}">
+                            <input type="text" name="VOY" class="form-control" value="{{ old('VOY') }}">
                         </div>
                         <label class="col-sm-2 control-label">Callsign</label>
                         <div class="col-sm-3">
-                            <input type="text" name="CALLSIGN" class="form-control"  readonly value="{{ old('CALLSIGN') }}">
+                            <input type="text" name="CALLSIGN" class="form-control" value="{{ old('CALLSIGN') }}">
                         </div>
                     </div>             
                     <div class="form-group">

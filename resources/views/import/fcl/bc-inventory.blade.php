@@ -106,6 +106,8 @@
             ->addColumn(array('label'=>'TPS Asal','index'=>'KD_TPS_ASAL', 'width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250,'hidden'=>true))
             ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>250))
+            ->addColumn(array('label'=>'No.BL/AWB','index'=>'NO_BL_AWB', 'width'=>150,'align'=>'center'))                
+            ->addColumn(array('label'=>'Tgl.BL/AWB','index'=>'TGL_BL_AWB', 'width'=>120,'align'=>'center'))
             ->addColumn(array('label'=>'No.PLP','index'=>'NO_PLP', 'width'=>120,'align'=>'center'))                
             ->addColumn(array('label'=>'Tgl.PLP','index'=>'TGL_PLP', 'width'=>120,'align'=>'center'))
             ->addColumn(array('label'=>'No.BC 1.1','index'=>'NO_BC11', 'width'=>150,'align'=>'center'))

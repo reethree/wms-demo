@@ -19,7 +19,11 @@
                 del = '<a href="{{ route("lcl-manifest-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
             @endrole
             
-            jQuery("#lclManifestGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
+            @role('bea-cukai')
+                jQuery("#lclManifestGrid").jqGrid('setRowData',ids[i],{action:edt});
+            @else
+                jQuery("#lclManifestGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
+            @endrole
         } 
     }
     
