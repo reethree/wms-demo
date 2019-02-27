@@ -1112,7 +1112,7 @@ class LclController extends Controller
     public function reportInoutViewPhoto($manifestID)
     {
         $manifest = DBManifest::find($manifestID);
-        $container = DBContainer::where('TCONTAINER_PK', $manifest->TCONTAINER_FK)->get();
+        $container = DBContainer::find($manifest->TCONTAINER_FK);
         
         $manifest->photo_get_in = $container->photo_get_in;
         $manifest->photo_get_out = $container->photo_get_out;
