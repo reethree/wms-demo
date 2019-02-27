@@ -211,8 +211,12 @@
             if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
 
             }else{
-                $('#TGLRELEASE').attr('disabled','disabled');
-                $('#JAMRELEASE').attr('disabled','disabled');
+                @role('super-admin')
+
+                @else
+                    $('#TGLRELEASE').attr('disabled','disabled');
+                    $('#JAMRELEASE').attr('disabled','disabled');
+                @endrole
             }
             
             if(rowdata.status_bc == 'HOLD'){

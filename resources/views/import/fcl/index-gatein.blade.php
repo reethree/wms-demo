@@ -130,9 +130,13 @@
             $('#gatein-form').enableFormGroup();
             if(!rowdata.TGLMASUK && !rowdata.JAMMASUK) {
                 $('#UIDMASUK').val('{{ Auth::getUser()->name }}');
-            }else{
-                $("#TGLMASUK").attr('disabled','disabled');
-                $("#JAMMASUK").attr('disabled','disabled');
+            }else{           
+                @role('super-admin')
+
+                @else
+                    $("#TGLMASUK").attr('disabled','disabled');
+                    $("#JAMMASUK").attr('disabled','disabled');
+                @endrole
             }
 
         });
