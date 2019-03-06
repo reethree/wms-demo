@@ -657,6 +657,7 @@ class FclController extends Controller
     public function buangmtyUpdate(Request $request, $id)
     {
         $data = $request->json()->all(); 
+        $delete_photo = $data['delete_photo'];
         unset($data['TCONTAINER_PK'], $data['_token']);
         
         $update = DBContainer::where('TCONTAINER_PK', $id)
@@ -684,10 +685,15 @@ class FclController extends Controller
     public function behandleUpdate(Request $request, $id)
     {
         $data = $request->json()->all(); 
-        unset($data['TCONTAINER_PK'], $data['_token']);
+        $delete_photo = $data['delete_photo'];
+        unset($data['TCONTAINER_PK'], $data['delete_photo'], $data['_token']);
         
         $data['BEHANDLE'] = 'Y';
         $data['date_ready_behandle'] = date('Y-m-d H:i:s');
+        
+        if($delete_photo == 'Y'){
+            $data['photo_behandle'] = '';
+        }
         
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
@@ -1733,6 +1739,36 @@ class FclController extends Controller
             // update to Database
             $container = DBContainer::find($request->id_cont);
             $container->photo_release_extra = json_encode($picture);
+            if($container->save()){
+                return back()->with('success', 'Photo for Container '. $request->no_cont .' has been uploaded.');
+            }else{
+                return back()->with('error', 'Photo uploaded, but not save in Database.');
+            }
+            
+        } else {
+            return back()->with('error', 'Something wrong!!! Can\'t upload photo, please try again.');
+        }
+    }
+    
+        public function behandleUploadPhoto(Request $request)
+    {
+        $picture = array();
+        if ($request->hasFile('photos')) {
+            $files = $request->file('photos');
+            $destinationPath = base_path() . '/public/uploads/photos/container/fcl/'.$request->no_cont;
+            $i = 1;
+            foreach($files as $file){
+//                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                
+                $filename = date('dmyHis').'_'.str_slug($request->no_cont).'_'.$i.'.'.$extension;
+                $picture[] = $filename;
+                $file->move($destinationPath, $filename);
+                $i++;
+            }
+            // update to Database
+            $container = DBContainer::find($request->id_cont);
+            $container->photo_behandle = json_encode($picture);
             if($container->save()){
                 return back()->with('success', 'Photo for Container '. $request->no_cont .' has been uploaded.');
             }else{

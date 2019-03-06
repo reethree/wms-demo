@@ -76,5 +76,9 @@ Route::group(['prefix' => 'fcl/delivery', 'namespace' => 'Import'], function(){
         'as' => 'fcl-release-upload-photo',
         'uses' => 'FclController@releaseUploadPhoto'
     ]);
+    Route::post('/behandle/upload/photo', [
+        'as' => 'fcl-behandle-upload-photo',
+        'uses' => 'FclController@behandleUploadPhoto'
+    ]);
     
 });

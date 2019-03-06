@@ -11,26 +11,26 @@
     function gridCompleteEvent()
     {
         var ids = jQuery("#lclBehandleGrid").jqGrid('getDataIDs'),
-            apv = '', chk = '', info = '';   
+            apv = '', chk = '', info = '', vi = '';   
             
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
             
             rowdata = $('#lclBehandleGrid').getRowData(cl); 
             
-                if(rowdata.status_behandle == 'Ready') {
-                    apv = '';
-                    chk = '<button style="margin:5px;" class="btn btn-warning btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin akan melakukan pengecekan ?\')){ changeStatusBehandle('+cl+',\'check\'); }else{return false;};"><i class="fa fa-check"></i> CHECKING</button>';
-                }else if(rowdata.status_behandle == 'Checking') {
-                    apv = '<button style="margin:5px;" class="btn btn-info btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin telah selesai melakukan pengecekan ?\')){ changeStatusBehandle('+cl+',\'finish\'); }else{return false;};"><i class="fa fa-check"></i> FINISH</button>';
-                    chk = '';
-                }else if(rowdata.status_behandle == 'Finish') {
-                    apv = '';
-                    chk = '';
-                }else{
-                    apv = '';
-                    chk = '';
-                }  
+            if(rowdata.status_behandle == 'Ready') {
+                apv = '';
+                chk = '<button style="margin:5px;" class="btn btn-warning btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin akan melakukan pengecekan ?\')){ changeStatusBehandle('+cl+',\'check\'); }else{return false;};"><i class="fa fa-check"></i> CHECKING</button>';
+            }else if(rowdata.status_behandle == 'Checking') {
+                apv = '<button style="margin:5px;" class="btn btn-info btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin telah selesai melakukan pengecekan ?\')){ changeStatusBehandle('+cl+',\'finish\'); }else{return false;};"><i class="fa fa-check"></i> FINISH</button>';
+                chk = '';
+            }else if(rowdata.status_behandle == 'Finish') {
+                apv = '';
+                chk = '';
+            }else{
+                apv = '';
+                chk = '';
+            }  
             
             if(rowdata.status_behandle == 'Ready') {
                 $("#" + cl).find("td").css("background-color", "#aae25a");
@@ -42,11 +42,59 @@
                 $("#" + cl).find("td").css("background-color", "#6acaf7");
             }
             
-            @if(Auth::getUser()->username == 'bcppc3') 
-                jQuery("#lclBehandleGrid").jqGrid('setRowData',ids[i],{action:apv+' '+chk});
+            if(rowdata.photo_behandle != ''){
+                vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" data-id="'+cl+'" onclick="viewPhoto('+cl+')"><i class="fa fa-photo"></i> View Photo</button>';
+            }else{
+                vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" disabled><i class="fa fa-photo"></i> Not Found</button>';
+            }
+            
+            @if(Auth::getUser()->username == 'bcppc3')          
+                jQuery("#lclBehandleGrid").jqGrid('setRowData',ids[i],{action:apv+' '+chk, photo:vi});
+            @else
+                jQuery("#lclBehandleGrid").jqGrid('setRowData',ids[i],{photo:vi});
             @endif
             
         } 
+    }
+    
+    function viewPhoto(manifestID)
+    {
+//        alert(manifestID);
+        
+        $.ajax({
+            type: 'GET',
+            dataType : 'json',
+            url: '{{route("lcl-report-inout-view-photo","")}}/'+manifestID,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+                $('#gatein-photo').html('');
+                $('#container-photo').html('');
+                $('#stripping-photo').html('');
+                $('#gateout-photo').html('');
+                $('#release-photo').html('');
+            },
+            success:function(json)
+            {
+                if(json.data.photo_behandle){
+                    var photos_release = $.parseJSON(json.data.photo_behandle);
+                    var html_behandle = '';
+                    $.each(photos_release, function(i, item) {
+                        /// do stuff
+                        html_behandle += '<img src="{{url("uploads/photos/manifest")}}/'+item+'" style="width: 200px;padding:5px;" />';
+                    });
+                    $('#manifest-photo').html(html_behandle);
+                }
+                
+                
+                $("#title-photo").html('PHOTO HBL NO. '+json.data.NOHBL);
+            }
+        });
+        
+        $('#view-photo-modal').modal('show');
     }
     
     function changeStatusBehandle($id,$action)
@@ -89,6 +137,7 @@
                     ->setGridEvent('gridComplete', 'gridCompleteEvent')
 //                    ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                     ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
+                    ->addColumn(array('label'=>'Photo','index'=>'photo', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                     ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                     ->addColumn(array('label'=>'Status Behandle','index'=>'status_behandle','width'=>120, 'align'=>'center'))
                     ->addColumn(array('label'=>'No. SPK','index'=>'NOJOBORDER', 'width'=>150,'hidden'=>false))
@@ -111,6 +160,7 @@
                     ->addColumn(array('label'=>'Tgl. Behandle','index'=>'tglbehandle', 'width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'Jam Behandle','index'=>'jambehandle', 'width'=>120,'align'=>'center'))
                     
+                    ->addColumn(array('label'=>'Photo Behandle','index'=>'photo_behandle', 'width'=>70,'hidden'=>true))
                     
                     ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>230,'hidden'=>true))
                     ->addColumn(array('label'=>'Notify Party','index'=>'NOTIFYPARTY','width'=>160,'hidden'=>true))
@@ -202,5 +252,22 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->    
-    
+<div id="view-photo-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="title-photo">Photo</h4>
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>BEHANDLE</h4>
+                        <div id="manifest-photo"></div>
+                    </div>
+                </div>
+            </div>    
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->    
 @endsection

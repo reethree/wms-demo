@@ -815,10 +815,15 @@ class LclController extends Controller
     public function behandleUpdate(Request $request, $id)
     {
         $data = $request->json()->all(); 
-        unset($data['TMANIFEST_PK'], $data['_token']);
+        $delete_photo = $data['delete_photo'];
+        unset($data['TMANIFEST_PK'], $data['delete_photo'], $data['_token']);
         
         $data['BEHANDLE'] = 'Y';
         $data['date_ready_behandle'] = date('Y-m-d H:i:s');
+        
+        if($delete_photo == 'Y'){
+            $data['photo_behandle'] = '';
+        }
         
         $update = DBManifest::where('TMANIFEST_PK', $id)
             ->update($data);

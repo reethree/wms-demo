@@ -16,7 +16,7 @@
     $(document).ready(function()
     {
         $('#behandle-form').disabledFormGroup();
-        $('#btn-toolbar').disabledButtonGroup();
+        $('#btn-toolbar, #btn-photo').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
         $('#btn-edit').click(function() {
@@ -36,9 +36,25 @@
             $('#TGL_SPJM').val(rowdata.TGL_SPJM);
             $('#NAMA_IMP').val(rowdata.NAMA_IMP);
             $('#NPWP_IMP').val(rowdata.NPWP_IMP);
-
+            
+            $('#upload-title').html('Upload Photo for '+rowdata.NOCONTAINER);
+            $('#no_cont').val(rowdata.NOCONTAINER);
+            $('#id_cont').val(rowdata.TCONTAINER_PK);
+            $('#load_photos').html('');
+            $('#delete_photo').val('N');
+            
+            if(rowdata.photo_behandle){
+                var html = '';
+                var photos = $.parseJSON(rowdata.photo_behandle);
+                $.each(photos, function(i, item) {
+                    /// do stuff
+                    html += '<img src="{{url("uploads/photos/container/fcl/")}}/'+rowdata.NOCONTAINER+'/'+item+'" style="width: 200px;padding:5px;" />';
+                });
+                $('#load_photos').html(html);
+            }
+            
 //            if(!rowdata.TGLBEHANDLE) {
-                $('#btn-group-2').enableButtonGroup();
+                $('#btn-group-2, #btn-photo').enableButtonGroup();
                 $('#behandle-form').enableFormGroup();
 //            }else{
 //                $('#btn-group-2').disabledButtonGroup();
@@ -94,7 +110,7 @@
         $('#btn-refresh').click(function() {
             $('#fclBehandleGrid').jqGrid().trigger("reloadGrid");
             $('#behandle-form').disabledFormGroup();
-            $('#btn-toolbar').disabledButtonGroup();
+            $('#btn-toolbar, #btn-photo').disabledButtonGroup();
             $('#btn-group-3').enableButtonGroup();
             
             $('#behandle-form')[0].reset();
@@ -161,6 +177,8 @@
                     ->addColumn(array('label'=>'No. POS BC11','index'=>'NO_POS_BC11','width'=>150,'align'=>'center','hidden'=>true))
                     ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','width'=>150,'align'=>'right','hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','width'=>150,'align'=>'center','hidden'=>true))
+                    
+                    ->addColumn(array('label'=>'Photo Behandle','index'=>'photo_behandle', 'width'=>70,'hidden'=>true))
                     
                     ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160,'hidden'=>true))
                     ->addColumn(array('label'=>'Importir','index'=>'NAMA_IMP','width'=>160,'hidden'=>true))
@@ -325,6 +343,19 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="form-group" id="btn-photo">
+                        <label class="col-sm-3 control-label">Photo</label>
+                        <div class="col-sm-8">
+                            <button type="button" class="btn btn-warning" id="upload-photo-btn">Upload Photo</button>
+                            <button type="button" class="btn btn-danger" id="delete-photo-btn">Delete Photo</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div id="load_photos" style="text-align: center;"></div>
+                        </div>
+                    </div>
 <!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">Importir</label>
                         <div class="col-sm-8">
@@ -343,7 +374,39 @@
         </form>  
     </div>
 </div>
-
+<div id="photo-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="upload-title"></h4>
+            </div>
+            <form class="form-horizontal" id="upload-photo-form" action="{{ route('fcl-behandle-upload-photo') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <input type="hidden" id="id_cont" name="id_cont" required>   
+                            <input type="hidden" id="no_cont" name="no_cont" required>    
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Photo</label>
+                                <div class="col-sm-8">
+                                    <input type="file" name="photos[]" class="form-control" multiple="true" required>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @endsection
 
 @section('custom_css')
@@ -361,6 +424,20 @@
 <!--<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>-->
 <script type="text/javascript">
 //    $('.select2').select2();
+
+    $("#upload-photo-btn").on("click", function(e){
+        e.preventDefault();
+        $("#photo-modal").modal('show');
+        return false;
+    });
+    
+    $("#delete-photo-btn").on("click", function(e){
+        if(!confirm('Apakah anda yakin akan menghapus photo?')){return false;}
+        
+        $('#load_photos').html('');
+        $('#delete_photo').val('Y');
+    });
+
     $('.datepicker').datepicker({
         autoclose: true,
         todayHighlight: true,
