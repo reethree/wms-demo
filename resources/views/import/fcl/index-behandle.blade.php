@@ -72,6 +72,14 @@
             
             if(!confirm('Apakah anda yakin?')){return false;}
             
+            if($('#TGLBEHANDLE').val() == ''){
+                alert('Tanggal Behandle Masih Kosong!');
+                return false;
+            }
+            
+            var rowid = $('#fclBehandleGrid').jqGrid('getGridParam', 'selrow');
+            var rowdata = $('#fclBehandleGrid').getRowData(rowid);
+            
             var containerId = $('#TCONTAINER_PK').val();
             var url = "{{route('fcl-delivery-behandle-update','')}}/"+containerId;
 
@@ -326,7 +334,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" id="TGLBEHANDLE" name="TGLBEHANDLE" class="form-control pull-right datepicker" required value="{{ date('Y-m-d') }}">
+                                <input type="text" id="TGLBEHANDLE" name="TGLBEHANDLE" class="form-control pull-right datepicker" required>
                             </div>
                         </div>
                     </div>
@@ -336,7 +344,7 @@
                             <label class="col-sm-3 control-label">Jam Behandle</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input type="text" id="JAMBEHANDLE" name="JAMBEHANDLE" class="form-control timepicker" required value="{{ date('H:i:s') }}">
+                                    <input type="text" id="JAMBEHANDLE" name="JAMBEHANDLE" class="form-control timepicker" required>
                                     <div class="input-group-addon">
                                           <i class="fa fa-clock-o"></i>
                                     </div>

@@ -84,6 +84,11 @@
             
             if(!confirm('Apakah anda yakin?')){return false;}
             
+            if($('#tglbehandle').val() == ''){
+                alert('Tanggal Behandle Masih Kosong!');
+                return false;
+            }
+            
             var manifestId = $('#TMANIFEST_PK').val();
             var url = "{{route('lcl-delivery-behandle-update','')}}/"+manifestId;
 
@@ -313,7 +318,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" id="tglbehandle" name="tglbehandle" class="form-control pull-right datepicker" required value="{{ date('Y-m-d') }}">
+                                <input type="text" id="tglbehandle" name="tglbehandle" class="form-control pull-right datepicker" required>
                             </div>
                         </div>
                     </div>
@@ -323,7 +328,7 @@
                             <label class="col-sm-3 control-label">Jam Behandle</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input type="text" id="jambehandle" name="jambehandle" class="form-control timepicker" required value="{{ date('H:i:s') }}">
+                                    <input type="text" id="jambehandle" name="jambehandle" class="form-control timepicker" required>
                                     <div class="input-group-addon">
                                           <i class="fa fa-clock-o"></i>
                                     </div>
