@@ -65,13 +65,13 @@
                 $('#load_photos').html(html);
             }
             
-            if(!rowdata.tglbehandle) {
+//            if(!rowdata.tglbehandle) {
                 $('#btn-group-2, #btn-photo').enableButtonGroup();
                 $('#behandle-form').enableFormGroup();
-            }else{
-                $('#btn-group-2').disabledButtonGroup();
-                $('#behandle-form').disabledFormGroup();
-            }
+//            }else{
+//                $('#btn-group-2').disabledButtonGroup();
+//                $('#behandle-form').disabledFormGroup();
+//            }
 
         });
         
@@ -235,6 +235,7 @@
                     <input name="_token" type="hidden" value="{{ csrf_token() }}">
                     <input id="TMANIFEST_PK" name="TMANIFEST_PK" type="hidden">
                     <input id="status_behandle" name="status_behandle" type="hidden" value="Ready">
+                    <input name="delete_photo" id="delete_photo" value="N" type="hidden">
                     
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. HBL</label>
