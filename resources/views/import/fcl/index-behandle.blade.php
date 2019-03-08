@@ -77,9 +77,6 @@
 //                return false;
 //            }
             
-            var rowid = $('#fclBehandleGrid').jqGrid('getGridParam', 'selrow');
-            var rowdata = $('#fclBehandleGrid').getRowData(rowid);
-            
             var containerId = $('#TCONTAINER_PK').val();
             var url = "{{route('fcl-delivery-behandle-update','')}}/"+containerId;
 
