@@ -84,10 +84,10 @@
             
             if(!confirm('Apakah anda yakin?')){return false;}
             
-            if($('#tglbehandle').val() == ''){
-                alert('Tanggal Behandle Masih Kosong!');
-                return false;
-            }
+//            if($('#tglbehandle').val() == ''){
+//                alert('Tanggal Behandle Masih Kosong!');
+//                return false;
+//            }
             
             var manifestId = $('#TMANIFEST_PK').val();
             var url = "{{route('lcl-delivery-behandle-update','')}}/"+manifestId;

@@ -72,10 +72,10 @@
             
             if(!confirm('Apakah anda yakin?')){return false;}
             
-            if($('#TGLBEHANDLE').val() == ''){
-                alert('Tanggal Behandle Masih Kosong!');
-                return false;
-            }
+//            if($('#TGLBEHANDLE').val() == ''){
+//                alert('Tanggal Behandle Masih Kosong!');
+//                return false;
+//            }
             
             var rowid = $('#fclBehandleGrid').jqGrid('getGridParam', 'selrow');
             var rowdata = $('#fclBehandleGrid').getRowData(rowid);
