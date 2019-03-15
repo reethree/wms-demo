@@ -2313,7 +2313,7 @@ class LclController extends Controller
         
         $manifest = DBManifest::find($manifest_id);
         $manifest->flag_bc = 'Y';
-        $manifest->status_bc = 'HOLD';
+        $manifest->status_bc = 'SEGEL';
         $manifest->no_flag_bc = $request->no_flag_bc;
         $manifest->description_flag_bc = $request->description_flag_bc;
 //        if($alasan == 'Lainnya' && !empty($lainnya)){
@@ -2353,7 +2353,19 @@ class LclController extends Controller
         
         $manifest = DBManifest::find($manifest_id);
         $manifest->flag_bc = 'N';
-        $manifest->status_bc = 'RELEASE';
+        
+        if($manifest->release_bc == 'Y'){
+            $manifest->status_bc = 'RELEASE';
+        }else{
+            if($manifest->KD_DOK_INOUT > 1){
+                $manifest->status_bc = 'HOLD';
+                $manifest->tglrelease = NULL;
+                $manifest->jamrelease = NULL;
+            }else{
+                $manifest->status_bc = 'RELEASE';
+            }
+        }
+
         $manifest->no_unflag_bc = $request->no_unflag_bc;
         $manifest->description_unflag_bc = $request->description_unflag_bc;
         $manifest->alasan_lepas_segel = $alasan;

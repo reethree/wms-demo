@@ -760,7 +760,7 @@ class FclController extends Controller
                 $data['JAMRELEASE'] = NULL;
             }else{
                 if($container->flag_bc == 'Y'){
-                    $data['status_bc'] = 'HOLD';
+                    $data['status_bc'] = 'SEGEL';
                     $data['TGLRELEASE'] = NULL;
                     $data['JAMRELEASE'] = NULL;
                 }else{
@@ -1834,7 +1834,7 @@ class FclController extends Controller
         
         $container = DBContainer::find($container_id);
         $container->flag_bc = 'Y';
-        $container->status_bc = 'HOLD';
+        $container->status_bc = 'SEGEL';
         $container->no_flag_bc = $request->no_flag_bc;
         $container->description_flag_bc = $request->description_flag_bc;
 //        if($alasan == 'Lainnya' && !empty($lainnya)){
@@ -1874,7 +1874,18 @@ class FclController extends Controller
         
         $container = DBContainer::find($container_id);
         $container->flag_bc = 'N';
-        $container->status_bc = 'RELEASE';
+        if($container->release_bc == 'Y'){
+            $container->status_bc = 'RELEASE';
+        }else{
+            if($container->KD_DOK_INOUT > 1){
+                $container->status_bc = 'HOLD';
+                $container->TGLRELEASE = NULL;
+                $container->JAMRELEASE = NULL;
+            }else{
+                $container->status_bc = 'RELEASE';
+            }
+        }
+        
         $container->no_unflag_bc = $request->no_unflag_bc;
         $container->description_unflag_bc = $request->description_unflag_bc;
         $container->alasan_lepas_segel = $alasan;

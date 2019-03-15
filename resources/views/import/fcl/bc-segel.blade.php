@@ -11,7 +11,7 @@
     function gridCompleteEvent()
     {
         var ids = jQuery("#fclSegelGrid").jqGrid('getDataIDs'),
-            apv = '', sgl = '', info = '', fb = '';   
+            apv = '', sgl = '', info = '';   
             
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
@@ -21,10 +21,8 @@
             if(rowdata.flag_bc == 'Y') {
                 sgl = '<button style="margin:5px;" class="btn btn-info btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin ingin membuka Segel Merah ?\')){ changeStatusFlag('+cl+',\'unlock\'); }else{return false;};"><i class="fa fa-unlock"></i> UNLOCK</button>';
                 apv = '';
-                fb = 'SEGEL';
             }else{
                 sgl = '<button style="margin:5px;" class="btn btn-info btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin ingin mengunci Segel Merah ?\')){ changeStatusFlag('+cl+',\'lock\'); }else{return false;};"><i class="fa fa-lock"></i> LOCK</button>';
-                fb = 'NO';
             }
             
             if(rowdata.no_flag_bc != ''){
@@ -38,7 +36,7 @@
             } 
             
             @if(Auth::getUser()->username == 'bcp2')  
-                jQuery("#fclSegelGrid").jqGrid('setRowData',ids[i],{flag_bc:fb, action:sgl+' '+info});
+                jQuery("#fclSegelGrid").jqGrid('setRowData',ids[i],{action:sgl+' '+info});
             @else
                 jQuery("#fclSegelGrid").jqGrid('setRowData',ids[i],{action:info});
             @endif
@@ -168,7 +166,7 @@
             ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             
             ->addColumn(array('label'=>'Segel Merah','index'=>'flag_bc','width'=>100, 'align'=>'center'))
-//            ->addColumn(array('label'=>'Status BC','index'=>'status_bc','width'=>100, 'align'=>'center'))
+            ->addColumn(array('label'=>'Status BC','index'=>'status_bc','width'=>100, 'align'=>'center'))
             ->addColumn(array('label'=>'Nama Dokumen','index'=>'KODE_DOKUMEN', 'width'=>130))
             ->addColumn(array('label'=>'No. SPPB','index'=>'NO_SPPB', 'width'=>120,'align'=>'center'))
 //            ->addColumn(array('label'=>'No. SPK','index'=>'NoJob', 'width'=>150))
