@@ -60,6 +60,10 @@
 //                $('#btn-group-2').disabledButtonGroup();
 //                $('#behandle-form').disabledFormGroup();
 //            }
+            
+            if(rowdata.status_behandle == 'New'){
+                $('#btn-group-5').enableButtonGroup();
+            }
 
         });
         
@@ -121,6 +125,43 @@
             $('#behandle-form')[0].reset();
             $('.select2').val(null).trigger("change");
             $('#TCONTAINER_PK').val("");
+        });
+        
+        $('#btn-ready').click(function() {
+            if(!confirm('Apakah anda yakin?')){return false;}
+            
+            var containerId = $('#TCONTAINER_PK').val();
+            var url = "{{route('fcl-delivery-behandle-ready','')}}/"+containerId;
+
+            $.ajax({
+                type: 'POST',
+                data: {
+                    _token : '{{ csrf_token() }}',
+                    status_behandle : 'Ready'
+                },
+                dataType : 'json',
+                url: url,
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                },
+                beforeSend:function()
+                {
+
+                },
+                success:function(json)
+                {
+                    console.log(json);
+                    if(json.success) {
+                      $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    } else {
+                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    }
+
+                    //Triggers the "Close" button funcionality.
+                    $('#btn-refresh').click();
+                }
+            });
         });
         
     });
@@ -215,6 +256,9 @@
                     <div id="btn-group-4" class="btn-group">
                         <button class="btn btn-default" id="btn-print"><i class="fa fa-print"></i> Cetak Behandle</button>
                     </div>
+                    <div id="btn-group-5" class="btn-group pull-right">
+                        <button class="btn btn-info" id="btn-ready"><i class="fa fa-check"></i> Ready To Checking</button>
+                    </div>
                 </div>
             </div>
             
@@ -225,7 +269,7 @@
                     
                     <input name="_token" type="hidden" value="{{ csrf_token() }}">
                     <input id="TCONTAINER_PK" name="TCONTAINER_PK" type="hidden">
-                    <input id="status_behandle" name="status_behandle" type="hidden" value="Ready">
+                    <input id="status_behandle" name="status_behandle" type="hidden" value="New">
                     <input name="delete_photo" id="delete_photo" value="N" type="hidden">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. SPK</label>

@@ -10,6 +10,10 @@ Route::group(['prefix' => 'fcl/delivery', 'namespace' => 'Import'], function(){
         'as' => 'fcl-delivery-behandle-update',
         'uses' => 'FclController@behandleUpdate'
     ]);
+    Route::post('/behandle/ready/{id}', [
+        'as' => 'fcl-delivery-behandle-ready',
+        'uses' => 'FclController@behandleReady'
+    ]);
     // PRINT
     Route::get('/behandle/cetak/{id}', [
         'as' => 'fcl-behandle-cetak',

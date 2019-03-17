@@ -689,7 +689,7 @@ class FclController extends Controller
         unset($data['TCONTAINER_PK'], $data['delete_photo'], $data['_token']);
         
         $data['BEHANDLE'] = 'Y';
-        $data['date_ready_behandle'] = date('Y-m-d H:i:s');
+//        $data['date_ready_behandle'] = date('Y-m-d H:i:s');
         
         if($delete_photo == 'Y'){
             $data['photo_behandle'] = '';
@@ -700,6 +700,23 @@ class FclController extends Controller
         
         if($update){
             return json_encode(array('success' => true, 'message' => 'Behandle successfully updated!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+    
+    public function behandleReady(Request $request, $id)
+    {
+        $data = $request->json()->all(); 
+        unset($data['_token']);
+
+        $data['date_ready_behandle'] = date('Y-m-d H:i:s');        
+        
+        $update = DBContainer::where('TCONTAINER_PK', $id)
+            ->update($data);
+        
+        if($update){
+            return json_encode(array('success' => true, 'message' => 'Behandle successfully updated to Ready!'));
         }
         
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));

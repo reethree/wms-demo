@@ -25,24 +25,135 @@
         @role('bea-cukai')
         <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Import<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li class="dropdown-submenu">
-                          <a class="submenu" tabindex="-1" href="#">LCL <span class="caret"></span></a>
-                          <ul class="dropdown-menu">
-                            <li><a tabindex="-1" href="{{ route('lcl-manifest-index') }}">Manifest</a></li>
-                            <li><a href="{{ route('lcl-delivery-release-index') }}">Release / Gate Out</a></li>
-                          </ul>
-                        </li>
-                        <li class="dropdown-submenu">
-                          <a class="submenu" tabindex="-1" href="#">FCL <span class="caret"></span></a>
-                          <ul class="dropdown-menu">
-                            <li><a href="{{ route('fcl-delivery-release-index') }}">Release / Gate Out</a></li>    
-                          </ul>
-                        </li>
-                    </ul>
-                  </li>
+                @if(\Auth::getUser()->username == 'bcgaters')
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Import<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="dropdown-submenu">
+                              <a class="submenu" tabindex="-1" href="#">LCL <span class="caret"></span></a>
+                              <ul class="dropdown-menu">
+                                <li><a tabindex="-1" href="{{ route('lcl-register-index') }}">Register</a></li>
+                                <li><a tabindex="-1" href="{{ route('lcl-manifest-index') }}">Manifest</a></li>
+                                <li><a tabindex="-1" href="{{ route('lcl-dispatche-index') }}">Dispatche E-Seal</a></li>
+                                <li class="dropdown-submenu">
+                                    <a class="submenu" href="#">Realisasi <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ route('lcl-realisasi-gatein-index') }}">Masuk / Gate In</a></li>
+                                        <li><a href="{{ route('lcl-realisasi-stripping-index') }}">Stripping</a></li>
+                                        <li><a href="{{ route('lcl-realisasi-buangmty-index') }}">Buang MTY</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a class="submenu" href="#">Delivery <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ route('lcl-delivery-behandle-index') }}">Behandle</a></li>
+                                        <li><a href="{{ route('lcl-delivery-release-index') }}">Release / Gate Out</a></li>
+                                    </ul>
+                                </li>
+                              </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a class="submenu" tabindex="-1" href="#">FCL <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a tabindex="-1" href="{{ route('fcl-register-index') }}">Register</a></li>
+                                    <li><a tabindex="-1" href="{{ route('fcl-dispatche-index') }}">Dispatche E-Seal</a></li>
+                                    <li class="dropdown-submenu">
+                                        <a class="submenu" href="#">Realisasi <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{{ route('fcl-realisasi-gatein-index') }}">Masuk / Gate In</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown-submenu">
+                                        <a class="submenu" href="#">Delivery <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{{ route('fcl-delivery-behandle-index') }}">Behandle</a></li>
+                                            <li><a href="{{ route('fcl-delivery-release-index') }}">Release / Gate Out</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">TPS Online <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="dropdown-submenu">
+                            <a class="submenu" href="#">Import <span class="caret"></span></a>
+                                  <ul class="dropdown-menu">
+<!--                                      <li class="dropdown-submenu">
+                                          <a class="submenu" href="#">Table <span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="{{ route('gudang-index') }}">Gudang</a></li>
+                                                <li><a href="{{ route('pelabuhandn-index') }}">Pelabuhan DN</a></li>
+                                                <li><a href="{{ route('pelabuhanln-index') }}">Pelabuhan LN</a></li>
+                                            </ul>
+                                      </li>-->
+                                      <li class="dropdown-submenu">
+                                          <a class="submenu" href="#">Penerimaan Data <span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                              <li><a href="{{ route('tps-responPlp-index') }}">Data Respon PLP</a></li>
+                                              <li><a href="{{ route('tps-responBatalPlp-index') }}">Data Respon Batal PLP</a></li>
+                                              <li><a href="{{ route('tps-obLcl-index') }}">Data OB LCL</a></li>
+                                              <li><a href="{{ route('tps-obFcl-index') }}">Data OB FCL</a></li>
+                                              <li><a href="{{ route('tps-spjm-index') }}">Data SPJM</a></li>
+                                              <li><a href="{{ route('tps-dokManual-index') }}">Data Dok Manual</a></li>
+                                              <li><a href="{{ route('tps-sppbPib-index') }}">Data SPPB</a></li>
+                                              <li><a href="{{ route('tps-sppbBc-index') }}">Data SPPB BC23</a></li>
+                                              <li><a href="{{ route('tps-infoNomorBc-index') }}">Info Nomor BC11</a></li>
+                                            </ul>
+                                      </li>
+                                      <li class="dropdown-submenu">
+                                          <a class="submenu" href="#">Pengiriman Data <span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li class="dropdown-submenu">
+                                                      <a class="submenu" href="#">Coari (Cargo Masuk) <span class="caret"></span></a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a href="{{ route('tps-coariCont-index') }}">Coari Cont</a></li>
+                                                            <li><a href="{{ route('tps-coariKms-index') }}">Coari KMS</a></li>
+                                                        </ul>
+                                                  </li>
+                                                  <li class="dropdown-submenu">
+                                                      <a class="submenu" href="#">Codeco (Cargo Keluar) <span class="caret"></span></a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a href="{{ route('tps-codecoContFcl-index') }}">Codeco Cont FCL</a></li>
+                                                            <li><a href="{{ route('tps-codecoContBuangMty-index') }}">Codeco Cont Buang MTY</a></li>
+                                                            <li><a href="{{ route('tps-codecoKms-index') }}">Codeco KMS</a></li>
+                                                        </ul>
+                                                  </li>
+                                                  <li><a href="{{ route('tps-realisasiBongkarMuat-index') }}">Realisasi Bongkar Muat</a></li>
+                                                  <li><a href="{{ route('tps-laporanYor-index') }}">Laporan YOR</a></li>
+                                            </ul>
+                                      </li>
+<!--                                      <li><a href="{{ route('tps-reject-index') }}">Coari Codeco Reject</a></li>
+                                      <li><a href="{{ route('tps-terkirim-index') }}">Coari Codeco Terkirim</a></li>
+                                      <li><a href="{{ route('tps-gagal-index') }}">Coari Codeco Gagal</a></li>-->
+                                  </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="{{route('barcode-index')}}">Autogate</a>
+                    </li>
+                @else
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Import<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="dropdown-submenu">
+                              <a class="submenu" tabindex="-1" href="#">LCL <span class="caret"></span></a>
+                              <ul class="dropdown-menu">
+                                <li><a tabindex="-1" href="{{ route('lcl-manifest-index') }}">Manifest</a></li>
+                                <li><a href="{{ route('lcl-delivery-release-index') }}">Release / Gate Out</a></li>
+                              </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                              <a class="submenu" tabindex="-1" href="#">FCL <span class="caret"></span></a>
+                              <ul class="dropdown-menu">
+                                <li><a href="{{ route('fcl-delivery-release-index') }}">Release / Gate Out</a></li>    
+                              </ul>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bea Cukai <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="manu">
@@ -79,42 +190,9 @@
                         </li>
                     </ul>
                 </li>
-<!--                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Import<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li class="dropdown-submenu">
-                          <a class="submenu" tabindex="-1" href="#">Import LCL <span class="caret"></span></a>
-                          <ul class="dropdown-menu">
-                            <li><a tabindex="-1" href="{{ route('lcl-behandle-index') }}">Status Behandle</a></li>
-                            <li class="dropdown-submenu">
-                              <a class="submenu" href="#">Report <span class="caret"></span></a>
-                              <ul class="dropdown-menu">  
-                                    <li><a href="{{ route('lcl-report-container') }}">Report Container</a></li>
-                                    <li><a href="{{ route('lcl-report-inout') }}">Report Stock</a></li>    
-                                    <li><a href="{{ route('lcl-report-longstay') }}">Inventory</a></li>
-                              </ul>
-                            </li>
-                          </ul>
-                        </li>
-                        <li class="dropdown-submenu">
-                          <a class="submenu" tabindex="-1" href="#">Import FCL <span class="caret"></span></a>
-                          <ul class="dropdown-menu">
-                            <li><a tabindex="-1" href="{{ route('fcl-behandle-index') }}">Status Behandle</a></li>
-                            <li class="dropdown-submenu">
-                              <a class="submenu" href="#">Report <span class="caret"></span></a>
-                              <ul class="dropdown-menu">
-                                    <li><a href="{{ route('fcl-report-rekap') }}">Report Container</a></li>
-                                    <li><a href="{{ route('fcl-report-longstay') }}">Inventory</a></li>
-                              </ul>
-                            </li>
-                          </ul>
-                        </li>
-                    </ul>
-                  </li>-->
             </ul>
         </div>
         @else
-        
             @role('pbm')
                 <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                     <ul class="nav navbar-nav">
@@ -372,7 +450,7 @@
                   </div>
             @endrole
         
-        @endcan
+        @endrole
         
         <!-- /.navbar-collapse -->
         <!-- Navbar Right Menu -->

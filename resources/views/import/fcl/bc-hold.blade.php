@@ -11,7 +11,7 @@
     function gridCompleteEvent()
     {
         var ids = jQuery("#fclHoldGrid").jqGrid('getDataIDs'),
-            apv = '', sgl = '', info = '';   
+            apv = '', sgl = '', info = '', vi = '';   
             
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
@@ -28,11 +28,53 @@
                 $("#" + cl).find("td").css("background-color", "#ffe500");
             }
             
+            if(rowdata.photo_release_extra != ''){
+                vi = '<button style="margin:5px;" class="btn btn-default btn-xs" data-id="'+cl+'" onclick="viewPhoto('+cl+')"><i class="fa fa-photo"></i> View Photo</button>';
+            }else{
+                vi = '<button style="margin:5px;" class="btn btn-default btn-xs" disabled><i class="fa fa-photo"></i> Not Found</button>';
+            }
+            
             @if(Auth::getUser()->username == 'bcgaters') 
-                jQuery("#fclHoldGrid").jqGrid('setRowData',ids[i],{hold: apv});
+                jQuery("#fclHoldGrid").jqGrid('setRowData',ids[i],{photo: vi, hold: apv});
+            @else
+                jQuery("#fclHoldGrid").jqGrid('setRowData',ids[i],{photo: vi});
             @endif
             
         } 
+    }
+    
+    function viewPhoto(containerID)
+    {       
+        $.ajax({
+            type: 'GET',
+            dataType : 'json',
+            url: '{{route("fcl-report-rekap-view-photo","")}}/'+containerID,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+                $('#container-photo').html('');
+            },
+            success:function(json)
+            {
+                var html_container = '';
+                
+                if(json.data.photo_release_extra){
+                    var photos_container = $.parseJSON(json.data.photo_release_extra);
+                    var html_container = '';
+                    $.each(photos_container, function(i, item) {
+                        /// do stuff
+                        html_container += '<img src="{{url("uploads/photos/container/fcl")}}/'+json.data.NOCONTAINER+'/'+item+'" style="width: 200px;padding:5px;" />';
+
+                    });
+                    $('#container-photo').html(html_container);
+                }
+            }
+        });
+        
+        $('#view-photo-modal').modal('show');
     }
     
     function changeStatus($id)
@@ -126,6 +168,7 @@
 //            ->setGridEvent('onSelectRow', 'onSelectRowEvent')
             ->setGridEvent('gridComplete', 'gridCompleteEvent')
             ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
+            ->addColumn(array('label'=>'Photo','index'=>'photo', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('label'=>'Action','index'=>'hold', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             
             ->addColumn(array('label'=>'Segel Merah','index'=>'flag_bc','width'=>100, 'align'=>'center'))
@@ -150,14 +193,32 @@
             ->addColumn(array('label'=>'Tgl. Gate In','index'=>'TGLMASUK', 'width'=>120,'align'=>'center'))
             ->addColumn(array('label'=>'Jam. Gate In','index'=>'JAMMASUK', 'width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'No.POL IN','index'=>'NOPOL', 'width'=>100,'align'=>'center'))
-            ->addColumn(array('label'=>'No. Segel','index'=>'no_flag_bc','width'=>100,'align'=>'center'))
-            ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center'))
+            ->addColumn(array('label'=>'No. Segel','index'=>'no_flag_bc','width'=>100,'align'=>'center','hidden'=>true))
+            ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center','hidden'=>true))
+            ->addColumn(array('label'=>'Photo Extra','index'=>'photo_release_extra', 'width'=>70,'hidden'=>true))
             ->addColumn(array('label'=>'Lama Timbun (Hari)','index'=>'timeSinceUpdate', 'width'=>150, 'search'=>false, 'align'=>'center'))
             ->renderGrid()
         }}
     </div>
 </div>
-
+<div id="view-photo-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Photo</h4>
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>CONTAINER</h3>
+                        <div id="container-photo"></div>
+                    </div>
+                </div>
+            </div>    
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 @endsection
 

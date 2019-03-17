@@ -5,7 +5,7 @@
 @stop
 
 @section('content')
-<br/><br/><br/><br/><br/>    
+<br/><br/><br/><br/><br/><br/><br/>    
 <div id="details" class="clearfix">
     <div class="row invoice-info" style="border-top: 2px solid;">
         <div class="col-xs-12 margin-bottom">

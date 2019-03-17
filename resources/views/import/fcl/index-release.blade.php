@@ -216,6 +216,8 @@
                 @else
                     $('#TGLRELEASE').attr('disabled','disabled');
                     $('#JAMRELEASE').attr('disabled','disabled');
+                    $('#NO_SPPB').attr('disabled','disabled');
+                    $('#TGL_SPPB').attr('disabled','disabled');
                 @endrole
             }
             

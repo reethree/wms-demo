@@ -73,6 +73,10 @@
 //                $('#behandle-form').disabledFormGroup();
 //            }
 
+            if(rowdata.status_behandle == 'New'){
+                $('#btn-group-5').enableButtonGroup();
+            }
+
         });
         
         $('#btn-print').click(function() {
@@ -229,6 +233,9 @@
                     <div id="btn-group-4" class="btn-group">
                         <button class="btn btn-default" id="btn-print"><i class="fa fa-print"></i> Cetak WO</button>
                     </div>
+                    <div id="btn-group-5" class="btn-group pull-right">
+                        <button class="btn btn-info" id="btn-ready"><i class="fa fa-check"></i> Ready To Checking</button>
+                    </div>
                 </div>
             </div>
             
@@ -239,7 +246,7 @@
                     
                     <input name="_token" type="hidden" value="{{ csrf_token() }}">
                     <input id="TMANIFEST_PK" name="TMANIFEST_PK" type="hidden">
-                    <input id="status_behandle" name="status_behandle" type="hidden" value="Ready">
+                    <input id="status_behandle" name="status_behandle" type="hidden" value="New">
                     <input name="delete_photo" id="delete_photo" value="N" type="hidden">
                     
                     <div class="form-group">
