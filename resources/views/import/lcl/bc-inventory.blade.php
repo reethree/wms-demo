@@ -32,13 +32,12 @@
             if(rowdata.perubahan_hbl == 'Y') {
                 $("#" + cl).find("td").css("background-color", "#3dc6f2").css("color", "#000");
             }
+            if(rowdata.status_bc == 'HOLD') {
+                $("#" + cl).find("td").css("background-color", "#ffe500").css("color", "#000");
+            }
             if(rowdata.flag_bc == 'Y') {
                 $("#" + cl).find("td").css("background-color", "#d73925").css("color", "#FFF");
             }
-            if(rowdata.status_bc == 'HOLD') {
-                $("#" + cl).find("td").css("background-color", "#ffe500").css("color", "#000");
-            } 
-            
 //            jQuery("#lcllongstayGrid").jqGrid('setRowData',ids[i],{action:apv+' '+sgl+' '+info}); 
         } 
     

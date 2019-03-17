@@ -37,14 +37,13 @@
             }else{
                 info = '';
             }
-            
-            if(rowdata.flag_bc == 'Y') {
-                $("#" + cl).find("td").css("background-color", "#FF0000");
-            } 
             if(rowdata.status_bc == 'HOLD') {
                 $("#" + cl).find("td").css("background-color", "#ffe500");
             }
-            
+            if(rowdata.flag_bc == 'Y') {
+                $("#" + cl).find("td").css("background-color", "#FF0000");
+            } 
+
             jQuery("#fcllongstayGrid").jqGrid('setRowData',ids[i],{action:apv+' '+sgl+' '+info});
             
         } 

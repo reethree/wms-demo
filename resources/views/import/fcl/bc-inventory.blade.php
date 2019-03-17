@@ -18,13 +18,13 @@
             
             rowdata = $('#fcllongstayGrid').getRowData(cl);            
             
-            if(rowdata.flag_bc == 'Y') {
-                $("#" + cl).find("td").css("background-color", "#d73925").css("color", "#FFF");
-            } 
             if(rowdata.status_bc == 'HOLD') {
                 $("#" + cl).find("td").css("background-color", "#ffe500").css("color", "#000");
             }
             
+            if(rowdata.flag_bc == 'Y') {
+                $("#" + cl).find("td").css("background-color", "#d73925").css("color", "#FFF");
+            } 
 //            jQuery("#fcllongstayGrid").jqGrid('setRowData',ids[i],{action:apv+' '+sgl+' '+info});
             
         } 
