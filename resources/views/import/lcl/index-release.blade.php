@@ -812,26 +812,6 @@
                     </div>
                 </div>
                 <div class="col-md-6"> 
-<!--                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Lokasi Tujuan</label>
-                        <div class="col-sm-8">
-                            <select class="form-control select2" id="LOKASI_TUJUAN" name="LOKASI_TUJUAN" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                                <option value="consignee">Consignee</option>
-                                @foreach($perusahaans as $perusahaan)
-                                    <option value="{{ $perusahaan->name }}">{{ $perusahaan->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Penagihan</label>
-                        <div class="col-sm-8">
-                            <select class="form-control select2" id="PENAGIHAN" name="PENAGIHAN" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                                <option value="kredit">Kredit</option>
-                                <option value="tunai">Tunai</option>
-                            </select>
-                        </div>
-                    </div>-->
                     <div class="form-group pabean-field" style="display:none;">
                         <label class="col-sm-3 control-label">No. Pabean</label>
                         <div class="col-sm-8">
