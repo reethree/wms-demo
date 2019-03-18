@@ -134,25 +134,6 @@
                     <li class="dropdown">
                         <a href="{{route('barcode-index')}}">Autogate</a>
                     </li>
-                @else
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Import<span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li class="dropdown-submenu">
-                              <a class="submenu" tabindex="-1" href="#">LCL <span class="caret"></span></a>
-                              <ul class="dropdown-menu">
-                                <li><a tabindex="-1" href="{{ route('lcl-manifest-index') }}">Manifest</a></li>
-                                <li><a href="{{ route('lcl-delivery-release-index') }}">Release / Gate Out</a></li>
-                              </ul>
-                            </li>
-                            <li class="dropdown-submenu">
-                              <a class="submenu" tabindex="-1" href="#">FCL <span class="caret"></span></a>
-                              <ul class="dropdown-menu">
-                                <li><a href="{{ route('fcl-delivery-release-index') }}">Release / Gate Out</a></li>    
-                              </ul>
-                            </li>
-                        </ul>
-                    </li>
                 @endif
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bea Cukai <span class="caret"></span></a>

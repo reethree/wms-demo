@@ -1,11 +1,18 @@
 @extends('layout')
 
 @section('content')
-
+<style>
+    .table-bordered {
+        border: 1px solid #aeaeae;
+    }
+    .table-bordered, .table-bordered tbody tr td, .table-bordered tbody tr th {
+        border: 1px solid #aeaeae;
+    }
+</style>
     <!--Welcome, {{ Auth::getUser()->name }}-->
     
     <div class="row">
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-lg-4 col-xs-6">
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
@@ -22,7 +29,7 @@
             </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-lg-4 col-xs-6">
           <!-- small box -->
             <div class="small-box bg-green">
                 <div class="inner">
@@ -39,25 +46,22 @@
             </div>
         </div>
         <!-- ./col -->
-<!--        <div class="col-lg-3 col-xs-6">
-             small box 
+        <div class="col-lg-4 col-xs-6">
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h3>44</h3>
+                    <h3>{{ $countfclcont }}</h3>
 
-                    <p>Registrations</p>
+                    <p>FCL Container</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-person-add"></i>
+                    <i class="ion ion-bag"></i>
                 </div>
                 <a href="#" class="small-box-footer">
                     More info <i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
-         ./col 
-        <div class="col-lg-3 col-xs-6">
-             small box 
+<!--        <div class="col-lg-3 col-xs-6">
             <div class="small-box bg-red">
                 <div class="inner">
                     <h3>65</h3>
@@ -75,10 +79,50 @@
         <!-- ./col -->
     </div>
     
+    <div class="row">
+        <div class="col-sm-6">
+            <table class="table table-bordered table-hover table-striped" style="background: #FFF;">
+                <tbody>
+                    <tr>
+                        <th>TPS ASAL</th>
+                        <!--<th>JML CONT (PLP)</th>-->
+                        <th>JUMLAH CONTAINER (GATEIN)</th>
+                    </tr>
+                    @foreach($countbytps as $key=>$value)
+                    <tr>
+                        <td>{{ $key }}</td>
+                        <!--<td align="center">{{ $value[0] }}</td>-->
+                        <td align="center">{{ $value[1] }}</td>
+                    </tr>
+                    @endforeach
+                    <tr>
+                        <th>TOTAL</th>
+                        <!--<td align="center"><strong>{{ $totcounttpsp }}</strong></td>-->
+                        <td align="center"><strong>{{ $totcounttpsg }}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-6">
+            <table class="table table-bordered table-hover table-striped" style="background: #FFF;">
+                <tbody>
+                    <tr>
+                        <th>KODE DOKUMEN</th>
+                        <th>JUMLAH DOKUMEN</th>
+                    </tr>
+                    @foreach($countbydoc as $key=>$value)
+                    <tr>
+                        <th>{{ $key }}</th>
+                        <td align="center">{{ $value }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 <!--    <div class="row">
     
         <div class="col-md-6">
-             LINE CHART 
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">Line Chart</h3>
@@ -94,7 +138,6 @@
                       <canvas id="lineChart" style="height:250px"></canvas>
                     </div>
                 </div>
-                 /.box-body 
             </div>
         </div>
         <div class="col-md-6">
@@ -113,7 +156,6 @@
                     <canvas id="barChart" style="height:250px"></canvas>
                   </div>
                 </div>
-                 /.box-body 
             </div>
         </div>
     </div>-->
@@ -126,20 +168,11 @@
 <script src="{{ asset ("/bower_components/AdminLTE/plugins/chartjs/Chart.min.js") }}" type="text/javascript"></script>
 
 <script>
-    
+    var key_graph = '{{$key_graph}}';
+    var val_graph = '{{$val_graph}}';
     var areaChartData = {
-      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      labels: JSON.parse(key_graph.replace(/&quot;/g,'"')),
       datasets: [
-        {
-          label: "Electronics",
-          fillColor: "rgba(210, 214, 222, 1)",
-          strokeColor: "rgba(210, 214, 222, 1)",
-          pointColor: "rgba(210, 214, 222, 1)",
-          pointStrokeColor: "#c1c7d1",
-          pointHighlightFill: "#fff",
-          pointHighlightStroke: "rgba(220,220,220,1)",
-          data: [65, 59, 80, 81, 56, 55, 40]
-        },
         {
           label: "Digital Goods",
           fillColor: "rgba(60,141,188,0.9)",
@@ -148,7 +181,7 @@
           pointStrokeColor: "rgba(60,141,188,1)",
           pointHighlightFill: "#fff",
           pointHighlightStroke: "rgba(60,141,188,1)",
-          data: [28, 48, 40, 19, 86, 27, 90]
+          data: val_graph
         }
       ]
     };
@@ -208,9 +241,9 @@
     var barChartCanvas = $("#barChart").get(0).getContext("2d");
     var barChart = new Chart(barChartCanvas);
     var barChartData = areaChartData;
-    barChartData.datasets[1].fillColor = "#00a65a";
-    barChartData.datasets[1].strokeColor = "#00a65a";
-    barChartData.datasets[1].pointColor = "#00a65a";
+//    barChartData.datasets[1].fillColor = "#00a65a";
+//    barChartData.datasets[1].strokeColor = "#00a65a";
+//    barChartData.datasets[1].pointColor = "#00a65a";
     var barChartOptions = {
       //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
       scaleBeginAtZero: true,
