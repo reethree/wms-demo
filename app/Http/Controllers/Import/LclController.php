@@ -840,7 +840,8 @@ class LclController extends Controller
         $data = $request->json()->all(); 
         unset($data['_token']);
 
-        $data['date_ready_behandle'] = date('Y-m-d H:i:s');        
+        $data['date_ready_behandle'] = date('Y-m-d H:i:s');  
+        $data['status_behandle'] = 'Ready';
         
         $update = DBManifest::where('TMANIFEST_PK', $id)
             ->update($data);

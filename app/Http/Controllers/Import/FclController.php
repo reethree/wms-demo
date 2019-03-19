@@ -711,6 +711,7 @@ class FclController extends Controller
         unset($data['_token']);
 
         $data['date_ready_behandle'] = date('Y-m-d H:i:s');        
+        $data['status_behandle'] = 'Ready';
         
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
