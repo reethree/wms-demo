@@ -139,6 +139,43 @@
             $('#TMANIFEST_PK').val("");
         });
         
+        $('#btn-ready').click(function() {
+            if(!confirm('Apakah anda yakin?')){return false;}
+            
+            var manifestId = $('#TMANIFEST_PK').val();
+            var url = "{{route('lcl-delivery-behandle-ready','')}}/"+manifestId;
+
+            $.ajax({
+                type: 'POST',
+                data: {
+                    _token : '{{ csrf_token() }}',
+                    status_behandle : 'Ready'
+                },
+                dataType : 'json',
+                url: url,
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                },
+                beforeSend:function()
+                {
+
+                },
+                success:function(json)
+                {
+                    console.log(json);
+                    if(json.success) {
+                      $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    } else {
+                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    }
+
+                    //Triggers the "Close" button funcionality.
+                    $('#btn-refresh').click();
+                }
+            });
+        });
+        
     });
     
 </script>
