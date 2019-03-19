@@ -104,6 +104,18 @@
             }else{
                 $(".hide-kddoc").hide();
             }
+            
+            if($this == 1){
+                @role('super-admin')
+                    
+                @else
+                    $('#NO_SPPB').attr('disabled','disabled');
+                    $('#TGL_SPPB').attr('disabled','disabled');
+                @endrole
+            }else{
+                $('#NO_SPPB').removeAttr('disabled');
+                $('#TGL_SPPB').removeAttr('disabled');
+            }
         });
         
         $('#get-sppb-btn').click(function(){
@@ -206,6 +218,16 @@
             $('#release-form').enableFormGroup();
             $('#btn-group-4').enableButtonGroup();
             $('#btn-group-5').enableButtonGroup();
+            
+            if(rowdata.KD_DOK_INOUT == 1){
+                @role('super-admin')
+                    
+                @else
+                    $('#NO_SPPB').attr('disabled','disabled');
+                    $('#TGL_SPPB').attr('disabled','disabled');
+                @endrole
+            }
+            
             if(!rowdata.tglrelease && !rowdata.jamrelease) {
 
             }else{ 
@@ -214,8 +236,6 @@
                 @else
                     $('#tglrelease').attr('disabled','disabled');
                     $('#jamrelease').attr('disabled','disabled');
-                    $('#NO_SPPB').attr('disabled','disabled');
-                    $('#TGL_SPPB').attr('disabled','disabled');
                 @endrole
             }
   
@@ -742,7 +762,22 @@
             <hr />
             <div class="row">
                 <div class="col-md-6">
-                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Kode Dokumen</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" id="KD_DOK_INOUT" name="KD_DOK_INOUT" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <option value="">Choose Document</option>
+                                @foreach($kode_doks as $kode)
+                                    <option value="{{ $kode->kode }}">({{$kode->kode}}) {{ $kode->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-11" id="btn-sppb">
+                            <button type="button" class="btn btn-info pull-right" id="get-sppb-btn"><i class="fa fa-download"></i> Get Data</button>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No.SPPB/BC.23</label>
                         <div class="col-sm-8">
@@ -760,22 +795,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Kode Dokumen</label>
-                        <div class="col-sm-8">
-                            <select class="form-control select2" id="KD_DOK_INOUT" name="KD_DOK_INOUT" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                                <option value="">Choose Document</option>
-                                @foreach($kode_doks as $kode)
-                                    <option value="{{ $kode->kode }}">({{$kode->kode}}) {{ $kode->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-11" id="btn-sppb">
-                            <button type="button" class="btn btn-info pull-right" id="get-sppb-btn"><i class="fa fa-download"></i> Get Data</button>
-                        </div>
-                    </div>
+                    
 <!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">Status BC</label>
                         <div class="col-sm-8">

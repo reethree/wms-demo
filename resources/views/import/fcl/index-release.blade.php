@@ -95,6 +95,17 @@
             }else{
                 $(".hide-kddoc").hide();
             }
+            if($this == 1){
+                @role('super-admin')
+                    
+                @else
+                    $('#NO_SPPB').attr('disabled','disabled');
+                    $('#TGL_SPPB').attr('disabled','disabled');
+                @endrole
+            }else{
+                $('#NO_SPPB').removeAttr('disabled');
+                $('#TGL_SPPB').removeAttr('disabled');
+            }
         });
         
         $('#get-sppb-btn').click(function(){
@@ -208,16 +219,24 @@
             $('#release-form').enableFormGroup();
             $('#btn-group-4').enableButtonGroup();
             $('#btn-group-5').enableButtonGroup();
+            
+            if(rowdata.KD_DOK_INOUT == 1){
+                @role('super-admin')
+                    
+                @else
+                    $('#NO_SPPB').attr('disabled','disabled');
+                    $('#TGL_SPPB').attr('disabled','disabled');
+                @endrole
+            }
+            
             if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
-
+                
             }else{
                 @role('super-admin')
 
                 @else
                     $('#TGLRELEASE').attr('disabled','disabled');
                     $('#JAMRELEASE').attr('disabled','disabled');
-                    $('#NO_SPPB').attr('disabled','disabled');
-                    $('#TGL_SPPB').attr('disabled','disabled');
                 @endrole
             }
             
@@ -691,23 +710,6 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">No. SPPB</label>
-                        <div class="col-sm-8">
-                            <input type="text" id="NO_SPPB" name="NO_SPPB" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Tgl. SPPB</label>
-                        <div class="col-sm-8">
-                            <div class="input-group date">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" id="TGL_SPPB" name="TGL_SPPB" class="form-control pull-right datepicker" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="col-sm-3 control-label">Kode Dokumen</label>
                         <div class="col-sm-8">
                             <select class="form-control select2" id="KD_DOK_INOUT" name="KD_DOK_INOUT" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
@@ -723,6 +725,24 @@
                             <button type="button" class="btn btn-info pull-right" id="get-sppb-btn"><i class="fa fa-download"></i> Get Data</button>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">No. SPPB</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="NO_SPPB" name="NO_SPPB" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Tgl. SPPB</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" id="TGL_SPPB" name="TGL_SPPB" class="form-control pull-right datepicker" required>
+                            </div>
+                        </div>
+                    </div> 
+                    
                     <div class="form-group select-bcf-consignee" style="display:none;">
                         <label class="col-sm-3 control-label">BCF 1.5 Consignee</label>
                         <div class="col-sm-8">
