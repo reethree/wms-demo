@@ -45,18 +45,17 @@
                         <tr>
                             <td style="color: transparent;">Ex. Kapal/Voy</td>
                             <td class="padding-10 text-center" style="color: transparent;">:</td>
-                            <td>{{ $container->VESSEL.' V.'.$container->VOY }}</td>
+                            <td style="line-height: 20px;">{{ $container->VESSEL.' V.'.$container->VOY }}</td>
                         </tr>
                         <tr>
                             <td style="color: transparent;">Tanggal Tiba </td>
                             <td class="padding-10 text-center" style="color: transparent;">:</td>
-                            <td>{{ date("d-m-Y", strtotime($container->ETA)) }}</td>
+                            <td style="line-height: 20px;">{{ date("d-m-Y", strtotime($container->ETA)) }}</td>
                         </tr>
-                        
                         <tr>
                             <td style="color: transparent;">Truk No. Pol</td>
                             <td class="padding-10 text-center" style="color: transparent;">:</td>
-                            <td>{{ $container->NOPOL }}</td>
+                            <td style="line-height: 20px;">{{ $container->NOPOL }}</td>
                         </tr>
                         <tr>
                             <td style="color: transparent;">Pemilik Angkut</td>
