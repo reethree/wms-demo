@@ -83,21 +83,22 @@
                 </td>
                 <td style="vertical-align: top;">
                     <table border="0" cellspacing="0" cellpadding="0" style="font-size: 12px;margin-bottom: 0;">
-                        <tr>
+<!--                        <tr>
                             <td style="color: transparent;">No. Bea Cukai</td>
                             <td class="padding-10 text-center" style="color: transparent;">:</td>
                             <td style="color: transparent;">{{ $container->NO_SPPB }}</td>
-                        </tr>
+                        </tr>-->
 <!--                        <tr>
                             <td colspan="3">&nbsp;</td>
                         </tr>-->
                         <tr>
-                            <td colspan="3" style="line-height: 20px;">{{ $container->CONSIGNEE }}</td>
+                            <td colspan="3" style="line-height: 50px;">{{ $container->CONSIGNEE }}</td>
                         </tr>
                     </table>
                 </td>
             </tr>
         </table>
+        <br />
         <br />
         <br />
         <table border="0" cellspacing="0" cellpadding="0">
@@ -115,10 +116,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr style="font-size: 14px;">
+                <tr style="font-size: 16px;">
                     <td width='120'>&nbsp;</td>
                     <!--<td>{{ $container->NAMACONSOLIDATOR }}</td>-->
-                    <td width='30%'>{{ $container->NOCONTAINER }}</td>
+                    <td width='30%'><b>{{ $container->NOCONTAINER }}</b></td>
                     <td style="text-align: center;">1</td>
                     <td>{{ $container->SIZE }}</td>
                     <td width='30%'></td>
