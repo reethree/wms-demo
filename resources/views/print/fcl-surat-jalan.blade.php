@@ -92,7 +92,7 @@
                             <td colspan="3">&nbsp;</td>
                         </tr>-->
                         <tr>
-                            <td colspan="3">{{ $container->CONSIGNEE }}</td>
+                            <td colspan="3" style="line-height: 20px;">{{ $container->CONSIGNEE }}</td>
                         </tr>
                     </table>
                 </td>
@@ -115,8 +115,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td width='100'>&nbsp;</td>
+                <tr style="font-size: 14px;">
+                    <td width='120'>&nbsp;</td>
                     <!--<td>{{ $container->NAMACONSOLIDATOR }}</td>-->
                     <td width='30%'>{{ $container->NOCONTAINER }}</td>
                     <td style="text-align: center;">1</td>
