@@ -40,22 +40,22 @@
                             <td style="color: transparent;">Kepada Yth.</td>
                             <td class="padding-10 text-center" style="color: transparent;">:</td>
                             <!--<td>{{ $container->NAMACONSOLIDATOR }}</td>-->
-                            <td>PT. PRIMANATA JASA PERSADA</td>
+                            <td><b>PT. PRIMANATA JASA PERSADA</b></td>
                         </tr>
                         <tr>
                             <td style="color: transparent;">Ex. Kapal/Voy</td>
                             <td class="padding-10 text-center" style="color: transparent;">:</td>
-                            <td style="line-height: 20px;">{{ $container->VESSEL.' V.'.$container->VOY }}</td>
+                            <td style="line-height: 20px;"><b>{{ $container->VESSEL.' V.'.$container->VOY }}</b></td>
                         </tr>
                         <tr>
                             <td style="color: transparent;">Tanggal Tiba </td>
                             <td class="padding-10 text-center" style="color: transparent;">:</td>
-                            <td style="line-height: 20px;">{{ date("d-m-Y", strtotime($container->ETA)) }}</td>
+                            <td style="line-height: 20px;"><b>{{ date("d-m-Y", strtotime($container->ETA)) }}</b></td>
                         </tr>
                         <tr>
                             <td style="color: transparent;">Truk No. Pol</td>
                             <td class="padding-10 text-center" style="color: transparent;">:</td>
-                            <td style="line-height: 20px;">{{ $container->NOPOL }}</td>
+                            <td style="line-height: 20px;"><b>{{ $container->NOPOL }}</b></td>
                         </tr>
                         <tr>
                             <td style="color: transparent;">Pemilik Angkut</td>
@@ -66,7 +66,7 @@
                         <tr>
                             <td style="color: transparent;">No. DO</td>
                             <td class="padding-10 text-center" style="color: transparent;">:</td>
-                            <td>SPPB {{$container->NO_SPPB .' / '. $container->TGL_SPPB}}</td>
+                            <td><b>SPPB {{$container->NO_SPPB .' / '. $container->TGL_SPPB}}</b></td>
                         </tr>
                         <tr>
                             <td style="color: transparent;">No. BL</td>
@@ -92,7 +92,7 @@
                             <td colspan="3">&nbsp;</td>
                         </tr>-->
                         <tr>
-                            <td colspan="3" style="line-height: 50px;">{{ $container->CONSIGNEE }}</td>
+                            <td colspan="3" style="line-height: 50px;"><b>{{ $container->CONSIGNEE }}</b></td>
                         </tr>
                     </table>
                 </td>
@@ -120,8 +120,8 @@
                     <td width='120'>&nbsp;</td>
                     <!--<td>{{ $container->NAMACONSOLIDATOR }}</td>-->
                     <td width='30%'><b>{{ $container->NOCONTAINER }}</b></td>
-                    <td style="text-align: center;">1</td>
-                    <td>{{ $container->SIZE }}</td>
+                    <td style="text-align: center;"><b>1</b></td>
+                    <td><b>{{ $container->SIZE }}</b></td>
                     <td width='30%'></td>
                 </tr>
             </tbody>
