@@ -792,7 +792,7 @@ class FclController extends Controller
         $data['TGLSURATJALAN'] = $data['TGLRELEASE'];
         $data['JAMSURATJALAN'] = $data['JAMRELEASE'];
         $data['NAMAEMKL'] = '';
-        $data['NOPOL'] = $data['NOPOL_OUT'];
+//        $data['NOPOL'] = $data['NOPOL_OUT'];
         
         $data['ID_CONSIGNEE'] = str_replace(array('.','-'), array('',''), $data['ID_CONSIGNEE']);
 
@@ -1188,8 +1188,10 @@ class FclController extends Controller
                 $coaricontdetail->TGL_BL_AWB = (!empty($container->TGL_BL_AWB) ? date('Ymd', strtotime($container->TGL_BL_AWB)) : '');
                 $coaricontdetail->NO_MASTER_BL_AWB = $container->NOMBL;
                 $coaricontdetail->TGL_MASTER_BL_AWB = (!empty($container->TGL_MASTER_BL) ? date('Ymd', strtotime($container->TGL_MASTER_BL)) : '');
-                $coaricontdetail->ID_CONSIGNEE = str_replace(array('.','-'), array(''), $container->ID_CONSOLIDATOR);
-                $coaricontdetail->CONSIGNEE = $container->NAMACONSOLIDATOR;
+//                $coaricontdetail->ID_CONSIGNEE = str_replace(array('.','-'), array(''), $container->ID_CONSOLIDATOR);
+//                $coaricontdetail->CONSIGNEE = $container->NAMACONSOLIDATOR;
+                $coaricontdetail->ID_CONSIGNEE = $container->ID_CONSIGNEE;
+                $coaricontdetail->CONSIGNEE = $container->CONSIGNEE;
                 $coaricontdetail->BRUTO = (!empty($container->WEIGHT) ? $container->WEIGHT : 0);
                 $coaricontdetail->NO_BC11 = $container->NO_BC11;
                 $coaricontdetail->TGL_BC11 = (!empty($container->TGL_BC11) ? date('Ymd', strtotime($container->TGL_BC11)) : '');

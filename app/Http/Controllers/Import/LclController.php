@@ -1477,7 +1477,7 @@ class LclController extends Controller
                 $codecocontdetail->FLAG_REVISI = '';
                 $codecocontdetail->TGL_REVISI = '';
                 $codecocontdetail->TGL_REVISI_UPDATE = '';
-                $codecocontdetail->KD_TPS_ASAL = '';
+                $codecocontdetail->KD_TPS_ASAL = $container->KD_TPS_ASAL;
                 $codecocontdetail->RESPONSE_MAL0 = '';
                 $codecocontdetail->STATUS_TPS_MAL0 = '';
                 $codecocontdetail->TGL_ENTRY = date('Y-m-d');
@@ -2088,7 +2088,7 @@ class LclController extends Controller
             
             $jobid = $request->jobid;
             
-            \Excel::selectSheetsByIndex(2, 3, 5)->load($request->file('filexls'), function($reader) {
+            \Excel::selectSheets(['Detil', 'Barang', 'Kontainer'])->load($request->file('filexls'), function($reader) {
                 
                 $reader->each(function($sheet) {
                     if($sheet->getTitle() == 'Detil'){

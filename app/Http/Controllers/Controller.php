@@ -63,7 +63,15 @@ class Controller extends BaseController
         
         $data['items'] = \App\Models\Perusahaan::select('TPERUSAHAAN_PK as id','NAMAPERUSAHAAN as text')
                 ->orWhere('NAMAPERUSAHAAN','LIKE','%'.$query.'%')
+                ->orderBy('TPERUSAHAAN_PK', 'DESC')
                 ->get();
+        
+        return json_encode($data);
+    }
+    
+    public function getSingleDataPerusahaan(Request $request) {
+        
+        $data = \App\Models\Perusahaan::find($request->id);
         
         return json_encode($data);
     }
@@ -284,6 +292,49 @@ class Controller extends BaseController
 //            return "$difference $periods[$j] $tense ";
             return "$difference $periods[$j]";
         }
+    }
+    
+    function romawi($angka)
+    {
+        switch ($angka) {
+            case '1':
+                $format = 'I';
+                break;
+            case '2':
+                $format = 'II';
+                break;
+            case '3':
+                $format = 'III';
+                break;
+            case '4':
+                $format = 'IV';
+                break;
+            case '5':
+                $format = 'V';
+                break;
+            case '6':
+                $format = 'VI';
+                break;
+            case '7':
+                $format = 'VII';
+                break;
+            case '8':
+                $format = 'VIII';
+                break;
+            case '9':
+                $format = 'IX';
+                break;
+            case '10':
+                $format = 'X';
+                break;
+            case '11':
+                $format = 'XI';
+                break;
+            case '12':
+                $format = 'XII';
+                break;
+}
+        return $format;
     }
     
 }
