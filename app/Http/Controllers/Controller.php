@@ -339,7 +339,8 @@ class Controller extends BaseController
     
     public function addLogSegel($data = array())
     {
-        return true;
+        $insert = DB::table('log_segel')->insert($data);
+        return $insert;
     }
     
 }
