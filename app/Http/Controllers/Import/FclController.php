@@ -1770,7 +1770,7 @@ class FclController extends Controller
         }
     }
     
-        public function behandleUploadPhoto(Request $request)
+    public function behandleUploadPhoto(Request $request)
     {
         $picture = array();
         if ($request->hasFile('photos')) {
@@ -1865,6 +1865,19 @@ class FclController extends Controller
         $container->photo_lock = json_encode($picture);
             
         if($container->save()){
+            // Save to log
+            $datalog = array(
+                'ref_id' => $container_id,
+                'ref_type' => 'fcl',
+                'no_segel'=> $container->no_flag_bc,
+                'alasan' => $container->alasan_segel,
+                'keterangan' => $container->description_flag_bc,
+                'photo' => $container->photo_lock,
+                'action' => 'lock',
+                'uid' => \Auth::getUser()->name
+            );
+            $this->addLogSegel($datalog);
+            
             return back()->with('success', 'Flag has been locked.')->withInput();
         }
         
@@ -1912,6 +1925,19 @@ class FclController extends Controller
         $container->photo_unlock = json_encode($picture);
         
         if($container->save()){
+            // Save to log
+            $datalog = array(
+                'ref_id' => $container_id,
+                'ref_type' => 'fcl',
+                'no_segel'=> $container->no_unflag_bc,
+                'alasan' => $container->alasan_lepas_segel,
+                'keterangan' => $container->description_unflag_bc,
+                'photo' => $container->photo_unlock,
+                'action' => 'unlock',
+                'uid' => \Auth::getUser()->name
+            );
+            $this->addLogSegel($datalog);
+            
             return back()->with('success', 'Flag has been unlocked.')->withInput();
         }
         

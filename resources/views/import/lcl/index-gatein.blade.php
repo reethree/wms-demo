@@ -506,8 +506,6 @@
                                     <input type="file" name="photos[]" class="form-control" multiple="true" required>
                                 </div>
                             </div>
-                            
-                            
                         </div>
                     </div>
                 </div>

@@ -337,4 +337,9 @@ class Controller extends BaseController
         return $format;
     }
     
+    public function addLogSegel($data = array())
+    {
+        return true;
+    }
+    
 }

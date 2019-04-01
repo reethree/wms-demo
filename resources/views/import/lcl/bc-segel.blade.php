@@ -31,7 +31,7 @@
             if(rowdata.no_flag_bc != ''){
                 info = '<button style="margin:5px;" class="btn btn-default btn-xs info-segel-btn" data-id="'+cl+'" onclick="viewInfo('+cl+')"><i class="fa fa-info"></i> INFO</button>';
             }else{
-                info = '';
+                info = '<button style="margin:5px;" class="btn btn-default btn-xs info-segel-btn" disabled><i class="fa fa-info"></i> INFO</button>';
             }
             
             if(rowdata.perubahan_hbl == 'Y') {
@@ -231,6 +231,8 @@
             ->addColumn(array('label'=>'Jam. Gate In','index'=>'jammasuk', 'width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Tgl. Stripping','index'=>'tglstripping', 'width'=>120,'align'=>'center'))
             ->addColumn(array('label'=>'Jam. Stripping','index'=>'jamstripping', 'width'=>100,'align'=>'center'))
+            ->addColumn(array('index'=>'location_id', 'width'=>150,'hidden'=>true))
+            ->addColumn(array('label'=>'Lokasi','index'=>'location_name','width'=>200, 'align'=>'center'))
             ->addColumn(array('label'=>'No. Segel','index'=>'no_flag_bc','width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'No. Lepas Segel','index'=>'no_unflag_bc','width'=>100,'align'=>'center'))

@@ -2276,6 +2276,36 @@ class LclController extends Controller
         }
     }
     
+    public function strippingUploadPhoto(Request $request)
+    {
+        $picture = array();
+        if ($request->hasFile('photos')) {
+            $files = $request->file('photos');
+            $destinationPath = base_path() . '/public/uploads/photos/container/lcl/'.$request->no_cont;
+            $i = 1;
+            foreach($files as $file){
+//                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                
+                $filename = date('dmyHis').'_'.str_slug($request->no_cont).'_'.$i.'.'.$extension;
+                $picture[] = $filename;
+                $file->move($destinationPath, $filename);
+                $i++;
+            }
+            // update to Database
+            $container = DBContainer::find($request->id_cont);
+            $container->photo_stripping = json_encode($picture);
+            if($container->save()){
+                return back()->with('success', 'Photo for Container '. $request->no_cont .' has been uploaded.');
+            }else{
+                return back()->with('error', 'Photo uploaded, but not save in Database.');
+            }
+            
+        } else {
+            return back()->with('error', 'Something wrong!!! Can\'t upload photo, please try again.');
+        }
+    }
+    
     public function changeStatusBc($id)
     {
         $manifest = DBManifest::find($id);
@@ -2342,6 +2372,19 @@ class LclController extends Controller
         $manifest->photo_lock = json_encode($picture);
             
         if($manifest->save()){
+            // Save to log
+            $datalog = array(
+                'ref_id' => $manifest_id,
+                'ref_type' => 'lcl',
+                'no_segel'=> $manifest->no_flag_bc,
+                'alasan' => $manifest->alasan_segel,
+                'keterangan' => $manifest->description_flag_bc,
+                'photo' => $manifest->photo_lock,
+                'action' => 'lock',
+                'uid' => \Auth::getUser()->name
+            );
+            $this->addLogSegel($datalog);
+            
             return back()->with('success', 'Flag has been locked.')->withInput();
         }
         
@@ -2390,6 +2433,19 @@ class LclController extends Controller
         $manifest->photo_unlock = json_encode($picture);
         
         if($manifest->save()){
+            // Save to log
+            $datalog = array(
+                'ref_id' => $manifest_id,
+                'ref_type' => 'lcl',
+                'no_segel'=> $manifest->no_unflag_bc,
+                'alasan' => $manifest->alasan_lepas_segel,
+                'keterangan' => $manifest->description_unflag_bc,
+                'photo' => $manifest->photo_unlock,
+                'action' => 'unlock',
+                'uid' => \Auth::getUser()->name
+            );
+            $this->addLogSegel($datalog);
+            
             return back()->with('success', 'Flag has been unlocked.')->withInput();
         }
         

@@ -62,7 +62,7 @@
     $(document).ready(function()
     {
         $('#stripping-form').disabledFormGroup();
-        $('#btn-toolbar').disabledButtonGroup();
+        $('#btn-toolbar, #btn-photo').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
         $('#btn-edit').click(function() {
@@ -98,8 +98,24 @@
             $('#working_hours').val(rowdata.working_hours);
             $('#jumlah_bl').val(rowdata.jumlah_bl);
             
+            $('#upload-title').html('Upload Photo Hasil Stripping '+rowdata.NOCONTAINER);
+            $('#no_cont').val(rowdata.NOCONTAINER);
+            $('#id_cont').val(rowdata.TCONTAINER_PK);
+            $('#load_photos').html('');
+            $('#delete_photo').val('N');
+            
+            if(rowdata.photo_stripping){
+                var html = '';
+                var photos = $.parseJSON(rowdata.photo_stripping);
+                $.each(photos, function(i, item) {
+                    /// do stuff
+                    html += '<img src="{{url("uploads/photos/container/lcl/")}}/'+rowdata.NOCONTAINER+'/'+item+'" style="width: 200px;padding:5px;" />';
+                });
+                $('#load_photos').html(html);
+            }
+            
             if(rowdata.TGLMASUK && rowdata.JAMMASUK) {
-                $('#btn-group-2').enableButtonGroup();
+                $('#btn-group-2,#btn-photo').enableButtonGroup();
                 $('#stripping-form').enableFormGroup();
                 $('#UIDSTRIPPING').val('{{ Auth::getUser()->name }}');
                 $('#TGLMASUK').attr('disabled','disabled');
@@ -226,7 +242,7 @@
                     ->addColumn(array('label'=>'Mulai Tunda','index'=>'mulai_tunda','hidden'=>true))
                     ->addColumn(array('label'=>'Selesai Tunda','index'=>'selesai_tunda','hidden'=>true))
                     ->addColumn(array('label'=>'Keterangan','index'=>'keterangan','hidden'=>true))
-                    
+                    ->addColumn(array('label'=>'Photo Stripping','index'=>'photo_stripping', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Operator Forklif','index'=>'operator_forklif','hidden'=>true))
         //            ->addColumn(array('label'=>'Layout','index'=>'layout','width'=>80,'align'=>'center','hidden'=>true))
         //            ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
@@ -367,6 +383,18 @@
                             <input type="text" id="MEAS" name="MEAS" class="form-control" required readonly>
                         </div>
                     </div>
+                    <div class="form-group" id="btn-photo">
+                        <label class="col-sm-3 control-label">Photo</label>
+                        <div class="col-sm-8">
+                            <button type="button" class="btn btn-warning" id="upload-photo-btn">Upload Photo</button>
+                            <button type="button" class="btn btn-danger" id="delete-photo-btn">Delete Photo</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div id="load_photos" style="text-align: center;"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6"> 
                     <div class="form-group">
@@ -467,7 +495,37 @@
         </form>  
     </div>
 </div>
-
+<div id="photo-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="upload-title"></h4>
+            </div>
+            <form class="form-horizontal" id="upload-photo-form" action="{{ route('lcl-stripping-upload-photo') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <input type="hidden" id="id_cont" name="id_cont" required>   
+                            <input type="hidden" id="no_cont" name="no_cont" required>    
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Photo</label>
+                                <div class="col-sm-8">
+                                    <input type="file" name="photos[]" class="form-control" multiple="true" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @endsection
 
 @section('custom_css')
@@ -485,6 +543,18 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
 <script src="{{ asset("/plugins/jQgrid/js/date.js") }}" type="text/javascript"></script>
 <script type="text/javascript">
+    $("#upload-photo-btn").on("click", function(e){
+        e.preventDefault();
+        $("#photo-modal").modal('show');
+        return false;
+    });
+    
+    $("#delete-photo-btn").on("click", function(e){
+        if(!confirm('Apakah anda yakin akan menghapus photo?')){return false;}
+        
+        $('#load_photos').html('');
+        $('#delete_photo').val('Y');
+    });
     $('.select2').select2();
     $('.datepicker').datepicker({
         autoclose: true,
