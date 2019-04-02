@@ -11,7 +11,7 @@
     function gridCompleteEvent()
     {
         var ids = jQuery("#lclStrippingGrid").jqGrid('getDataIDs'),
-            apv = ''; 
+            apv = '', vi = ''; 
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
             var rowdata = $('#lclStrippingGrid').getRowData(cl);
@@ -22,7 +22,13 @@
                 apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-stripping-btn" data-id="'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){ approveStripping('+cl+'); }else{return false;};"><i class="fa fa-check"></i> Stripping</button>';
             }
             
-            jQuery("#lclStrippingGrid").jqGrid('setRowData',ids[i],{action:apv}); 
+            if(rowdata.photo_gatein_extra != '' || rowdata.photo_stripping != ''){
+                vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" data-id="'+cl+'" onclick="viewPhoto('+cl+')"><i class="fa fa-photo"></i> View Photo</button>';
+            }else{
+                vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" disabled><i class="fa fa-photo"></i> Not Found</button>';
+            }
+            
+            jQuery("#lclStrippingGrid").jqGrid('setRowData',ids[i],{action:apv, photo:vi}); 
         } 
     }
     
@@ -52,6 +58,51 @@
                 $('#btn-refresh').click();
             }
         });
+    }
+    
+    function viewPhoto(containerID)
+    {       
+        $.ajax({
+            type: 'GET',
+            dataType : 'json',
+            url: '{{route("lcl-report-container-view-photo","")}}/'+containerID,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+                $('#container-photo').html('');
+                $('#stripping-photo').html('');
+            },
+            success:function(json)
+            {                
+                if(json.data.photo_gatein_extra){
+                    var photos_container = $.parseJSON(json.data.photo_gatein_extra);
+                    var html_container = '';
+                    $.each(photos_container, function(i, item) {
+                        /// do stuff
+                        html_container += '<img src="{{url("uploads/photos/container/lcl")}}/'+json.data.NOCONTAINER+'/'+item+'" style="width: 200px;padding:5px;" />';
+
+                    });
+                    $('#container-photo').html(html_container);
+                }
+                if(json.data.photo_stripping){
+                    var photos_stripping = $.parseJSON(json.data.photo_stripping);
+                    var html_stripping = '';
+                    $.each(photos_stripping, function(i, item) {
+                        /// do stuff
+                        html_stripping += '<img src="{{url("uploads/photos/container/lcl")}}/'+json.data.NOCONTAINER+'/'+item+'" style="width: 200px;padding:5px;" />';
+
+                    });
+                    $('#stripping-photo').html(html_stripping);
+                }
+                
+                $("#title-photo").html('PHOTO CONTAINER NO. '+json.data.NOCONTAINER);
+            }
+        });
+        
+        $('#view-photo-modal').modal('show');
     }
     
     function onSelectRowEvent()
@@ -211,6 +262,7 @@
                     ->setGridEvent('gridComplete', 'gridCompleteEvent')
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                     ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>100, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+                    ->addColumn(array('label'=>'Photo','index'=>'photo', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                     ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
                     ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>150))
                     ->addColumn(array('label'=>'No. Joborder','index'=>'NoJob','width'=>150))
@@ -248,6 +300,8 @@
         //            ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
                     ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150,'align'=>'center','search'=>false))
+                    ->addColumn(array('label'=>'Photo Extra','index'=>'photo_gatein_extra', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Photo Stripping','index'=>'photo_stripping', 'width'=>70,'hidden'=>true))
         //            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                     ->renderGrid()
                 }}
@@ -523,6 +577,27 @@
                   <button type="submit" class="btn btn-primary">Upload</button>
                 </div>
             </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div id="view-photo-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="title-photo">Photo</h4>
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>AJU STRIPPING</h4>
+                        <div id="container-photo"></div>
+                        <hr />
+                        <h4>HASIL STRIPPING</h4>
+                        <div id="stripping-photo"></div>
+                    </div>
+                </div>
+            </div>    
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
