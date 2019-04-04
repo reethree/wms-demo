@@ -18,7 +18,7 @@ class DashboardController extends Controller
         $data['page_title'] = "Welcome to Dashboard";
         $data['page_description'] = "WMS PRIMANATA JASA PERSADA";
         
-        // FCL       
+        // FCL DASHBOARD       
         $jict = \App\Models\Containercy::where('KD_TPS_ASAL', 'JICT')->whereRaw('MONTH(TGL_PLP) = '.date('m'))->whereRaw('YEAR(TGL_PLP) = '.date('Y'))->count();
         $koja = \App\Models\Containercy::where('KD_TPS_ASAL', 'KOJA')->whereRaw('MONTH(TGL_PLP) = '.date('m'))->whereRaw('YEAR(TGL_PLP) = '.date('Y'))->count();
         $mal = \App\Models\Containercy::where('KD_TPS_ASAL', 'MAL0')->whereRaw('MONTH(TGL_PLP) = '.date('m'))->whereRaw('YEAR(TGL_PLP) = '.date('Y'))->count();
@@ -46,14 +46,17 @@ class DashboardController extends Controller
         $data['totcounttpsg'] = array_sum(array($jictg,$kojag,$malg,$nct1g,$pldcg));
         
         $data['countfclcont'] = \App\Models\Containercy::whereNotNull('TGLMASUK')->whereNull('TGLRELEASE')->count();
-        $data['countlclmanifest'] = \App\Models\Manifest::whereNotNull('tglmasuk')->whereNotNull('tglstripping')->whereNull('tglrelease')->count();
         
         $data['key_graph'] = json_encode(array('JICT', 'KOJA', 'MAL0', 'NCT1', 'PLDC'));
         $data['val_graph'] = json_encode(array($jict, $koja, $mal, $nct1, $pldc));
         
+        
+        // LCL DASHBOARD
+        $data['countlclmanifest'] = \App\Models\Manifest::whereNotNull('tglmasuk')->whereNotNull('tglstripping')->whereNull('tglrelease')->count();
+        
         $data['sor'] = \App\Models\SorYor::where('type', 'sor')->first();
         $data['yor'] = \App\Models\SorYor::where('type', 'yor')->first();
-        
+              
         return view('welcome')->with($data);
     }
 }

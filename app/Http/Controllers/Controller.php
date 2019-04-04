@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Facades\View;
 
 use Illuminate\Http\Request;
 
@@ -31,6 +32,12 @@ class Controller extends BaseController
         }
         $this->access = DBRole::find($role_id);
         $this->user = $user;
+        
+        // CHECK STATUS BEHANDLE
+        $lcl_sb = \App\Models\Manifest::where('status_behandle','Ready')->count();
+        $fcl_sb = \App\Models\Containercy::where('status_behandle','Ready')->count();
+        
+        View::share('notif_behandle', array('lcl' => $lcl_sb, 'fcl' => $fcl_sb, 'total' => $lcl_sb+$fcl_sb));
         
     }
     

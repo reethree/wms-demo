@@ -81,29 +81,58 @@
             },
             success:function(json)
             {
-                var html_lock = '<p>Nomor Segel : <b>'+json.data.no_flag_bc+'</b><br />Alasan Segel : <b>'+json.data.alasan_segel+'</b><br />Keterangan : <b>'+json.data.description_flag_bc+'</b></p>';
-                var html_unlock = '<p>Nomor Lepas Segel : <b>'+json.data.no_unflag_bc+'</b><br />Alasan Lepas Segel : <b>'+json.data.alasan_lepas_segel+'</b><br />Keterangan : <b>'+json.data.description_unflag_bc+'</b></p>';
+                var data_segel = json.data;
+                var html_lock = '';
+                var html_unlock = '';
+                
+                for(var i = 0; i < data_segel.length; i++) {
+                    var segel = data_segel[i];
 
-                if(json.data.photo_lock){
-                    var photos_container = $.parseJSON(json.data.photo_lock);
-                    $.each(photos_container, function(i, item) {
-                        /// do stuff
-                        html_lock += '<img src="{{url("uploads/photos/flag/lcl")}}/'+item+'" style="width: 200px;padding:5px;" />';
-
-                    });
+                    if(segel.action == 'lock'){
+                        html_lock += '<hr /><p>Nomor Segel : <b>'+segel.no_segel+'</b><br />Alasan Segel : <b>'+segel.alasan+'</b><br />Keterangan : <b>'+segel.keterangan+'</b><br />Date : <b>'+segel.created_at+'</b></p>';
+                        if(segel.photo){
+                            var photos_container = $.parseJSON(segel.photo);
+                            $.each(photos_container, function(i, item) {
+                                /// do stuff
+                                html_lock += '<img src="{{url("uploads/photos/flag/lcl")}}/'+item+'" style="width: 200px;padding:5px;" />';
+                            });
+                        }
+                    }else{
+                        html_unlock += '<hr /><p>Nomor Segel : <b>'+segel.no_segel+'</b><br />Alasan Segel : <b>'+segel.alasan+'</b><br />Keterangan : <b>'+segel.keterangan+'</b><br />Date : <b>'+segel.created_at+'</b></p>';
+                        if(segel.photo){
+                            var photos_container = $.parseJSON(segel.photo);
+                            $.each(photos_container, function(i, item) {
+                                /// do stuff
+                                html_unlock += '<img src="{{url("uploads/photos/unflag/lcl")}}/'+item+'" style="width: 200px;padding:5px;" />';
+                            });
+                        }
+                    }
                 }
-                if(json.data.photo_unlock){
-                    var photos_container = $.parseJSON(json.data.photo_unlock);
-                    $.each(photos_container, function(i, item) {
-                        /// do stuff
-                        html_unlock += '<img src="{{url("uploads/photos/unflag/lcl")}}/'+item+'" style="width: 200px;padding:5px;" />';
-
-                    });
-                }
+                
+                
+//                var html_lock = '<p>Nomor Segel : <b>'+json.data.no_flag_bc+'</b><br />Alasan Segel : <b>'+json.data.alasan_segel+'</b><br />Keterangan : <b>'+json.data.description_flag_bc+'</b></p>';
+//                var html_unlock = '<p>Nomor Lepas Segel : <b>'+json.data.no_unflag_bc+'</b><br />Alasan Lepas Segel : <b>'+json.data.alasan_lepas_segel+'</b><br />Keterangan : <b>'+json.data.description_unflag_bc+'</b></p>';
+//
+//                if(json.data.photo_lock){
+//                    var photos_container = $.parseJSON(json.data.photo_lock);
+//                    $.each(photos_container, function(i, item) {
+//                        /// do stuff
+//                        html_lock += '<img src="{{url("uploads/photos/flag/lcl")}}/'+item+'" style="width: 200px;padding:5px;" />';
+//
+//                    });
+//                }
+//                if(json.data.photo_unlock){
+//                    var photos_container = $.parseJSON(json.data.photo_unlock);
+//                    $.each(photos_container, function(i, item) {
+//                        /// do stuff
+//                        html_unlock += '<img src="{{url("uploads/photos/unflag/lcl")}}/'+item+'" style="width: 200px;padding:5px;" />';
+//
+//                    });
+//                }
 
                 $('#lock-info').html(html_lock);
                 $('#unlock-info').html(html_unlock);
-                $('#nobl_info').html(json.data.NOHBL);
+                $('#nobl_info').html(json.NOHBL);
             }
         });
         
@@ -199,7 +228,7 @@
             ->setGridEvent('gridComplete', 'gridCompleteEvent')
 //            ->setGridEvent('onSelectRow', 'onSelectRowEvent')
             ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
-             ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+             ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>155, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('label'=>'Segel Merah','index'=>'flag_bc', 'width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Status BC','index'=>'status_bc', 'width'=>80,'align'=>'center'))            
             ->addColumn(array('label'=>'Nama Dokumen','index'=>'KODE_DOKUMEN', 'width'=>130))
@@ -378,10 +407,10 @@
             <div class="modal-body"> 
                 <div class="row">
                     <div class="col-md-12">
-                        <h4>Segel (Lock)</h4>
+                        <h4><b>Segel (Lock)</b></h4>
                         <div id="lock-info"></div>
                         <hr />
-                        <h4>Lepas Segel (Unlock)</h4>
+                        <h4><b>Lepas Segel (Unlock)</b></h4>
                         <div id="unlock-info"></div>
                     </div>
                 </div>

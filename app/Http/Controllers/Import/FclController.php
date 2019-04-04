@@ -25,7 +25,7 @@ class FclController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */
+     */    
     public function index()
     {
         //
@@ -1947,7 +1947,8 @@ class FclController extends Controller
     public function viewFlagInfo($container_id)
     {
         $container = DBContainer::find($container_id);
-        return json_encode(array('success' => true, 'data' => $container));
+        $data = \DB::table('log_segel')->where(array('ref_id' => $container_id,'ref_type' => 'fcl'))->get();
+        return json_encode(array('success' => true, 'data' => $data, 'NOCONTAINER' => $container->NOCONTAINER));
     }
     
     public function changeStatusBehandle(Request $request)
