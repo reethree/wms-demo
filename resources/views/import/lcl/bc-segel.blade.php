@@ -37,7 +37,17 @@
             if(rowdata.perubahan_hbl == 'Y') {
                 $("#" + cl).find("td").css("background-color", "#3dc6f2");
             }
-
+            
+            if(rowdata.status_behandle == 'Ready') {
+                $("#" + cl).find("td").css("background-color", "#aae25a");
+            }
+            if(rowdata.status_behandle == 'Checking') {
+                $("#" + cl).find("td").css("background-color", "#f4dc27");
+            }
+            if(rowdata.status_behandle == 'Finish') {
+                $("#" + cl).find("td").css("background-color", "#6acaf7");
+            }
+            
             if(rowdata.flag_bc == 'Y') {
                 $("#" + cl).find("td").css("background-color", "#d73925").css("color", "#FFF");
             } 
@@ -268,6 +278,7 @@
             ->addColumn(array('label'=>'Alasan Lepas Segel','index'=>'alasan_lepas_segel','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Perubahan HBL','index'=>'perubahan_hbl','width'=>100, 'align'=>'center'))
             ->addColumn(array('label'=>'Alasan Perubahan','index'=>'alasan_perubahan','width'=>150,'align'=>'center'))
+            ->addColumn(array('label'=>'Status Behandle','index'=>'status_behandle','width'=>120, 'align'=>'center'))
             ->addColumn(array('label'=>'Lama Timbun (Hari)','index'=>'timeSinceUpdate', 'width'=>150, 'search'=>false, 'align'=>'center'))
             ->renderGrid()
         }}
