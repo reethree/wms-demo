@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Models\Container as DBContainer;
+use App\Models\Containercy as DBContainercy;
+use App\Models\Manifest as DBManifest;
+
 class DashboardController extends Controller
 {
     public function __construct()
@@ -17,6 +21,9 @@ class DashboardController extends Controller
     {        
         $data['page_title'] = "Welcome to Dashboard";
         $data['page_description'] = "WMS PRIMANATA JASA PERSADA";
+        
+        $month = date('m');
+        $year = date('Y');
         
         // FCL DASHBOARD       
         $jict = \App\Models\Containercy::where('KD_TPS_ASAL', 'JICT')->whereRaw('MONTH(TGL_PLP) = '.date('m'))->whereRaw('YEAR(TGL_PLP) = '.date('Y'))->count();
@@ -51,7 +58,33 @@ class DashboardController extends Controller
         $data['val_graph'] = json_encode(array($jict, $koja, $mal, $nct1, $pldc));
         
         
-        // LCL DASHBOARD
+        // LCL DASHBOARD       
+        $jictlcl = DBContainer::where('KD_TPS_ASAL', 'JICT')->whereRaw('MONTH(TGL_PLP) = '.$month)->whereRaw('YEAR(TGL_PLP) = '.$year)->count();
+        $kojalcl = DBContainer::where('KD_TPS_ASAL', 'KOJA')->whereRaw('MONTH(TGL_PLP) = '.$month)->whereRaw('YEAR(TGL_PLP) = '.$year)->count();
+        $mallcl = DBContainer::where('KD_TPS_ASAL', 'MAL0')->whereRaw('MONTH(TGL_PLP) = '.$month)->whereRaw('YEAR(TGL_PLP) = '.$year)->count();
+        $nct1lcl = DBContainer::where('KD_TPS_ASAL', 'NCT1')->whereRaw('MONTH(TGL_PLP) = '.$month)->whereRaw('YEAR(TGL_PLP) = '.$year)->count();
+        $pldclcl = DBContainer::where('KD_TPS_ASAL', 'PLDC')->whereRaw('MONTH(TGL_PLP) = '.$month)->whereRaw('YEAR(TGL_PLP) = '.$year)->count();
+              
+        $jictlclg = DBContainer::where('KD_TPS_ASAL', 'JICT')->whereRaw('MONTH(TGLMASUK) = '.$month)->whereRaw('YEAR(TGLMASUK) = '.$year)->count();
+        $kojalclg = DBContainer::where('KD_TPS_ASAL', 'KOJA')->whereRaw('MONTH(TGLMASUK) = '.$month)->whereRaw('YEAR(TGLMASUK) = '.$year)->count();
+        $mallclg = DBContainer::where('KD_TPS_ASAL', 'MAL0')->whereRaw('MONTH(TGLMASUK) = '.$month)->whereRaw('YEAR(TGLMASUK) = '.$year)->count();
+        $nct1lclg = DBContainer::where('KD_TPS_ASAL', 'NCT1')->whereRaw('MONTH(TGLMASUK) = '.$month)->whereRaw('YEAR(TGLMASUK) = '.$year)->count();
+        $pldclclg = DBContainer::where('KD_TPS_ASAL', 'PLDC')->whereRaw('MONTH(TGLMASUK) = '.$month)->whereRaw('YEAR(TGLMASUK) = '.$year)->count();
+        
+        $data['countbytpslcl'] = array('JICT' => array($jictlcl, $jictlclg), 'KOJA' => array($kojalcl, $kojalclg), 'MAL0' => array($mallcl, $mallclg), 'NCT1' => array($nct1lcl, $nct1lclg), 'PLDC' => array($pldclcl, $pldclclg));
+
+        $data['totcounttpsp'] = array_sum(array($jictlcl,$kojalcl,$mallcl,$nct1lcl,$pldclcl));
+        $data['totcounttpsg'] = array_sum(array($jictlclg,$kojalclg,$mallclg,$nct1lclg,$pldclclg));
+        
+        // BY DOKUMEN
+        $bc20lcl = DBManifest::where('KD_DOK_INOUT', 1)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+        $bc23lcl = DBManifest::where('KD_DOK_INOUT', 2)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+        $bc12lcl = DBManifest::where('KD_DOK_INOUT', 4)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+        $bc15lcl = DBManifest::where('KD_DOK_INOUT', 9)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+        $bc11lcl = DBManifest::where('KD_DOK_INOUT', 20)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+        $bcf26lcl = DBManifest::where('KD_DOK_INOUT', 5)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+        $data['countbydoclcl'] = array('BC 2.0' => $bc20lcl, 'BC 2.3' => $bc23lcl, 'Lain-lain' => $bc12lcl+$bc12lcl+$bc15lcl+$bc11lcl+$bcf26lcl);
+        
         $data['countlclmanifest'] = \App\Models\Manifest::whereNotNull('tglmasuk')->whereNotNull('tglstripping')->whereNull('tglrelease')->count();
         
         $data['sor'] = \App\Models\SorYor::where('type', 'sor')->first();

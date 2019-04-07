@@ -51,7 +51,7 @@
                 <div class="inner">
                     <h3>{{ $countfclcont }}</h3>
 
-                    <p>FCL Inventory</p>
+                    <p>FCL Inventory Real Time</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
@@ -66,7 +66,7 @@
                 <div class="inner">
                     <h3>{{ $countlclmanifest }}</h3>
 
-                    <p>LCL Inventory</p>
+                    <p>LCL Inventory Real Time</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
@@ -86,7 +86,7 @@
                     <tr>
                         <th>TPS ASAL</th>
                         <!--<th>JML CONT (PLP)</th>-->
-                        <th>JUMLAH CONTAINER (GATEIN)</th>
+                        <th>FCL GATE IN BULAN {{strtoupper(date('F Y'))}}</th>
                     </tr>
                     @foreach($countbytps as $key=>$value)
                     <tr>
@@ -107,10 +107,51 @@
             <table class="table table-bordered table-hover table-striped" style="background: #FFF;">
                 <tbody>
                     <tr>
+                        <th>TPS ASAL</th>
+                        <!--<th>JML CONT (PLP)</th>-->
+                        <th>LCL GATE IN BULAN {{strtoupper(date('F Y'))}}</th>
+                    </tr>
+                    @foreach($countbytpslcl as $key=>$value)
+                    <tr>
+                        <td>{{ $key }}</td>
+                        <!--<td align="center">{{ $value[0] }}</td>-->
+                        <td align="center">{{ $value[1] }}</td>
+                    </tr>
+                    @endforeach
+                    <tr>
+                        <th>TOTAL</th>
+                        <!--<td align="center"><strong>{{ $totcounttpsp }}</strong></td>-->
+                        <td align="center"><strong>{{ $totcounttpsg }}</strong></td>
+                    </tr>
+                </tbody>
+            </table>           
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-bordered table-hover table-striped" style="background: #FFF;">
+                <tbody>
+                    <tr>
                         <th>KODE DOKUMEN</th>
-                        <th>JUMLAH DOKUMEN</th>
+                        <th>JUMLAH DOKUMEN KELUAR FCL BULAN {{strtoupper(date('F Y'))}}</th>
                     </tr>
                     @foreach($countbydoc as $key=>$value)
+                    <tr>
+                        <th>{{ $key }}</th>
+                        <td align="center">{{ $value }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <table class="table table-bordered table-hover table-striped" style="background: #FFF;">
+                <tbody>
+                    <tr>
+                        <th>KODE DOKUMEN</th>
+                        <th>JUMLAH DOKUMEN KELUAR LCL BULAN {{strtoupper(date('F Y'))}}</th>
+                    </tr>
+                    @foreach($countbydoclcl as $key=>$value)
                     <tr>
                         <th>{{ $key }}</th>
                         <td align="center">{{ $value }}</td>

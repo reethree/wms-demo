@@ -145,7 +145,7 @@
                                   <li><a href="{{route('lcl-hold-index')}}">Dokumen HOLD</a></li>
                                   <li><a href="{{route('lcl-segel-index')}}">Segel Merah</a></li>
                                   <li class="dropdown-submenu">
-                                      <a class="submenu" href="#">Report</a>
+                                      <a class="submenu" href="#">Report <span class="caret"></a>
                                       <ul class="dropdown-menu">
                                           <li><a href="{{ route('lcl-bc-report-container') }}">Report Container</a></li>
                                           <li><a href="{{ route('lcl-bc-report-stock') }}">Report Stock</a></li>

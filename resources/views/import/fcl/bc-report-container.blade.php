@@ -82,7 +82,17 @@
                         html_container += '<img src="{{url("uploads/photos/container/fcl")}}/'+json.data.NOCONTAINER+'/'+item+'" style="width: 200px;padding:5px;" />';
 
                     });
-                    $('#container-photo').html(html_container);
+                    $('#in-container-photo').html(html_container);
+                }
+                if(json.data.photo_release_extra){
+                    var photos_out_container = $.parseJSON(json.data.photo_release_extra);
+                    var html_out_container = '';
+                    $.each(photos_out_container, function(i, item) {
+                        /// do stuff
+                        html_out_container += '<img src="{{url("uploads/photos/container/fcl")}}/'+json.data.NOCONTAINER+'/'+item+'" style="width: 200px;padding:5px;" />';
+
+                    });
+                    $('#out-container-photo').html(html_out_container);
                 }
                 
                 $("#title-photo").html('PHOTO CONTAINER NO. '+json.data.NOCONTAINER);
@@ -437,14 +447,17 @@
             <div class="modal-body"> 
                 <div class="row">
                     <div class="col-md-12">
-                        <h4>IN CONTAINER</h4>
+                        <h4>GATE IN CONTAINER</h4>
                         <div id="gatein-photo"></div>
                         <hr />
-                        <h4>OUT CONTAINER</h4>
+                        <h4>GATE OUT CONTAINER</h4>
                         <div id="gateout-photo"></div>
                         <hr />
-                        <h4>CONTAINER</h4>
-                        <div id="container-photo"></div>
+                        <h4>IN CONTAINER</h4>
+                        <div id="in-container-photo"></div>
+                        <hr />
+                        <h4>OUT CONTAINER</h4>
+                        <div id="out-container-photo"></div>
                     </div>
                 </div>
             </div>    

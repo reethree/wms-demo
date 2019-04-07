@@ -1140,6 +1140,7 @@ class LclController extends Controller
         $manifest->photo_get_in = $container->photo_get_in;
         $manifest->photo_get_out = $container->photo_get_out;
         $manifest->photo_gatein_extra = $container->photo_gatein_extra;
+        $manifest->photo_hasil_stripping = $container->photo_stripping;
         
         return json_encode(array('success' => true, 'data' => $manifest));
     }

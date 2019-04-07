@@ -72,6 +72,7 @@
             {
                 $('#gatein-photo').html('');
                 $('#container-photo').html('');
+                $('#html_hasil_stripping').html('')
                 $('#stripping-photo').html('');
                 $('#gateout-photo').html('');
                 $('#release-photo').html('');
@@ -93,6 +94,16 @@
 
                     });
                     $('#container-photo').html(html_container);
+                }
+                
+                if(json.data.photo_hasil_stripping){
+                    var photos_hasil_stripping = $.parseJSON(json.data.photo_hasil_stripping);
+                    var html_hasil_stripping = '';
+                    $.each(photos_hasil_stripping, function(i, item) {
+                        /// do stuff
+                        html_hasil_stripping += '<img src="{{url("uploads/photos/manifest")}}/'+item+'" style="width: 200px;padding:5px;" />';
+                    });
+                    $('#hasil-stripping-photo').html(html_hasil_stripping);
                 }
                 
                 if(json.data.photo_stripping){
@@ -358,8 +369,11 @@
                         <h4>IN CONTAINER</h4>
                         <div id="gatein-photo"></div>
                         <hr />
-                        <h4>CONTAINER</h4>
+                        <h4>AJU STRIPPING</h4>
                         <div id="container-photo"></div>
+                        <hr />
+                        <h4>HASIL STRIPPING</h4>
+                        <div id="hasil-stripping-photo"></div>
                         <hr />
                         <h4>STRIPPING</h4>
                         <div id="stripping-photo"></div>
