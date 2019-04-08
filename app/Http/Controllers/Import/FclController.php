@@ -1948,7 +1948,7 @@ class FclController extends Controller
     {
         $container = DBContainer::find($container_id);
         $data = \DB::table('log_segel')->where(array('ref_id' => $container_id,'ref_type' => 'fcl'))->get();
-        return json_encode(array('success' => true, 'data' => $data, 'NOCONTAINER' => $container->NOCONTAINER));
+        return json_encode(array('success' => true, 'data' => $data, 'NOCONTAINER' => $container->NOCONTAINER, 'container' => $container));
     }
     
     public function changeStatusBehandle(Request $request)

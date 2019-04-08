@@ -2457,7 +2457,7 @@ class LclController extends Controller
     {
         $manifest = DBManifest::find($manifest_id);
         $data = \DB::table('log_segel')->where(array('ref_id' => $manifest_id,'ref_type' => 'lcl'))->get();
-        return json_encode(array('success' => true, 'data' => $data, 'NOHBL' => $manifest->NOHBL));
+        return json_encode(array('success' => true, 'data' => $data, 'NOHBL' => $manifest->NOHBL, 'manifest' => $manifest));
     }
     
     public function changeStatusBehandle(Request $request)

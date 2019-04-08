@@ -86,50 +86,52 @@
                 var html_lock = '';
                 var html_unlock = '';
                 
-                for(var i = 0; i < data_segel.length; i++) {
-                    var segel = data_segel[i];
+                if(data_segel.length > 0){
+                    for(var i = 0; i < data_segel.length; i++) {
+                        var segel = data_segel[i];
 
-                    if(segel.action == 'lock'){
-                        html_lock += '<hr /><p>Nomor Segel : <b>'+segel.no_segel+'</b><br />Alasan Segel : <b>'+segel.alasan+'</b><br />Keterangan : <b>'+segel.keterangan+'</b><br />Date : <b>'+segel.created_at+'</b></p>';
-                        if(segel.photo){
-                            var photos_container = $.parseJSON(segel.photo);
-                            $.each(photos_container, function(i, item) {
-                                /// do stuff
-                                html_lock += '<img src="{{url("uploads/photos/flag/fcl")}}/'+item+'" style="width: 200px;padding:5px;" />';
-                            });
+                        if(segel.action == 'lock'){
+                            html_lock += '<hr /><p>Nomor Segel : <b>'+segel.no_segel+'</b><br />Alasan Segel : <b>'+segel.alasan+'</b><br />Keterangan : <b>'+segel.keterangan+'</b><br />Date : <b>'+segel.created_at+'</b></p>';
+                            if(segel.photo){
+                                var photos_container = $.parseJSON(segel.photo);
+                                $.each(photos_container, function(i, item) {
+                                    /// do stuff
+                                    html_lock += '<img src="{{url("uploads/photos/flag/fcl")}}/'+item+'" style="width: 200px;padding:5px;" />';
+                                });
+                            }
+                        }else{
+                            html_unlock += '<hr /><p>Nomor Segel : <b>'+segel.no_segel+'</b><br />Alasan Segel : <b>'+segel.alasan+'</b><br />Keterangan : <b>'+segel.keterangan+'</b><br />Date : <b>'+segel.created_at+'</b></p>';
+                            if(segel.photo){
+                                var photos_container = $.parseJSON(segel.photo);
+                                $.each(photos_container, function(i, item) {
+                                    /// do stuff
+                                    html_unlock += '<img src="{{url("uploads/photos/unflag/fcl")}}/'+item+'" style="width: 200px;padding:5px;" />';
+                                });
+                            }
                         }
-                    }else{
-                        html_unlock += '<hr /><p>Nomor Segel : <b>'+segel.no_segel+'</b><br />Alasan Segel : <b>'+segel.alasan+'</b><br />Keterangan : <b>'+segel.keterangan+'</b><br />Date : <b>'+segel.created_at+'</b></p>';
-                        if(segel.photo){
-                            var photos_container = $.parseJSON(segel.photo);
-                            $.each(photos_container, function(i, item) {
-                                /// do stuff
-                                html_unlock += '<img src="{{url("uploads/photos/unflag/fcl")}}/'+item+'" style="width: 200px;padding:5px;" />';
-                            });
-                        }
+                    }
+                }else{
+                    var html_lock = '<p>Nomor Segel : <b>'+json.container.no_flag_bc+'</b><br />Alasan Segel : <b>'+json.container.alasan_segel+'</b><br />Keterangan : <b>'+json.container.description_flag_bc+'</b></p>';
+                    var html_unlock = '<p>Nomor Lepas Segel : <b>'+json.container.no_unflag_bc+'</b><br />Alasan Lepas Segel : <b>'+json.container.alasan_lepas_segel+'</b><br />Keterangan : <b>'+json.container.description_unflag_bc+'</b></p>';
+
+                    if(json.container.photo_lock){
+                        var photos_container = $.parseJSON(json.container.photo_lock);
+                        $.each(photos_container, function(i, item) {
+                            /// do stuff
+                            html_lock += '<img src="{{url("uploads/photos/flag/fcl")}}/'+item+'" style="width: 200px;padding:5px;" />';
+
+                        });
+                    }
+                    if(json.container.photo_unlock){
+                        var photos_container = $.parseJSON(json.container.photo_unlock);
+                        $.each(photos_container, function(i, item) {
+                            /// do stuff
+                            html_unlock += '<img src="{{url("uploads/photos/unflag/fcl")}}/'+item+'" style="width: 200px;padding:5px;" />';
+
+                        });
                     }
                 }
                 
-//                var html_lock = '<p>Nomor Segel : <b>'+json.data.no_flag_bc+'</b><br />Alasan Segel : <b>'+json.data.alasan_segel+'</b><br />Keterangan : <b>'+json.data.description_flag_bc+'</b></p>';
-//                var html_unlock = '<p>Nomor Lepas Segel : <b>'+json.data.no_unflag_bc+'</b><br />Alasan Lepas Segel : <b>'+json.data.alasan_lepas_segel+'</b><br />Keterangan : <b>'+json.data.description_unflag_bc+'</b></p>';
-//
-//                if(json.data.photo_lock){
-//                    var photos_container = $.parseJSON(json.data.photo_lock);
-//                    $.each(photos_container, function(i, item) {
-//                        /// do stuff
-//                        html_lock += '<img src="{{url("uploads/photos/flag/fcl")}}/'+item+'" style="width: 200px;padding:5px;" />';
-//
-//                    });
-//                }
-//                if(json.data.photo_unlock){
-//                    var photos_container = $.parseJSON(json.data.photo_unlock);
-//                    $.each(photos_container, function(i, item) {
-//                        /// do stuff
-//                        html_unlock += '<img src="{{url("uploads/photos/unflag/fcl")}}/'+item+'" style="width: 200px;padding:5px;" />';
-//
-//                    });
-//                }
-
                 $('#lock-info').html(html_lock);
                 $('#unlock-info').html(html_unlock);
                 $('#nobl_info').html(json.NOCONTAINER);

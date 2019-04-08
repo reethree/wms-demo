@@ -121,7 +121,7 @@
                     <tr>
                         <th>TOTAL</th>
                         <!--<td align="center"><strong>{{ $totcounttpsp }}</strong></td>-->
-                        <td align="center"><strong>{{ $totcounttpsg }}</strong></td>
+                        <td align="center"><strong>{{ $totcounttpsglcl }}</strong></td>
                     </tr>
                 </tbody>
             </table>           

@@ -101,7 +101,7 @@
                     var html_hasil_stripping = '';
                     $.each(photos_hasil_stripping, function(i, item) {
                         /// do stuff
-                        html_hasil_stripping += '<img src="{{url("uploads/photos/manifest")}}/'+item+'" style="width: 200px;padding:5px;" />';
+                        html_hasil_stripping += '<img src="{{url("uploads/photos/container/lcl")}}/'+json.data.NOCONTAINER+'/'+item+'" style="width: 200px;padding:5px;" />';
                     });
                     $('#hasil-stripping-photo').html(html_hasil_stripping);
                 }

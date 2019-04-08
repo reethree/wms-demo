@@ -73,8 +73,8 @@ class DashboardController extends Controller
         
         $data['countbytpslcl'] = array('JICT' => array($jictlcl, $jictlclg), 'KOJA' => array($kojalcl, $kojalclg), 'MAL0' => array($mallcl, $mallclg), 'NCT1' => array($nct1lcl, $nct1lclg), 'PLDC' => array($pldclcl, $pldclclg));
 
-        $data['totcounttpsp'] = array_sum(array($jictlcl,$kojalcl,$mallcl,$nct1lcl,$pldclcl));
-        $data['totcounttpsg'] = array_sum(array($jictlclg,$kojalclg,$mallclg,$nct1lclg,$pldclclg));
+        $data['totcounttpsplcl'] = array_sum(array($jictlcl,$kojalcl,$mallcl,$nct1lcl,$pldclcl));
+        $data['totcounttpsglcl'] = array_sum(array($jictlclg,$kojalclg,$mallclg,$nct1lclg,$pldclclg));
         
         // BY DOKUMEN
         $bc20lcl = DBManifest::where('KD_DOK_INOUT', 1)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
