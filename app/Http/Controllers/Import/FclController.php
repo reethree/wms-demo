@@ -1864,6 +1864,11 @@ class FclController extends Controller
 //        }
         $container->photo_lock = json_encode($picture);
             
+        if($alasan == 'IKP / Temuan Lapangan'){
+            $container->BEHANDLE = 'Y';
+            $container->status_behandle = 'New';
+        }
+        
         if($container->save()){
             // Save to log
             $datalog = array(

@@ -2372,6 +2372,11 @@ class LclController extends Controller
 //        }
         $manifest->photo_lock = json_encode($picture);
             
+        if($alasan == 'IKP / Temuan Lapangan'){
+            $manifest->BEHANDLE = 'Y';
+            $manifest->status_behandle = 'New';
+        }
+        
         if($manifest->save()){
             // Save to log
             $datalog = array(
