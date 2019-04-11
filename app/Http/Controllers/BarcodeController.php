@@ -181,24 +181,31 @@ class BarcodeController extends Controller
     public function autogateNotification(Request $request)
     {
         $barcode = $request->barcode;
+//        return $request->all();
         $tipe = $request->tipe;
         
-        $data_barcode = \App\Models\Barcode::where('barcode', $request->barcode)->first();
-//      
+        $data_barcode = \App\Models\Barcode::where('barcode', $barcode)->first();
+        
         $filename = '';
         if ($request->hasFile('fileKamera')) {
+            
             $file = $request->file('fileKamera');
+            
+//            return $file->getClientOriginalName();
+            
             $destinationPath = base_path() . '/public/uploads/photos/autogate';
 //            $i = 1;
 //            foreach($files as $file){
-//                $filename = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
+                $filename = ucwords($data_barcode->ref_type).'_'.ucwords($data_barcode->ref_action).'_'.ucwords($tipe).'_'.$file->getClientOriginalName();
+//                $extension = $file->getClientOriginalExtension();
                 
-                $filename = date('dmyHis').'_'.$barcode.'_'.ucwords($data_barcode->ref_type).'_'.ucwords($data_barcode->ref_action).'_'.ucwords($tipe).'.'.$extension;
+//                $filename = date('dmyHis').'_'.$barcode.'_'.ucwords($data_barcode->ref_type).'_'.ucwords($data_barcode->ref_action).'_'.ucwords($tipe).'.'.$extension;
 //                $picture[] = $filename;
-                $file->move($destinationPath, $filename);
+                $store = $file->move($destinationPath, $filename);
 //                $i++;
 //            }
+                
+                if($store){
                 if($tipe == 'in'){
                     $data_barcode->photo_in = $filename;
                 }else{
@@ -206,11 +213,13 @@ class BarcodeController extends Controller
                 }
                 
                 $data_barcode->save();
+                }else{
+                    
+        }
         }
         
-        
         if($data_barcode){
-//            return $barcode;
+//            return $data_barcode;
             switch ($data_barcode->ref_type) {
                 case 'Fcl':
                     $model = \App\Models\Containercy::find($data_barcode->ref_id);
@@ -228,7 +237,6 @@ class BarcodeController extends Controller
             if($model){
                 
                 if($data_barcode->ref_action == 'get'){
-//                    return 'GET';
 //                    if($data_barcode->time_in != NULL){
                         // GATEIN
                         $model->TGLMASUK = date('Y-m-d', strtotime($data_barcode->time_in));
@@ -262,7 +270,6 @@ class BarcodeController extends Controller
 //                        return 'Time In is NULL';
 //                    }
                 }elseif($data_barcode->ref_action == 'release'){
-//                    return 'RELEASE';
 //                    if($data_barcode->time_out != NULL){
                         // RELEASE
                     if($model->status_bc == 'HOLD' || $model->flag_bc == 'Y'):
@@ -286,13 +293,13 @@ class BarcodeController extends Controller
                             }else{
                                 $model->photo_release_out = $filename;
                             }
+
                             if($model->save()){
                                 return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                             }else{
                                 return 'Something wrong!!! Cannot store to database';
                             }
                         }else{
-                            
                             if($data_barcode->time_out){
                                 $model->TGLRELEASE = date('Y-m-d', strtotime($data_barcode->time_out));
                                 $model->JAMRELEASE = date('H:i:s', strtotime($data_barcode->time_out));
@@ -324,7 +331,6 @@ class BarcodeController extends Controller
 //                    }
                     
                 }elseif($data_barcode->ref_action == 'empty'){
-//                    return 'EMPTY';
 //                    if($data_barcode->time_out != NULL){
                         if($data_barcode->time_out){
                             $model->TGLBUANGMTY = date('Y-m-d', strtotime($data_barcode->time_out));

@@ -48,6 +48,10 @@
                 $("#" + cl).find("td").css("background-color", "#6acaf7");
             }
             
+            if(rowdata.status_bc == 'HOLD') {
+                $("#" + cl).find("td").css("background-color", "#ffe500");
+            }
+            
             if(rowdata.flag_bc == 'Y') {
                 $("#" + cl).find("td").css("background-color", "#d73925").css("color", "#FFF");
             } 

@@ -48,7 +48,7 @@
         } 
     }
     
-    function viewInfo($containerID)       
+    function viewInfo($containerID) {      
         $.ajax({
             type: 'GET',
             dataType : 'json',
