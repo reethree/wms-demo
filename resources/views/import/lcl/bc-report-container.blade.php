@@ -46,6 +46,8 @@
             {
                 var html_in = '';
                 var html_out = '';
+                var html_container = '';
+                
                 if(json.data.photo_get_in){
                     html_in += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_get_in+'" style="width: 200px;padding:5px;" />';
                 }
