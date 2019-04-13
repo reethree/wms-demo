@@ -135,15 +135,15 @@ class BarcodeController extends Controller
                     $barcode->ref_action = $action;
                     $barcode->ref_number = $ref_number;
                     
-                    if($refdata->KD_TPS_ASAL == 'MAL0'){
-                        if($type == 'manifest'){
-                            $barcode->barcode = $refdata->NOHBL;
-                        }else{
-                            $barcode->barcode = $refdata->NOCONTAINER;
-                        } 
-                    }else{
+//                    if($refdata->KD_TPS_ASAL == 'MAL0'){
+//                        if($type == 'manifest'){
+//                            $barcode->barcode = $refdata->NOHBL;
+//                        }else{
+//                            $barcode->barcode = $refdata->NOCONTAINER;
+//                        } 
+//                    }else{
                         $barcode->barcode = str_random(20);
-                    }
+//                    }
                     
                     $barcode->expired = $expired;
                     $barcode->status = 'active';
