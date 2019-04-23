@@ -5,9 +5,17 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\View;
 
 class BarcodeController extends Controller
 {
+    public function __construct() {
+        // CHECK STATUS BEHANDLE
+        $lcl_sb = \App\Models\Manifest::where('status_behandle','Ready')->count();
+        $fcl_sb = \App\Models\Containercy::where('status_behandle','Ready')->count();
+        
+        View::share('notif_behandle', array('lcl' => $lcl_sb, 'fcl' => $fcl_sb, 'total' => $lcl_sb+$fcl_sb));
+    }
     
     public function index()
     {
