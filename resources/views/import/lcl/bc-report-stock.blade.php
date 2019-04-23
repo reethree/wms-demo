@@ -170,6 +170,7 @@
                 var html_release = '';
                 
                 if(json.data.photo_get_in){
+                    html_in += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_get_in.replace("C2", "C1")+'" style="width: 200px;padding:5px;" />';
                     html_in += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_get_in+'" style="width: 200px;padding:5px;" />';
                 }
                 $('#gatein-photo').html(html_in);
@@ -217,7 +218,12 @@
                 
                 var html_out = '';
                 if(json.data.photo_release_in){
+                    html_out += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_release_in.replace("C2", "C1")+'" style="width: 200px;padding:5px;" />';
                     html_out += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_release_in+'" style="width: 200px;padding:5px;" />';
+                }
+                if(json.data.photo_release_out){
+                    html_out += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_release_out.replace("C2", "C1")+'" style="width: 200px;padding:5px;" />';
+                    html_out += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_release_out+'" style="width: 200px;padding:5px;" />';
                 }
                 $('#gateout-photo').html(html_out);
                 

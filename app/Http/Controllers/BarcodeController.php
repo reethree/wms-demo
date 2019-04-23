@@ -9,10 +9,6 @@ use App\Http\Controllers\Controller;
 class BarcodeController extends Controller
 {
     
-    public function __construct() {
-
-    }
-    
     public function index()
     {
         $data['page_title'] = "QR Code (Auto Gate)";
