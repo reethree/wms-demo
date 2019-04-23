@@ -71,6 +71,7 @@ class FclController extends Controller
         ];        
         
         $data['eseals'] = DBEseal::select('eseal_id as id','esealcode as code')->get();
+        $data['locations'] = \DB::table('location_fcl')->get();
         
         return view('import.fcl.index-gatein')->with($data);
     }
@@ -567,6 +568,12 @@ class FclController extends Controller
         
         if($delete_photo == 'Y'){
             $data['photo_gatein_extra'] = '';
+        }
+        
+        $location = \DB::table('location_fcl')->find($data['location_id']);
+        if($location){
+            $data['location_id'] = $location->id;
+            $data['location_name'] = $location->name;
         }
         
 //        $teus = DBContainer::select('TEUS')->where('TCONTAINER_PK', $id)->first();

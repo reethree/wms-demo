@@ -115,6 +115,8 @@
             $('#load_photos').html('');
             $('#delete_photo').val('N');
             
+            $("#location_id").val(rowdata.location_id).trigger("change")
+            
             if(rowdata.photo_gatein_extra){
                 var html = '';
                 var photos = $.parseJSON(rowdata.photo_gatein_extra);
@@ -307,6 +309,9 @@
                     ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','width'=>120,'hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','width'=>120,'hidden'=>true))
                     
+                    ->addColumn(array('index'=>'location_id', 'width'=>150,'hidden'=>true))
+                    ->addColumn(array('label'=>'Location','index'=>'location_name','width'=>200, 'align'=>'center'))
+                    
         //            ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>80,'align'=>'center'))
                     ->addColumn(array('label'=>'No. Seal','index'=>'NO_SEAL', 'width'=>120,'align'=>'right','hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. Masuk','index'=>'TGLMASUK','width'=>120,'align'=>'center'))
@@ -464,6 +469,18 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Location</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" id="location_id" name="location_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <option value="">Choose Location</option>
+                                @foreach($locations as $location)
+                                    <option value="{{ $location->id }}">{{ $location->name.' ('.$location->type.')' }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     
