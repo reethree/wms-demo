@@ -42,12 +42,13 @@ class DashboardController extends Controller
         // BY DOKUMEN
         $bc20 = \App\Models\Containercy::where('KD_DOK_INOUT', 1)->whereRaw('MONTH(TGLMASUK) = '.date('m'))->whereRaw('YEAR(TGLMASUK) = '.date('Y'))->count();
         $bc23 = \App\Models\Containercy::where('KD_DOK_INOUT', 2)->whereRaw('MONTH(TGLMASUK) = '.date('m'))->whereRaw('YEAR(TGLMASUK) = '.date('Y'))->count();
-        $bc12 = \App\Models\Containercy::where('KD_DOK_INOUT', 4)->whereRaw('MONTH(TGLMASUK) = '.date('m'))->whereRaw('YEAR(TGLMASUK) = '.date('Y'))->count();
-        $bc15 = \App\Models\Containercy::where('KD_DOK_INOUT', 9)->whereRaw('MONTH(TGLMASUK) = '.date('m'))->whereRaw('YEAR(TGLMASUK) = '.date('Y'))->count();
-        $bc11 = \App\Models\Containercy::where('KD_DOK_INOUT', 20)->whereRaw('MONTH(TGLMASUK) = '.date('m'))->whereRaw('YEAR(TGLMASUK) = '.date('Y'))->count();
-        $bcf26 = \App\Models\Containercy::where('KD_DOK_INOUT', 5)->whereRaw('MONTH(TGLMASUK) = '.date('m'))->whereRaw('YEAR(TGLMASUK) = '.date('Y'))->count();
+//        $bc12 = \App\Models\Containercy::where('KD_DOK_INOUT', 4)->whereRaw('MONTH(TGLMASUK) = '.date('m'))->whereRaw('YEAR(TGLMASUK) = '.date('Y'))->count();
+//        $bc15 = \App\Models\Containercy::where('KD_DOK_INOUT', 9)->whereRaw('MONTH(TGLMASUK) = '.date('m'))->whereRaw('YEAR(TGLMASUK) = '.date('Y'))->count();
+//        $bc11 = \App\Models\Containercy::where('KD_DOK_INOUT', 20)->whereRaw('MONTH(TGLMASUK) = '.date('m'))->whereRaw('YEAR(TGLMASUK) = '.date('Y'))->count();
+//        $bcf26 = \App\Models\Containercy::where('KD_DOK_INOUT', 5)->whereRaw('MONTH(TGLMASUK) = '.date('m'))->whereRaw('YEAR(TGLMASUK) = '.date('Y'))->count();
+        $bcallfcl= \App\Models\Containercy::whereNotIn('KD_DOK_INOUT', array(1,2))->whereRaw('MONTH(TGLMASUK) = '.date('m'))->whereRaw('YEAR(TGLMASUK) = '.date('Y'))->count();
 //        $data['countbydoc'] = array('BC 2.0' => $bc20, 'BC 2.3' => $bc23, 'BC 1.2' => $bc12, 'BC 1.5' => $bc15, 'BC 1.1' => $bc11, 'BCF 2.6' => $bcf26);
-        $data['countbydoc'] = array('BC 2.0' => $bc20, 'BC 2.3' => $bc23, 'Lain-lain' => $bc12+$bc15+$bc11+$bcf26);
+        $data['countbydoc'] = array('BC 2.0' => $bc20, 'BC 2.3' => $bc23, 'Lain-lain' => $bcallfcl);
         
         $data['totcounttpsp'] = array_sum(array($jict,$koja,$mal,$nct1,$pldc));
         $data['totcounttpsg'] = array_sum(array($jictg,$kojag,$malg,$nct1g,$pldcg));
@@ -79,11 +80,12 @@ class DashboardController extends Controller
         // BY DOKUMEN
         $bc20lcl = DBManifest::where('KD_DOK_INOUT', 1)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
         $bc23lcl = DBManifest::where('KD_DOK_INOUT', 2)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
-        $bc12lcl = DBManifest::where('KD_DOK_INOUT', 4)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
-        $bc15lcl = DBManifest::where('KD_DOK_INOUT', 9)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
-        $bc11lcl = DBManifest::where('KD_DOK_INOUT', 20)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
-        $bcf26lcl = DBManifest::where('KD_DOK_INOUT', 5)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
-        $data['countbydoclcl'] = array('BC 2.0' => $bc20lcl, 'BC 2.3' => $bc23lcl, 'Lain-lain' => $bc12lcl+$bc12lcl+$bc15lcl+$bc11lcl+$bcf26lcl);
+//        $bc12lcl = DBManifest::where('KD_DOK_INOUT', 4)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+//        $bc15lcl = DBManifest::where('KD_DOK_INOUT', 9)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+//        $bc11lcl = DBManifest::where('KD_DOK_INOUT', 20)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+//        $bcf26lcl = DBManifest::where('KD_DOK_INOUT', 5)->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+        $bcalllcl= DBManifest::whereNotIn('KD_DOK_INOUT', array(1,2))->whereRaw('MONTH(tglmasuk) = '.$month)->whereRaw('YEAR(tglmasuk) = '.$year)->count();
+        $data['countbydoclcl'] = array('BC 2.0' => $bc20lcl, 'BC 2.3' => $bc23lcl, 'Lain-lain' => $bcalllcl);
         
         $data['countlclmanifest'] = \App\Models\Manifest::whereNotNull('tglmasuk')->whereNotNull('tglstripping')->whereNull('tglrelease')->count();
         
