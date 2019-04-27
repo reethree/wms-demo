@@ -139,6 +139,10 @@
         
         @yield('custom_js')
         
+        @if(\Auth::getUser()->username == 'bcppc3')
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js" type="text/javascript"></script>
+        @endif
+        
         <!-- Optionally, you can add Slimscroll and FastClick plugins.
               Both of these plugins are recommended to enhance the
               user experience -->
@@ -150,6 +154,34 @@
                     e.preventDefault();
                 });
             });
+            
+            @if(\Auth::getUser()->username == 'bcppc3')
+                
+                function notifyForThisMinute() {
+                    $.ajax({
+                        type: 'GET',
+                        dataType : 'json',
+                        url: '{{route("behandle-notification")}}',
+                        error: function (jqXHR, textStatus, errorThrown)
+                        {
+                            alert('Something went wrong, please try again later.');
+                        },
+                        success:function(json)
+                        {
+                            console.log(json);
+                            if(json.success) {
+                                $.notify(
+                                    json.count+" Behandle is Ready", "error"
+                                );
+                            }
+                        }
+                    });
+                    setTimeout(notifyForThisMinute, 10000);
+                }
+                notifyForThisMinute();
+                
+            @endif
+            
         </script>
     </body>
 </html>

@@ -259,4 +259,24 @@ class DefaultController extends BaseController
 //            </vxml>
     }
     
+        
+    public function behandleNotification()
+    {
+        $lcl_sb = \App\Models\Manifest::where(array('status_behandle' => 'Ready','behandle_notification' => 0))->count();
+        $fcl_sb = \App\Models\Containercy::where(array('status_behandle' => 'Ready','behandle_notification' => 0))->count();
+        
+        $count = $lcl_sb+$fcl_sb;
+        
+        if($count > 0){
+            $success = 1;
+            // Update
+            \App\Models\Manifest::where('status_behandle','Ready')->update(['behandle_notification' => 1]);
+            \App\Models\Containercy::where('status_behandle','Ready')->update(['behandle_notification' => 1]);
+        }else{
+            $success = 0;
+        }
+        
+        return json_encode(array('success' => $success, 'count' => $count));
+    }
+    
 }

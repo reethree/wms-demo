@@ -113,6 +113,12 @@ Route::post('/autogate/notification', [
     'as' => 'autogate-notification'
 ]);
 
+// Behandle Notification
+Route::get('/status-behandle/notification', [
+    'uses' => 'DefaultController@behandleNotification',
+    'as' => 'behandle-notification'
+]);
+
 Route::group(['namespace' => 'Payment'], function(){
     // BNI Notification
     Route::post('payment/bni/notification', [
