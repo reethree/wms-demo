@@ -88,7 +88,6 @@
 
             ->addColumn(array('label'=>'CAR','index'=>'CAR','width'=>280))
             ->addColumn(array('label'=>'Kode Kantor','index'=>'KD_KANTOR','width'=>140,'align'=>'center'))
-            ->addColumn(array('label'=>'No. SPJM','index'=>'NO_SPJM','width'=>140,'align'=>'center'))
             ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM','width'=>140,'align'=>'center'))
             ->addColumn(array('label'=>'No. PIB','index'=>'NO_PIB','width'=>140,'align'=>'center'))
             ->addColumn(array('label'=>'Tgl. PIB','index'=>'TGL_PIB','width'=>140,'align'=>'center'))           
