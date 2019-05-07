@@ -93,7 +93,21 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                         ->where($request['by'], '>=', $start_date)
                         ->where($request['by'], '<=', $end_date);
             }else{
-                
+                if(isset($request['type']) && isset($request['spjmid'])){
+                    
+                    $type = $request['type'];
+                    
+                    if($type == 'cont') {
+                        $Model = \DB::table('tps_spjmcontxml')
+                            ->where('TPS_SPJMXML_FK', $request['spjmid']);
+                    }else{
+                        $Model = \DB::table('tps_spjmkmsxml')
+                            ->where('TPS_SPJMXML_FK', $request['spjmid']);
+                    }
+                    
+                }else{
+
+                }
             }   
             
         }elseif($Model->getMorphClass() == 'App\Models\TpsDokManual'){   

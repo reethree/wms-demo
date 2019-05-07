@@ -103,6 +103,10 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-spjm-index',
         'uses' => 'PenerimaanController@spjmIndex'
     ]);
+    Route::get('/spjm/edit/{id}', [
+        'as' => 'tps-spjm-edit',
+        'uses' => 'PenerimaanController@spjmEdit'
+    ]);
     Route::post('/spjm/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsSpjm(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());

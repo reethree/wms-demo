@@ -332,6 +332,33 @@ class PenerimaanController extends Controller
         return view('tpsonline.edit-ob')->with($data);
     }
     
+    public function spjmEdit($id)
+    {
+        if ( !$this->access->can('show.tps.spjm.edit') ) {
+            return view('errors.no-access');
+        }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Edit TPS SPJM', 'slug' => 'show.tps.spjm.edit', 'description' => ''));
+        
+        $data['page_title'] = "Edit SPJM";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => route('tps-spjm-index'),
+                'title' => 'TPS SPJM'
+            ],
+            [
+                'action' => '',
+                'title' => 'Edit'
+            ]
+        ];
+        
+        $data['spjm'] = \App\Models\TpsSpjm::find($id);
+        
+        return view('tpsonline.edit-spjm')->with($data);
+    }
+    
     public function sppbPibEdit($id)
     {
         if ( !$this->access->can('show.tps.sppbPib.edit') ) {

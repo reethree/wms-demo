@@ -6,7 +6,7 @@
         z-index: 100 !important;
     }
 </style>
-<!--<script>
+<script>
  
     function gridCompleteEvent()
     {
@@ -16,13 +16,13 @@
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
             
-            edt = '<a href="{{ route("tps-responPlp-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i> Details</a> ';
-            del = '<a href="{{ route("lcl-register-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
-            jQuery("#tpsSpjmGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
+            edt = '<a href="{{ route("tps-spjm-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i> Details</a> ';
+//            del = '<a href="{{ route("lcl-register-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
+            jQuery("#tpsSpjmGrid").jqGrid('setRowData',ids[i],{action:edt}); 
         } 
     }
     
-</script>-->
+</script>
 
 <div class="box">
     <div class="box-header with-border">
@@ -82,8 +82,8 @@
             ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
             ->setNavigatorOptions('view',array('closeOnEscape'=>false))
             ->setFilterToolbarOptions(array('autosearch'=>true))
-//            ->setGridEvent('gridComplete', 'gridCompleteEvent')
-//            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+            ->setGridEvent('gridComplete', 'gridCompleteEvent')
+            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('key'=>true,'index'=>'TPS_SPJMXML_PK','hidden'=>true))
 
             ->addColumn(array('label'=>'CAR','index'=>'CAR','width'=>280))
