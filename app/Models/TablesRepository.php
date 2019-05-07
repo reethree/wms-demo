@@ -83,6 +83,7 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereNotNull('NO_SPJM')
                             ->whereNotNull('TGL_SPJM')
                             ->where('BEHANDLE', 'Y')
+                            ->where('status_behandle','!=','Finish' )
 //                            ->where('flag_bc','N')
 //                            ->orWhere('alasan_segel', 'IKP / Temuan Lapangan')
                             ;
@@ -236,6 +237,7 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereNotNull('NO_SPJM')
                             ->whereNotNull('TGL_SPJM')
                             ->where('BEHANDLE', 'Y')
+                            ->where('status_behandle','!=','Finish' )
 //                            ->where('flag_bc','N')
 //                            ->orWhere('alasan_segel', 'IKP / Temuan Lapangan')
                             ;
