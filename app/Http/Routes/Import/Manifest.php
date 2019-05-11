@@ -67,4 +67,10 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-manifest-upload-photo',
         'uses' => 'ManifestController@uploadPhoto'
     ]);
+    
+    // GET NO.POS
+    Route::get('/manifest/get-nopos/{id}', [
+        'as' => 'lcl-manifest-get-nopos',
+        'uses' => 'ManifestController@getNopos'
+    ]);
 });

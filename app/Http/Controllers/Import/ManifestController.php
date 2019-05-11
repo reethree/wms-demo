@@ -528,4 +528,43 @@ class ManifestController extends Controller
         }
     }
     
+    public function getNopos($id)
+    {
+        $container = DBContainer::find($id);
+        $manifests = DBManifest::where('TCONTAINER_FK',$container->TCONTAINER_PK)->get();
+        
+        $plp = \App\Models\TpsResponPlpDetail::where(array('NO_CONT'=>$container->NOCONTAINER,'JNS_CONT'=>'L','UK_CONT'=>$container->SIZE))->get();
+        
+        if($plp){
+            // UPDATE NO.POS
+            $i = 0;
+            foreach ($manifests as $manifest):
+                $plpdetail = \App\Models\TpsResponPlpDetail::where(
+                        array(
+                            'NO_CONT'=>$manifest->NOCONTAINER,
+                            'JNS_CONT'=>'L',
+                            'UK_CONT'=>$manifest->SIZE,
+                            'NO_BL_AWB'=>$manifest->NOHBL,
+                            'TGL_BL_AWB'=>date('Ymd', strtotime($manifest->TGL_HBL))
+                            )
+                        )->first();
+                if($plpdetail) {
+                    // Check Manifest Nopos
+                    if($manifest->NO_POS_BC11 == ''){
+                        DBManifest::where('TMANIFEST_PK', $manifest->TMANIFEST_PK)->update(['NO_POS_BC11'=>$plpdetail->NO_POS_BC11]);
+                        $i++;
+                    }
+                }
+            endforeach;
+            
+            return json_encode(array('success' => true, 'message' => $i. ' Data No.POS BC11 berhasil di update.'));
+            
+        }else{
+            return json_encode(array('success' => false, 'message' => 'Data Respon PLP tidak ditemukan untuk container ini.'));
+        }
+              
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+        
+    }
+    
 }

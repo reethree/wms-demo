@@ -200,7 +200,7 @@
     $(document).ready(function()
     {
         $('#btn-toolbar, #btn-photo').disabledButtonGroup();
-        $('#btn-group-4').enableButtonGroup();
+        $('#btn-group-4,#btn-group-7').enableButtonGroup();
         @role('pbm')
             $('#manifest-form').disabledFormGroup();
             $('#btn-group-3').disabledButtonGroup();
@@ -238,10 +238,10 @@
             @role('pbm')
                 $('#btn-toolbar, #btn-photo').disabledButtonGroup();
                 $('#manifest-form').disabledFormGroup();
-                $('#btn-group-3').disabledButtonGroup();
+                $('#btn-group-3,#btn-group-7').disabledButtonGroup();
             @else
                 $('#btn-toolbar').disabledButtonGroup();
-                $('#btn-group-3').enableButtonGroup();
+                $('#btn-group-3,#btn-group-7').enableButtonGroup();
             @endrole
             $('#btn-group-4').enableButtonGroup();
             $('#btn-group-1').enableButtonGroup();
@@ -489,6 +489,35 @@
             }
         });
     });
+    
+    $("#btn-get-nopos").on("click", function() {
+        if(!confirm('Apakah anda yakin? Data No.POS yang sudah terisi tidak akan di update.')){return false;}
+        
+        $.ajax({
+            type: 'GET',
+            dataType : 'json',
+            url: "{{route('lcl-manifest-get-nopos', $container->TCONTAINER_PK)}}",
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+
+            },
+            success:function(json)
+            {
+                if(json.success) {
+                    $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                } else {
+                    $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                }
+
+                //Triggers the "Refresh" button funcionality.
+                $('#btn-refresh').click();
+            }
+        });
+    });
 
 });
     
@@ -654,9 +683,12 @@
                         <div id="btn-group-3" class="btn-group toolbar-block">
                             <button class="btn btn-default" id="btn-save"><i class="fa fa-save"></i> Save</button>
                         </div>
+                        <div id="btn-group-7" class="btn-group pull-right">
+                            <button class="btn btn-info" id="btn-get-nopos"><i class="fa fa-download"></i> Get No.POS</button>
+                        </div>
                         <div id="btn-group-4" class="btn-group pull-right">
                             <button class="btn btn-default" id="btn-print-tally" onclick="window.open('{{ route('lcl-manifest-cetak', array('id'=>$container->TCONTAINER_PK,'type'=>'tally')) }}','preview tally sheet','width=600,height=600,menubar=no,status=no,scrollbars=yes');"><i class="fa fa-print"></i> Cetak Tally Sheet</button>
-                            <button class="btn btn-default" id="btn-print-log" onclick="window.open('{{ route('lcl-manifest-cetak', array('id'=>$container->TCONTAINER_PK,'type'=>'log')) }}','preview log stripping','width=600,height=600,menubar=no,status=no,scrollbars=yes');"><i class="fa fa-print"></i> Cetak Log Stripping</button>
+                            <!--<button class="btn btn-default" id="btn-print-log" onclick="window.open('{{ route('lcl-manifest-cetak', array('id'=>$container->TCONTAINER_PK,'type'=>'log')) }}','preview log stripping','width=600,height=600,menubar=no,status=no,scrollbars=yes');"><i class="fa fa-print"></i> Cetak Log Stripping</button>-->
                         </div>
                         <div id="btn-group-5" class="btn-group pull-right">
                             <button class="btn btn-default" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
