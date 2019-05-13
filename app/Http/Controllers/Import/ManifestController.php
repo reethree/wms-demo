@@ -533,7 +533,7 @@ class ManifestController extends Controller
         $container = DBContainer::find($id);
         $manifests = DBManifest::where('TCONTAINER_FK',$container->TCONTAINER_PK)->get();
         
-        $plp = \App\Models\TpsResponPlpDetail::where(array('NO_CONT'=>$container->NOCONTAINER,'JNS_CONT'=>'L','UK_CONT'=>$container->SIZE))->get();
+        $plp = \App\Models\TpsResponPlpDetail::where(array('NO_CONT'=>$container->NOCONTAINER,'UK_CONT'=>$container->SIZE))->get();
         
         if($plp){
             // UPDATE NO.POS
@@ -542,7 +542,6 @@ class ManifestController extends Controller
                 $plpdetail = \App\Models\TpsResponPlpDetail::where(
                         array(
                             'NO_CONT'=>$manifest->NOCONTAINER,
-                            'JNS_CONT'=>'L',
                             'UK_CONT'=>$manifest->SIZE,
                             'NO_BL_AWB'=>$manifest->NOHBL,
                             'TGL_BL_AWB'=>date('Ymd', strtotime($manifest->TGL_HBL))
