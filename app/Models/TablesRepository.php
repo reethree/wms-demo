@@ -85,7 +85,12 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->where('BEHANDLE', 'Y')
                             ->where('status_behandle','!=','Finish' )
 //                            ->where('flag_bc','N')
-                            ->orWhere('alasan_segel', 'IKP / Temuan Lapangan')
+//                            ->orWhere('alasan_segel', 'IKP / Temuan Lapangan')
+                            ->orWhere(function($query)
+                            {
+                                $query->where("flag_bc","Y")
+                                      ->where("alasan_segel","IKP / Temuan Lapangan");
+                            })
                             ;
                     break;
                     case 'behandle':
@@ -239,7 +244,12 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->where('BEHANDLE', 'Y')
                             ->where('status_behandle','!=','Finish' )
 //                            ->where('flag_bc','N')
-                            ->orWhere('alasan_segel', 'IKP / Temuan Lapangan')
+//                            ->orWhere('alasan_segel', 'IKP / Temuan Lapangan')
+                            ->orWhere(function($query)
+                            {
+                                $query->where("flag_bc","Y")
+                                      ->where("alasan_segel","IKP / Temuan Lapangan");
+                            })
                             ;
                     break;
                     case 'behandle':
