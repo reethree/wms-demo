@@ -152,9 +152,11 @@
                 }
                 $('#gatein-photo').html(html_in);
                 if(json.data.photo_release_in){
+                    html_out += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_release_in.replace("C2", "C1")+'" style="width: 200px;padding:5px;" />';
                     html_out += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_release_in+'" style="width: 200px;padding:5px;" />';
                 }
                 if(json.data.photo_release_out){
+                    html_out += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_release_out.replace("C2", "C1")+'" style="width: 200px;padding:5px;" />';
                     html_out += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_release_out+'" style="width: 200px;padding:5px;" />';
                 }
                 $('#gateout-photo').html(html_out);

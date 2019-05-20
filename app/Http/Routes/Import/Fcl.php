@@ -40,7 +40,8 @@ Route::group(['prefix' => 'fcl', 'namespace' => 'Import'], function(){
     ]);
     Route::post('/dispatche/edit/{id}', [
         'as' => 'fcl-dispatche-update',
-        'uses' => 'FclController@dispatcheUpdate'
+//        'uses' => 'FclController@dispatcheUpdate'
+        'uses' => 'FclController@dispatcheUpdateByRegister'
     ]);
     
     Route::get('/status-behandle', [
