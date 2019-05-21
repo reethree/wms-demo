@@ -30,6 +30,10 @@
             $('#NO_PLP').val(rowdata.NO_PLP);
             $('#TGL_PLP').val(rowdata.TGL_PLP);
             $('#KD_TPS_ASAL').val(rowdata.KD_TPS_ASAL);
+            $('#TGL_DISPATCHE').val(rowdata.TGL_DISPATCHE);
+            $('#JAM_DISPATCHE').val(rowdata.JAM_DISPATCHE);
+            $('#TGL_KELUAR_TPK_ESEAL').val(rowdata.TGL_KELUAR_TPK_ESEAL);
+            $('#JAM_KELUAR_TPK_ESEAL').val(rowdata.JAM_KELUAR_TPK_ESEAL);
             
             $('#ESEALCODE').val(rowdata.ESEALCODE).trigger('change');
             $('#RESPONSE_DISPATCHE').val(rowdata.RESPONSE_DISPATCHE);
