@@ -92,7 +92,7 @@ class EasygoController extends Controller
         $dataResults = curl_exec($ch);
         curl_close($ch);
         
-        print_r($dataResults);
+//        print_r($dataResults);
         
         $results = json_decode($dataResults);
         if(count($results) > 0){
