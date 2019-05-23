@@ -46,7 +46,7 @@ class EasygoController extends Controller
 //            $dispatche = \App\Models\Easygo::where('OB_ID', $request->ob_id)->orderBy('created_at', 'DESC')->first();
             $type = 'F';
         }
-//        
+
 //        $kode_asal = \App\Models\Lokasisandar::find($container->TLOKASISANDAR_FK);
 //        
 //        if(empty($kode_asal->KD_TPS_ASAL) || !isset($kode_asal->KD_TPS_ASAL))
@@ -67,7 +67,7 @@ class EasygoController extends Controller
             'Car_plate' => $dispatche->ESEALCODE,
             'Tgl_DO' => date('Y-m-d H:i:s', strtotime($dispatche->TGL_PLP)), // Tgl.PLP
             'Kode_asal' => $dispatche->KD_TPS_ASAL, 
-            'Kode_tujuan' => $dispatche->KD_TPS_TUJUAN,
+            'Kode_tujuan' => 'PRJP',
             'No_do' => $dispatche->NO_PLP, // No.PLP
 //            'No_sj' => '', // No.Surat Jalan
             'No_Container' => $dispatche->NOCONTAINER,
@@ -97,20 +97,20 @@ class EasygoController extends Controller
         $results = json_decode($dataResults);
         if(count($results) > 0){
             $dispatche->STATUS_DISPATCHE = 'Y';
-            if($type == 'F'){        
-                $wkt_dis = date('Y-m-d H:i:s');
-                $dispatche->TGL_DISPATCHE = date('Y-m-d', strtotime($wkt_dis));
-                $dispatche->JAM_DISPATCHE = date('H:i:s', strtotime($wkt_dis));
-                $dispatche->url_reply = $this->url_reply;
-            }
+//            if($type == 'F'){        
+//                $wkt_dis = date('Y-m-d H:i:s');
+//                $dispatche->TGL_DISPATCHE = date('Y-m-d', strtotime($wkt_dis));
+//                $dispatche->JAM_DISPATCHE = date('H:i:s', strtotime($wkt_dis));
+//                $dispatche->url_reply = $this->url_reply;
+//            }
             $dispatche->DO_ID = $results->DO_ID;
             $dispatche->RESPONSE_DISPATCHE = $results->ResponseStatus;
             $dispatche->KODE_DISPATCHE = $results->ResponseCode;
 
             if($dispatche->save()){
-                if($type == 'F'){ 
-                    \App\Models\TpsOb::where('TPSOBXML_PK', $request->ob_id)->update(['STATUS_DISPATCHE' => 'Y','DO_ID' => $results->DO_ID,'RESPONSE_DISPATCHE' => $results->ResponseStatus,'KODE_DISPATCHE' => $results->ResponseCode,'WAKTU_DISPATCHE' => $wkt_dis]);
-                }
+//                if($type == 'F'){ 
+//                    \App\Models\TpsOb::where('TPSOBXML_PK', $request->ob_id)->update(['STATUS_DISPATCHE' => 'Y','DO_ID' => $results->DO_ID,'RESPONSE_DISPATCHE' => $results->ResponseStatus,'KODE_DISPATCHE' => $results->ResponseCode,'WAKTU_DISPATCHE' => $wkt_dis]);
+//                }
 
                 return json_encode(array('success' => true, 'message' => 'Dispatche successfully updated!'));
             }
