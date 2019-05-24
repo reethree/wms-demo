@@ -6,7 +6,7 @@
                 <span style="font-size:10px;">{{strtoupper($barcode->ref_action).' - '.date('d/m/Y H:i')}}</span>
                 <h3 style="margin: 10px;">GATE PASS</h3>
                 <h5 style="margin: 10px;">TPS PRIMANATA JASA PERSADA</h5>
-                {!!QrCode::margin(0)->size(100)->generate($barcode->barcode)!!}
+                {!!QrCode::margin(0)->size(80)->generate($barcode->barcode)!!}
                 <p style="font-size: 10px;margin: 0;padding: 0;">{{$barcode->barcode}}</p>
                 <p style="font-size: 13px;font-weight: bold;">
                     {{$barcode->NOHBL}}<br />
@@ -26,7 +26,7 @@
                 <span style="font-size:10px;">{{strtoupper($barcode->ref_action).' - '.date('d/m/Y H:i')}}</span>
                 <h3 style="margin: 10px;">GATE PASS</h3>
                 <h5 style="margin: 10px;">TPS PRIMANATA JASA PERSADA</h5>
-                {!!QrCode::margin(0)->size(100)->generate($barcode->barcode)!!}
+                {!!QrCode::margin(0)->size(80)->generate($barcode->barcode)!!}
                 <p style="font-size: 10px;margin: 0;padding: 0;">{{$barcode->barcode}}</p>
                 <p style="font-size: 13px;font-weight: bold;">
                     {{$barcode->NOCONTAINER}}<br />
