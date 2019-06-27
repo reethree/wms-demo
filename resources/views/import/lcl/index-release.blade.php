@@ -369,10 +369,25 @@
             var manifestId = cellValues.join(",");
             
             if(!manifestId) {alert('Please Select Row');return false;}               
+
+            if(cellValues.length > 1){
             if(!confirm('Apakah anda yakin?')){return false;}    
+                window.open("{{ route('cetak-barcode', array('','','')) }}/"+manifestId+"/manifest/release","preview barcode","width=305,height=600,menubar=no,status=no,scrollbars=yes");
+            }else{
+                var rowdata = $('#lclReleaseGrid').getRowData(manifestId);
+                $('#barcode_no_hbl').html(rowdata.NOHBL);
+                $('#id_hbl_barcode').val(rowdata.TMANIFEST_PK);
             
-//            console.log(manifestId);
-            window.open("{{ route('cetak-barcode', array('','','')) }}/"+manifestId+"/manifest/release","preview barcode","width=305,height=600,menubar=no,status=no,scrollbars=yes");
+                $('#print-barcode-modal').modal('show');
+            }
+        });
+        
+        $('#print-barcode-single').click(function(){
+            var manifestId = $("#id_hbl_barcode").val();
+            var car = $("#jumlah_mobil").val();
+            $('#print-barcode-modal').modal('hide');
+            
+            window.open("{{ route('cetak-barcode', array('','','')) }}/"+manifestId+"/manifest/release/"+car,"preview barcode","width=305,height=600,menubar=no,status=no,scrollbars=yes");
         });
         
         $('#btn-upload').click(function() {
@@ -957,6 +972,32 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->    
+<div id="print-barcode-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="title-photo">Print Barcode <span id="barcode_no_hbl"></span></h4>
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                    <input type="hidden" id="id_hbl_barcode" required>   
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Jumlah Mobil</label>
+                        <div class="col-sm-8">
+                            <input type="number" id="jumlah_mobil" name="jumlah_mobil" class="form-control" value="1" />
+                        </div>
+                    </div>
+                </div>
+            </div>    
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" id="print-barcode-single" class="btn btn-primary">Create</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal --> 
 @endsection
 
 @section('custom_css')
