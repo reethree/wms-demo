@@ -330,6 +330,7 @@
                     
                     <input name="_token" type="hidden" value="{{ csrf_token() }}">
                     <input id="TCONTAINER_PK" name="TCONTAINER_PK" type="hidden">
+                    <input name="delete_photo" id="delete_photo" value="N" type="hidden">
                     
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. SPK</label>

@@ -649,6 +649,12 @@ class LclController extends Controller
         $data = $request->json()->all(); 
         $dataupdate = array();
 //        unset($data['TCONTAINER_PK'], $data['working_hours'], $data['_token']);
+        
+        $delete_photo = $data['delete_photo'];
+        
+        if($delete_photo == 'Y'){
+            $dataupdate['photo_stripping'] = '';
+        }
                
         $dataupdate['STARTSTRIPPING'] = $data['STARTSTRIPPING'].' '.$data['JAMSTARTSTRIPPING'];
         $dataupdate['ENDSTRIPPING'] = $data['ENDSTRIPPING'].' '.$data['JAMENDSTRIPPING'];
