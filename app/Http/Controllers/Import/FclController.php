@@ -2110,4 +2110,16 @@ class FclController extends Controller
         
         return view('import.fcl.bc-inventory')->with($data);
     }
+    
+    public function releaseVerify($id, $no)
+    {
+        $cont = DBContainer::find($id);
+        
+        // Verify Container
+        if($cont->NOCONTAINER == $no){
+            return json_encode(array('success' => true, 'message' => 'Nomor Kontainer Sesuai!'));
+        }else{
+            return json_encode(array('success' => false, 'message' => 'Nomor Kontainer TIDAK Sesuai, silahkan periksa kembali!!!'));
+        } 
+    }
 }

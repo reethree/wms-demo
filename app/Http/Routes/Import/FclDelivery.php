@@ -85,4 +85,10 @@ Route::group(['prefix' => 'fcl/delivery', 'namespace' => 'Import'], function(){
         'uses' => 'FclController@behandleUploadPhoto'
     ]);
     
+    // VERIFY CONTAINER
+    Route::get('/release/verify/{id}/{no}', [
+        'as' => 'fcl-release-verify',
+        'uses' => 'FclController@releaseVerify'
+    ]);
+    
 });

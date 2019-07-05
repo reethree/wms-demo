@@ -261,7 +261,82 @@
         
         $('#btn-print-sj').click(function() {
             var id = $('#fclReleaseGrid').jqGrid('getGridParam', 'selrow');
-            window.open("{{ route('fcl-delivery-suratjalan-cetak', '') }}/"+id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");
+            
+            // Verify
+            $.ajax({
+                type: 'GET',
+                dataType : 'json',
+                url: '{{route("fcl-report-rekap-view-photo","")}}/'+id,
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                },
+                beforeSend:function()
+                {
+                    $('#verify-photo').html('');
+                },
+                success:function(json)
+                {
+                    var html_container = '';
+
+                    if(json.data.photo_release_extra){
+                        var photos_container = $.parseJSON(json.data.photo_release_extra);
+                        var html_container = '';
+                        $.each(photos_container, function(i, item) {
+                            /// do stuff
+                            html_container += '<img src="{{url("uploads/photos/container/fcl")}}/'+json.data.NOCONTAINER+'/'+item+'" style="width: 200px;padding:5px;" />';
+
+                        });
+                        $('#verify-photo').html(html_container);
+                        $('#verify-contid').val(id);
+                        
+                        $('#verify-modal').modal('show');
+                    }else{
+                        alert('Silahkan upload photo kontainer terlebih dahulu!');
+                        return false;
+                    }
+                }
+            });
+            
+//            window.open("{{ route('fcl-delivery-suratjalan-cetak', '') }}/"+id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");
+        });
+        
+        $("#verify-form").submit(function(event){
+            event.preventDefault();
+//            var post_url = $(this).attr("action");
+//            var request_method = $(this).attr("method");
+//            var form_data = new FormData(this);
+            var cont_id = $('#verify-contid').val();
+            var cont_no = $('#verify-contno').val();
+            
+            if(cont_no == ''){
+                return false;
+            }
+            
+            $.ajax({
+                url : '{{route("fcl-release-verify",array("",""))}}/'+cont_id+'/'+cont_no,
+                type: 'GET',
+                dataType : 'json',
+                cache: false,
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                },
+                beforeSend:function()
+                {
+                    $('#verify-modal').modal('hide');
+                },
+                success:function(json)
+                {
+                    console.log(json);
+                    if(json.success) {
+                      $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                      window.open("{{ route('fcl-delivery-suratjalan-cetak', '') }}/"+cont_id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");
+                    } else {
+                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    }
+                }
+            });
         });
         
         $('#btn-print-wo').click(function() {
@@ -913,6 +988,40 @@
                     </div>
                 </div>
             </div>    
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div id="verify-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Verification Container</h4>
+            </div>
+            <form class="form-horizontal" id="verify-form">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="verify-photo"></div>
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <hr />
+                            <input type="hidden" id="verify-contid" name="verify_contid" required> 
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Please Insert No. Container</label>
+                                <div class="col-sm-7">
+                                    <input type="text" id="verify-contno" name="verify_contno" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Verify</button>
+                </div>
+            </form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
