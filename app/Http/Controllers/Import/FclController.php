@@ -945,7 +945,7 @@ class FclController extends Controller
         $joborder = DBJoborder::where('TJOBORDER_PK', $container->TJOBORDER_FK);
         $data['container'] = $container;
         $data['joborder'] = $joborder;
-//        return view('print.fcl-fiatmuat', $data);
+        return view('print.fcl-fiatmuat', $data);
         $pdf = \PDF::loadView('print.fcl-fiatmuat', $data); 
         return $pdf->stream('FCL-FiatMuat-'.$container->NOCONTAINER.'-'.date('dmy').'.pdf');
     }

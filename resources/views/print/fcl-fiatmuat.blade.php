@@ -5,73 +5,120 @@
 @stop
 
 @section('content')
-    
+    <style>
+        @media print {
+            body {
+                background: #FFF;
+                font-weight: bold;
+                color: #000;
+            }
+            table {
+                font-weight: bold;
+                color: #000;
+            }
+            @page {
+                size: auto;   /* auto is the initial value */
+    /*            margin-top: 114px;
+                margin-bottom: 90px;
+                margin-left: 38px;
+                margin-right: 75px;*/
+                font-weight: bold;
+            }
+            .print-btn {
+                display: none;
+            }
+        }
+    </style>
+    <a href="#" class="print-btn" type="button" onclick="window.print();">PRINT</a>
     <div id="details" class="clearfix">
-        <div id="title">WORKING ORDER<br /><span style="font-size: 12px;">Release Cargo</span></div>
+        <table style="font-size:14px;" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="20%">
+                    <img src="{{ url('assets/images/logo/logo.png') }}" alt="PT. Primanata Jasa Persada" width="100px" />
+                </td>
+                <td width="80%" valign="top">
+                    <h1>PT. PRIMANATA JASA PERSADA</h1>
+                    <p>
+                        Jl. Enggano No. 40E Jakarta 14310 – Indonesia<br />
+                        Telp.: (021) 43909872, 43932077. Fax.: (021) 43932087<br />
+                        Email: primanatajp@yahoo.co.id<br />
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <hr style="border-color: #000;" />
+        <hr /><br />
         
-        <table border="0" cellspacing="0" cellpadding="0">
+        <div id="title">WORKING ORDER<br /></div>
+        
+        <table border="0" cellspacing="0" cellpadding="0" width="100%">
             <tr>
                 <td style="vertical-align: top;">
                     <table border="0" cellspacing="0" cellpadding="0" style="font-size: 12px;">
                         <tr>
-                            <td>No. Order</td>
+                            <td width="20%">NO. SPPB</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ $container->NOJOBORDER }}</td>
+                            <td>{{ $container->NO_SPPB }}</td>
                         </tr>
                         <tr>
-                            <td>Consolidator</td>
+                            <td>TGL. SPPB</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ $container->NAMACONSOLIDATOR }}</td>
+                            <td>{{ date('d-m-Y',strtotime($container->TGL_SPPB)) }}</td>
                         </tr>
                         <tr>
-                            <td>No. Container</td>
+                            <td>JENIS DOKUMEN</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ $container->NOCONTAINER }}</td>
+                            <td>{{ $container->KODE_DOKUMEN }}</td>
                         </tr>
                         <tr>
-                            <td>Consignee</td>
+                            <td>TPS ASAL</td>
+                            <td class="padding-10 text-center">:</td>
+                            <td>{{ $container->KD_TPS_ASAL }}</td>
+                        </tr>
+                        <tr>
+                            <td>NO. PLP</td>
+                            <td class="padding-10 text-center">:</td>
+                            <td>{{ $container->NO_PLP }}</td>
+                        </tr>
+                        <tr>
+                            <td>TGL. PLP</td>
+                            <td class="padding-10 text-center">:</td>
+                            <td>{{ date('d-m-Y',strtotime($container->TGL_PLP)) }}</td>
+                        </tr>
+                        <tr>
+                            <td>NO. BC11</td>
+                            <td class="padding-10 text-center">:</td>
+                            <td>{{ $container->NO_BC11 }}</td>
+                        </tr>
+                        <tr>
+                            <td>TGL. BC11</td>
+                            <td class="padding-10 text-center">:</td>
+                            <td>{{ date('d-m-Y',strtotime($container->TGL_BC11)) }}</td>
+                        </tr>
+                        <tr>
+                            <td>NO. B/L AWB</td>
+                            <td class="padding-10 text-center">:</td>
+                            <td>{{ $container->NO_BL_AWB }}</td>
+                        </tr>
+                        <tr>
+                            <td>CONSIGNEE</td>
                             <td class="padding-10 text-center">:</td>
                             <td>{{ $container->CONSIGNEE }}</td>
                         </tr>
                         <tr>
-                            <td>Importir</td>
+                            <td>TGL. GATE IN TPS</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ $container->NAMA_IMP }}</td>
+                            <td>{{ date('d-m-Y',strtotime($container->TGLMASUK)) }}</td>
                         </tr>
                         <tr>
-                            <td>No/Tgl. SPJM</td>
+                            <td>JAM GATE IN TPS</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ $container->NO_SPJM }} / {{ date('d-m-y', strtotime($container->TGL_SPJM)) }}</td>
-                        </tr>
-                        <tr>
-                            <td>No. Kuitansi</td>
-                            <td class="padding-10 text-center">:</td>
-                            <td>{{ $container->NO_KUITANSI }} / {{ date('d-m-Y') }}</td>
-                        </tr>
-                        <tr>
-                            <td>No/Tgl. MB/L</td>
-                            <td class="padding-10 text-center">:</td>
-                            <td>{{ $container->NOMBL }} / {{ date('d-m-y', strtotime($container->TGLMBL)) }}</td>
-                        </tr>
-                        <tr>
-                            <td>No/ Tgl. Bea Cukai</td>
-                            <td class="padding-10 text-center">:</td>
-                            <td>{{ $container->NO_SPPB }} / {{ date('d-m-Y',strtotime($container->TGL_SPPB)) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Tgl. Behandle(*)</td>
-                            <td class="padding-10 text-center">:</td>
-                            <td>{{ date('d-m-y', strtotime($container->TGLBEHANDLE)) }} {{ date('H:i:s', strtotime($container->JAMBEHANDLE)) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Activity</td>
-                            <td class="padding-10 text-center">:</td>
-                            <td>CY/DG</td>
+                            <td>{{ date('H:i:s',strtotime($container->JAMMASUK)) }}</td>
                         </tr>
                     </table>
                 </td>
-                <td style="vertical-align: top;">
-<!--                    <table border="0" cellspacing="0" cellpadding="0" style="font-weight: bold;">
+<!--                <td style="vertical-align: top;">
+                    <table border="0" cellspacing="0" cellpadding="0" style="font-weight: bold;">
                         <tr>
                             <td>NO.URUT</td>
                             <td class="padding-10 text-center">:</td>
@@ -87,7 +134,7 @@
                             <td class="padding-10 text-center">:</td>
                             <td>PNJP</td>
                         </tr>
-                    </table>-->
+                    </table>
                     <table border="1" cellspacing="0" cellpadding="0">                       
                         <tr>
                             <td class="text-center" style="font-size: 14px;font-weight: bold;">Time Release Jam</td>
@@ -150,50 +197,51 @@
                             <td style="padding-bottom: 20px;">Note :</td>
                         </tr>
                     </table>
-                </td>
+                </td>-->
             </tr>
         </table>
 
-        <table border="1" cellspacing="0" cellpadding="0">
+        <table border="1" cellspacing="0" cellpadding="0" width="100%">
             <thead>
                 <tr>
-                    <th>No. Container</th>
-                    <th>Size</th>
-                    <th>Weight</th>
+                    <td><b>NO. CONTAINER</b></td>
+                    <td width="20%" style="text-align:center;"><b>SIZE</b></td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>{{ $container->NOCONTAINER }}</td>
                     <td class="text-center">{{ $container->SIZE }}</td>
-                    <td class="text-center">{{ number_format($container->WEIGHT,4) }}</td>
                 </tr>
             </tbody>
         </table>
         
         <table border="0" cellspacing="0" cellpadding="0">
+            <tr><td height="30">&nbsp;</td></tr>
             <tr>
-                <td colspan="50"></td>
+                <td>
+                    CATATAN :
+                    <ul>
+                        <li>DILARANG MEMBERIKAN/MENERIMA UANG TIP.</li>
+                        <li>PETUGAS LAPANGAN PRIMANATA HARUS MENGECEK FISIK CONTAINER YANG AKAN MUAT SESUAI DENGAN DOKUMEN WORKING ORDER.</li>
+                        <li>PEMILIK BARANG HARUS MENGECEK FISIK CONTAINER YANG AKAN MUAT SESUAI DENGAN DOKUMEN WORKING ORDER.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Jakarta, {{ date('d F Y') }}</td>
             </tr>
         </table>
         
         <table border="0" cellspacing="0" cellpadding="0">
-            <tr><td height="150" style="font-size: 150px;line-height: 0;">&nbsp;</td></tr>
             <tr>
-                <td>CATATAN : DILARANG MEMBERIKAN / MENERIMA UANG TIP</td>
+                <td>PETUGAS LAPANGAN TPS</td>
+                <td class="text-center">PEMILIK BARANG</td>
+                <td class="text-center">PETUGAS SP2</td>
             </tr>
+            <tr><td height="100" style="font-size: 100px;line-height: 0;">&nbsp;</td></tr>
             <tr>
-                <td>Jakarta, {{ date('d-m-Y H:i:s') }}</td>
-            </tr>
-        </table>
-        
-        <table border="0" cellspacing="0" cellpadding="0">
-            <tr>
-                <td class="text-center">Petugas Jaga</td>
-                <td class="text-center">Koordinator</td>
-            </tr>
-            <tr><td height="50" style="font-size: 50px;line-height: 0;">&nbsp;</td></tr>
-            <tr>
+                <td>(..................)</td>
                 <td class="text-center">(..................)</td>
                 <td class="text-center">(..................)</td>
             </tr>
