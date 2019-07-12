@@ -54,7 +54,7 @@
         <table border="0" cellspacing="0" cellpadding="0" width="100%">
             <tr>
                 <td style="vertical-align: top;">
-                    <table border="0" cellspacing="0" cellpadding="0" style="font-size: 12px;">
+                    <table border="0" cellspacing="0" cellpadding="0" style="font-size: 14px;">
                         <tr>
                             <td width="20%">NO. SPPB</td>
                             <td class="padding-10 text-center">:</td>
@@ -201,7 +201,7 @@
             </tr>
         </table>
 
-        <table border="1" cellspacing="0" cellpadding="0" width="100%">
+        <table border="1" cellspacing="0" cellpadding="0" width="100%" style="font-size: 12px;">
             <thead>
                 <tr>
                     <td><b>NO. CONTAINER</b></td>
@@ -216,8 +216,8 @@
             </tbody>
         </table>
         
-        <table border="0" cellspacing="0" cellpadding="0">
-            <tr><td height="30">&nbsp;</td></tr>
+        <table border="0" cellspacing="0" cellpadding="0" style="font-size: 10px;">
+            <tr><td height="20">&nbsp;</td></tr>
             <tr>
                 <td>
                     CATATAN :
