@@ -115,6 +115,11 @@
                             <td class="padding-10 text-center">:</td>
                             <td>{{ date('H:i:s',strtotime($container->JAMMASUK)) }}</td>
                         </tr>
+                        <tr>
+                            <td>NO. POL MOBIL</td>
+                            <td class="padding-10 text-center">:</td>
+                            <td>{{ $container->NOPOL_OUT }}</td>
+                        </tr>
                     </table>
                 </td>
 <!--                <td style="vertical-align: top;">
@@ -201,7 +206,7 @@
             </tr>
         </table>
 
-        <table border="1" cellspacing="0" cellpadding="0" width="100%" style="font-size: 12px;">
+        <table border="1" cellspacing="0" cellpadding="0" width="100%" style="font-size: 14px;">
             <thead>
                 <tr>
                     <td><b>NO. CONTAINER</b></td>
@@ -210,7 +215,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ $container->NOCONTAINER }}</td>
+                    <td height="50">{{ $container->NOCONTAINER }}</td>
                     <td class="text-center">{{ $container->SIZE }}</td>
                 </tr>
             </tbody>
