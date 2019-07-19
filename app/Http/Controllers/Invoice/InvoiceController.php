@@ -113,6 +113,62 @@ class InvoiceController extends Controller
         return $pdf->stream($data['invoice']->no_invoice.'-'.date('dmy').'.pdf');
     }
     
+    public function invoicePrintRekapAkumulasi(Request $request)
+    {
+        $consolidator_id = $request->consolidator_id;
+        $start = $request->start_date;
+        $end = $request->end_date;
+        $type = $request->type;
+        
+        $data['consolidator'] = \App\Models\Consolidator::find($consolidator_id);
+        
+        $data['invoices'] = \App\Models\Invoice::select('tmanifest.tglrelease', 
+                \DB::raw('SUM(invoice_import.sub_total) as sub_total'), 
+                \DB::raw('SUM(invoice_import.cbm) as total_cbm'), 
+                \DB::raw('SUM(invoice_import.rdm) as total_rdm'),
+                \DB::raw('COUNT(invoice_import.id) as total_inv'))               
+                ->join('tmanifest','invoice_import.manifest_id','=','tmanifest.TMANIFEST_PK')
+                ->where('tmanifest.TCONSOLIDATOR_FK', $consolidator_id)
+                ->where('tmanifest.tglrelease','>=',$start)
+                ->where('tmanifest.tglrelease','<=',$end)
+                ->where('tmanifest.INVOICE', $type)
+                ->groupBy('tmanifest.tglrelease')
+                ->get();
+        
+//        return $data['invoices'];
+        
+        if(count($data['invoices']) > 0):
+            
+            $sum_total = array();
+            foreach ($data['invoices'] as $invoice):
+                $sum_total[] = $invoice->sub_total;        
+            endforeach;
+            
+            $data['sub_total'] = array_sum($sum_total);
+            if(isset($request->free_ppn)):
+                $data['ppn'] = 0;
+            else:
+                $data['ppn'] = $data['sub_total']*10/100;
+            endif;
+            
+            $data['materai'] = ($data['sub_total'] + $data['ppn'] > 1000000) ? '6000' : '3000';
+            $data['total'] = round($data['sub_total'] + $data['ppn'] + $data['materai']);           
+            $data['terbilang'] = ucwords($this->terbilang($data['total']))." Rupiah";
+            $data['tgl_cetak'] = $request->tgl_cetak;
+            $data['tgl_release'] = array('start' => $start, 'end' => $end);
+            $data['type'] = $type;
+            
+            return \View('print.invoice-rekap-akumulasi', $data);
+            
+            $pdf = \PDF::loadView('print.invoice-rekap-akumulasi', $data)->setPaper('legal');
+
+            return $pdf->stream('Rekap Akumulasi Invoice '.date('d-m-Y').'-'.$data['consolidator']->NAMACONSOLIDATOR.'.pdf');
+            
+        endif;
+        
+        return back()->with('error', 'Data tidak ditemukan.')->withInput();
+    }
+    
     public function invoicePrintRekap(Request $request)
     {
         $consolidator_id = $request->consolidator_id;
@@ -465,6 +521,37 @@ class InvoiceController extends Controller
 //        $data['perusahaans'] = DBPerusahaan::select('TPERUSAHAAN_PK as id', 'NAMAPERUSAHAAN as name')->get();
         
         return view('invoice.index-release-fcl')->with($data);
+    }
+    
+    public function updateInvoiceRdm(Request $request)
+    {
+        $invoices = \App\Models\Invoice::select('invoice_import.id','invoice_import.cbm','invoice_import.sub_total')               
+                ->join('tmanifest','invoice_import.manifest_id','=','tmanifest.TMANIFEST_PK')
+                ->where('tmanifest.TCONSOLIDATOR_FK', $request->consolidator_id)
+                ->where('tmanifest.tglrelease','>=',$request->start_date)
+                ->where('tmanifest.tglrelease','<=',$request->end_date)
+                ->where('invoice_import.rdm', 0)
+                ->get();
+        
+        $i = 0;
+        foreach ($invoices as $invoice):
+            $rdm =  $request->tarif_rdm * $invoice->cbm;
+            $subtotal = $invoice->sub_total + $rdm;
+            
+            // Update Invoice
+            $update = \App\Models\Invoice::find($invoice->id);
+            $update->rdm = $rdm;
+            $update->sub_total = $subtotal;
+            $update->save();
+            
+            $i++;
+        endforeach;
+        
+        if($i > 0){
+            return back()->with('success', $i.' invoice berhasil di update.'); 
+        }
+        
+        return back()->with('error', 'Tidak ada invoice yang di update.');
     }
 
 }
