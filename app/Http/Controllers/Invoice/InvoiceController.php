@@ -530,6 +530,7 @@ class InvoiceController extends Controller
                 ->where('tmanifest.TCONSOLIDATOR_FK', $request->consolidator_id)
                 ->where('tmanifest.tglrelease','>=',$request->start_date)
                 ->where('tmanifest.tglrelease','<=',$request->end_date)
+                ->where('tmanifest.INVOICE', $request->type)
                 ->where('invoice_import.rdm', 0)
                 ->get();
         

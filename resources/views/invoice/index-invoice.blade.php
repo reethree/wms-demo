@@ -353,6 +353,16 @@
                                 </div>
                             </div>   
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">Type</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control select2" name="type" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                        <option value="">Choose Type</option>
+                                        <option value="BB">BB</option>
+                                        <option value="DRY">DRY</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">Tarif RDM</label>
                                 <div class="col-sm-8">
                                     <select class="form-control select2" name="tarif_rdm" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
