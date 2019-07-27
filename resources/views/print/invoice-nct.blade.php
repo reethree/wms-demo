@@ -91,7 +91,15 @@
                         <td style="text-align: center;">{{ $p->size }}</td>
                         <td>({{ date("d/m/Y", strtotime($p->startdate)).' - '.date("d/m/Y", strtotime($p->enddate)) }}) {{ $p->lama_timbun }} hari</td>
                         <td style="text-align: center;">{{ $p->qty }}</td>
-                        <td style="text-align: center;">{{ (($p->size == 20) ? number_format(27200) : number_format(54400)) }}</td>
+                        <td style="text-align: center;">
+                            @if($p->size == 20)
+                                {{ number_format(27200) }}
+                            @elseif($p->size == 40)
+                                {{ number_format(54400) }}
+                            @else
+                                {{ number_format(68000) }}
+                            @endif
+                        </td>
                         <td style="text-align: right;">{{ number_format($p->masa1) }}</td>
                         <td style="text-align: right;">{{ number_format($p->masa2) }}</td>
                         <td style="text-align: right;">{{ number_format($p->masa3) }}</td>
