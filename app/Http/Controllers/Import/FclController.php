@@ -1697,11 +1697,11 @@ class FclController extends Controller
                             
                         } else {
                             // GERAKAN
-                            if($data['BEHANDLE'] == 'Y') {
-                                $jenis = array('Lift On/Off' => $t45->lift_off,'Paket PLP' => $t45->paket_plp,'Behandle' => $t45->behandle);
-                            }else{
+//                            if($data['BEHANDLE'] == 'Y') {
+//                                $jenis = array('Lift On/Off' => $t45->lift_off,'Paket PLP' => $t45->paket_plp,'Behandle' => $t45->behandle);
+//                            }else{
                                 $jenis = array('Lift On/Off' => $t45->lift_off,'Paket PLP' => $t45->paket_plp);
-                            }
+//                            }
                             
                             foreach ($jenis as $key=>$value):
                                 $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
@@ -1709,7 +1709,11 @@ class FclController extends Controller
                                 $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
                                 $invoice_gerakan->lokasi_sandar = $t45->lokasi_sandar;
                                 $invoice_gerakan->size = 45;
-                                $invoice_gerakan->qty = count($container45); 
+                                if($key == 'Lift On/Off'){
+                                    $invoice_gerakan->qty = count($container45)*2;
+                                }else{
+                                    $invoice_gerakan->qty = count($container45);
+                                }                                
                                 $invoice_gerakan->jenis_gerakan = $key;
                                 $invoice_gerakan->tarif_dasar = $value;
                                 $invoice_gerakan->total = $invoice_gerakan->qty * $value;
