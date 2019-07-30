@@ -365,11 +365,12 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Tarif RDM</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control select2" name="tarif_rdm" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                                        <option value="65000">Rp. 65.000</option>
-                                        <option value="60000">Rp. 60.000</option>
-                                        <option value="55000">Rp. 55.000</option>
-                                    </select>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            IDR
+                                        </div>
+                                        <input type="number" name="tarif_rdm" class="form-control" required>
+                                    </div>                                   
                                 </div>
                             </div>
                         </div>
