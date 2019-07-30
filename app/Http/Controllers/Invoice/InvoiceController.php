@@ -525,7 +525,7 @@ class InvoiceController extends Controller
     
     public function updateInvoiceRdm(Request $request)
     {
-        $invoices = \App\Models\Invoice::select('invoice_import.id','invoice_import.cbm','invoice_import.sub_total')               
+        $invoices = \App\Models\Invoice::select('invoice_import.*')               
                 ->join('tmanifest','invoice_import.manifest_id','=','tmanifest.TMANIFEST_PK')
                 ->where('tmanifest.TCONSOLIDATOR_FK', $request->consolidator_id)
                 ->where('tmanifest.tglrelease','>=',$request->start_date)
@@ -536,8 +536,24 @@ class InvoiceController extends Controller
         
         $i = 0;
         foreach ($invoices as $invoice):
+            $array_total = array();
+            $subtotal = 0;
+//            $lasttotal = $invoice->sub_total - $invoice->rdm;
             $rdm =  $request->tarif_rdm * $invoice->cbm;
-            $subtotal = $invoice->sub_total + $rdm;
+//            $subtotal = $lasttotal + $rdm;
+            
+            $array_total = array(
+                $rdm,
+                $invoice->storage,
+                $invoice->storage_masa1,
+                $invoice->storage_masa2,
+                $invoice->storage_masa3,
+                $invoice->harga_behandle,
+                $invoice->adm,
+                $invoice->dg_surcharge,
+                $invoice->weight_surcharge
+            );
+            $subtotal = array_sum($array_total);     
             
             // Update Invoice
             $update = \App\Models\Invoice::find($invoice->id);
