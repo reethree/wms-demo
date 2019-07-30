@@ -536,11 +536,7 @@ class InvoiceController extends Controller
         
         $i = 0;
         foreach ($invoices as $invoice):
-            $array_total = array();
-            $subtotal = 0;
-//            $lasttotal = $invoice->sub_total - $invoice->rdm;
             $rdm =  $request->tarif_rdm * $invoice->cbm;
-//            $subtotal = $lasttotal + $rdm;
             
             $array_total = array(
                 $rdm,
