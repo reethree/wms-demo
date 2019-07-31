@@ -23,6 +23,9 @@ class SoapController extends DefaultController {
         $this->user = 'PRJP';
         $this->password = 'PRIMANATA';
         $this->kode = 'PRJP';
+        
+        ini_set('soap.wsdl_cache_enabled',0);
+        ini_set('soap.wsdl_cache_ttl',0);
 //        $this->user = 'TRMA';
 //        $this->password = 'TRMA12345678';
 //        $this->kode = 'TRMA';
