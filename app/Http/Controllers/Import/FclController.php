@@ -1502,11 +1502,11 @@ class FclController extends Controller
                         } else {
                             
                             // GERAKAN
-                            if($data['BEHANDLE'] == 'Y') {
-                                $jenis = array('Lift On/Off' => $t20->lift_off,'Paket PLP' => $t20->paket_plp,'Behandle' => $t20->behandle);
-                            }else{
+//                            if($data['BEHANDLE'] == 'Y') {
+//                                $jenis = array('Lift On/Off' => $t20->lift_off,'Paket PLP' => $t20->paket_plp,'Behandle' => $t20->behandle);
+//                            }else{
                                 $jenis = array('Lift On/Off' => $t20->lift_off,'Paket PLP' => $t20->paket_plp);
-                            }
+//                            }
                             
                             
                             foreach ($jenis as $key=>$value):
@@ -1600,11 +1600,11 @@ class FclController extends Controller
                             
                         } else {
                             // GERAKAN
-                            if($data['BEHANDLE'] == 'Y') {
+//                            if($data['BEHANDLE'] == 'Y') {
                                 $jenis = array('Lift On/Off' => $t40->lift_off,'Paket PLP' => $t40->paket_plp,'Behandle' => $t40->behandle);
-                            }else{
-                                $jenis = array('Lift On/Off' => $t40->lift_off,'Paket PLP' => $t40->paket_plp);
-                            }
+//                            }else{
+//                                $jenis = array('Lift On/Off' => $t40->lift_off,'Paket PLP' => $t40->paket_plp);
+//                            }
                             
                             foreach ($jenis as $key=>$value):
                                 $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
@@ -1859,7 +1859,9 @@ class FclController extends Controller
             }
             // update to Database
             $container = DBContainer::find($request->id_cont);
-            $container->photo_gatein_extra = json_encode($picture);
+            $oldJson = json_decode($container->photo_gatein_extra);
+            $newJson = array_collapse([$oldJson,$picture]);
+            $container->photo_gatein_extra = json_encode($newJson);
             if($container->save()){
                 return back()->with('success', 'Photo for Container '. $request->no_cont .' has been uploaded.');
             }else{
@@ -1889,7 +1891,9 @@ class FclController extends Controller
             }
             // update to Database
             $container = DBContainer::find($request->id_cont);
-            $container->photo_release_extra = json_encode($picture);
+            $oldJson = json_decode($container->photo_release_extra);
+            $newJson = array_collapse([$oldJson,$picture]);
+            $container->photo_release_extra = json_encode($newJson);
             if($container->save()){
                 return back()->with('success', 'Photo for Container '. $request->no_cont .' has been uploaded.');
             }else{
@@ -1919,7 +1923,9 @@ class FclController extends Controller
             }
             // update to Database
             $container = DBContainer::find($request->id_cont);
-            $container->photo_behandle = json_encode($picture);
+            $oldJson = json_decode($container->photo_behandle);
+            $newJson = array_collapse([$oldJson,$picture]);
+            $container->photo_behandle = json_encode($newJson);
             if($container->save()){
                 return back()->with('success', 'Photo for Container '. $request->no_cont .' has been uploaded.');
             }else{

@@ -2271,7 +2271,9 @@ class LclController extends Controller
             }
             // update to Database
             $container = DBContainer::find($request->id_cont);
-            $container->photo_gatein_extra = json_encode($picture);
+            $oldJson = json_decode($container->photo_gatein_extra);
+            $newJson = array_collapse([$oldJson,$picture]);
+            $container->photo_gatein_extra = json_encode($newJson);
             if($container->save()){
                 return back()->with('success', 'Photo for Container '. $request->no_cont .' has been uploaded.');
             }else{
@@ -2301,7 +2303,9 @@ class LclController extends Controller
             }
             // update to Database
             $container = DBContainer::find($request->id_cont);
-            $container->photo_stripping = json_encode($picture);
+            $oldJson = json_decode($container->photo_stripping);
+            $newJson = array_collapse([$oldJson,$picture]);
+            $container->photo_stripping = json_encode($newJson);
             if($container->save()){
                 return back()->with('success', 'Photo for Container '. $request->no_cont .' has been uploaded.');
             }else{

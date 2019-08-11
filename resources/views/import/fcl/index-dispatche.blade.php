@@ -49,6 +49,14 @@
 //                $('#dispatche-form').disabledFormGroup();
 //            }
 
+            if(rowdata.DO_ID && rowdata.DO_ID != 0){
+                $('#ESEALCODE').attr('disabled','disabled');
+                $('#NOPOL').attr('disabled','disabled');
+            }else{
+                $('#ESEALCODE').removeAttr('disabled');
+                $('#NOPOL').removeAttr('disabled');
+            }
+
         });
         
         $('#btn-print').click(function() {

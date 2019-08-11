@@ -348,35 +348,45 @@
             
             if(!confirm('Apakah anda yakin?')){return false;}
             
-            var manifestId = $('#TCONTAINER_PK').val();
-            var url = "{{route('fcl-delivery-release-update','')}}/"+manifestId;
+            rowid = $('#fclReleaseGrid').jqGrid('getGridParam', 'selrow');
+            rowdata = $('#fclReleaseGrid').getRowData(rowid);
+            
+            if(rowdata.NO_SPPB && rowdata.TGL_SPPB){
+            
+                var manifestId = $('#TCONTAINER_PK').val();
+                var url = "{{route('fcl-delivery-release-update','')}}/"+manifestId;
 
-            $.ajax({
-                type: 'POST',
-                data: JSON.stringify($('#release-form').formToObject('')),
-                dataType : 'json',
-                url: url,
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Something went wrong, please try again later.');
-                },
-                beforeSend:function()
-                {
+                $.ajax({
+                    type: 'POST',
+                    data: JSON.stringify($('#release-form').formToObject('')),
+                    dataType : 'json',
+                    url: url,
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Something went wrong, please try again later.');
+                    },
+                    beforeSend:function()
+                    {
 
-                },
-                success:function(json)
-                {
-                    console.log(json);
-                    if(json.success) {
-                      $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
-                    } else {
-                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    },
+                    success:function(json)
+                    {
+                        console.log(json);
+                        if(json.success) {
+                          $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                        } else {
+                          $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                        }
+
+                        //Triggers the "Close" button funcionality.
+                        $('#btn-refresh').click();
                     }
-
-                    //Triggers the "Close" button funcionality.
-                    $('#btn-refresh').click();
-                }
-            });
+                });
+                
+            }else{
+                $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', 'NO. SPPB & TGL. SPPB Belum diisi.', 5000);
+                return false;
+            }
         });
         
         $('#btn-cancel').click(function() {

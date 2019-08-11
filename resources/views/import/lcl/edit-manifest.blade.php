@@ -306,6 +306,14 @@
         $('#btn-group-1, #btn-photo').enableButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
+        @role('super-admin')
+            $('#manifest-form').enableFormGroup();
+        @else
+            $('#manifest-form').disabledFormGroup();
+            $('#location_id').removeAttr('disabled');
+            $('#NO_POS_BC11').removeAttr('disabled');
+        @endrole
+        
         $('#upload-title').html('Upload Photo for '+rowdata.NOHBL);
         $('#no_hbl').val(rowdata.NOHBL);
         $('#id_hbl').val(rowdata.TMANIFEST_PK);

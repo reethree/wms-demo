@@ -83,7 +83,8 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereNotNull('NO_SPJM')
                             ->whereNotNull('TGL_SPJM')
                             ->where('BEHANDLE', 'Y')
-                            ->where('status_behandle','!=','Finish' )
+                            ->whereNull('TGLBEHANDLE')
+//                            ->where('status_behandle','!=','Finish' )
 //                            ->where('flag_bc','N')
 //                            ->orWhere('alasan_segel', 'IKP / Temuan Lapangan')
                             ->orWhere(function($query)
@@ -143,14 +144,14 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             
                             $Model = \DB::table('tcontainercy')
                                 ->select(\DB::raw('*, timestampdiff(DAY, now(), TGLMASUK) as timeSinceUpdate'))
-                                ->whereNotNull('TGLMASUK')
+                                ->whereNotNull('TGL_DISPATCHE')
                                 ->whereNull('TGLRELEASE')
                                 ->where($request['by'], '>=',$start_date)
                                 ->where($request['by'], '<=',$end_date);
                         }else{
                             $Model = \DB::table('tcontainercy')
                                 ->select(\DB::raw('*, timestampdiff(DAY, now(), TGLMASUK) as timeSinceUpdate'))
-                                ->whereNotNull('TGLMASUK')
+                                ->whereNotNull('TGL_DISPATCHE')
                                 ->whereNull('TGLRELEASE');
                         }
                     break;
@@ -242,7 +243,8 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereNotNull('NO_SPJM')
                             ->whereNotNull('TGL_SPJM')
                             ->where('BEHANDLE', 'Y')
-                            ->where('status_behandle','!=','Finish' )
+                            ->whereNull('tglbehandle')
+//                            ->where('status_behandle','!=','Finish' )
 //                            ->where('flag_bc','N')
 //                            ->orWhere('alasan_segel', 'IKP / Temuan Lapangan')
                             ->orWhere(function($query)

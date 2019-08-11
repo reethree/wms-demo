@@ -8,14 +8,52 @@
 </style>
 <script>
     
+    function gridCompleteEvent()
+    {
+        var ids = jQuery("#fclBehandleGrid").jqGrid('getDataIDs'),
+            apv = '', chk = '', info = '', vi = '';   
+            
+        for(var i=0;i < ids.length;i++){ 
+            var cl = ids[i];
+            
+            rowdata = $('#fclBehandleGrid').getRowData(cl); 
+            
+            if(rowdata.status_behandle == 'Ready' || rowdata.status_behandle == 'Checking') {
+                apv = '<button style="margin:5px;" class="btn btn-info btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin telah selesai melakukan pengecekan ?\')){ changeStatusBehandle('+cl+',\'finish\'); }else{return false;};"><i class="fa fa-check"></i> FINISH</button>';
+            }else{
+                apv = '';
+            }  
+            
+            if(rowdata.status_behandle == 'Ready') {
+                $("#" + cl).find("td").css("background-color", "#aae25a");
+            }
+            if(rowdata.status_behandle == 'Checking') {
+                $("#" + cl).find("td").css("background-color", "#f4dc27");
+            }
+            if(rowdata.status_behandle == 'Finish') {
+                $("#" + cl).find("td").css("background-color", "#6acaf7");
+            }           
+                    
+            jQuery("#fclBehandleGrid").jqGrid('setRowData',ids[i],{action:apv});
+            
+        } 
+    }
+    
     function onSelectRowEvent()
     {
         $('#btn-group-1, #btn-group-4').enableButtonGroup();
     }
     
+    function changeStatusBehandle($id,$action)
+    {
+        $("#container_finish_id").val($id);
+        $('#finish-modal').modal('show');
+    }
+    
     $(document).ready(function()
     {
         $('#behandle-form').disabledFormGroup();
+        $('#desc').removeAttr('disabled');
         $('#btn-toolbar, #btn-photo').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
@@ -191,14 +229,11 @@
                     ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
                     ->setNavigatorOptions('view',array('closeOnEscape'=>false))
                     ->setNavigatorOptions('navigator', array('add' => false, 'edit' => false, 'del' => false, 'view' => true, 'refresh' => false))
-                    ->setNavigatorOptions('add', array('closeAfterAdd' => true))
-                    ->setNavigatorEvent('add', 'afterSubmit', 'afterSubmitEvent')
-                    ->setNavigatorOptions('edit', array('closeAfterEdit' => true))
-                    ->setNavigatorEvent('edit', 'afterSubmit', 'afterSubmitEvent')
-                    ->setNavigatorEvent('del', 'afterSubmit', 'afterSubmitEvent')
                     ->setFilterToolbarOptions(array('autosearch'=>true))
+                    ->setGridEvent('gridComplete', 'gridCompleteEvent')
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                     ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
+                    ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))  
                     ->addColumn(array('label'=>'Status Behandle','index'=>'status_behandle','width'=>120, 'align'=>'center'))
                     ->addColumn(array('label'=>'No. SPK','index'=>'NoJob','width'=>160))
                     ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>160,'editable' => true, 'editrules' => array('required' => true)))
@@ -257,7 +292,7 @@
                         <button class="btn btn-default" id="btn-print"><i class="fa fa-print"></i> Cetak Behandle</button>
                     </div>
                     <div id="btn-group-5" class="btn-group pull-right">
-                        <button class="btn btn-info" id="btn-ready"><i class="fa fa-check"></i> Ready To Checking</button>
+                        <button class="btn btn-warning" id="btn-ready"><i class="fa fa-check"></i> Ready To Checking</button>
                     </div>
                 </div>
             </div>
@@ -452,6 +487,38 @@
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                   <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="finish-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Finish Behandle</h4>
+            </div>
+            <form class="form-horizontal" action="{{ route('fcl-change-status-behandle') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}" />
+                            <input name="id" type="hidden" id="container_finish_id" />
+                            <input name="status_behandle" type="hidden" id="status_behandle" value="Finish" />
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Keterangan</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" name="desc" id="desc"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Finish</button>
                 </div>
             </form>
         </div><!-- /.modal-content -->

@@ -516,7 +516,9 @@ class ManifestController extends Controller
             }
             // update to Database
             $manifest = DBManifest::find($request->id_hbl);
-            $manifest->$ref = json_encode($picture);
+            $oldJson = json_decode($manifest->$ref);
+            $newJson = array_collapse([$oldJson,$picture]);
+            $manifest->$ref = json_encode($newJson);
             if($manifest->save()){
                 return back()->with('success', 'Photo for Manifest '. $request->no_hbl .' has been uploaded.');
             }else{

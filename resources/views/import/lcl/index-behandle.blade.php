@@ -16,12 +16,31 @@
             var cl = ids[i];
             
             rowdata = $('#lclBehandleGrid').getRowData(cl);
+            
+            if(rowdata.status_behandle == 'Ready' || rowdata.status_behandle == 'Checking') {
+                apv = '<button style="margin:5px;" class="btn btn-info btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin telah selesai melakukan pengecekan ?\')){ changeStatusBehandle('+cl+',\'finish\'); }else{return false;};"><i class="fa fa-check"></i> FINISH</button>';
+            }else{
+                apv = '';
+            }  
+            
             if(rowdata.VALIDASI == 'Y') {
                 $("#" + cl).find("td").css("color", "#666");
             }
             if(rowdata.flag_bc == 'Y') {
                 $("#" + cl).find("td").css("background-color", "#FF0000");
             } 
+            
+            if(rowdata.status_behandle == 'Ready') {
+                $("#" + cl).find("td").css("background-color", "#aae25a");
+            }
+            if(rowdata.status_behandle == 'Checking') {
+                $("#" + cl).find("td").css("background-color", "#f4dc27");
+            }
+            if(rowdata.status_behandle == 'Finish') {
+                $("#" + cl).find("td").css("background-color", "#6acaf7");
+            }
+            
+            jQuery("#lclBehandleGrid").jqGrid('setRowData',ids[i],{action:apv});
         } 
     }
     
@@ -29,10 +48,17 @@
     {
         $('#btn-group-1, #btn-group-4').enableButtonGroup();
     }
-    
+ 
+    function changeStatusBehandle($id,$action)
+    {
+        $("#manifest_finish_id").val($id);
+        $('#finish-modal').modal('show');
+    }
+ 
     $(document).ready(function()
     {
         $('#behandle-form').disabledFormGroup();
+        $('#desc').removeAttr('disabled');
         $('#btn-toolbar, #btn-photo').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
         
@@ -208,6 +234,7 @@
                     ->setGridEvent('gridComplete', 'gridCompleteEvent')
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                     ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
+                    ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                     ->addColumn(array('label'=>'Validasi','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
                     ->addColumn(array('label'=>'Status Behandle','index'=>'status_behandle','width'=>120, 'align'=>'center'))
                     ->addColumn(array('label'=>'No. SPK','index'=>'NOJOBORDER', 'width'=>150,'hidden'=>false))
@@ -428,6 +455,37 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<div id="finish-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Finish Behandle</h4>
+            </div>
+            <form id="create-invoice-form" class="form-horizontal" action="{{ route('lcl-change-status-behandle') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}" />
+                            <input name="id" type="hidden" id="manifest_finish_id" />
+                            <input name="status_behandle" type="hidden" id="status_behandle" value="Finish" />
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Keterangan</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" name="desc" id="desc"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Finish</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal --> 
 @endsection
 
 @section('custom_css')
