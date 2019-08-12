@@ -1601,9 +1601,9 @@ class FclController extends Controller
                         } else {
                             // GERAKAN
 //                            if($data['BEHANDLE'] == 'Y') {
-                                $jenis = array('Lift On/Off' => $t40->lift_off,'Paket PLP' => $t40->paket_plp,'Behandle' => $t40->behandle);
+//                                $jenis = array('Lift On/Off' => $t40->lift_off,'Paket PLP' => $t40->paket_plp,'Behandle' => $t40->behandle);
 //                            }else{
-//                                $jenis = array('Lift On/Off' => $t40->lift_off,'Paket PLP' => $t40->paket_plp);
+                                $jenis = array('Lift On/Off' => $t40->lift_off,'Paket PLP' => $t40->paket_plp);
 //                            }
                             
                             foreach ($jenis as $key=>$value):

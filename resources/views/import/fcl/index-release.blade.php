@@ -351,7 +351,10 @@
             rowid = $('#fclReleaseGrid').jqGrid('getGridParam', 'selrow');
             rowdata = $('#fclReleaseGrid').getRowData(rowid);
             
-            if(rowdata.NO_SPPB && rowdata.TGL_SPPB){
+            var nosppb = $('#NO_SPPB').val();
+            var tglsppb = $('#TGL_SPPB').val();
+            
+            if(nosppb && tglsppb){
             
                 var manifestId = $('#TCONTAINER_PK').val();
                 var url = "{{route('fcl-delivery-release-update','')}}/"+manifestId;

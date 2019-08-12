@@ -305,7 +305,10 @@
             rowid = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
             rowdata = $('#lclReleaseGrid').getRowData(rowid);
             
-            if(rowdata.NO_SPPB && rowdata.TGL_SPPB){
+            var nosppb = $('#NO_SPPB').val();
+            var tglsppb = $('#TGL_SPPB').val();
+            
+            if(nosppb && tglsppb){
             
                 var manifestId = $('#TMANIFEST_PK').val();
                 var url = "{{route('lcl-delivery-release-update','')}}/"+manifestId;
