@@ -116,6 +116,10 @@ Route::group(['prefix' => 'fcl', 'namespace' => 'Import'], function(){
         'as' => 'fcl-segel-index',
         'uses' => 'FclController@segelIndex'
     ]);
+    Route::get('/bc/segel/report', [
+        'as' => 'fcl-segel-report',
+        'uses' => 'FclController@segelReport'
+    ]);
     Route::get('/bc/report-container', [
         'as' => 'fcl-bc-report-container',
         'uses' => 'FclController@reportContainerIndex'

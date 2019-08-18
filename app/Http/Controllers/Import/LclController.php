@@ -2543,6 +2543,20 @@ class LclController extends Controller
         return view('import.lcl.bc-segel')->with($data);
     }
     
+    public function segelReport()
+    {
+        $data['page_title'] = "LCL Report Segel Merah";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Report Segel Merah'
+            ]
+        ];        
+        
+        return view('import.lcl.bc-segel-report')->with($data);
+    }
+    
     public function reportContainerIndex(Request $request)
     {
         $data['page_title'] = "LCL Report Container";

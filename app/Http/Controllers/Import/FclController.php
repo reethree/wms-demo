@@ -2161,6 +2161,20 @@ class FclController extends Controller
         return view('import.fcl.bc-segel')->with($data);
     }
     
+    public function segelReport()
+    {
+        $data['page_title'] = "FCL Report Segel Merah";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'FCL Report Segel Merah'
+            ]
+        ];        
+        
+        return view('import.fcl.bc-segel-report')->with($data);
+    }
+    
     public function reportContainerIndex(Request $request)
     {
         $data['page_title'] = "FCL Report Container";

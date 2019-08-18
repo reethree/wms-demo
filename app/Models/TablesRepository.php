@@ -164,6 +164,12 @@ class TablesRepository extends EloquentRepositoryAbstract {
                                 ->orWhere('TGLMASUK','!=',NULL);
                         }
                     break;
+                    case 'segel_report':
+                        $Model = \DB::table('tcontainercy')
+                            ->select(\DB::raw('*, timestampdiff(DAY, now(), TGLMASUK) as timeSinceUpdate'))
+                            ->whereNotNull('no_unflag_bc')
+                            ->whereNotNull('alasan_lepas_segel');
+                    break;
                     case 'longstay':
                         if(isset($request['startdate']) || isset($request['enddate'])){
                             $start_date = date('Y-m-d',strtotime($request['startdate']));
@@ -329,6 +335,12 @@ class TablesRepository extends EloquentRepositoryAbstract {
                                 ->whereNotNull('tglstripping')
                                 ->whereNull('tglrelease');
                         }
+                    break;
+                    case 'segel_report':
+                        $Model = \DB::table('tmanifest')
+                            ->select(\DB::raw('*, timestampdiff(DAY, now(), tglmasuk) as timeSinceUpdate'))
+                            ->whereNotNull('no_unflag_bc')
+                            ->whereNotNull('alasan_lepas_segel');
                     break;
                     case 'longstay':
                         if(isset($request['startdate']) || isset($request['enddate'])){

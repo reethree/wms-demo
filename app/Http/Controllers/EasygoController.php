@@ -99,8 +99,8 @@ class EasygoController extends Controller
             $dispatche->STATUS_DISPATCHE = 'Y';
 //            if($type == 'F'){        
 //                $wkt_dis = date('Y-m-d H:i:s');
-//                $dispatche->TGL_DISPATCHE = date('Y-m-d', strtotime($wkt_dis));
-//                $dispatche->JAM_DISPATCHE = date('H:i:s', strtotime($wkt_dis));
+                $dispatche->TGL_DISPATCHE = date('Y-m-d');
+                $dispatche->JAM_DISPATCHE = date('H:i:s');
 //                $dispatche->url_reply = $this->url_reply;
 //            }
             $dispatche->DO_ID = $results->DO_ID;
