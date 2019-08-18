@@ -87,6 +87,10 @@
         
         $("#KD_DOK_INOUT").on("change", function(){
             var $this = $(this).val();
+            
+            $('#NO_SPPB').val("");
+            $('#TGL_SPPB').val("");
+//            console.log($this);
             if($this == 9){
                 $(".select-bcf-consignee").show();
             }else{
@@ -113,8 +117,13 @@
                     $('#TGL_SPPB').attr('disabled','disabled');
                 @endrole
             }else{
-                $('#NO_SPPB').removeAttr('disabled');
-                $('#TGL_SPPB').removeAttr('disabled');
+                if($this == ''){
+                    $('#NO_SPPB').attr('disabled','disabled');
+                    $('#TGL_SPPB').attr('disabled','disabled');
+                }else{
+                    $('#NO_SPPB').removeAttr('disabled');
+                    $('#TGL_SPPB').removeAttr('disabled');
+                }   
             }
         });
         
@@ -189,14 +198,14 @@
             $('#no_pabean').val(rowdata.no_pabean);
             $('#tgl_pabean').val(rowdata.tgl_pabean);
             $('#ID_CONSIGNEE').val(rowdata.ID_CONSIGNEE);
-            $('#NO_SPPB').val(rowdata.NO_SPPB);
-            $('#TGL_SPPB').val(rowdata.TGL_SPPB);
             $('#NOPOL_RELEASE').val(rowdata.NOPOL_RELEASE);
             $('#PENAGIHAN').val(rowdata.PENAGIHAN).trigger("change");
             $('#LOKASI_TUJUAN').val(rowdata.LOKASI_TUJUAN).trigger("change");
             $('#REF_NUMBER_OUT').val(rowdata.REF_NUMBER_OUT);
             $('#UIDRELEASE').val(rowdata.UIDRELEASE);
             $('#KD_DOK_INOUT').val(rowdata.KD_DOK_INOUT).trigger('change');
+            $('#NO_SPPB').val(rowdata.NO_SPPB);
+            $('#TGL_SPPB').val(rowdata.TGL_SPPB);
             $('#bcf_consignee').val(rowdata.bcf_consignee).trigger('change');
             
             $('#upload-title').html('Upload Photo for '+rowdata.NOHBL);
@@ -352,8 +361,9 @@
         
         $('#btn-refresh').click(function() {
             $('#lclReleaseGrid').jqGrid().trigger("reloadGrid");
+            
             $('#release-form').disabledFormGroup();
-            $('#btn-toolbar').disabledButtonGroup();
+            $('#btn-toolbar,#btn-sppb, #btn-photo').disabledButtonGroup();
             $('#btn-group-3').enableButtonGroup();
             
             $('#release-form')[0].reset();

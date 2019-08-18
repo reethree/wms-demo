@@ -136,6 +136,20 @@ class LclController extends Controller
         return view('import.lcl.index-status-behandle')->with($data);
     }
     
+    public function statusBehandleFinish()
+    {
+        $data['page_title'] = "LCL Status Behandle Finish";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Status Behandle Finish'
+            ]
+        ];        
+        
+        return view('import.lcl.finish-status-behandle')->with($data);
+    }
+    
     public function behandleIndex()
     {
         if ( !$this->access->can('show.lcl.behandle.index') ) {
@@ -2489,8 +2503,8 @@ class LclController extends Controller
         }else{
             $manifest->date_finish_behandle = date('Y-m-d H:i:s');
             $manifest->desc_finish_behandle = $desc;
-//            $manifest->tglbehandle = date('Y-m-d');
-//            $manifest->jambehandle = date('H:i:s');
+            $manifest->tglbehandle = date('Y-m-d');
+            $manifest->jambehandle = date('H:i:s');
         }
 
         if($manifest->save()){

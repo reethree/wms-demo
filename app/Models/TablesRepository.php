@@ -82,9 +82,9 @@ class TablesRepository extends EloquentRepositoryAbstract {
                         $Model = \DB::table('tcontainercy')
                             ->whereNotNull('NO_SPJM')
                             ->whereNotNull('TGL_SPJM')
-                            ->where('BEHANDLE', 'Y')
-                            ->whereNull('TGLBEHANDLE')
-//                            ->where('status_behandle','!=','Finish' )
+//                            ->where('BEHANDLE', 'Y')
+//                            ->whereNull('TGLBEHANDLE')
+                            ->whereIn('status_behandle',array('Ready','Checking'))
 //                            ->where('flag_bc','N')
 //                            ->orWhere('alasan_segel', 'IKP / Temuan Lapangan')
                             ->orWhere(function($query)
@@ -93,6 +93,13 @@ class TablesRepository extends EloquentRepositoryAbstract {
                                       ->where("alasan_segel","IKP / Temuan Lapangan");
                             })
                             ;
+                    break;
+                    case 'finish_behandle':
+                        $Model = \DB::table('tcontainercy')
+                            ->whereNotNull('NO_SPJM')
+                            ->whereNotNull('TGL_SPJM')
+                            ->whereNotNull('TGLBEHANDLE')
+                            ->where('status_behandle','Finish');
                     break;
                     case 'behandle':
 
@@ -146,13 +153,15 @@ class TablesRepository extends EloquentRepositoryAbstract {
                                 ->select(\DB::raw('*, timestampdiff(DAY, now(), TGLMASUK) as timeSinceUpdate'))
                                 ->whereNotNull('TGL_DISPATCHE')
                                 ->whereNull('TGLRELEASE')
+                                ->orWhere('TGLMASUK','!=',NULL)
                                 ->where($request['by'], '>=',$start_date)
                                 ->where($request['by'], '<=',$end_date);
                         }else{
                             $Model = \DB::table('tcontainercy')
                                 ->select(\DB::raw('*, timestampdiff(DAY, now(), TGLMASUK) as timeSinceUpdate'))
                                 ->whereNotNull('TGL_DISPATCHE')
-                                ->whereNull('TGLRELEASE');
+                                ->whereNull('TGLRELEASE')
+                                ->orWhere('TGLMASUK','!=',NULL);
                         }
                     break;
                     case 'longstay':
@@ -242,9 +251,9 @@ class TablesRepository extends EloquentRepositoryAbstract {
                         $Model = \DB::table('tmanifest')
                             ->whereNotNull('NO_SPJM')
                             ->whereNotNull('TGL_SPJM')
-                            ->where('BEHANDLE', 'Y')
-                            ->whereNull('tglbehandle')
-//                            ->where('status_behandle','!=','Finish' )
+//                            ->where('BEHANDLE', 'Y')
+//                            ->whereNull('tglbehandle')
+                            ->whereIn('status_behandle',array('Ready','Checking'))
 //                            ->where('flag_bc','N')
 //                            ->orWhere('alasan_segel', 'IKP / Temuan Lapangan')
                             ->orWhere(function($query)
@@ -253,6 +262,13 @@ class TablesRepository extends EloquentRepositoryAbstract {
                                       ->where("alasan_segel","IKP / Temuan Lapangan");
                             })
                             ;
+                    break;
+                    case 'finish_behandle':
+                        $Model = \DB::table('tmanifest')
+                            ->whereNotNull('NO_SPJM')
+                            ->whereNotNull('TGL_SPJM')
+                            ->whereNotNull('tglbehandle')
+                            ->where('status_behandle','Finish');
                     break;
                     case 'behandle':
                         

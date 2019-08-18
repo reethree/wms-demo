@@ -40,7 +40,7 @@
     
     @include('partials.form-alert')
     
-    <form action="{{ route('login') }}" method="POST">
+    <form id="login-form" action="" method="POST">
         {{ csrf_field() }}
         <div class="form-group has-feedback">
             <input type="text" name="username" class="form-control" placeholder="Username" required>

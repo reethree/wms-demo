@@ -141,7 +141,14 @@
                         <li class="dropdown-submenu">
                             <a class="submenu" href="#">LCL @if($notif_behandle['lcl'] > 0)<small class="label pull-right bg-red">{{$notif_behandle['lcl']}}</small>@endif</a>
                               <ul class="dropdown-menu">
-                                  <li><a tabindex="-1" href="{{ route('lcl-behandle-index') }}">Status Behandle @if($notif_behandle['lcl'] > 0)<small class="label pull-right bg-red">{{$notif_behandle['lcl']}}</small>@endif</a></li>
+                                  <li class="dropdown-submenu">
+                                      <a class="submenu" href="#">Behandle @if($notif_behandle['lcl'] > 0)<small class="label pull-right bg-red">{{$notif_behandle['lcl']}}</small>@endif</a>
+                                      <ul class="dropdown-menu">
+                                          <li><a href="{{ route('lcl-behandle-index') }}">Ready @if($notif_behandle['lcl'] > 0)<small class="label pull-right bg-red">{{$notif_behandle['lcl']}}</small>@endif</a></li>
+                                          <li><a href="{{ route('lcl-behandle-finish') }}">Finish</a></li>
+                                      </ul>
+                                  </li>
+                                  <!--<li><a tabindex="-1" href="{{ route('lcl-behandle-index') }}">Status Behandle @if($notif_behandle['lcl'] > 0)<small class="label pull-right bg-red">{{$notif_behandle['lcl']}}</small>@endif</a></li>-->
                                   <li><a href="{{route('lcl-hold-index')}}">Dokumen HOLD</a></li>
                                   <li><a href="{{route('lcl-segel-index')}}">Segel Merah</a></li>
                                   <li class="dropdown-submenu">
@@ -157,7 +164,14 @@
                         <li class="dropdown-submenu">
                             <a class="submenu" href="#">FCL @if($notif_behandle['fcl'] > 0)<small class="label pull-right bg-red">{{$notif_behandle['fcl']}}</small>@endif</a>
                               <ul class="dropdown-menu">
-                                  <li><a tabindex="-1" href="{{ route('fcl-behandle-index') }}">Status Behandle @if($notif_behandle['fcl'] > 0)<small class="label pull-right bg-red">{{$notif_behandle['fcl']}}</small>@endif</a></li>
+                                  <li class="dropdown-submenu">
+                                      <a class="submenu" href="#">Behandle @if($notif_behandle['fcl'] > 0)<small class="label pull-right bg-red">{{$notif_behandle['fcl']}}</small>@endif</a>
+                                      <ul class="dropdown-menu">
+                                          <li><a href="{{ route('fcl-behandle-index') }}">Ready @if($notif_behandle['fcl'] > 0)<small class="label pull-right bg-red">{{$notif_behandle['fcl']}}</small>@endif</a></li>
+                                          <li><a href="{{ route('fcl-behandle-finish') }}">Finish</a></li>
+                                      </ul>
+                                  </li>
+                                  <!--<li><a tabindex="-1" href="{{ route('fcl-behandle-index') }}">Status Behandle @if($notif_behandle['fcl'] > 0)<small class="label pull-right bg-red">{{$notif_behandle['fcl']}}</small>@endif</a></li>-->
                                   <li><a href="{{route('fcl-hold-index')}}">Dokumen HOLD</a></li>
                                   <li><a href="{{route('fcl-segel-index')}}">Segel Merah</a></li>
                                   <li class="dropdown-submenu">

@@ -48,6 +48,10 @@ Route::group(['prefix' => 'fcl', 'namespace' => 'Import'], function(){
         'as' => 'fcl-behandle-index',
         'uses' => 'FclController@statusBehandleIndex'
     ]);
+    Route::get('/status-behandle/finish', [
+        'as' => 'fcl-behandle-finish',
+        'uses' => 'FclController@statusBehandleFinish'
+    ]);
     Route::post('/status-behandle/checking', [
         'as' => 'fcl-change-status-behandle',
         'uses' => 'FclController@changeStatusBehandle'

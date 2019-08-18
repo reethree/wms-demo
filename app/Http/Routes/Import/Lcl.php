@@ -63,6 +63,10 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-behandle-index',
         'uses' => 'LclController@statusBehandleIndex'
     ]);
+    Route::get('/status-behandle/finish', [
+        'as' => 'lcl-behandle-finish',
+        'uses' => 'LclController@statusBehandleFinish'
+    ]);
     Route::post('/status-behandle/checking', [
         'as' => 'lcl-change-status-behandle',
         'uses' => 'LclController@changeStatusBehandle'

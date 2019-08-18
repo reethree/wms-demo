@@ -104,9 +104,10 @@ class AuthController extends DefaultController
     
     public function postLogin(Request $request)
     {
+//        return $request->all();
         $remember = true;
-
-        if($request) { 
+        
+        if($request) {
             if (Auth::attempt(['username' => $request->username, 'password' => $request->password], $remember)) {
                 return redirect()->intended($this->redirectPath());
             }

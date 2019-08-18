@@ -30,21 +30,21 @@
             require_once 'Routes/RoutesWebsite.php';
         
         });
-
-    });
-
-    Route::group(['middleware' => ['guest'], 'namespace' => 'Auth'], function(){
         
-        // Login Routes
-        Route::get('/login', [
-            'as' => 'login',
-            'uses' => 'AuthController@getLogin'
-        ]);
-        Route::post('/login', [
-            'as' => 'login',
-            'uses' => 'AuthController@postLogin'
-        ]);
+        Route::group(['middleware' => ['guest'], 'namespace' => 'Auth'], function(){
         
+            // Login Routes
+            Route::get('/login', [
+                'as' => 'login',
+                'uses' => 'AuthController@getLogin'
+            ]);
+            Route::post('/login', [
+                'as' => 'post-login',
+                'uses' => 'AuthController@postLogin'
+            ]);
+
+        });
+
     });
     
     Route::group(['middleware' => ['auth']/*, 'prefix' => 'wms', 'domain' => 'wms.prjp.co.id'*/], function(){

@@ -90,6 +90,20 @@ class FclController extends Controller
         return view('import.fcl.index-status-behandle')->with($data);
     }
     
+    public function statusBehandleFinish()
+    {
+        $data['page_title'] = "FCL Status Behandle Finish";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'FCL Status Behandle Finish'
+            ]
+        ];        
+        
+        return view('import.fcl.finish-status-behandle')->with($data);
+    }
+
     public function behandleIndex()
     {
         if ( !$this->access->can('show.fcl.behandle.index') ) {
@@ -2107,8 +2121,8 @@ class FclController extends Controller
         }else{
             $container->date_finish_behandle = date('Y-m-d H:i:s');
             $container->desc_finish_behandle = $desc;
-//            $container->TGLBEHANDLE = date('Y-m-d');
-//            $container->JAMBEHANDLE = date('H:i:s');
+            $container->TGLBEHANDLE = date('Y-m-d');
+            $container->JAMBEHANDLE = date('H:i:s');
         }
 
         if($container->save()){
