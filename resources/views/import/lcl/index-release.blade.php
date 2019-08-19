@@ -812,18 +812,18 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group hide-kddoc">
                         <div class="col-sm-11" id="btn-sppb">
                             <button type="button" class="btn btn-info pull-right" id="get-sppb-btn"><i class="fa fa-download"></i> Get Data</button>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group hide-kddoc">
                         <label class="col-sm-3 control-label">No.SPPB/BC.23</label>
                         <div class="col-sm-8">
                             <input type="text" id="NO_SPPB" name="NO_SPPB" class="form-control" required>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group hide-kddoc">
                         <label class="col-sm-3 control-label">Tgl.SPPB/BC.23</label>
                         <div class="col-sm-8">
                             <div class="input-group date">
@@ -863,7 +863,7 @@
                             <input type="text" id="NO_KUITANSI" name="NO_KUITANSI" class="form-control" required>
                         </div>
                     </div>-->
-                    <div class="form-group">
+                    <div class="form-group hide-kddoc">
                         <label class="col-sm-3 control-label">Ref. Number</label>
                         <div class="col-sm-8">
                             <input type="text" id="REF_NUMBER_OUT" name="REF_NUMBER_OUT" class="form-control" required>
