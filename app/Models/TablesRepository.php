@@ -151,17 +151,28 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             
                             $Model = \DB::table('tcontainercy')
                                 ->select(\DB::raw('*, timestampdiff(DAY, now(), TGLMASUK) as timeSinceUpdate'))
-                                ->whereNotNull('TGL_DISPATCHE')
+//                                ->whereNotNull('TGLMASUK')
                                 ->whereNull('TGLRELEASE')
-                                ->orWhere('TGLMASUK','!=',NULL)
+//                                ->orWhere('TGL_DISPATCHE','!=',NULL)
+                                ->where(function($query)
+                                {
+                                    $query->whereNotNull("TGLMASUK")
+                                          ->orWhere('TGL_DISPATCHE','!=',NULL);
+                                })
                                 ->where($request['by'], '>=',$start_date)
                                 ->where($request['by'], '<=',$end_date);
                         }else{
                             $Model = \DB::table('tcontainercy')
                                 ->select(\DB::raw('*, timestampdiff(DAY, now(), TGLMASUK) as timeSinceUpdate'))
-                                ->whereNotNull('TGL_DISPATCHE')
+//                                ->whereNotNull('TGLMASUK')
                                 ->whereNull('TGLRELEASE')
-                                ->orWhere('TGLMASUK','!=',NULL);
+//                                ->orWhere('TGL_DISPATCHE','!=',NULL)
+                                ->where(function($query)
+                                {
+                                    $query->whereNotNull("TGLMASUK")
+                                          ->orWhere('TGL_DISPATCHE','!=',NULL);
+                                })
+                                ;
                         }
                     break;
                     case 'segel_report':
