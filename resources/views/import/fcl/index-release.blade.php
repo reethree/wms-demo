@@ -85,6 +85,10 @@
         
         $("#KD_DOK_INOUT").on("change", function(){
             var $this = $(this).val();
+            
+            $('#NO_SPPB').val("");
+            $('#TGL_SPPB').val("");
+            
             if($this == 9){
                 $(".select-bcf-consignee").show();
             }else{
@@ -103,8 +107,13 @@
                     $('#TGL_SPPB').attr('disabled','disabled');
                 @endrole
             }else{
-                $('#NO_SPPB').removeAttr('disabled');
-                $('#TGL_SPPB').removeAttr('disabled');
+                if($this == ''){
+                    $('#NO_SPPB').attr('disabled','disabled');
+                    $('#TGL_SPPB').attr('disabled','disabled');
+                }else{
+                    $('#NO_SPPB').removeAttr('disabled');
+                    $('#TGL_SPPB').removeAttr('disabled');
+                }
             }
         });
         
@@ -185,8 +194,7 @@
             $('#TGL_SPJM').val(rowdata.TGL_SPJM);
             $('#NAMA_IMP').val(rowdata.NAMA_IMP);
             $('#NPWP_IMP').val(rowdata.NPWP_IMP);
-            $('#NO_SPPB').val(rowdata.NO_SPPB);
-            $('#TGL_SPPB').val(rowdata.TGL_SPPB);
+            
             $('#NO_BL_AWB').val(rowdata.NO_BL_AWB);
             $('#TGL_BL_AWB').val(rowdata.TGL_BL_AWB);
             $('#NO_DAFTAR_PABEAN').val(rowdata.NO_DAFTAR_PABEAN);
@@ -198,6 +206,9 @@
             $('#KD_DOK_INOUT').val(rowdata.KD_DOK_INOUT).trigger('change');
             $('#bcf_consignee').val(rowdata.bcf_consignee).trigger('change');
             $('#KD_TPS_ASAL').val(rowdata.KD_TPS_ASAL);                    
+            
+            $('#NO_SPPB').val(rowdata.NO_SPPB);
+            $('#TGL_SPPB').val(rowdata.TGL_SPPB);
             
             $('#upload-title').html('Upload Photo for '+rowdata.NOCONTAINER);
             $('#no_cont').val(rowdata.NOCONTAINER);

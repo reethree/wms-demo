@@ -2220,12 +2220,12 @@ class FclController extends Controller
         $data['countbytps'] = array('JICT' => array($jict, $jictg), 'KOJA' => array($koja, $kojag), 'MAL0' => array($mal, $malg), 'NCT1' => array($nct1, $nct1g), 'PLDC' => array($pldc, $pldcg));
         
 //        BY DOKUMEN
-        $bc20 = DBContainer::where('KD_DOK_INOUT', 1)->whereRaw('MONTH(TGLMASUK) = '.$month)->whereRaw('YEAR(TGLMASUK) = '.$year)->count();
-        $bc23 = DBContainer::where('KD_DOK_INOUT', 2)->whereRaw('MONTH(TGLMASUK) = '.$month)->whereRaw('YEAR(TGLMASUK) = '.$year)->count();
-        $bc12 = DBContainer::where('KD_DOK_INOUT', 4)->whereRaw('MONTH(TGLMASUK) = '.$month)->whereRaw('YEAR(TGLMASUK) = '.$year)->count();
-        $bc15 = DBContainer::where('KD_DOK_INOUT', 9)->whereRaw('MONTH(TGLMASUK) = '.$month)->whereRaw('YEAR(TGLMASUK) = '.$year)->count();
-        $bc11 = DBContainer::where('KD_DOK_INOUT', 20)->whereRaw('MONTH(TGLMASUK) = '.$month)->whereRaw('YEAR(TGLMASUK) = '.$year)->count();
-        $bcf26 = DBContainer::where('KD_DOK_INOUT', 5)->whereRaw('MONTH(TGLMASUK) = '.$month)->whereRaw('YEAR(TGLMASUK) = '.$year)->count();
+        $bc20 = DBContainer::where('KD_DOK_INOUT', 1)->whereRaw('MONTH(TGLRELEASE) = '.$month)->whereRaw('YEAR(TGLRELEASE) = '.$year)->count();
+        $bc23 = DBContainer::where('KD_DOK_INOUT', 2)->whereRaw('MONTH(TGLRELEASE) = '.$month)->whereRaw('YEAR(TGLRELEASE) = '.$year)->count();
+        $bc12 = DBContainer::where('KD_DOK_INOUT', 4)->whereRaw('MONTH(TGLRELEASE) = '.$month)->whereRaw('YEAR(TGLRELEASE) = '.$year)->count();
+        $bc15 = DBContainer::where('KD_DOK_INOUT', 9)->whereRaw('MONTH(TGLRELEASE) = '.$month)->whereRaw('YEAR(TGLRELEASE) = '.$year)->count();
+        $bc11 = DBContainer::where('KD_DOK_INOUT', 20)->whereRaw('MONTH(TGLRELEASE) = '.$month)->whereRaw('YEAR(TGLRELEASE) = '.$year)->count();
+        $bcf26 = DBContainer::where('KD_DOK_INOUT', 5)->whereRaw('MONTH(TGLRELEASE) = '.$month)->whereRaw('YEAR(TGLRELEASE) = '.$year)->count();
         $data['countbydoc'] = array('BC 2.0' => $bc20, 'BC 2.3' => $bc23, 'BC 1.2' => $bc12, 'BC 1.5' => $bc15, 'BC 1.1' => $bc11, 'BCF 2.6' => $bcf26);
              
         $data['totcounttpsp'] = array_sum(array($jict,$koja,$mal,$nct1,$pldc));

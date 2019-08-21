@@ -2680,4 +2680,21 @@ class LclController extends Controller
         return view('import.lcl.bc-inventory')->with($data);
     }
     
+    public function strippingViewPhotoBl($cont_id)
+    {
+        $data['page_title'] = "View Photo B/L by Container";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'View Photo B/L by Container'
+            ]
+        ];  
+        
+        $manifests = DBManifest::select('NOCONTAINER','NOHBL','photo_stripping')->where('TCONTAINER_FK', $cont_id)->get();
+        $data['manifests'] = $manifests;
+        
+        return view('import.lcl.view-photo-bl')->with($data);
+    }
+    
 }
