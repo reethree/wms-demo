@@ -15,6 +15,11 @@ Route::group(['prefix' => 'lcl/realisasi', 'namespace' => 'Import'], function(){
         'uses' => 'LclController@strippingApprove'
     ]);
     
+    Route::get('/stripping/view-photo-bl/{id}', [
+        'as' => 'lcl-realisasi-stripping-view-photo-bl',
+        'uses' => 'LclController@strippingViewPhotoBl'
+    ]);
+    
     // UPLOAD PHOTO
     Route::post('/stripping/upload/photo', [
         'as' => 'lcl-stripping-upload-photo',

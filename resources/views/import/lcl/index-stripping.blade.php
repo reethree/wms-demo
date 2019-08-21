@@ -102,6 +102,7 @@
             }
         });
         
+        $('#view-photo-bl-btn').attr("data-id", containerID);
         $('#view-photo-modal').modal('show');
     }
     
@@ -252,6 +253,7 @@
                     ->setGridOption('rowNum', 20)
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TCONTAINER_PK')
+                    ->setGridOption('sortorder','DESC')
                     ->setGridOption('rownumbers', true)
                     ->setGridOption('height', '300')
                     ->setGridOption('rowList',array(20,50,100))
@@ -590,6 +592,8 @@
             <div class="modal-body"> 
                 <div class="row">
                     <div class="col-md-12">
+                        <button type="button" class="btn btn-primary" id="view-photo-bl-btn" data-id="">LIHAT PHOTO B/L</button>
+                        <hr />
                         <h4>AJU STRIPPING</h4>
                         <div id="container-photo"></div>
                         <hr />
@@ -630,6 +634,14 @@
         $('#load_photos').html('');
         $('#delete_photo').val('Y');
     });
+    
+    $("#view-photo-bl-btn").on("click", function(e){
+        e.preventDefault();
+        var cont_id = $(this).attr('data-id');
+
+        window.open("{{ route('lcl-realisasi-stripping-view-photo-bl', '') }}/"+cont_id,"View B/L Photo","width=600,height=600,menubar=no,status=no,scrollbars=yes");
+    });
+    
     $('.select2').select2();
     $('.datepicker').datepicker({
         autoclose: true,
