@@ -2158,6 +2158,8 @@ class FclController extends Controller
             ]
         ];        
         
+        $data['segel'] = \DB::table('alasan_segel')->get();
+        
         return view('import.fcl.bc-segel')->with($data);
     }
     

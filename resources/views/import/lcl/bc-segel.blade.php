@@ -314,7 +314,12 @@
                                 <label class="col-sm-3 control-label">Alasan Segel</label>
                                 <div class="col-sm-8">
                                     <select class="form-control select2" id="alasan_segel" name="alasan_segel" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                                        <option value="Nota Hasil Intelijen (NHI)" selected>Nota Hasil Intelijen (NHI)</option>
+                                        @foreach($segel as $flag)
+                                            @if($flag->type == 'lock')
+                                                <option value="{{$flag->name}}">{{$flag->name}}</option>
+                                            @endif
+                                        @endforeach
+<!--                                        <option value="Nota Hasil Intelijen (NHI)" selected>Nota Hasil Intelijen (NHI)</option>
                                         <option value="Surveilance P2">Surveilance P2</option>
                                         <option value="P2 Pusat">P2 Pusat</option>
                                         <option value="SPBL">SPBL</option>
@@ -328,7 +333,7 @@
                                         <option value="Selisih Bongkar">Selisih Bongkar</option>
                                         <option value="Seal Pelayaran Hilang">Seal Pelayaran Hilang</option>
                                         <option value="Stripping MMEA">Stripping MMEA</option>
-                                        <option value="Lainnya">Lainnya</option>
+                                        <option value="Lainnya">Lainnya</option>-->
                                     </select>
                                 </div>
                             </div>
@@ -377,8 +382,13 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Alasan Lepas Segel</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control select2" id="alasan_lepas_segel" name="alasan_lepas_segel" style="width: 100%;" tabindex="-1" aria-hidden="true" required>                                        
-                                        <option value="SPBL">SPPB</option>
+                                    <select class="form-control select2" id="alasan_lepas_segel" name="alasan_lepas_segel" style="width: 100%;" tabindex="-1" aria-hidden="true" required>     
+                                        @foreach($segel as $flag)
+                                            @if($flag->type == 'unlock')
+                                                <option value="{{$flag->name}}">{{$flag->name}}</option>
+                                            @endif
+                                        @endforeach
+<!--                                        <option value="SPBL">SPPB</option>
                                         <option value="SPPBE">SPPBE</option>
                                         <option value="Re Ekspor">Re Ekspor</option>
                                         <option value="Pemusnahan">Pemusnahan</option>
@@ -386,7 +396,7 @@
                                         <option value="Serah Terima">Serah Terima</option>
                                         <option value="Surveilance">Surveilance</option>
                                         <option value="Selesai Hico">Selesai Hico</option>
-                                        <option value="Lainnya">Lainnya</option>
+                                        <option value="Lainnya">Lainnya</option>-->
                                     </select>
                                 </div>
                             </div>
