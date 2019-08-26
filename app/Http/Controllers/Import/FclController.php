@@ -792,18 +792,22 @@ class FclController extends Controller
         
         if($container->release_bc == 'Y'){
             $data['status_bc'] = 'RELEASE';
+            $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'active');
         }else{
             if($data['KD_DOK_INOUT'] > 1){
                 $data['status_bc'] = 'HOLD';
                 $data['TGLRELEASE'] = NULL;
                 $data['JAMRELEASE'] = NULL;
+                $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'hold');
             }else{
                 if($container->flag_bc == 'Y'){
                     $data['status_bc'] = 'SEGEL';
                     $data['TGLRELEASE'] = NULL;
                     $data['JAMRELEASE'] = NULL;
+                    $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'hold');
                 }else{
                     $data['status_bc'] = 'RELEASE';
+                    $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'active');
                 }
             }
         }
@@ -1959,7 +1963,7 @@ class FclController extends Controller
         $container->release_bc_date = date('Y-m-d H:i:s');
               
         if($container->save()){
-
+            $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'active');
             return json_encode(array('success' => true, 'message' => 'Status has been Change!'));
         }
         
@@ -2034,6 +2038,8 @@ class FclController extends Controller
             );
             $this->addLogSegel($datalog);
             
+            $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'hold');
+            
             return back()->with('success', 'Flag has been locked.')->withInput();
         }
         
@@ -2070,8 +2076,10 @@ class FclController extends Controller
                 $container->status_bc = 'HOLD';
                 $container->TGLRELEASE = NULL;
                 $container->JAMRELEASE = NULL;
+                $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'hold');
             }else{
                 $container->status_bc = 'RELEASE';
+                $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'active');
             }
         }
         
@@ -2093,7 +2101,7 @@ class FclController extends Controller
                 'uid' => \Auth::getUser()->name
             );
             $this->addLogSegel($datalog);
-            
+                        
             return back()->with('success', 'Flag has been unlocked.')->withInput();
         }
         

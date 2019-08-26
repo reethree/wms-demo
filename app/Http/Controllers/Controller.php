@@ -350,4 +350,11 @@ class Controller extends BaseController
         return $insert;
     }
     
+    public function changeBarcodeStatus($idcont, $nocont, $type, $status)
+    {
+        $update = \App\Models\Barcode::where(array('ref_id' => $idcont, 'ref_number' => $nocont, 'ref_type' => $type))->where('status','!=','inactive')->update(['status'  => $status]);
+        
+        return $update;
+    }
+    
 }

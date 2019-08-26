@@ -936,18 +936,22 @@ class LclController extends Controller
         
         if($manifest->release_bc == 'Y'){
             $data['status_bc'] = 'RELEASE';
+            $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'active');
         }else{
             if($data['KD_DOK_INOUT'] > 1){
                 $data['status_bc'] = 'HOLD';
                 $data['tglrelease'] = NULL;
                 $data['jamrelease'] = NULL;
+                $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'hold');
             }else{
                 if($manifest->flag_bc == 'Y'){
                     $data['status_bc'] = 'HOLD';
                     $data['tglrelease'] = NULL;
                     $data['jamrelease'] = NULL;
+                    $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'hold');
                 }else{
                     $data['status_bc'] = 'RELEASE';
+                    $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'active');
                 }
             }
         }
@@ -2340,7 +2344,7 @@ class LclController extends Controller
 //        $manifest->release_bc_uid = \Auth::getUser()->name;
         
         if($manifest->save()){
-
+            $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'active');
             return json_encode(array('success' => true, 'message' => 'Status has been Change!'));
         }
         
@@ -2415,6 +2419,8 @@ class LclController extends Controller
             );
             $this->addLogSegel($datalog);
             
+            $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'hold');
+            
             return back()->with('success', 'Flag has been locked.')->withInput();
         }
         
@@ -2447,13 +2453,16 @@ class LclController extends Controller
         
         if($manifest->release_bc == 'Y'){
             $manifest->status_bc = 'RELEASE';
+            $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'active');
         }else{
             if($manifest->KD_DOK_INOUT > 1){
                 $manifest->status_bc = 'HOLD';
                 $manifest->tglrelease = NULL;
                 $manifest->jamrelease = NULL;
+                $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'hold');
             }else{
                 $manifest->status_bc = 'RELEASE';
+                $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'active');
             }
         }
 
