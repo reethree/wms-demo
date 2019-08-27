@@ -2280,15 +2280,28 @@ class FclController extends Controller
     {
         $container = DBContainer::find($request->id_hold);
         
-        $container->status_bc = 'HOLD';
-        $container->TGLRELEASE = NULL;
-        $container->JAMRELEASE = NULL;
-        $container->hold_desc = $request->hold_desc;
+        $container->status_bc = 'INSPECT';
+//        $container->TGLRELEASE = NULL;
+//        $container->JAMRELEASE = NULL;
+        $container->inspect_desc = $request->inspect_desc;
         
         if($container->save()){
-            $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'hold');
-            return back()->with('success', 'Container No. '.$container->NOCONTAINER.' Status HOLD.');
+//            $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'hold');
+            return back()->with('success', 'Container No. '.$container->NOCONTAINER.' Status is Inspection.');
         }
         return back()->with('error', 'Something wrong!!! please try again.');
+    }
+    
+    public function releaseUnhold(Request $request)
+    {
+        $container = DBContainer::find($request->id);
+        
+        $container->status_bc = 'RELEASE';
+        
+        if($container->save()){
+            return json_encode(array('success' => true, 'message' => 'Container No. '.$container->NOCONTAINER.' Status is Release.'));
+        }else{
+            return json_encode(array('success' => false, 'message' => 'Something wrong!!! please try again.'));
+        } 
     }
 }

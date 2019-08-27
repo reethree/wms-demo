@@ -25,7 +25,10 @@
             }
             if(rowdata.status_bc == 'HOLD') {
                 $("#" + cl).find("td").css("background-color", "#ffe500");
-            }   
+            } 
+            if(rowdata.status_bc == 'INSPECT') {
+                $("#" + cl).find("td").css("background-color", "#3caea3");
+            } 
             
             if(rowdata.photo_release_extra != ''){
                 vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" data-id="'+cl+'" onclick="viewPhoto('+cl+')"><i class="fa fa-photo"></i> View Photo</button>';
@@ -81,8 +84,7 @@
         $('#release-form').disabledFormGroup();
         $('#btn-toolbar,#btn-sppb,#btn-photo').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();     
-        $("#btn-group-7").hide();
-        $(".hide-kddoc").hide();
+        $(".hide-kddoc,#btn-group-7,#btn-group-8").hide();
         
         $("#KD_DOK_INOUT").on("change", function(){
             var $this = $(this).val();
@@ -262,6 +264,23 @@
 //                $('#JAMRELEASE').removeAttr('disabled');
 //                $('#NOPOL_OUT').removeAttr('disabled');
             } 
+             
+            if(rowdata.status_bc == 'INSPECT'){
+                $('#btn-group-8').enableButtonGroup();     
+                $("#btn-group-8").show();   
+                $('#btn-group-7').disabledButtonGroup();     
+                $("#btn-group-7").hide();
+            }else{
+                $('#btn-group-8').disabledButtonGroup();     
+                $("#btn-group-8").hide();
+                if(rowdata.status_bc != 'HOLD' && rowdata.KD_DOK_INOUT == 1){
+                    $('#btn-group-7').enableButtonGroup();     
+                    $("#btn-group-7").show();
+                }else{
+                    $('#btn-group-7').disabledButtonGroup();     
+                    $("#btn-group-7").hide();
+                }
+            }
             
             if(rowdata.flag_bc == 'Y'){
                 $('#btn-group-4').disabledButtonGroup();
@@ -269,19 +288,16 @@
                 $('#btn-group-2,#btn-sppb,#btn-photo').disabledButtonGroup();
                 $('#release-form').disabledFormGroup();
             }
-            
-            if(rowdata.status_bc != 'HOLD' && rowdata.KD_DOK_INOUT == 1){
-                $('#btn-group-7').enableButtonGroup();     
-                $("#btn-group-7").show();
-            }else{
-                $('#btn-group-7').disabledButtonGroup();     
-                $("#btn-group-7").hide();
-            }
-            
         });
         
         $('#btn-print-sj').click(function() {
             var id = $('#fclReleaseGrid').jqGrid('getGridParam', 'selrow');
+            var rowdata = $('#fclReleaseGrid').getRowData(id);
+            
+            if(rowdata.status_bc == 'INSPECT'){
+                alert("Dokumen masih dalam pemeriksaan.");
+                return false;
+            }
             
             // Verify
             $.ajax({
@@ -426,6 +442,8 @@
             $('#release-form')[0].reset();
             $('.select2').val(null).trigger("change");
             $('#TCONTAINER_PK').val("");
+            
+            $("#btn-group-7,#btn-group-8").hide();
         });
         
         $('#btn-print-barcode').click(function() {
@@ -493,6 +511,43 @@
                 }
             });
             
+        });
+        
+        $("#btn-unhold").on("click", function(e){
+            e.preventDefault();
+            if(!confirm('Apakah anda yakin pemeriksaan sudah selesai?')){return false;}
+            
+            var url = '{{ route("fcl-release-unhold") }}';
+
+            $.ajax({
+                type: 'POST',
+                data: 
+                {
+                    'id' : $('#TCONTAINER_PK').val(),
+                    '_token' : '{{ csrf_token() }}'
+                },
+                dataType : 'json',
+                url: url,
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                },
+                beforeSend:function()
+                {
+
+                },
+                success:function(json)
+                {
+                    if(json.success) {
+                        $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    } else {
+                        $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    }
+
+                    //Triggers the "Close" button funcionality.
+                    $('#btn-refresh').click();
+                }
+            });
         });
         
     });
@@ -1082,7 +1137,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Description</label>
                                 <div class="col-sm-8">
-                                    <textarea name="hold_desc" class="form-control" required></textarea>
+                                    <textarea name="inspect_desc" class="form-control" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -1090,7 +1145,7 @@
                 </div> 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn btn-warning"><i class="fa fa-lock"></i> HOLD</button>
+                  <button type="submit" class="btn btn-warning"><i class="fa fa-lock"></i> Inspection</button>
                 </div>
             </form>
         </div><!-- /.modal-content -->

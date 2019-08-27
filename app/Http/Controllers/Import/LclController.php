@@ -2713,14 +2713,27 @@ class LclController extends Controller
         $manifest = DBManifest::find($request->id_hold);
         
         $manifest->status_bc = 'INSPECT';
-        $manifest->tglrelease = NULL;
-        $manifest->jamrelease = NULL;
-        $manifest->hold_desc = $request->hold_desc;               
+//        $container->TGLRELEASE = NULL;
+//        $container->JAMRELEASE = NULL;
+        $manifest->inspect_desc = $request->inspect_desc;
         
         if($manifest->save()){
             $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'hold');
-            return back()->with('success', 'HBL No. '.$manifest->NOHBL.' Status HOLD.');
+            return back()->with('success', 'HBL No. '.$manifest->NOHBL.' Status is Inspection.');
         }
         return back()->with('error', 'Something wrong!!! please try again.');
+    }
+    
+    public function releaseUnhold(Request $request)
+    {
+        $manifest = DBManifest::find($request->id);
+        
+        $manifest->status_bc = 'RELEASE';
+        
+        if($manifest->save()){
+            return json_encode(array('success' => true, 'message' => 'HBL No. '.$manifest->NOHBL.' Status is Release.'));
+        }else{
+            return json_encode(array('success' => false, 'message' => 'Something wrong!!! please try again.'));
+        } 
     }
 }

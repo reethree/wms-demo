@@ -74,5 +74,16 @@ Route::group(['prefix' => 'lcl/delivery', 'namespace' => 'Import'], function(){
         'as' => 'lcl-delivery-release-getdatasppb',
         'uses' => 'LclController@releaseGetDataSppb'
     ]);
+    
+    // INSPECTION DOC
+    Route::post('/release/hold', [
+        'as' => 'lcl-release-hold',
+        'uses' => 'LclController@releaseHold'
+    ]);
+    
+    Route::post('/release/unhold', [
+        'as' => 'lcl-release-unhold',
+        'uses' => 'LclController@releaseUnhold'
+    ]);
 
 });

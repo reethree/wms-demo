@@ -28,6 +28,9 @@
             if(rowdata.status_bc == 'HOLD') {
                 $("#" + cl).find("td").css("background-color", "#ffe500");
             }
+            if(rowdata.status_bc == 'INSPECT') {
+                $("#" + cl).find("td").css("background-color", "#3caea3");
+            } 
               
             if(rowdata.photo_release != ''){
                 vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" data-id="'+cl+'" onclick="viewPhoto('+cl+')"><i class="fa fa-photo"></i> View Photo</button>';
@@ -83,7 +86,7 @@
         $('#release-form').disabledFormGroup();
         $('#btn-toolbar,#btn-sppb, #btn-photo').disabledButtonGroup();
         $('#btn-group-3').enableButtonGroup();
-        $(".hide-kddoc").hide();
+        $(".hide-kddoc,#btn-group-7,#btn-group-8").hide();
         
         $("#KD_DOK_INOUT").on("change", function(){
             var $this = $(this).val();
@@ -211,6 +214,7 @@
             $('#upload-title').html('Upload Photo for '+rowdata.NOHBL);
             $('#no_hbl').val(rowdata.NOHBL);
             $('#id_hbl').val(rowdata.TMANIFEST_PK);
+            $('#id_hold').val(rowdata.TMANIFEST_PK);
             $('#load_photos').html('');
             $('#delete_photo').val('N');
             
@@ -257,13 +261,30 @@
 //                $('#jamrelease').removeAttr('disabled');
 //                $('#NOPOL_RELEASE').removeAttr('disabled');
             }
+            
+            if(rowdata.status_bc == 'INSPECT'){
+                $('#btn-group-8').enableButtonGroup();     
+                $("#btn-group-8").show();   
+                $('#btn-group-7').disabledButtonGroup();     
+                $("#btn-group-7").hide();
+            }else{
+                $('#btn-group-8').disabledButtonGroup();     
+                $("#btn-group-8").hide();
+                if(rowdata.status_bc != 'HOLD' && rowdata.KD_DOK_INOUT == 1){
+                    $('#btn-group-7').enableButtonGroup();     
+                    $("#btn-group-7").show();
+                }else{
+                    $('#btn-group-7').disabledButtonGroup();     
+                    $("#btn-group-7").hide();
+                }
+            }
 
             if(rowdata.flag_bc == 'Y'){
                 $('#btn-group-4').disabledButtonGroup();
                 $('#btn-group-5').disabledButtonGroup();
                 $('#btn-group-2,#btn-sppb,#btn-photo').disabledButtonGroup();
                 $('#release-form').disabledFormGroup();
-            }
+            }            
 
         });
         
@@ -369,10 +390,19 @@
             $('#release-form')[0].reset();
             $('.select2').val(null).trigger("change");
             $('#TMANIFEST_PK').val("");
+            
+            $("#btn-group-7,#btn-group-8").hide();
         });
         
         $('#btn-print-sj').click(function() {
             var id = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
+            var rowdata = $('#lclReleaseGrid').getRowData(id);
+            
+            if(rowdata.status_bc == 'INSPECT'){
+                alert("Dokumen masih dalam pemeriksaan.");
+                return false;
+            }
+            
             window.open("{{ route('lcl-delivery-suratjalan-cetak', '') }}/"+id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");
         });
         
@@ -456,6 +486,43 @@
                 }
             });
             
+        });
+        
+        $("#btn-unhold").on("click", function(e){
+            e.preventDefault();
+            if(!confirm('Apakah anda yakin pemeriksaan sudah selesai?')){return false;}
+            
+            var url = '{{ route("lcl-release-unhold") }}';
+
+            $.ajax({
+                type: 'POST',
+                data: 
+                {
+                    'id' : $('#TMANIFEST_PK').val(),
+                    '_token' : '{{ csrf_token() }}'
+                },
+                dataType : 'json',
+                url: url,
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                },
+                beforeSend:function()
+                {
+
+                },
+                success:function(json)
+                {
+                    if(json.success) {
+                        $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    } else {
+                        $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    }
+
+                    //Triggers the "Close" button funcionality.
+                    $('#btn-refresh').click();
+                }
+            });
         });
         
     });
@@ -702,7 +769,13 @@
                         <button class="btn btn-danger" id="btn-print-barcode"><i class="fa fa-print"></i> Print Barcode</button>
                     </div>
                     <div id="btn-group-5" class="btn-group pull-right">
-                        <button class="btn btn-warning" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
+                        <button class="btn btn-success" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
+                    </div>
+                    <div id="btn-group-7" class="btn-group pull-right" style="display: none;">
+                        <button class="btn btn-warning" id="btn-hold"><i class="fa fa-lock"></i> Inspection</button>
+                    </div> 
+                    <div id="btn-group-8" class="btn-group pull-right" style="display: none;">
+                        <button class="btn btn-info" id="btn-unhold"><i class="fa fa-unlock"></i> Inspection Complete</button>
                     </div>
                 </div>
             </div>
@@ -1021,6 +1094,36 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal --> 
+<div id="hold-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Inspection Document BC 2.0</h4>
+            </div>
+            <form class="form-horizontal" method="POST" id="hold-form" action="{{ route('lcl-release-hold') }}">
+                <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                <input type="hidden" id="id_hold" name="id_hold" required>
+                <div class="modal-body"> 
+                    <div class="row">                        
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Description</label>
+                                <div class="col-sm-8">
+                                    <textarea name="inspect_desc" class="form-control" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-warning"><i class="fa fa-lock"></i> Inspection</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @endsection
 
 @section('custom_css')
@@ -1050,6 +1153,12 @@
         
         $('#load_photos').html('');
         $('#delete_photo').val('Y');
+    });
+    
+    $("#btn-hold").on("click", function(e){
+        e.preventDefault();
+        $("#hold-modal").modal('show');
+        return false;
     });
     
     $('.datepicker').datepicker({
