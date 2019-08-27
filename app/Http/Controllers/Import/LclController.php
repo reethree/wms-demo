@@ -2708,4 +2708,19 @@ class LclController extends Controller
         return view('import.lcl.view-photo-bl')->with($data);
     }
     
+    public function releaseHold(Request $request)
+    {
+        $manifest = DBManifest::find($request->id_hold);
+        
+        $manifest->status_bc = 'INSPECT';
+        $manifest->tglrelease = NULL;
+        $manifest->jamrelease = NULL;
+        $manifest->hold_desc = $request->hold_desc;               
+        
+        if($manifest->save()){
+            $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'hold');
+            return back()->with('success', 'HBL No. '.$manifest->NOHBL.' Status HOLD.');
+        }
+        return back()->with('error', 'Something wrong!!! please try again.');
+    }
 }

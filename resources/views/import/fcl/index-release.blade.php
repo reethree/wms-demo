@@ -80,7 +80,8 @@
     {
         $('#release-form').disabledFormGroup();
         $('#btn-toolbar,#btn-sppb,#btn-photo').disabledButtonGroup();
-        $('#btn-group-3').enableButtonGroup();
+        $('#btn-group-3').enableButtonGroup();     
+        $("#btn-group-7").hide();
         $(".hide-kddoc").hide();
         
         $("#KD_DOK_INOUT").on("change", function(){
@@ -213,6 +214,7 @@
             $('#upload-title').html('Upload Photo for '+rowdata.NOCONTAINER);
             $('#no_cont').val(rowdata.NOCONTAINER);
             $('#id_cont').val(rowdata.TCONTAINER_PK);
+            $('#id_hold').val(rowdata.TCONTAINER_PK);
             $('#load_photos').html('');
             $('#delete_photo').val('N');
             
@@ -266,6 +268,14 @@
                 $('#btn-group-5').disabledButtonGroup();
                 $('#btn-group-2,#btn-sppb,#btn-photo').disabledButtonGroup();
                 $('#release-form').disabledFormGroup();
+            }
+            
+            if(rowdata.status_bc != 'HOLD' && rowdata.KD_DOK_INOUT == 1){
+                $('#btn-group-7').enableButtonGroup();     
+                $("#btn-group-7").show();
+            }else{
+                $('#btn-group-7').disabledButtonGroup();     
+                $("#btn-group-7").hide();
             }
             
         });
@@ -518,7 +528,7 @@
                     ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
                     ->addColumn(array('label'=>'Photo','index'=>'action', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                     ->addColumn(array('label'=>'Status BC','index'=>'status_bc','width'=>100, 'align'=>'center'))
-                    ->addColumn(array('label'=>'Segel Merah','index'=>'flag_bc','width'=>80, 'align'=>'center'))
+                    ->addColumn(array('label'=>'Segel','index'=>'flag_bc','width'=>80, 'align'=>'center'))
                     ->addColumn(array('label'=>'No. SPK','index'=>'NoJob','width'=>160))
                     ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>160,'editable' => true, 'editrules' => array('required' => true)))
                     ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>80,'align'=>'center','editable' => true, 'editrules' => array('required' => true,'number'=>true),'edittype'=>'select','editoptions'=>array('value'=>"20:20;40:40")))
@@ -683,8 +693,15 @@
                         <button class="btn btn-danger" id="btn-print-barcode"><i class="fa fa-print"></i> Print Barcode</button>
                     </div>
                     <div id="btn-group-5" class="btn-group pull-right">
-                        <button class="btn btn-warning" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
+                        <button class="btn btn-success" id="btn-upload"><i class="fa fa-upload"></i> Upload TPS Online</button>
                     </div>
+                    <div id="btn-group-7" class="btn-group pull-right" style="display: none;">
+                        <button class="btn btn-warning" id="btn-hold"><i class="fa fa-lock"></i> Inspection</button>
+                    </div> 
+                    <div id="btn-group-8" class="btn-group pull-right" style="display: none;">
+                        <button class="btn btn-info" id="btn-unhold"><i class="fa fa-unlock"></i> Inspection Complete</button>
+                    </div>
+                    
                 </div>
             </div>
             
@@ -1049,6 +1066,36 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<div id="hold-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Inspection Document BC 2.0</h4>
+            </div>
+            <form class="form-horizontal" method="POST" id="hold-form" action="{{ route('fcl-release-hold') }}">
+                <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                <input type="hidden" id="id_hold" name="id_hold" required>
+                <div class="modal-body"> 
+                    <div class="row">                        
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Description</label>
+                                <div class="col-sm-8">
+                                    <textarea name="hold_desc" class="form-control" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-warning"><i class="fa fa-lock"></i> HOLD</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @endsection
 
 @section('custom_css')
@@ -1079,6 +1126,12 @@
         
         $('#load_photos').html('');
         $('#delete_photo').val('Y');
+    });
+    
+    $("#btn-hold").on("click", function(e){
+        e.preventDefault();
+        $("#hold-modal").modal('show');
+        return false;
     });
     
     $('.datepicker').datepicker({

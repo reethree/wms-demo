@@ -2275,4 +2275,20 @@ class FclController extends Controller
             return json_encode(array('success' => false, 'message' => 'Nomor Kontainer TIDAK Sesuai, silahkan periksa kembali!!!'));
         } 
     }
+    
+    public function releaseHold(Request $request)
+    {
+        $container = DBContainer::find($request->id_hold);
+        
+        $container->status_bc = 'HOLD';
+        $container->TGLRELEASE = NULL;
+        $container->JAMRELEASE = NULL;
+        $container->hold_desc = $request->hold_desc;
+        
+        if($container->save()){
+            $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'hold');
+            return back()->with('success', 'Container No. '.$container->NOCONTAINER.' Status HOLD.');
+        }
+        return back()->with('error', 'Something wrong!!! please try again.');
+    }
 }

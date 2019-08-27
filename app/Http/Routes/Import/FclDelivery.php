@@ -91,4 +91,9 @@ Route::group(['prefix' => 'fcl/delivery', 'namespace' => 'Import'], function(){
         'uses' => 'FclController@releaseVerify'
     ]);
     
+    // HOLD DOC
+    Route::post('/release/hold', [
+        'as' => 'fcl-release-hold',
+        'uses' => 'FclController@releaseHold'
+    ]);
 });
