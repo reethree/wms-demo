@@ -292,7 +292,8 @@
             $("#alasan_perubahan").val(rowdata.alasan_perubahan).trigger("change");
         }
         
-        $("#location_id").val(rowdata.location_id).trigger("change")
+        var locations = rowdata.location_id;
+        $("#location_id").val(locations.split(",")).trigger("change");
         $("#packing_tally").val(rowdata.packing_tally).trigger("change");
         
         $("#TGL_HBL").datepicker('setDate', rowdata.TGL_HBL);
@@ -782,8 +783,8 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Location</label>
                             <div class="col-sm-8">
-                                <select class="form-control select2" id="location_id" name="location_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                                    <option value="">Choose Location</option>
+                                <select class="form-control select2" multiple='multiple' id="location_id" name="location_id[]" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                    <!--<option value="">Choose Location</option>-->
                                     @foreach($locations as $location)
                                         <option value="{{ $location->id }}">{{ $location->name.' ('.$location->type.')' }}</option>
                                     @endforeach

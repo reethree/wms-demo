@@ -227,7 +227,7 @@ class ManifestController extends Controller
     {
         $data = $request->json()->all(); 
         $delete_photo = $data['delete_photo'];
-        unset($data['id'], $data['delete_photo'], $data['_token']);
+        unset($data['id'], $data['delete_photo'], $data['_token'], $data['undefined']);
         
         $container = DBContainer::find($data['TCONTAINER_FK']); 
         $packing = DBPacking::find($data['TPACKING_FK']);
@@ -261,11 +261,18 @@ class ManifestController extends Controller
             $data['photo_stripping'] = '';
         }
         
-        $location = \DB::table('location')->find($data['location_id']);
-        if($location){
-            $data['location_id'] = $location->id;
-            $data['location_name'] = $location->name;
+        $locations = \DB::table('location')->whereIn('id', $data['location_id'])->pluck('name');
+        
+        if($locations){
+            $data['location_id'] = implode(',', $data['location_id']);
+            $data['location_name'] = implode(',', $locations);
         }
+        
+//        $location = \DB::table('location')->find($data['location_id']);
+//        if($location){
+//            $data['location_id'] = $location->id;
+//            $data['location_name'] = $location->name;
+//        }
         
         $update = DBManifest::where('TMANIFEST_PK', $id)
             ->update($data);
