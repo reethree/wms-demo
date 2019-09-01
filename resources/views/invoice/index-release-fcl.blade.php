@@ -227,6 +227,17 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">Tgl. Release</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" name="tgl_release" class="form-control pull-right datepicker" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">No. Pajak</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control" name="no_pajak" />
@@ -281,16 +292,25 @@
 <!-- Bootstrap Switch -->
 <!--<link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/bootstrap-switch/bootstrap-switch.min.css") }}">-->
 
-<!--<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
+<!--<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />-->
 <link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/datepicker/datepicker3.css") }}">
-<link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.css") }}">-->
+<!--<link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.css") }}">-->
 
 @endsection
 
 @section('custom_js')
 
+<script src="{{ asset("/bower_components/AdminLTE/plugins/datepicker/bootstrap-datepicker.js") }}"></script>
 <!--<script src="{{ asset("/bower_components/AdminLTE/plugins/bootstrap-switch/bootstrap-switch.min.js") }}"></script>-->
 <script type="text/javascript">
+    
+    $('.datepicker').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format: 'yyyy-mm-dd',
+        zIndex: 99
+    });
+    
 //    $.fn.bootstrapSwitch.defaults.size = 'mini';
 //    $.fn.bootstrapSwitch.defaults.onColor = 'danger';
 //    $.fn.bootstrapSwitch.defaults.onText = 'Yes';

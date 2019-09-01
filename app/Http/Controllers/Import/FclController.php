@@ -1399,7 +1399,7 @@ class FclController extends Controller
     
     public function releaseCreateInvoice(Request $request)
     {
-        $ids = explode(',', $request->id);
+        $ids = explode(',', $request->id);        
         
         $container20 = DBContainer::where('size', 20)->whereIn('TCONTAINER_PK', $ids)->get();
         $container40 = DBContainer::where('size', 40)->whereIn('TCONTAINER_PK', $ids)->get();
@@ -1414,6 +1414,10 @@ class FclController extends Controller
             }else{
                 $data = $container45['0'];
             }
+            
+//        $tgl_release = $data['TGLRELEASE'];
+            $tgl_release = $request->tgl_release;
+        
 //            $data = (count($container20) > 0 ? $container20['0'] : $container40['0']);
 //            $consignee = DBPerusahaan::where('TPERUSAHAAN_PK', $data['TCONSIGNEE_FK'])->first();
             
@@ -1433,7 +1437,7 @@ class FclController extends Controller
             $invoice_nct->no_bl = $request->no_bl;	
             $invoice_nct->eta = $data['ETA'];	
             $invoice_nct->gateout_terminal = $data['TGLMASUK'];	
-            $invoice_nct->gateout_tps = $data['TGLRELEASE'];	
+            $invoice_nct->gateout_tps = $tgl_release;	
             $invoice_nct->uid = \Auth::getUser()->name;	
             
             if($invoice_nct->save()) {
@@ -1543,12 +1547,12 @@ class FclController extends Controller
                             
                             // PENUMPUKAN
                             $date1 = date_create($data['TGLMASUK']);
-                            $date2 = date_create($data['TGLRELEASE']);
+                            $date2 = date_create($tgl_release);
                             $diff = date_diff($date1, $date2);
                             $hari = $diff->format("%a");
                             
                             $invoice_penumpukan->startdate = $data['TGLMASUK'];
-                            $invoice_penumpukan->enddate = $data['TGLRELEASE'];
+                            $invoice_penumpukan->enddate = $tgl_release;
                             $invoice_penumpukan->lama_timbun = $hari;
                             
                             $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
@@ -1640,12 +1644,12 @@ class FclController extends Controller
                             
                             // PENUMPUKAN
                             $date1 = date_create($data['TGLMASUK']);
-                            $date2 = date_create($data['TGLRELEASE']);
+                            $date2 = date_create($tgl_release);
                             $diff = date_diff($date1, $date2);
                             $hari = $diff->format("%a");
                             
                             $invoice_penumpukan->startdate = $data['TGLMASUK'];
-                            $invoice_penumpukan->enddate = $data['TGLRELEASE'];
+                            $invoice_penumpukan->enddate = $tgl_release;
                             $invoice_penumpukan->lama_timbun = $hari;
                             
                             $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
@@ -1741,12 +1745,12 @@ class FclController extends Controller
                             
                             // PENUMPUKAN
                             $date1 = date_create($data['TGLMASUK']);
-                            $date2 = date_create($data['TGLRELEASE']);
+                            $date2 = date_create($tgl_release);
                             $diff = date_diff($date1, $date2);
                             $hari = $diff->format("%a");
                             
                             $invoice_penumpukan->startdate = $data['TGLMASUK'];
-                            $invoice_penumpukan->enddate = $data['TGLRELEASE'];
+                            $invoice_penumpukan->enddate = $tgl_release;
                             $invoice_penumpukan->lama_timbun = $hari;
                             
                             $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
