@@ -111,7 +111,7 @@
             <tr>
                 <td width='50%'>
                     <h4>DESCRIPTION : </h4>
-                    <p>{{ $manifest->DESCOFGOODS }}</p>
+                    <p>{{ str_limit($manifest->DESCOFGOODS, 150) }}</p>
                     <br />
                 </td>
                 <td width='50%'>
