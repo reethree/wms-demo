@@ -1956,7 +1956,7 @@ class LclController extends Controller
                             $dataval['TGL_HBL'] = $ex_header_tglhbl;   
                             $dataval['weight'] = substr($ex_header_berat, 10, 8)/10000;
                             $dataval['meas'] = (substr($ex_header_berat, 30, 5)/1000);
-                            $dataval['qty'] = substr($ex_header_berat, 47, 2);
+                            $dataval['qty'] = substr($ex_header_berat, 46, 3);
                             $dataval['pack'] = substr($ex_header_berat, 75, 2);
                         endif;
 
