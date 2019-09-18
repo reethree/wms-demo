@@ -125,8 +125,11 @@ class TablesRepository extends EloquentRepositoryAbstract {
                     case 'release-invoice':
                         $Model = \DB::table('tcontainercy')
                             ->whereIn('KD_TPS_ASAL', array('NCT1','JICT'))
-                            ->whereNotNull('TGLRELEASE')
-                            ->whereNotNull('JAMRELEASE');
+                            ->whereNotNull('TGLMASUK')
+                            ->whereNotNull('JAMMASUK')
+                            ->whereNull('TGLRELEASE')
+//                            ->whereNotNull('JAMRELEASE')
+                            ;
                     break;
                     case 'hold':
                         if(isset($request['startdate']) || isset($request['enddate'])){
