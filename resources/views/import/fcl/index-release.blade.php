@@ -197,6 +197,7 @@
             $('#TGL_SPJM').val(rowdata.TGL_SPJM);
             $('#NAMA_IMP').val(rowdata.NAMA_IMP);
             $('#NPWP_IMP').val(rowdata.NPWP_IMP);
+            $('#telp_ppjk').val(rowdata.telp_ppjk);
             
             $('#NO_BL_AWB').val(rowdata.NO_BL_AWB);
             $('#TGL_BL_AWB').val(rowdata.TGL_BL_AWB);
@@ -631,6 +632,7 @@
                     ->addColumn(array('label'=>'BCF Consignee','index'=>'bcf_consignee', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Nama EMKL','index'=>'NAMAEMKL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'Telp. EMKL','index'=>'TELPEMKL', 'width'=>150,'hidden'=>true)) 
+                    ->addColumn(array('label'=>'Telp. PPJK','index'=>'telp_ppjk', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'No. Truck','index'=>'NOPOL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'No. POL','index'=>'NOPOLCIROUT', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'No. POL Out','index'=>'NOPOL_OUT', 'width'=>150,'hidden'=>true))
@@ -717,6 +719,7 @@
                     ->addColumn(array('label'=>'BCF Consignee','index'=>'bcf_consignee', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Nama EMKL','index'=>'NAMAEMKL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'Telp. EMKL','index'=>'TELPEMKL', 'width'=>150,'hidden'=>true)) 
+                    ->addColumn(array('label'=>'Telp. PPJK','index'=>'telp_ppjk', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'No. Truck','index'=>'NOPOL', 'width'=>150,'hidden'=>true)) 
                     ->addColumn(array('label'=>'No. POL','index'=>'NOPOLCIROUT', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'No. POL Out','index'=>'NOPOL_OUT', 'width'=>150,'hidden'=>true))
@@ -861,6 +864,12 @@
                         <label class="col-sm-3 control-label">NPWP Consignee</label>
                         <div class="col-sm-8">
                             <input type="text" id="ID_CONSIGNEE" name="ID_CONSIGNEE" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Telp. PPJK</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="telp_ppjk" name="telp_ppjk" class="form-control">
                         </div>
                     </div>
 <!--                    <div class="form-group">
