@@ -127,7 +127,7 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereIn('KD_TPS_ASAL', array('NCT1','JICT'))
                             ->whereNotNull('TGLMASUK')
                             ->whereNotNull('JAMMASUK')
-                            ->whereNull('TGLRELEASE')
+//                            ->whereNull('TGLRELEASE')
 //                            ->whereNotNull('JAMRELEASE')
                             ;
                     break;
