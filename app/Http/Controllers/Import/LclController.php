@@ -2116,7 +2116,6 @@ class LclController extends Controller
             $jobid = $request->jobid;
             
             \Excel::selectSheets(['Detil', 'Barang', 'Kontainer'])->load($request->file('filexls'), function($reader) {
-                
                 $reader->each(function($sheet) {
                     if($sheet->getTitle() == 'Detil'){
                         $sheet->each(function($row) {                            
@@ -2127,7 +2126,7 @@ class LclController extends Controller
                             \DB::table('temporary_barang')->insert($row->all());
                         });
                     }elseif($sheet->getTitle() == 'Kontainer'){
-                        $sheet->each(function($row) {                            
+                        $sheet->each(function($row) {      
                             \DB::table('temporary_container')->insert($row->all());
                         });
                     }
