@@ -2047,6 +2047,7 @@ class LclController extends Controller
                             $data['WEIGHT'] = $df['weight'];
                             $data['MEAS'] = $df['meas'];
                             $data['QUANTITY'] = $df['qty'];
+                            $data['final_qty'] = $df['qty'];
 
                             // Get Packing
                             if($df['pack']) {
@@ -2055,6 +2056,7 @@ class LclController extends Controller
                                     $data['TPACKING_FK'] = $packing->TPACKING_PK;
                                     $data['NAMAPACKING'] = $packing->NAMAPACKING;
                                     $data['KODE_KEMAS'] = $packing->KODEPACKING;
+                                    $data['packing_tally'] = $packing->NAMAPACKING;
                                 }
                             }
 
@@ -2220,6 +2222,7 @@ class LclController extends Controller
                         $data['WEIGHT'] = $detail->bruto;
                         $data['MEAS'] = $detail->volume;
                         $data['QUANTITY'] = $detail->jumlah_kemasan;
+                        $data['final_qty'] = $detail->jumlah_kemasan;
 
                         // Get Packing
                         if($detail->jenis_kemasan) {
@@ -2228,6 +2231,7 @@ class LclController extends Controller
                                 $data['TPACKING_FK'] = $packing->TPACKING_PK;
                                 $data['NAMAPACKING'] = $packing->NAMAPACKING;
                                 $data['KODE_KEMAS'] = $packing->KODEPACKING;
+                                $data['packing_tally'] = $packing->NAMAPACKING;
                             }
                         }
 
