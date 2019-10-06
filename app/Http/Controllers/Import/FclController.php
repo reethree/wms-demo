@@ -678,7 +678,6 @@ class FclController extends Controller
     public function buangmtyUpdate(Request $request, $id)
     {
         $data = $request->json()->all(); 
-        $delete_photo = $data['delete_photo'];
         unset($data['TCONTAINER_PK'], $data['_token']);
         
         $update = DBContainer::where('TCONTAINER_PK', $id)
@@ -1476,7 +1475,7 @@ class FclController extends Controller
                 // Insert Invoice Detail
                 if(count($container20) > 0) {
 
-                    $tarif20 = \App\Models\InvoiceTarifNct::where('size', 20)->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
+                    $tarif20 = \App\Models\InvoiceTarifNct::where(array('size' => 20, 'type' => $data->jenis_container))->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
                     
                     foreach ($tarif20 as $t20) :
                         
@@ -1576,7 +1575,7 @@ class FclController extends Controller
                 
                 if(count($container40) > 0) {
 
-                    $tarif40 = \App\Models\InvoiceTarifNct::where('size', 40)->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
+                    $tarif40 = \App\Models\InvoiceTarifNct::where(array('size' => 40, 'type' => $data->jenis_container))->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
 //                    return $tarif40;
                     foreach ($tarif40 as $t40) :
                         
@@ -1673,7 +1672,7 @@ class FclController extends Controller
                 
                 if(count($container45) > 0) {
 
-                    $tarif45 = \App\Models\InvoiceTarifNct::where('size', 45)->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
+                    $tarif45 = \App\Models\InvoiceTarifNct::where(array('size' => 45, 'type' => $data->jenis_container))->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
 //                    return $tarif40;
                     foreach ($tarif45 as $t45) :
                         

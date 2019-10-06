@@ -144,6 +144,7 @@
                     ->addColumn(array('label'=>'Vessel','index'=>'VESSEL','width'=>160))
                     ->addColumn(array('label'=>'VOY','index'=>'VOY','width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>160,'editable' => true, 'editrules' => array('required' => true)))
+                    ->addColumn(array('label'=>'Jenis','index'=>'jenis_container','width'=>80,'align'=>'center'))
                     ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>80,'align'=>'center','editable' => true, 'editrules' => array('required' => true,'number'=>true),'edittype'=>'select','editoptions'=>array('value'=>"20:20;40:40")))
                     ->addColumn(array('label'=>'Teus','index'=>'TEUS', 'width'=>80,'align'=>'center','editable' => false))
                     ->addColumn(array('index'=>'TCONSIGNEE_FK','hidden'=>true))

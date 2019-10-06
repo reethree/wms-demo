@@ -106,6 +106,7 @@
             $('#ESEALCODE').val(rowdata.ESEALCODE).trigger('change');
             $('#TGLKELUAR_TPK').val(rowdata.TGLKELUAR_TPK);
             $('#JAMKELUAR_TPK').val(rowdata.JAMKELUAR_TPK);
+            $("#jenis_container").val(rowdata.jenis_container).trigger("change");
 //            $("#flag_bc").val(rowdata.flag_bc).trigger("change");
 //            $("#alasan_segel").val(rowdata.alasan_segel).trigger("change");
             
@@ -308,7 +309,7 @@
                     ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','width'=>120,'hidden'=>true))
                     ->addColumn(array('label'=>'No. PLP','index'=>'NO_PLP','width'=>120,'hidden'=>true))
                     ->addColumn(array('label'=>'Tgl. PLP','index'=>'TGL_PLP','width'=>120,'hidden'=>true))
-                    
+                    ->addColumn(array('label'=>'Jenis','index'=>'jenis_container', 'width'=>80,'hidden'=>true))
                     ->addColumn(array('index'=>'location_id', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'Location','index'=>'location_name','width'=>200, 'align'=>'center'))
                     
@@ -537,6 +538,15 @@
                                 @foreach($eseals as $eseal)
                                     <option value="{{ $eseal->code }}">{{ $eseal->code }}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Jenis Container</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" id="jenis_container" name="jenis_container" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <option value="DRY" selected>DRY</option>
+                                <option value="BB">BB</option>
                             </select>
                         </div>
                     </div>

@@ -253,8 +253,14 @@ class ManifestController extends Controller
         $data['tglmasuk'] = $container->TGLMASUK;
         $data['jammasuk'] = $container->JAMMASUK;
         
-        if(empty($data['perubahan_hbl']) || $data['perubahan_hbl'] == 'N'){
-            $data['alasan_perubahan'] = '';
+//        if(empty($data['perubahan_hbl']) || $data['perubahan_hbl'] == 'N'){
+//            $data['alasan_perubahan'] = '';
+//        }
+        
+        if($data['final_qty'] != $data['QUANTITY'] || $data['packing_tally'] != $packing->NAMAPACKING){
+            $data['perubahan_hbl'] = 'Y';
+        }else{
+            $data['perubahan_hbl'] = 'N';
         }
         
         if($delete_photo == 'Y'){

@@ -42,6 +42,7 @@
                 ->addColumn(array('key'=>true,'index'=>'id','hidden'=>true))
                 ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                 ->addColumn(array('label'=>'Lokasi Sandar','index'=>'lokasi_sandar', 'width'=>200, 'align'=>'left'))
+                ->addColumn(array('label'=>'Type','index'=>'type', 'width'=>80, 'align'=>'center'))
                 ->addColumn(array('label'=>'Size','index'=>'size', 'width'=>80, 'align'=>'center'))
                 ->addColumn(array('label'=>'Masa I','index'=>'masa1', 'width'=>150, 'align'=>'center', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
                 ->addColumn(array('label'=>'Masa II','index'=>'masa2', 'width'=>150, 'align'=>'center', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
