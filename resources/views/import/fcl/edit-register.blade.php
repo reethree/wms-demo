@@ -62,9 +62,6 @@
                                 @if($joborder->TCONSIGNEE_FK)
                                     <option value="{{$joborder->TCONSIGNEE_FK}}" selected="selected">{{$joborder->CONSIGNEE}}</option>
                                 @endif
-<!--                                @foreach($perusahaans as $perusahaan)
-                                    <option value="{{ $perusahaan->id }}" @if($perusahaan->id == $joborder->TCONSIGNEE_FK){{ "selected" }}@endif>{{ $perusahaan->name }}</option><option value="{{ $perusahaan->id }}">{{ $perusahaan->name }}</option>
-                                @endforeach-->
                             </select>
                         </div>
                         <div class="col-sm-2">
