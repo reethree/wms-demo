@@ -273,7 +273,9 @@ class PenerimaanController extends Controller
             ]
         ];
         
-        $data['respon'] = \App\Models\TpsResponPlp::find($id);
+        $plpid = \App\Models\TpsResponPlpDetail::where('tps_responplptujuandetailxml_pk', $id)->pluck('tps_responplptujuanxml_fk');
+        
+        $data['respon'] = \App\Models\TpsResponPlp::find($plpid);
         
         return view('tpsonline.edit-respon-plp')->with($data);
     }
