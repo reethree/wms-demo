@@ -33,13 +33,13 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
 //                        ->where($request['by'], '>=', $start_date)
 //                        ->where($request['by'], '<=', $end_date);
                 $Model = \DB::table('tps_responplptujuandetailxml')
-                        ->select('tps_responplptujuanxml.*','tps_responplptujuandetailxml.tps_responplptujuandetailxml_pk','tps_responplptujuandetailxml.NO_CONT as tps_responplptujuandetailxml.NO_CONT','tps_responplptujuandetailxml.UK_CONT','tps_responplptujuandetailxml.JNS_CONT')
+                        ->select('tps_responplptujuanxml.*','tps_responplptujuanxml.NO_PLP as tps_responplptujuanxml.NO_PLP','tps_responplptujuanxml.TGL_PLP as tps_responplptujuanxml.TGL_PLP','tps_responplptujuandetailxml.tps_responplptujuandetailxml_pk','tps_responplptujuandetailxml.NO_CONT as tps_responplptujuandetailxml.NO_CONT','tps_responplptujuandetailxml.UK_CONT','tps_responplptujuandetailxml.JNS_CONT')
                         ->leftjoin('tps_responplptujuanxml','tps_responplptujuandetailxml.tps_responplptujuanxml_fk','=','tps_responplptujuanxml.tps_responplptujuanxml_pk')
                         ->where($request['by'], '>=', $start_date)
                         ->where($request['by'], '<=', $end_date);
             }else{
                 $Model = \DB::table('tps_responplptujuandetailxml')
-                        ->select('tps_responplptujuanxml.*','tps_responplptujuandetailxml.tps_responplptujuandetailxml_pk','tps_responplptujuandetailxml.NO_CONT as tps_responplptujuandetailxml.NO_CONT','tps_responplptujuandetailxml.UK_CONT as tps_responplptujuandetailxml.UK_CONT','tps_responplptujuandetailxml.JNS_CONT as tps_responplptujuandetailxml.JNS_CONT')
+                        ->select('tps_responplptujuanxml.*','tps_responplptujuanxml.NO_PLP as tps_responplptujuanxml.NO_PLP','tps_responplptujuanxml.TGL_PLP as tps_responplptujuanxml.TGL_PLP','tps_responplptujuandetailxml.tps_responplptujuandetailxml_pk','tps_responplptujuandetailxml.NO_CONT as tps_responplptujuandetailxml.NO_CONT','tps_responplptujuandetailxml.UK_CONT as tps_responplptujuandetailxml.UK_CONT','tps_responplptujuandetailxml.JNS_CONT as tps_responplptujuandetailxml.JNS_CONT')
                         ->leftjoin('tps_responplptujuanxml','tps_responplptujuandetailxml.tps_responplptujuanxml_fk','=','tps_responplptujuanxml.tps_responplptujuanxml_pk')
                         ;
             }
