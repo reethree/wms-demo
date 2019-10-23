@@ -15,7 +15,8 @@
                 <p style="font-size: 13px;">
                     NO. POS {{$barcode->NO_POS_BC11}}<br />
                     NO. BC11 {{$barcode->NO_BC11}}<br />
-                    TGL. BC11 {{date('d/m/Y', strtotime($barcode->TGL_BC11))}}
+                    TGL. BC11 {{date('d/m/Y', strtotime($barcode->TGL_BC11))}}<br /><br />
+                    Lokasi : {{$barcode->location_name}}
                 </p>
             </div>
         </div>
@@ -38,7 +39,8 @@
                 </p>
                 <p style="font-size: 13px;">
                     NO. PLP {{$barcode->NO_PLP}}<br />
-                    TGL. PLP {{date('d/m/Y', strtotime($barcode->TGL_PLP))}}
+                    TGL. PLP {{date('d/m/Y', strtotime($barcode->TGL_PLP))}}<br /><br />
+                    Lokasi : {{$barcode->location_name}}
                 </p>
             </div>
         </div>
