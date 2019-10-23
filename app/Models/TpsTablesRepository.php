@@ -29,19 +29,19 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                     $start_date = date('Ymd',strtotime($request['startdate']));
                     $end_date = date('Ymd',strtotime($request['enddate']));      
                 }
-//                $Model = \DB::table('tps_responplptujuanxml')
-//                        ->where($request['by'], '>=', $start_date)
-//                        ->where($request['by'], '<=', $end_date);
-                $Model = \DB::table('tps_responplptujuandetailxml')
-                        ->select('tps_responplptujuanxml.*','tps_responplptujuanxml.NO_PLP as tps_responplptujuanxml.NO_PLP','tps_responplptujuanxml.TGL_PLP as tps_responplptujuanxml.TGL_PLP','tps_responplptujuandetailxml.tps_responplptujuandetailxml_pk','tps_responplptujuandetailxml.NO_CONT as tps_responplptujuandetailxml.NO_CONT','tps_responplptujuandetailxml.UK_CONT','tps_responplptujuandetailxml.JNS_CONT')
-                        ->leftjoin('tps_responplptujuanxml','tps_responplptujuandetailxml.tps_responplptujuanxml_fk','=','tps_responplptujuanxml.tps_responplptujuanxml_pk')
+                $Model = \DB::table('tps_responplptujuanxml')
                         ->where($request['by'], '>=', $start_date)
                         ->where($request['by'], '<=', $end_date);
+//                $Model = \DB::table('tps_responplptujuandetailxml')
+//                        ->select('tps_responplptujuanxml.*','tps_responplptujuanxml.NO_PLP as tps_responplptujuanxml.NO_PLP','tps_responplptujuanxml.TGL_PLP as tps_responplptujuanxml.TGL_PLP','tps_responplptujuandetailxml.tps_responplptujuandetailxml_pk','tps_responplptujuandetailxml.NO_CONT as tps_responplptujuandetailxml.NO_CONT','tps_responplptujuandetailxml.UK_CONT','tps_responplptujuandetailxml.JNS_CONT')
+//                        ->leftjoin('tps_responplptujuanxml','tps_responplptujuandetailxml.tps_responplptujuanxml_fk','=','tps_responplptujuanxml.tps_responplptujuanxml_pk')
+//                        ->where($request['by'], '>=', $start_date)
+//                        ->where($request['by'], '<=', $end_date);
             }else{
-                $Model = \DB::table('tps_responplptujuandetailxml')
-                        ->select('tps_responplptujuanxml.*','tps_responplptujuanxml.NO_PLP as tps_responplptujuanxml.NO_PLP','tps_responplptujuanxml.TGL_PLP as tps_responplptujuanxml.TGL_PLP','tps_responplptujuandetailxml.tps_responplptujuandetailxml_pk','tps_responplptujuandetailxml.NO_CONT as tps_responplptujuandetailxml.NO_CONT','tps_responplptujuandetailxml.UK_CONT as tps_responplptujuandetailxml.UK_CONT','tps_responplptujuandetailxml.JNS_CONT as tps_responplptujuandetailxml.JNS_CONT')
-                        ->leftjoin('tps_responplptujuanxml','tps_responplptujuandetailxml.tps_responplptujuanxml_fk','=','tps_responplptujuanxml.tps_responplptujuanxml_pk')
-                        ;
+//                $Model = \DB::table('tps_responplptujuandetailxml')
+//                        ->select('tps_responplptujuanxml.*','tps_responplptujuanxml.NO_PLP as tps_responplptujuanxml.NO_PLP','tps_responplptujuanxml.TGL_PLP as tps_responplptujuanxml.TGL_PLP','tps_responplptujuandetailxml.tps_responplptujuandetailxml_pk','tps_responplptujuandetailxml.NO_CONT as tps_responplptujuandetailxml.NO_CONT','tps_responplptujuandetailxml.UK_CONT as tps_responplptujuandetailxml.UK_CONT','tps_responplptujuandetailxml.JNS_CONT as tps_responplptujuandetailxml.JNS_CONT')
+//                        ->leftjoin('tps_responplptujuanxml','tps_responplptujuandetailxml.tps_responplptujuanxml_fk','=','tps_responplptujuanxml.tps_responplptujuanxml_pk')
+//                        ;
             }
         }elseif($Model->getMorphClass() == 'App\Models\TpsOb'){   
             if(isset($request['startdate']) && isset($request['enddate'])){
