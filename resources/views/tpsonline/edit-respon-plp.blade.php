@@ -15,9 +15,11 @@
             var cl = ids[i];
             
             rowdata = $('#tpsResponPlpDetailGrid').getRowData(cl);
-            if(rowdata.JNS_CONT == 'F') {
+//            if(rowdata.JNS_CONT == 'F') {
+            if(rowdata.JNS_CONT != '') {
 //                $("#" + cl).find("td").css("color", "#666");
                 $("#btn-group-4").show();
+                $("#JNS_CONT").val(rowdata.JNS_CONT);
             } 
             
 //            edt = '<a href="{{ route("tps-responPlp-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
@@ -301,6 +303,7 @@
                     </div>-->
                     <div id="btn-group-4" class="col-sm-2 pull-right" style="margin: 10px 0;display: none;">
                         <button type="button" id="createJoborderBtn" class="btn btn-block btn-info">Create Job Order</button>
+                        <input type="hidden" id="JNS_CONT" name="JNS_CONT"/>
                     </div>
 <!--                    <div id="btn-group-5" class="col-sm-3" style="margin: 10px 0;">
                         <button type="button" id="barcodePrintSelected" class="btn btn-block btn-warning"><i class="fa fa-print"></i> Print Barcode by Selected</button>
@@ -315,6 +318,46 @@
     </div>
 </div>
 
+<div id="plp-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Please Input Master B/L</h4>
+            </div>
+            <form class="form-horizontal" id="createJobForm" action="{{ route("tps-responPlp-create-joborder-lcl", $respon->tps_responplptujuanxml_pk) }}" method="POST">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <label for="NOMBL" class="col-sm-3 control-label">No. MBL</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="NOMBL" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tgl. MBL</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" name="TGL_MASTER_BL" class="form-control pull-right datepicker" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="submit" id="createJobBtn" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @endsection
 
 @section('custom_css')
@@ -381,44 +424,49 @@
     
     $('#createJoborderBtn').click(function()
     {
-        if(!confirm('Apakah anda yakin akan membuat Job Order?')){return false;}
+        var jns_cont = $("#JNS_CONT").val();
+        if(!confirm('Apakah anda yakin akan membuat Job Order ('+jns_cont+')?')){return false;}
         $(this).text('Please Wait...').attr("disabled", true);
         
         var responPlpId = '{{$respon->tps_responplptujuanxml_pk}}';
         var url = '{{ route("tps-responPlp-create-joborder", $respon->tps_responplptujuanxml_pk) }}';
+            
+        if(jns_cont == 'F') {
+            $.ajax({
+                type: 'POST',
+                data: 
+                {
+                    'id' : responPlpId,
+                    '_token' : '{{ csrf_token() }}'
+                },
+                dataType : 'json',
+                url: url,
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                },
+                beforeSend:function()
+                {
 
-        $.ajax({
-            type: 'POST',
-            data: 
-            {
-                'id' : responPlpId,
-                '_token' : '{{ csrf_token() }}'
-            },
-            dataType : 'json',
-            url: url,
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Something went wrong, please try again later.');
-            },
-            beforeSend:function()
-            {
+                },
+                success:function(json)
+                {
+                    console.log(json);
 
-            },
-            success:function(json)
-            {
-                console.log(json);
+                    if(json.success) {
+                      $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                    } else {
+                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    }
 
-                if(json.success) {
-                  $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
-                } else {
-                  $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    //Triggers the "Close" button funcionality.
+    //                $('#btn-refresh').click();
                 }
+            });
+        }else if(jns_cont == 'L'){
+            $('#plp-modal').modal('show');
+        }
 
-                //Triggers the "Close" button funcionality.
-//                $('#btn-refresh').click();
-            }
-        });
-        
     });
 </script>
 

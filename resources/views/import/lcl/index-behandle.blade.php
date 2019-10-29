@@ -298,7 +298,7 @@
                         <button class="btn btn-default" id="btn-print"><i class="fa fa-print"></i> Cetak WO</button>
                     </div>
                     <div id="btn-group-5" class="btn-group pull-right">
-                        <button class="btn btn-info" id="btn-ready"><i class="fa fa-check"></i> Ready To Checking</button>
+                        <button class="btn btn-warning" id="btn-ready"><i class="fa fa-check"></i> Ready To Checking</button>
                     </div>
                 </div>
             </div>
