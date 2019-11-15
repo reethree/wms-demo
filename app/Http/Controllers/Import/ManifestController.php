@@ -400,7 +400,8 @@ class ManifestController extends Controller
         
         switch ($type){
             case 'tally':
-                $pdf = \PDF::loadView('print.tally-sheet', $data);        
+                return view('print.tally-sheet', $data);
+//                $pdf = \PDF::loadView('print.tally-sheet', $data);        
                 break;
             case 'log':
                 $pdf = \PDF::loadView('print.log-stripping', $data);
