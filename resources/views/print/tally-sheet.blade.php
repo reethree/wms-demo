@@ -117,7 +117,7 @@
                 <td class="text-center">{{ $manifest->QUANTITY }}<br />{{ $manifest->WEIGHT }}<br />{{ $manifest->MEAS }}</td>
                 <td class="text-center">{{ $manifest->NAMAPACKING }}<br />Kgs<br />Cbm</td>
                 <td></td>
-                <td>{{ $manifest->final_qty }} {{ $manifest->packing_tally }}</td>
+                <td class="text-center">{{ $manifest->final_qty }} {{ $manifest->packing_tally }}</td>
                 <td style="width: 150px;"></td>
             </tr>
             <?php $i++;?>
@@ -127,9 +127,9 @@
     <table border="0" cellspacing="0" cellpadding="0">
         <tbody>
             <tr>
-                <td class="text-center" style="padding-top: 80px;">(..................................)<br />Tallyman / PIC</td>
-                <td class="text-center" style="padding-top: 80px;">(..................................)<br />Leader LCL</td>
-                <td class="text-center" style="padding-top: 80px;">(..................................)<br />Supervisor</td>
+                <td class="text-center" style="padding-top: 80px;"><b>(..................................)<br />Tallyman / PIC</b></td>
+                <td class="text-center" style="padding-top: 80px;"><b>(..................................)<br />Leader LCL</b></td>
+                <td class="text-center" style="padding-top: 80px;"><b>(..................................)<br />Supervisor</b></td>
             </tr>
         </tbody>
     </table>
