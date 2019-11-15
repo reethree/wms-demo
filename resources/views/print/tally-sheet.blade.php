@@ -116,8 +116,8 @@
                 <td>{{ $manifest->CONSIGNEE }}</td>
                 <td class="text-center">{{ $manifest->QUANTITY }}<br />{{ $manifest->WEIGHT }}<br />{{ $manifest->MEAS }}</td>
                 <td class="text-center">{{ $manifest->NAMAPACKING }}<br />Kgs<br />Cbm</td>
-                <td>{{ $manifest->final_qty }} {{ $manifest->packing_tally }}</td>
                 <td></td>
+                <td>{{ $manifest->final_qty }} {{ $manifest->packing_tally }}</td>
                 <td style="width: 150px;"></td>
             </tr>
             <?php $i++;?>
