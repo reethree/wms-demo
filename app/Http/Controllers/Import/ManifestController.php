@@ -398,6 +398,14 @@ class ManifestController extends Controller
         $data['manifests'] = $manifests;
 //        return view('print.tally-sheet', $container);
         
+        foreach ($manifests as $mnft):
+            $packing = DBPacking::select('KODEPACKING as code')->where('NAMAPACKING',$mnft->NAMAPACKING)->first();
+            $packing_tally = DBPacking::select('KODEPACKING as code')->where('NAMAPACKING',$mnft->packing_tally)->first();
+            
+            $mnft->packing = $packing->code;
+            $mnft->packing_tally = $packing_tally->code;
+        endforeach;
+        
         switch ($type){
             case 'tally':
                 return view('print.tally-sheet', $data);

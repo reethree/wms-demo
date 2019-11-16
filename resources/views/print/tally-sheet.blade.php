@@ -111,14 +111,14 @@
             <?php $i = 1;?>
             @foreach($manifests as $manifest)
             <tr>
-                <td class="text-center">{{ $i }}</td>
-                <td>{{ $manifest->NOHBL }}</td>
-                <td>{{ $manifest->CONSIGNEE }}</td>
-                <td class="text-center">{{ $manifest->QUANTITY }}<br />{{ $manifest->WEIGHT }}<br />{{ $manifest->MEAS }}</td>
-                <td class="text-center">{{ $manifest->NAMAPACKING }}<br />Kgs<br />Cbm</td>
+                <td style="width: 20px;height: 70px;" class="text-center">{{ $i }}</td>
+                <td style="width: 80px;">{{ $manifest->NOHBL }}</td>
+                <td style="width: 80px;">{{ $manifest->CONSIGNEE }}</td>
+                <td style="width: 60px;" class="text-center">{{ $manifest->QUANTITY }}<br />{{ $manifest->WEIGHT }}<br />{{ $manifest->MEAS }}</td>
+                <td style="width: 60px;"class="text-center">{{ $manifest->packing }}<br />Kgs<br />Cbm</td>
+                <td style="width: 100px;"></td>
+                <td style="width: 80px;" class="text-center">{{ $manifest->final_qty }} {{ $manifest->packing_tally }}</td>
                 <td></td>
-                <td class="text-center">{{ $manifest->final_qty }} {{ $manifest->packing_tally }}</td>
-                <td style="width: 150px;"></td>
             </tr>
             <?php $i++;?>
             @endforeach         
