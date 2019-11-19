@@ -19,14 +19,20 @@
             rowdata = $('#fclBehandleGrid').getRowData(cl); 
 
             
-            if(rowdata.status_behandle == 'Ready') {
+            if(rowdata.status_behandle == 'Belum Siap') {
+                $("#" + cl).find("td").css("background-color", "#FF0000").css("color", "#FFF");
+            } 
+            if(rowdata.status_behandle == 'Siap Periksa') {
                 $("#" + cl).find("td").css("background-color", "#aae25a");
             }
-            if(rowdata.status_behandle == 'Checking') {
+            if(rowdata.status_behandle == 'Sedang Periksa') {
                 $("#" + cl).find("td").css("background-color", "#f4dc27");
             }
-            if(rowdata.status_behandle == 'Finish') {
+            if(rowdata.status_behandle == 'Selesai Periksa') {
                 $("#" + cl).find("td").css("background-color", "#6acaf7");
+            }    
+            if(rowdata.status_behandle == 'Delivery') {
+                $("#" + cl).find("td").css("background-color", "#ffdc60");
             }
             
             if(rowdata.status_bc == 'HOLD') {

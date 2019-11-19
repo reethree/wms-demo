@@ -731,7 +731,7 @@ class FclController extends Controller
         unset($data['_token']);
 
         $data['date_ready_behandle'] = date('Y-m-d H:i:s');        
-        $data['status_behandle'] = 'Ready';
+        $data['status_behandle'] = 'Siap Periksa';
         
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
@@ -776,7 +776,8 @@ class FclController extends Controller
     public function releaseUpdate(Request $request, $id)
     {
         $data = $request->json()->all(); 
-        unset($data['TCONTAINER_PK'], $data['_token']);
+        $delete_photo = $data['delete_photo'];
+        unset($data['TCONTAINER_PK'], $data['delete_photo'], $data['_token']);
         
         $container = DBContainer::find($id);
         $kd_dok = \App\Models\KodeDok::find($data['KD_DOK_INOUT']);
@@ -820,6 +821,14 @@ class FclController extends Controller
         
         $data['ID_CONSIGNEE'] = str_replace(array('.','-'), array('',''), $data['ID_CONSIGNEE']);
 
+        if($data['TGLRELEASE'] != NULL && $container->BEHANDLE == 'Y'){
+            $data['status_behandle'] = 'Delivery';
+        }
+        
+        if($delete_photo == 'Y'){
+            $data['photo_release_extra'] = '';
+        }
+        
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
         
@@ -2024,7 +2033,7 @@ class FclController extends Controller
             
         if($alasan == 'IKP / Temuan Lapangan'){
             $container->BEHANDLE = 'Y';
-            $container->status_behandle = 'New';
+            $container->status_behandle = 'Belum Siap';
         }
         
         if($container->save()){
@@ -2126,7 +2135,7 @@ class FclController extends Controller
         
         $container = DBContainer::find($container_id);
         $container->status_behandle = $status;
-        if($status == 'Checking'){
+        if($status == 'Sedang Periksa'){
             $container->date_check_behandle = date('Y-m-d H:i:s');
             $container->desc_check_behandle = $desc;
         }else{
@@ -2306,5 +2315,42 @@ class FclController extends Controller
         }else{
             return json_encode(array('success' => false, 'message' => 'Something wrong!!! please try again.'));
         } 
+    }
+    
+    public function percepatanBehandle(Request $request)
+    {
+        $container_id = $request->id;
+        $wkt_percepatan = $request->tgl_percepatan_behandle.' '.$request->jam_percepatan_behandle;
+        
+        $container = DBContainer::find($container_id);
+        
+        $picture = array();
+        if ($request->hasFile('dokumen_percepatan_behandle')) {
+            $files = $request->file('dokumen_percepatan_behandle');
+            $destinationPath = base_path() . '/public/uploads/behandle/fcl';
+            $i = 1;
+            foreach($files as $file){
+//                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                
+                $filename = date('dmyHis').'_'.str_slug($container->NOCONTAINER).'_'.$i.'.'.$extension;
+                $picture[] = $filename;
+                $file->move($destinationPath, $filename);
+                $i++;
+            } 
+        }
+
+        $container->percepatan = 'Y';
+        $container->BEHANDLE = 'Y';
+        $container->status_behandle = 'Siap Periksa';
+        $container->date_ready_behandle = date('Y-m-d H:i:s'); 
+        $container->waktu_percepatan = $wkt_percepatan;
+        $container->dokumen_percepatan = json_encode($picture);
+        
+        if($container->save()){                       
+            return back()->with('success', 'Percepatan behandle berhasil.')->withInput();
+        }
+        
+        return back()->with('error', 'Something wrong, please try again.')->withInput();
     }
 }

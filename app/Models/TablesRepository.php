@@ -84,7 +84,8 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereNotNull('TGL_SPJM')
 //                            ->where('BEHANDLE', 'Y')
 //                            ->whereNull('TGLBEHANDLE')
-                            ->whereIn('status_behandle',array('Ready','Checking'))
+//                            ->whereIn('status_behandle',array('Ready','Checking'))
+                            ->whereNotIn('status_behandle',array('','Finish','Delivery','Selesai Periksa'))
 //                            ->where('flag_bc','N')
 //                            ->orWhere('alasan_segel', 'IKP / Temuan Lapangan')
                             ->orWhere(function($query)
@@ -99,7 +100,8 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereNotNull('NO_SPJM')
                             ->whereNotNull('TGL_SPJM')
                             ->whereNotNull('TGLBEHANDLE')
-                            ->where('status_behandle','Finish');
+//                            ->where('status_behandle','Finish');
+                            ->whereIn('status_behandle', array('Finish','Delivery','Selesai Periksa'));
                     break;
                     case 'behandle':
 
@@ -273,7 +275,8 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereNotNull('TGL_SPJM')
 //                            ->where('BEHANDLE', 'Y')
 //                            ->whereNull('tglbehandle')
-                            ->whereIn('status_behandle',array('Ready','Checking'))
+//                            ->whereIn('status_behandle',array('Ready','Checking'))
+                            ->whereNotIn('status_behandle',array('','Finish','Delivery','Selesai Periksa'))
 //                            ->where('flag_bc','N')
 //                            ->orWhere('alasan_segel', 'IKP / Temuan Lapangan')
                             ->orWhere(function($query)
@@ -288,7 +291,8 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereNotNull('NO_SPJM')
                             ->whereNotNull('TGL_SPJM')
                             ->whereNotNull('tglbehandle')
-                            ->where('status_behandle','Finish');
+//                            ->where('status_behandle','Finish');
+                            ->whereIn('status_behandle',array('Finish','Delivery','Selesai Periksa'));
                     break;
                     case 'behandle':
                         

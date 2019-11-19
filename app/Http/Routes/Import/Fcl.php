@@ -56,6 +56,10 @@ Route::group(['prefix' => 'fcl', 'namespace' => 'Import'], function(){
         'as' => 'fcl-change-status-behandle',
         'uses' => 'FclController@changeStatusBehandle'
     ]);
+    Route::post('/status-behandle/percepatan', [
+        'as' => 'fcl-percepatan-behandle',
+        'uses' => 'FclController@percepatanBehandle'
+    ]);
     
     // REPORT
     Route::get('/report/harian', [

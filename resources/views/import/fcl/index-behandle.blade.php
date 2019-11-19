@@ -18,21 +18,27 @@
             
             rowdata = $('#fclBehandleGrid').getRowData(cl); 
             
-            if(rowdata.status_behandle == 'Ready' || rowdata.status_behandle == 'Checking') {
-                apv = '<button style="margin:5px;" class="btn btn-info btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin telah selesai melakukan pengecekan ?\')){ changeStatusBehandle('+cl+',\'finish\'); }else{return false;};"><i class="fa fa-check"></i> FINISH</button>';
+            if(rowdata.status_behandle == 'Siap Periksa' || rowdata.status_behandle == 'Sedang Periksa') {
+                apv = '<button style="margin:5px;" class="btn btn-info btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin telah selesai melakukan pemeriksaan behandle ?\')){ changeStatusBehandle('+cl+',\'finish\'); }else{return false;};"><i class="fa fa-check"></i> SELESAI</button>';
             }else{
                 apv = '';
             }  
             
-            if(rowdata.status_behandle == 'Ready') {
+            if(rowdata.status_behandle == 'Belum Siap') {
+                $("#" + cl).find("td").css("background-color", "#FF0000").css("color", "#FFF");
+            } 
+            if(rowdata.status_behandle == 'Siap Periksa') {
                 $("#" + cl).find("td").css("background-color", "#aae25a");
             }
-            if(rowdata.status_behandle == 'Checking') {
+            if(rowdata.status_behandle == 'Sedang Periksa') {
                 $("#" + cl).find("td").css("background-color", "#f4dc27");
             }
-            if(rowdata.status_behandle == 'Finish') {
+            if(rowdata.status_behandle == 'Selesai Periksa') {
                 $("#" + cl).find("td").css("background-color", "#6acaf7");
-            }           
+            }    
+            if(rowdata.status_behandle == 'Delivery') {
+                $("#" + cl).find("td").css("background-color", "#ffdc60");
+            }
                     
             jQuery("#fclBehandleGrid").jqGrid('setRowData',ids[i],{action:apv});
             
@@ -99,7 +105,7 @@
 //                $('#behandle-form').disabledFormGroup();
 //            }
             
-            if(rowdata.status_behandle == 'New'){
+            if(rowdata.status_behandle == 'Belum Siap'){
                 $('#btn-group-5').enableButtonGroup();
             }
 
@@ -175,7 +181,7 @@
                 type: 'POST',
                 data: {
                     _token : '{{ csrf_token() }}',
-                    status_behandle : 'Ready'
+                    status_behandle : 'Siap Periksa'
                 },
                 dataType : 'json',
                 url: url,
@@ -304,7 +310,7 @@
                     
                     <input name="_token" type="hidden" value="{{ csrf_token() }}">
                     <input id="TCONTAINER_PK" name="TCONTAINER_PK" type="hidden">
-                    <input id="status_behandle" name="status_behandle" type="hidden" value="New">
+                    <input id="status_behandle" name="status_behandle" type="hidden" value="Belum Siap">
                     <input name="delete_photo" id="delete_photo" value="N" type="hidden">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. SPK</label>
@@ -506,7 +512,7 @@
                         <div class="col-md-12">
                             <input name="_token" type="hidden" value="{{ csrf_token() }}" />
                             <input name="id" type="hidden" id="container_finish_id" />
-                            <input name="status_behandle" type="hidden" id="status_behandle" value="Finish" />
+                            <input name="status_behandle" type="hidden" id="status_behandle" value="Selesai Periksa" />
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Keterangan</label>
                                 <div class="col-sm-8">

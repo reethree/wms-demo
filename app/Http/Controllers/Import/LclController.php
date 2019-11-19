@@ -861,7 +861,7 @@ class LclController extends Controller
         unset($data['_token']);
 
         $data['date_ready_behandle'] = date('Y-m-d H:i:s');  
-        $data['status_behandle'] = 'Ready';
+        $data['status_behandle'] = 'Siap Periksa';
         
         $update = DBManifest::where('TMANIFEST_PK', $id)
             ->update($data);
@@ -964,6 +964,10 @@ class LclController extends Controller
         $data['UIDSURATJALAN'] = $data['UIDRELEASE'];
         $data['NOPOL'] = $data['NOPOL_RELEASE'];
          
+        if($data['tglrelease'] != NULL && $manifest->BEHANDLE == 'Y'){
+            $data['status_behandle'] = 'Delivery';
+        }
+        
         if($delete_photo == 'Y'){
             $data['photo_release'] = '';
         }
@@ -2407,7 +2411,7 @@ class LclController extends Controller
             
         if($alasan == 'IKP / Temuan Lapangan'){
             $manifest->BEHANDLE = 'Y';
-            $manifest->status_behandle = 'New';
+            $manifest->status_behandle = 'Belum Siap';
         }
         
         if($manifest->save()){
@@ -2511,7 +2515,7 @@ class LclController extends Controller
         
         $manifest = DBManifest::find($manifest_id);
         $manifest->status_behandle = $status;
-        if($status == 'Checking'){
+        if($status == 'Sedang Periksa'){
             $manifest->date_check_behandle = date('Y-m-d H:i:s');
             $manifest->desc_check_behandle = $desc;
         }else{
@@ -2740,5 +2744,42 @@ class LclController extends Controller
         }else{
             return json_encode(array('success' => false, 'message' => 'Something wrong!!! please try again.'));
         } 
+    }
+    
+    public function percepatanBehandle(Request $request)
+    {
+        $manifest_id = $request->id;
+        $wkt_percepatan = $request->tgl_percepatan_behandle.' '.$request->jam_percepatan_behandle;
+        
+        $manifest = DBManifest::find($manifest_id);
+        
+        $picture = array();
+        if ($request->hasFile('dokumen_percepatan_behandle')) {
+            $files = $request->file('dokumen_percepatan_behandle');
+            $destinationPath = base_path() . '/public/uploads/behandle/lcl';
+            $i = 1;
+            foreach($files as $file){
+//                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                
+                $filename = date('dmyHis').'_'.str_slug($manifest->NOHBL).'_'.$i.'.'.$extension;
+                $picture[] = $filename;
+                $file->move($destinationPath, $filename);
+                $i++;
+            } 
+        }
+
+        $manifest->percepatan = 'Y';
+        $manifest->BEHANDLE = 'Y';
+        $manifest->status_behandle = 'Siap Periksa';
+        $manifest->date_ready_behandle = date('Y-m-d H:i:s'); 
+        $manifest->waktu_percepatan = $wkt_percepatan;
+        $manifest->dokumen_percepatan = json_encode($picture);
+        
+        if($manifest->save()){                       
+            return back()->with('success', 'Percepatan behandle berhasil.')->withInput();
+        }
+        
+        return back()->with('error', 'Something wrong, please try again.')->withInput();
     }
 }

@@ -289,6 +289,8 @@
                 $('#btn-group-2,#btn-sppb,#btn-photo').disabledButtonGroup();
                 $('#release-form').disabledFormGroup();
             }
+            
+            $('#telp_ppjk').removeAttr('disabled');
         });
         
         $('#btn-print-sj').click(function() {

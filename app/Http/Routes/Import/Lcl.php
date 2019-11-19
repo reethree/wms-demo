@@ -71,6 +71,10 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-change-status-behandle',
         'uses' => 'LclController@changeStatusBehandle'
     ]);
+    Route::post('/status-behandle/percepatan', [
+        'as' => 'lcl-percepatan-behandle',
+        'uses' => 'LclController@percepatanBehandle'
+    ]);
     
     // REPORT
     Route::get('/report/inout', [

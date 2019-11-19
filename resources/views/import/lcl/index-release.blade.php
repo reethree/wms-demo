@@ -287,6 +287,7 @@
                 $('#release-form').disabledFormGroup();
             }            
 
+            $('#telp_ppjk').removeAttr('disabled');
         });
         
         $('#btn-invoice').click(function() {

@@ -17,8 +17,8 @@
             
             rowdata = $('#lclBehandleGrid').getRowData(cl);
             
-            if(rowdata.status_behandle == 'Ready' || rowdata.status_behandle == 'Checking') {
-                apv = '<button style="margin:5px;" class="btn btn-info btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin telah selesai melakukan pengecekan ?\')){ changeStatusBehandle('+cl+',\'finish\'); }else{return false;};"><i class="fa fa-check"></i> FINISH</button>';
+            if(rowdata.status_behandle == 'Siap Periksa' || rowdata.status_behandle == 'Sedang Periksa') {
+                apv = '<button style="margin:5px;" class="btn btn-info btn-xs" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin telah selesai melakukan pemeiksaan behandle ?\')){ changeStatusBehandle('+cl+',\'finish\'); }else{return false;};"><i class="fa fa-check"></i> SELESAI</button>';
             }else{
                 apv = '';
             }  
@@ -30,14 +30,20 @@
                 $("#" + cl).find("td").css("background-color", "#FF0000");
             } 
             
-            if(rowdata.status_behandle == 'Ready') {
+            if(rowdata.status_behandle == 'Belum Siap') {
+                $("#" + cl).find("td").css("background-color", "#FF0000").css("color", "#FFF");
+            }            
+            if(rowdata.status_behandle == 'Siap Periksa') {
                 $("#" + cl).find("td").css("background-color", "#aae25a");
             }
-            if(rowdata.status_behandle == 'Checking') {
-                $("#" + cl).find("td").css("background-color", "#f4dc27");
+            if(rowdata.status_behandle == 'Sedang Periksa') {
+                $("#" + cl).find("td").css("background-color", "#31b8f7");
             }
-            if(rowdata.status_behandle == 'Finish') {
-                $("#" + cl).find("td").css("background-color", "#6acaf7");
+            if(rowdata.status_behandle == 'Selesai Periksa') {
+                $("#" + cl).find("td").css("background-color", "#b31cff").css("color", "#FFF");
+            }
+            if(rowdata.status_behandle == 'Delivery') {
+                $("#" + cl).find("td").css("background-color", "#ffdc60");
             }
             
             jQuery("#lclBehandleGrid").jqGrid('setRowData',ids[i],{action:apv});
@@ -74,6 +80,7 @@
             $('#NO_POS_BC11').val(rowdata.NO_POS_BC11);
             $('#NO_SPJM').val(rowdata.NO_SPJM);
             $('#TGL_SPJM').val(rowdata.TGL_SPJM);
+            $('#email_importir').val(rowdata.email_importir);
             
             $('#upload-title').html('Upload Photo for '+rowdata.NOHBL);
             $('#no_hbl').val(rowdata.NOHBL);
@@ -99,7 +106,7 @@
 //                $('#behandle-form').disabledFormGroup();
 //            }
 
-            if(rowdata.status_behandle == 'New'){
+            if(rowdata.status_behandle == 'Belum Siap'){
                 $('#btn-group-5').enableButtonGroup();
             }
 
@@ -175,7 +182,7 @@
                 type: 'POST',
                 data: {
                     _token : '{{ csrf_token() }}',
-                    status_behandle : 'Ready'
+                    status_behandle : 'Siap Periksa'
                 },
                 dataType : 'json',
                 url: url,
@@ -234,7 +241,7 @@
                     ->setGridEvent('gridComplete', 'gridCompleteEvent')
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                     ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
-                    ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+                    ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>100, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                     ->addColumn(array('label'=>'Validasi','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
                     ->addColumn(array('label'=>'Status Behandle','index'=>'status_behandle','width'=>120, 'align'=>'center'))
                     ->addColumn(array('label'=>'No. SPK','index'=>'NOJOBORDER', 'width'=>150,'hidden'=>false))
@@ -256,7 +263,7 @@
                     ->addColumn(array('label'=>'Tgl. SPJM','index'=>'TGL_SPJM', 'width'=>150, 'align'=>'center','hidden'=>false))
                     ->addColumn(array('label'=>'Tgl. Behandle','index'=>'tglbehandle', 'width'=>120,'align'=>'center'))
                     ->addColumn(array('label'=>'Jam Behandle','index'=>'jambehandle', 'width'=>120,'align'=>'center'))
-                    
+                    ->addColumn(array('label'=>'Email Importir','index'=>'email_importir', 'width'=>120,'align'=>'center','hidden'=>true))
                     
                     ->addColumn(array('label'=>'Shipper','index'=>'SHIPPER','width'=>230,'hidden'=>true))
                     ->addColumn(array('label'=>'Notify Party','index'=>'NOTIFYPARTY','width'=>160,'hidden'=>true))
@@ -298,7 +305,7 @@
                         <button class="btn btn-default" id="btn-print"><i class="fa fa-print"></i> Cetak WO</button>
                     </div>
                     <div id="btn-group-5" class="btn-group pull-right">
-                        <button class="btn btn-warning" id="btn-ready"><i class="fa fa-check"></i> Ready To Checking</button>
+                        <button class="btn btn-warning" id="btn-ready"><i class="fa fa-check"></i> Siap Diperiksa</button>
                     </div>
                 </div>
             </div>
@@ -310,7 +317,7 @@
                     
                     <input name="_token" type="hidden" value="{{ csrf_token() }}">
                     <input id="TMANIFEST_PK" name="TMANIFEST_PK" type="hidden">
-                    <input id="status_behandle" name="status_behandle" type="hidden" value="New">
+                    <input id="status_behandle" name="status_behandle" type="hidden" value="Belum Siap">
                     <input name="delete_photo" id="delete_photo" value="N" type="hidden">
                     
                     <div class="form-group">
@@ -377,7 +384,12 @@
                             </div>
                         </div>
                     </div>
-                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Email Importir</label>
+                        <div class="col-sm-8">
+                            <input type="email" id="email_importir" name="email_importir" class="form-control" required>
+                        </div>
+                    </div>
                     
                 </div>
                 <div class="col-md-6"> 
@@ -468,7 +480,7 @@
                         <div class="col-md-12">
                             <input name="_token" type="hidden" value="{{ csrf_token() }}" />
                             <input name="id" type="hidden" id="manifest_finish_id" />
-                            <input name="status_behandle" type="hidden" id="status_behandle" value="Finish" />
+                            <input name="status_behandle" type="hidden" id="status_behandle" value="Selesai Periksa" />
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Keterangan</label>
                                 <div class="col-sm-8">
