@@ -286,8 +286,10 @@
             if(rowdata.flag_bc == 'Y'){
                 $('#btn-group-4').disabledButtonGroup();
                 $('#btn-group-5').disabledButtonGroup();
-                $('#btn-group-2,#btn-sppb,#btn-photo').disabledButtonGroup();
+                $('#btn-sppb,#btn-photo').disabledButtonGroup();
                 $('#release-form').disabledFormGroup();
+//                $('#btn-group-2').disabledFormGroup();
+                
             }
             
             $('#telp_ppjk').removeAttr('disabled');
@@ -394,7 +396,7 @@
             var nosppb = $('#NO_SPPB').val();
             var tglsppb = $('#TGL_SPPB').val();
             
-            if(nosppb && tglsppb){
+//            if(nosppb && tglsppb){
             
                 var manifestId = $('#TCONTAINER_PK').val();
                 var url = "{{route('fcl-delivery-release-update','')}}/"+manifestId;
@@ -426,10 +428,10 @@
                     }
                 });
                 
-            }else{
-                $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', 'NO. SPPB & TGL. SPPB Belum diisi.', 5000);
-                return false;
-            }
+//            }else{
+//                $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', 'NO. SPPB & TGL. SPPB Belum diisi.', 5000);
+//                return false;
+//            }
         });
         
         $('#btn-cancel').click(function() {
@@ -774,6 +776,7 @@
                     
                     <input name="_token" type="hidden" value="{{ csrf_token() }}">
                     <input id="TCONTAINER_PK" name="TCONTAINER_PK" type="hidden">
+                    <input name="delete_photo" id="delete_photo" value="N" type="hidden">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">No. SPK</label>
                         <div class="col-sm-8">

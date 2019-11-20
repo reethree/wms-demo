@@ -283,8 +283,9 @@
             if(rowdata.flag_bc == 'Y'){
                 $('#btn-group-4').disabledButtonGroup();
                 $('#btn-group-5').disabledButtonGroup();
-                $('#btn-group-2,#btn-sppb,#btn-photo').disabledButtonGroup();
+                $('#btn-sppb,#btn-photo').disabledButtonGroup();
                 $('#release-form').disabledFormGroup();
+                $('#btn-group-2').disabledFormGroup();
             }            
 
             $('#telp_ppjk').removeAttr('disabled');
@@ -340,7 +341,7 @@
             var nosppb = $('#NO_SPPB').val();
             var tglsppb = $('#TGL_SPPB').val();
             
-            if(nosppb && tglsppb){
+//            if(nosppb && tglsppb){
             
                 var manifestId = $('#TMANIFEST_PK').val();
                 var url = "{{route('lcl-delivery-release-update','')}}/"+manifestId;
@@ -372,10 +373,10 @@
                     }
                 });
                 
-            }else{
-                $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', 'NO. SPPB & TGL. SPPB Belum diisi.', 5000);
-                return false;
-            }
+//            }else{
+//                $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', 'NO. SPPB & TGL. SPPB Belum diisi.', 5000);
+//                return false;
+//            }
         });
         
         $('#btn-cancel').click(function() {
