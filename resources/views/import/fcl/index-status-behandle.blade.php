@@ -92,6 +92,7 @@
             beforeSend:function()
             {
                 $('#container-photo').html('');
+                $('#dok-behandle').html('');
             },
             success:function(json)
             {

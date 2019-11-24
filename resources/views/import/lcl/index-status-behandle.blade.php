@@ -93,13 +93,14 @@
             },
             beforeSend:function()
             {
-
+                $('#behandle-photo').html('');
+                $('#dok-behandle').html('');
             },
             success:function(json)
             {
                 var html_manifest = '';
                 var html_behandle = '';
-                
+
                 if(json.data.photo_behandle){
                     var photos_release = $.parseJSON(json.data.photo_behandle);
                     var html_manifest = '';
@@ -107,7 +108,7 @@
                         /// do stuff
                         html_manifest += '<img src="{{url("uploads/photos/manifest")}}/'+item+'" style="width: 200px;padding:5px;" />';
                     });
-                    $('#manifest-photo').html(html_manifest);
+                    $('#behandle-photo').html(html_manifest);
                 }
                 if(json.data.dokumen_percepatan){
                     var dok_behandle = $.parseJSON(json.data.dokumen_percepatan);
@@ -323,7 +324,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h4>PHOTO BEHANDLE</h4>
-                        <div id=manifest-photo"></div>
+                        <div id="behandle-photo"></div>
                         <hr />
                         <h4>PERCEPATAN</h4>
                         <div id="dok-behandle"></div>
