@@ -103,7 +103,7 @@
                 <th>QTY</th>
                 <th>KODE<br/>KEMAS</th>
                 <th>TALLY<br />COUNTING</th>
-                <th>QTY<br />TALLY</th>    
+                <!--<th>QTY<br />TALLY</th>-->    
                 <th>REMARKS</th>
             </tr>
         </thead>
@@ -117,7 +117,7 @@
                 <td style="width: 60px;" class="text-center">{{ $manifest->QUANTITY }}<br />{{ $manifest->WEIGHT }}<br />{{ $manifest->MEAS }}</td>
                 <td style="width: 60px;"class="text-center">{{ $manifest->packing }}<br />Kgs<br />Cbm</td>
                 <td style="width: 100px;"></td>
-                <td style="width: 80px;" class="text-center">{{ $manifest->final_qty }} {{ $manifest->packing_tally }}</td>
+                <!--<td style="width: 80px;" class="text-center">{{ $manifest->final_qty }} {{ $manifest->packing_tally }}</td>-->
                 <td></td>
             </tr>
             <?php $i++;?>
