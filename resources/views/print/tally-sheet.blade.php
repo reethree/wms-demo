@@ -81,12 +81,22 @@
                         <tr>
                             <td>Mulai Stripping</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ date('d/m/Y H:i', strtotime($container->STARTSTRIPPING)) }}</td>
+                            <td>
+                                @if($container->STARTSTRIPPING === NULL)
+                                @else
+                                    {{ date('d/m/Y H:i', strtotime($container->STARTSTRIPPING)) }}
+                                @endif
+                            </td>
                         </tr>
                         <tr>
                             <td>Selesai Stripping</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ date('d/m/Y H:i', strtotime($container->ENDSTRIPPING)) }}</td>
+                            <td>
+                                @if($container->ENDSTRIPPING === NULL)
+                                @else
+                                    {{ date('d/m/Y H:i', strtotime($container->ENDSTRIPPING)) }}
+                                @endif
+                            </td>
                         </tr>
                     </table>
                 </td>
@@ -116,7 +126,7 @@
                 <td style="width: 80px;">{{ $manifest->CONSIGNEE }}</td>
                 <td style="width: 60px;" class="text-center">{{ $manifest->QUANTITY }}<br />{{ $manifest->WEIGHT }}<br />{{ $manifest->MEAS }}</td>
                 <td style="width: 60px;"class="text-center">{{ $manifest->packing }}<br />Kgs<br />Cbm</td>
-                <td style="width: 100px;"></td>
+                <td></td>
                 <!--<td style="width: 80px;" class="text-center">{{ $manifest->final_qty }} {{ $manifest->packing_tally }}</td>-->
                 <td></td>
             </tr>
