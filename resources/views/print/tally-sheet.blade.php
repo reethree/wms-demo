@@ -82,7 +82,7 @@
                             <td>Mulai Stripping</td>
                             <td class="padding-10 text-center">:</td>
                             <td>
-                                @if($container->STARTSTRIPPING === NULL)
+                                @if($container->STARTSTRIPPING === NULL || $container->STARTSTRIPPING == '0000-00-00 00:00:00')
                                 @else
                                     {{ date('d/m/Y H:i', strtotime($container->STARTSTRIPPING)) }}
                                 @endif
@@ -92,7 +92,7 @@
                             <td>Selesai Stripping</td>
                             <td class="padding-10 text-center">:</td>
                             <td>
-                                @if($container->ENDSTRIPPING === NULL)
+                                @if($container->ENDSTRIPPING === NULL || $container->ENDSTRIPPING == '0000-00-00 00:00:00')
                                 @else
                                     {{ date('d/m/Y H:i', strtotime($container->ENDSTRIPPING)) }}
                                 @endif
