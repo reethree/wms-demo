@@ -161,11 +161,18 @@
     function approveManifest($id)
     {
         var rowdata = $('#lclManifestGrid').getRowData($id);
-        if(rowdata.tglstripping == '' || rowdata.tglstripping == '0000-00-00'){
+//        if(rowdata.tglstripping == '' || rowdata.tglstripping == '0000-00-00'){
+//            alert('HBL ini belum melakukan stripping!');
+//            return false;
+//        }
+        
+        var tglstripping = '{{$container->TGLSTRIPPING}}';
+        
+        if(tglstripping == '' || tglstripping == '0000-00-00'){
             alert('HBL ini belum melakukan stripping!');
             return false;
         }
-
+        
         $.ajax({
             type: 'GET',
             dataType : 'json',

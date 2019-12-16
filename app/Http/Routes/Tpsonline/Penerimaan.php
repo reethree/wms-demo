@@ -41,6 +41,17 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsResponPlpDetail(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
+    Route::post('/respon-plp-detail/crud', function()
+    {
+        $Eloquent = new App\Models\TpsResponPlpDetail();
+
+        switch (Illuminate\Support\Facades\Request::get('oper'))
+        {
+          case 'edit':
+            return $Eloquent->update(Illuminate\Support\Facades\Request::get('id'), Illuminate\Support\Facades\Request::except('id', 'oper'));
+            break;
+        }
+    });
     
     // Respon Batal PLP
     Route::get('/respon-batal-plp', [

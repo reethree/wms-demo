@@ -186,6 +186,12 @@
                             </div>
                         </div>
                     </div>
+<!--                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Jenis Cont</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="JNS_CONT" class="form-control"  value="{{ $respon->JNS_CONT }}">
+                        </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -255,6 +261,7 @@
                         ->enableFilterToolbar()
                         ->setGridOption('mtype', 'POST')
                         ->setGridOption('url', URL::to('/tpsonline/penerimaan/respon-plp-detail/grid-data?responid='.$respon->tps_responplptujuanxml_pk.'&_token='.csrf_token()))
+                        ->setGridOption('editurl',URL::to('/tpsonline/penerimaan/respon-plp-detail/crud'))
                         ->setGridOption('rowNum', 25)
                         ->setGridOption('shrinkToFit', true)
                         ->setGridOption('sortname','tps_responplptujuandetailxml_pk')
@@ -265,7 +272,7 @@
                         ->setGridOption('useColSpanStyle', true)
                         ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
                         ->setNavigatorOptions('view',array('closeOnEscape'=>false))
-                        ->setNavigatorOptions('navigator', array('add' => false, 'edit' => false, 'del' => false, 'view' => true, 'refresh' => false))
+                        ->setNavigatorOptions('navigator', array('add' => false, 'edit' => true, 'del' => false, 'view' => true, 'refresh' => false))
                         ->setNavigatorOptions('add', array('closeAfterAdd' => true))
                         ->setNavigatorEvent('add', 'afterSubmit', 'afterSubmitEvent')
                         ->setNavigatorOptions('edit', array('closeAfterEdit' => true))
@@ -275,13 +282,13 @@
                         ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                         ->setGridEvent('gridComplete', 'gridCompleteEvent')
                         ->addColumn(array('key'=>true,'index'=>'tps_responplptujuandetailxml_pk','hidden'=>true))
-                        ->addColumn(array('label'=>'No. Container','index'=>'NO_CONT','width'=>250,'editable' => true, 'editrules' => array('' => true)))
-                        ->addColumn(array('label'=>'Ukuran','index'=>'UK_CONT', 'width'=>80,'align'=>'center','editable' => true, 'editrules' => array('' => true,'number'=>true),'edittype'=>'select','editoptions'=>array('value'=>"20:20;40:40")))
+                        ->addColumn(array('label'=>'No. Container','index'=>'NO_CONT','width'=>250,'editable' => false, 'editrules' => array('' => true)))
+                        ->addColumn(array('label'=>'Ukuran','index'=>'UK_CONT', 'width'=>80,'align'=>'center','editable' => false, 'editrules' => array('' => true,'number'=>true),'edittype'=>'select','editoptions'=>array('value'=>"20:20;40:40")))
                         ->addColumn(array('label'=>'No. POS','index'=>'NO_POS_BC11', 'width'=>200,'align'=>'center','editable' => false))
-                        ->addColumn(array('label'=>'Jenis','index'=>'JNS_CONT', 'width'=>80,'editable' => true, 'align'=>'center'))
-                        ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>350,'editable' => true,'editrules' => array('' => true)))
-                        ->addColumn(array('label'=>'No. BL AWB','index'=>'NO_BL_AWB', 'width'=>200,'editable' => true,'editrules' => array('' => true)))
-                        ->addColumn(array('label'=>'Tgl. BL AWB','index'=>'TGL_BL_AWB', 'width'=>200,'editable' => true,'editrules' => array('' => true)))
+                        ->addColumn(array('label'=>'Jenis','index'=>'JNS_CONT', 'width'=>80,'editable' => true, 'align'=>'center','formatter' => 'select', 'edittype' => 'select', 'editoptions' => array('value' => 'F:F;L:L')))
+                        ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>350,'editable' => fase,'editrules' => array('' => true)))
+                        ->addColumn(array('label'=>'No. BL AWB','index'=>'NO_BL_AWB', 'width'=>200,'editable' => fase,'editrules' => array('' => true)))
+                        ->addColumn(array('label'=>'Tgl. BL AWB','index'=>'TGL_BL_AWB', 'width'=>200,'editable' => fase,'editrules' => array('' => true)))
 //                        ->addColumn(array('label'=>'Measurment','index'=>'MEAS', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('' => true)))
 //                        ->addColumn(array('label'=>'Layout','index'=>'layout', 'width'=>80,'editable' => true,'align'=>'center','editoptions'=>array('defaultValue'=>"C-1")))
 //                        ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
