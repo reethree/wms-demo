@@ -15,15 +15,12 @@ class TpsResponPlpDetail extends Model
     protected $primaryKey = 'tps_responplptujuandetailxml_pk';
     public $timestamps = false;
 
-    public function update($id, array $data)
+    public function updateJns($id, array $data)
     { 
       try
       {
-//        $cData['JNS_CONT'] = $data['JNS_CONT'];
-//        TpsResponPlpDetail::where($this->primaryKey, $id)->update($cData);
-        $plp = new TpsResponPlpDetail;
-        $plp->JNS_CONT = $data['JNS_CONT'];
-        $plp->save();
+        $cData['JNS_CONT'] = $data['JNS_CONT'];
+        TpsResponPlpDetail::where($this->primaryKey, $id)->update($cData);
         
       }
       catch (Exception $e)

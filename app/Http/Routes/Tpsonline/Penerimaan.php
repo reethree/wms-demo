@@ -48,7 +48,7 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         switch (Illuminate\Support\Facades\Request::get('oper'))
         {
           case 'edit':
-            return $Eloquent->update(Illuminate\Support\Facades\Request::get('id'), Illuminate\Support\Facades\Request::except('id', 'oper'));
+            return $Eloquent->updateJns(Illuminate\Support\Facades\Request::get('id'), Illuminate\Support\Facades\Request::except('id', 'oper'));
             break;
         }
     });
