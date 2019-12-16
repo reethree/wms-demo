@@ -19,8 +19,11 @@ class TpsResponPlpDetail extends Model
     { 
       try
       {
-        $cData['JNS_CONT'] = $data['JNS_CONT'];
-        TpsResponPlpDetail::where($this->primaryKey, $id)->update($cData);
+//        $cData['JNS_CONT'] = $data['JNS_CONT'];
+//        TpsResponPlpDetail::where($this->primaryKey, $id)->update($cData);
+        $plp = new TpsResponPlpDetail;
+        $plp->JNS_CONT = $data['JNS_CONT'];
+        $plp->save();
         
       }
       catch (Exception $e)
