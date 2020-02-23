@@ -1134,7 +1134,7 @@ class SoapController extends DefaultController {
                 if($key == 'HEADER' || $key == 'header'){           
                     $docmanual = new \App\Models\TpsDokManual;
                     foreach ($value as $keyh=>$valueh):
-                        if($keyh == 'tg_bl_awb'){ $keyh='TGL_BL_AWB'; }
+                        if($keyh == 'tg_bl_awb' || $keyh == 'TG_BL_AWB'){ $keyh='TGL_BL_AWB'; }
                         $docmanual->$keyh = $valueh;
                     endforeach;
                     $docmanual->TGL_UPLOAD = date('Y-m-d');
