@@ -415,6 +415,33 @@ class PenerimaanController extends Controller
         return view('tpsonline.edit-sppb-bc')->with($data);
     }
     
+    public function dokManualEdit($id)
+    {
+        if ( !$this->access->can('show.tps.dokmanual.edit') ) {
+            return view('errors.no-access');
+        }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Edit TPS DOKUMEN MANUAL', 'slug' => 'show.tps.dokmanual.edit', 'description' => ''));
+        
+        $data['page_title'] = "Edit Dokumen Manual";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => route('tps-dokManual-index'),
+                'title' => 'TPS DOKUMEN MANUAL'
+            ],
+            [
+                'action' => '',
+                'title' => 'Edit'
+            ]
+        ];
+        
+        $data['dokmanual'] = \App\Models\TpsDokManual::find($id);
+        
+        return view('tpsonline.edit-dok-manual')->with($data);
+    }
+    
     /**
      * Update the specified resource in storage.
      *

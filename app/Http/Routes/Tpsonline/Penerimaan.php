@@ -137,6 +137,10 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-dokManual-index',
         'uses' => 'PenerimaanController@dokManualIndex'
     ]);
+    Route::get('/dok-manual/edit/{id}', [
+        'as' => 'tps-dokmanual-edit',
+        'uses' => 'PenerimaanController@dokManualEdit'
+    ]);
     Route::post('/dok-manual/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsDokManual(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());

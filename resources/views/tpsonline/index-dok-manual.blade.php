@@ -6,7 +6,7 @@
         z-index: 100 !important;
     }
 </style>
-<!--<script>
+<script>
  
     function gridCompleteEvent()
     {
@@ -16,13 +16,13 @@
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
             
-            edt = '<a href="{{ route("tps-responPlp-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i> Details</a> ';
-            del = '<a href="{{ route("lcl-register-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
-            jQuery("#tpsDokManualGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
+            edt = '<a href="{{ route("tps-dokmanual-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
+//            del = '<a href="{{ route("lcl-register-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
+            jQuery("#tpsDokManualGrid").jqGrid('setRowData',ids[i],{action:edt}); 
         } 
     }
     
-</script>-->
+</script>
 
 <div class="box">
     <div class="box-header with-border">
@@ -73,40 +73,41 @@
             ->enableFilterToolbar()
             ->setGridOption('mtype', 'POST')
             ->setGridOption('url', URL::to('/tpsonline/penerimaan/dok-manual/grid-data?_token='.csrf_token()))
-            ->setGridOption('rowNum', 20)
+            ->setGridOption('rowNum', 100)
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','TPS_DOKMANUALXML_PK')
             ->setGridOption('rownumbers', true)
             ->setGridOption('height', '295')
-            ->setGridOption('rowList',array(20,50,100))
+            ->setGridOption('rownumWidth', 50)
+            ->setGridOption('rowList',array(100,200,500))
             ->setGridOption('useColSpanStyle', true)
             ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
             ->setNavigatorOptions('view',array('closeOnEscape'=>false))
             ->setFilterToolbarOptions(array('autosearch'=>true))
-//            ->setGridEvent('gridComplete', 'gridCompleteEvent')
-//            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+            ->setGridEvent('gridComplete', 'gridCompleteEvent')
+            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('key'=>true,'index'=>'TPS_DOKMANUALXML_PK','hidden'=>true))
 
-            ->addColumn(array('label'=>'Kode Kantor','index'=>'KD_KANTOR','width'=>160))
-            ->addColumn(array('label'=>'Kode Dok. In/out','index'=>'KD_DOK_INOUT','width'=>160))
-            ->addColumn(array('label'=>'No. Dok. In/out','index'=>'NO_DOK_INOUT','width'=>160))
-            ->addColumn(array('label'=>'Tgl. Dok. In/out','index'=>'TGL_DOK_INOUT','width'=>160))
+            ->addColumn(array('label'=>'Kode Kantor','index'=>'KD_KANTOR','width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'Kode Dok','index'=>'KD_DOK_INOUT','width'=>80,'align'=>'center'))
+            ->addColumn(array('label'=>'No. Dok','index'=>'NO_DOK_INOUT','width'=>250,'align'=>'center'))
+            ->addColumn(array('label'=>'Tgl. Dok','index'=>'TGL_DOK_INOUT','width'=>120,'align'=>'center'))
             ->addColumn(array('index'=>'ID_CONSIGNEE','width'=>160,'hidden'=>true))
-            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>160))
-            ->addColumn(array('label'=>'NPWP PPJK','index'=>'NPWP_PPJK','width'=>160))
-            ->addColumn(array('label'=>'Nama PPJK','index'=>'NAMA_PPJK','width'=>160))
-            ->addColumn(array('label'=>'Nama Angkut','index'=>'NM_ANGKUT','width'=>160))
-            ->addColumn(array('label'=>'No. VOY Flight','index'=>'NO_VOY_FLIGHT','width'=>160))
-            ->addColumn(array('label'=>'Kode Gudang','index'=>'KD_GUDANG','width'=>160))
-            ->addColumn(array('label'=>'Jumlah Cont.','index'=>'JML_CONT','width'=>160))
-            ->addColumn(array('label'=>'No. BC11','index'=>'NO_BC11','width'=>160))
-            ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','width'=>160))
-            ->addColumn(array('label'=>'Tgl. POS BC11','index'=>'NO_POS_BC11','width'=>160))
-            ->addColumn(array('label'=>'No. BL AWB','index'=>'NO_BL_AWB','width'=>160))
-            ->addColumn(array('label'=>'Tgl. BL AWB','index'=>'TGL_BL_AWB','width'=>160))
-            ->addColumn(array('label'=>'FL Segel','index'=>'FL_SEGEL','width'=>160))
-            ->addColumn(array('label'=>'Tgl. Upload','index'=>'TGL_UPLOAD','width'=>160))
-            ->addColumn(array('label'=>'Jam. Upload','index'=>'JAM_UPLOAD','width'=>160))
+            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>350))
+            ->addColumn(array('label'=>'NPWP PPJK','index'=>'NPWP_PPJK','width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'Nama PPJK','index'=>'NAMA_PPJK','width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'Nama Angkut','index'=>'NM_ANGKUT','width'=>160,'align'=>'center'))
+            ->addColumn(array('label'=>'VOY','index'=>'NO_VOY_FLIGHT','width'=>80,'align'=>'center'))
+            ->addColumn(array('label'=>'Kode Gudang','index'=>'KD_GUDANG','width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'Jumlah Cont','index'=>'JML_CONT','width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'No. BC11','index'=>'NO_BC11','width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'Tgl. BC11','index'=>'TGL_BC11','width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'Tgl. POS BC11','index'=>'NO_POS_BC11','width'=>160,'align'=>'center'))
+            ->addColumn(array('label'=>'No. BL AWB','index'=>'NO_BL_AWB','width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'Tgl. BL AWB','index'=>'TGL_BL_AWB','width'=>120,'align'=>'center'))
+            ->addColumn(array('label'=>'FL Segel','index'=>'FL_SEGEL','width'=>80,'align'=>'center'))
+            ->addColumn(array('label'=>'Tgl. Upload','index'=>'TGL_UPLOAD','width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'Jam. Upload','index'=>'JAM_UPLOAD','width'=>80,'align'=>'center'))
 
             ->renderGrid()
         }}

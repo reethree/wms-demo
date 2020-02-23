@@ -1095,7 +1095,7 @@ class SoapController extends DefaultController {
     {
         \SoapWrapper::add(function ($service) {
             $service
-                ->name('TpsOnline')
+                ->name('TpsOnline_GetDokumenManual')
                 ->wsdl($this->wsdl)
                 ->trace(true)                                                                                                  
 //                ->certificate()                                                 
@@ -1118,29 +1118,52 @@ class SoapController extends DefaultController {
         ];
         
         // Using the added service
-        \SoapWrapper::service('TpsOnline', function ($service) use ($data) {        
+        \SoapWrapper::service('TpsOnline_GetDokumenManual', function ($service) use ($data) {        
             $this->response = $service->call('GetDokumenManual', [$data])->GetDokumenManualResult;      
         });
         
-        var_dump($this->response);
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($this->response);
+        if(!$xml || !$xml->children()){
+           return back()->with('error', $this->response);
+        }
         
-//        libxml_use_internal_errors(true);
-//        $xml = simplexml_load_string($this->response);
-//        if(!$xml || !$xml->children()){
-//           return back()->with('error', $this->response);
-//        }
-//        
-////        var_dump($xml->children());
-//        
-//        foreach ($xml->children() as $data):  
-//            $info = new \App\Models\TpsDokManual;
-//            foreach ($data as $key=>$value):  
-//                $info->$key = $value;
-//                $info->save();
-//            endforeach;
-//        endforeach;
-//        
-//        return back()->with('success', 'Get Info Nomor BC11 has been success.');
+        $docmanual_id = 0;
+        foreach ($xml->children() as $data):  
+            foreach ($data as $key=>$value):
+                if($key == 'HEADER' || $key == 'header'){           
+                    $docmanual = new \App\Models\TpsDokManual;
+                    foreach ($value as $keyh=>$valueh):
+                        if($keyh == 'tg_bl_awb'){ $keyh='TGL_BL_AWB'; }
+                        $docmanual->$keyh = $valueh;
+                    endforeach;
+                    $docmanual->TGL_UPLOAD = date('Y-m-d');
+                    $docmanual->JAM_UPLOAD = date('H:i:s');
+                    $docmanual->save();
+                    $docmanual_id = $docmanual->TPS_DOKMANUALXML_PK;
+                }elseif($key == 'DETIL' || $key == 'detil'){
+                    foreach ($value as $key1=>$value1):
+                        if($key1 == 'KMS' || $key1 == 'kms'){
+                            $kms = new \App\Models\TpsDokManualKms;
+                            foreach ($value1 as $keyk=>$valuek):
+                                $kms->$keyk = $valuek;
+                            endforeach;
+                            $kms->TPS_DOKMANUALXML_FK = $docmanual_id;
+                            $kms->save();
+                        }elseif($key1 == 'CONT' || $key1 == 'cont'){
+                            $cont = new \App\Models\TpsDokManualCont;
+                            foreach ($value1 as $keyc=>$valuec):
+                                $cont->$keyc = $valuec;
+                            endforeach;
+                            $cont->TPS_DOKMANUALXML_FK = $docmanual_id;
+                            $cont->save();
+                        }
+                    endforeach;  
+                }
+            endforeach;
+        endforeach;
+        
+        return back()->with('success', 'Get Dokumen Manual has been success.');
         
     }
     
