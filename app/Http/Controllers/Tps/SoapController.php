@@ -650,6 +650,119 @@ class SoapController extends DefaultController {
         
     }
     
+    public function GetSPJM_onDemand(Request $request)
+    {     
+        \SoapWrapper::add(function ($service) {
+            $service
+                ->name('TpsOnline_GetSPJM_onDemand')
+                ->wsdl($this->wsdl)
+                ->trace(true)                                                                                                  
+//                ->certificate(url('cert/bc.pem'))  
+//                ->certificate(url('cert/tpsonlinebc.crt')) 
+//                ->certificate(url('cert/trust-ca.crt')) 
+//                ->cache(WSDL_CACHE_NONE)
+                ->options([
+                    'stream_context' => stream_context_create([
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    ])
+                ]);
+        });
+        
+        $data = [
+            'UserName' => $this->user, 
+            'Password' => $this->password,
+            'noPib' => $request->no_pib,
+            'tglPib' => $request->tgl_pib,
+        ];
+        
+        // Using the added service
+        \SoapWrapper::service('TpsOnline_GetSPJM_onDemand', function ($service) use ($data) {        
+            $this->response = $service->call('GetSPJM_onDemand', [$data])->GetSPJM_onDemandResult;      
+        });
+        
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($this->response);
+        if(!$xml || !$xml->children()){
+           return back()->with('error', $this->response);
+        }
+        
+        foreach($xml->children() as $child) {
+            $header = array();
+            $kms = [];
+            $dok = [];
+            $cont = [];
+            foreach($child as $key => $value) {
+                if($key == 'header' || $key == 'HEADER'){
+                    $header[] = $value;
+                }else{
+                    foreach ($value as $key => $value):
+                        if($key == 'kms' || $key == 'KMS'):
+                            $kms[] = $value;
+                        elseif($key == 'dok' || $key == 'DOC'):
+                            $dok[] = $value;
+                        elseif($key == 'cont' || $key == 'CONT'):
+                            $cont[] = $value;
+                        endif;
+                    endforeach;
+                }
+            }
+            
+            if(count($header) > 0){
+                // INSERT DATA
+                $spjm = new \App\Models\TpsSpjm;
+                foreach ($header[0] as $key=>$value):
+                    if($key == 'tgl_pib' || $key == 'tgl_bc11'){
+                        $split_val = explode('/', $value);
+                        $value = $split_val[2].'-'.$split_val[1].'-'.$split_val[0];
+                    }
+                    $spjm->$key = $value;
+                endforeach;  
+                $spjm->TGL_UPLOAD = date('Y-m-d');
+                $spjm->JAM_UPLOAD = date('H:i:s');
+                
+                // CHECK DATA
+                $check = \App\Models\TpsSpjm::where('CAR', $spjm->car)->count();
+                if($check > 0) { continue; }
+
+                $spjm->save();   
+
+                $spjm_id = $spjm->TPS_SPJMXML_PK;
+
+                if(count($kms) > 0){
+                    $datakms = array();
+                    foreach ($kms[0] as $key=>$value):
+                        $datakms[$key] = $value;
+                    endforeach;
+                    $datakms['TPS_SPJMXML_FK'] = $spjm_id;
+                    \DB::table('tps_spjmkmsxml')->insert($datakms);
+                }
+                if(count($dok) > 0){
+                    $datadok = array();
+                    foreach ($dok[0] as $key=>$value):
+                        $datadok[$key] = $value;
+                    endforeach;
+                    $datadok['TPS_SPJMXML_FK'] = $spjm_id;
+                    \DB::table('tps_spjmdokxml')->insert($datadok);
+                }
+                if(count($cont) > 0){
+                    $datacont = array();
+                    foreach ($cont[0] as $key=>$value):
+                        $datacont[$key] = $value;
+                    endforeach;
+                    $datacont['TPS_SPJMXML_FK'] = $spjm_id;
+                    \DB::table('tps_spjmcontxml')->insert($datacont);
+                }
+            }
+        }
+        
+        return back()->with('success', 'Get SPJM has been success.');
+        
+    }
+    
     public function GetImporPermit_FASP()
     {
         \SoapWrapper::add(function ($service) {
@@ -1034,6 +1147,85 @@ class SoapController extends DefaultController {
         
     }
     
+    public function GetSppb_Bc23(Request $request)
+    {
+        \SoapWrapper::add(function ($service) {
+            $service
+                ->name('TpsOnline_GetSppb_Bc23')
+                ->wsdl($this->wsdl)
+                ->trace(true)                                                                                                  
+//                ->certificate()                                                 
+//                ->cache(WSDL_CACHE_NONE)                                        
+                ->options([
+                    'stream_context' => stream_context_create([
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    ])
+                ]);                                                     
+        });
+        
+        $data = [
+            'UserName' => $this->user, 
+            'Password' => $this->password,
+            'No_Sppb' => $request->no_sppb,
+            'Tgl_Sppb' => $request->tgl_sppb, //09022017
+            'NPWP_Imp' => $request->npwp_imp //033153321035000
+        ];
+        
+        // Using the added service
+        \SoapWrapper::service('TpsOnline_GetSppb_Bc23', function ($service) use ($data) {        
+            $this->response = $service->call('GetSppb_Bc23', [$data])->GetSppb_Bc23Result;      
+        });
+        
+//        var_dump($this->response);
+        
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($this->response);
+        if(!$xml || !$xml->children()){
+           return back()->with('error', $this->response);
+        }
+        
+        foreach ($xml->children() as $data):  
+            foreach ($data as $key=>$value):
+                if($key == 'HEADER' || $key == 'header'){           
+                    $sppb = new \App\Models\TpsSppbBc;
+                    foreach ($value as $keyh=>$valueh):
+                        if($keyh == 'TG_BL_AWB' || $keyh == 'tg_bl_awb'){ $keyh='TGL_BL_AWB'; }
+                        elseif($keyh == 'TG_MASTER_BL_AWB' || $keyh == 'tg_master_bl_awb'){ $keyh='TGL_MASTER_BL_AWB'; }
+                        elseif($keyh == 'BRUTTO' || $keyh == 'brutto'){ $keyh='BRUTO'; }
+                        $sppb->$keyh = $valueh;
+                    endforeach;
+                    $sppb->save();
+                    $sppb_id = $sppb->TPS_SPPBXML_PK;
+                }elseif($key == 'DETIL' || $key == 'detil'){
+                    foreach ($value as $key1=>$value1):
+                        if($key1 == 'KMS' || $key == 'kms'){
+                            $kms = new \App\Models\TpsSppbBcKms;
+                            foreach ($value1 as $keyk=>$valuek):
+                                $kms->$keyk = $valuek;
+                            endforeach;
+                            $kms->TPS_SPPBXML_FK = $sppb_id;
+                            $kms->save();
+                        }elseif($key1 == 'CONT' || $key == 'cont'){
+                            $cont = new \App\Models\TpsSppbBcCont;
+                            foreach ($value1 as $keyc=>$valuec):
+                                $cont->$keyc = $valuec;
+                            endforeach;
+                            $cont->TPS_SPPBXML_FK = $sppb_id;
+                            $cont->save();
+                        }
+                    endforeach;  
+                }
+            endforeach;
+        endforeach;
+        
+        return back()->with('success', 'Get SPPB BC23 has been success.');
+        
+    }
+    
     public function GetInfoNomorBc(Request $request)
     {
 //        return $request->all();
@@ -1163,6 +1355,84 @@ class SoapController extends DefaultController {
             endforeach;
         endforeach;
         
+        return back()->with('success', 'Get Dokumen Manual has been success.');
+        
+    }
+    
+    public function GetDokumenManual_OnDemand(Request $request)
+    {
+        \SoapWrapper::add(function ($service) {
+            $service
+                ->name('TpsOnline_GetDokumenManual_OnDemand')
+                ->wsdl($this->wsdl)
+                ->trace(true)                                                                                                  
+//                ->certificate()                                                 
+//                ->cache(WSDL_CACHE_NONE)                                        
+                ->options([
+                    'stream_context' => stream_context_create([
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    ])
+                ]);                                                     
+        });
+        
+        $data = [
+            'UserName' => $this->user, 
+            'Password' => $this->password,
+            'KdDok' => $request->kode_dok,
+            'NoDok' => $request->no_dok,
+            'TglDok' =>$request->tgl_dok
+        ];
+        
+        // Using the added service
+        \SoapWrapper::service('TpsOnline_GetDokumenManual_OnDemand', function ($service) use ($data) {        
+            $this->response = $service->call('GetDokumenManual_OnDemand', [$data])->GetGetDokumenManual_OnDemandResult;      
+        });
+        
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($this->response);
+        if(!$xml || !$xml->children()){
+           return back()->with('error', $this->response);
+        }
+        
+        $docmanual_id = 0;
+        foreach ($xml->children() as $data):  
+            foreach ($data as $key=>$value):
+                if($key == 'HEADER' || $key == 'header'){           
+                    $docmanual = new \App\Models\TpsDokManual;
+                    foreach ($value as $keyh=>$valueh):
+                        if($keyh == 'tg_bl_awb' || $keyh == 'TG_BL_AWB'){ $keyh='TGL_BL_AWB'; }
+                        $docmanual->$keyh = $valueh;
+                    endforeach;
+                    $docmanual->TGL_UPLOAD = date('Y-m-d');
+                    $docmanual->JAM_UPLOAD = date('H:i:s');
+                    $docmanual->save();
+                    $docmanual_id = $docmanual->TPS_DOKMANUALXML_PK;
+                }elseif($key == 'DETIL' || $key == 'detil'){
+                    foreach ($value as $key1=>$value1):
+                        if($key1 == 'KMS' || $key1 == 'kms'){
+                            $kms = new \App\Models\TpsDokManualKms;
+                            foreach ($value1 as $keyk=>$valuek):
+                                $kms->$keyk = $valuek;
+                            endforeach;
+                            $kms->TPS_DOKMANUALXML_FK = $docmanual_id;
+                            $kms->save();
+                        }elseif($key1 == 'CONT' || $key1 == 'cont'){
+                            $cont = new \App\Models\TpsDokManualCont;
+                            foreach ($value1 as $keyc=>$valuec):
+                                $cont->$keyc = $valuec;
+                            endforeach;
+                            $cont->TPS_DOKMANUALXML_FK = $docmanual_id;
+                            $cont->save();
+    }
+                    endforeach;  
+                }
+            endforeach;
+        endforeach;
+    
         return back()->with('success', 'Get Dokumen Manual has been success.');
         
     }

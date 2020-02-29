@@ -143,6 +143,8 @@ class PenerimaanController extends Controller
             ]
         ];        
         
+        $data['kode_doks'] = \App\Models\KodeDok::get(); 
+        
         return view('tpsonline.index-dok-manual')->with($data);
     }
     

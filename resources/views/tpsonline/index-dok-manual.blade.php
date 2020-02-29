@@ -3,7 +3,19 @@
 @section('content')
 <style>
     .datepicker.dropdown-menu {
-        z-index: 100 !important;
+        /*z-index: 100 !important;*/
+    }
+    .ui-jqgrid tr.jqgrow td {
+        word-wrap: break-word; /* IE 5.5+ and CSS3 */
+        white-space: pre-wrap; /* CSS3 */
+        white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        overflow: hidden;
+        height: auto;
+        vertical-align: middle;
+        padding-top: 3px;
+        padding-bottom: 3px
     }
 </style>
 <script>
@@ -111,9 +123,64 @@
 
             ->renderGrid()
         }}
+        
+        <div class="row" style="margin: 30px 0 0;">
+            <button class="btn btn-info" id="upload-on-demand"><i class="fa fa-upload"></i> Upload On Demand</button>
     </div>
 </div>
+</div>
+<div id="ondemand-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Upload Dokumen Manual</h4>
+            </div>
+            <form class="form-horizontal" action="{{ route('tps-dokManualOnDemand-get') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Kode Dokumen</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control select2" id="kode_dok" name="kode_dok" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                        <option value="">Choose Document</option>
+                                        @foreach($kode_doks as $kode)
+                                            <option value="{{ $kode->kode }}">({{$kode->kode}}) {{ $kode->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">No. Dokumen</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" name="no_dok" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tgl. Dokumen</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" name="tgl_dok" class="form-control pull-right tgldok_datepicker" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
+                  <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @endsection
 
 @section('custom_css')
@@ -136,12 +203,23 @@
         zIndex: 99
     });
     
+    $('.tgldok_datepicker').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format: 'ddmmyyyy',
+        zIndex: 999999
+    });
+    
     $('#searchByDateBtn').on("click", function(){
         var by = $("#by").val();
         var startdate = $("#startdate").val();
         var enddate = $("#enddate").val();
         jQuery("#tpsDokManualGrid").jqGrid('setGridParam',{url:"{{URL::to('/tpsonline/penerimaan/dok-manual/grid-data')}}?startdate="+startdate+"&enddate="+enddate+"&by="+by}).trigger("reloadGrid");
         return false;
+    });
+    
+    $('#upload-on-demand').on("click", function(){
+        $('#ondemand-modal').modal('show');
     });
 </script>
 

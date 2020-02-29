@@ -131,6 +131,10 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
 //        'uses' => 'PenerimaanController@spjmGetXml'
         'uses' => 'SoapController@GetSPJM'
     ]);
+    Route::post('/spjm/get-xml/ondemand', [
+        'as' => 'tps-spjmOnDemand-get',
+        'uses' => 'SoapController@GetSPJM_OnDemand'
+    ]);
     
     //Dok Manual
     Route::get('/dok-manual', [
@@ -150,6 +154,10 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
 //        'uses' => 'PenerimaanController@sppbPibGetXml'
         'uses' => 'SoapController@GetDokumenManual'
 //        'uses' => 'SoapController@demo'
+    ]);
+    Route::post('/dok-manual/get-xml/ondemand', [
+        'as' => 'tps-dokManualOnDemand-get',
+        'uses' => 'SoapController@GetDokumenManual_OnDemand'
     ]);
     
     //SPPB PIB
@@ -179,6 +187,10 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-sppbPib-upload',
         'uses' => 'SoapController@GetImpor_SPPB'
     ]);
+    Route::get('/sppb-pib/print/{id}', [
+        'as' => 'tps-sppbPib-print',
+        'uses' => 'PenerimaanController@sppbPibPrint'
+    ]);
     
     //SPPB BEA CUKAI
     Route::get('/sppb-bc', [
@@ -201,6 +213,14 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-sppbBc-get',
 //        'uses' => 'PenerimaanController@sppbBcGetXml'
         'uses' => 'SoapController@GetBC23Permit'
+    ]);
+    Route::post('/sppb-bc/get-xml/ondemand', [
+        'as' => 'tps-sppbBcOndemand-get',
+        'uses' => 'SoapController@GetSppb_Bc23'
+    ]);
+    Route::get('/sppb-bc/print/{id}', [
+        'as' => 'tps-sppbBc-print',
+        'uses' => 'PenerimaanController@sppbBcPrint'
     ]);
     
     //INFO NOMOR BC11
