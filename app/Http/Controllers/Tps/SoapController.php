@@ -1389,7 +1389,7 @@ class SoapController extends DefaultController {
         
         // Using the added service
         \SoapWrapper::service('TpsOnline_GetDokumenManual_OnDemand', function ($service) use ($data) {        
-            $this->response = $service->call('GetDokumenManual_OnDemand', [$data])->GetGetDokumenManual_OnDemandResult;      
+            $this->response = $service->call('GetDokumenManual_OnDemand', [$data])->GetDokumenManual_OnDemandResult;      
         });
         
         libxml_use_internal_errors(true);
