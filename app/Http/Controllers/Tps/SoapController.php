@@ -1437,6 +1437,160 @@ class SoapController extends DefaultController {
         
     }
     
+    public function GetDokumenPabean()
+    {      
+        \SoapWrapper::add(function ($service) {
+            $service
+                ->name('TpsOnline_GetDokumenPabeanPermit_FASP')
+                ->wsdl($this->wsdl)
+                ->trace(true)                                                                                                  
+//                ->certificate()                                                 
+//                ->cache(WSDL_CACHE_NONE)                                        
+                ->options([
+                    'stream_context' => stream_context_create([
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    ])
+                ]);                                                     
+        });
+        
+        $data = [
+            'UserName' => $this->user, 
+            'Password' => $this->password,
+            'Kd_Tps' => $this->kode
+        ];
+        
+        // Using the added service
+        \SoapWrapper::service('TpsOnline_GetDokumenPabeanPermit_FASP', function ($service) use ($data) {        
+            $this->response = $service->call('GetDokumenPabeanPermit_FASP', [$data])->GetDokumenPabeanPermit_FASPResult;      
+        });
+        
+//        var_dump($this->response);return false;
+        
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($this->response);
+        if(!$xml || !$xml->children()){
+           return back()->with('error', $this->response);
+        }
+        
+        $docmanual_id = 0;
+        foreach ($xml->children() as $data):  
+            foreach ($data as $key=>$value):
+                if($key == 'HEADER' || $key == 'header'){           
+                    $docmanual = new \App\Models\TpsDokPabean;
+                    foreach ($value as $keyh=>$valueh):
+                        $docmanual->$keyh = $valueh;
+                    endforeach;
+                    $docmanual->TGL_UPLOAD = date('Y-m-d');
+                    $docmanual->JAM_UPLOAD = date('H:i:s');
+                    $docmanual->save();
+                    $docmanual_id = $docmanual->TPS_DOKPABEANXML_PK;
+                }elseif($key == 'DETIL' || $key == 'detil'){
+                    foreach ($value as $key1=>$value1):
+                        if($key1 == 'KMS' || $key1 == 'kms'){
+                            $kms = new \App\Models\TpsDokPabeanKms;
+                            foreach ($value1 as $keyk=>$valuek):
+                                $kms->$keyk = $valuek;
+                            endforeach;
+                            $kms->TPS_DOKPABEANXML_FK = $docmanual_id;
+                            $kms->save();
+                        }elseif($key1 == 'CONT' || $key1 == 'cont'){
+                            $cont = new \App\Models\TpsDokPabeanCont;
+                            foreach ($value1 as $keyc=>$valuec):
+                                $cont->$keyc = $valuec;
+                            endforeach;
+                            $cont->TPS_DOKPABEANXML_FK = $docmanual_id;
+                            $cont->save();
+                        }
+                    endforeach;  
+                }
+            endforeach;
+        endforeach;
+    
+        return back()->with('success', 'Get Dokumen Pabean has been success.');
+    }
+    
+    public function GetDokumenPabean_OnDemand(Request $request)
+    {      
+        \SoapWrapper::add(function ($service) {
+            $service
+                ->name('TpsOnline_GetDokumenPabean_OnDemand')
+                ->wsdl($this->wsdl)
+                ->trace(true)                                                                                                  
+//                ->certificate()                                                 
+//                ->cache(WSDL_CACHE_NONE)                                        
+                ->options([
+                    'stream_context' => stream_context_create([
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    ])
+                ]);                                                     
+        });
+        
+        $data = [
+            'UserName' => $this->user, 
+            'Password' => $this->password,
+            'KdDok' => $request->kode_dok,
+            'NoDok' => $request->no_dok,
+            'TglDok' =>$request->tgl_dok
+        ];
+        
+        // Using the added service
+        \SoapWrapper::service('TpsOnline_GetDokumenPabean_OnDemand', function ($service) use ($data) {        
+            $this->response = $service->call('GetDokumenPabean_OnDemand', [$data])->GetDokumenPabean_OnDemandResult;      
+        });
+        
+//        var_dump($this->response);return false;
+        
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($this->response);
+        if(!$xml || !$xml->children()){
+           return back()->with('error', $this->response);
+        }
+        
+        $docmanual_id = 0;
+        foreach ($xml->children() as $data):  
+            foreach ($data as $key=>$value):
+                if($key == 'HEADER' || $key == 'header'){           
+                    $docmanual = new \App\Models\TpsDokPabean;
+                    foreach ($value as $keyh=>$valueh):
+                        $docmanual->$keyh = $valueh;
+                    endforeach;
+                    $docmanual->TGL_UPLOAD = date('Y-m-d');
+                    $docmanual->JAM_UPLOAD = date('H:i:s');
+                    $docmanual->save();
+                    $docmanual_id = $docmanual->TPS_DOKPABEANXML_PK;
+                }elseif($key == 'DETIL' || $key == 'detil'){
+                    foreach ($value as $key1=>$value1):
+                        if($key1 == 'KMS' || $key1 == 'kms'){
+                            $kms = new \App\Models\TpsDokPabeanKms;
+                            foreach ($value1 as $keyk=>$valuek):
+                                $kms->$keyk = $valuek;
+                            endforeach;
+                            $kms->TPS_DOKPABEANXML_FK = $docmanual_id;
+                            $kms->save();
+                        }elseif($key1 == 'CONT' || $key1 == 'cont'){
+                            $cont = new \App\Models\TpsDokPabeanCont;
+                            foreach ($value1 as $keyc=>$valuec):
+                                $cont->$keyc = $valuec;
+                            endforeach;
+                            $cont->TPS_DOKPABEANXML_FK = $docmanual_id;
+                            $cont->save();
+                        }
+                    endforeach;  
+                }
+            endforeach;
+        endforeach;
+    
+        return back()->with('success', 'Get Dokumen Pabean has been success.');
+    }
+    
     public function GetRejectData()
     {
         \SoapWrapper::add(function ($service) {

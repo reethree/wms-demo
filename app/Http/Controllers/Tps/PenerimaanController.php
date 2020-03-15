@@ -148,6 +148,29 @@ class PenerimaanController extends Controller
         return view('tpsonline.index-dok-manual')->with($data);
     }
     
+    public function dokPabeanIndex()
+    {
+        if ( !$this->access->can('show.tps.dokPabean.index') ) {
+            return view('errors.no-access');
+        }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Index TPS Dok Pabean', 'slug' => 'show.tps.dokPabean.index', 'description' => ''));
+        
+        $data['page_title'] = "TPS Dokumen Pabean";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'TPS Dokumen Pabean'
+            ]
+        ];        
+        
+        $data['kode_doks'] = \App\Models\KodeDok::get(); 
+        
+        return view('tpsonline.index-dok-pabean')->with($data);
+    }
+    
     public function sppbPibIndex()
     {
         if ( !$this->access->can('show.tps.sppbPib.index') ) {
@@ -442,6 +465,33 @@ class PenerimaanController extends Controller
         $data['dokmanual'] = \App\Models\TpsDokManual::find($id);
         
         return view('tpsonline.edit-dok-manual')->with($data);
+    }
+    
+    public function dokPabeanEdit($id)
+    {
+        if ( !$this->access->can('show.tps.dokpabean.edit') ) {
+            return view('errors.no-access');
+        }
+        
+        // Create Roles Access
+        $this->insertRoleAccess(array('name' => 'Edit TPS DOKUMEN PABEAN', 'slug' => 'show.tps.dokpabean.edit', 'description' => ''));
+        
+        $data['page_title'] = "Edit Dokumen Pabean";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => route('tps-dokpabean-index'),
+                'title' => 'TPS DOKUMEN PABEAN'
+            ],
+            [
+                'action' => '',
+                'title' => 'Edit'
+            ]
+        ];
+        
+        $data['dokpabean'] = \App\Models\TpsDokPabean::find($id);
+        
+        return view('tpsonline.edit-dok-pabean')->with($data);
     }
     
     /**

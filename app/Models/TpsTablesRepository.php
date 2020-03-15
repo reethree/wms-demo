@@ -148,6 +148,36 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                 }
             }  
             
+        }elseif($Model->getMorphClass() == 'App\Models\TpsDokPabean'){   
+            if(isset($request['startdate']) && isset($request['enddate'])){
+                if($request['by'] == 'TGL_UPLOAD') {
+                    $start_date = date('Y-m-d 00:00:00', strtotime($request['startdate']));
+                    $end_date = date('Y-m-d 23:59:59', strtotime($request['enddate']));
+                }else{
+                    $start_date = date('Ymd',strtotime($request['startdate']));
+                    $end_date = date('Ymd',strtotime($request['enddate']));      
+                }
+                $Model = \DB::table('tps_dokpabeanxml')
+                        ->where($request['by'], '>=', $start_date)
+                        ->where($request['by'], '<=', $end_date);
+            }else{
+                    if(isset($request['type']) && isset($request['dokid'])){
+                
+                        $type = $request['type'];
+
+                        if($type == 'cont') {
+                            $Model = \DB::table('tps_dokpabeancontxml')
+                                ->where('TPS_DOKPABEANXML_FK', $request['dokid']);
+                        }else{
+                            $Model = \DB::table('tps_dokpabeankmsxml')
+                                ->where('TPS_DOKPABEANXML_FK', $request['dokid']);
+                        }
+            
+                    }else{
+
+                }
+            }  
+            
         }elseif($Model->getMorphClass() == 'App\Models\TpsSppbPib'){   
             if(isset($request['startdate']) && isset($request['enddate'])){
                 if($request['by'] == 'TGL_UPLOAD') {

@@ -160,6 +160,28 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'uses' => 'SoapController@GetDokumenManual_OnDemand'
     ]);
     
+    // Dok Pabean
+    Route::get('/dok-pabean', [
+        'as' => 'tps-dokpabean-index',
+        'uses' => 'PenerimaanController@dokPabeanIndex'
+    ]);
+    Route::get('/dok-pabean/edit/{id}', [
+        'as' => 'tps-dokpabean-edit',
+        'uses' => 'PenerimaanController@dokPabeanEdit'
+    ]);
+    Route::post('/dok-pabean/grid-data', function()
+    {
+        GridEncoder::encodeRequestedData(new \App\Models\TpsTablesRepository(new App\Models\TpsDokPabean(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
+    });
+    Route::get('/dok-pabean/get-xml', [
+        'as' => 'tps-dokpabean-get',
+        'uses' => 'SoapController@GetDokumenPabean'
+    ]);
+    Route::post('/dok-pabean/get-xml/ondemand', [
+        'as' => 'tps-dokPabeanOnDemand-get',
+        'uses' => 'SoapController@GetDokumenPabean_OnDemand'
+    ]);
+    
     //SPPB PIB
     Route::get('/sppb-pib', [
         'as' => 'tps-sppbPib-index',

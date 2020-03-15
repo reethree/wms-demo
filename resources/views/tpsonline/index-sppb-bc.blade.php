@@ -154,7 +154,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">NO. SPPB</label>
                                 <div class="col-sm-8">
-                                    <input type="number" class="form-control" name="no_sppb" required placeholder="999999/XXX.99/XXXXX.99/YYYY" />
+                                    <input type="text" class="form-control" name="no_sppb" required placeholder="999999/XXX.99/XXXXX.99/YYYY" />
                                 </div>
                             </div>
                             <div class="form-group">
