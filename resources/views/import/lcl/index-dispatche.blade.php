@@ -194,6 +194,7 @@
                     ->setGridOption('rowNum', 20)
                     ->setGridOption('shrinkToFit', true)
                     ->setGridOption('sortname','TCONTAINER_PK')
+                    ->setGridOption('sortorder','desc')
                     ->setGridOption('rownumbers', true)
                     ->setGridOption('height', '350')
                     ->setGridOption('rowList',array(20,50,100))

@@ -77,6 +77,7 @@
             ->setGridOption('rowNum', 20)
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','created_at')
+            ->setGridOption('sortorder','desc')
             ->setGridOption('rownumbers', true)
             ->setGridOption('height', '400')
             ->setGridOption('rowList',array(50,100,200))

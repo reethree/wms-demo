@@ -254,6 +254,7 @@
             ->setGridOption('rowNum', 50)
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','TMANIFEST_PK')
+            ->setGridOption('sortorder','desc')
             ->setGridOption('rownumbers', true)
             ->setGridOption('rownumWidth', 50)
             ->setGridOption('height', '395')
