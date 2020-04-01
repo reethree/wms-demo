@@ -113,7 +113,9 @@
             ->addColumn(array('label'=>'Callsign','index'=>'CALLSIGN', 'width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Voy','index'=>'VOY','width'=>80,'align'=>'center'))
             ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
-            
+            ->addColumn(array('label'=>'Weight','index'=>'tcontainer.WEIGHT','width'=>100,'align'=>'center'))
+            ->addColumn(array('label'=>'Meas','index'=>'tcontainer.MEAS','width'=>80,'align'=>'center'))
+            ->addColumn(array('label'=>'Port of Loading','index'=>'NAMAPELABUHAN', 'width'=>150,'align'=>'center'))
 //            ->addColumn(array('label'=>'Tgl. MBL','index'=>'tcontainer.TGL_MASTER_BL','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Consolidator','index'=>'tjoborder.NAMACONSOLIDATOR','width'=>250))
 //            ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>250))

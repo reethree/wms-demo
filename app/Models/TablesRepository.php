@@ -28,13 +28,13 @@ class TablesRepository extends EloquentRepositoryAbstract {
             if(isset($request['jobid'])){
                 
                 $Model = \DB::table('tcontainer')
-                        ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK')
+//                        ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK')
                         ->where('TJOBORDER_FK', $request['jobid']);
                 
             }elseif(isset($request['startdate']) || isset($request['enddate'])){
                 
                 $Model = \DB::table('tcontainer')
-                        ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK')
+//                        ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK')
                         ->where('TGLENTRY', '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
                         ->where('TGLENTRY', '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
                 
@@ -43,7 +43,7 @@ class TablesRepository extends EloquentRepositoryAbstract {
                 switch ($request['module']) {
                     case 'gatein':
                         $Model = \DB::table('tcontainer')
-                            ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK')
+//                            ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK')
                             ->whereNotNull('NO_BC11')
                             ->whereNotNull('TGL_BC11')
                             ->whereNotNull('NO_PLP')
@@ -51,13 +51,13 @@ class TablesRepository extends EloquentRepositoryAbstract {
                     break;
                     case 'stripping':
                         $Model = \DB::table('tcontainer')
-                            ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK')
+//                            ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK')
                             ->whereNotNull('TGLMASUK')
                             ->whereNotNull('JAMMASUK');
                     break;
                     case 'buangmty':
                         $Model = \DB::table('tcontainer')
-                            ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK')
+//                            ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK')
                             ->whereNotNull('TGLSTRIPPING')
                             ->whereNotNull('JAMSTRIPPING');
                     break;
@@ -65,7 +65,8 @@ class TablesRepository extends EloquentRepositoryAbstract {
                 
             }else{
                 $Model = \DB::table('tcontainer')
-                        ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK');
+//                        ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK')
+                        ;
             }
             
         }elseif($Model->getMorphClass() == 'App\Models\Containercy'){
@@ -230,13 +231,13 @@ class TablesRepository extends EloquentRepositoryAbstract {
             if(isset($request['startdate']) || isset($request['enddate'])){
                 
                 $Model = \DB::table('tjoborder')->join('tcontainer', 'tjoborder.TJOBORDER_PK', '=', 'tcontainer.TJOBORDER_FK')
-                        ->select('tjoborder.*','tcontainer.NOMBL as tcontainer.NOMBL','tcontainer.TGL_MASTER_BL as tcontainer.TGL_MASTER_BL','tjoborder.NAMACONSOLIDATOR as tjoborder.NAMACONSOLIDATOR','tcontainer.*')
+                        ->select('tjoborder.*','tcontainer.NOMBL as tcontainer.NOMBL','tcontainer.TGL_MASTER_BL as tcontainer.TGL_MASTER_BL','tcontainer.WEIGHT as tcontainer.WEIGHT','tcontainer.MEAS as tcontainer.MEAS','tjoborder.NAMACONSOLIDATOR as tjoborder.NAMACONSOLIDATOR','tcontainer.*')
                         ->where('tcontainer.TGLENTRY', '>=',date('Y-m-d 00:00:00',strtotime($request['startdate'])))
                         ->where('tcontainer.TGLENTRY', '<=',date('Y-m-d 23:59:59',strtotime($request['enddate'])));
                 
             }else{
                 $Model = \DB::table('tjoborder')
-                        ->select('tjoborder.*','tcontainer.NOMBL as tcontainer.NOMBL','tcontainer.TGL_MASTER_BL as tcontainer.TGL_MASTER_BL','tjoborder.NAMACONSOLIDATOR as tjoborder.NAMACONSOLIDATOR','tcontainer.*')
+                        ->select('tjoborder.*','tcontainer.NOMBL as tcontainer.NOMBL','tcontainer.TGL_MASTER_BL as tcontainer.TGL_MASTER_BL','tcontainer.WEIGHT as tcontainer.WEIGHT','tcontainer.MEAS as tcontainer.MEAS','tjoborder.NAMACONSOLIDATOR as tjoborder.NAMACONSOLIDATOR','tcontainer.*')
                         ->join('tcontainer', 'tjoborder.TJOBORDER_PK', '=', 'tcontainer.TJOBORDER_FK');
             }
             
