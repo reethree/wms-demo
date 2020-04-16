@@ -168,7 +168,7 @@ class SoapController extends DefaultController {
         
         try{
             \SoapWrapper::service('TpsOnlineSoap', function ($service) use ($data) {        
-                $this->response = $service->call('GetResponPLP_onDemand', [$data])->GetResponPLP_onDemandResult;      
+                $this->response = $service->call('GetResponPlp_onDemands', [$data])->GetResponPlp_onDemandsResult;      
             });
         }catch (\SoapFault $exception){
             var_dump($exception);
