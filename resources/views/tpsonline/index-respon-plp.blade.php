@@ -3,7 +3,19 @@
 @section('content')
 <style>
     .datepicker.dropdown-menu {
-        z-index: 100 !important;
+        /*z-index: 100 !important;*/
+    }
+    .ui-jqgrid tr.jqgrow td {
+        word-wrap: break-word; /* IE 5.5+ and CSS3 */
+        white-space: pre-wrap; /* CSS3 */
+        white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        overflow: hidden;
+        height: auto;
+        vertical-align: middle;
+        padding-top: 3px;
+        padding-bottom: 3px
     }
 </style>
 <script>
@@ -122,8 +134,58 @@
             ->addColumn(array('label'=>'Jam Upload','index'=>'UPLOAD_TIME','width'=>160,'align'=>'center','hidden'=>true))
             ->renderGrid()
         }}
+        <div class="row" style="margin: 30px 0 0;">
+            <button class="btn btn-info" id="upload-plp-btn"><i class="fa fa-upload"></i> On Demand</button>
     </div>
 </div>
+</div>
+
+<div id="upload-plp-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Get Respon PLP On Demand</h4>
+            </div>
+            <form class="form-horizontal" action="{{ route('tps-responPlp-onDemand') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">NO. PLP</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="no_plp" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tgl. PLP</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" name="tgl_plp" class="form-control pull-right datepicker" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Ref Number</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="refnumber" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
+                  <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 @endsection
 
@@ -154,6 +216,10 @@
         console.log(by);
         jQuery("#tpsResponPlpGrid").jqGrid('setGridParam',{url:"{{URL::to('/tpsonline/penerimaan/respon-plp/grid-data')}}?startdate="+startdate+"&enddate="+enddate+"&by="+by}).trigger("reloadGrid");
         return false;
+    });
+    
+    $('#upload-plp-btn').on("click", function(){
+        $('#upload-plp-modal').modal('show');
     });
 </script>
 
