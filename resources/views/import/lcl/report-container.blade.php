@@ -86,7 +86,7 @@
                     <select class="form-control select2" id="by" name="by" style="width: 100%;" tabindex="-1" aria-hidden="true">
                         <option value="TGL_PLP">Tgl. PLP</option>
                         <option value="TGLMASUK">Tgl. GateIn</option>
-                        <option value="TGL_BC11">Tgl. BC1.1</option>                           
+                        <option value="TGLSTRIPPING">Tgl. Stripping</option>                           
                     </select>
                 </div>
                 <div class="col-xs-3">
