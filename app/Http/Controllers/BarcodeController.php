@@ -197,7 +197,7 @@ class BarcodeController extends Controller
 //        $pdf = \PDF::loadView('print.barcode', $data); 
 //        return $pdf->stream('Delivery-Release-Barcode-'.$mainfest->NOHBL.'-'.date('dmy').'.pdf');
     }
-    
+
     public function autogateNotification(Request $request)
     {
         $barcode = $request->barcode;
@@ -386,6 +386,43 @@ class BarcodeController extends Controller
         }
 //        return $barcode;
 //        app('App\Http\Controllers\PrintReportController')->getPrintReport();
+    }
+    
+    public function printBarcodePdf($type, $id)
+    {
+        $model = '';
+        
+        switch ($type) {
+            case 'fcl':
+                $model = 'tcontainercy';
+                break;
+            case 'lcl':
+                $model = 'tcontainer';
+                break;
+            case 'manifest':
+                $model = 'tmanifest';
+                break;
+        }
+        
+        if($type == 'manifest'){
+            $data_barcode = \App\Models\Barcode::select('*')
+                ->join($model, 'barcode_autogate.ref_id', '=', $model.'.TMANIFEST_PK')
+                ->where(array('ref_type' => ucwords($type), 'ref_action'=>'release'))
+                ->where($model.'.TMANIFEST_PK', $id)
+                ->get();
+        }else{
+            $data_barcode = \App\Models\Barcode::select('*')
+                ->join($model, 'barcode_autogate.ref_id', '=', $model.'.TCONTAINER_PK')
+                ->where(array('ref_type' => ucwords($type), 'ref_action'=>'release'))
+                ->where($model.'.TCONTAINER_PK', $id)
+                ->get();
+        }
+
+        $data['barcodes'] = $data_barcode;
+
+        return view('print.barcode', $data);
+        $pdf = \PDF::loadView('print.barcode', $data); 
+        return $pdf->stream('Gatepass-'.$id.'.pdf');
     }
     
     public function uploadTpsOnlineCoariCont($type, $id)

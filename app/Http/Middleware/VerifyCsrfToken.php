@@ -14,6 +14,7 @@ class VerifyCsrfToken extends BaseVerifier
     protected $except = [
         'easygo/inputdo/callback',
         'payment/bni/notification',
-        'autogate/notification'
+        'autogate/notification',
+        'gatepass/print/*'
     ];
 }

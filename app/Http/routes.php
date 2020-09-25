@@ -81,6 +81,9 @@
         // Barcode Routes
         require_once 'Routes/RoutesBarcode.php';
         
+        // NLE Routes
+        require_once 'Routes/RoutesNle.php';
+        
         // GLOBAL Routes
         Route::get('/getDataPelabuhan', [
             'as' => 'getDataPelabuhan',
@@ -111,6 +114,13 @@ Route::get('/flat', [
 Route::post('/autogate/notification', [
     'uses' => 'BarcodeController@autogateNotification',
     'as' => 'autogate-notification'
+]);
+
+
+// SP2 Barcode
+Route::get('/gatepass/print/{type}/{id}', [
+    'as' => 'barcode-print-pdf',
+    'uses' => 'BarcodeController@printBarcodePdf'
 ]);
 
 // Behandle Notification

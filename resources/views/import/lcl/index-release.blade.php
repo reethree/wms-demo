@@ -256,7 +256,7 @@
             if(rowdata.status_bc == 'HOLD'){
                 $('#tglrelease').attr('disabled','disabled');
                 $('#jamrelease').attr('disabled','disabled');
-                $('#NOPOL_RELEASE').attr('disabled','disabled');
+//                $('#NOPOL_RELEASE').attr('disabled','disabled');
             }else{
 //                $('#tglrelease').removeAttr('disabled');
 //                $('#jamrelease').removeAttr('disabled');

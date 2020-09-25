@@ -259,7 +259,7 @@
             if(rowdata.status_bc == 'HOLD'){
                 $('#TGLRELEASE').attr('disabled','disabled');
                 $('#JAMRELEASE').attr('disabled','disabled');
-                $('#NOPOL_OUT').attr('disabled','disabled');
+//                $('#NOPOL_OUT').attr('disabled','disabled');
             }else{
 //                $('#TGLRELEASE').removeAttr('disabled');
 //                $('#JAMRELEASE').removeAttr('disabled');

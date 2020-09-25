@@ -425,7 +425,8 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
             }else{
                 
             }
-               
+        }elseif($Model->getMorphClass() == 'App\Models\NleSp2'){   
+            
         }else{
                         
         }

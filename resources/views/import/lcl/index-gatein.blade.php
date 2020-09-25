@@ -52,6 +52,7 @@
             $('#ESEALCODE').val(rowdata.ESEALCODE).trigger('change');
             $('#TGLKELUAR_TPK').val(rowdata.TGLKELUAR_TPK);
             $('#JAMKELUAR_TPK').val(rowdata.JAMKELUAR_TPK);
+            $('#REF_NUMBER_IN').val(rowdata.REF_NUMBER_IN);
             
             $('#upload-title').html('Upload Photo for '+rowdata.NOCONTAINER);
             $('#no_cont').val(rowdata.NOCONTAINER);
@@ -267,6 +268,7 @@
 //                    ->addColumn(array('label'=>'No. SP2','index'=>'NO_SP2','width'=>120,'hidden'=>true))
 //                    ->addColumn(array('label'=>'Tgl. SP2','index'=>'TGL_SP2','hidden'=>true))
                     ->addColumn(array('label'=>'E-Seal','index'=>'ESEALCODE','align'=>'center'))
+                    ->addColumn(array('label'=>'Ref Number','index'=>'REF_NUMBER_IN', 'width'=>70,'hidden'=>true))
         //            ->addColumn(array('label'=>'Layout','index'=>'layout','width'=>80,'align'=>'center','hidden'=>true))
                     ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150,'align'=>'center'))
@@ -326,6 +328,12 @@
                             <input type="text" id="KD_TPS_ASAL" name="KD_TPS_ASAL" class="form-control" readonly>
                         </div>
                     </div>
+                    <div class="form-group hide-kddoc">
+                        <label class="col-sm-3 control-label">Ref. Number</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="REF_NUMBER_IN" name="REF_NUMBER_IN" class="form-control" readonly>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
@@ -354,6 +362,7 @@
                             <input type="text" id="WEIGHT" name="WEIGHT" class="form-control">
                         </div>
                     </div>
+                    
 <!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">Consolidator</label>
                         <div class="col-sm-8">

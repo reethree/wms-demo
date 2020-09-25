@@ -220,8 +220,18 @@ class TablesRepository extends EloquentRepositoryAbstract {
                 }
                 
             }elseif(isset($request['report'])){
-                $Model = \DB::table('tcontainercy')
-                        ->select(\DB::raw('*, timestampdiff(DAY, now(), TGLMASUK) as timeSinceUpdate'));
+                if(isset($request['date'])){
+                    if($request['type'] == 'in'){
+                        $Model = \DB::table('tcontainercy')
+                            ->where('TGLMASUK', $request['date']);
+                    }elseif($request['type'] == 'out'){
+                        $Model = \DB::table('tcontainercy')
+                            ->where('TGLRELEASE', $request['date']);
+                    } 
+                }else{
+                    $Model = \DB::table('tcontainercy')
+                            ->select(\DB::raw('*, timestampdiff(DAY, now(), TGLMASUK) as timeSinceUpdate'));
+                }
             }else{
                 
             }
