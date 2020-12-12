@@ -1595,7 +1595,7 @@ class FclController extends Controller
                         $invoice_penumpukan->size = 40;
                         $invoice_penumpukan->qty = count($container40);
                         
-                        if($t40->lokasi_sandar == 'NCT1' || $t40->lokasi_sandar == 'JICT' || $t20->lokasi_sandar == 'KOJA') {
+                        if($t40->lokasi_sandar == 'NCT1' || $t40->lokasi_sandar == 'JICT' || $t40->lokasi_sandar == 'KOJA') {
                             // GERAKAN
                             $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
                         
@@ -1692,7 +1692,7 @@ class FclController extends Controller
                         $invoice_penumpukan->size = 45;
                         $invoice_penumpukan->qty = count($container45);
                         
-                        if($t45->lokasi_sandar == 'NCT1' || $t45->lokasi_sandar == 'JICT' || $t20->lokasi_sandar == 'KOJA') {
+                        if($t45->lokasi_sandar == 'NCT1' || $t45->lokasi_sandar == 'JICT' || $t45->lokasi_sandar == 'KOJA') {
                             // GERAKAN
                             $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
                         
@@ -1816,9 +1816,13 @@ class FclController extends Controller
             
             $total_penumpukan = \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $invoice_nct->id)->sum('total');
             $total_gerakan = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $invoice_nct->id)->sum('total');
-            
+
+            if($data['KD_TPS_ASAL'] == 'KOJA'):
+                $update_nct->perawatan_it = (count($container20)+count($container40)+count($container45)) * 90000;
+            endif;
+
             $update_nct->administrasi = (count($container20)+count($container40)+count($container45)) * 100000;
-            $update_nct->total_non_ppn = $total_penumpukan + $total_gerakan + $update_nct->administrasi;	
+            $update_nct->total_non_ppn = $total_penumpukan + $total_gerakan + $update_nct->administrasi + $update_nct->perawatan_it;
             $update_nct->ppn = $update_nct->total_non_ppn * 10/100;	
             if(($update_nct->total_non_ppn+$update_nct->ppn) >= 1000000){ 
                 $materai = 6000;

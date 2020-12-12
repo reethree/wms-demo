@@ -200,6 +200,13 @@
                     <td>= Rp.</td>
                     <td align="right" style="width: 100px;">{{ number_format($invoice->administrasi) }}</td>
                 </tr>
+                @if($invoice->perawatan_it)
+                <tr>
+                    <td align="right">Administrasi & Perawatan IT</td>
+                    <td>= Rp.</td>
+                    <td align="right">{{ number_format($invoice->perawatan_it) }}</td>
+                </tr>
+                @endif
                 <tr>
                     <td align="right">Jumlah Sebelum PPN</td>
                     <td>= Rp.</td>
