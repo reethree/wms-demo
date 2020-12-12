@@ -476,9 +476,10 @@ class InvoiceController extends Controller
         $data['gerakan'] = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $data['invoice']->id)->orderBy('lokasi_sandar', 'ASC')->get();
         $data['tarif'] = \App\Models\InvoiceTarifNct::get();
         $data['terbilang'] = ucwords($this->terbilang($data['invoice']->total))." Rupiah";
-//        return view('print.invoice-nct')->with($data);
+
+        return view('print.invoice-nct')->with($data);
+
         $pdf = \PDF::loadView('print.invoice-nct', $data)->setPaper('legal');
-        
         return $pdf->stream($data['invoice']->no_invoice.'.pdf');
     }
     
