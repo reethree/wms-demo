@@ -172,6 +172,13 @@
                     <td style="width: 50px;text-align: right;">= Rp.</td>
                     <td style="width: 100px;text-align: right;">{{ number_format($invoice->administrasi) }}</td>
                 </tr>
+                @if($invoice->surcharge)
+                    <tr>
+                        <td style="text-align: right;">Surcharge Depo</td>
+                        <td style="text-align: right;">= Rp.</td>
+                        <td style="text-align: right;">{{ number_format($invoice->surcharge) }}</td>
+                    </tr>
+                @endif
                 @if($invoice->perawatan_it)
                     <tr>
                         <td style="text-align: right;">Administrasi & Perawatan IT</td>
