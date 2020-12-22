@@ -1561,16 +1561,15 @@ class FclController extends Controller
                             endforeach;
                             
                             // PENUMPUKAN
-                            if($data['KD_TPS_ASAL'] == 'KOJA'){
-                                $date1 = date_create(date('Y-m-d',strtotime($data['TGLMASUK']. '+1 days')));
-                            }else{
-                                $date1 = date_create($data['TGLMASUK']);
-                            }
-
+                            $date1 = date_create($data['TGLMASUK']);
                             $date2 = date_create($tgl_release);
                             $diff = date_diff($date1, $date2);
-                            $hari = $diff->format("%a");
-                            
+                            if($data['KD_TPS_ASAL'] == 'KOJA'){
+                                $hari = $diff->format("%a") + 1;
+                            }else{
+                                $hari = $diff->format("%a");
+                            }
+
                             $invoice_penumpukan->startdate = $data['TGLMASUK'];
                             $invoice_penumpukan->enddate = $tgl_release;
                             $invoice_penumpukan->lama_timbun = $hari;
@@ -1673,14 +1672,14 @@ class FclController extends Controller
                             endforeach;
                             
                             // PENUMPUKAN
-                            if($data['KD_TPS_ASAL'] == 'KOJA'){
-                                $date1 = date_create(date('Y-m-d',strtotime($data['TGLMASUK']. '+1 days')));
-                            }else{
-                                $date1 = date_create($data['TGLMASUK']);
-                            }
+                            $date1 = date_create($data['TGLMASUK']);
                             $date2 = date_create($tgl_release);
                             $diff = date_diff($date1, $date2);
-                            $hari = $diff->format("%a");
+                            if($data['KD_TPS_ASAL'] == 'KOJA'){
+                                $hari = $diff->format("%a") + 1;
+                            }else{
+                                $hari = $diff->format("%a");
+                            }
                             
                             $invoice_penumpukan->startdate = $data['TGLMASUK'];
                             $invoice_penumpukan->enddate = $tgl_release;
@@ -1788,14 +1787,14 @@ class FclController extends Controller
                             endforeach;
                             
                             // PENUMPUKAN
-                            if($data['KD_TPS_ASAL'] == 'KOJA'){
-                                $date1 = date_create(date('Y-m-d',strtotime($data['TGLMASUK']. '+1 days')));
-                            }else{
-                                $date1 = date_create($data['TGLMASUK']);
-                            }
+                            $date1 = date_create($data['TGLMASUK']);
                             $date2 = date_create($tgl_release);
                             $diff = date_diff($date1, $date2);
-                            $hari = $diff->format("%a");
+                            if($data['KD_TPS_ASAL'] == 'KOJA'){
+                                $hari = $diff->format("%a") + 1;
+                            }else{
+                                $hari = $diff->format("%a");
+                            }
                             
                             $invoice_penumpukan->startdate = $data['TGLMASUK'];
                             $invoice_penumpukan->enddate = $tgl_release;
