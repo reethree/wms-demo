@@ -93,14 +93,14 @@
                         <td style="text-align: center;">{{ $p->qty }}</td>
                         <td style="text-align: center;">
                             @if($p->size == 20)
-                                @if($invoice->type == 'BB'){
-                                {{ number_format(54400) }}
+                                @if($invoice->type == 'BB')
+                                    {{ number_format(54400) }}
                                 @else
                                     {{ number_format(27200) }}
                                 @endif
                             @elseif($p->size == 40)
-                                @if($invoice->type == 'BB'){
-                                {{ number_format(108800) }}
+                                @if($invoice->type == 'BB')
+                                    {{ number_format(108800) }}
                                 @else
                                     {{ number_format(54400) }}
                                 @endif
