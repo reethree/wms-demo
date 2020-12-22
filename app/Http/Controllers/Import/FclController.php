@@ -1561,7 +1561,12 @@ class FclController extends Controller
                             endforeach;
                             
                             // PENUMPUKAN
-                            $date1 = date_create($data['TGLMASUK']);
+                            if($data['KD_TPS_ASAL'] == 'KOJA'){
+                                $date1 = date_create(date('Y-m-d',strtotime($data['TGLMASUK']. '+1 days')));
+                            }else{
+                                $date1 = date_create($data['TGLMASUK']);
+                            }
+
                             $date2 = date_create($tgl_release);
                             $diff = date_diff($date1, $date2);
                             $hari = $diff->format("%a");
@@ -1570,7 +1575,7 @@ class FclController extends Controller
                             $invoice_penumpukan->enddate = $tgl_release;
                             $invoice_penumpukan->lama_timbun = $hari;
 
-                            if($t20->lokasi_sandar == 'KOJA'){
+                            if($data['KD_TPS_ASAL'] == 'KOJA'){
                                 $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,1)) : 0;
                                 $invoice_penumpukan->hari_masa2 = ($hari > 1) ? $hari-1 : 0;
                             }else{
@@ -1668,7 +1673,11 @@ class FclController extends Controller
                             endforeach;
                             
                             // PENUMPUKAN
-                            $date1 = date_create($data['TGLMASUK']);
+                            if($data['KD_TPS_ASAL'] == 'KOJA'){
+                                $date1 = date_create(date('Y-m-d',strtotime($data['TGLMASUK']. '+1 days')));
+                            }else{
+                                $date1 = date_create($data['TGLMASUK']);
+                            }
                             $date2 = date_create($tgl_release);
                             $diff = date_diff($date1, $date2);
                             $hari = $diff->format("%a");
@@ -1677,7 +1686,7 @@ class FclController extends Controller
                             $invoice_penumpukan->enddate = $tgl_release;
                             $invoice_penumpukan->lama_timbun = $hari;
 
-                            if($t20->lokasi_sandar == 'KOJA'){
+                            if($data['KD_TPS_ASAL']  == 'KOJA'){
                                 $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,1)) : 0;
                                 $invoice_penumpukan->hari_masa2 = ($hari > 1) ? $hari-1 : 0;
                             }else{
@@ -1779,7 +1788,11 @@ class FclController extends Controller
                             endforeach;
                             
                             // PENUMPUKAN
-                            $date1 = date_create($data['TGLMASUK']);
+                            if($data['KD_TPS_ASAL'] == 'KOJA'){
+                                $date1 = date_create(date('Y-m-d',strtotime($data['TGLMASUK']. '+1 days')));
+                            }else{
+                                $date1 = date_create($data['TGLMASUK']);
+                            }
                             $date2 = date_create($tgl_release);
                             $diff = date_diff($date1, $date2);
                             $hari = $diff->format("%a");
@@ -1788,7 +1801,7 @@ class FclController extends Controller
                             $invoice_penumpukan->enddate = $tgl_release;
                             $invoice_penumpukan->lama_timbun = $hari;
 
-                            if($t20->lokasi_sandar == 'KOJA'){
+                            if($data['KD_TPS_ASAL'] == 'KOJA'){
                                 $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,1)) : 0;
                                 $invoice_penumpukan->hari_masa2 = ($hari > 1) ? $hari-1 : 0;
                             }else{
@@ -1857,7 +1870,7 @@ class FclController extends Controller
                     $total_gerakan_tps = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $invoice_nct->id)->where('lokasi_sandar','TPS')->sum('total');
                     $update_nct->surcharge = ($total_penumpukan_tps+$total_gerakan_tps)*(25/100);
                 }
-                $update_nct->administrasi = 20000;
+                $update_nct->administrasi = 30000;
             else:
                 $update_nct->administrasi = (count($container20)+count($container40)+count($container45)) * 100000;
             endif;
