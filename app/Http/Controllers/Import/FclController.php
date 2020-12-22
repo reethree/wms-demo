@@ -1445,7 +1445,8 @@ class FclController extends Controller
             $invoice_nct->no_bl = $request->no_bl;	
             $invoice_nct->eta = $data['ETA'];	
             $invoice_nct->gateout_terminal = $data['TGLMASUK'];	
-            $invoice_nct->gateout_tps = $tgl_release;	
+            $invoice_nct->gateout_tps = $tgl_release;
+            $invoice_nct->type = $data['jenis_container'];
             $invoice_nct->uid = \Auth::getUser()->name;	
             
             if($invoice_nct->save()) {
