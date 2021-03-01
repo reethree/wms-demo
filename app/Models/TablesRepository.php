@@ -57,7 +57,7 @@ class TablesRepository extends EloquentRepositoryAbstract {
                     break;
                     case 'buangmty':
                         $Model = \DB::table('tcontainer')
-//                            ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK')
+                            ->leftjoin('tdepomty', 'tcontainer.TUJUAN_MTY', '=', 'tdepomty.TDEPOMTY_PK')
                             ->whereNotNull('TGLSTRIPPING')
                             ->whereNotNull('JAMSTRIPPING');
                     break;
