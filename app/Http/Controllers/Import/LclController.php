@@ -1257,27 +1257,116 @@ class LclController extends Controller
         return json_encode(array('success' => true, 'data' => $container));
     }
     
-    public function reportHarian()
+    public function reportHarian(Request $request)
     {
         if ( !$this->access->can('show.lcl.report.harian') ) {
             return view('errors.no-access');
         }
-        
+
         // Create Roles Access
         $this->insertRoleAccess(array('name' => 'Report Harian LCL', 'slug' => 'show.lcl.report.harian', 'description' => ''));
-        
-        $data['page_title'] = "LCL Report Delivery Harian";
+
+        $data['page_title'] = "LCL Laporan Harian";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
             [
                 'action' => '',
-                'title' => 'LCL Report Delivery Harian'
+                'title' => 'LCL Laporan Harian'
             ]
-        ];        
-        
+        ];
+
+        if($request->date){
+            $data['date'] = $request->date;
+        }else{
+            $data['date'] = date('Y-m-d');
+        }
+
+        // Masuk
+        $julmah_bl_masuk = DBManifest::where('tglstripping', $request->date)->count();
+        $bl_ins = DBManifest::select(\DB::raw('SUM(QUANTITY) as qty'),\DB::raw('SUM(WEIGHT) as kgs'),\DB::raw('SUM(MEAS) as m3'))
+            ->where('tglstripping', $request->date)
+            ->get();
+        $data_bl_in = array();
+        $data_bl_in['Jumlah B/L'] = $julmah_bl_masuk;
+        foreach ($bl_ins as $in):
+            $data_bl_in['Quantity'] = $in->qty;
+            $data_bl_in['Weight'] = $in->kgs;
+            $data_bl_in['Measurement'] = $in->m3;
+        endforeach;
+
+        // Keluar
+        $julmah_bl_keluar = DBManifest::where('tglrelease', $request->date)->count();
+        $bl_out = DBManifest::select(\DB::raw('SUM(QUANTITY) as qty'),\DB::raw('SUM(WEIGHT) as kgs'),\DB::raw('SUM(MEAS) as m3'))
+            ->where('tglrelease', $request->date)
+            ->get();
+        $data_bl_out = array();
+        $data_bl_out['Jumlah B/L'] = $julmah_bl_keluar;
+        foreach ($bl_out as $out):
+            $data_bl_out['Quantity'] = $out->qty;
+            $data_bl_out['Weight'] = $out->kgs;
+            $data_bl_out['Measurement'] = $out->m3;
+        endforeach;
+
+        $bc20 = DBManifest::where('KD_DOK_INOUT', 1)->where('tglrelease', $request->date)->count();
+        $bc23 = DBManifest::where('KD_DOK_INOUT', 2)->where('tglrelease', $request->date)->count();
+        $bc12 = DBManifest::where('KD_DOK_INOUT', 4)->where('tglrelease', $request->date)->count();
+        $bc15 = DBManifest::where('KD_DOK_INOUT', 9)->where('tglrelease', $request->date)->count();
+        $bc11 = DBManifest::where('KD_DOK_INOUT', 20)->where('tglrelease', $request->date)->count();
+        $bcf26 = DBManifest::where('KD_DOK_INOUT', 5)->where('tglrelease', $request->date)->count();
+        $data['countbydoc'] = array('BC 2.0' => $bc20, 'BC 2.3' => $bc23, 'BC 1.2' => $bc12, 'BC 1.5' => $bc15, 'BC 1.1' => $bc11, 'BCF 2.6' => $bcf26);
+
+        $data['sum_bl_in'] = $data_bl_in;
+        $data['sum_bl_out'] = $data_bl_out;
+
         return view('import.lcl.report-harian')->with($data);
     }
-    
+
+    public function reportHarianCetak($date, $type)
+    {
+        // Data Pemasukan
+        $data['in'] = DBManifest::where('tglstripping', $date)->get();
+        $julmah_bl_masuk = DBManifest::where('tglstripping', $date)->count();
+        $bl_ins = DBManifest::select(\DB::raw('SUM(QUANTITY) as qty'),\DB::raw('SUM(WEIGHT) as kgs'),\DB::raw('SUM(MEAS) as m3'))
+            ->where('tglstripping', $date)
+            ->get();
+        $data_bl_in = array();
+        $data_bl_in['Jumlah B/L'] = $julmah_bl_masuk;
+        foreach ($bl_ins as $in):
+            $data_bl_in['Quantity'] = $in->qty;
+            $data_bl_in['Weight'] = $in->kgs;
+            $data_bl_in['Measurement'] = $in->m3;
+        endforeach;
+        $data['sum_bl_in'] = $data_bl_in;
+
+        // Data Pengeluaran
+        $data['out'] = DBManifest::where('tglrelease', $date)->get();
+        $julmah_bl_keluar = DBManifest::where('tglrelease', $date)->count();
+        $bl_out = DBManifest::select(\DB::raw('SUM(QUANTITY) as qty'),\DB::raw('SUM(WEIGHT) as kgs'),\DB::raw('SUM(MEAS) as m3'))
+            ->where('tglrelease', $date)
+            ->get();
+        $data_bl_out = array();
+        $data_bl_out['Jumlah B/L'] = $julmah_bl_keluar;
+        foreach ($bl_out as $out):
+            $data_bl_out['Quantity'] = $out->qty;
+            $data_bl_out['Weight'] = $out->kgs;
+            $data_bl_out['Measurement'] = $out->m3;
+        endforeach;
+        $data['sum_bl_out'] = $data_bl_out;
+
+        $bc20 = DBManifest::where('KD_DOK_INOUT', 1)->where('tglrelease', $date)->count();
+        $bc23 = DBManifest::where('KD_DOK_INOUT', 2)->where('tglrelease', $date)->count();
+        $bc12 = DBManifest::where('KD_DOK_INOUT', 4)->where('tglrelease', $date)->count();
+        $bc15 = DBManifest::where('KD_DOK_INOUT', 9)->where('tglrelease', $date)->count();
+        $bc11 = DBManifest::where('KD_DOK_INOUT', 20)->where('tglrelease', $date)->count();
+        $bcf26 = DBManifest::where('KD_DOK_INOUT', 5)->where('tglrelease', $date)->count();
+        $data['countbydoc'] = array('BC 2.0' => $bc20, 'BC 2.3' => $bc23, 'BC 1.2' => $bc12, 'BC 1.5' => $bc15, 'BC 1.1' => $bc11, 'BCF 2.6' => $bcf26);
+
+        $data['date'] = $date;
+        $data['type'] = $type;
+
+        return view('print.lcl-report-harian')->with($data);
+    }
+
     public function reportRekap()
     {
         if ( !$this->access->can('show.lcl.report.rekap') ) {

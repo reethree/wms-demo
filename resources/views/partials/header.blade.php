@@ -165,6 +165,7 @@
                                           <li><a href="{{ route('lcl-bc-report-container') }}">Report Container</a></li>
                                           <li><a href="{{ route('lcl-bc-report-stock') }}">Report Stock</a></li>
                                           <li><a href="{{ route('lcl-bc-report-inventory') }}">Inventory</a></li>
+                                          <li><a href="{{ route('lcl-report-harian') }}">Daily Report</a></li>
                                       </ul>
                                   </li>
                               </ul>
@@ -194,6 +195,7 @@
                                       <ul class="dropdown-menu">
                                           <li><a href="{{ route('fcl-bc-report-container') }}">Report Container</a></li>
                                           <li><a href="{{ route('fcl-bc-report-inventory') }}">Inventory</a></li>
+                                          <li><a href="{{ route('fcl-report-harian') }}">Daily Report</a></li>
                                       </ul>
                                   </li>
                               </ul>
@@ -278,6 +280,7 @@
                                       <li><a href="{{ route('lcl-report-container') }}">Report Container</a></li>
                                       <li><a href="{{ route('lcl-report-inout') }}">Report Stock</a></li>    
                                       <li><a href="{{ route('lcl-report-longstay') }}">Inventory</a></li>
+                                      <li><a href="{{ route('lcl-report-harian') }}">Daily Report</a></li>
           <!--                            <li><a href="{{ route('lcl-report-harian') }}">Rekap Delivery</a></li>
                                       <li><a href="{{ route('lcl-report-rekap') }}">Rekap Import</a></li>
                                       <li><a href="{{ route('lcl-report-stock') }}">Rekap Stock</a></li>-->
@@ -332,6 +335,7 @@
                                       <!--<li><a href="{{ route('fcl-report-harian') }}">Delivery Harian</a></li>-->
                                       <li><a href="{{ route('fcl-report-rekap') }}">Report Container</a></li>
                                       <li><a href="{{ route('fcl-report-longstay') }}">Inventory</a></li>
+                                      <li><a href="{{ route('fcl-report-harian') }}">Daily Report</a></li>
                                       <!--<li><a href="{{ route('fcl-report-stock') }}">Rekap Stock</a></li>-->
           <!--                                <li>
                                               <a href="">Utilitas Gudang Harian</a>

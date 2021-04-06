@@ -986,25 +986,63 @@ class FclController extends Controller
     }
     
     // REPORT
-    public function reportHarian()
+    public function reportHarian(Request $request)
     {
         if ( !$this->access->can('show.fcl.report.harian') ) {
             return view('errors.no-access');
         }
-        
+
         // Create Roles Access
         $this->insertRoleAccess(array('name' => 'Report Harian FCL', 'slug' => 'show.fcl.report.harian', 'description' => ''));
-        
-        $data['page_title'] = "FCL Report Delivery Harian";
+
+        $data['page_title'] = "FCL Laporan Harian";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
             [
                 'action' => '',
-                'title' => 'FCL Report Delivery Harian'
+                'title' => 'FCL Laporan Harian'
             ]
-        ];        
-        
+        ];
+
+        if($request->date){
+            $data['date'] = $request->date;
+        }else{
+            $data['date'] = date('Y-m-d');
+        }
+
+        // BY DOKUMEN
+        $bc20 = DBContainer::where('KD_DOK_INOUT', 1)->where('TGLRELEASE', $data['date'])->count();
+        $bc23 = DBContainer::where('KD_DOK_INOUT', 2)->where('TGLRELEASE', $data['date'])->count();
+        $bc12 = DBContainer::where('KD_DOK_INOUT', 4)->where('TGLRELEASE', $data['date'])->count();
+        $bc15 = DBContainer::where('KD_DOK_INOUT', 9)->where('TGLRELEASE', $data['date'])->count();
+        $bc11 = DBContainer::where('KD_DOK_INOUT', 20)->where('TGLRELEASE', $data['date'])->count();
+        $bcf26 = DBContainer::where('KD_DOK_INOUT', 5)->where('TGLRELEASE', $data['date'])->count();
+        $data['countbydoc'] = array('BC 2.0' => $bc20, 'BC 2.3' => $bc23, 'BC 1.2' => $bc12, 'BC 1.5' => $bc15, 'BC 1.1' => $bc11, 'BCF 2.6' => $bcf26);
+
         return view('import.fcl.report-harian')->with($data);
+    }
+
+    public function reportHarianCetak($date, $type)
+    {
+        // MASUK
+        $data['in'] = DBContainer::where('TGLMASUK', $date)->orderBy('JAMMASUK', 'DESC')->get();
+
+        // KELUAR
+        $data['out'] = DBContainer::where('TGLRELEASE', $date)->orderBy('JAMRELEASE', 'DESC')->get();
+
+        // BY DOKUMEN
+        $bc20 = DBContainer::where('KD_DOK_INOUT', 1)->where('TGLRELEASE', $date)->count();
+        $bc23 = DBContainer::where('KD_DOK_INOUT', 2)->where('TGLRELEASE', $date)->count();
+        $bc12 = DBContainer::where('KD_DOK_INOUT', 4)->where('TGLRELEASE', $date)->count();
+        $bc15 = DBContainer::where('KD_DOK_INOUT', 9)->where('TGLRELEASE', $date)->count();
+        $bc11 = DBContainer::where('KD_DOK_INOUT', 20)->where('TGLRELEASE', $date)->count();
+        $bcf26 = DBContainer::where('KD_DOK_INOUT', 5)->where('TGLRELEASE', $date)->count();
+        $data['countbydoc'] = array('BC 2.0' => $bc20, 'BC 2.3' => $bc23, 'BC 1.2' => $bc12, 'BC 1.5' => $bc15, 'BC 1.1' => $bc11, 'BCF 2.6' => $bcf26);
+
+        $data['date'] = $date;
+        $data['type'] = $type;
+
+        return view('print.fcl-report-harian')->with($data);
     }
     
     public function reportRekap(Request $request)

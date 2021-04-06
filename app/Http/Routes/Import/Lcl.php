@@ -97,6 +97,10 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-report-harian',
         'uses' => 'LclController@reportHarian'
     ]);
+    Route::get('/report/harian/cetak/{date}/{type}', [
+        'as' => 'lcl-report-harian-cetak',
+        'uses' => 'LclController@reportHarianCetak'
+    ]);
     Route::get('/report/rekap', [
         'as' => 'lcl-report-rekap',
         'uses' => 'LclController@reportRekap'

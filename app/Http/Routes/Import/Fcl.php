@@ -66,6 +66,10 @@ Route::group(['prefix' => 'fcl', 'namespace' => 'Import'], function(){
         'as' => 'fcl-report-harian',
         'uses' => 'FclController@reportHarian'
     ]);
+    Route::get('/report/harian/cetak/{date}/{type}', [
+        'as' => 'fcl-report-harian-cetak',
+        'uses' => 'FclController@reportHarianCetak'
+    ]);
     Route::get('/report/rekap', [
         'as' => 'fcl-report-rekap',
         'uses' => 'FclController@reportRekap'
