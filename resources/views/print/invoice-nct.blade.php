@@ -70,60 +70,65 @@
         <div class="col-xs-12 table-responsive">
             <table class="table table-striped">
                 <thead>
-                    <tr>
-                        <th>LOKASI</th>
-                        <th>SIZE</th>
-                        <th>LAMA TIMBUN</th>
-                        <th>JUMLAH</th>
-                        <th>TARIF DASAR</th>
-                        <th>MASA I</th>
-                        <th>MASA II</th>
-                        <th>MASA III</th>
-                        <th>MASA IV</th>
-                        <th>TOTAL SEWA</th>
-                    </tr>
+                <tr>
+                    <th>LOKASI</th>
+                    <th>SIZE</th>
+                    <th>LAMA TIMBUN</th>
+                    <th>JUMLAH</th>
+                    <th>TARIF DASAR</th>
+                    <th>MASA I</th>
+                    <th>MASA II</th>
+                    <th>MASA III</th>
+                    {{--                        <th>MASA IV</th>--}}
+                    <th>TOTAL SEWA</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <?php $grand_total_p = 0;?>
-                    @foreach($penumpukan as $p)
+                <?php $grand_total_p = 0;?>
+                @foreach($penumpukan as $p)
                     <tr>
                         <td>{{ $p->lokasi_sandar }}</td>
                         <td style="text-align: center;">{{ $p->size }}</td>
                         <td>({{ date("d/m/Y", strtotime($p->startdate)).' - '.date("d/m/Y", strtotime($p->enddate)) }}) {{ $p->lama_timbun }} hari</td>
                         <td style="text-align: center;">{{ $p->qty }}</td>
                         <td style="text-align: center;">
-                            @if($p->size == 20)
-                                @if($invoice->type == 'BB')
-                                    {{ number_format(54400) }}
-                                @else
-                                    {{ number_format(27200) }}
+                            @foreach($tarif as $t)
+                                @if($t->lokasi_sandar == $p->lokasi_sandar && $t->size == $p->size && $t->type == $invoice->type)
+                                    {{ $t->masa2 }}
                                 @endif
-                            @elseif($p->size == 40)
-                                @if($invoice->type == 'BB')
-                                    {{ number_format(108800) }}
-                                @else
-                                    {{ number_format(54400) }}
-                                @endif
-                            @else
-                                {{ number_format(68000) }}
-                            @endif
+                            @endforeach
+                            {{--                            @if($p->size == 20)--}}
+                            {{--                                @if($invoice->type == 'BB')--}}
+                            {{--                                    {{ number_format(85000) }}--}}
+                            {{--                                @else--}}
+                            {{--                                    {{ number_format(42500) }}--}}
+                            {{--                                @endif--}}
+                            {{--                            @elseif($p->size == 40)--}}
+                            {{--                                @if($invoice->type == 'BB')--}}
+                            {{--                                    {{ number_format(170000) }}--}}
+                            {{--                                @else--}}
+                            {{--                                    {{ number_format(85000) }}--}}
+                            {{--                                @endif--}}
+                            {{--                            @else--}}
+                            {{--                                {{ number_format(106250) }}--}}
+                            {{--                            @endif--}}
                         </td>
                         <td style="text-align: right;">{{ number_format($p->masa1) }}</td>
                         <td style="text-align: right;">{{ number_format($p->masa2) }}</td>
                         <td style="text-align: right;">{{ number_format($p->masa3) }}</td>
-                        <td style="text-align: right;">{{ number_format($p->masa4) }}</td>
+                        {{--                        <td style="text-align: right;">{{ number_format($p->masa4) }}</td>--}}
                         <td style="text-align: right;">{{ number_format($p->total) }}</td>
                         <?php $grand_total_p += $p->total;?>
                     </tr>
-                    @endforeach
-                    <tr>
-                        <td colspan="10"><div style="border-top:1px dashed !important;width: 100%;height: 1px;">&nbsp;</div></td>
-                    </tr>
-                    <tr>
-                        <th style="text-align: left;" colspan="8">PENUMPUKAN</th>
-                        <th style="text-align: right;"><b>Rp.</b></th>
-                        <th style="text-align: right;"><b>{{ number_format($grand_total_p) }}</b></th>
-                    </tr>
+                @endforeach
+                <tr>
+                    <td colspan="9"><div style="border-top:1px dashed !important;width: 100%;height: 1px;">&nbsp;</div></td>
+                </tr>
+                <tr>
+                    <th style="text-align: left;" colspan="7">PENUMPUKAN</th>
+                    <th style="text-align: right;"><b>Rp.</b></th>
+                    <th style="text-align: right;"><b>{{ number_format($grand_total_p) }}</b></th>
+                </tr>
                 </tbody>
             </table>
         </div>
