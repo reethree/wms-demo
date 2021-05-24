@@ -194,7 +194,7 @@
                 @endif
                 @if($invoice->perawatan_it)
                     <tr>
-                        <td style="text-align: right;">Administrasi & Perawatan IT</td>
+                        <td style="text-align: right;">Perawatan IT</td>
                         <td style="text-align: right;">= Rp.</td>
                         <td style="text-align: right;">{{ number_format($invoice->perawatan_it) }}</td>
                     </tr>
