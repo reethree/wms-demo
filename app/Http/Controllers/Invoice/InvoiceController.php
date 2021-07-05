@@ -568,4 +568,97 @@ class InvoiceController extends Controller
         return back()->with('error', 'Tidak ada invoice yang di update.');
     }
 
+    public function InvoicePlatformApprovePayment($invoice_id)
+    {
+        $invoice = InvoiceNct::find($invoice_id);
+        if($invoice){
+            // Update Payment Status
+            $invoice->payment_status = 'Paid';
+            $invoice->payment_date = date('Y-m-d H:i:s');
+
+            if($invoice->save()){
+                // Update VA Status
+
+                // Create & Send Gate Pass
+                $nobl = $invoice->no_bl;
+                $conts = explode(',',$invoice->no_container);
+                $expired = date('Y-m-d', strtotime('+1 day'));
+
+                foreach ($conts as $cont):
+                    $refdata = Containercy::where(array('NOCONTAINER' => $cont, 'NO_BL_AWB' => $nobl))->first();
+                    $ids[] = $refdata->TCONTAINER_PK;
+//                    $urls[] = route('barcode-print-pdf', array('fcl', $refdata->TCONTAINER_PK));
+                    $ref_id = $refdata->TCONTAINER_PK;
+                    $ref_number = $refdata->NOCONTAINER;
+                    if($refdata->flag_bc == 'Y' || $refdata->status_bc == 'HOLD'){
+                        $ref_status = 'hold';
+                    }else{
+                        $ref_status = 'active';
+                    }
+
+                    $check = \App\Models\Barcode::where(array('ref_id'=>$ref_id, 'ref_type'=>'FCL', 'ref_action'=>'release'))->first();
+                    if(count($check) > 0){
+//                    continue;
+                        $barcode = \App\Models\Barcode::find($check->id);
+                        $barcode->expired = $expired;
+                        $barcode->status = $ref_status;
+                        $barcode->uid = 'Platform';
+                        $barcode->save();
+                    }else{
+                        $barcode = new \App\Models\Barcode();
+                        $barcode->ref_id = $ref_id;
+                        $barcode->ref_type = 'FCL';
+                        $barcode->ref_action = 'release';
+                        $barcode->ref_number = $ref_number;
+                        $barcode->barcode = str_random(20);
+                        $barcode->expired = $expired;
+                        $barcode->status = $ref_status;
+                        $barcode->uid = 'Platform';
+                        $barcode->save();
+                    }
+                endforeach;
+
+                $data_barcode = \App\Models\Barcode::select('barcode_autogate.*','tcontainercy.location_name','tcontainercy.NOCONTAINER','tcontainercy.SIZE','tcontainercy.KD_TPS_ASAL','tcontainercy.VOY','tcontainercy.VESSEL','tcontainercy.NO_PLP','tcontainercy.TGL_PLP','tcontainercy.NO_BC11','tcontainercy.TGL_BC11')
+                    ->join('tcontainercy', 'barcode_autogate.ref_id', '=', 'tcontainercy.TCONTAINER_PK')
+                    ->where(array('ref_type' => 'FCL', 'ref_action'=>'release'))
+                    ->whereIn('tcontainercy.TCONTAINER_PK', $ids)
+                    ->get();
+
+//                $data['invoice'] = $invoice;
+                $data['no_invoice'] = $invoice->no_invoice;
+                $data['npwp'] = $invoice->npwp;
+                $data['no_bl'] = $invoice->no_bl;
+                $data['platform'] = 'TO011';
+                $data['paid_date'] = date('Y-m-d');
+                $data['barcode'] = $data_barcode;
+//                $data['barcode']['urls'] = $urls;
+
+                // Send Barcode To Platform
+                $elogis_url_dev = 'http://localhost/ppjk-online/public/api/v1/generate-barcode';
+                $elogis_url_prod = 'https://elogis.id/api/v1/generate-barcode';
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $elogis_url_prod);
+                curl_setopt($ch, CURLOPT_HEADER, 0);            // No header in the result
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return, do not echo result
+                curl_setopt($ch, CURLOPT_POST, 1);              // This is a POST request
+                // Data to POST
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+                $dataResults = curl_exec($ch);
+                curl_close($ch);
+
+                $results = json_decode($dataResults);
+
+                if($results->success){
+                    // Update Invoice To Paid
+                    return back()->with('success', $results->message);
+                }
+
+                return back()->with('error', $results->message);
+
+            }
+        }
+    }
+
 }

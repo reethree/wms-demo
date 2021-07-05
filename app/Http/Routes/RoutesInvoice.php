@@ -117,9 +117,14 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
         ]);
         
         Route::get('/print/{id}', [
-        'as' => 'invoice-nct-print',
-        'uses' => 'InvoiceController@invoiceNctPrint'
-    ]);
+            'as' => 'invoice-nct-print',
+            'uses' => 'InvoiceController@invoiceNctPrint'
+        ]);
+
+        Route::get('/approve-payment/{id}', [
+            'as' => 'invoice-approve-payment',
+            'uses' => 'InvoiceController@InvoicePlatformApprovePayment'
+        ]);
         
         // TARIF
         Route::get('/tarif', [

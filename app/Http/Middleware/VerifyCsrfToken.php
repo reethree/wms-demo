@@ -15,6 +15,7 @@ class VerifyCsrfToken extends BaseVerifier
         'easygo/inputdo/callback',
         'payment/bni/notification',
         'autogate/notification',
-        'gatepass/print/*'
+        'gatepass/print/*',
+        'api/*'
     ];
 }
