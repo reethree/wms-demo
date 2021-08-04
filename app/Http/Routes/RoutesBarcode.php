@@ -20,7 +20,12 @@ Route::group(['prefix' => 'barcode'], function(){
     Route::post('/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\TablesRepository(new App\Models\Barcode(),Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
-    });   
+    });
+
+    Route::post('/print/report', [
+        'as' => 'barcode-cetak-report',
+        'uses' => 'BarcodeController@printBarcodeReport'
+    ]);
     
     Route::get('/print/{id}/{type}/{action}/{car?}', [
         'as' => 'cetak-barcode',

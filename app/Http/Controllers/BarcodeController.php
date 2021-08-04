@@ -424,6 +424,48 @@ class BarcodeController extends Controller
         $pdf = \PDF::loadView('print.barcode', $data); 
         return $pdf->stream('Gatepass-'.$id.'.pdf');
     }
+
+    public function printBarcodeReport(Request $request)
+    {
+        $start = $request->start_date;
+        $end = $request->end_date;
+
+        $barcode = \App\Models\Barcode::select('barcode','ref_id','ref_type','ref_action','ref_number','time_in','time_out','status')
+            ->where('updated_at','>=',$start.' 00:00:00')
+            ->where('updated_at','<=',$end.' 23:59:59')
+            ->get();
+
+        if($barcode){
+            foreach ($barcode as $bc):
+                switch ($bc->ref_type) {
+                    case 'Fcl':
+                        $model = 'tcontainercy';
+                        $colid = 'TCONTAINER_PK';
+                        break;
+                    case 'Lcl':
+                        $model = 'tcontainer';
+                        $colid = 'TCONTAINER_PK';
+                        break;
+                    case 'Manifest':
+                        $model = 'tmanifest';
+                        $colid = 'TMANIFEST_PK';
+                        break;
+                }
+                $ref = \DB::table($model)->where($colid, $bc->ref_id)->first();
+                $bc->npwp = $ref->ID_CONSIGNEE;
+                $bc->company = $ref->CONSIGNEE;
+                $bc->doc = $ref->KODE_DOKUMEN;
+                $bc->no_sppb = $ref->NO_SPPB;
+                $bc->tgl_sppb = $ref->TGL_SPPB;
+                $bc->tps_asal = $ref->KD_TPS_ASAL;
+            endforeach;
+
+            return view('print.barcode-report', ['barcode' => $barcode]);
+        }
+
+        return back()->with('error', 'Data barcode tidak ditemukan.');
+
+    }
     
     public function uploadTpsOnlineCoariCont($type, $id)
     {
