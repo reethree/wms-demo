@@ -419,6 +419,15 @@
                         </ul>
                       </li>
                     <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">NPCT1 <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ route('movement-container-index') }}">Data Container</a></li>
+                            <li><a href="{{ route('movement-index') }}">Laporan Movement</a></li>
+                            <li><a href="{{ route('yor-index') }}">Laporan YOR</a></li>
+                            <li><a href="{{ route('tracking-index') }}">Tracking</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">NLE <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ route('nle-sp2-index') }}">Data Container</a></li>
@@ -464,9 +473,9 @@
                               <li><a href="{{route('permission-index')}}">Permissions</a></li>
                           </ul>
                       </li>
-                      <li class="dropdown">
-                          <a href="#">Settings</a>
-                      </li>
+{{--                      <li class="dropdown">--}}
+{{--                          <a href="#">Settings</a>--}}
+{{--                      </li>--}}
                     </ul>
                   </div>
             @endrole
