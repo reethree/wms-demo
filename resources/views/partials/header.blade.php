@@ -456,12 +456,12 @@
                           </ul>
                       </li>
 
-                      <li class="dropdown">
-                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Payment <span class="caret"></span></a>
-                          <ul class="dropdown-menu" role="manu">
-                              <li><a href="{{route('payment-bni-index')}}">BNI E-Collection</a></li>
-                          </ul>
-                      </li>
+{{--                      <li class="dropdown">--}}
+{{--                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Payment <span class="caret"></span></a>--}}
+{{--                          <ul class="dropdown-menu" role="manu">--}}
+{{--                              <li><a href="{{route('payment-bni-index')}}">BNI E-Collection</a></li>--}}
+{{--                          </ul>--}}
+{{--                      </li>--}}
                       <li class="dropdown">
                           <a href="{{route('barcode-index')}}">Autogate</a>
                       </li>
