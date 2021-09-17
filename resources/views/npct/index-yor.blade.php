@@ -93,17 +93,17 @@
                     <div class="row">
                         <div class="col-md-12">
                             <input name="_token" type="hidden" value="{{ csrf_token() }}" />
-                            
-                            <div class="form-group">
-                                <label for="roles" class="col-sm-3 control-label">Kode Gudang</label>
-                                <div class="col-sm-8">
-                                    <select class="form-control select2 select2-hidden-accessible" name="warehouse_code" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                                        <option value="">Choose Warehouse</option>
-                                        <option value="ARN1">Gudang Utara (ARN1)</option>
-                                        <option value="ARN3">Gudang Barat (ARN3)</option>
-                                    </select>
-                                </div>
-                            </div>
+                            <input name="warehouse_code" type="hidden" value="PRJP" />
+{{--                            <div class="form-group">--}}
+{{--                                <label for="roles" class="col-sm-3 control-label">Kode Gudang</label>--}}
+{{--                                <div class="col-sm-8">--}}
+{{--                                    <select class="form-control select2 select2-hidden-accessible" name="warehouse_code" style="width: 100%;" tabindex="-1" aria-hidden="true" required>--}}
+{{--                                        <option value="">Choose Warehouse</option>--}}
+{{--                                        <option value="ARN1">Gudang Utara (ARN1)</option>--}}
+{{--                                        <option value="ARN3">Gudang Barat (ARN3)</option>--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                             
                             <div class="form-group">
                                 <label for="roles" class="col-sm-3 control-label">Tipe</label>
