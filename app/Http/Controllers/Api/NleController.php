@@ -30,7 +30,7 @@ class NleController extends ApiBaseController
     public function requestSppb(Request $request)
     {
         $no_bl = $request->no_bl;
-        $tgl_bl = date('j/n/Y', strtotime($request->tgl_bl));
+        $tgl_bl = date('n/j/Y', strtotime($request->tgl_bl));
         $npwp = $request->npwp;
         $kd_dok = $request->kd_dok;
         $dok = KodeDok:: where('id', $kd_dok)->first();
