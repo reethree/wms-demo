@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Document;
+use App\Models\KodeDok;
+use App\Models\TpsDokPabeanCont;
+use App\Models\TpsSppbBcCont;
 use App\Models\TpsSppbPib;
 use App\Models\Containercy as DBContainer;
 use App\Models\Perusahaan as DBPerusahaan;
+use App\Models\TpsSppbPibCont;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -20,6 +25,43 @@ class NleController extends ApiBaseController
         $data = TpsSppbPib::where(array('NPWP_IMP'=>$npwp, 'NO_BL_AWB'=>$no_bl, 'TGL_BL_AWB'=>$tgl_bl))->first();
 
         return json_encode(['status'=>'200', 'msg' => 'success','data'=>$data]);
+    }
+
+    public function requestSppb(Request $request)
+    {
+        $no_bl = $request->no_bl;
+        $tgl_bl = date('j/n/Y', strtotime($request->tgl_bl));
+        $npwp = $request->npwp;
+        $kd_dok = $request->kd_dok;
+        $dok = KodeDok:: where('id', $kd_dok)->first();
+
+        if($kd_dok == 1){
+            $sppb = \App\Models\TpsSppbPib::where(array('NPWP_IMP'=>$npwp, 'NO_BL_AWB'=>$no_bl, 'TGL_BL_AWB'=>$tgl_bl))->first();
+            if($sppb){
+                $sppb->containers = TpsSppbPibCont::where('TPS_SPPBXML_FK', $sppb->TPS_SPPBXML_PK)->get();
+            }
+        }elseif($kd_dok == 2){
+            $sppb = \App\Models\TpsSppbBc::where(array('NPWP_IMP'=>$npwp, 'NO_BL_AWB'=>$no_bl, 'TGL_BL_AWB'=>$tgl_bl))->first();
+            if($sppb) {
+                $sppb->containers = TpsSppbBcCont::where('TPS_SPPBXML_FK', $sppb->TPS_SPPBXML_PK)->get();
+            }
+        }else{
+            $sppb = \App\Models\TpsDokPabean::select('NO_DOK_INOUT as NO_SPPB','TGL_DOK_INOUT as TGL_SPPB','NPWP_IMP')
+                ->where(array('NPWP_IMP'=>$npwp, 'KD_DOK_INOUT' => $kd_dok, 'NO_BL_AWB' => $no_bl))->first();
+            if($sppb) {
+                $sppb->containers = TpsDokPabeanCont::where('TPS_DOKPABEANXML_FK', $sppb->TPS_DOKPABEANXML_PK)->get();
+            }
+        }
+
+        if($sppb){
+            $sppb->kode_dok = $dok->name;
+            $sppb->id_dok = $dok->id;
+            $data = $sppb;
+
+            return json_encode(['status'=>'200', 'msg' => 'success','data'=>$data]);
+        }
+
+        return json_encode(['status'=>'404', 'msg' => 'not found','data'=>'']);
     }
 
     public function requestInvoiceForPlatform(Request $request)

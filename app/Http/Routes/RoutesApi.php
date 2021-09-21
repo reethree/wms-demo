@@ -9,5 +9,8 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){
         'as' => 'nle-request-invoice',
         'uses' => 'NleController@requestInvoiceForPlatform'
     ]);
-
+    Route::post('/requestSppb', [
+        'as' => 'nle-request-sppb',
+        'uses' => 'NleController@requestSppb'
+    ]);
 });
