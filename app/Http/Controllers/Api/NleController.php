@@ -61,7 +61,7 @@ class NleController extends ApiBaseController
             return json_encode(['status'=>'200', 'msg' => 'success','data'=>$data]);
         }
 
-        return json_encode(['status'=>'404', 'msg' => 'not found','data'=>$request->all()]);
+        return json_encode(['status'=>'404', 'msg' => $tgl_bl,'data'=>$request->all()]);
     }
 
     public function requestInvoiceForPlatform(Request $request)
