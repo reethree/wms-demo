@@ -287,6 +287,8 @@
                         ->addColumn(array('label'=>'No. POS','index'=>'NO_POS_BC11', 'width'=>200,'align'=>'center','editable' => false))
                         ->addColumn(array('label'=>'Jenis','index'=>'JNS_CONT', 'width'=>80,'editable' => true, 'align'=>'center','formatter' => 'select', 'edittype' => 'select', 'editoptions' => array('value' => 'F:F;L:L')))
                         ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>350,'editable' => false,'editrules' => array('' => true)))
+                        ->addColumn(array('label'=>'No. HBL','index'=>'NO_HOST_BL', 'width'=>200,'editable' => false,'editrules' => array('' => true)))
+                        ->addColumn(array('label'=>'Tgl. HBL','index'=>'TGL_HOST_BL', 'width'=>200,'editable' => false,'editrules' => array('' => true)))
                         ->addColumn(array('label'=>'No. BL AWB','index'=>'NO_BL_AWB', 'width'=>200,'editable' => false,'editrules' => array('' => true)))
                         ->addColumn(array('label'=>'Tgl. BL AWB','index'=>'TGL_BL_AWB', 'width'=>200,'editable' => false,'editrules' => array('' => true)))
 //                        ->addColumn(array('label'=>'Measurment','index'=>'MEAS', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('' => true)))

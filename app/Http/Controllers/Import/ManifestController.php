@@ -567,8 +567,8 @@ class ManifestController extends Controller
                         array(
                             'NO_CONT'=>$manifest->NOCONTAINER,
                             'UK_CONT'=>$manifest->SIZE,
-                            'NO_BL_AWB'=>$manifest->NOHBL,
-                            'TGL_BL_AWB'=>date('Ymd', strtotime($manifest->TGL_HBL))
+                            'NO_HOST_BL'=>$manifest->NOHBL,
+                            'TGL_HOST_BL'=>date('Ymd', strtotime($manifest->TGL_HBL))
                             )
                         )->first();
                 if($plpdetail) {
