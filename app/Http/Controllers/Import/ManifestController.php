@@ -564,13 +564,23 @@ class ManifestController extends Controller
             $i = 0;
             foreach ($manifests as $manifest):
                 $plpdetail = \App\Models\TpsResponPlpDetail::where(
-                        array(
-                            'NO_CONT'=>$manifest->NOCONTAINER,
-                            'UK_CONT'=>$manifest->SIZE,
+                    array(
+                        'NO_CONT'=>$manifest->NOCONTAINER,
+                        'UK_CONT'=>$manifest->SIZE
+                    )
+                )
+                    ->where(function($query) use ($manifest)
+                    {
+                        $query->where(array(
                             'NO_HOST_BL'=>$manifest->NOHBL,
                             'TGL_HOST_BL'=>date('Ymd', strtotime($manifest->TGL_HBL))
-                            )
-                        )->first();
+                        ))
+                        ->orWhere(array(
+                            'NO_BL_AWB'=>$manifest->NOHBL,
+                            'TGL_BL_AWB'=>date('Ymd', strtotime($manifest->TGL_HBL))
+                        ));
+                    })
+                    ->first();
                 if($plpdetail) {
                     // Check Manifest Nopos
                     if($manifest->NO_POS_BC11 == ''){
