@@ -6,6 +6,9 @@
 
 @section('content')
 <style>
+    table {
+        letter-spacing: 0;
+    }
     @media print {
         @page {
             size: auto;   /* auto is the initial value */
