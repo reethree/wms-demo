@@ -11,9 +11,11 @@
     }
     @media print {
         @page {
-            size: auto;   /* auto is the initial value */
-            margin-top: 0;
-            margin-bottom: 0;/* this affects the margin in the printer settings */
+            /*size: auto;   !* auto is the initial value *!*/
+            /*margin-top: 0;*/
+            /*margin-bottom: 0;!* this affects the margin in the printer settings *!*/
+            background: #FFF;
+            color: #000;
         }
         .print-btn {
             display: none;
