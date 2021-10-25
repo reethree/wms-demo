@@ -1499,7 +1499,7 @@ class FclController extends Controller
                     if($data['KD_TPS_ASAL'] == 'KOJA'){
                         $nct_gerakan = array('Pas Truck' => 9100);
                     }else{
-                        $nct_gerakan = array('Pas Truck' => 9100, 'Gate Pass Admin' => 20000, 'Cost Rec/Surcarge' => 75000);
+                        $nct_gerakan = array('Pas Truck' => 9100, 'Gate Pass Admin' => 20000);
                     }
 
                     foreach($nct_gerakan as $key=>$value):
