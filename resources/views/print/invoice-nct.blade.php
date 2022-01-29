@@ -263,7 +263,7 @@
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
-                    <td style="text-align: center;"><br/><br/><br/><br/>YADI</td>
+                    <td style="text-align: center;"><br/><br/><br/><br/>GANJAR</td>
                 </tr>
             </table>
         </div>
