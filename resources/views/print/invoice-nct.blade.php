@@ -205,7 +205,7 @@
                     <td  style="text-align: right;">{{ number_format($invoice->total_non_ppn) }}</td>
                 </tr>
                 <tr>
-                    <td style="text-align: right;">PPN 10%</td>
+                    <td style="text-align: right;">PPN 11%</td>
                     <td style="text-align: right;">= Rp.</td>
                     <td  style="text-align: right;">{{ number_format($invoice->ppn) }}</td>
                 </tr>

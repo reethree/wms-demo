@@ -1966,7 +1966,7 @@ class FclController extends Controller
             endif;
 
             $update_nct->total_non_ppn = $total_penumpukan + $total_gerakan + $update_nct->administrasi + $update_nct->perawatan_it + $update_nct->surcharge;
-            $update_nct->ppn = $update_nct->total_non_ppn * 10/100;	
+            $update_nct->ppn = $update_nct->total_non_ppn * 11/100;
             if(($update_nct->total_non_ppn+$update_nct->ppn) >= 5000000){
                 $materai = 10000;
 //            }elseif(($update_nct->total_non_ppn+$update_nct->ppn) < 300000) {

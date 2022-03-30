@@ -148,7 +148,7 @@ class InvoiceController extends Controller
             if(isset($request->free_ppn)):
                 $data['ppn'] = 0;
             else:
-                $data['ppn'] = $data['sub_total']*10/100;
+                $data['ppn'] = $data['sub_total']*11/100;
             endif;
             
             $data['materai'] = ($data['sub_total'] + $data['ppn'] >= 5000000) ? '10000' : '0';
@@ -196,7 +196,7 @@ class InvoiceController extends Controller
             if(isset($request->free_ppn)):
                 $data['ppn'] = 0;
             else:
-                $data['ppn'] = $data['sub_total']*10/100;
+                $data['ppn'] = $data['sub_total']*11/100;
             endif;
             $data['materai'] = ($data['sub_total'] + $data['ppn'] > 5000000) ? '10000' : '0';
             $data['total'] = round($data['sub_total'] + $data['ppn'] + $data['materai']);           

@@ -88,7 +88,7 @@
         @if($ppn > 0)
         <tr>
             <td colspan="3"></td>
-            <td style="text-align: center;border-right: 1px solid;border-left: 1px solid;">PPn 10%</td>
+            <td style="text-align: center;border-right: 1px solid;border-left: 1px solid;">PPn 11%</td>
             <td>Rp.</td>
             <td style="text-align: right;border-right: 1px solid;">{{ (($invoices['0']->total_rdm > 0) ? number_format($ppn) : 0) }}</td>
         </tr>

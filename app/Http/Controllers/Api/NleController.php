@@ -550,7 +550,7 @@ class NleController extends ApiBaseController
             endif;
 
             $update_nct->total_non_ppn = $total_penumpukan + $total_gerakan + $update_nct->administrasi + $update_nct->perawatan_it + $update_nct->surcharge;
-            $update_nct->ppn = $update_nct->total_non_ppn * 10/100;
+            $update_nct->ppn = $update_nct->total_non_ppn * 11/100;
             if(($update_nct->total_non_ppn+$update_nct->ppn) >= 5000000){
                 $materai = 10000;
             }else{
@@ -1093,7 +1093,7 @@ class NleController extends ApiBaseController
             $total_gerakan = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $invoice_nct->id)->sum('total');
 
             $update_nct->total_non_ppn = $total_penumpukan + $total_gerakan + $update_nct->administrasi + $update_nct->perawatan_it + $update_nct->surcharge;
-            $update_nct->ppn = $update_nct->total_non_ppn * 10/100;
+            $update_nct->ppn = $update_nct->total_non_ppn * 11/100;
             if(($update_nct->total_non_ppn+$update_nct->ppn) >= 5000000){
                 $materai = 10000;
             }else{
