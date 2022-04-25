@@ -455,7 +455,7 @@ class InvoiceController extends Controller
         $data['penumpukan'] = \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $data['invoice']->id)->get();
         $data['gerakan'] = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $data['invoice']->id)->orderBy('lokasi_sandar', 'ASC')->get();
         $data['tarif'] = \App\Models\InvoiceTarifNct::get();
-        $data['terbilang'] = ucwords($this->terbilang($data['invoice']->total))." Rupiah";
+        $data['terbilang'] = ucwords($this->terbilang(round($data['invoice']->total)))." Rupiah";
         
         return view('invoice.edit-invoice-nct')->with($data);
     }
@@ -475,7 +475,7 @@ class InvoiceController extends Controller
         $data['penumpukan'] = \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $data['invoice']->id)->get();
         $data['gerakan'] = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $data['invoice']->id)->orderBy('lokasi_sandar', 'ASC')->get();
         $data['tarif'] = \App\Models\InvoiceTarifNct::get();
-        $data['terbilang'] = ucwords($this->terbilang($data['invoice']->total))." Rupiah";
+        $data['terbilang'] = ucwords($this->terbilang(round($data['invoice']->total)))." Rupiah";
 
         return view('print.invoice-nct')->with($data);
 
