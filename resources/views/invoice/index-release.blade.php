@@ -129,7 +129,7 @@
                     ->setFilterToolbarOptions(array('autosearch'=>true))
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                     ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
-                    ->addColumn(array('label'=>'Type INV','index'=>'INVOICE','width'=>80, 'align'=>'center','editable' => true, 'formatter' => 'select', 'edittype' => 'select', 'editoptions' => array('value' => 'BB:BB;DRY:DRY')))
+                    ->addColumn(array('label'=>'Type INV','index'=>'INVOICE','width'=>80, 'align'=>'center','editable' => true, 'formatter' => 'select', 'edittype' => 'select', 'editoptions' => array('value' => 'DRY:DRY;BB:BB')))
                     ->addColumn(array('label'=>'No. HBL','index'=>'NOHBL','width'=>160))
                     ->addColumn(array('label'=>'Tgl. HBL','index'=>'TGL_HBL', 'width'=>150,'hidden'=>true))
                     ->addColumn(array('label'=>'No. Tally','index'=>'NOTALLY','width'=>160))
