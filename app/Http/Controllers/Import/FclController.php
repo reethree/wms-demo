@@ -1495,8 +1495,8 @@ class FclController extends Controller
                 $diff_terminal = date_diff($date1_terminal, $date2_terminal);
                 $hari_terminal = $diff_terminal->format("%a")+1;
 
-                if($data['KD_TPS_ASAL'] == 'NCT1' || $data['KD_TPS_ASAL'] == 'KOJA'){
-                    if($data['KD_TPS_ASAL'] == 'KOJA'){
+                if($data['KD_TPS_ASAL'] == 'NCT1' || $data['KD_TPS_ASAL'] == 'KOJA' || $data['KD_TPS_ASAL'] == 'JICT'){
+                    if($data['KD_TPS_ASAL'] == 'KOJA' || $data['KD_TPS_ASAL'] == 'JICT'){
                         $nct_gerakan = array('Pas Truck' => 9100);
                     }else{
                         $nct_gerakan = array('Pas Truck' => 9100, 'Gate Pass Admin' => 20000);
