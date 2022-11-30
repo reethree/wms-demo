@@ -1442,7 +1442,716 @@ class FclController extends Controller
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
  
     }
-    
+
+    public function releaseCreateInvoiceNew(Request $request)
+    {
+
+        $ids = explode(',', $request->id);
+
+        $container20 = DBContainer::where('size', 20)->whereIn('TCONTAINER_PK', $ids)->get();
+        $container40 = DBContainer::where('size', 40)->whereIn('TCONTAINER_PK', $ids)->get();
+        $container45 = DBContainer::where('size', 45)->whereIn('TCONTAINER_PK', $ids)->get();
+
+        $std = array(
+            'DRY'
+        );
+        $low = array(
+            'BB',
+            'Class BB Standar 3',
+            'Class BB Standar 8',
+            'Class BB Standar 9',
+            'Class BB Standar 4,1',
+            'Class BB Standar 6',
+            'Class BB Standar 2,2'
+        );
+        $high = array(
+            "Class BB High Class 2,1",
+            "Class BB High Class 5,1",
+            "Class BB High Class 6,1",
+            "Class BB High Class 5,2"
+        );
+
+        if($container20 || $container40 || $container45) {
+
+            if(count($container20) > 0){
+                $data = $container20['0'];
+            }elseif(count($container40) > 0){
+                $data = $container40['0'];
+            }else{
+                $data = $container45['0'];
+            }
+
+//        $tgl_release = $data['TGLRELEASE'];
+            $tgl_release = $request->tgl_release;
+
+//            $data = (count($container20) > 0 ? $container20['0'] : $container40['0']);
+//            $consignee = DBPerusahaan::where('TPERUSAHAAN_PK', $data['TCONSIGNEE_FK'])->first();
+
+            $jenis_cont = $data['jenis_container'];
+//            $jenis_cont = $request->jenis_container;
+
+            if(in_array($jenis_cont, $std)){
+                $type_cont = 'Standar';
+            }else if(in_array($jenis_cont, $low)){
+                $type_cont = 'Low';
+            }else if(in_array($jenis_cont, $high)){
+                $type_cont = 'High';
+            }
+
+            $jenis_cont_std = ($jenis_cont == 'DRY') ? $jenis_cont : 'BB';
+
+            // Create Invoice Header
+            $invoice_nct = new \App\Models\InvoiceNct;
+            $invoice_nct->no_invoice = $request->no_invoice;
+            $invoice_nct->no_pajak = $request->no_pajak;
+            $invoice_nct->consignee = $request->consignee;
+            $invoice_nct->npwp = $request->npwp;
+            $invoice_nct->alamat = $request->alamat;
+            $invoice_nct->consignee_id = $request->consignee_id;
+            $invoice_nct->vessel = $data['VESSEL'];
+            $invoice_nct->voy = $data['VOY'];
+            $invoice_nct->no_do = $request->no_do;
+            $invoice_nct->no_bl = $request->no_bl;
+            $invoice_nct->eta = $data['ETA'];
+            $invoice_nct->gateout_terminal = $data['TGLMASUK'];
+            $invoice_nct->gateout_tps = $tgl_release;
+            $invoice_nct->type = $jenis_cont;
+            $invoice_nct->tps_asal = $data['KD_TPS_ASAL'];
+            $invoice_nct->uid = \Auth::getUser()->name;
+
+            if($invoice_nct->save()) {
+
+                // HARI TERMINAL
+                $date1_terminal = date_create($data['ETA']);
+                $date2_terminal = date_create(date('Y-m-d',strtotime($data['TGLMASUK'])));
+                $diff_terminal = date_diff($date1_terminal, $date2_terminal);
+                $hari_terminal = $diff_terminal->format("%a")+1;
+
+                if($data['KD_TPS_ASAL'] == 'NCT1' || $data['KD_TPS_ASAL'] == 'KOJA' || $data['KD_TPS_ASAL'] == 'JICT'){
+                    if($data['KD_TPS_ASAL'] == 'KOJA' || $data['KD_TPS_ASAL'] == 'JICT' || $data['KD_TPS_ASAL'] == 'NCT1') {
+                        $nct_gerakan = array();
+                    }else{
+                        $nct_gerakan = array('Pas Truck' => 9100, 'Gate Pass Admin' => 20000, 'Cost Rec/Surcarge' => 75000);
+                    }
+
+                    foreach($nct_gerakan as $key=>$value):
+                        $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
+
+                        $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
+                        $invoice_gerakan->lokasi_sandar = $data['KD_TPS_ASAL'];
+                        $invoice_gerakan->size = 0;
+                        $invoice_gerakan->qty = count($container20)+count($container40)+count($container45);
+                        $invoice_gerakan->jenis_gerakan = $key;
+                        $invoice_gerakan->tarif_dasar = $value;
+                        $invoice_gerakan->total = (count($container20)+count($container40)+count($container45)) * $value;
+
+                        $invoice_gerakan->save();
+                    endforeach;
+                }else{
+                    $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
+
+                    $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
+                    $invoice_gerakan->lokasi_sandar = 'JICT';
+                    $invoice_gerakan->size = 0;
+                    $invoice_gerakan->qty = count($container20)+count($container40)+count($container45);
+                    $invoice_gerakan->jenis_gerakan = 'Cost Rec/Surcarge';
+                    $invoice_gerakan->tarif_dasar = 75000;
+                    $invoice_gerakan->total = (count($container20)+count($container40)+count($container45)) * 75000;
+
+                    $invoice_gerakan->save();
+                }
+
+                // Insert Invoice Detail
+                if(count($container20) > 0) {
+
+                    $tarif20 = \App\Models\InvoiceTarifNct::where(array('size' => 20, 'type' => $jenis_cont_std))->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
+
+                    $count_od = 0;
+                    foreach ($container20 as $c_20):
+                        if($c_20->od == 'Y'){
+                            $count_od++;
+                        }
+                    endforeach;
+                    foreach ($tarif20 as $t20) :
+
+                        $invoice_penumpukan = new \App\Models\InvoiceNctPenumpukan;
+
+                        $invoice_penumpukan->invoice_nct_id = $invoice_nct->id;
+                        $invoice_penumpukan->lokasi_sandar = $t20->lokasi_sandar;
+                        $invoice_penumpukan->size = 20;
+                        $invoice_penumpukan->qty = count($container20);
+
+                        if($t20->lokasi_sandar == 'KOJA' || $t20->lokasi_sandar == 'NCT1' || $t20->lokasi_sandar == 'JICT') {
+
+                            // GERAKAN
+                            $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
+
+                            $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
+                            $invoice_gerakan->lokasi_sandar = $t20->lokasi_sandar;
+                            $invoice_gerakan->size = 20;
+                            $invoice_gerakan->qty = count($container20);
+                            if($count_od > 0){
+                                $invoice_gerakan->jenis_gerakan = 'Lift On Terminal OD';
+                                $invoice_gerakan->tarif_dasar = $t20->lift_on_od;
+                                $invoice_gerakan->total = $invoice_gerakan->qty * $t20->lift_on_od;
+                            }else{
+                                $invoice_gerakan->jenis_gerakan = 'Lift On Terminal';
+                                $invoice_gerakan->tarif_dasar = $t20->lift_on;
+                                $invoice_gerakan->total = $invoice_gerakan->qty * $t20->lift_on;
+                            }
+
+                            $invoice_gerakan->save();
+
+                            // PENUMPUKAN
+                            $date1 = date_create($data['ETA']);
+//                            $date2 = date_create(date('Y-m-d',strtotime($data['TGLMASUK'])));
+                            $date2 = date_create(date('Y-m-d',strtotime($data['TGLMASUK']. "+1 days")));
+                            $diff = date_diff($date1, $date2);
+                            $hari = $diff->format("%a");
+
+                            $invoice_penumpukan->startdate = $data['ETA'];
+                            $invoice_penumpukan->enddate = $data['TGLMASUK'];
+                            $invoice_penumpukan->lama_timbun = $hari;
+                            $invoice_penumpukan->tarif_dasar = ($count_od > 0) ? $t20->masa2_od : $t20->masa2;
+
+                            $invoice_penumpukan->hari_masa1 = ($hari > 0) ? 1 : 0;
+                            $invoice_penumpukan->hari_masa2 = ($hari > 1) ? 1 : 0;
+//                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? 1 : 0;
+                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? $hari - 2 : 0;
+                            $invoice_penumpukan->hari_masa4 = 0;
+
+//                            if($t20->lokasi_sandar == 'KOJA'){
+//                                $invoice_penumpukan->hari_masa4 = ($hari > 2) ? $hari - 2 : 0;
+//                            }else{
+//                                $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
+//                            }
+
+//                            $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa1 * $t20->masa1) * count($container20);
+//                            $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa2 * $invoice_penumpukan->tarif_dasar * 3) * count($container20);
+//                            $invoice_penumpukan->masa3 = ($invoice_penumpukan->hari_masa3 * $invoice_penumpukan->tarif_dasar * 6) * count($container20);
+//                            $invoice_penumpukan->masa4 = ($invoice_penumpukan->hari_masa4 * $invoice_penumpukan->tarif_dasar * 9) * count($container20);
+                            $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa2 * $invoice_penumpukan->tarif_dasar * 3) * count($container20);
+                            $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa3 * $invoice_penumpukan->tarif_dasar * 6) * count($container20);
+                            $invoice_penumpukan->masa3 = 0;
+                            $invoice_penumpukan->masa4 = 0;
+                        } else {
+
+                            // GERAKAN
+//                            if($data['BEHANDLE'] == 'Y') {
+//                                $jenis = array('Lift On/Off' => $t20->lift_off,'Paket PLP' => $t20->paket_plp,'Behandle' => $t20->behandle);
+//                            }else{
+//                            if($jenis_cont_std == 'BB') {
+//                                $jenis = array('Lift On/Off' => $t20->lift_off*2, 'Paket PLP' => $t20->paket_plp);
+//                            }else{
+                            if($count_od > 0) {
+                                $jenis = array('Lift On/Off OD' => $t20->lift_off_od, 'Paket PLP OD' => $t20->paket_plp_od);
+                            }else{
+                                $jenis = array('Lift On/Off' => $t20->lift_off, 'Paket PLP' => $t20->paket_plp);
+                            }
+//                            }
+
+//                            $count_behandle = 0;
+//                            foreach ($container20 as $c_20):
+//                                if($c_20->BEHANDLE == 'Y'){
+//                                    $count_behandle++;
+//                                }
+//                            endforeach;
+//                            if($count_behandle > 0) {
+//                                $jenis['Behandle'] = $t20->behandle;
+//                            }
+//                            }
+                            if(isset($request->behandle)) {
+                                $jenis['Behandle'] = $t20->behandle;
+                            }
+
+                            foreach ($jenis as $key=>$value):
+                                $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
+
+                                $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
+                                $invoice_gerakan->lokasi_sandar = $t20->lokasi_sandar;
+                                $invoice_gerakan->size = 20;
+//                                $invoice_gerakan->qty = count($container20);
+                                if($key == 'Lift On/Off' || $key == 'Lift On/Off OD'){
+//                                    if($jenis_cont_std == 'BB'){
+//                                        $invoice_gerakan->qty = count($container20)*4;
+//                                    }else{
+                                    $invoice_gerakan->qty = count($container20)*2;
+//                                    }
+//                                }elseif($key == 'Behandle'){
+//                                    $invoice_gerakan->qty = $count_behandle;
+                                }else{
+                                    $invoice_gerakan->qty = count($container20);
+                                }
+                                $invoice_gerakan->jenis_gerakan = $key;
+                                $invoice_gerakan->tarif_dasar = $value;
+                                $invoice_gerakan->total = $invoice_gerakan->qty * $value;
+
+                                $invoice_gerakan->save();
+                            endforeach;
+
+                            // PENUMPUKAN
+                            $date1 = date_create($data['TGLMASUK']);
+                            $date2 = date_create($tgl_release);
+                            $diff = date_diff($date1, $date2);
+//                            if($data['KD_TPS_ASAL'] == 'KOJA'){
+//                                $hari = $diff->format("%a") + 1;
+//                            }else{
+                            $hari = $diff->format("%a");
+//                            }
+
+                            $invoice_penumpukan->startdate = $data['TGLMASUK'];
+                            $invoice_penumpukan->enddate = $tgl_release;
+                            $invoice_penumpukan->lama_timbun = $hari;
+                            $invoice_penumpukan->tarif_dasar = ($count_od > 0) ? $t20->masa2_od : $t20->masa2;
+
+                            if($data['KD_TPS_ASAL'] == 'KOJA' || $data['KD_TPS_ASAL'] == 'JICT' || $data['KD_TPS_ASAL'] == 'NCT1'){
+                                if($hari_terminal >= 10){
+                                    $invoice_penumpukan->hari_masa1 = 0;
+                                    $invoice_penumpukan->hari_masa2 = $hari;
+                                }else{
+                                    $sisa_hari = 10-$hari_terminal;
+                                    $hari_depo_masa1 = min(array($hari, $sisa_hari));
+                                    $invoice_penumpukan->hari_masa1 = $hari_depo_masa1;
+                                    $invoice_penumpukan->hari_masa2 = abs($hari-$hari_depo_masa1);
+                                }
+                            }else{
+                                $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
+                                $invoice_penumpukan->hari_masa2 = ($hari > 2) ? $hari-2 : 0;
+                            }
+                            $invoice_penumpukan->hari_masa3 = 0;
+                            $invoice_penumpukan->hari_masa4 = 0;
+
+                            $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa1 * $invoice_penumpukan->tarif_dasar * 2) * count($container20);
+                            $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa2 * $invoice_penumpukan->tarif_dasar * 3) * count($container20);
+                            $invoice_penumpukan->masa3 = ($invoice_penumpukan->hari_masa3 * $t20->masa3) * count($container20);
+                            $invoice_penumpukan->masa4 = ($invoice_penumpukan->hari_masa4 * $t20->masa4) * count($container20);
+                        }
+
+                        $invoice_penumpukan->total = array_sum(array($invoice_penumpukan->masa1,$invoice_penumpukan->masa2,$invoice_penumpukan->masa3,$invoice_penumpukan->masa4));
+
+                        $invoice_penumpukan->save();
+
+                    endforeach;
+
+                }
+
+                if(count($container40) > 0) {
+
+                    $tarif40 = \App\Models\InvoiceTarifNct::where(array('size' => 40, 'type' => $jenis_cont_std))->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
+                    $count_od = 0;
+                    foreach ($container40 as $c_40):
+                        if($c_40->od == 'Y'){
+                            $count_od++;
+                        }
+                    endforeach;
+                    foreach ($tarif40 as $t40) :
+
+                        $invoice_penumpukan = new \App\Models\InvoiceNctPenumpukan;
+
+                        $invoice_penumpukan->invoice_nct_id = $invoice_nct->id;
+                        $invoice_penumpukan->lokasi_sandar = $t40->lokasi_sandar;
+                        $invoice_penumpukan->size = 40;
+                        $invoice_penumpukan->qty = count($container40);
+
+                        if($t40->lokasi_sandar == 'KOJA' || $t40->lokasi_sandar == 'NCT1' || $t40->lokasi_sandar == 'JICT') {
+                            // GERAKAN
+                            $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
+
+                            $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
+                            $invoice_gerakan->lokasi_sandar = $t40->lokasi_sandar;
+                            $invoice_gerakan->size = 40;
+                            $invoice_gerakan->qty = count($container40);
+                            if($count_od > 0){
+                                $invoice_gerakan->jenis_gerakan = 'Lift On Terminal OD';
+                                $invoice_gerakan->tarif_dasar = $t40->lift_on_od;
+                                $invoice_gerakan->total = $invoice_gerakan->qty * $t40->lift_on_od;
+                            }else{
+                                $invoice_gerakan->jenis_gerakan = 'Lift On Terminal';
+                                $invoice_gerakan->tarif_dasar = $t40->lift_on;
+                                $invoice_gerakan->total = $invoice_gerakan->qty * $t40->lift_on;
+                            }
+
+                            $invoice_gerakan->save();
+
+                            // PENUMPUKAN
+                            $date1 = date_create($data['ETA']);
+//                            $date2 = date_create(date('Y-m-d',strtotime($data['TGLMASUK'])));
+                            $date2 = date_create(date('Y-m-d',strtotime($data['TGLMASUK']. "+1 days")));
+                            $diff = date_diff($date1, $date2);
+                            $hari = $diff->format("%a");
+
+                            $invoice_penumpukan->startdate = $data['ETA'];
+                            $invoice_penumpukan->enddate = $data['TGLMASUK'];
+                            $invoice_penumpukan->lama_timbun = $hari;
+                            $invoice_penumpukan->tarif_dasar = ($count_od > 0) ? $t40->masa2_od : $t40->masa2;
+
+                            $invoice_penumpukan->hari_masa1 = ($hari > 0) ? 1 : 0;
+                            $invoice_penumpukan->hari_masa2 = ($hari > 1) ? 1 : 0;
+//                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? 1 : 0;
+                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? $hari - 2 : 0;
+                            $invoice_penumpukan->hari_masa4 = 0;
+//                            if($t40->lokasi_sandar == 'KOJA'){
+//                                $invoice_penumpukan->hari_masa4 = ($hari > 2) ? $hari - 2 : 0;
+//                            }else{
+//                                $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
+//                            }
+
+//                            $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa1 * $t40->masa1) * count($container40);
+//                            $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa2 * $invoice_penumpukan->tarif_dasar * 3) * count($container40);
+//                            $invoice_penumpukan->masa3 = ($invoice_penumpukan->hari_masa3 * $invoice_penumpukan->tarif_dasar * 6) * count($container40);
+//                            $invoice_penumpukan->masa4 = ($invoice_penumpukan->hari_masa4 * $invoice_penumpukan->tarif_dasar * 9) * count($container40);
+                            $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa2 * $invoice_penumpukan->tarif_dasar * 3) * count($container40);
+                            $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa3 * $invoice_penumpukan->tarif_dasar * 6) * count($container40);
+                            $invoice_penumpukan->masa3 = 0;
+                            $invoice_penumpukan->masa4 = 0;
+                        } else {
+                            // GERAKAN
+//                            if($data['BEHANDLE'] == 'Y') {
+//                                $jenis = array('Lift On/Off' => $t40->lift_off,'Paket PLP' => $t40->paket_plp,'Behandle' => $t40->behandle);
+//                            }else{
+//                            if($jenis_cont_std == 'BB') {
+//                                $jenis = array('Lift On/Off' => $t40->lift_off*2, 'Paket PLP' => $t40->paket_plp);
+//                            }else{
+                            if($count_od > 0) {
+                                $jenis = array('Lift On/Off OD' => $t40->lift_off_od, 'Paket PLP OD' => $t40->paket_plp_od);
+                            }else{
+                                $jenis = array('Lift On/Off' => $t40->lift_off, 'Paket PLP' => $t40->paket_plp);
+                            }
+//                            }
+
+//                            $count_behandle = 0;
+//                            foreach ($container40 as $c_40):
+//                                if($c_40->BEHANDLE == 'Y'){
+//                                    $count_behandle++;
+//                                }
+//                            endforeach;
+//                            if($count_behandle > 0) {
+//                                $jenis['Behandle'] = $t40->behandle;
+//                            }
+                            if(isset($request->behandle)) {
+                                $jenis['Behandle'] = $t40->behandle;
+                            }
+//                            }
+
+                            foreach ($jenis as $key=>$value):
+                                $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
+
+                                $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
+                                $invoice_gerakan->lokasi_sandar = $t40->lokasi_sandar;
+                                $invoice_gerakan->size = 40;
+//                                $invoice_gerakan->qty = count($container40);
+                                if($key == 'Lift On/Off' || $key == 'Lift On/Off OD'){
+//                                    if($jenis_cont_std == 'BB'){
+//                                        $invoice_gerakan->qty = count($container40)*4;
+//                                    }else{
+                                    $invoice_gerakan->qty = count($container40)*2;
+//                                    }
+//                                }elseif($key == 'Behandle'){
+//                                    $invoice_gerakan->qty = $count_behandle;
+                                }else{
+                                    $invoice_gerakan->qty = count($container40);
+                                }
+                                $invoice_gerakan->jenis_gerakan = $key;
+                                $invoice_gerakan->tarif_dasar = $value;
+                                $invoice_gerakan->total = $invoice_gerakan->qty * $value;
+
+                                $invoice_gerakan->save();
+                            endforeach;
+
+                            // PENUMPUKAN
+                            $date1 = date_create($data['TGLMASUK']);
+                            $date2 = date_create($tgl_release);
+                            $diff = date_diff($date1, $date2);
+//                            if($data['KD_TPS_ASAL'] == 'KOJA'){
+//                                $hari = $diff->format("%a") + 1;
+//                            }else{
+                            $hari = $diff->format("%a");
+//                            }
+
+                            $invoice_penumpukan->startdate = $data['TGLMASUK'];
+                            $invoice_penumpukan->enddate = $tgl_release;
+                            $invoice_penumpukan->lama_timbun = $hari;
+                            $invoice_penumpukan->tarif_dasar = ($count_od > 0) ? $t40->masa2_od : $t40->masa2;
+
+                            if($data['KD_TPS_ASAL']  == 'KOJA' || $data['KD_TPS_ASAL'] == 'JICT' || $data['KD_TPS_ASAL'] == 'NCT1'){
+                                if($hari_terminal >= 10){
+                                    $invoice_penumpukan->hari_masa1 = 0;
+                                    $invoice_penumpukan->hari_masa2 = $hari;
+                                }else{
+                                    $sisa_hari = 10-$hari_terminal;
+                                    $hari_depo_masa1 = min(array($hari, $sisa_hari));
+                                    $invoice_penumpukan->hari_masa1 = $hari_depo_masa1;
+                                    $invoice_penumpukan->hari_masa2 = abs($hari-$hari_depo_masa1);
+                                }
+                            }else{
+                                $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
+                                $invoice_penumpukan->hari_masa2 = ($hari > 2) ? $hari-2 : 0;
+                            }
+                            $invoice_penumpukan->hari_masa3 = 0;
+                            $invoice_penumpukan->hari_masa4 = 0;
+
+                            $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa1 * $invoice_penumpukan->tarif_dasar * 2) * count($container40);
+                            $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa2 * $invoice_penumpukan->tarif_dasar * 3) * count($container40);
+                            $invoice_penumpukan->masa3 = ($invoice_penumpukan->hari_masa3 * $t40->masa3) * count($container40);
+                            $invoice_penumpukan->masa4 = ($invoice_penumpukan->hari_masa4 * $t40->masa4) * count($container40);
+                        }
+
+                        $invoice_penumpukan->total = array_sum(array($invoice_penumpukan->masa1,$invoice_penumpukan->masa2,$invoice_penumpukan->masa3,$invoice_penumpukan->masa4));
+
+                        $invoice_penumpukan->save();
+
+                    endforeach;
+
+                }
+
+                if(count($container45) > 0) {
+
+                    $tarif45 = \App\Models\InvoiceTarifNct::where(array('size' => 45, 'type' => $jenis_cont_std))->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
+//                    return $tarif40;
+                    foreach ($tarif45 as $t45) :
+
+                        $invoice_penumpukan = new \App\Models\InvoiceNctPenumpukan;
+
+                        $invoice_penumpukan->invoice_nct_id = $invoice_nct->id;
+                        $invoice_penumpukan->lokasi_sandar = $t45->lokasi_sandar;
+                        $invoice_penumpukan->size = 45;
+                        $invoice_penumpukan->qty = count($container45);
+
+                        if($t45->lokasi_sandar == 'KOJA' || $t45->lokasi_sandar == 'NCT1' || $t45->lokasi_sandar == 'JICT') {
+                            // GERAKAN
+                            $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
+
+                            $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
+                            $invoice_gerakan->lokasi_sandar = $t45->lokasi_sandar;
+                            $invoice_gerakan->size = 45;
+                            $invoice_gerakan->qty = count($container45);
+                            $invoice_gerakan->jenis_gerakan = 'Lift On Terminal';
+                            $invoice_gerakan->tarif_dasar = $t45->lift_on;
+                            $invoice_gerakan->total = $invoice_gerakan->qty * $t45->lift_on;
+                            $invoice_gerakan->save();
+
+                            // PENUMPUKAN
+                            $date1 = date_create($data['ETA']);
+//                            $date2 = date_create(date('Y-m-d',strtotime($data['TGLMASUK'])));
+                            $date2 = date_create(date('Y-m-d',strtotime($data['TGLMASUK']. "+1 days")));
+                            $diff = date_diff($date1, $date2);
+                            $hari = $diff->format("%a");
+
+                            $invoice_penumpukan->startdate = $data['ETA'];
+                            $invoice_penumpukan->enddate = $data['TGLMASUK'];
+                            $invoice_penumpukan->lama_timbun = $hari;
+                            $invoice_penumpukan->tarif_dasar = ($count_od > 0) ? $t45->masa2_od : $t45->masa2;
+
+                            $invoice_penumpukan->hari_masa1 = ($hari > 0) ? 1 : 0;
+                            $invoice_penumpukan->hari_masa2 = ($hari > 1) ? 1 : 0;
+//                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? 1 : 0;
+                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? $hari - 2 : 0;
+                            $invoice_penumpukan->hari_masa4 = 0;
+//                            if($t45->lokasi_sandar == 'KOJA'){
+//                                $invoice_penumpukan->hari_masa4 = ($hari > 2) ? $hari - 2 : 0;
+//                            }else{
+//                                $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
+//                            }
+
+//                            $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa1 * $t45->masa1) * count($container45);
+//                            $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa2 * $t45->masa2 * 3) * count($container45);
+//                            $invoice_penumpukan->masa3 = ($invoice_penumpukan->hari_masa3 * $t45->masa3 * 6) * count($container45);
+//                            $invoice_penumpukan->masa4 = ($invoice_penumpukan->hari_masa4 * $t45->masa4 * 9) * count($container45);
+                            $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa2 * $invoice_penumpukan->tarif_dasar * 3) * count($container45);
+                            $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa3 * $invoice_penumpukan->tarif_dasar * 6) * count($container45);
+                            $invoice_penumpukan->masa3 = 0;
+                            $invoice_penumpukan->masa4 = 0;
+
+                        } else {
+                            // GERAKAN
+//                            if($data['BEHANDLE'] == 'Y') {
+//                                $jenis = array('Lift On/Off' => $t45->lift_off,'Paket PLP' => $t45->paket_plp,'Behandle' => $t45->behandle);
+//                            }else{
+//                            if($jenis_cont_std == 'BB') {
+//                                $jenis = array('Lift On/Off' => $t45->lift_off*2, 'Paket PLP' => $t45->paket_plp);
+//                            }else{
+                            $jenis = array('Lift On/Off' => $t45->lift_off, 'Paket PLP' => $t45->paket_plp);
+//                            }
+
+//                            $count_behandle = 0;
+//                            foreach ($container45 as $c_45):
+//                                if($c_45->BEHANDLE == 'Y'){
+//                                    $count_behandle++;
+//                                }
+//                            endforeach;
+//                            if($count_behandle > 0) {
+//                                $jenis['Behandle'] = $t45->behandle;
+//                            }
+                            if(isset($request->behandle)) {
+                                $jenis['Behandle'] = $t40->behandle;
+                            }
+//                            }
+
+                            foreach ($jenis as $key=>$value):
+                                $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
+
+                                $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
+                                $invoice_gerakan->lokasi_sandar = $t45->lokasi_sandar;
+                                $invoice_gerakan->size = 45;
+                                if($key == 'Lift On/Off'){
+//                                    if($jenis_cont_std == 'BB'){
+//                                        $invoice_gerakan->qty = count($container45)*4;
+//                                    }else{
+                                    $invoice_gerakan->qty = count($container45)*2;
+//                                    }
+//                                }elseif($key == 'Behandle'){
+//                                    $invoice_gerakan->qty = $count_behandle;
+                                }else{
+                                    $invoice_gerakan->qty = count($container45);
+                                }
+                                $invoice_gerakan->jenis_gerakan = $key;
+                                $invoice_gerakan->tarif_dasar = $value;
+                                $invoice_gerakan->total = $invoice_gerakan->qty * $value;
+
+                                $invoice_gerakan->save();
+                            endforeach;
+
+                            // PENUMPUKAN
+                            $date1 = date_create($data['TGLMASUK']);
+                            $date2 = date_create($tgl_release);
+                            $diff = date_diff($date1, $date2);
+//                            if($data['KD_TPS_ASAL'] == 'KOJA'){
+//                                $hari = $diff->format("%a") + 1;
+//                            }else{
+                            $hari = $diff->format("%a");
+//                            }
+
+                            $invoice_penumpukan->startdate = $data['TGLMASUK'];
+                            $invoice_penumpukan->enddate = $tgl_release;
+                            $invoice_penumpukan->lama_timbun = $hari;
+                            $invoice_penumpukan->tarif_dasar = $t45->masa2;
+
+                            if($data['KD_TPS_ASAL'] == 'KOJA' || $data['KD_TPS_ASAL'] == 'JICT' || $data['KD_TPS_ASAL'] == 'NCT1'){
+                                if($hari_terminal >= 10){
+                                    $invoice_penumpukan->hari_masa1 = 0;
+                                    $invoice_penumpukan->hari_masa2 = $hari;
+                                }else{
+                                    $sisa_hari = 10-$hari_terminal;
+                                    $hari_depo_masa1 = min(array($hari, $sisa_hari));
+                                    $invoice_penumpukan->hari_masa1 = $hari_depo_masa1;
+                                    $invoice_penumpukan->hari_masa2 = abs($hari-$hari_depo_masa1);
+                                }
+                            }else{
+                                $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
+                                $invoice_penumpukan->hari_masa2 = ($hari > 2) ? $hari-2 : 0;
+                            }
+                            $invoice_penumpukan->hari_masa3 = 0;
+                            $invoice_penumpukan->hari_masa4 = 0;
+
+                            $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa1 * $t45->masa1 * 2) * count($container45);
+                            $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa2 * $t45->masa2 * 3) * count($container45);
+                            $invoice_penumpukan->masa3 = ($invoice_penumpukan->hari_masa3 * $t45->masa3) * count($container45);
+                            $invoice_penumpukan->masa4 = ($invoice_penumpukan->hari_masa4 * $t45->masa4) * count($container45);
+                        }
+
+                        $invoice_penumpukan->total = array_sum(array($invoice_penumpukan->masa1,$invoice_penumpukan->masa2,$invoice_penumpukan->masa3,$invoice_penumpukan->masa4));
+
+                        $invoice_penumpukan->save();
+
+                    endforeach;
+
+                }
+
+            }
+
+//            if($data['KD_TPS_ASAL'] == 'NCT1'){
+//                $nct_gerakan = array('Pas Truck' => 9100, 'Gate Pass Admin' => 20000, 'Cost Rec/Surcarge' => 75000);
+//
+//                foreach($nct_gerakan as $key=>$value):
+//                    $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
+//
+//                    $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
+//                    $invoice_gerakan->lokasi_sandar = 'NCT1';
+//                    $invoice_gerakan->size = 0;
+//                    $invoice_gerakan->qty = count($container20)+count($container40);
+//                    $invoice_gerakan->jenis_gerakan = $key;
+//                    $invoice_gerakan->tarif_dasar = $value;
+//                    $invoice_gerakan->total = (count($container20)+count($container40)) * $value;
+//
+//                    $invoice_gerakan->save();
+//                endforeach;
+//            }else{
+//                    $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
+//
+//                    $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
+//                    $invoice_gerakan->lokasi_sandar = 'JICT';
+//                    $invoice_gerakan->size = 0;
+//                    $invoice_gerakan->qty = count($container20)+count($container40);
+//                    $invoice_gerakan->jenis_gerakan = 'Cost Rec/Surcarge';
+//                    $invoice_gerakan->tarif_dasar = 75000;
+//                    $invoice_gerakan->total = (count($container20)+count($container40)) * 75000;
+//
+//                    $invoice_gerakan->save();
+//            }
+//
+            $update_nct = \App\Models\InvoiceNct::find($invoice_nct->id);
+
+            if($data['KD_TPS_ASAL'] == 'KOJA' || $data['KD_TPS_ASAL'] == 'JICT' || $data['KD_TPS_ASAL'] == 'NCT1'):
+                if($jenis_cont_std == 'BB'){
+                    $total_penumpukan_tps = \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $invoice_nct->id)->where('lokasi_sandar','TPS')->sum('total');
+                    $total_gerakan_tps = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $invoice_nct->id)->where('lokasi_sandar','TPS')->sum('total');
+//                    if($data['KD_TPS_ASAL'] == 'KOJA'){
+//                        if($type_cont == 'High'){
+//                            $total_surcharge = ($total_penumpukan_tps+$total_gerakan_tps)*(30/100);
+//                        }else{
+//                            $total_surcharge = ($total_penumpukan_tps+$total_gerakan_tps)*(25/100);
+//                        }
+//                    }else{
+                    $total_surcharge = ($total_penumpukan_tps+$total_gerakan_tps)*(25/100);
+//                    }
+
+//                    $update_nct->surcharge = $total_surcharge;
+
+                    $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
+                    $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
+                    $invoice_gerakan->lokasi_sandar = 'TPS';
+                    $invoice_gerakan->size = 0;
+                    $invoice_gerakan->qty = 1;
+                    $invoice_gerakan->jenis_gerakan = 'Surcharge DG 25%';
+                    $invoice_gerakan->tarif_dasar = $total_penumpukan_tps+$total_gerakan_tps;
+                    $invoice_gerakan->total = $total_surcharge;
+                    $invoice_gerakan->save();
+                }
+//                $update_nct->perawatan_it = (count($container20)+count($container40)+count($container45)) * 90000;
+//                $update_nct->administrasi = 20000;
+
+                $update_nct->administrasi = (count($container20)+count($container40)+count($container45)) * 100000;
+            else:
+                $update_nct->administrasi = (count($container20)+count($container40)+count($container45)) * 100000;
+            endif;
+
+            $total_penumpukan = \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $invoice_nct->id)->sum('total');
+            $total_gerakan = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $invoice_nct->id)->sum('total');
+
+            $update_nct->total_non_ppn = $total_penumpukan + $total_gerakan + $update_nct->administrasi + $update_nct->perawatan_it + $update_nct->surcharge;
+            $update_nct->ppn = $update_nct->total_non_ppn * 11/100;
+            if(($update_nct->total_non_ppn+$update_nct->ppn) >= 5000000){
+                $materai = 10000;
+//            }elseif(($update_nct->total_non_ppn+$update_nct->ppn) < 300000) {
+//                $materai = 0;
+            }else{
+                $materai = 0;
+            }
+            $update_nct->materai = $materai;
+            $update_nct->total = $update_nct->total_non_ppn+$update_nct->ppn+$update_nct->materai;
+
+            $update_nct->save();
+
+            return back()->with('success', 'Invoice berhasih dibuat.');
+//            return json_encode(array('success' => true, 'message' => 'Invoice berhasih dibuat.'));
+
+        }
+
+//        return $container;
+        return back()->with('error', 'Something went wrong, please try again later.');
+//        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+
     public function releaseCreateInvoice(Request $request)
     {
         $ids = explode(',', $request->id);        

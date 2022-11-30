@@ -60,7 +60,7 @@ Route::group(['prefix' => 'fcl/delivery', 'namespace' => 'Import'], function(){
     // CREATE INVOICE
     Route::post('/release/invoice', [
         'as' => 'fcl-delivery-release-invoice-nct',
-        'uses' => 'FclController@releaseCreateInvoice'
+        'uses' => 'FclController@releaseCreateInvoiceNew'
     ]);
     
     // TPS ONLINE UPLOAD

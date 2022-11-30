@@ -469,18 +469,19 @@ class InvoiceController extends Controller
         return back()->with('success', 'Invoice has been deleted.'); 
     }
     
-    public function invoiceNctPrint($id)
+    public function invoiceNctPrint($id,$date)
     {
         $data['invoice'] = \App\Models\InvoiceNct::find($id);
         $data['penumpukan'] = \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $data['invoice']->id)->get();
         $data['gerakan'] = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $data['invoice']->id)->orderBy('lokasi_sandar', 'ASC')->get();
         $data['tarif'] = \App\Models\InvoiceTarifNct::get();
-        $data['terbilang'] = ucwords($this->terbilang(round($data['invoice']->total)))." Rupiah";
+        $data['terbilang'] = ucwords($this->terbilang(round($data['invoice']->total))) . " Rupiah";
+        $data['tgl_cetak'] = $date;
 
         return view('print.invoice-nct')->with($data);
 
         $pdf = \PDF::loadView('print.invoice-nct', $data)->setPaper('legal');
-        return $pdf->stream($data['invoice']->no_invoice.'.pdf');
+        return $pdf->stream($data['invoice']->no_invoice . '.pdf');
     }
     
     public function tarifNctIndex()

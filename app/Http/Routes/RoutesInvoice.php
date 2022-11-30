@@ -115,8 +115,8 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
             'as' => 'invoice-nct-delete',
             'uses' => 'InvoiceController@invoiceNctDestroy'
         ]);
-        
-        Route::get('/print/{id}', [
+
+        Route::get('/print/{id}/{date?}', [
             'as' => 'invoice-nct-print',
             'uses' => 'InvoiceController@invoiceNctPrint'
         ]);
