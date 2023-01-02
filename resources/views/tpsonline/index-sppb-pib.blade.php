@@ -193,7 +193,8 @@
                                         <option value="2019">2019</option>
                                         <option value="2020">2020</option>
                                         <option value="2021">2021</option>
-                                        <option value="2022" selected>2022</option>
+                                        <option value="2022" @if(date('Y') == '2022') {{ 'selected' }} @endif>2022</option>
+                                        <option value="2023" @if(date('Y') == '2023') {{ 'selected' }} @endif>2023</option>
                                     </select>
                                 </div>
                             </div>
