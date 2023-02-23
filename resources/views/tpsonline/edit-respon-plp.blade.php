@@ -207,7 +207,7 @@
 <script>
     function onSelectRowEvent(rowid, status, e)
     {
-        $('#cetak-permohonan').prop("disabled",false);
+        // $('#cetak-permohonan').prop("disabled",false);
     }
     
     $(document).ready(function(){
@@ -310,8 +310,9 @@
                     <div id="btn-group-3" class="col-sm-3" style="margin: 10px 0;">
                         <button type="button" disabled class="btn btn-block btn-default">Cetak Respon PLP Tujuan</button>
                     </div>-->
-                    <div id="btn-group-4" class="col-sm-2 pull-right" style="margin: 10px 0;display: none;">
-                        <button type="button" id="createJoborderBtn" class="btn btn-block btn-info">Create Job Order</button>
+                    <div id="btn-group-4" class="btn-group toolbar-block pull-right" style="margin: 10px 0;display: none;">
+                        <button type="button" id="cetak-permohonan" class="btn btn-default"><i class="fa fa-print"></i> Cetak Permohonan</button>
+                        <button type="button" id="createJoborderBtn" class="btn btn-info">Create Job Order</button>
                         <input type="hidden" id="JNS_CONT" name="JNS_CONT"/>
                     </div>
 <!--                    <div id="btn-group-5" class="col-sm-3" style="margin: 10px 0;">
@@ -420,15 +421,17 @@
     $('#cetak-permohonan').click(function()
     {
         //Gets the selected row id.
-        var rowid = $('#tpsResponPlpDetailGrid').jqGrid('getGridParam', 'selrow'),
-            rowdata = $('#tpsResponPlpDetailGrid').getRowData(rowid);
-        
-        if(rowid){
-            $('#cetak-permohonan-modal').modal('show');
-            $("#container_id").val(rowid);
-        }else{
-            alert('Please Select Container.');
-        }
+        // var rowid = $('#tpsResponPlpDetailGrid').jqGrid('getGridParam', 'selrow'),
+        //     rowdata = $('#tpsResponPlpDetailGrid').getRowData(rowid);
+        //
+        // if(rowid){
+        //     $('#cetak-permohonan-modal').modal('show');
+        //     $("#container_id").val(rowid);
+        // }else{
+        //     alert('Please Select Container.');
+        // }
+        var id = '{{$respon->tps_responplptujuanxml_pk}}';
+        window.open("{{ route('tps-responPlp-cetak-permohonan', '') }}/"+id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");
     });
     
     $('#createJoborderBtn').click(function()

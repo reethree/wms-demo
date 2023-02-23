@@ -965,4 +965,12 @@ class PenerimaanController extends Controller
         
         return back()->with('error', 'Something went wrong, please try again later.');
     }
+
+    public function responPlpCetakPermohonan($id)
+    {
+        $data['respon'] = \App\Models\TpsResponPlp::find($id);
+        $data['details'] = \App\Models\TpsResponPlpDetail::where('tps_responplptujuanxml_fk', $id)->groupby('NO_CONT')->get();
+
+        return view('print.respon-plp-permohonan', $data);
+    }
 }
