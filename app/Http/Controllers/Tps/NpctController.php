@@ -192,7 +192,7 @@ class NpctController extends Controller
                         'ssl' => array(
                             'verify_peer' => false,
                             'verify_peer_name' => false,
-                            'allow_self_signed' => true
+                            'allow_self_signed' => false
                         )
                     ]),
                     'soap_version' => SOAP_1_1
@@ -268,7 +268,7 @@ class NpctController extends Controller
                         'ssl' => array(
                             'verify_peer' => false,
                             'verify_peer_name' => false,
-                            'allow_self_signed' => true
+                            'allow_self_signed' => false
                         )
                     ]),
                     'soap_version' => SOAP_1_1
