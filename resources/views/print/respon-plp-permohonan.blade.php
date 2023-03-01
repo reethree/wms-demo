@@ -69,7 +69,7 @@
             
             <tr>
                 <td colspan="2">
-                    <p>Yth. Kapala Kantor Pelayanan Umum<br />u.p. Kepala Seksi Administrasi Manifes</p>
+                    <p><b>Yth. Kepala KPU Bea dan Cukai Tipe A Tanjung Priok</b><br />U.p. Kepala Seksi Administrasi Manifes</p>
                     <p>Dengan ini kami mengajukan permohonan Pidah Lokasi Penimbunan barang import yang belum diselesaikan kewajiban pabeannya (PLP) sebagai berikut :</p>
                     <p>BC11 : {{$respon->NO_BC11}} &nbsp;&nbsp;&nbsp;&nbsp; TANGGAL : {{date('d-m-Y', strtotime($respon->TGL_BC11))}}</p>
                 </td>
@@ -79,11 +79,14 @@
     <table border="1" cellspacing="0" cellpadding="0">
         <thead>
             <tr>
-                <th>NO</th>
-                <th>PETIKEMAS</th>
+                <th rowspan="2">NO</th>
+                <th colspan="3">PETIKEMAS</th>
+                <th rowspan="2">KEPUTUSAN PEJABAT BC</th>
+            </tr>
+            <tr>
+                <th>NOMOR</th>
                 <th>UKURAN</th>
-                <th>JUMLAH</th>  
-                <th>KEPUTUSAN PEJABAT BC</th>
+                <th>JUMLAH</th>
             </tr>
         </thead>
         <tbody>
@@ -93,8 +96,8 @@
                 <td style="width: 20px; height: 25px;" class="text-center">{{ $i }}</td>
                 <td style="width: 100px;" class="text-center">{{ $detail->NO_CONT }}</td>
                 <td style="width: 80px;" class="text-center">{{ $detail->UK_CONT }}</td>
-                <td style="width: 100px;"></td>
-                <td></td>
+                <td style="width: 100px;" class="text-center">{{ count($details) }}</td>
+                <td class="text-center">Disetujui</td>
             </tr>
             <?php $i++;?>
             @endforeach         
@@ -103,44 +106,77 @@
     <table border="0" cellspacing="0" cellpadding="0">
         <tbody>
             <tr>
-                <td colspan="3" style="font-size: 12px;">Demikian kami sampaikan untuk dapat dipertimbangkan.</td>
+                <td style="width: 100px;">Nama Kapal</td>
+                <td style="width: 20px;">:</td>
+                <td>{{ $respon->NM_ANGKUT }}</td>
             </tr>
             <tr>
-                <td class="text-center" style="padding-top: 20px;">&nbsp;</td>
-                <td class="text-center" style="padding-top: 20px;"><b>Pemohon</b></td>
-                <td class="text-center" style="padding-top: 20px;">&nbsp;</td>
+                <td style="width: 100px;">No. Voyage</td>
+                <td style="width: 20px;">:</td>
+                <td>{{ $respon->NO_VOY_FLIGHT }}</td>
             </tr>
             <tr>
-                <td class="text-center" style="padding-top: 60px;">&nbsp;</td>
-                <td class="text-center" style="padding-top: 60px;"><b>(..................................)</b></td>
-                <td class="text-center" style="padding-top: 60px;">&nbsp;</td>
+                <td style="width: 100px;">TPS Asal</td>
+                <td style="width: 20px;">:</td>
+                <td>{{ $respon->KD_TPS_ASAL }} SOR/YOR : {{ $respon->YOR_TPS_ASAL }} %</td>
+            </tr>
+            <tr>
+                <td style="width: 100px;">TPS Tujuan</td>
+                <td style="width: 20px;">:</td>
+                <td>PT. PRIMANATA JASA PERSADA , Kode TPS : PRJP SOR/YOR : {{ $respon->YOR_TPS_TUJUAN }} %</td>
+            </tr>
+            <tr>
+                <td style="width: 100px;">Alasan</td>
+                <td style="width: 20px;">:</td>
+                <td>{{ $respon->ALASAN }}</td>
+            </tr>
+            <tr>
+                <td colspan="3" style="font-size: 12px;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="3" style="font-size: 12px;">Demikian kami sampaikan untuk dipertimbangkan<br />Keputusan Pejabat Bea Cukai :</td>
+            </tr>
+            <tr>
+                <td style="width: 100px;">Nomor</td>
+                <td style="width: 20px;">:</td>
+                <td>{{ $respon->NO_PLP }}</td>
+            </tr>
+            <tr>
+                <td style="width: 100px;">Tanggal</td>
+                <td style="width: 20px;">:</td>
+                <td>{{ date('d F Y', strtotime($respon->TGL_PLP)) }}</td>
             </tr>
         </tbody>
     </table>
     <table border="0" cellspacing="0" cellpadding="0">
         <tbody>
             <tr>
-                <td>
+                <td style="width: 70%">
                     <p>Keputusan Pejabat Bea dan Cukai</p>
                     <p>
                         Nomor : {{ $respon->NO_PLP }}<br />
-                        Tanggal : {{ date('d-M-Y', strtotime($respon->TGL_PLP)) }}
+                        Tanggal : {{ date('d F Y', strtotime($respon->TGL_PLP)) }}
                     </p>
                     <p>
-                        a/n. Kepala Kantor,<br />
-                        Kepala Seksi Administrasi Manifest
+                        A/n. Kepala Kantor,<br />
+                        Kepala Seksi Administrasi Manifes
                     </p>
                 </td>
+                <td>Pemohon</td>
             </tr>
         </tbody>
     </table>
     <table border="0" cellspacing="0" cellpadding="0">
         <tbody>
             <tr>
-                <td colspan="3">&nbsp;</td>
+                <td style="width: 45%;">&nbsp;</td>
+                <td> </td>
+                <td style="width: 45%;"></td>
             </tr>
             <tr>
-                <td colspan="3">Nip : ...............................</td>
+                <td style="width: 45%;">Nip : ...............................</td>
+                <td> </td>
+                <td style="width: 45%;text-align: center">...............................</td>
             </tr>
             <tr>
                 <td style="width: 45%;">

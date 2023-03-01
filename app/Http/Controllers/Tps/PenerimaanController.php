@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Tps;
 
+use App\Models\TpsResponPlp;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -301,7 +302,7 @@ class PenerimaanController extends Controller
 //        $plpid = \App\Models\TpsResponPlpDetail::where('tps_responplptujuandetailxml_pk', $id)->pluck('tps_responplptujuanxml_fk');
         
         $data['respon'] = \App\Models\TpsResponPlp::find($id);
-        
+
         return view('tpsonline.edit-respon-plp')->with($data);
     }
     
@@ -508,7 +509,17 @@ class PenerimaanController extends Controller
     
     public function responPlpUpdate(Request $request, $id)
     {
-        
+        $data = $request->except(['_token']);
+
+        $update = TpsResponPlp::where('tps_responplptujuanxml_pk', $id)
+            ->update($data);
+
+        if($update){
+
+            return back()->with('success', 'PLP has been updated.');
+        }
+
+        return back()->with('success', 'Please try again.');
     }
     
     public function responBatalPlpUpdate(Request $request, $id)

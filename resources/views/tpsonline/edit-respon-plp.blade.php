@@ -73,7 +73,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="TGL_SURAT_PLP" class="form-control pull-right datepicker" required value="{{ date('Y-m-d',strtotime($respon->TGL_SURAT_PLP)) }}">
+                                <input type="text" name="TGL_SURAT" class="form-control pull-right datepicker" required value="{{ date('Y-m-d',strtotime($respon->TGL_SURAT)) }}">
                             </div>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">YOR/SOR (%)</label>
+                        <label class="col-sm-3 control-label">YOR/SOR Asal</label>
                         <div class="col-sm-8">
                             <input type="number" name="YOR_TPS_ASAL" class="form-control" value="{{ $respon->YOR_TPS_ASAL }}" required>
                         </div>
@@ -184,6 +184,12 @@
                                 </div>
                                 <input type="text" name="TGL_TIBA" class="form-control pull-right datepicker" required value="{{ date('Y-m-d',strtotime($respon->TGL_TIBA)) }}">
                             </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">YOR/SOR TPS</label>
+                        <div class="col-sm-8">
+                            <input type="number" name="YOR_TPS_TUJUAN" class="form-control" value="{{ $respon->YOR_TPS_TUJUAN }}" required>
                         </div>
                     </div>
 <!--                    <div class="form-group">
