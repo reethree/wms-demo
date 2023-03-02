@@ -511,6 +511,11 @@ class PenerimaanController extends Controller
     {
         $data = $request->except(['_token']);
 
+        $data['TGL_SURAT'] = date('Ymd', strtotime($data['TGL_SURAT']));
+        $data['TGL_PLP'] = date('Ymd', strtotime($data['TGL_PLP']));
+        $data['TGL_BC11'] = date('Ymd', strtotime($data['TGL_BC11']));
+        $data['TGL_TIBA'] = date('Ymd', strtotime($data['TGL_TIBA']));
+
         $update = TpsResponPlp::where('tps_responplptujuanxml_pk', $id)
             ->update($data);
 
