@@ -987,6 +987,25 @@ class PenerimaanController extends Controller
         $data['respon'] = \App\Models\TpsResponPlp::find($id);
         $data['details'] = \App\Models\TpsResponPlpDetail::where('tps_responplptujuanxml_fk', $id)->groupby('NO_CONT')->get();
 
+        switch ($data['respon']->KD_TPS_ASAL) {
+            case 'JICT':
+                $tps_asal = 'PT. JAKARTA INTERNATIONAL CONTAINER TERMINAL';
+            break;
+            case 'MAL0':
+                $tps_asal = 'PT. MUSTIKA ALAM LESTARI';
+            break;
+            case 'NCT1':
+                $tps_asal = 'PT. NEW PRIOK CONTAINER TERMINAL ONE';
+            break;
+            case 'KOJA':
+                $tps_asal = 'TERMINAL PETIKEMAS Koja';
+            break;
+            default:
+                $tps_asal = '';
+        }
+
+        $data['nama_tps_asal'] = $tps_asal;
+
         return view('print.respon-plp-permohonan', $data);
     }
 }

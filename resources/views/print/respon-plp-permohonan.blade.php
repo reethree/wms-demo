@@ -118,7 +118,7 @@
             <tr>
                 <td style="width: 100px;">TPS Asal</td>
                 <td style="width: 20px;">:</td>
-                <td>{{ $respon->KD_TPS_ASAL }} SOR/YOR : {{ $respon->YOR_TPS_ASAL }} %</td>
+                <td>{{ $nama_tps_asal }} , Kode TPS : {{ $respon->KD_TPS_ASAL }} SOR/YOR : {{ $respon->YOR_TPS_ASAL }} %</td>
             </tr>
             <tr>
                 <td style="width: 100px;">TPS Tujuan</td>
@@ -153,10 +153,6 @@
             <tr>
                 <td style="width: 70%">
                     <p>Keputusan Pejabat Bea dan Cukai</p>
-                    <p>
-                        Nomor : {{ $respon->NO_PLP }}<br />
-                        Tanggal : {{ date('d F Y', strtotime($respon->TGL_PLP)) }}
-                    </p>
                     <p>
                         A/n. Kepala Kantor,<br />
                         Kepala Seksi Administrasi Manifes
