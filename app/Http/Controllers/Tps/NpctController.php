@@ -195,7 +195,7 @@ class NpctController extends Controller
                             'allow_self_signed' => false
                         )
                     ]),
-                    'soap_version' => SOAP_1_1
+                    'soap_version' => SOAP_SSL_METHOD_SSLv2
                 ]);                                                    
         });
         
