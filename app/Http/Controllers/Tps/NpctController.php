@@ -192,10 +192,10 @@ class NpctController extends Controller
                         'ssl' => array(
                             'verify_peer' => false,
                             'verify_peer_name' => false,
-                            'allow_self_signed' => false
+                            'allow_self_signed' => true
                         )
                     ]),
-                    'soap_version' => SOAP_SSL_METHOD_SSLv2
+                    'soap_version' => SOAP_1_1
                 ]);                                                    
         });
         
@@ -268,7 +268,7 @@ class NpctController extends Controller
                         'ssl' => array(
                             'verify_peer' => false,
                             'verify_peer_name' => false,
-                            'allow_self_signed' => false
+                            'allow_self_signed' => true
                         )
                     ]),
                     'soap_version' => SOAP_1_1
