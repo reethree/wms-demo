@@ -244,6 +244,12 @@
                                     <input type="checkbox" name="behandle" value="1" />
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Free Storage</label>
+                                <div class="col-sm-5">
+                                    <input type="checkbox" name="free_storage" value="1" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
