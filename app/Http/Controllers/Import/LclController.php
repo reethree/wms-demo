@@ -1644,14 +1644,14 @@ class LclController extends Controller
             // Perhitungan Hari
             // Tgl masuk container
 //            $date1 = date_create($manifest->tglstripping);
-            if(isset($request->free_storage)){
-                $date1 = date_create('2023-04-26');
-            }else{
-                $date1 = date_create($manifest->tglmasuk);
-            }
+            $date1 = date_create($manifest->tglmasuk);
             $date2 = date_create(date('Y-m-d',strtotime($manifest->tglrelease. '+1 days')));
             $diff = date_diff($date1, $date2);
             $hari = $diff->format("%a");
+
+            if(isset($request->free_storage)){
+                $hari = $hari-7;
+            }
             
             // Perhitungan CBM
             $weight = $manifest->WEIGHT / 1000;
