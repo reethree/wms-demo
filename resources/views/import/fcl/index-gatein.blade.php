@@ -330,6 +330,7 @@
                     ->addColumn(array('label'=>'E-Seal','index'=>'ESEALCODE','hidden'=>true))
                     ->addColumn(array('label'=>'Weight','index'=>'WEIGHT','hidden'=>true))
                     ->addColumn(array('label'=>'Photo Extra','index'=>'photo_gatein_extra', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'OD/OH/FR','index'=>'od','width'=>80, 'align'=>'center'))
                     ->addColumn(array('label'=>'Segel Merah','index'=>'flag_bc','width'=>80, 'align'=>'center'))
                     ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center'))
         //            ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
@@ -551,6 +552,12 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">OD/OH/FR</label>
+                        <div class="col-sm-5">
+                            <input type="checkbox" class="switch-check" name="od" id="od" value="1" />
+                        </div>
+                    </div>
                     <div class="form-group hide-kddoc" id="btn-photo">
                         <label class="col-sm-3 control-label">Photo</label>
                         <div class="col-sm-8">
@@ -643,7 +650,7 @@
 @endsection
 
 @section('custom_css')
-
+<link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/bootstrap-switch/bootstrap-switch.min.css") }}">
 <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/datepicker/datepicker3.css") }}">
 <link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.css") }}">
@@ -654,6 +661,7 @@
 
 <script src="{{ asset("/bower_components/AdminLTE/plugins/datepicker/bootstrap-datepicker.js") }}"></script>
 <script src="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.js") }}"></script>
+<script src="{{ asset("/bower_components/AdminLTE/plugins/bootstrap-switch/bootstrap-switch.min.js") }}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
 <script type="text/javascript">
     
@@ -685,6 +693,11 @@
     });
     $(".timepicker").mask("99:99:99");
     $(".datepicker").mask("9999-99-99");
+
+    $.fn.bootstrapSwitch.defaults.onColor = 'danger';
+    $.fn.bootstrapSwitch.defaults.onText = 'Yes';
+    $.fn.bootstrapSwitch.defaults.offText = 'No';
+    $(".switch-check").bootstrapSwitch();
     
 //    $('#TGLMASUK').on("change", function (e) { 
 //        var actualDate = new Date($(this).val());

@@ -583,6 +583,12 @@ class FclController extends Controller
         if($delete_photo == 'Y'){
             $data['photo_gatein_extra'] = '';
         }
+
+        if($data['od'] == 1){
+            $data['od'] = 'Y';
+        }else{
+            $data['od'] = 'N';
+        }
         
         $location = \DB::table('location_fcl')->find($data['location_id']);
         if($location){
