@@ -115,8 +115,12 @@
             $('#id_cont').val(rowdata.TCONTAINER_PK);
             $('#load_photos').html('');
             $('#delete_photo').val('N');
-            
             $("#location_id").val(rowdata.location_id).trigger("change")
+            if(rowdata.od == 'Y'){
+                $('#od').bootstrapSwitch('state', true);
+            }else{
+                $('#od').bootstrapSwitch('state', false);
+            }
             
             if(rowdata.photo_gatein_extra){
                 var html = '';

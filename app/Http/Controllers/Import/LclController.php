@@ -2883,4 +2883,15 @@ class LclController extends Controller
         
         return back()->with('error', 'Something wrong, please try again.')->withInput();
     }
+
+    public function izinStrippingCetak(Request $request, $id)
+    {
+        $cont = DBContainer::find($id);
+        $sum_bl = DBManifest::where('TCONTAINER_FK', $id)->count();
+        $data['tgl_surat'] = date('Y-m-d');
+        $data['container'] = $cont;
+        $data['sum_bl'] = $sum_bl;
+
+        return view('print.izin-stripping', $data);
+    }
 }

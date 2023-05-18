@@ -217,6 +217,7 @@
         
         $('#btn-group-1').enableButtonGroup();
         $('#btn-group-6').enableButtonGroup();
+        $('#btn-group-8').enableButtonGroup();
 
         $("#perubahan_hbl").on("change", function(){
             var $this = $(this).val();
@@ -708,6 +709,9 @@
                         <div id="btn-group-3" class="btn-group toolbar-block">
                             <button class="btn btn-default" id="btn-save"><i class="fa fa-save"></i> Save</button>
                         </div>
+                        <div id="btn-group-8" class="btn-group toolbar-block">
+                            <button class="btn btn-info" id="btn-print-izin"><i class="fa fa-print"></i> Cetak Izin</button>
+                        </div>
                         <div id="btn-group-7" class="btn-group pull-right">
                             <button class="btn btn-info" id="btn-get-nopos"><i class="fa fa-download"></i> Get No.POS</button>
                         </div>
@@ -1071,6 +1075,11 @@
         
         $('#load_photos').html('');
         $('#delete_photo').val('Y');
+    });
+
+    $('#btn-print-izin').click(function() {
+        var id = '{{$container->TCONTAINER_PK}}';
+        window.open("{{ route('lcl-stripping-cetak','') }}/"+id,"Cetak Izin Stripping","width=600,height=800,menubar=no,status=no,scrollbars=yes");
     });
     
     $("#create-consignee-form").on("submit", function(){
