@@ -39,6 +39,11 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-register-print-permohonan',
         'uses' => 'LclController@registerPrintPermohonan'
     ]);
+
+    Route::get('/register/print-izin-stripping/{id}', [
+        'as' => 'lcl-register-print-izin',
+        'uses' => 'LclController@cetakIzinByRegister'
+    ]);
     
     Route::post('/register/upload-file', [
         'as' => 'lcl-register-upload-file',

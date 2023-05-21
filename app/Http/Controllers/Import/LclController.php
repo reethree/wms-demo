@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Import;
 
+use App\Models\Joborder;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -2893,5 +2894,22 @@ class LclController extends Controller
         $data['sum_bl'] = $sum_bl;
 
         return view('print.izin-stripping', $data);
+    }
+
+    public function cetakIzinByRegister(Request $request, $id)
+    {
+        $reg = Joborder::find($id);
+        $conts = DBContainer::select('TCONTAINER_PK','NOCONTAINER','SIZE','NO_SEAL')->where('TJOBORDER_FK',$id)->get();
+        $sum_bl = 0;
+        foreach ($conts as $cont) {
+            $sum_bl += DBManifest::where('TCONTAINER_FK', $cont->TCONTAINER_PK)->count();
+        }
+
+        $data['tgl_surat'] = date('Y-m-d');
+        $data['reg'] = $reg;
+        $data['containers'] = $conts;
+        $data['sum_bl'] = $sum_bl;
+
+        return view('print.izin-stripping-register', $data);
     }
 }

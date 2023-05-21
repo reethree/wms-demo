@@ -348,8 +348,11 @@
                         <button id="cetak-permohonan" type="button" disabled class="btn btn-block btn-default">Cetak Permohonan</button>
                     </div>
                     <div id="btn-group-2" class="col-sm-3" style="margin: 10px 0;">
-                        <button type="button" class="btn btn-block btn-default">Cetak Cek List</button>
+                        <button id="cetak-izin" type="button" class="btn btn-block btn-info">Cetak Izin</button>
                     </div>
+{{--                    <div id="btn-group-2" class="col-sm-3" style="margin: 10px 0;">--}}
+{{--                        <button type="button" class="btn btn-block btn-default">Cetak Cek List</button>--}}
+{{--                    </div>--}}
 <!--                    <a class="btn btn-app">
                         <i class="fa fa-print"></i> Cetak Cek List
                     </a>-->
@@ -512,6 +515,10 @@
         }else{
             alert('Please Select Container.');
         }
+    });
+    $('#cetak-izin').click(function() {
+        var id = '{{$joborder->TJOBORDER_PK}}';
+        window.open("{{ route('lcl-register-print-izin','') }}/"+id,"Cetak Izin Stripping","width=600,height=800,menubar=no,status=no,scrollbars=yes");
     });
     $('#upload-file').on("click", function(){
         $('#upload-file-modal').modal('show');
