@@ -16,7 +16,8 @@ Route::group(['prefix' => 'npct', 'namespace' => 'Tps'], function(){
     ]);
     Route::get('/yor/upload/{id}',[
         'as' => 'yor-upload',
-        'uses' => 'NpctController@yorUpload'
+//        'uses' => 'NpctController@yorUpload'
+        'uses' => 'NpctController@yorApiRequest'
     ]);
     
     Route::get('/movement', [
@@ -33,7 +34,8 @@ Route::group(['prefix' => 'npct', 'namespace' => 'Tps'], function(){
     ]);
     Route::post('/movement/upload',[
         'as' => 'movement-upload',
-        'uses' => 'NpctController@movementUpload'
+//        'uses' => 'NpctController@movementUpload'
+        'uses' => 'NpctController@movementApiRequest'
     ]);
     Route::get('/movement/container', [
         'as' => 'movement-container-index',
@@ -54,7 +56,8 @@ Route::group(['prefix' => 'npct', 'namespace' => 'Tps'], function(){
     });
     Route::post('/tracking/getdata',[
         'as' => 'getdata-tracking',
-        'uses' => 'NpctController@getdataTracking'
+//        'uses' => 'NpctController@getdataTracking'
+        'uses' => 'NpctController@trackingApiRequest'
     ]);
     
 });

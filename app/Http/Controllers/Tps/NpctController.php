@@ -23,6 +23,7 @@ class NpctController extends Controller
 
 //        $this->wsdl = 'https://api.npct1.co.id/services/index.php/line2dev?wsdl';
         $this->wsdl = 'https://api.npct1.co.id/services/index.php/Line2?wsdl';
+        $this->apiurl = 'https://api.wmsinventory.com/index.php';
         $this->user = 'lini2';
         $this->password = 'lini2@2018';
         $this->kode = 'PRJP';
@@ -380,48 +381,182 @@ class NpctController extends Controller
         var_dump($this->response);
 
     }
-    
-//    public function yorUpload1($id)
-//    {
-//        $data = \App\Models\NpctYor::find($id);
-//        
-//        $arrContextOptions = array("ssl"=>array( "verify_peer"=>false, "verify_peer_name"=>false,'allow_self_signed' => true));
-//        
-//        $options = array(
-//            'exceptions'=>true,
-//            'trace'=>1,
-//            'cache_wsdl'=>WSDL_CACHE_NONE,
-//            "soap_version" => SOAP_1_1,
-//            'style'=> SOAP_DOCUMENT,
-//            'use'=> SOAP_LITERAL, 
-//            'stream_context' => stream_context_create($arrContextOptions)
-//        );
-//        
-//        $client = new \SoapClient($this->wsdl, $options); 
-//        
-//        $params = array(
-//            'username' => $this->user, 
+
+    public function yorApiRequest($id)
+    {
+        $data = \App\Models\NpctYor::find($id);
+
+        // Data yang akan dikirim dalam permintaan (opsional)
+        $dataReq = array(
+//            'username' => $this->user,
 //            'Password' => $this->password,
-//            'warehouse_code' => $data->warehouse_code,
-//            'yor' => 10000,
-//            'capacity' => 20000
-//        );
-//        
-//        try {
-//            
-//            $versionResponse = $client->yor();
-////            var_dump($client);
-//            print_r($versionResponse);
-////            var_dump($client->__getFunctions());
-////            $result = $client->__soapCall("yor",$params);        
-////            var_dump($result);
-//        } catch (SoapFault $exception) {
-//            echo $exception;      
-//        } 
-//        
-////        var_dump($client->__getFunctions());
-//        
-//        
-//    }
+            'warehouse_type' => $data->warehouse_type,
+            'warehouse_code' => $data->warehouse_code,
+            'yor' => $data->yor,
+            'capacity' => $data->capacity
+        );
+
+        // Konversi data ke format JSON
+        $data_json = json_encode($dataReq);
+
+        // Inisialisasi curl
+        $curl = curl_init();
+
+        // Setel opsi curl
+        curl_setopt($curl, CURLOPT_URL, $this->apiurl.'?epm=yor');
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data_json);
+
+        // Eksekusi permintaan
+        $response = curl_exec($curl);
+
+        // Periksa jika permintaan berhasil
+        if ($response === false) {
+            // Kesalahan dalam melakukan permintaan
+            die('Error: ' . curl_error($curl));
+        }
+
+        // Tutup curl
+        curl_close($curl);
+
+        // Konversi respons JSON menjadi array
+        $response_data = json_decode($response, true);
+
+        // Gunakan data respons sesuai kebutuhan
+        $update = \App\Models\NpctYor::where('id', $id)->update(['status' => 1, 'response' => $response]);
+
+        if ($update){
+            return back()->with('success', 'Laporan YOR berhasil dikirim.');
+        }
+
+        var_dump($response_data);
+    }
+
+    public function movementApiRequest(Request $request)
+    {
+        $movement_id = $request->movement_id;
+        $action = $request->action;
+        $move_id = explode(',', $movement_id);
+
+        $movements = \App\Models\NpctMovement::whereIn('id',$move_id)->get();
+
+        $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><movement></movement>');
+
+        foreach ($movements as $move):
+
+            $data = $xml->addchild('loop');
+            $data->addchild('action', $action);
+            $data->addchild('request_no', $move->request_no);
+            $data->addchild('request_date', $move->request_date);
+            $data->addchild('warehouse_code', $move->warehouse_code);
+            $data->addchild('container_no', $move->container_no);
+            $data->addchild('message_type', $move->message_type);
+            $data->addchild('action_time', $move->action_time);
+
+        endforeach;
+
+        $dataReq = [
+            'data' => $xml->asXML()
+        ];
+
+        // Konversi data ke format JSON
+        $data_json = json_encode($dataReq);
+
+        // Inisialisasi curl
+        $curl = curl_init();
+
+        // Setel opsi curl
+        curl_setopt($curl, CURLOPT_URL, $this->apiurl.'?epm=movement');
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data_json);
+
+        // Eksekusi permintaan
+        $response = curl_exec($curl);
+
+        // Periksa jika permintaan berhasil
+        if ($response === false) {
+            // Kesalahan dalam melakukan permintaan
+            die('Error: ' . curl_error($curl));
+        }
+
+        // Tutup curl
+        curl_close($curl);
+
+        // Konversi respons JSON menjadi array
+        $response_data = json_decode($response, true);
+
+        // Gunakan data respons sesuai kebutuhan
+        $update = \App\Models\NpctMovement::whereIn('id', $move_id)->update(['action' => $action,'response' => $response]);
+
+        if ($update){
+//            return back()->with('success', 'Laporan Movement berhasil dikirim.');
+            return json_encode(array('success' => true, 'message' => 'Laporan Movement berhasil dikirim.'));
+        }
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+
+        var_dump($response_data);
+    }
+
+    public function trackingApiRequest(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'container' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $dataReq = [
+            'direction' => $request->direction,
+            'container' => $request->container,
+        ];
+
+        // Konversi data ke format JSON
+        $data_json = json_encode($dataReq);
+
+        // Inisialisasi curl
+        $curl = curl_init();
+
+        // Setel opsi curl
+        curl_setopt($curl, CURLOPT_URL, $this->apiurl.'?epm=tracking');
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data_json);
+
+        // Eksekusi permintaan
+        $response = curl_exec($curl);
+
+        // Periksa jika permintaan berhasil
+        if ($response === false) {
+            // Kesalahan dalam melakukan permintaan
+            die('Error: ' . curl_error($curl));
+        }
+
+        // Tutup curl
+        curl_close($curl);
+
+        // Konversi respons JSON menjadi array
+        $response_data = json_decode($response, true);
+
+        if(is_array($response_data)) :
+            $respon = new \App\Models\NpctTracking;
+            foreach ($response_data as $dkey=>$dval):
+                $respon->$dkey = $dval[0];
+            endforeach;
+
+            if($respon->save()){
+                return back()->with('success', 'Get Data Tracking has been success.');
+            }
+        else
+            var_dump($response_data);
+        endif;
+
+    }
     
 }
