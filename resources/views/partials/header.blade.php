@@ -422,7 +422,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">NPCT1 <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ route('movement-container-index') }}">Container FCL</a></li>
-                            <li><a href="{{ route('movement-container-index') }}">Container LCL</a></li>
+                            <li><a href="{{ route('movement-container-lcl') }}">Container LCL</a></li>
                             <li><a href="{{ route('movement-index') }}">Laporan Movement</a></li>
                             <li><a href="{{ route('yor-index') }}">Laporan YOR</a></li>
                             <li><a href="{{ route('tracking-index') }}">Tracking</a></li>
