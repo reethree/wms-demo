@@ -61,6 +61,14 @@ class TablesRepository extends EloquentRepositoryAbstract {
                             ->whereNotNull('TGLSTRIPPING')
                             ->whereNotNull('JAMSTRIPPING');
                     break;
+                    case 'release_movement':
+                        $Model = \DB::table('tcontainer')
+                            ->whereIn('KD_TPS_ASAL', array('NCT1','NPCT1'))
+                            ->whereYear('TGLMASUK', '>=', 2021)
+                            ->whereNotNull('TGLMASUK')
+                            ->whereNotNull('JAMMASUK')
+                        ;
+                    break;
                 }
                 
             }else{

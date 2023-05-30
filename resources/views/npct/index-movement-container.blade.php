@@ -53,6 +53,7 @@
                 type: 'POST',
                 data: {
                     container_id : containerId,
+                    type : 'FCL',
                     _token : '{{ csrf_token() }}'
                 },
                 dataType : 'json',

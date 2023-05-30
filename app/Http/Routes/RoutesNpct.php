@@ -37,9 +37,13 @@ Route::group(['prefix' => 'npct', 'namespace' => 'Tps'], function(){
 //        'uses' => 'NpctController@movementUpload'
         'uses' => 'NpctController@movementApiRequest'
     ]);
-    Route::get('/movement/container', [
+    Route::get('/movement/container/fcl', [
         'as' => 'movement-container-index',
         'uses' => 'NpctController@MovementContainerIndex'
+    ]);
+    Route::get('/movement/container/lcl', [
+        'as' => 'movement-container-lcl',
+        'uses' => 'NpctController@MovementContainerLcl'
     ]);
     Route::post('/movement/container/create', [
         'as' => 'movement-container-create',
