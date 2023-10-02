@@ -139,7 +139,7 @@
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td class="text-center">Haruchi Tyas Intani<br />FINANCE MANAGER</td>
+            <td class="text-center">Reza Darmawan<br />DIREKTUR</td>
         </tr>
     </table>
     
