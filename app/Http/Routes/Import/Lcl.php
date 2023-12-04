@@ -164,4 +164,8 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-bc-report-inventory',
         'uses' => 'LclController@reportInventoryIndex'
     ]);
+    Route::get('/bc/longstay', [
+        'as' => 'lcl-bc-report-longstay',
+        'uses' => 'LclController@reportLongstayIndex'
+    ]);
 });

@@ -3223,4 +3223,25 @@ class FclController extends Controller
         
         return back()->with('error', 'Something wrong, please try again.')->withInput();
     }
+
+    public function reportLongstayIndex()
+    {
+//        if ( !$this->access->can('show.fcl.report.longstay') ) {
+//            return view('errors.no-access');
+//        }
+//
+//        // Create Roles Access
+//        $this->insertRoleAccess(array('name' => 'Report Longstay Stock', 'slug' => 'show.fcl.report.longstay', 'description' => ''));
+
+        $data['page_title'] = "FCL Longstay";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'FCL Longstay'
+            ]
+        ];
+
+        return view('import.fcl.bc-longstay')->with($data);
+    }
 }

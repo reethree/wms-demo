@@ -229,6 +229,31 @@ class TablesRepository extends EloquentRepositoryAbstract {
 //                                ->orWhere('TGLRELEASE','0000-00-00');
                         }
                     break;
+                    case 'bc-longstay':
+                        if(isset($request['startdate']) || isset($request['enddate'])){
+                            $start_date = date('Y-m-d',strtotime($request['startdate']));
+                            $end_date = date('Y-m-d',strtotime($request['enddate']));
+
+                            $Model = \DB::table('tcontainercy')
+                                ->select(\DB::raw('*, timestampdiff(DAY, now(), TGLMASUK) as timeSinceUpdate'))
+                                //                            ->whereRaw('tmanifest.tglmasuk < DATE_SUB(now(), INTERVAL 1 MONTH)')
+                                ->whereNotNull('TGLMASUK')
+                                ->whereNull('TGLRELEASE')
+                                ->whereRaw('ABS(timestampdiff(DAY, now(), TGLMASUK)) >= 30')
+//                                ->orWhere('tglrelease','0000-00-00')
+                                ->where($request['by'], '>=',$start_date)
+                                ->where($request['by'], '<=',$end_date);
+                        }else{
+                            $Model = \DB::table('tcontainercy')
+                                ->select(\DB::raw('*, timestampdiff(DAY, now(), TGLMASUK) as timeSinceUpdate'))
+                                //                            ->whereRaw('tcontainercy.TGLMASUK < DATE_SUB(now(), INTERVAL 1 MONTH)')
+                                ->whereNotNull('TGLMASUK')
+                                ->whereNull('TGLRELEASE')
+                                ->whereRaw('ABS(timestampdiff(DAY, now(), TGLMASUK)) >= 30')
+                            ;
+//                                ->orWhere('TGLRELEASE','0000-00-00');
+                        }
+                        break;
                     case 'gatein':
                         $Model = \DB::table('tcontainercy')
                             ->whereNotNull('NO_BC11')
@@ -416,6 +441,32 @@ class TablesRepository extends EloquentRepositoryAbstract {
     //                            ->orWhere('tglrelease','0000-00-00')
                         }
                     break;
+                    case 'bc-longstay':
+                        if(isset($request['startdate']) || isset($request['enddate'])){
+                            $start_date = date('Y-m-d',strtotime($request['startdate']));
+                            $end_date = date('Y-m-d',strtotime($request['enddate']));
+
+                            $Model = \DB::table('tmanifest')
+                                ->select(\DB::raw('*, timestampdiff(DAY, now(), tglmasuk) as timeSinceUpdate'))
+//                            ->whereRaw('tmanifest.tglmasuk < DATE_SUB(now(), INTERVAL 1 MONTH)')
+                                ->whereNotNull('tglmasuk')
+                                ->whereNotNull('tglstripping')
+                                ->whereNull('tglrelease')
+                                ->whereRaw('ABS(timestampdiff(DAY, now(), tglmasuk)) >= 30')
+//                            ->orWhere('tglrelease','0000-00-00')
+                                ->where($request['by'], '>=',$start_date)
+                                ->where($request['by'], '<=',$end_date);
+                        }else{
+                            $Model = \DB::table('tmanifest')
+                                ->select(\DB::raw('*, timestampdiff(DAY, now(), tglmasuk) as timeSinceUpdate'))
+                                //                            ->whereRaw('tmanifest.tglmasuk < DATE_SUB(now(), INTERVAL 1 MONTH)')
+                                ->whereNotNull('tglmasuk')
+                                ->whereNotNull('tglstripping')
+                                ->whereNull('tglrelease')
+                                ->whereRaw('ABS(timestampdiff(DAY, now(), tglmasuk)) >= 30');
+                            //                            ->orWhere('tglrelease','0000-00-00')
+                        }
+                        break;
                     case 'release-invoice':
                         $Model = \DB::table('tmanifest')
 //                            ->select('tmanifest.*','tperusahaan.NPWP as NPWP_CONSIGNEE')

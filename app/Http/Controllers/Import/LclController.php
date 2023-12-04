@@ -2912,4 +2912,25 @@ class LclController extends Controller
 
         return view('print.izin-stripping-register', $data);
     }
+
+    public function reportLongstayIndex()
+    {
+//        if ( !$this->access->can('show.lcl.report.longstay') ) {
+//            return view('errors.no-access');
+//        }
+//
+//        // Create Roles Access
+//        $this->insertRoleAccess(array('name' => 'Report Longstay Stock', 'slug' => 'show.lcl.report.longstay', 'description' => ''));
+
+        $data['page_title'] = "LCL Longstay";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'LCL Longstay'
+            ]
+        ];
+
+        return view('import.lcl.bc-longstay')->with($data);
+    }
 }

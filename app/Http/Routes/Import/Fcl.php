@@ -136,5 +136,9 @@ Route::group(['prefix' => 'fcl', 'namespace' => 'Import'], function(){
         'as' => 'fcl-bc-report-inventory',
         'uses' => 'FclController@reportInventoryIndex'
     ]);
+    Route::get('/bc/longstay', [
+        'as' => 'fcl-bc-report-longstay',
+        'uses' => 'FclController@reportLongstayIndex'
+    ]);
 });
 
