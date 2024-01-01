@@ -197,14 +197,12 @@
                     </div>
                     <div class="col-md-2">
                         <select class="form-control select2" id="by" name="year" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                            <option value="2016" @if($year == '2016') {{ 'selected' }} @endif>2016</option>
-                            <option value="2017" @if($year == '2017') {{ 'selected' }} @endif>2017</option>
-                            <option value="2018" @if($year == '2018') {{ 'selected' }} @endif>2018</option>
-                            <option value="2019" @if($year == '2019') {{ 'selected' }} @endif>2019</option>
-                            <option value="2020" @if($year == '2020') {{ 'selected' }} @endif>2020</option>
-                            <option value="2021" @if($year == '2021') {{ 'selected' }} @endif>2021</option>
-                            <option value="2022" @if($year == '2022') {{ 'selected' }} @endif>2022</option>
-                            <option value="2023" @if($year == '2023') {{ 'selected' }} @endif>2023</option>
+                            <option value="{{date('Y')-5}}" @if($year == date('Y')-5) {{ 'selected' }} @endif>{{date('Y')-5}}</option>
+                            <option value="{{date('Y')-4}}" @if($year == date('Y')-4) {{ 'selected' }} @endif>{{date('Y')-4}}</option>
+                            <option value="{{date('Y')-3}}" @if($year == date('Y')-3) {{ 'selected' }} @endif>{{date('Y')-3}}</option>
+                            <option value="{{date('Y')-2}}" @if($year == date('Y')-2) {{ 'selected' }} @endif>{{date('Y')-2}}</option>
+                            <option value="{{date('Y')-1}}" @if($year == date('Y')-1) {{ 'selected' }} @endif>{{date('Y')-1}}</option>
+                            <option value="{{date('Y')}}" @if($year == date('Y')) {{ 'selected' }} @endif>{{date('Y')}}</option>
                         </select>
                     </div>
                     <div class="col-md-2">

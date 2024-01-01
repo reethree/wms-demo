@@ -188,13 +188,8 @@
                                 <label class="col-sm-2 control-label">Tahun</label>
                                 <div class="col-sm-2">
                                     <select class="form-control select2" id="TCONSIGNEE_FK" name="thn_sppb" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                                        <option value="2017">2017</option>
-                                        <option value="2018">2018</option>
-                                        <option value="2019">2019</option>
-                                        <option value="2020">2020</option>
-                                        <option value="2021">2021</option>
-                                        <option value="2022" @if(date('Y') == '2022') {{ 'selected' }} @endif>2022</option>
-                                        <option value="2023" @if(date('Y') == '2023') {{ 'selected' }} @endif>2023</option>
+                                        <option value="{{date('Y')-1}}">{{date('Y')-1}}</option>
+                                        <option value="{{date('Y')}}" selected>{{date('Y')}}</option>
                                     </select>
                                 </div>
                             </div>
