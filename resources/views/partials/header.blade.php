@@ -25,7 +25,8 @@
         @role('bea-cukai')
         <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
             <ul class="nav navbar-nav">
-                @if(\Auth::getUser()->username == 'bcgaters')
+{{--                @if(\Auth::getUser()->username == 'bcgaters')--}}
+                @if(in_array(\Auth::getUser()->username, array('bcgaters','bcgaters1','bcgaters2')))
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Import<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
