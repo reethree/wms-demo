@@ -1665,9 +1665,13 @@ class LclController extends Controller
             }else{
                 $maxcbm = max($cbm);
             }
-            
-            if($maxcbm < 2){ $maxcbm = 2; }
-            
+
+            if(in_array($manifest->TCONSOLIDATOR_FK,[34,35]) && date('Y', strtotime($manifest->tglmasuk)) >= 2024){
+                if($maxcbm < 1){ $maxcbm = 1; }
+            }else{
+                if($maxcbm < 2){ $maxcbm = 2; }
+            }
+
             // Sub Total (CBM*harga*Hari)
             if($tarif->storage > 0){
                 $sub_masa = $maxcbm * $tarif->storage;
