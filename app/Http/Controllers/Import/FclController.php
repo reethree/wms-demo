@@ -2711,27 +2711,37 @@ class FclController extends Controller
         $container = DBContainer::find($container_id);
         
         $sppb = '';
-        
+
         if($kd_dok == 1){
             $sppb = \App\Models\TpsSppbPib::where(array('NO_BL_AWB' => $container->NO_BL_AWB))
-                    ->orWhere('NO_MASTER_BL_AWB', $container->NO_BL_AWB)
-                    ->first();
+                ->orWhere('NO_MASTER_BL_AWB', $container->NO_BL_AWB)
+                ->first();
         }elseif($kd_dok == 2){
             $sppb = \App\Models\TpsSppbBc::where(array('NO_BL_AWB' => $container->NO_BL_AWB))
-                    ->orWhere('NO_MASTER_BL_AWB', $container->NO_BL_AWB)
-                    ->first();
+                ->orWhere('NO_MASTER_BL_AWB', $container->NO_BL_AWB)
+                ->first();
+        }elseif($kd_dok == 41){
+            $sppb = \App\Models\TpsDokPabean::select('NO_DOK_INOUT as NO_SPPB','TGL_DOK_INOUT as TGL_SPPB','NPWP_IMP','AL_IMP as ALAMAT_IMP')
+                ->where(array('KD_DOK_INOUT' => $kd_dok, 'NO_BL_AWB' => $container->NO_BL_AWB))
+                ->first();
         }else{
-            $sppb = \App\Models\TpsDokPabean::select('NO_DOK_INOUT as NO_SPPB','TGL_DOK_INOUT as TGL_SPPB','NPWP_IMP')
-                    ->where(array('KD_DOK_INOUT' => $kd_dok, 'NO_BL_AWB' => $container->NO_BL_AWB))
-                    ->first();
+            $sppb = \App\Models\TpsDokManual::select('NO_DOK_INOUT as NO_SPPB','TGL_DOK_INOUT as TGL_SPPB','ID_CONSIGNEE as NPWP_IMP','NAMA_PPJK as ALAMAT_IMP')
+                ->where(array('KD_DOK_INOUT' => $kd_dok, 'NO_BL_AWB' => $container->NO_BL_AWB))
+                ->first();
+            if($sppb){
+                $tgl_sppb = explode('/', $sppb->TGL_SPPB);
+                $sppb->TGL_SPPB = $tgl_sppb[2].'-'.$tgl_sppb[1].'-'.$tgl_sppb[0];
+            }
         }
-        
+
         if($sppb){
             $arraysppb = explode('/', $sppb->NO_SPPB);
             $datasppb = array(
-                'NO_SPPB' => $arraysppb[0],
+//                'NO_SPPB' => $arraysppb[0],
+                'NO_SPPB' => $sppb->NO_SPPB,
                 'TGL_SPPB' => date('Y-m-d', strtotime($sppb->TGL_SPPB)),
-                'NPWP' => $sppb->NPWP_IMP
+                'NPWP' => $sppb->NPWP_IMP,
+                'ALAMAT' => $sppb->ALAMAT_IMP
             );
             return json_encode(array('success' => true, 'message' => 'Get Data SPPB has been success.', 'data' => $datasppb));
         }else{

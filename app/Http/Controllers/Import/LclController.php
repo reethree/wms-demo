@@ -1900,26 +1900,60 @@ class LclController extends Controller
    
         $sppb = '';
         
+//        if($kd_dok == 1){
+//            $sppb = \App\Models\TpsSppbPib::where(array('NO_BL_AWB' => $manifest->NOHBL))
+//                    ->orWhere('NO_MASTER_BL_AWB', $manifest->NOHBL)
+//                    ->first();
+//        }elseif($kd_dok == 2){
+//            $sppb = \App\Models\TpsSppbBc::where(array('NO_BL_AWB' => $manifest->NOHBL))
+//                    ->orWhere('NO_MASTER_BL_AWB', $manifest->NOHBL)
+//                    ->first();
+//        }else{
+//            $sppb = \App\Models\TpsDokPabean::select('NO_DOK_INOUT as NO_SPPB','TGL_DOK_INOUT as TGL_SPPB','NPWP_IMP')
+//                    ->where(array('KD_DOK_INOUT' => $kd_dok, 'NO_BL_AWB' => $manifest->NOHBL))
+//                    ->first();
+//        }
+
         if($kd_dok == 1){
-            $sppb = \App\Models\TpsSppbPib::where(array('NO_BL_AWB' => $manifest->NOHBL))
-                    ->orWhere('NO_MASTER_BL_AWB', $manifest->NOHBL)
-                    ->first();
+            $sppb = \App\Models\TpsSppbPib::join('tps_sppbkmsxml','tps_sppbxml.TPS_SPPBXML_PK','=','tps_sppbkmsxml.TPS_SPPBXML_FK')
+                ->where(array('tps_sppbxml.NO_BL_AWB' => $manifest->NOHBL))
+                ->orWhere('tps_sppbxml.NO_MASTER_BL_AWB', $manifest->NOHBL)
+                ->first();
         }elseif($kd_dok == 2){
-            $sppb = \App\Models\TpsSppbBc::where(array('NO_BL_AWB' => $manifest->NOHBL))
-                    ->orWhere('NO_MASTER_BL_AWB', $manifest->NOHBL)
-                    ->first();
+            $sppb = \App\Models\TpsSppbBc::join('tps_sppbbc23kmsxml','tps_sppbbc23xml.TPS_SPPBXML_PK','=','tps_sppbbc23kmsxml.TPS_SPPBXML_FK')
+                ->where(array('tps_sppbbc23xml.NO_BL_AWB' => $manifest->NOHBL))
+                ->orWhere('tps_sppbbc23xml.NO_MASTER_BL_AWB', $manifest->NOHBL)
+                ->first();
+        }elseif($kd_dok == 41 || $kd_dok == 61){
+            $sppb = \App\Models\TpsDokPabean::join('tps_dokpabeankmsxml','tps_dokpabeanxml.TPS_DOKPABEANXML_PK','=','tps_dokpabeankmsxml.TPS_DOKPABEANXML_FK')
+                ->select('tps_dokpabeanxml.NO_DOK_INOUT as NO_SPPB','tps_dokpabeanxml.TGL_DOK_INOUT as TGL_SPPB','tps_dokpabeanxml.NPWP_IMP','tps_dokpabeankmsxml.JNS_KMS','tps_dokpabeankmsxml.JML_KMS')
+                ->where(array('KD_DOK_INOUT' => $kd_dok, 'NO_BL_AWB' => $manifest->NOHBL))
+                ->first();
         }else{
-            $sppb = \App\Models\TpsDokPabean::select('NO_DOK_INOUT as NO_SPPB','TGL_DOK_INOUT as TGL_SPPB','NPWP_IMP')
-                    ->where(array('KD_DOK_INOUT' => $kd_dok, 'NO_BL_AWB' => $manifest->NOHBL))
-                    ->first();
+            $sppb = \App\Models\TpsDokManual::join('tps_dokmanualkmsxml','tps_dokmanualxml.TPS_DOKMANUALXML_PK','=','tps_dokmanualkmsxml.TPS_DOKMANUALXML_FK')
+                ->select('tps_dokmanualxml.NO_DOK_INOUT as NO_SPPB','tps_dokmanualxml.TGL_DOK_INOUT as TGL_SPPB','tps_dokmanualxml.ID_CONSIGNEE as NPWP_IMP','tps_dokmanualkmsxml.JNS_KMS','tps_dokmanualkmsxml.JML_KMS')
+                ->where(array('KD_DOK_INOUT' => $kd_dok, 'NO_BL_AWB' => $manifest->NOHBL))
+                ->first();
+            if($sppb){
+                $tgl_sppb = explode('/', $sppb->TGL_SPPB);
+                $sppb->TGL_SPPB = $tgl_sppb[2].'-'.$tgl_sppb[1].'-'.$tgl_sppb[0];
+            }
         }
-        
+
         if($sppb){
             $arraysppb = explode('/', $sppb->NO_SPPB);
+
+            // Cek Kemasan SPPB
+            $jns_kms = $sppb->JNS_KMS;
+            $jml_kms = $sppb->JML_KMS;
+
             $datasppb = array(
-                'NO_SPPB' => $arraysppb[0],
+//                'NO_SPPB' => $arraysppb[0],
+                'NO_SPPB' => $sppb->NO_SPPB,
                 'TGL_SPPB' => date('Y-m-d', strtotime($sppb->TGL_SPPB)),
-                'NPWP' => $sppb->NPWP_IMP
+                'NPWP' => $sppb->NPWP_IMP,
+                'JML_KMS' => $jml_kms,
+                'JNS_KMS' => $jns_kms
             );
             return json_encode(array('success' => true, 'message' => 'Get Data SPPB has been success.', 'data' => $datasppb));
         }else{
