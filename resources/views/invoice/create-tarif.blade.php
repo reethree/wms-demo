@@ -81,10 +81,22 @@
                       </div>
                     </div>
                     <div class="form-group">
+                        <label for="min_cbm" class="col-sm-3 control-label">Minimum CBM</label>
+                        <div class="col-sm-8">
+                            <input type="number" name="min_cbm" class="form-control" id="min_cbm" value="2" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
                       <label for="surcharge_price" class="col-sm-3 control-label">Surcharge</label>
                       <div class="col-sm-8">
                           <input type="number" name="surcharge_price" class="form-control" id="surcharge_price" required>
                       </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="auto-surcharge" class="col-sm-3 control-label">BB Surcharge</label>
+                        <div class="col-sm-8">
+                            <input type="checkbox" name="auto_surcharge" id="auto-surcharge" value="1" />
+                        </div>
                     </div>
                     <div class="form-group">
                       <label for="surcharge" class="col-sm-3 control-label">> 2.5Ton</label>

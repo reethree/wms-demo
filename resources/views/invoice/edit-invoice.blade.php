@@ -227,15 +227,17 @@
             <td align="right">Rp.</td>
             <td align="right">{{ number_format(300000) }}</td>
           </tr>
-<!--          <tr>
-            <td>7</td>
-            <td>Sticker</td>
+          @endif
+          @if($invoice->bb_surcharge > 0)
+          <tr>
+            <td>6</td>
+            <td>BB Surcharge</td>
             <td>-</td>
             <td align="right">Rp.</td>
-            <td align="right">{{ number_format(10000) }}</td>
+            <td align="right">{{ number_format($invoice->bb_surcharge) }}</td>
             <td align="right">Rp.</td>
-            <td align="right">{{ number_format(10000) }}</td>
-          </tr>-->
+            <td align="right">{{ number_format($invoice->bb_surcharge) }}</td>
+          </tr>
           @endif
           </tbody>
         </table>

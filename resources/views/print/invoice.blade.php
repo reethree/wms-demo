@@ -117,7 +117,7 @@
               <td>&nbsp;</td>
             </tr>
             <tr>
-              <td>1</td>           
+              <td>1</td>
               <td>Storage</td>
               <td>{{ number_format($invoice->cbm * 1000, 0, ',', '.') }} Cbm x {{ $invoice->hari }} hari</td>
               <td align="right">Rp.</td>
@@ -205,6 +205,17 @@
               <td align="right">Rp.</td>
               <td align="right">{{ number_format(300000) }}</td>
             </tr>
+            @endif
+            @if($invoice->bb_surcharge > 0)
+                <tr>
+                    <td>6</td>
+                    <td>BB Surcharge</td>
+                    <td>-</td>
+                    <td align="right">Rp.</td>
+                    <td align="right">{{ number_format($invoice->bb_surcharge) }}</td>
+                    <td align="right">Rp.</td>
+                    <td align="right">{{ number_format($invoice->bb_surcharge) }}</td>
+                </tr>
 <!--            <tr>
               <td>7</td>
               <td>Sticker</td>

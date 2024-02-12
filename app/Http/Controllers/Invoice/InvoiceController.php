@@ -321,6 +321,10 @@ class InvoiceController extends Controller
         }
         
         $data = $request->except(['_token']);
+        if(!isset($data['surcharge'])) { $data['surcharge'] = 0; }
+        if(!isset($data['auto_surcharge'])) { $data['auto_surcharge'] = 0; }
+        if(!isset($data['cbm'])) { $data['cbm'] = 0; }
+        if(!isset($data['pembulatan'])) { $data['pembulatan'] = 0; }
         $data['UID'] = \Auth::getUser()->name;
         
         $insert_id = \App\Models\InvoiceTarif::insertGetId($data);
@@ -348,6 +352,7 @@ class InvoiceController extends Controller
         
         $data = $request->except(['_token']);
         if(!isset($data['surcharge'])) { $data['surcharge'] = 0; }
+        if(!isset($data['auto_surcharge'])) { $data['auto_surcharge'] = 0; }
         if(!isset($data['cbm'])) { $data['cbm'] = 0; }
         if(!isset($data['pembulatan'])) { $data['pembulatan'] = 0; }
 

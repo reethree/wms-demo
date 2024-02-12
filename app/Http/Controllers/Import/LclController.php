@@ -1669,7 +1669,7 @@ class LclController extends Controller
             if(in_array($manifest->TCONSOLIDATOR_FK,[34,35]) && date('Y', strtotime($manifest->tglmasuk)) >= 2024){
                 if($maxcbm < 1){ $maxcbm = 1; }
             }else{
-                if($maxcbm < 2){ $maxcbm = 2; }
+                if($maxcbm < $tarif->min_cbm){ $maxcbm = $tarif->min_cbm; }
             }
 
             // Sub Total (CBM*harga*Hari)
@@ -1767,9 +1767,13 @@ class LclController extends Controller
                     }  
                 }
             endif;
+
+            if(isset($tarif->auto_surcharge)){
+                $invoice_import->bb_surcharge = $tarif->surcharge_price;
+            }
             
 //            $invoice_import->dg_surcharge = ceil(($tarif->dg_surcharge * $sub_total) / 100);
-            $invoice_import->sub_total = $sub_total+$invoice_import->weight_surcharge;
+            $invoice_import->sub_total = $sub_total+$invoice_import->weight_surcharge+$invoice_import->bb_surcharge;
 //            $invoice_import->ppn = ceil(($tarif->ppn * $sub_total) / 100);
 //            $invoice_import->materai = ($sub_total >= 1000000) ? 6000 : 3000;
             $invoice_import->uid = \Auth::getUser()->name;
