@@ -1768,7 +1768,7 @@ class LclController extends Controller
                 }
             endif;
 
-            if(isset($tarif->auto_surcharge)){
+            if($tarif->auto_surcharge){
                 $invoice_import->bb_surcharge = $tarif->surcharge_price;
             }
             
